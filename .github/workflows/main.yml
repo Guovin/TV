@@ -1,4 +1,4 @@
-name: 'Govin'
+name: 'update schedule'
 
 on:
   schedule:
@@ -46,9 +46,9 @@ jobs:
         run: pipenv run build
       - name: Commit and push if changed
         run: |
-          git diff
           git config --global user.email "360996299@qq.com"
           git config --global user.name "Govin"
+          git diff
           git add result.txt
           git commit -m "Github Action Auto Updated"
           git push
