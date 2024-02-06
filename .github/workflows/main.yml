@@ -48,9 +48,7 @@ jobs:
         run: |
           git config --global user.email "360996299@qq.com"
           git config --global user.name "Govin"
-          git remote remove origin
-          git remote add origin https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/Guovin/TV.git
           git diff
           git add result.txt
           git commit -m "Github Action Auto Updated"
-          git push origin master
+          git push
