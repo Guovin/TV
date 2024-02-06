@@ -12,6 +12,8 @@ from concurrent.futures import ThreadPoolExecutor
 class GetSource():
     source_file = 'demo.txt'
     finalFile = "result.txt"
+    # These name will use the demo url in final, default in before
+    useOldList = ['开平综合', '开平生活']
 
     def __init__(self):
         self.driver = self.setup_driver()
@@ -113,9 +115,9 @@ class GetSource():
                     allRangeElement=allRangeElement[:5]
                 for elem in allRangeElement:
                     urls.append(elem.text)
-                # allUrls=channelObj[name] + urls
+                allUrls=list(set(channelObj[name] + urls if name in self.useOldList else urls))
                 # urls=self.compareSpeed(allUrls)
-                channelUrls[name]=urls
+                channelUrls[name]=allUrls
             self.outputTxt(cate,channelUrls)
             time.sleep(1)
 
