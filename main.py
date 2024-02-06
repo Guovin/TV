@@ -2,7 +2,6 @@ import selenium
 from selenium import webdriver
 import time
 from selenium.webdriver.common.by import By
-import os
 import re
 import requests
 from selenium_stealth import stealth
@@ -60,7 +59,7 @@ class GetSource():
 
     def outputTxt(self,cate,channelUrls):
         # 创建一个新的final文件
-        with open('result.txt', 'r') as f:
+        with open(self.finalFile, 'w', encoding='utf-16') as f:
             for name, urls in channelUrls.items():
                 f.write(cate + ',#genre#\n')
                 for url in urls:
@@ -90,13 +89,8 @@ class GetSource():
             
         return pageUrls_new
 
-    def removeFile(self):
-        if os.path.exists(self.finalFile):
-            os.remove(self.finalFile)
-
     def visitPage(self,channelItems):
         self.driver.get("https://www.foodieguide.com/iptvsearch/")
-        self.removeFile()
         for cate, names in channelItems.items():
             channelUrls = {}
             for name in names:
