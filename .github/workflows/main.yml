@@ -5,7 +5,7 @@ on:
       - cron:  '0 */12 * * *'
   push:
     branches:    
-      - main
+      - master
 jobs:
   push:
       runs-on: ${{ matrix.operating-system }}
