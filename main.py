@@ -88,7 +88,7 @@ class GetSource():
     def outputTxt(self,cate,channelUrls):
         # update the final file
         with open(self.finalFile, 'a', encoding='utf-16') as f:
-            f.write(cate + ',#genre#\n')
+            f.write('\n' + cate + ',#genre#\n')
             for name, urls in channelUrls.items():
                 for url in urls:
                     f.write(name + ',' + url + '\n')
@@ -107,8 +107,8 @@ class GetSource():
                 allRangeElement=self.driver.find_elements(By.CLASS_NAME, "m3u8")
                 if len(allRangeElement)<=0:
                     continue
-                if len(allRangeElement)>4:
-                    allRangeElement=allRangeElement[:4]
+                if len(allRangeElement)>5:
+                    allRangeElement=allRangeElement[:5]
                 for elem in allRangeElement:
                     urls.append(elem.text)
                 # urls=self.compareSpeed(urls)
