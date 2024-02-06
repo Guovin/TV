@@ -112,7 +112,7 @@ class GetSource():
                     allRangeElement=allRangeElement[:4]
                 for elem in allRangeElement:
                     urls.append(elem.text)
-                urls=self.compareSpeed(urls)
+                # urls=self.compareSpeed(urls)
                 channelUrls[name]=urls
             self.outputTxt(cate,channelUrls)
             time.sleep(1)
