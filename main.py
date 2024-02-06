@@ -113,8 +113,8 @@ class GetSource():
                     allRangeElement=allRangeElement[:5]
                 for elem in allRangeElement:
                     urls.append(elem.text)
-                allUrls=channelObj[name] + urls
-                urls=self.compareSpeed(allUrls)
+                # allUrls=channelObj[name] + urls
+                # urls=self.compareSpeed(allUrls)
                 channelUrls[name]=urls
             self.outputTxt(cate,channelUrls)
             time.sleep(1)
