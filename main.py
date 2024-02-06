@@ -69,11 +69,11 @@ class GetSource():
         except:
             print('request timeout or error')
         end = time.time()
-        return url, end - start  # 返回 URL 和响应时间
+        return url, end - start
 
     def compareSpeed(self,pageUrls):
         response_times = []
-        with ThreadPoolExecutor(max_workers=20) as executor:  # 创建一个线程池，最大并发数为 20
+        with ThreadPoolExecutor(max_workers=20) as executor:
             future_to_url = {executor.submit(self.getSpeed, url): url for url in pageUrls}
             for future in concurrent.futures.as_completed(future_to_url):
                 url, response_time = future.result()
