@@ -45,13 +45,13 @@ class GetSource():
 
         # 遍历每一行
         for line in lines:
-            line = line.strip()  # 去除行尾的换行符
+            line = line.strip()
             if '#genre#' in line:
-                # 这是一个新的频道名称
+                # 这是一个新的频道分类名称
                 current_channel = line.split(',')[0]
                 channels[current_channel] = []
             else:
-                # 这是一个URL，添加到当前频道的URL列表中
+                # 这是一个频道名称，添加到当前频道分类列表中
                 match = re.search(pattern, line)
                 if match and match.group(1) not in channels[current_channel]:
                     channels[current_channel].append(match.group(1))
