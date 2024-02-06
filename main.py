@@ -41,26 +41,28 @@ class GetSource():
         # create a dictionary to store the channels
         channels = {}
         current_channel = ''
-        pattern = r"^(.*?),(?!#genre#)"
+        pattern = r"^(.*?),(?!#genre#)(.*?)$"
 
         for line in lines:
             line = line.strip()
             if '#genre#' in line:
                 # This is a new channel, create a new key in the dictionary
                 current_channel = line.split(',')[0]
-                channels[current_channel] = []
+                channels[current_channel] = {}
             else:
                 # This is a url, add it to the list of urls for the current channel
                 match = re.search(pattern, line)
-                if match and match.group(1) not in channels[current_channel]:
-                    channels[current_channel].append(match.group(1))
-        
+                if match:
+                    if match.group(1) not in channels[current_channel]:
+                        channels[current_channel][match.group(1)] = [match.group(2)]
+                    else:
+                        channels[current_channel][match.group(1)].append(match.group(2))
         return channels
 
     def getSpeed(self,url):
         start = time.time()
         try:
-            r = requests.get(url,timeout=4)
+            r = requests.get(url,timeout=5)
             resStatus = r.status_code
         except:
             print('request timeout or error')
@@ -97,9 +99,9 @@ class GetSource():
     def visitPage(self,channelItems):
         self.driver.get("https://www.foodieguide.com/iptvsearch/")
         self.removeFile()
-        for cate, names in channelItems.items():
+        for cate, channelObj in channelItems.items():
             channelUrls = {}
-            for name in names:
+            for name in channelObj.keys():
                 element=self.driver.find_element(By.ID, "search")
                 element.clear()
                 element.send_keys(name)
@@ -112,7 +114,8 @@ class GetSource():
                     allRangeElement=allRangeElement[:5]
                 for elem in allRangeElement:
                     urls.append(elem.text)
-                # urls=self.compareSpeed(urls)
+                allUrls=channelObj[name] + urls
+                urls=self.compareSpeed(allUrls)
                 channelUrls[name]=urls
             self.outputTxt(cate,channelUrls)
             time.sleep(1)
