@@ -88,10 +88,11 @@ class GetSource():
     def outputTxt(self,cate,channelUrls):
         # update the final file
         with open(self.finalFile, 'a', encoding='utf-16') as f:
-            f.write('\n' + cate + ',#genre#\n')
+            f.write(cate + ',#genre#\n')
             for name, urls in channelUrls.items():
                 for url in urls:
                     f.write(name + ',' + url + '\n')
+            f.write('\n')
 
     def visitPage(self,channelItems):
         self.driver.get("https://www.foodieguide.com/iptvsearch/")
