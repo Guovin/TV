@@ -34,37 +34,28 @@ class GetSource():
         return driver
 
     def getChannelItems(self):
-        # 打开source文件并读取所有行
+        # open the source file and read all lines
         with open(self.source_file, 'r', encoding='utf-16') as f:
             lines = f.readlines()
 
-        # 创建一个空字典来存储频道和其对应的URL
+        # create a dictionary to store the channels
         channels = {}
         current_channel = ''
         pattern = r"^(.*?),(?!#genre#)"
 
-        # 遍历每一行
         for line in lines:
             line = line.strip()
             if '#genre#' in line:
-                # 这是一个新的频道分类名称
+                # This is a new channel, create a new key in the dictionary
                 current_channel = line.split(',')[0]
                 channels[current_channel] = []
             else:
-                # 这是一个频道名称，添加到当前频道分类列表中
+                # This is a url, add it to the list of urls for the current channel
                 match = re.search(pattern, line)
                 if match and match.group(1) not in channels[current_channel]:
                     channels[current_channel].append(match.group(1))
         
         return channels
-
-    def outputTxt(self,cate,channelUrls):
-        # 创建一个新的final文件
-        with open(self.finalFile, 'a', encoding='utf-16') as f:
-            for name, urls in channelUrls.items():
-                f.write(cate + ',#genre#\n')
-                for url in urls:
-                    f.write(name + ',' + url + '\n')
 
     def getSpeed(self,url):
         start = time.time()
@@ -72,7 +63,7 @@ class GetSource():
             r = requests.get(url,timeout=4)
             resStatus = r.status_code
         except:
-            print('请求超时或失败')
+            print('request timeout or error')
         end = time.time()
         return end - start
 
@@ -93,6 +84,14 @@ class GetSource():
     def removeFile(self):
         if os.path.exists(self.finalFile):
             os.remove(self.finalFile)
+
+    def outputTxt(self,cate,channelUrls):
+        # update the final file
+        with open(self.finalFile, 'a', encoding='utf-16') as f:
+            f.write(cate + ',#genre#\n')
+            for name, urls in channelUrls.items():
+                for url in urls:
+                    f.write(name + ',' + url + '\n')
 
     def visitPage(self,channelItems):
         self.driver.get("https://www.foodieguide.com/iptvsearch/")
