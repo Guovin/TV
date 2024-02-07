@@ -13,7 +13,7 @@ class GetSource():
     source_file = 'demo.txt'
     finalFile = "result.txt"
     # The channel names in this list will continue to use URLs from the demo. These will take precedence over the latest source, allowing us to gather more URLs and compare their speeds.
-    importantList = ['珠江', '开平综合', '开平生活', 'CCTV1', 'CCTV5', 'CCTV5+', 'CCTV13', '广东体育', '翡翠台']
+    importantList = ['珠江', '开平综合', '开平生活', 'CCTV1', 'CCTV5', 'CCTV5+', 'CCTV13', '广东体育', '广东卫视', '南方卫视', '浙江卫视', '湖南卫视', '翡翠台']
     importantUrlsNum = 10
 
     def __init__(self):
