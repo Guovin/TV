@@ -12,8 +12,9 @@ from concurrent.futures import ThreadPoolExecutor
 class GetSource():
     source_file = 'demo.txt'
     finalFile = "result.txt"
-    # These channel names in the list will continue to use urls from the demo, which will precede the latest source.
-    useOldList = ['开平综合', '开平生活']
+    # The channel names in this list will continue to use URLs from the demo. These will take precedence over the latest source, allowing us to gather more URLs and compare their speeds.
+    importantList = ['珠江', '开平综合', '开平生活', 'CCTV1', 'CCTV5', 'CCTV13', '广东体育', '翡翠台']
+    importantUrlsNum = 10
 
     def __init__(self):
         self.driver = self.setup_driver()
@@ -75,7 +76,7 @@ class GetSource():
 
     def compareSpeed(self,pageUrls):
         response_times = []
-        with ThreadPoolExecutor(max_workers=20) as executor:
+        with ThreadPoolExecutor(max_workers=self.importantUrlsNum) as executor:
             future_to_url = {executor.submit(self.getSpeed, url): url for url in pageUrls}
             for future in concurrent.futures.as_completed(future_to_url):
                 url, response_time = future.result()
@@ -108,15 +109,17 @@ class GetSource():
                 element.send_keys(name)
                 self.driver.find_element(By.ID, "form1").find_element(By.NAME,"Submit").click()
                 urls=[]
+                isImportant = name in self.importantList
+                useNum = self.importantUrlsNum if isImportant else 5
                 allRangeElement=self.driver.find_elements(By.CLASS_NAME, "m3u8")
                 if len(allRangeElement)<=0:
                     continue
-                if len(allRangeElement)>5:
-                    allRangeElement=allRangeElement[:5]
+                if len(allRangeElement)>useNum:
+                    allRangeElement=allRangeElement[:useNum]
                 for elem in allRangeElement:
                     urls.append(elem.text)
-                allUrls=list(dict.fromkeys(channelObj[name] + urls if name in self.useOldList else urls))
-                # urls=self.compareSpeed(allUrls)
+                urls=self.compareSpeed(urls) if isImportant else urls
+                allUrls=list(dict.fromkeys(channelObj[name] + urls if isImportant else urls))
                 channelUrls[name]=allUrls
             self.outputTxt(cate,channelUrls)
             time.sleep(1)
