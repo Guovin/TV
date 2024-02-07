@@ -115,7 +115,7 @@ class GetSource():
                     allRangeElement=allRangeElement[:5]
                 for elem in allRangeElement:
                     urls.append(elem.text)
-                allUrls=list(set(channelObj[name] + urls if name in self.useOldList else urls))
+                allUrls=list(dict.fromkeys(channelObj[name] + urls if name in self.useOldList else urls))
                 # urls=self.compareSpeed(allUrls)
                 channelUrls[name]=allUrls
             self.outputTxt(cate,channelUrls)
