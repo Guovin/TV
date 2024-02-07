@@ -12,7 +12,7 @@ from concurrent.futures import ThreadPoolExecutor
 class GetSource():
     source_file = 'demo.txt'
     finalFile = "result.txt"
-    # These name will use the demo url in final, default in before
+    # These channel names in the list will continue to use urls from the demo, which will precede the latest source.
     useOldList = ['开平综合', '开平生活']
 
     def __init__(self):
@@ -38,11 +38,11 @@ class GetSource():
         return driver
 
     def getChannelItems(self):
-        # open the source file and read all lines
+        # Open the source file and read all lines.
         with open(self.source_file, 'r', encoding='utf-16') as f:
             lines = f.readlines()
 
-        # create a dictionary to store the channels
+        # Create a dictionary to store the channels.
         channels = {}
         current_channel = ''
         pattern = r"^(.*?),(?!#genre#)(.*?)$"
@@ -50,11 +50,11 @@ class GetSource():
         for line in lines:
             line = line.strip()
             if '#genre#' in line:
-                # This is a new channel, create a new key in the dictionary
+                # This is a new channel, create a new key in the dictionary.
                 current_channel = line.split(',')[0]
                 channels[current_channel] = {}
             else:
-                # This is a url, add it to the list of urls for the current channel
+                # This is a url, add it to the list of urls for the current channel.
                 match = re.search(pattern, line)
                 if match:
                     if match.group(1) not in channels[current_channel]:
@@ -89,7 +89,7 @@ class GetSource():
             os.remove(self.finalFile)
 
     def outputTxt(self,cate,channelUrls):
-        # update the final file
+        # Update the final file.
         with open(self.finalFile, 'a', encoding='utf-16') as f:
             f.write(cate + ',#genre#\n')
             for name, urls in channelUrls.items():
