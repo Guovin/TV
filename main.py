@@ -118,7 +118,7 @@ class GetSource():
                     allRangeElement=allRangeElement[:useNum]
                 for elem in allRangeElement:
                     urls.append(elem.text)
-                urls=self.compareSpeed(urls) if isImportant else urls
+                # urls=self.compareSpeed(urls) if isImportant else urls
                 allUrls=list(dict.fromkeys(channelObj[name] + urls if isImportant else urls))
                 channelUrls[name]=allUrls
             self.outputTxt(cate,channelUrls)
