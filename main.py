@@ -40,7 +40,7 @@ class GetSource():
 
     def getChannelItems(self):
         # Open the source file and read all lines.
-        with open(self.source_file, 'r', encoding='utf-16') as f:
+        with open(self.source_file, 'r') as f:
             lines = f.readlines()
 
         # Create a dictionary to store the channels.
@@ -91,7 +91,7 @@ class GetSource():
 
     def outputTxt(self,cate,channelUrls):
         # Update the final file.
-        with open(self.finalFile, 'a', encoding='utf-16') as f:
+        with open(self.finalFile, 'a') as f:
             f.write(cate + ',#genre#\n')
             for name, urls in channelUrls.items():
                 for url in urls:
