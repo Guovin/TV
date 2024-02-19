@@ -142,13 +142,13 @@ CCTV1,http://39.134.24.166/dbiptv.sn.chinamobile.com/PLTV/88888888/224/322122580
 CCTV1,http://39.134.24.161/dbiptv.sn.chinamobile.com/PLTV/88888890/224/3221225804/index.m3u8
 CCTV1,https://node1.olelive.com:6443/live/CCTV1HD/hls.m3u8
 CCTV1,http://115.215.160.24:9999/rtp/233.50.201.118:5140
+CCTV1,http://125.122.62.174:8888/rtp/233.50.201.118:5140
 CCTV1,https://live-play.cctvnews.cctv.com/cctv/merge_cctv13.m3u8?auth_key=1635962688
 CCTV1,https://live-play.cctvnews.cctv.com/cctv/merge_cctv13_mud.m3u8?auth_key=1635962688
 CCTV1,https://iptv.luas.edu.cn/liverespath/8a2f3cd1ae4091c8d073cd239518f24cd4560d8e/0af5e4ebbf-0-0-73acd2813c45f8d650460bda2f73cdf0/index.m3u8
 CCTV1,http://zteres.sn.chinamobile.com:6060/000000001000/1000000001000001640/1.m3u8?channel-id=ystenlive&Contentid=1000000001000001640&livemode=1&stbId=3
 CCTV1,http://221.2.146.228:8888/newlive/live/hls/12/live.m3u8
 CCTV1,http://183.66.66.199:2345/rtp/235.254.198.9:1312
-CCTV1,http://61.170.80.218/liveali-tpgq.cctv.cn/live/cctv12.m3u8
 CCTV2,http://dbiptv.sn.chinamobile.com/PLTV/88888890/224/3221226195/index.m3u8
 CCTV2,https://node1.olelive.com:6443/live/CCTV2HD/hls.m3u8
 CCTV2,http://39.134.24.162/dbiptv.sn.chinamobile.com/PLTV/88888890/224/3221226195/index.m3u8
@@ -249,6 +249,7 @@ CCTV13,https://live-play.cctvnews.cctv.com/cctv/merge_cctv13.m3u8?auth_key=16359
 CCTV13,https://live-play.cctvnews.cctv.com/cctv/merge_cctv13_mud.m3u8?auth_key=1635962688
 CCTV13,https://iptv.luas.edu.cn/liverespath/8a2f3cd1ae4091c8d073cd239518f24cd4560d8e/0af5e4ebbf-0-0-73acd2813c45f8d650460bda2f73cdf0/index.m3u8
 CCTV13,http://183.66.66.199:2345/rtp/235.254.198.9:1312
+CCTV13,http://125.122.62.174:8888/rtp/233.50.201.246:5140
 CCTV13,http://120.196.232.124:8088/rrs03.hw.gmcc.net/PLTV/651/224/3221226717/1.m3u8
 CCTV13,http://60.223.72.118:8002/rtp/226.0.2.165:9232
 CCTV13,http://120.7.86.99:808/hls/13/index.m3u8
@@ -512,8 +513,8 @@ CCTV17,http://dbiptv.sn.chinamobile.com/PLTV/88888890/224/3221226198/index.m3u8
 翡翠台,http://line.premiumpowers.net/play/live.php?mac=00:1A:79:73:45:10&extension=ts&stream=571187
 翡翠台,http://qwas.eatuo.com:9901/tsfile/live/1013_1.m3u8
 翡翠台,http://198.16.100.90:8278/jade_twn/playlist.m3u8?tid=ME6E1330319113303191&ct=19225&tsum=d76985c4965fd63807e131035f66af09
-翡翠台,https://edge6a.v2h-cdn.com/jade/jade.stream/playlist.m3u8
 翡翠台,http://198.16.100.90:8278/jade_twn/playlist.m3u8?tid=MDAD1890217018902170&ct=19249&tsum=36346362d72a1e85802fa5d3eee3861c
+翡翠台,https://edge6a.v2h-cdn.com/jade/jade.stream/playlist.m3u8
 翡翠台,https://pi.0472.org/tv/fct.php?auth=230918
 翡翠台,https://pi.0472.org/tv/fct.php?auth=2309081833
 翡翠台,http://line.premiumpowers.net/play/live.php?mac=00:1A:79:73:45:10&extension=ts&stream=153505
@@ -563,8 +564,7 @@ TVBS亚洲,http://38.64.72.148:80/hls/modn/list/4005/chunklist0.m3u8
 TVBS新闻,http://38.64.72.148:80/hls/modn/list/4006/chunklist1.m3u8
 TVBS新闻,http://38.64.72.148/hls/modn/list/4006/playlist.m3u8
 TVBS新闻,http://38.64.72.148/hls/modn/list/4006/chunklist1.m3u8?$1920x1080
-TVBS新闻,http://50.7.238.114:8278/tvbs_n/playlist.m3u8?tid=MECE3233774032337740&ct=19225&tsum=47a22a993d8e9b29582dfde5631c78b0
-TVBS新闻,http://198.16.100.90:8278/tvbs_n/playlist.m3u8?tid=MEFE5283322452833224&ct=19226&tsum=5f4e9bb0782ab3aae36328763cba2ffd
+TVBS新闻,http://198.16.100.90:8278/tvbs_n/playlist.m3u8?tid=MECE3233774032337740&ct=19225&tsum=47a22a993d8e9b29582dfde5631c78b0
 TVBS欢乐,http://50.7.238.114:8278/tvbshuanle_twn/playlist.m3u8?tid=MA5A9262292692622926&ct=19254&tsum=cd369d68a5d2c1a2fa04df748cda142c
 TVBS欢乐,http://50.7.238.114:8278/tvbshuanle_twn/playlist.m3u8?ct=19193&tid=MC8C2318787923187879&tsum=394d2b9af3df7846e2cdc60d69dd4219
 TVBS欢乐,http://198.16.100.90:8278/tvbshuanle_twn/playlist.m3u8?tid=MA5A9262292692622926&ct=19254&tsum=cd369d68a5d2c1a2fa04df748cda142c
