@@ -12,4 +12,4 @@
 1. Fork此项目，开启Action工作流可读写权限
 2. 修改demo.txt文件，后续更新根据此文件内容进行更新
 3. 修改main.py(可选)：importantList（关注频道），importantUrlsNum（更新关注频道的源数量）
-4. result.txt为更新后的直播源文件，source.json为配置文件
+4. result.txt为更新后的直播源文件，source.json为数据源文件
