@@ -155,7 +155,7 @@ CCTV2,https://node1.olelive.com:6443/live/CCTV2HD/hls.m3u8
 CCTV2,http://zteres.sn.chinamobile.com:6060/000000001000/6000000001000014161/1.m3u8?channel-id=wasusyt&Contentid=6000000001000014161&livemode=1&stbId=3
 CCTV2,http://61.170.80.218/liveali-tpgq.cctv.cn/live/cctv2.m3u8
 CCTV2,http://125.210.152.19:9123/live/hzgq-cctv2gq-h264.m3u8
-CCTV2,http://101.71.176.182:8888/newlive/live/hls/3/live.m3u8
+CCTV2,http://1.80.12.9:10000/hls/2/index.m3u8
 CCTV3,http://[2409:8087:2001:20:2800:0:df6e:eb20]/ott.mobaibox.com/PLTV/4/224/3221228499/index.m3u8
 CCTV3,https://iptv.luas.edu.cn/liverespath/f76f9947c68be18d7a456e25aa59a08c5747e6a5/0df24da9ec-0-0-dca40ddadd2a051ce1a83536d9310820/index.m3u8
 CCTV3,http://61.170.80.218/liveali-tpgq.cctv.cn/live/cctv3.m3u8
@@ -219,9 +219,9 @@ CCTV8,http://221.210.64.165:2233/hls/15/index.m3u8
 CCTV8,http://123.14.81.96:8888/hls/8/index.m3u8
 CCTV8,http://125.210.152.19:9123/live/hzgq-cctv8gq-h264.m3u8
 CCTV8,http://61.134.235.95:9999/tsfile/live/0008_1.m3u8
+CCTV9,http://zteres.sn.chinamobile.com:6060/000000001000/1000000001000014583/1.m3u8?channel-id=ystenlive&Contentid=1000000001000014583&livemode=1&stbId=3
 CCTV9,http://221.210.64.165:2233/hls/16/index.m3u8
 CCTV9,https://node1.olelive.com:6443/live/CCTV9HD/hls.m3u8
-CCTV9,http://zteres.sn.chinamobile.com:6060/000000001000/1000000001000014583/1.m3u8?channel-id=ystenlive&Contentid=1000000001000014583&livemode=1&stbId=3
 CCTV9,http://[2409:8087:7004:20:1000::22]:6610/yinhe/2/ch00000090990000001294/index.m3u8?virtualDomain=yinhe.live_hls.zte.com
 CCTV9,http://61.170.80.218/liveali-tpgq.cctv.cn/live/cctv9.m3u8
 CCTV10,http://[2409:8087:1a01:df::4077]/ottrrs.hl.chinamobile.com/PLTV/88888888/8/3221225730/index.m3u8
@@ -254,7 +254,7 @@ CCTV13,http://36.96.38.246:8888/newlive/live/hls/15/live.m3u8
 CCTV13,http://36.156.208.131/liveali-tpgq.cctv.cn/live/cctv13.m3u8
 CCTV13,http://125.210.152.19:9123/live/hzgq-cctvnewsgq-h264.m3u8
 CCTV13,http://120.7.86.99:808/hls/13/index.m3u8
-CCTV13,https://live-play.cctvnews.cctv.com/cctv/merge_cctv13_mhd.m3u8?auth_key=1635962688-0-e013f973588e41599d7751a912170d78-fd33c55f8befe5c00fb32fee650348c0
+CCTV13,http://123.118.53.89:9901/tsfile/live/0013_1.m3u8
 CCTV14,https://iptv.luas.edu.cn/liverespath/0e0973e58d4835f4b872548164462930003f77b4/0ef01acfdb-0-0-3c10e95bcde07ba14f0f93a8d831b684/index.m3u8
 CCTV14,http://121.23.184.27:808/hls/14/index.m3u8
 CCTV14,http://36.156.208.131/liveali-tpgq.cctv.cn/live/cctv14.m3u8
