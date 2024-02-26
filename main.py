@@ -32,7 +32,7 @@ class GetSource:
         "湖南卫视",
         "翡翠台",
     ]
-    importantUrlsNum = 15
+    importantUrlsNum = 20
 
     def __init__(self):
         self.driver = self.setup_driver()
@@ -143,10 +143,10 @@ class GetSource:
                     allRangeElement = allRangeElement[:useNum]
                 for elem in allRangeElement:
                     urls.append(elem.text)
-                urls = await self.compareSpeed(urls)
-                allUrls = list(
-                    dict.fromkeys(channelObj[name] + urls if isImportant else urls)
+                urls = await self.compareSpeed(
+                    channelObj[name] + urls if isImportant else urls
                 )
+                allUrls = list(dict.fromkeys(urls))
                 channelUrls[name] = allUrls
             self.outputTxt(cate, channelUrls)
             await asyncio.sleep(1)
