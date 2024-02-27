@@ -15,6 +15,7 @@ pytz = "*"
 selenium = "*"
 selenium-stealth = "*"
 aiohttp = "*"
+bs4 = "*"
 
 [requires]
 python_version = "*"
