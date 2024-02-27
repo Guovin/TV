@@ -11,6 +11,7 @@ from concurrent.futures import ThreadPoolExecutor
 import aiohttp
 import asyncio
 from selenium.common.exceptions import NoSuchElementException
+from bs4 import BeautifulSoup
 
 
 class GetSource:
@@ -98,11 +99,15 @@ class GetSource:
             else:
                 return url, float("inf")
 
-    async def compareSpeed(self, pageUrls):
-        response_times = await asyncio.gather(*(self.getSpeed(url) for url in pageUrls))
-        sorted_urls = sorted(response_times, key=lambda x: x[1])
-        pageUrls_new = [url for url, _ in sorted_urls]
-        return pageUrls_new
+    async def compareSpeed(self, infoList):
+        response_times = await asyncio.gather(
+            *(self.getSpeed(url) for url, _, _ in infoList)
+        )
+        sorted_urls = sorted(zip(infoList, response_times), key=lambda x: x[1][1])
+        infoList_new = [
+            (url, date, resolution) for (url, date, resolution), _ in sorted_urls
+        ]
+        return infoList_new
 
     def removeFile(self):
         if os.path.exists(self.finalFile):
@@ -133,21 +138,43 @@ class GetSource:
                 except NoSuchElementException:
                     print(f"Element not found when searching for {name}")
                     continue
-                urls = []
+                infoList = []
                 isImportant = name in self.importantList
                 useNum = self.importantUrlsNum if isImportant else 10
-                allRangeElement = self.driver.find_elements(By.CLASS_NAME, "m3u8")
-                if len(allRangeElement) <= 0:
-                    continue
-                if len(allRangeElement) > useNum:
-                    allRangeElement = allRangeElement[:useNum]
-                for elem in allRangeElement:
-                    urls.append(elem.text)
-                urls = await self.compareSpeed(
-                    channelObj[name] + urls if isImportant else urls
+                soup = BeautifulSoup(self.driver.page_source, "html.parser")
+                tables_div = soup.find("div", class_="tables")
+                results = (
+                    tables_div.find_all("div", class_="result") if tables_div else []
                 )
-                allUrls = list(dict.fromkeys(urls))
-                channelUrls[name] = allUrls
+                for result in results[:useNum]:
+                    m3u8_div = result.find("div", class_="m3u8")
+                    url = m3u8_div.text.strip() if m3u8_div else None
+                    info_div = m3u8_div.find_next_sibling("div") if m3u8_div else None
+                    date = resolution = None
+                    if info_div:
+                        info_text = info_div.text.strip()
+                        date, resolution = (
+                            (
+                                info_text.partition(" ")[0]
+                                if info_text.partition(" ")[0]
+                                else None
+                            ),
+                            (
+                                info_text.partition(" ")[2].partition("•")[2]
+                                if info_text.partition(" ")[2].partition("•")[2]
+                                else None
+                            ),
+                        )
+                    infoList.append((url, date, resolution))
+                infoList.sort(
+                    key=lambda x: (x[1] is not None, x[1]), reverse=True
+                )  # Sort by date
+                infoList = await self.compareSpeed(infoList)  # Sort by speed
+                infoList.sort(
+                    key=lambda x: (x[2] is not None, x[2]), reverse=True
+                )  # Sort by resolution
+                urls = list(dict.fromkeys(url for url, _, _ in infoList))
+                channelUrls[name] = urls
             self.outputTxt(cate, channelUrls)
             await asyncio.sleep(1)
 
