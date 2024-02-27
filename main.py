@@ -31,8 +31,9 @@ class GetSource:
         "湖南卫视",
         "翡翠台",
     ]
-    importantPageNum = 10
-    defaultPageNum = 5
+    importantPageNum = 5
+    defaultPageNum = 3
+    urlsLimit = 15
     filter_invalid_url = True
 
     def __init__(self):
@@ -210,7 +211,7 @@ class GetSource:
                         reverse=True,
                     )  # Sort by resolution
                     urls = list(dict.fromkeys(url for url, _, _ in infoList))
-                    channelUrls[name] = urls
+                    channelUrls[name] = (urls or channelObj[name])[: self.urlsLimit]
                 except Exception as e:
                     print(f"Error on sorting: {e}")
                     continue
