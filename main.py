@@ -1,16 +1,13 @@
-import selenium
 from selenium import webdriver
-import time
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+import time
 import os
 import re
-import requests
 from selenium_stealth import stealth
-import concurrent.futures
-from concurrent.futures import ThreadPoolExecutor
 import aiohttp
 import asyncio
-from selenium.common.exceptions import NoSuchElementException
 from bs4 import BeautifulSoup
 from datetime import datetime
 import re
@@ -34,7 +31,8 @@ class GetSource:
         "湖南卫视",
         "翡翠台",
     ]
-    importantUrlsNum = 20
+    importantPageNum = 10
+    defaultPageNum = 5
     filter_invalid_url = True
 
     def __init__(self):
@@ -134,75 +132,88 @@ class GetSource:
             f.write("\n")
 
     async def visitPage(self, channelItems):
-        self.driver.get("https://www.foodieguide.com/iptvsearch/")
         self.removeFile()
         for cate, channelObj in channelItems.items():
             channelUrls = {}
             for name in channelObj.keys():
-                try:
-                    element = self.driver.find_element(By.ID, "search")
-                    element.clear()
-                    element.send_keys(name)
-                    self.driver.find_element(By.ID, "form1").find_element(
-                        By.NAME, "Submit"
-                    ).click()
-                except NoSuchElementException:
-                    print(f"Element not found when searching for {name}")
-                    continue
-                infoList = []
                 isImportant = name in self.importantList
-                useNum = self.importantUrlsNum if isImportant else 10
-                soup = BeautifulSoup(self.driver.page_source, "html.parser")
-                tables_div = soup.find("div", class_="tables")
-                results = (
-                    tables_div.find_all("div", class_="result") if tables_div else []
-                )
-                for result in results[:useNum]:
-                    m3u8_div = result.find("div", class_="m3u8")
-                    url = m3u8_div.text.strip() if m3u8_div else None
-                    info_div = m3u8_div.find_next_sibling("div") if m3u8_div else None
-                    date = resolution = None
-                    if info_div:
-                        info_text = info_div.text.strip()
-                        date, resolution = (
-                            (
-                                info_text.partition(" ")[0]
-                                if info_text.partition(" ")[0]
-                                else None
-                            ),
-                            (
-                                info_text.partition(" ")[2].partition("•")[2]
-                                if info_text.partition(" ")[2].partition("•")[2]
-                                else None
-                            ),
+                pageNum = self.importantPageNum if isImportant else self.defaultPageNum
+                infoList = []
+                for page in range(1, pageNum):
+                    try:
+                        page_url = f"https://www.foodieguide.com/iptvsearch/?page={page}&s={name}"
+                        self.driver.get(page_url)
+                        WebDriverWait(self.driver, 10).until(
+                            EC.presence_of_element_located(
+                                (By.CSS_SELECTOR, "div.tables")
+                            )
                         )
-                    infoList.append((url, date, resolution))
-                infoList.sort(
-                    key=lambda x: (
-                        x[1] is not None,
-                        datetime.strptime(x[1], "%m-%d-%Y") if x[1] else None,
-                    ),
-                    reverse=True,
-                )  # Sort by date
-                infoList = await self.compareSpeed(infoList)  # Sort by speed
+                        soup = BeautifulSoup(self.driver.page_source, "html.parser")
+                        tables_div = soup.find("div", class_="tables")
+                        results = (
+                            tables_div.find_all("div", class_="result")
+                            if tables_div
+                            else []
+                        )
+                        if not any(
+                            result.find("div", class_="m3u8") for result in results
+                        ):
+                            break
+                        for result in results:
+                            m3u8_div = result.find("div", class_="m3u8")
+                            url = m3u8_div.text.strip() if m3u8_div else None
+                            info_div = (
+                                m3u8_div.find_next_sibling("div") if m3u8_div else None
+                            )
+                            date = resolution = None
+                            if info_div:
+                                info_text = info_div.text.strip()
+                                date, resolution = (
+                                    (
+                                        info_text.partition(" ")[0]
+                                        if info_text.partition(" ")[0]
+                                        else None
+                                    ),
+                                    (
+                                        info_text.partition(" ")[2].partition("•")[2]
+                                        if info_text.partition(" ")[2].partition("•")[2]
+                                        else None
+                                    ),
+                                )
+                            infoList.append((url, date, resolution))
+                    except Exception as e:
+                        print(f"Error on page {page}: {e}")
+                        continue
+                try:
+                    infoList.sort(
+                        key=lambda x: (
+                            x[1] is not None,
+                            datetime.strptime(x[1], "%m-%d-%Y") if x[1] else None,
+                        ),
+                        reverse=True,
+                    )  # Sort by date
+                    infoList = await self.compareSpeed(infoList)  # Sort by speed
 
-                def extract_resolution(resolution_str):
-                    numbers = re.findall(r"\d+x\d+", resolution_str)
-                    if numbers:
-                        width, height = map(int, numbers[0].split("x"))
-                        return width * height
-                    else:
-                        return 0
+                    def extract_resolution(resolution_str):
+                        numbers = re.findall(r"\d+x\d+", resolution_str)
+                        if numbers:
+                            width, height = map(int, numbers[0].split("x"))
+                            return width * height
+                        else:
+                            return 0
 
-                infoList.sort(
-                    key=lambda x: (
-                        x[2] is not None,
-                        extract_resolution(x[2]) if x[2] else 0,
-                    ),
-                    reverse=True,
-                )  # Sort by resolution
-                urls = list(dict.fromkeys(url for url, _, _ in infoList))
-                channelUrls[name] = urls
+                    infoList.sort(
+                        key=lambda x: (
+                            x[2] is not None,
+                            extract_resolution(x[2]) if x[2] else 0,
+                        ),
+                        reverse=True,
+                    )  # Sort by resolution
+                    urls = list(dict.fromkeys(url for url, _, _ in infoList))
+                    channelUrls[name] = urls
+                except Exception as e:
+                    print(f"Error on sorting: {e}")
+                    continue
             self.outputTxt(cate, channelUrls)
             await asyncio.sleep(1)
 
