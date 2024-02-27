@@ -13,6 +13,7 @@ import asyncio
 from selenium.common.exceptions import NoSuchElementException
 from bs4 import BeautifulSoup
 from datetime import datetime
+import re
 
 
 class GetSource:
@@ -184,14 +185,19 @@ class GetSource:
                     reverse=True,
                 )  # Sort by date
                 infoList = await self.compareSpeed(infoList)  # Sort by speed
+
+                def extract_resolution(resolution_str):
+                    numbers = re.findall(r"\d+x\d+", resolution_str)
+                    if numbers:
+                        width, height = map(int, numbers[0].split("x"))
+                        return width * height
+                    else:
+                        return 0
+
                 infoList.sort(
                     key=lambda x: (
                         x[2] is not None,
-                        (
-                            int(x[2].split("x")[0]) * int(x[2].split("x")[1])
-                            if x[2]
-                            else 0
-                        ),
+                        extract_resolution(x[2]) if x[2] else 0,
                     ),
                     reverse=True,
                 )  # Sort by resolution
