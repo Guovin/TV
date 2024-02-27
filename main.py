@@ -90,8 +90,8 @@ class GetSource:
             try:
                 async with session.get(url, timeout=5) as response:
                     resStatus = response.status
-            except:
-                print("request timeout or error")
+            except Exception as e:
+                print(f"error: {str(e)}")
                 return url, float("inf")
             end = time.time()
             if resStatus == 200:
@@ -119,7 +119,8 @@ class GetSource:
             f.write(cate + ",#genre#\n")
             for name, urls in channelUrls.items():
                 for url in urls:
-                    f.write(name + "," + url + "\n")
+                    if url is not None:
+                        f.write(name + "," + url + "\n")
             f.write("\n")
 
     async def visitPage(self, channelItems):
