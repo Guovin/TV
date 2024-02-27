@@ -12,12 +12,12 @@ import aiohttp
 import asyncio
 from selenium.common.exceptions import NoSuchElementException
 from bs4 import BeautifulSoup
+from datetime import datetime
 
 
 class GetSource:
     source_file = "demo.txt"
     finalFile = "result.txt"
-    # The channel names in this list will continue to use URLs from the demo. These will take precedence over the latest source, allowing us to gather more URLs and compare their speeds.
     importantList = [
         "珠江",
         "开平综合",
@@ -177,11 +177,23 @@ class GetSource:
                         )
                     infoList.append((url, date, resolution))
                 infoList.sort(
-                    key=lambda x: (x[1] is not None, x[1]), reverse=True
+                    key=lambda x: (
+                        x[1] is not None,
+                        datetime.strptime(x[1], "%m-%d-%Y") if x[1] else None,
+                    ),
+                    reverse=True,
                 )  # Sort by date
                 infoList = await self.compareSpeed(infoList)  # Sort by speed
                 infoList.sort(
-                    key=lambda x: (x[2] is not None, x[2]), reverse=True
+                    key=lambda x: (
+                        x[2] is not None,
+                        (
+                            int(x[2].split("x")[0]) * int(x[2].split("x")[1])
+                            if x[2]
+                            else 0
+                        ),
+                    ),
+                    reverse=True,
                 )  # Sort by resolution
                 urls = list(dict.fromkeys(url for url, _, _ in infoList))
                 channelUrls[name] = urls
