@@ -4,7 +4,7 @@
 
 ## 特点
 
-- 接口效验，排序规则：日期、速度、分辨率
+- 接口效验，过滤无效接口，排序规则：日期、速度、分辨率
 - 定时执行，每隔 12 小时执行更新一次
 - 可设置重点关注频道
 - 可获取更多直播链接，数量可设置
@@ -15,5 +15,5 @@
 
 1. Fork 此项目，开启 Action 工作流可读写权限
 2. 修改 demo.txt 文件，后续更新根据此文件内容进行更新
-3. 修改 main.py(可选)：importantList（关注频道），importantUrlsNum（更新关注频道的源数量）
+3. 修改 main.py(可选)：importantList（关注频道），importantUrlsNum（更新关注频道的源数量，默认 20），filter_invalid_url（是否过滤无效接口，默认开启）
 4. result.txt 为更新后的直播源文件，source.json 为数据源文件

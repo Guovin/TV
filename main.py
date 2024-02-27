@@ -34,6 +34,7 @@ class GetSource:
         "翡翠台",
     ]
     importantUrlsNum = 20
+    filter_invalid_url = True
 
     def __init__(self):
         self.driver = self.setup_driver()
@@ -90,8 +91,7 @@ class GetSource:
             try:
                 async with session.get(url, timeout=5) as response:
                     resStatus = response.status
-            except Exception as e:
-                print(f"error: {str(e)}")
+            except:
                 return url, float("inf")
             end = time.time()
             if resStatus == 200:
@@ -103,9 +103,18 @@ class GetSource:
         response_times = await asyncio.gather(
             *(self.getSpeed(url) for url, _, _ in infoList)
         )
-        sorted_urls = sorted(zip(infoList, response_times), key=lambda x: x[1][1])
+        # Filter out invalid links if filter_invalid_url is True
+        if self.filter_invalid_url:
+            valid_responses = [
+                (info, rt)
+                for info, rt in zip(infoList, response_times)
+                if rt[1] != float("inf")
+            ]
+        else:
+            valid_responses = list(zip(infoList, response_times))
+        sorted_res = sorted(valid_responses, key=lambda x: x[1][1])
         infoList_new = [
-            (url, date, resolution) for (url, date, resolution), _ in sorted_urls
+            (url, date, resolution) for (url, date, resolution), _ in sorted_res
         ]
         return infoList_new
 
