@@ -1,3 +1,4 @@
+import config
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -14,27 +15,6 @@ import re
 
 
 class GetSource:
-    source_file = "demo.txt"
-    final_file = "result.txt"
-    important_list = [
-        "珠江",
-        "开平综合",
-        "开平生活",
-        "CCTV1",
-        "CCTV5",
-        "CCTV5+",
-        "CCTV13",
-        "广东体育",
-        "广东卫视",
-        "大湾区卫视",
-        "浙江卫视",
-        "湖南卫视",
-        "翡翠台",
-    ]
-    important_page_num = 5
-    default_page_num = 3
-    urls_limit = 15
-    filter_invalid_url = True
 
     def __init__(self):
         self.driver = self.setup_driver()
@@ -61,7 +41,7 @@ class GetSource:
 
     def getChannelItems(self):
         # Open the source file and read all lines.
-        with open(self.source_file, "r") as f:
+        with open(config.source_file, "r") as f:
             lines = f.readlines()
 
         # Create a dictionary to store the channels.
@@ -104,7 +84,7 @@ class GetSource:
             *(self.getSpeed(url) for url, _, _ in infoList)
         )
         # Filter out invalid links if filter_invalid_url is True
-        if self.filter_invalid_url:
+        if config.filter_invalid_url:
             valid_responses = [
                 (info, rt)
                 for info, rt in zip(infoList, response_times)
@@ -119,12 +99,12 @@ class GetSource:
         return infoList_new
 
     def removeFile(self):
-        if os.path.exists(self.final_file):
-            os.remove(self.final_file)
+        if os.path.exists(config.final_file):
+            os.remove(config.final_file)
 
     def outputTxt(self, cate, channelUrls):
         # Update the final file.
-        with open(self.final_file, "a") as f:
+        with open(config.final_file, "a") as f:
             f.write(cate + ",#genre#\n")
             for name, urls in channelUrls.items():
                 for url in urls:
@@ -137,9 +117,9 @@ class GetSource:
         for cate, channelObj in channelItems.items():
             channelUrls = {}
             for name in channelObj.keys():
-                isImportant = name in self.important_list
+                isFavorite = name in config.favorite_list
                 pageNum = (
-                    self.important_page_num if isImportant else self.default_page_num
+                    config.favorite_page_num if isFavorite else config.default_page_num
                 )
                 infoList = []
                 for page in range(1, pageNum):
@@ -213,7 +193,7 @@ class GetSource:
                         reverse=True,
                     )  # Sort by resolution
                     urls = list(dict.fromkeys(url for url, _, _ in infoList))
-                    channelUrls[name] = (urls or channelObj[name])[: self.urls_limit]
+                    channelUrls[name] = (urls or channelObj[name])[: config.urls_limit]
                 except Exception as e:
                     print(f"Error on sorting: {e}")
                     continue

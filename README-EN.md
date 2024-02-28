@@ -13,15 +13,15 @@ Automatically obtain and update the latest live broadcast interface link accordi
 
 1. Fork this project, turn on Action workflow read and write permissions, Settings → Actions → General → Workflow permissions → Read and write permissions → Save
 2. Modify the demo.txt template file, subsequent updates will be based on the content of this file
-3. Modify main.py (optional):
+3. Modify config.py (optional):
 
 - source_file: Template file, default value: demo.txt
 - final_file: Generated file, default value: result.txt
-- important_list: List of focus channel names
-- important_page_num: Number of pages to get for focus channels, default value: 5
+- favorite_list: List of focus channel names
+- favorite_page_num: Number of pages to get for focus channels, default value: 5
 - default_page_num: Number of pages to get for regular channels, default value: 3
 - urls_limit: Number of interfaces, default value: 15
-- filter_invalid_url: Whether to filter invalid interfaces, default is true
+- filter_invalid_url: Whether to filter invalid interfaces, default: True
 
 4. result.txt is the updated live broadcast interface file, source.json is the data source file
 

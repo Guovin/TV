@@ -15,15 +15,15 @@
 
 1. Fork 此项目，开启 Action 工作流可读写权限，Settings → Actions → General → Workflow permissions → Read and write permissions → Save
 2. 修改 demo.txt 模板文件，后续更新根据此文件内容进行更新
-3. 修改 main.py(可选)：
+3. 修改配置 config.py(可选)：
 
 - source_file：模板文件，默认值：demo.txt
 - final_file：生成文件，默认值：result.txt
-- important_list：关注频道名称列表
-- important_page_num：关注频道获取分页数量，默认值：5
+- favorite_list：关注频道名称列表
+- favorite_page_num：关注频道获取分页数量，默认值：5
 - default_page_num：常规频道获取分页数量，默认值：3
 - urls_limit：接口数量，默认值：15
-- filter_invalid_url：是否过滤无效接口，默认开启
+- filter_invalid_url：是否过滤无效接口，默认值：True
 
 4. result.txt 为更新后的直播源接口文件，source.json 为数据源文件
 
