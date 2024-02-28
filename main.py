@@ -15,8 +15,8 @@ import re
 
 class GetSource:
     source_file = "demo.txt"
-    finalFile = "result.txt"
-    importantList = [
+    final_file = "result.txt"
+    important_list = [
         "珠江",
         "开平综合",
         "开平生活",
@@ -31,9 +31,9 @@ class GetSource:
         "湖南卫视",
         "翡翠台",
     ]
-    importantPageNum = 5
-    defaultPageNum = 3
-    urlsLimit = 15
+    important_page_num = 5
+    default_page_num = 3
+    urls_limit = 15
     filter_invalid_url = True
 
     def __init__(self):
@@ -119,12 +119,12 @@ class GetSource:
         return infoList_new
 
     def removeFile(self):
-        if os.path.exists(self.finalFile):
-            os.remove(self.finalFile)
+        if os.path.exists(self.final_file):
+            os.remove(self.final_file)
 
     def outputTxt(self, cate, channelUrls):
         # Update the final file.
-        with open(self.finalFile, "a") as f:
+        with open(self.final_file, "a") as f:
             f.write(cate + ",#genre#\n")
             for name, urls in channelUrls.items():
                 for url in urls:
@@ -137,8 +137,10 @@ class GetSource:
         for cate, channelObj in channelItems.items():
             channelUrls = {}
             for name in channelObj.keys():
-                isImportant = name in self.importantList
-                pageNum = self.importantPageNum if isImportant else self.defaultPageNum
+                isImportant = name in self.important_list
+                pageNum = (
+                    self.important_page_num if isImportant else self.default_page_num
+                )
                 infoList = []
                 for page in range(1, pageNum):
                     try:
@@ -211,7 +213,7 @@ class GetSource:
                         reverse=True,
                     )  # Sort by resolution
                     urls = list(dict.fromkeys(url for url, _, _ in infoList))
-                    channelUrls[name] = (urls or channelObj[name])[: self.urlsLimit]
+                    channelUrls[name] = (urls or channelObj[name])[: self.urls_limit]
                 except Exception as e:
                     print(f"Error on sorting: {e}")
                     continue
