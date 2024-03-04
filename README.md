@@ -1,31 +1,55 @@
-# TVBox 电视直播源接口自动更新
+# TVBox 电视频道菜单自定义与直播源接口自动更新
 
-根据基础模板直播源接口文件自动获取并更新最新直播源接口链接
+自定义频道菜单，根据模板文件的直播源接口，自动获取并更新最新的直播源接口，生成可用的频道接口文件
 
 [English](./README-EN.md) | 中文
 
 ## 特点
 
-- 接口效验，过滤无效接口，排序规则：日期、速度、分辨率
+- 自定义模板，生成您想要的频道分类与频道顺序
+- 接口验效，过滤无效接口
+- 按响应时间、分辨率综合权衡排序
 - 定时执行，每隔 12 小时执行更新一次
 - 可设置重点关注频道，单独配置获取分页的数量
 - 分页结果获取（可配置页数、总接口数量）
 
 ## 使用方法
 
-1. Fork 此项目，开启 Action 工作流可读写权限，Settings → Actions → General → Workflow permissions → Read and write permissions → Save
-2. 修改 demo.txt 模板文件，后续更新根据此文件内容进行更新
-3. 修改配置 config.py(可选)：
+1. Fork 此项目，开启 Action 工作流可读写权限：
 
-- source_file：模板文件，默认值：demo.txt
-- final_file：生成文件，默认值：result.txt
-- favorite_list：关注频道名称列表
-- favorite_page_num：关注频道获取分页数量，默认值：5
-- default_page_num：常规频道获取分页数量，默认值：3
-- urls_limit：接口数量，默认值：15
-- filter_invalid_url：是否过滤无效接口，默认值：True
+   - Settings → Actions → General → Workflow permissions → Read and write permissions → Save
 
-4. result.txt 为更新后的直播源接口文件，source.json 为数据源文件
+2. 修改 demo.txt 模板文件，修改成您想要的频道分类与频道顺序，后续更新根据此文件内容进行更新。
+3. 修改配置（可选）：
+
+   #### config.py：
+
+   - source_file：模板文件，默认值：demo.txt
+   - final_file：生成文件，默认值：result.txt
+   - favorite_list：关注频道名称列表
+   - favorite_page_num：关注频道获取分页数量，默认值：5
+   - default_page_num：常规频道获取分页数量，默认值：3
+   - urls_limit：接口数量，默认值：15
+   - response_time_weight：响应时间权重值，默认值：0.5
+   - resolution_weight：分辨率权重值，默认值：0.5
+
+   #### .github/workflows/main.yml：
+
+   - 如果您想修改更新频率（默认 12 小时），可修改 on:schedule:- cron 字段
+
+4. result.txt 为更新后的直播源接口文件，source.json 为数据源文件（目前仅作分享使用）
+5. 建议采用代理的方式访问直播源与数据源文件（xxx 为您的仓库路径）：
+   - https://mirror.ghproxy.com/raw.githubusercontent.com/xxx/result.txt
+   - https://mirror.ghproxy.com/raw.githubusercontent.com/xxx/source.json
+
+## 更新日志
+
+### 2024/3/4
+
+- 增加配置项：响应时间与分辨率权重值
+- 移除配置项：是否过滤无效接口，始终执行过滤
+- 移除按日期排序，采用响应时间与分辨率作为排序规则
+- 更新 README：增加修改更新频率、文件代理说明、更新日志
 
 ## 免责声明
 

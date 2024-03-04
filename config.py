@@ -18,4 +18,5 @@ favorite_list = [
 favorite_page_num = 5
 default_page_num = 3
 urls_limit = 15
-filter_invalid_url = True
+response_time_weight = 0.5
+resolution_weight = 0.5

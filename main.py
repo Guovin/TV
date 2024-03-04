@@ -10,7 +10,6 @@ from selenium_stealth import stealth
 import aiohttp
 import asyncio
 from bs4 import BeautifulSoup
-from datetime import datetime
 import re
 
 
@@ -79,24 +78,52 @@ class GetSource:
             else:
                 return url, float("inf")
 
-    async def compareSpeed(self, infoList):
+    async def compareSpeedAndResolution(self, infoList):
         response_times = await asyncio.gather(
-            *(self.getSpeed(url) for url, _, _ in infoList)
+            *(self.getSpeed(url) for url, _ in infoList)
         )
-        # Filter out invalid links if filter_invalid_url is True
-        if config.filter_invalid_url:
-            valid_responses = [
-                (info, rt)
-                for info, rt in zip(infoList, response_times)
-                if rt[1] != float("inf")
-            ]
-        else:
-            valid_responses = list(zip(infoList, response_times))
-        sorted_res = sorted(valid_responses, key=lambda x: x[1][1])
-        infoList_new = [
-            (url, date, resolution) for (url, date, resolution), _ in sorted_res
+        valid_responses = [
+            (info, rt)
+            for info, rt in zip(infoList, response_times)
+            if rt[1] != float("inf")
         ]
-        return infoList_new
+
+        def extract_resolution(resolution_str):
+            numbers = re.findall(r"\d+x\d+", resolution_str)
+            if numbers:
+                width, height = map(int, numbers[0].split("x"))
+                return width * height
+            else:
+                return 0
+
+        default_response_time_weight = 0.5
+        default_resolution_weight = 0.5
+        response_time_weight = getattr(
+            config, "response_time_weight", default_response_time_weight
+        )
+        resolution_weight = getattr(
+            config, "resolution_weight", default_resolution_weight
+        )
+        # Check if weights are valid
+        if not (
+            0 <= response_time_weight <= 1
+            and 0 <= resolution_weight <= 1
+            and response_time_weight + resolution_weight == 1
+        ):
+            response_time_weight = default_response_time_weight
+            resolution_weight = default_resolution_weight
+
+        def combined_key(item):
+            (_, resolution), response_time = item
+            resolution_value = extract_resolution(resolution) if resolution else 0
+            return (
+                -(response_time_weight * response_time[1])
+                + resolution_weight * resolution_value
+            )
+
+        sorted_res = sorted(valid_responses, key=combined_key)
+        urls = [url for (url, _), _ in sorted_res]
+        return urls
 
     def removeFile(self):
         if os.path.exists(config.final_file):
@@ -148,51 +175,22 @@ class GetSource:
                             info_div = (
                                 m3u8_div.find_next_sibling("div") if m3u8_div else None
                             )
-                            date = resolution = None
+                            resolution = None
                             if info_div:
                                 info_text = info_div.text.strip()
-                                date, resolution = (
-                                    (
-                                        info_text.partition(" ")[0]
-                                        if info_text.partition(" ")[0]
-                                        else None
-                                    ),
-                                    (
-                                        info_text.partition(" ")[2].partition("•")[2]
-                                        if info_text.partition(" ")[2].partition("•")[2]
-                                        else None
-                                    ),
+                                resolution = (
+                                    info_text.partition(" ")[2].partition("•")[2]
+                                    if info_text.partition(" ")[2].partition("•")[2]
+                                    else None
                                 )
-                            infoList.append((url, date, resolution))
+                            infoList.append((url, resolution))
                     except Exception as e:
                         print(f"Error on page {page}: {e}")
                         continue
                 try:
-                    infoList.sort(
-                        key=lambda x: (
-                            x[1] is not None,
-                            datetime.strptime(x[1], "%m-%d-%Y") if x[1] else None,
-                        ),
-                        reverse=True,
-                    )  # Sort by date
-                    infoList = await self.compareSpeed(infoList)  # Sort by speed
-
-                    def extract_resolution(resolution_str):
-                        numbers = re.findall(r"\d+x\d+", resolution_str)
-                        if numbers:
-                            width, height = map(int, numbers[0].split("x"))
-                            return width * height
-                        else:
-                            return 0
-
-                    infoList.sort(
-                        key=lambda x: (
-                            x[2] is not None,
-                            extract_resolution(x[2]) if x[2] else 0,
-                        ),
-                        reverse=True,
-                    )  # Sort by resolution
-                    urls = list(dict.fromkeys(url for url, _, _ in infoList))
+                    urls = list(
+                        dict.fromkeys(await self.compareSpeedAndResolution(infoList))
+                    )  # Sort by speed and resolution
                     channelUrls[name] = (urls or channelObj[name])[: config.urls_limit]
                 except Exception as e:
                     print(f"Error on sorting: {e}")
