@@ -38,11 +38,15 @@
    - 如果您想修改更新频率（默认 12 小时），可修改 on:schedule:- cron 字段
 
 4. result.txt 为更新后的直播源接口文件，source.json 为数据源文件（目前仅作分享使用）
-5. 建议采用代理的方式访问直播源与数据源文件（xxx 为您的仓库路径）：
-   - https://mirror.ghproxy.com/raw.githubusercontent.com/xxx/result.txt
-   - https://mirror.ghproxy.com/raw.githubusercontent.com/xxx/source.json
+5. 建议采用代理的方式访问直播源与数据源文件：
+   - https://mirror.ghproxy.com/raw.githubusercontent.com/用户名/仓库名称/master/result.txt
+   - https://mirror.ghproxy.com/raw.githubusercontent.com/用户名/仓库名称/master/source.json
 
 ## 更新日志
+
+### 2024/3/6
+
+- 更新文件代理说明
 
 ### 2024/3/4
 

@@ -38,11 +38,15 @@ Customize channel menus, automatically fetch and update the latest live source i
    - If you want to modify the update frequency (default is 12 hours), you can modify the on:schedule:- cron field
 
 4. result.txt is the updated live source interface file, source.json is the data source file (currently only for sharing)
-5. It is recommended to access the live source and data source files via proxy (xxx is your repository path):
-   - https://mirror.ghproxy.com/raw.githubusercontent.com/xxx/result.txt
-   - https://mirror.ghproxy.com/raw.githubusercontent.com/xxx/source.json
+5. It is recommended to access the live source and data source files via proxy:
+   - https://mirror.ghproxy.com/raw.githubusercontent.com/username/repository-name/master/result.txt
+   - https://mirror.ghproxy.com/raw.githubusercontent.com/username/repository-name/master/source.json
 
 ## Update Log
+
+### 2024/3/6
+
+- Update file proxy description
 
 ### 2024/3/4
 
