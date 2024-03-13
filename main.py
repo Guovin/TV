@@ -139,7 +139,7 @@ class GetSource:
                         f.write(name + "," + url + "\n")
             f.write("\n")
 
-    def filterByDate(data):
+    def filterByDate(self, data):
         default_recent_days = 60
         use_recent_days = getattr(config, "recent_days", 60)
         if (
