@@ -24,15 +24,17 @@
 
    #### config.py：
 
-   - source_file：模板文件，默认值：demo.txt
-   - final_file：生成文件，默认值：result.txt
-   - favorite_list：关注频道名称列表
-   - favorite_page_num：关注频道获取分页数量，默认值：8
-   - default_page_num：常规频道获取分页数量，默认值：5
-   - urls_limit：接口数量，默认值：15
-   - response_time_weight：响应时间权重值，默认值：0.5
-   - resolution_weight：分辨率权重值，默认值：0.5
-   - recent_days：获取最近更新（单位天）的接口，默认值：60
+   | 配置项               | 描述                                                               | 默认值             |
+   | -------------------- | ------------------------------------------------------------------ | ------------------ |
+   | source_file          | 模板文件名称                                                       | demo.txt           |
+   | final_file           | 生成文件名称                                                       | result.txt         |
+   | favorite_list        | 关注频道名称列表（仅用于与常规频道区分，自定义获取分页数量）       | ["CCTV1","CCTV13"] |
+   | favorite_page_num    | 关注频道获取分页数量                                               | 8                  |
+   | default_page_num     | 常规频道获取分页数量                                               | 5                  |
+   | urls_limit           | 单个频道接口数量                                                   | 15                 |
+   | response_time_weight | 响应时间权重值（所有权重值总和应为 1）                             | 0.5                |
+   | resolution_weight    | 分辨率权重值 （所有权重值总和应为 1）                              | 0.5                |
+   | recent_days          | 获取最近时间范围内更新的接口（单位天），适当减小可避免出现匹配问题 | 60                 |
 
    #### .github/workflows/main.yml：
 
@@ -47,7 +49,7 @@
 
 ### 2024/3/13
 
-- 增加配置项：recent_days，筛选获取最近更新的接口，默认最近 60 天
+- 增加配置项：recent_days，筛选获取最近时间范围内更新的接口，默认最近 60 天
 - 调整默认值：关注频道获取 8 页，常规频道获取 5 页
 
 ### 2024/3/6
