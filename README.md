@@ -27,11 +27,12 @@
    - source_file：模板文件，默认值：demo.txt
    - final_file：生成文件，默认值：result.txt
    - favorite_list：关注频道名称列表
-   - favorite_page_num：关注频道获取分页数量，默认值：5
-   - default_page_num：常规频道获取分页数量，默认值：3
+   - favorite_page_num：关注频道获取分页数量，默认值：8
+   - default_page_num：常规频道获取分页数量，默认值：5
    - urls_limit：接口数量，默认值：15
    - response_time_weight：响应时间权重值，默认值：0.5
    - resolution_weight：分辨率权重值，默认值：0.5
+   - recent_days：获取最近更新（单位天）的接口，默认值：60
 
    #### .github/workflows/main.yml：
 
@@ -43,6 +44,11 @@
    - https://mirror.ghproxy.com/raw.githubusercontent.com/用户名/仓库名称/master/source.json
 
 ## 更新日志
+
+### 2024/3/13
+
+- 增加配置项：recent_days，筛选获取最近更新的接口，默认最近 60 天
+- 调整默认值：关注频道获取 8 页，常规频道获取 5 页
 
 ### 2024/3/6
 
