@@ -152,7 +152,7 @@ class GetSource:
         recent_data = []
         for (url, date, resolution), response_time in data:
             if date:
-                date = datetime.datetime.strptime(date, "%d-%m-%Y")
+                date = datetime.datetime.strptime(date, "%m-%d-%Y")
                 if date >= start_date:
                     recent_data.append(((url, date, resolution), response_time))
         return recent_data
