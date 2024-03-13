@@ -27,11 +27,12 @@ Customize channel menus, automatically fetch and update the latest live source i
    - source_file: Template file, default value: demo.txt
    - final_file: Generated file, default value: result.txt
    - favorite_list: List of focus channel names
-   - favorite_page_num: Number of pages fetched for focus channels, default value: 5
-   - default_page_num: Number of pages fetched for regular channels, default value: 3
+   - favorite_page_num: Number of pages fetched for focus channels, default value: 8
+   - default_page_num: Number of pages fetched for regular channels, default value: 5
    - urls_limit: Number of interfaces, default value: 15
    - response_time_weight: Response time weight value, default value: 0.5
    - resolution_weight: Resolution weight value, default value: 0.5
+   - recent_days: Interface to get the most recent updates (in days), default value: 60
 
    #### .github/workflows/main.yml:
 
@@ -43,6 +44,11 @@ Customize channel menus, automatically fetch and update the latest live source i
    - https://mirror.ghproxy.com/raw.githubusercontent.com/username/repository-name/master/source.json
 
 ## Update Log
+
+### 2024/3/13
+
+- Added configuration item: recent_days, a filter to get the most recently updated interfaces, default to the last 60 days
+- Adjusted default values: fetch 8 pages for followed channels, 5 pages for regular channels
 
 ### 2024/3/6
 

@@ -11,6 +11,7 @@ import aiohttp
 import asyncio
 from bs4 import BeautifulSoup
 import re
+import datetime
 
 
 class GetSource:
@@ -80,7 +81,7 @@ class GetSource:
 
     async def compareSpeedAndResolution(self, infoList):
         response_times = await asyncio.gather(
-            *(self.getSpeed(url) for url, _ in infoList)
+            *(self.getSpeed(url) for url, _, _ in infoList)
         )
         valid_responses = [
             (info, rt)
@@ -114,7 +115,7 @@ class GetSource:
             resolution_weight = default_resolution_weight
 
         def combined_key(item):
-            (_, resolution), response_time = item
+            (_, _, resolution), response_time = item
             resolution_value = extract_resolution(resolution) if resolution else 0
             return (
                 -(response_time_weight * response_time[1])
@@ -122,8 +123,7 @@ class GetSource:
             )
 
         sorted_res = sorted(valid_responses, key=combined_key)
-        urls = [url for (url, _), _ in sorted_res]
-        return urls
+        return sorted_res
 
     def removeFile(self):
         if os.path.exists(config.final_file):
@@ -138,6 +138,34 @@ class GetSource:
                     if url is not None:
                         f.write(name + "," + url + "\n")
             f.write("\n")
+
+    def filterByDate(data):
+        default_recent_days = 60
+        use_recent_days = getattr(config, "recent_days", 60)
+        if (
+            not isinstance(use_recent_days, int)
+            or use_recent_days <= 0
+            or use_recent_days > 365
+        ):
+            use_recent_days = default_recent_days
+        start_date = datetime.datetime.now() - datetime.timedelta(days=use_recent_days)
+        recent_data = []
+        for (url, date, resolution), response_time in data:
+            if date:
+                date = datetime.datetime.strptime(date, "%d-%m-%Y")
+                if date >= start_date:
+                    recent_data.append(((url, date, resolution), response_time))
+        return recent_data
+
+    def getTotalUrls(self, data):
+        total_urls = []
+        if len(data) > config.urls_limit:
+            total_urls = [
+                url for (url, _, _), _ in self.filterByDate(data)[: config.urls_limit]
+            ]
+        else:
+            total_urls = [url for (url, _, _), _ in data]
+        return list(dict.fromkeys(total_urls))
 
     async def visitPage(self, channelItems):
         self.removeFile()
@@ -175,23 +203,32 @@ class GetSource:
                             info_div = (
                                 m3u8_div.find_next_sibling("div") if m3u8_div else None
                             )
-                            resolution = None
+                            date = resolution = None
                             if info_div:
                                 info_text = info_div.text.strip()
-                                resolution = (
-                                    info_text.partition(" ")[2].partition("•")[2]
-                                    if info_text.partition(" ")[2].partition("•")[2]
-                                    else None
+                                date, resolution = (
+                                    (
+                                        info_text.partition(" ")[0]
+                                        if info_text.partition(" ")[0]
+                                        else None
+                                    ),
+                                    (
+                                        info_text.partition(" ")[2].partition("•")[2]
+                                        if info_text.partition(" ")[2].partition("•")[2]
+                                        else None
+                                    ),
                                 )
-                            infoList.append((url, resolution))
+                            infoList.append((url, date, resolution))
                     except Exception as e:
                         print(f"Error on page {page}: {e}")
                         continue
                 try:
-                    urls = list(
-                        dict.fromkeys(await self.compareSpeedAndResolution(infoList))
+                    sorted_data = await self.compareSpeedAndResolution(
+                        infoList
                     )  # Sort by speed and resolution
-                    channelUrls[name] = (urls or channelObj[name])[: config.urls_limit]
+                    channelUrls[name] = (
+                        self.getTotalUrls(sorted_data) or channelObj[name]
+                    )  # Get the total urls with filter by date and limit
                 except Exception as e:
                     print(f"Error on sorting: {e}")
                     continue
