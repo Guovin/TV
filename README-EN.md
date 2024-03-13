@@ -11,7 +11,8 @@ Customize channel menus, automatically fetch and update the latest live source i
 - Comprehensive sorting based on response time and resolution
 - Scheduled execution, updates every 12 hours
 - Set up key focus channels and configure the number of pages fetched separately
-- Pagination results fetching (configurable number of pages and total number of interfaces)
+- Pagination results retrieval (configurable number of pages and interfaces)
+- Ensure update timeliness, configure to retrieve interfaces updated within a recent time range
 
 ## How to Use
 
