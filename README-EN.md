@@ -11,7 +11,8 @@ Customize channel menus, automatically fetch and update the latest live source i
 - Comprehensive sorting based on response time and resolution
 - Scheduled execution, updates every 12 hours
 - Set up key focus channels and configure the number of pages fetched separately
-- Pagination results fetching (configurable number of pages and total number of interfaces)
+- Pagination results retrieval (configurable number of pages and interfaces)
+- Ensure update timeliness, configure to retrieve interfaces updated within a recent time range
 
 ## How to Use
 
@@ -24,15 +25,17 @@ Customize channel menus, automatically fetch and update the latest live source i
 
    #### config.py:
 
-   - source_file: Template file, default value: demo.txt
-   - final_file: Generated file, default value: result.txt
-   - favorite_list: List of focus channel names
-   - favorite_page_num: Number of pages fetched for focus channels, default value: 8
-   - default_page_num: Number of pages fetched for regular channels, default value: 5
-   - urls_limit: Number of interfaces, default value: 15
-   - response_time_weight: Response time weight value, default value: 0.5
-   - resolution_weight: Resolution weight value, default value: 0.5
-   - recent_days: Interface to get the most recent updates (in days), default value: 60
+   | Configuration Item   | Description                                                                                                        | Default Value      |
+   | -------------------- | ------------------------------------------------------------------------------------------------------------------ | ------------------ |
+   | source_file          | Template file name                                                                                                 | demo.txt           |
+   | final_file           | Generated file name                                                                                                | result.txt         |
+   | favorite_list        | List of favorite channel names (used only to distinguish from regular channels, custom page retrieval quantity)    | ["CCTV1","CCTV13"] |
+   | favorite_page_num    | Page retrieval quantity for favorite channels                                                                      | 8                  |
+   | default_page_num     | Page retrieval quantity for regular channels                                                                       | 5                  |
+   | urls_limit           | Number of interfaces per channel                                                                                   | 15                 |
+   | response_time_weight | Response time weight value (the sum of all weight values should be 1)                                              | 0.5                |
+   | resolution_weight    | Resolution weight value (the sum of all weight values should be 1)                                                 | 0.5                |
+   | recent_days          | Retrieve interfaces updated within a recent time range (in days), reducing appropriately can avoid matching issues | 60                 |
 
    #### .github/workflows/main.yml:
 
