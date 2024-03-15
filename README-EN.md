@@ -25,17 +25,17 @@ Customize channel menus, automatically fetch and update the latest live source i
 
    #### config.py:
 
-   | Configuration Item   | Description                                                                                                        | Default Value      |
-   | -------------------- | ------------------------------------------------------------------------------------------------------------------ | ------------------ |
-   | source_file          | Template file name                                                                                                 | demo.txt           |
-   | final_file           | Generated file name                                                                                                | result.txt         |
-   | favorite_list        | List of favorite channel names (used only to distinguish from regular channels, custom page retrieval quantity)    | ["CCTV1","CCTV13"] |
-   | favorite_page_num    | Page retrieval quantity for favorite channels                                                                      | 8                  |
-   | default_page_num     | Page retrieval quantity for regular channels                                                                       | 5                  |
-   | urls_limit           | Number of interfaces per channel                                                                                   | 15                 |
-   | response_time_weight | Response time weight value (the sum of all weight values should be 1)                                              | 0.5                |
-   | resolution_weight    | Resolution weight value (the sum of all weight values should be 1)                                                 | 0.5                |
-   | recent_days          | Retrieve interfaces updated within a recent time range (in days), reducing appropriately can avoid matching issues | 60                 |
+   | Configuration Item   | Default Value      | Description                                                                                                        |
+   | -------------------- | ------------------ | ------------------------------------------------------------------------------------------------------------------ |
+   | source_file          | demo.txt           | Template file name                                                                                                 |
+   | final_file           | result.txt         | Generated file name                                                                                                |
+   | favorite_list        | ["CCTV1","CCTV13"] | List of favorite channel names (used only to distinguish from regular channels, custom page retrieval quantity)    |
+   | favorite_page_num    | 8                  | Page retrieval quantity for favorite channels                                                                      |
+   | default_page_num     | 5                  | Page retrieval quantity for regular channels                                                                       |
+   | urls_limit           | 15                 | Number of interfaces per channel                                                                                   |
+   | response_time_weight | 0.5                | Response time weight value (the sum of all weight values should be 1)                                              |
+   | resolution_weight    | 0.5                | Resolution weight value (the sum of all weight values should be 1)                                                 |
+   | recent_days          | 60                 | Retrieve interfaces updated within a recent time range (in days), reducing appropriately can avoid matching issues |
 
    #### .github/workflows/main.yml:
 
