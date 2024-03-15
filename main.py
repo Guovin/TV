@@ -96,7 +96,7 @@ class UpdateSource:
                         channelUrls[name] = (
                             getTotalUrls(sorted_data) or channelObj[name]
                         )
-                        for url, date, resolution, response_time in sorted_data:
+                        for (url, date, resolution), response_time in sorted_data:
                             logging.info(
                                 f"Name: {name}, URL: {url}, Date: {date}, Resolution: {resolution}, Response Time: {response_time}ms"
                             )
