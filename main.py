@@ -61,7 +61,7 @@ class UpdateSource:
                 infoList = []
                 for page in range(1, pageNum):
                     try:
-                        page_url = f"http://tonkiang.us/?page={page}&s={name}"
+                        page_url = f"https://www.foodieguide.com/iptvsearch/?page={page}&s={name}"
                         self.driver.get(page_url)
                         WebDriverWait(self.driver, 10).until(
                             EC.presence_of_element_located(
@@ -96,7 +96,7 @@ class UpdateSource:
                         channelUrls[name] = (
                             getTotalUrls(sorted_data) or channelObj[name]
                         )
-                        for url, date, resolution, response_time in sorted_data:
+                        for (url, date, resolution), response_time in sorted_data:
                             logging.info(
                                 f"Name: {name}, URL: {url}, Date: {date}, Resolution: {resolution}, Response Time: {response_time}ms"
                             )
