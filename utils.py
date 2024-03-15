@@ -7,6 +7,14 @@ import datetime
 import os
 
 
+def removeLogFile():
+    """
+    Remove the log file
+    """
+    if os.path.exists("result.log"):
+        os.remove("result.log")
+
+
 def getChannelItems():
     """
     Get the channel items from the source file
@@ -37,7 +45,7 @@ def getChannelItems():
     return channels
 
 
-def removeFile():
+def removeFinalFile():
     """
     Remove the old final file
     """
@@ -45,9 +53,9 @@ def removeFile():
         os.remove(config.final_file)
 
 
-def outputTxt(cate, channelUrls):
+def updateChannelUrlsTxt(cate, channelUrls):
     """
-    Update the final file
+    Update the category and channel urls to the final file
     """
     with open(config.final_file, "a") as f:
         f.write(cate + ",#genre#\n")
@@ -92,7 +100,7 @@ async def getSpeed(url):
             return url, float("inf")
         end = time.time()
         if resStatus == 200:
-            return url, end - start
+            return url, int(round((end - start) * 1000))
         else:
             return url, float("inf")
 

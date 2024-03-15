@@ -7,12 +7,20 @@ from selenium_stealth import stealth
 import asyncio
 from bs4 import BeautifulSoup
 from utils import (
+    removeLogFile,
     getChannelItems,
-    removeFile,
-    outputTxt,
+    removeFinalFile,
+    updateChannelUrlsTxt,
     getUrlInfo,
     compareSpeedAndResolution,
     getTotalUrls,
+)
+import logging
+
+logging.basicConfig(
+    filename="result.log",
+    filemode="a",
+    level=logging.INFO,
 )
 
 
@@ -41,7 +49,8 @@ class UpdateSource:
         self.driver = self.setup_driver()
 
     async def visitPage(self, channelItems):
-        removeFile()
+        removeLogFile()
+        removeFinalFile()
         for cate, channelObj in channelItems.items():
             channelUrls = {}
             for name in channelObj.keys():
@@ -83,11 +92,20 @@ class UpdateSource:
                         continue
                 try:
                     sorted_data = await compareSpeedAndResolution(infoList)
-                    channelUrls[name] = getTotalUrls(sorted_data) or channelObj[name]
+                    if sorted_data:
+                        channelUrls[name] = (
+                            getTotalUrls(sorted_data) or channelObj[name]
+                        )
+                        for url, date, resolution, response_time in sorted_data:
+                            logging.info(
+                                f"Name: {name}, URL: {url}, Date: {date}, Resolution: {resolution}, Response Time: {response_time}ms"
+                            )
+                    else:
+                        channelUrls[name] = channelObj[name]
                 except Exception as e:
                     print(f"Error on sorting: {e}")
                     continue
-            outputTxt(cate, channelUrls)
+            updateChannelUrlsTxt(cate, channelUrls)
             await asyncio.sleep(1)
 
     def main(self):

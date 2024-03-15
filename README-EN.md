@@ -48,6 +48,12 @@ Customize channel menus, automatically fetch and update the latest live source i
 
 ## Update Log
 
+### 2024/3/15
+
+- Optimize code structure
+- Added interface logs to record detailed quality indicators
+- Added workflows that can be manually run to trigger updates
+
 ### 2024/3/13
 
 - Added configuration item: recent_days, a filter to get the most recently updated interfaces, default to the last 60 days
