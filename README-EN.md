@@ -52,7 +52,7 @@ Customize channel menus, automatically fetch and update the latest live source i
 
 - Optimize code structure
 - Added interface logs to record detailed quality indicators
-- Added workflows that can be manually run to trigger updates
+- Added manual workflows to trigger updates
 
 ### 2024/3/13
 
