@@ -36,6 +36,7 @@ Customize channel menus, automatically fetch and update the latest live source i
    | response_time_weight | 0.5                | Response time weight value (the sum of all weight values should be 1)                                              |
    | resolution_weight    | 0.5                | Resolution weight value (the sum of all weight values should be 1)                                                 |
    | recent_days          | 60                 | Retrieve interfaces updated within a recent time range (in days), reducing appropriately can avoid matching issues |
+   | ipv_type             | "ipv4"             | The type of interface in the generated result, optional values: "ipv4", "ipv6", "all"                              |
 
    #### .github/workflows/main.yml:
 
@@ -47,6 +48,13 @@ Customize channel menus, automatically fetch and update the latest live source i
    - https://mirror.ghproxy.com/raw.githubusercontent.com/username/repository-name/master/source.json
 
 ## Update Log
+
+### 2024/3/18
+
+- Added configuration item: ipv_type, used to filter ipv4, ipv6 interface types
+- Optimized file update logic to prevent file loss caused by update failure
+- Adjusted the default value for pagination: fetch 6 pages for followed channels, 4 pages for regular channels, to improve update speed
+- Added output saving of interface log files
 
 ### 2024/3/15
 
