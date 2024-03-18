@@ -30,8 +30,8 @@
    | source_file          | demo.txt           | 模板文件名称                                                       |
    | final_file           | result.txt         | 生成文件名称                                                       |
    | favorite_list        | ["CCTV1","CCTV13"] | 关注频道名称列表（仅用于与常规频道区分，自定义获取分页数量）       |
-   | favorite_page_num    | 8                  | 关注频道获取分页数量                                               |
-   | default_page_num     | 5                  | 常规频道获取分页数量                                               |
+   | favorite_page_num    | 6                  | 关注频道获取分页数量                                               |
+   | default_page_num     | 4                  | 常规频道获取分页数量                                               |
    | urls_limit           | 15                 | 单个频道接口数量                                                   |
    | response_time_weight | 0.5                | 响应时间权重值（所有权重值总和应为 1）                             |
    | resolution_weight    | 0.5                | 分辨率权重值 （所有权重值总和应为 1）                              |
