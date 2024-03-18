@@ -13,6 +13,7 @@
 - 可设置重点关注频道，单独配置获取分页的数量
 - 分页结果获取（可配置页数、接口数量）
 - 保证更新时效性，配置获取最近时间范围内更新的接口
+- 可过滤 ipv4、ipv6 接口
 
 ## 使用方法
 
@@ -27,15 +28,16 @@
 
    | 配置项               | 默认值             | 描述                                                               |
    | -------------------- | ------------------ | ------------------------------------------------------------------ |
-   | source_file          | demo.txt           | 模板文件名称                                                       |
-   | final_file           | result.txt         | 生成文件名称                                                       |
+   | source_file          | "demo.txt"         | 模板文件名称                                                       |
+   | final_file           | "result.txt"       | 生成文件名称                                                       |
    | favorite_list        | ["CCTV1","CCTV13"] | 关注频道名称列表（仅用于与常规频道区分，自定义获取分页数量）       |
-   | favorite_page_num    | 8                  | 关注频道获取分页数量                                               |
-   | default_page_num     | 5                  | 常规频道获取分页数量                                               |
+   | favorite_page_num    | 6                  | 关注频道获取分页数量                                               |
+   | default_page_num     | 4                  | 常规频道获取分页数量                                               |
    | urls_limit           | 15                 | 单个频道接口数量                                                   |
    | response_time_weight | 0.5                | 响应时间权重值（所有权重值总和应为 1）                             |
    | resolution_weight    | 0.5                | 分辨率权重值 （所有权重值总和应为 1）                              |
    | recent_days          | 60                 | 获取最近时间范围内更新的接口（单位天），适当减小可避免出现匹配问题 |
+   | ipv_type             | "ipv4"             | 生成结果中接口的类型，可选值："ipv4"、"ipv6"、"all"                |
 
    #### .github/workflows/main.yml：
 
@@ -47,6 +49,14 @@
    - https://mirror.ghproxy.com/raw.githubusercontent.com/用户名/仓库名称/master/source.json
 
 ## 更新日志
+
+### 2024/3/18
+
+- 新增配置项：ipv_type，用于过滤 ipv4、ipv6 接口类型
+- 优化文件更新逻辑，避免更新失效引起文件丢失
+- 调整分页获取默认值：关注频道获取 6 页，常规频道获取 4 页，以提升更新速度
+- 增加接口日志文件 result.log 输出
+- 修复权重排序异常
 
 ### 2024/3/15
 

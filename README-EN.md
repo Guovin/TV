@@ -13,6 +13,7 @@ Customize channel menus, automatically fetch and update the latest live source i
 - Set up key focus channels and configure the number of pages fetched separately
 - Pagination results retrieval (configurable number of pages and interfaces)
 - Ensure update timeliness, configure to retrieve interfaces updated within a recent time range
+- Can filter ipv4, ipv6 interfaces
 
 ## How to Use
 
@@ -27,15 +28,16 @@ Customize channel menus, automatically fetch and update the latest live source i
 
    | Configuration Item   | Default Value      | Description                                                                                                        |
    | -------------------- | ------------------ | ------------------------------------------------------------------------------------------------------------------ |
-   | source_file          | demo.txt           | Template file name                                                                                                 |
-   | final_file           | result.txt         | Generated file name                                                                                                |
+   | source_file          | "demo.txt"         | Template file name                                                                                                 |
+   | final_file           | "result.txt"       | Generated file name                                                                                                |
    | favorite_list        | ["CCTV1","CCTV13"] | List of favorite channel names (used only to distinguish from regular channels, custom page retrieval quantity)    |
-   | favorite_page_num    | 8                  | Page retrieval quantity for favorite channels                                                                      |
-   | default_page_num     | 5                  | Page retrieval quantity for regular channels                                                                       |
+   | favorite_page_num    | 6                  | Page retrieval quantity for favorite channels                                                                      |
+   | default_page_num     | 4                  | Page retrieval quantity for regular channels                                                                       |
    | urls_limit           | 15                 | Number of interfaces per channel                                                                                   |
    | response_time_weight | 0.5                | Response time weight value (the sum of all weight values should be 1)                                              |
    | resolution_weight    | 0.5                | Resolution weight value (the sum of all weight values should be 1)                                                 |
    | recent_days          | 60                 | Retrieve interfaces updated within a recent time range (in days), reducing appropriately can avoid matching issues |
+   | ipv_type             | "ipv4"             | The type of interface in the generated result, optional values: "ipv4", "ipv6", "all"                              |
 
    #### .github/workflows/main.yml:
 
@@ -47,6 +49,14 @@ Customize channel menus, automatically fetch and update the latest live source i
    - https://mirror.ghproxy.com/raw.githubusercontent.com/username/repository-name/master/source.json
 
 ## Update Log
+
+### 2024/3/18
+
+- Added configuration item: ipv_type, used to filter ipv4, ipv6 interface types
+- Optimized file update logic to prevent file loss caused by update failure
+- Adjusted the default value for pagination: fetch 6 pages for followed channels, 4 pages for regular channels, to improve update speed
+- Added output of interface log file result.log
+- Fixed weight sorting anomaly
 
 ### 2024/3/15
 

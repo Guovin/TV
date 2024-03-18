@@ -7,19 +7,21 @@ from selenium_stealth import stealth
 import asyncio
 from bs4 import BeautifulSoup
 from utils import (
-    removeLogFile,
     getChannelItems,
-    removeFinalFile,
     updateChannelUrlsTxt,
+    updateFile,
     getUrlInfo,
     compareSpeedAndResolution,
     getTotalUrls,
+    filterSortedDataByIPVType,
+    filterByIPVType,
 )
 import logging
 
 logging.basicConfig(
-    filename="result.log",
+    filename="result_new.log",
     filemode="a",
+    format="%(message)s",
     level=logging.INFO,
 )
 
@@ -49,8 +51,6 @@ class UpdateSource:
         self.driver = self.setup_driver()
 
     async def visitPage(self, channelItems):
-        removeLogFile()
-        removeFinalFile()
         for cate, channelObj in channelItems.items():
             channelUrls = {}
             for name in channelObj.keys():
@@ -92,16 +92,17 @@ class UpdateSource:
                         continue
                 try:
                     sorted_data = await compareSpeedAndResolution(infoList)
-                    if sorted_data:
+                    ipvSortedData = filterSortedDataByIPVType(sorted_data)
+                    if ipvSortedData:
                         channelUrls[name] = (
-                            getTotalUrls(sorted_data) or channelObj[name]
+                            getTotalUrls(ipvSortedData) or channelObj[name]
                         )
-                        for (url, date, resolution), response_time in sorted_data:
+                        for (url, date, resolution), response_time in ipvSortedData:
                             logging.info(
                                 f"Name: {name}, URL: {url}, Date: {date}, Resolution: {resolution}, Response Time: {response_time}ms"
                             )
                     else:
-                        channelUrls[name] = channelObj[name]
+                        channelUrls[name] = filterByIPVType(channelObj[name])
                 except Exception as e:
                     print(f"Error on sorting: {e}")
                     continue
@@ -110,6 +111,8 @@ class UpdateSource:
 
     def main(self):
         asyncio.run(self.visitPage(getChannelItems()))
+        updateFile(config.final_file, "result_new.txt")
+        updateFile("result.log", "result_new.log")
 
 
 UpdateSource().main()

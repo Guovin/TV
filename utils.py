@@ -5,14 +5,8 @@ import time
 import re
 import datetime
 import os
-
-
-def removeLogFile():
-    """
-    Remove the log file
-    """
-    if os.path.exists("result.log"):
-        os.remove("result.log")
+import urllib.parse
+import ipaddress
 
 
 def getChannelItems():
@@ -45,25 +39,27 @@ def getChannelItems():
     return channels
 
 
-def removeFinalFile():
-    """
-    Remove the old final file
-    """
-    if os.path.exists(config.final_file):
-        os.remove(config.final_file)
-
-
 def updateChannelUrlsTxt(cate, channelUrls):
     """
     Update the category and channel urls to the final file
     """
-    with open(config.final_file, "a") as f:
+    with open("result_new.txt", "a") as f:
         f.write(cate + ",#genre#\n")
         for name, urls in channelUrls.items():
             for url in urls:
                 if url is not None:
                     f.write(name + "," + url + "\n")
         f.write("\n")
+
+
+def updateFile(final_file, old_file):
+    """
+    Update the file
+    """
+    if os.path.exists(final_file):
+        os.remove(final_file)
+    if os.path.exists(old_file):
+        os.rename(old_file, final_file)
 
 
 def getUrlInfo(result):
@@ -97,12 +93,12 @@ async def getSpeed(url):
             async with session.get(url, timeout=5) as response:
                 resStatus = response.status
         except:
-            return url, float("inf")
+            return float("inf")
         end = time.time()
         if resStatus == 200:
-            return url, int(round((end - start) * 1000))
+            return int(round((end - start) * 1000))
         else:
-            return url, float("inf")
+            return float("inf")
 
 
 async def compareSpeedAndResolution(infoList):
@@ -111,9 +107,7 @@ async def compareSpeedAndResolution(infoList):
     """
     response_times = await asyncio.gather(*(getSpeed(url) for url, _, _ in infoList))
     valid_responses = [
-        (info, rt)
-        for info, rt in zip(infoList, response_times)
-        if rt[1] != float("inf")
+        (info, rt) for info, rt in zip(infoList, response_times) if rt != float("inf")
     ]
 
     def extract_resolution(resolution_str):
@@ -143,11 +137,11 @@ async def compareSpeedAndResolution(infoList):
         (_, _, resolution), response_time = item
         resolution_value = extract_resolution(resolution) if resolution else 0
         return (
-            -(response_time_weight * response_time[1])
+            -(response_time_weight * response_time)
             + resolution_weight * resolution_value
         )
 
-    sorted_res = sorted(valid_responses, key=combined_key)
+    sorted_res = sorted(valid_responses, key=combined_key, reverse=True)
     return sorted_res
 
 
@@ -183,3 +177,49 @@ def getTotalUrls(data):
     else:
         total_urls = [url for (url, _, _), _ in data]
     return list(dict.fromkeys(total_urls))
+
+
+def is_ipv6(url):
+    """
+    Check if the url is ipv6
+    """
+    try:
+        host = urllib.parse.urlparse(url).hostname
+        ipaddress.IPv6Address(host)
+        return True
+    except ValueError:
+        return False
+
+
+def filterSortedDataByIPVType(sorted_data):
+    """
+    Filter sorted data by ipv type
+    """
+    ipv_type = getattr(config, "ipv_type", "ipv4")
+    if ipv_type == "ipv4":
+        return [
+            ((url, date, resolution), response_time)
+            for (url, date, resolution), response_time in sorted_data
+            if not is_ipv6(url)
+        ]
+    elif ipv_type == "ipv6":
+        return [
+            ((url, date, resolution), response_time)
+            for (url, date, resolution), response_time in sorted_data
+            if is_ipv6(url)
+        ]
+    else:
+        return sorted_data
+
+
+def filterByIPVType(urls):
+    """
+    Filter by ipv type
+    """
+    ipv_type = getattr(config, "ipv_type", "ipv4")
+    if ipv_type == "ipv4":
+        return [url for url in urls if not is_ipv6(url)]
+    elif ipv_type == "ipv6":
+        return [url for url in urls if is_ipv6(url)]
+    else:
+        return urls
