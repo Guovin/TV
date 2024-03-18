@@ -55,7 +55,8 @@ Customize channel menus, automatically fetch and update the latest live source i
 - Added configuration item: ipv_type, used to filter ipv4, ipv6 interface types
 - Optimized file update logic to prevent file loss caused by update failure
 - Adjusted the default value for pagination: fetch 6 pages for followed channels, 4 pages for regular channels, to improve update speed
-- Added output saving of interface log files
+- Added output of interface log file result.log
+- Fixed weight sorting anomaly
 
 ### 2024/3/15
 

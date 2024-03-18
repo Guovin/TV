@@ -21,6 +21,7 @@ import logging
 logging.basicConfig(
     filename="result_new.log",
     filemode="a",
+    format="%(message)s",
     level=logging.INFO,
 )
 

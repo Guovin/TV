@@ -93,12 +93,12 @@ async def getSpeed(url):
             async with session.get(url, timeout=5) as response:
                 resStatus = response.status
         except:
-            return url, float("inf")
+            return float("inf")
         end = time.time()
         if resStatus == 200:
-            return url, int(round((end - start) * 1000))
+            return int(round((end - start) * 1000))
         else:
-            return url, float("inf")
+            return float("inf")
 
 
 async def compareSpeedAndResolution(infoList):
@@ -107,9 +107,7 @@ async def compareSpeedAndResolution(infoList):
     """
     response_times = await asyncio.gather(*(getSpeed(url) for url, _, _ in infoList))
     valid_responses = [
-        (info, rt)
-        for info, rt in zip(infoList, response_times)
-        if rt[1] != float("inf")
+        (info, rt) for info, rt in zip(infoList, response_times) if rt != float("inf")
     ]
 
     def extract_resolution(resolution_str):
@@ -139,11 +137,11 @@ async def compareSpeedAndResolution(infoList):
         (_, _, resolution), response_time = item
         resolution_value = extract_resolution(resolution) if resolution else 0
         return (
-            -(response_time_weight * response_time[1])
+            -(response_time_weight * response_time)
             + resolution_weight * resolution_value
         )
 
-    sorted_res = sorted(valid_responses, key=combined_key)
+    sorted_res = sorted(valid_responses, key=combined_key, reverse=True)
     return sorted_res
 
 
