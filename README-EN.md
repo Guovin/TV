@@ -13,6 +13,7 @@ Customize channel menus, automatically fetch and update the latest live source i
 - Set up key focus channels and configure the number of pages fetched separately
 - Pagination results retrieval (configurable number of pages and interfaces)
 - Ensure update timeliness, configure to retrieve interfaces updated within a recent time range
+- Can filter ipv4, ipv6 interfaces
 
 ## How to Use
 
