@@ -53,5 +53,6 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git diff
           git add result.txt
+          git add result.log
           git commit -m "Github Action Auto Updated"
           git push
