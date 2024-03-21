@@ -3,9 +3,6 @@ name: 'update schedule'
 on:
   schedule:
     - cron: '0 */12 * * *'
-  push:
-    branches:
-      - master
   workflow_dispatch:
     branches:
       - master
@@ -63,7 +60,7 @@ jobs:
           if [[ -f result.log ]]; then
             git add result.log
           fi
-          if [[ `git status --porcelain` ]]; then
+          if ! git diff --exit-code --quiet || git ls-files --others --exclude-standard | grep -q .; then
             git commit -m "Github Action Auto Updated"
             git push
           fi
