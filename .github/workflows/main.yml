@@ -60,7 +60,7 @@ jobs:
           if [[ -f result.log ]]; then
             git add result.log
           fi
-          if ! git diff --exit-code --quiet || git ls-files --others --exclude-standard | grep -q .; then
+          if ! git diff --staged --quiet; then
             git commit -m "Github Action Auto Updated"
             git push
           fi
