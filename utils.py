@@ -159,21 +159,26 @@ def filterByDate(data):
         use_recent_days = default_recent_days
     start_date = datetime.datetime.now() - datetime.timedelta(days=use_recent_days)
     recent_data = []
+    unrecent_data = []
     for (url, date, resolution), response_time in data:
         if date:
             date = datetime.datetime.strptime(date, "%m-%d-%Y")
             if date >= start_date:
                 recent_data.append(((url, date, resolution), response_time))
-    return recent_data
+            else:
+                unrecent_data.append(((url, date, resolution), response_time))
+    if len(recent_data) < config.urls_limit:
+        recent_data.extend(unrecent_data[: config.urls_limit - len(recent_data)])
+    return recent_data[: config.urls_limit]
 
 
 def getTotalUrls(data):
     """
-    Get the total urls with filter by date and limit
+    Get the total urls with filter by date and depulicate
     """
     total_urls = []
     if len(data) > config.urls_limit:
-        total_urls = [url for (url, _, _), _ in filterByDate(data)[: config.urls_limit]]
+        total_urls = [url for (url, _, _), _ in filterByDate(data)]
     else:
         total_urls = [url for (url, _, _), _ in data]
     return list(dict.fromkeys(total_urls))

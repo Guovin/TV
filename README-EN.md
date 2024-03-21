@@ -36,7 +36,7 @@ Customize channel menus, automatically fetch and update the latest live source i
    | urls_limit           | 15                 | Number of interfaces per channel                                                                                   |
    | response_time_weight | 0.5                | Response time weight value (the sum of all weight values should be 1)                                              |
    | resolution_weight    | 0.5                | Resolution weight value (the sum of all weight values should be 1)                                                 |
-   | recent_days          | 60                 | Retrieve interfaces updated within a recent time range (in days), reducing appropriately can avoid matching issues |
+   | recent_days          | 30                 | Retrieve interfaces updated within a recent time range (in days), reducing appropriately can avoid matching issues |
    | ipv_type             | "ipv4"             | The type of interface in the generated result, optional values: "ipv4", "ipv6", "all"                              |
 
    #### .github/workflows/main.yml:
@@ -49,6 +49,14 @@ Customize channel menus, automatically fetch and update the latest live source i
    - https://mirror.ghproxy.com/raw.githubusercontent.com/username/repository-name/master/source.json
 
 ## Update Log
+
+### 2024/3/21
+
+- Fixed potential tracking failure of updated files, leading to update failure
+- Adjusted the default recent update retrieval time to 30 days
+- Optimized the recent update interface filter, when the number of interfaces is insufficient after filtering, other time range available interfaces will be used for supplementation
+- Optimized the matching problem of Zhujiang and CCTV channels
+- Removed push real-time trigger update
 
 ### 2024/3/18
 

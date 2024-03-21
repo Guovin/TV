@@ -36,7 +36,7 @@
    | urls_limit           | 15                 | 单个频道接口数量                                                   |
    | response_time_weight | 0.5                | 响应时间权重值（所有权重值总和应为 1）                             |
    | resolution_weight    | 0.5                | 分辨率权重值 （所有权重值总和应为 1）                              |
-   | recent_days          | 60                 | 获取最近时间范围内更新的接口（单位天），适当减小可避免出现匹配问题 |
+   | recent_days          | 30                 | 获取最近时间范围内更新的接口（单位天），适当减小可避免出现匹配问题 |
    | ipv_type             | "ipv4"             | 生成结果中接口的类型，可选值："ipv4"、"ipv6"、"all"                |
 
    #### .github/workflows/main.yml：
@@ -49,6 +49,14 @@
    - https://mirror.ghproxy.com/raw.githubusercontent.com/用户名/仓库名称/master/source.json
 
 ## 更新日志
+
+### 2024/3/21
+
+- 修复潜在的更新文件追踪失效，导致更新失败
+- 调整最近更新获取时间默认为 30 天
+- 优化最近更新接口筛选，当筛选后不足指定接口个数时，将使用其它时间范围的可用接口补充
+- 优化珠江、CCTV 频道匹配问题
+- 移除推送实时触发更新
 
 ### 2024/3/18
 
