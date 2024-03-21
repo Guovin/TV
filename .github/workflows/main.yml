@@ -61,6 +61,7 @@ jobs:
             git add result.log
           fi
           if ! git diff --staged --quiet; then
+            git pull --rebase
             git commit -m "Github Action Auto Updated"
             git push
           fi
