@@ -1,6 +1,9 @@
+try:
+    import user_config as config
+except ImportError:
+    import config as config
 import aiohttp
 import asyncio
-import config
 import time
 import re
 import datetime
@@ -8,13 +11,20 @@ import os
 import urllib.parse
 import ipaddress
 
+# 在这里使用 some_config_variable
+
 
 def getChannelItems():
     """
     Get the channel items from the source file
     """
     # Open the source file and read all lines.
-    with open(config.source_file, "r") as f:
+    user_source_file = (
+        "user_" + config.source_file
+        if os.path.exists("user_" + config.source_file)
+        else getattr(config, "source_file", "demo.txt")
+    )
+    with open(user_source_file, "r") as f:
         lines = f.readlines()
 
     # Create a dictionary to store the channels.

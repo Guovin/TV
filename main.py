@@ -1,4 +1,7 @@
-import config
+try:
+    import user_config as config
+except ImportError:
+    import config as config
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -17,6 +20,7 @@ from utils import (
     filterByIPVType,
 )
 import logging
+import os
 
 logging.basicConfig(
     filename="result_new.log",
@@ -111,8 +115,18 @@ class UpdateSource:
 
     def main(self):
         asyncio.run(self.visitPage(getChannelItems()))
-        updateFile(config.final_file, "result_new.txt")
-        updateFile("result.log", "result_new.log")
+        user_final_file = (
+            "user_" + config.final_file
+            if os.path.exists("user_" + config.source_file)
+            else getattr(config, "final_file", "result.txt")
+        )
+        user_log_file = (
+            "user_result.log"
+            if os.path.exists("user_" + config.source_file)
+            else "result.log"
+        )
+        updateFile(user_final_file, "result_new.txt")
+        updateFile(user_log_file, "result_new.log")
 
 
 UpdateSource().main()

@@ -50,6 +50,10 @@ Customize channel menus, automatically fetch and update the latest live source i
 
 ## Update Log
 
+### 2024/3/25
+
+- Add code anti-overwriting. Users can use user\_ as the file prefix to distinguish unique configurations. This prevents local codes from being overwritten by upstream repository codes, such as user_config.py, user_demo.txt, and user_result.txt, when merging updates
+
 ### 2024/3/21
 
 - Fixed potential tracking failure of updated files, leading to update failure
