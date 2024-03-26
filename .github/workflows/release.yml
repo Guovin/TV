@@ -1,0 +1,53 @@
+name: Release
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - './version.json'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Zip TV directory
+        id: zip_tv
+        run: |
+          zip -r tv.zip /
+
+      - name: Get version and name from version.json
+        id: get_info
+        run: |
+          echo "version=$(node -p "require('./version.json').version")" >> $GITHUB_ENV
+          echo "name=$(node -p "require('./version.json').name")" >> $GITHUB_ENV
+
+      - name: Get changelog
+        id: get_changelog
+        run: |
+          echo "changelog=$(sed -n '/## '${version}'/,/##/p' CHANGELOG.md | head -n -1 | tail -n +2)" >> $GITHUB_ENV
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ env.version }}
+          release_name: v${{ env.version }}
+          body: ${{ env.changelog }}
+          draft: false
+          prerelease: false
+
+      - name: Upload ZIP Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./tv.zip
+          asset_name: ${{ env.name }}.zip
+          asset_content_type: application/zip

@@ -34,53 +34,9 @@ Customize channel menus, automatically fetch and update the latest live source i
 
 For detailed tutorial, please see [Quick Start](./docs/tutorial-EN.md)
 
-## Update Log
+## Changelog
 
-### 2024/3/26
-
-- Add a Quick Start - detailed tutorial
-
-### 2024/3/25
-
-- Add code anti-overwriting. Users can use user\_ as the file prefix to distinguish unique configurations. This prevents local codes from being overwritten by upstream repository codes, such as user_config.py, user_demo.txt, and user_result.txt, when merging updates
-
-### 2024/3/21
-
-- Fixed potential tracking failure of updated files, leading to update failure
-- Adjusted the default recent update retrieval time to 30 days
-- Optimized the recent update interface filter, when the number of interfaces is insufficient after filtering, other time range available interfaces will be used for supplementation
-- Optimized the matching problem of Zhujiang and CCTV channels
-- Removed push real-time trigger update
-
-### 2024/3/18
-
-- Added configuration item: ipv_type, used to filter ipv4, ipv6 interface types
-- Optimized file update logic to prevent file loss caused by update failure
-- Adjusted the default value for pagination: fetch 6 pages for followed channels, 4 pages for regular channels, to improve update speed
-- Added output of interface log file result.log
-- Fixed weight sorting anomaly
-
-### 2024/3/15
-
-- Optimize code structure
-- Added interface logs to record detailed quality indicators
-- Added manual workflows to trigger updates
-
-### 2024/3/13
-
-- Added configuration item: recent_days, a filter to get the most recently updated interfaces, default to the last 60 days
-- Adjusted default values: fetch 8 pages for followed channels, 5 pages for regular channels
-
-### 2024/3/6
-
-- Update file proxy description
-
-### 2024/3/4
-
-- Added configuration items: response time and resolution weight values
-- Removed configuration items: whether to filter invalid interfaces, always perform filtering
-- Removed sorting by date, using response time and resolution as sorting rules
-- Updated README: added modification update frequency, file proxy description, update log
+[Changelog](./CHANGELOG.md)
 
 ## Disclaimer
 
