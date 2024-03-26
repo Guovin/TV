@@ -1,0 +1,150 @@
+# Tutorial
+
+[中文](./tutorial.md) | English
+
+## Step 1: Fork this Repository
+
+Copy the source code of this repository to your personal account repository
+
+### 1. Click Fork on the homepage:
+
+![Fork Entrance](./images/fork-btn.png 'Fork Entrance')
+
+### 2. Fork to create a personal repository:
+
+![Fork Details](./images/fork-detail.png 'Fork Details')
+
+1. Name your personal repository, you can name it whatever you like (the final live source result link depends on this name), here we use default TV as an example.
+2. After confirming the information is correct, click to confirm and create.
+
+## Step 2: Modify the Template
+
+When you click to confirm and create in step one, you will be automatically redirected to your personal repository. At this point, your personal repository is created, and you can customize your personal live source channel menu!
+
+### 1. Click on the demo.txt template file:
+
+![demo.txt Entrance](./images/demo-btn.png 'demo.txt Entrance')
+
+### 2. Create a personal template user_demo.txt:
+
+![Create user_demo.txt](./images/edit-user-demo.png 'Create user_demo.txt')
+
+1. Create file
+2. Name the template file user_demo.txt
+3. The template file needs to be written in the format of (channel category, #genre#), (channel name, channel interface), note that it is an English comma.
+4. Click Commit changes... to save.
+
+## Step 3: Modify the Configuration
+
+Similar to editing the template, modify the running configuration
+
+### 1. Click on the config.py configuration file:
+
+![config.py Entrance](./images/config-btn.png 'config.py Entrance')
+
+### 2. Copy the default configuration file content:
+
+![Copy config.py](./images/copy-config.png 'Copy default template')
+
+### 3. Create a personal configuration file user_config.py:
+
+![Create user_config.py](./images/edit-user-config.png 'Create user_config.py')
+
+1. Create file
+2. Name the configuration file user_config.txt
+3. Paste the default template, modify source_file = "user_demo.txt"; final_file = "user_result.txt"
+4. Click Commit changes... to save.
+
+Adjust the configuration as needed. Below is the default configuration explanation:
+
+| Configuration Item   | Default Value      | Description                                                                                                        |
+| -------------------- | ------------------ | ------------------------------------------------------------------------------------------------------------------ |
+| source_file          | "demo.txt"         | Template file name                                                                                                 |
+| final_file           | "result.txt"       | Generated file name                                                                                                |
+| favorite_list        | ["CCTV1","CCTV13"] | List of favorite channel names (used only to distinguish from regular channels, custom page retrieval quantity)    |
+| favorite_page_num    | 6                  | Page retrieval quantity for favorite channels                                                                      |
+| default_page_num     | 4                  | Page retrieval quantity for regular channels                                                                       |
+| urls_limit           | 15                 | Number of interfaces per channel                                                                                   |
+| response_time_weight | 0.5                | Response time weight value (the sum of all weight values should be 1)                                              |
+| resolution_weight    | 0.5                | Resolution weight value (the sum of all weight values should be 1)                                                 |
+| recent_days          | 30                 | Retrieve interfaces updated within a recent time range (in days), reducing appropriately can avoid matching issues |
+| ipv_type             | "ipv4"             | The type of interface in the generated result, optional values: "ipv4", "ipv6", "all"                              |
+
+## Step 4: Enable Auto-update
+
+If your template and configuration modifications are correct, you can configure Actions to achieve automatic updates
+
+### 1. Enter Actions:
+
+![Actions Entrance](./images/actions-btn.png 'Actions Entrance')
+
+### 2. Enable Actions workflow:
+
+![Enable Actions workflow](./images/actions-enable.png 'Enable Actions workflow')
+Since the Actions workflow of the forked repository is disabled by default, you need to manually enable it by clicking the button in the red box to confirm.
+
+![Actions workflow enabled successfully](./images/actions-home.png 'Actions workflow enabled successfully')
+After successful activation, you can see that there are no workflows running at the moment. Don't worry, let's start running your first update workflow below.
+
+### 3. Run the update workflow:
+
+#### (1) Enable update schedule:
+
+![Enable Workflows update](./images/workflows-btn.png 'Enable Workflows update')
+
+1. Click on update schedule under the Workflows category.
+2. Since the workflow of the forked repository is disabled by default, click the Enable workflow button to confirm the activation.
+
+#### (2) Run the Workflow based on branches:
+
+![Run Workflow](./images/workflows-run.png 'Run Workflow')
+Now you can run the update workflow.
+
+1. Click Run workflow.
+2. Here you can switch to the branch you want to run. Since the fork defaults to the master branch, if the template and configuration you modified are also in the master branch, just choose master here, and click Run workflow to confirm the run.
+
+#### (3) Workflow in progress:
+
+![Workflow in progress](./images/workflow-running.png 'Workflow in progress')
+Wait a moment, and you will see that your first update workflow is running!
+(Note: The running time depends on the number of channels and pages in your template and other configurations, and also largely depends on the current network conditions. Please be patient. The default template and configuration usually take about 25 minutes.)
+
+#### (4) Cancel the running Workflow:
+
+![Cancel running Workflow](./images/workflow-cancel.png 'Cancel running Workflow')
+If you feel that this update is not quite right and you need to modify the template or configuration before running again, you can click Cancel run to cancel this run.
+
+#### (5) Workflow executed successfully:
+
+![Workflow executed successfully](./images/workflow-success.png 'Workflow executed successfully')
+If everything is normal, after a short wait, you will see that the workflow has been executed successfully (green check mark). At this point, you can visit the proxy file link to see if the latest results have been synchronized:
+![Username and Repository Name](./images/rep-info.png 'Username and Repository Name')
+https://mirror.ghproxy.com/raw.githubusercontent.com/your github username/repository name (corresponding to the TV created when forking)/master/user_result.txt
+
+If you can access this link and it returns the updated interface content, then your live source interface link has been successfully created! Simply copy and paste this link into software like TVBox in the configuration field to use~
+
+- Note: Except for the first execution of the workflow, which requires you to manually trigger it, subsequent executions (default every 12 hours) will be automatically triggered. If you have modified the template or configuration files and want to execute the update immediately, you can manually trigger (2) Run workflow.
+
+## Step 5: Modify Workflow Update Frequency
+
+![.github/workflows/main.yml](./images/schedule-cron.png '.github/workflows/main.yml')
+If you want to modify the update frequency (default 12 hours), you can modify the on:schedule:- cron field. It is not recommended to update the frequency too high, as there is no difference in interfaces in a short period.
+
+## Step 6: Update the Source Code
+
+Since this project will continue to iterate and improve, if you want to get the latest updates, you can do the following:
+
+### 1. Star
+
+Click on the star button at the homepage of my repository to favorite this project (Your star is the motivation for me to keep updating).
+![Star](./images/star.png 'Star')
+
+### 2. Watch
+
+Follow this project to be notified by email about the latest updates and release logs through releases.
+![Watch-activity](./images/watch-activity.png 'Watch All Activity')
+
+### 3. Sync fork
+
+Return to the homepage of your repository. If there are updates to the project, click on "Sync fork" and then "Update branch" to confirm and update to the latest code.
+![Sync-fork](./images/sync-fork.png 'Sync fork')
