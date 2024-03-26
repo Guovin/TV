@@ -14,11 +14,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Zip TV directory
-        id: zip_tv
-        run: |
-          zip -r tv.zip .
-
       - name: Get version and name from version.json
         id: get_info
         run: |
@@ -28,7 +23,7 @@ jobs:
       - name: Get changelog
         id: get_changelog
         run: |
-          echo "changelog=$(sed -n '/## '${version}'/,/##/p' CHANGELOG.md | head -n -1 | tail -n +2)" >> $GITHUB_ENV
+          echo "changelog=$(sed -n -e '/## '${version} -e '/##/p' CHANGELOG.md | sed '1d;$d')" >> $GITHUB_ENV
 
       - name: Create Release
         id: create_release
@@ -41,13 +36,3 @@ jobs:
           body: ${{ env.changelog }}
           draft: false
           prerelease: false
-
-      - name: Upload ZIP Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./tv.zip
-          asset_name: ${{ env.name }}.zip
-          asset_content_type: application/zip
