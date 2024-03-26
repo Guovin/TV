@@ -15,40 +15,30 @@
 - 保证更新时效性，配置获取最近时间范围内更新的接口
 - 可过滤 ipv4、ipv6 接口
 
-## 使用方法
+## 配置
 
-1. Fork 此项目，开启 Action 工作流可读写权限：
+| 配置项               | 默认值             | 描述                                                               |
+| -------------------- | ------------------ | ------------------------------------------------------------------ |
+| source_file          | "demo.txt"         | 模板文件名称                                                       |
+| final_file           | "result.txt"       | 生成文件名称                                                       |
+| favorite_list        | ["CCTV1","CCTV13"] | 关注频道名称列表（仅用于与常规频道区分，自定义获取分页数量）       |
+| favorite_page_num    | 6                  | 关注频道获取分页数量                                               |
+| default_page_num     | 4                  | 常规频道获取分页数量                                               |
+| urls_limit           | 15                 | 单个频道接口数量                                                   |
+| response_time_weight | 0.5                | 响应时间权重值（所有权重值总和应为 1）                             |
+| resolution_weight    | 0.5                | 分辨率权重值 （所有权重值总和应为 1）                              |
+| recent_days          | 30                 | 获取最近时间范围内更新的接口（单位天），适当减小可避免出现匹配问题 |
+| ipv_type             | "ipv4"             | 生成结果中接口的类型，可选值："ipv4"、"ipv6"、"all"                |
 
-   - Settings → Actions → General → Workflow permissions → Read and write permissions → Save
+## 快速上手
 
-2. 修改 demo.txt 模板文件，修改成您想要的频道分类与频道顺序，后续更新根据此文件内容进行更新。
-3. 修改配置（可选）：
-
-   #### config.py：
-
-   | 配置项               | 默认值             | 描述                                                               |
-   | -------------------- | ------------------ | ------------------------------------------------------------------ |
-   | source_file          | "demo.txt"         | 模板文件名称                                                       |
-   | final_file           | "result.txt"       | 生成文件名称                                                       |
-   | favorite_list        | ["CCTV1","CCTV13"] | 关注频道名称列表（仅用于与常规频道区分，自定义获取分页数量）       |
-   | favorite_page_num    | 6                  | 关注频道获取分页数量                                               |
-   | default_page_num     | 4                  | 常规频道获取分页数量                                               |
-   | urls_limit           | 15                 | 单个频道接口数量                                                   |
-   | response_time_weight | 0.5                | 响应时间权重值（所有权重值总和应为 1）                             |
-   | resolution_weight    | 0.5                | 分辨率权重值 （所有权重值总和应为 1）                              |
-   | recent_days          | 30                 | 获取最近时间范围内更新的接口（单位天），适当减小可避免出现匹配问题 |
-   | ipv_type             | "ipv4"             | 生成结果中接口的类型，可选值："ipv4"、"ipv6"、"all"                |
-
-   #### .github/workflows/main.yml：
-
-   - 如果您想修改更新频率（默认 12 小时），可修改 on:schedule:- cron 字段
-
-4. result.txt 为更新后的直播源接口文件，source.json 为数据源文件（目前仅作分享使用）
-5. 建议采用代理的方式访问直播源与数据源文件：
-   - https://mirror.ghproxy.com/raw.githubusercontent.com/用户名/仓库名称/master/result.txt
-   - https://mirror.ghproxy.com/raw.githubusercontent.com/用户名/仓库名称/master/source.json
+有关详细教程，请查看[快速上手](./docs/tutorial.md)
 
 ## 更新日志
+
+### 2024/3/26
+
+- 新增快速上手-详细教程
 
 ### 2024/3/25
 
