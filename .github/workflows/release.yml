@@ -17,7 +17,7 @@ jobs:
       - name: Zip TV directory
         id: zip_tv
         run: |
-          zip -r tv.zip /
+          zip -r tv.zip TV/
 
       - name: Get version and name from version.json
         id: get_info
