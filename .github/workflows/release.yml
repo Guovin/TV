@@ -14,16 +14,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Get version and name from version.json
+      - name: Get version from version.json
         id: get_info
         run: |
           echo "version=$(node -p "require('./version.json').version")" >> $GITHUB_ENV
-          echo "name=$(node -p "require('./version.json').name")" >> $GITHUB_ENV
 
       - name: Get changelog
         id: get_changelog
         run: |
-          echo "changelog=$(sed -n -e '/## '${version} -e '/##/p' CHANGELOG.md | sed '1d;$d')" >> $GITHUB_ENV
+          echo "changelog=$(sed -n '/## '${version}'/,/##/p' CHANGELOG.md | head -n -1 | tail -n +2)" >> $GITHUB_ENV
 
       - name: Create Release
         id: create_release
