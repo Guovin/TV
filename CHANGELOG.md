@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.0.0
+## v1.0.0
 
 ### 2024/3/26
 
@@ -96,7 +96,7 @@
 - Removed sorting by date, using response time and resolution as sorting rules
 - Updated README: added modification update frequency, file proxy description, update log
 
-## 1.0.1
+## v1.0.1
 
 ### 2024/3/27
 
