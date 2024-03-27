@@ -24,7 +24,7 @@ jobs:
       - name: Get changelog
         id: get_changelog
         run: |
-          echo "changelog=$(sed -n '/## v'${version}'/,/## v[0-9]\.[0-9]\.[0-9]\|^$/p' CHANGELOG.md)" >> $GITHUB_ENV
+          echo "changelog=$(awk -v ver="^## v${{env.version}}$" '/^## v/{if(p && $0 !~ ver) exit; p=1} p' CHANGELOG.md)" >> $GITHUB_ENV
 
       - name: Print Changelog
         id: print_changelog
