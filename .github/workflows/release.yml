@@ -24,7 +24,7 @@ jobs:
       - name: Get changelog
         id: get_changelog
         run: |
-          current_version="${{ env.version }}"
+          current_version="v${{ env.version }}"
           if grep -q "^## $current_version$" CHANGELOG.md; then
               changelog=$(awk -v ver="^## $current_version$" '/^##/{if(p && $0 !~ ver) exit; p=1} p' CHANGELOG.md)
           else
