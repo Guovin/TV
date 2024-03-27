@@ -24,11 +24,12 @@ jobs:
       - name: Get changelog
         id: get_changelog
         run: |
-          if grep -q "^## $env.version$" CHANGELOG.md; then
-              changelog=$(awk -v ver="^## $env.version$" '/^##/{if(p && $0 !~ ver) exit; p=1} p' CHANGELOG.md)
+          current_version="${{ env.version }}"
+          if grep -q "^## $current_version$" CHANGELOG.md; then
+              changelog=$(awk -v ver="^## $current_version$" '/^##/{if(p && $0 !~ ver) exit; p=1} p' CHANGELOG.md)
           else
-              start_line=$(grep -n "^## $env.version$" CHANGELOG.md | cut -d ':' -f 1)
-              next_version_line=$(grep -n "^## v" CHANGELOG.md | grep -A 1 "^$env.version$" | tail -n 1 | cut -d ':' -f 1)
+              start_line=$(grep -n "^## $current_version$" CHANGELOG.md | cut -d ':' -f 1)
+              next_version_line=$(grep -n "^## v" CHANGELOG.md | grep -A 1 "^$current_version$" | tail -n 1 | cut -d ':' -f 1)
               if [ -z "$next_version_line" ]; then
                   changelog=$(tail -n +$start_line CHANGELOG.md)
               else
