@@ -95,3 +95,19 @@
 - Removed configuration items: whether to filter invalid interfaces, always perform filtering
 - Removed sorting by date, using response time and resolution as sorting rules
 - Updated README: added modification update frequency, file proxy description, update log
+
+## 1.0.1
+
+### 2024/3/27
+
+- test
+
+---
+
+-test
+
+### 2024/3/28
+
+## -test
+
+-test
