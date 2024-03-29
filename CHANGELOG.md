@@ -2,6 +2,14 @@
 
 ## v1.0.0
 
+### 2024/3/29
+
+- 修复用户专属配置更新结果失败
+
+---
+
+- Fixed user specific configuration update failure
+
 ### 2024/3/26
 
 - 新增快速上手-详细教程
@@ -95,19 +103,3 @@
 - Removed configuration items: whether to filter invalid interfaces, always perform filtering
 - Removed sorting by date, using response time and resolution as sorting rules
 - Updated README: added modification update frequency, file proxy description, update log
-
-## v1.0.1
-
-### 2024/3/27
-
-- test
-
----
-
--test
-
-### 2024/3/28
-
-#### -test
-
--test
