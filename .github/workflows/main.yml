@@ -54,7 +54,8 @@ jobs:
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git diff
-          if [[ -f ${{ steps.set_final_file_name.outputs.final_file }} ]]; then
+          file="${{ steps.set_final_file_name.outputs.final_file }}"
+          if [[ -f "$file" ]]; then
             git add ${{ steps.set_final_file_name.outputs.final_file }}
           fi
           if [[ -f user_result.log ]]; then
