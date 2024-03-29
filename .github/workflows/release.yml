@@ -24,19 +24,7 @@ jobs:
       - name: Get changelog
         id: get_changelog
         run: |
-          current_version="v${{ env.version }}"
-          if grep -q "^## $current_version$" CHANGELOG.md; then
-              changelog=$(awk -v ver="^## $current_version$" 'BEGIN {RS="^## v"; FS="\n"} $0 ~ ver {print substr($0, index($0,"\n")+1)}' CHANGELOG.md)
-          else
-              start_line=$(grep -n "^## $current_version$" CHANGELOG.md | cut -d ':' -f 1)
-              next_version_line=$(grep -n "^## v" CHANGELOG.md | grep -A 1 "^$current_version$" | tail -n 1 | cut -d ':' -f 1)
-              if [ -z "$next_version_line" ]; then
-                  changelog=$(tail -n +$((start_line + 1)) CHANGELOG.md)
-              else
-                  changelog=$(sed -n "$(($start_line + 1)),$(($next_version_line - 1))p" CHANGELOG.md)
-              fi
-          fi
-          printf "changelog='%s'" "$changelog" >> $GITHUB_ENV
+          echo "changelog=$(sed -n '/## v'${version}'/,/^## v/p' CHANGELOG.md | sed '/^## v'${version}'/d' | head -n -1)" >> $GITHUB_ENV
 
       - name: Print Changelog
         id: print_changelog
