@@ -16,6 +16,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Install jq
+        run: sudo apt-get install jq
+
       - name: Get version from version.json
         id: get_info
         run: |
@@ -24,7 +27,8 @@ jobs:
       - name: Get changelog
         id: get_changelog
         run: |
-          echo "changelog=$(sed -n '/## v'${{ env.version }}'/,/^## v/p' CHANGELOG.md | sed '/^## v'${{ env.version }}'/d' | sed -n '/###/,/^## v/p' | head -n -1)" >> $GITHUB_ENV
+          changelog=$(sed -n '/## v'${{ env.version }}'/,/^## v/p' CHANGELOG.md | sed '/^## v'${{ env.version }}'/d' | sed -n '/###/,/^## v/p' | head -n -1)
+          echo "changelog=$(echo "$changelog" | jq -R -s .)" >> $GITHUB_ENV
 
       - name: Create Release
         id: create_release
@@ -34,6 +38,6 @@ jobs:
         with:
           tag_name: ${{ env.version }}
           release_name: v${{ env.version }}
-          body: ${{ env.changelog }}
+          body: ${{ fromJSON(env.changelog) }}
           draft: false
           prerelease: false
