@@ -24,12 +24,7 @@ jobs:
       - name: Get changelog
         id: get_changelog
         run: |
-          echo "changelog=$(sed -n '/## v'${version}'/,/^## v/p' CHANGELOG.md | sed '/^## v'${version}'/d' | head -n -1)" >> $GITHUB_ENV
-
-      - name: Print Changelog
-        id: print_changelog
-        run: |
-          echo "Changelog: ${{ env.changelog }}"
+          echo "changelog=$(sed -n '/## v'${{ env.version }}'/,/^## v/p' CHANGELOG.md | sed '/^## v'${{ env.version }}'/d' | sed -n '/###/,/^## v/p' | head -n -1)" >> $GITHUB_ENV
 
       - name: Create Release
         id: create_release
