@@ -41,7 +41,7 @@ jobs:
       - name: Set final file name
         id: set_final_file_name
         run: |
-          echo "::set-output name=final_file::$(python -c 'import config; print(config.final_file)')"
+          echo "::set-output name=final_file::$(python -c 'try: import user_config as config; except ImportError: import config; print(config.final_file)')"
 
       - name: Install pipenv
         run: pip3 install --user pipenv
@@ -57,7 +57,9 @@ jobs:
           if [[ -f ${{ steps.set_final_file_name.outputs.final_file }} ]]; then
             git add ${{ steps.set_final_file_name.outputs.final_file }}
           fi
-          if [[ -f result.log ]]; then
+          if [[ -f user_result.log ]]; then
+            git add user_result.log
+          elif [[ -f result.log ]]; then
             git add result.log
           fi
           if ! git diff --staged --quiet; then
