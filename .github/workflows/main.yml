@@ -55,8 +55,11 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git diff
           file="${{ steps.set_final_file_name.outputs.final_file }}"
+          echo $file
+          ls -l
           if [[ -f "$file" ]]; then
             git add ${{ steps.set_final_file_name.outputs.final_file }}
+            echo "File added"
           fi
           if [[ -f user_result.log ]]; then
             git add user_result.log
