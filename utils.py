@@ -1,7 +1,7 @@
 try:
     import user_config as config
 except ImportError:
-    import config
+    import config as config
 import aiohttp
 import asyncio
 import time
