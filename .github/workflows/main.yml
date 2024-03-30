@@ -46,8 +46,12 @@ jobs:
       - name: Set final file name
         id: set_final_file_name
         run: |
-          python -c 'try: import user_config as config; except ImportError: import config; print(config.final_file)'
-          echo "::set-output name=final_file::$(python -c 'try: import user_config as config; except ImportError: import config; print(config.final_file)')"
+          echo "::set-output name=final_file::$(python -c '
+          try: 
+            import user_config as config
+          except ImportError: 
+            import config
+          print(config.final_file)')"
       - name: Commit and push if changed
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
@@ -56,7 +60,6 @@ jobs:
           final_file="${{ steps.set_final_file_name.outputs.final_file }}"
           if [[ -f "$final_file" ]]; then
             git add "$final_file"
-            echo "File added"
           fi
           if [[ -f user_result.log ]]; then
             git add user_result.log

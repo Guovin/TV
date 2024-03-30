@@ -2,13 +2,21 @@
 
 ## v1.0.0
 
+### 2024/3/30
+
+- 修复工作流读取配置与更新文件对比问题
+
+---
+
+- Fix the issue of workflow reading configuration and comparing updated files
+
 ### 2024/3/29
 
 - 修复用户专属配置更新结果失败
 
 ---
 
-- Fixed user specific configuration update failure
+- Fix user specific configuration update failure
 
 ### 2024/3/26
 
