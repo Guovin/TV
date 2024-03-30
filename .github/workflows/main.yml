@@ -37,12 +37,6 @@ jobs:
           export DISPLAY=:99
           chromedriver --url-base=/wd/hub &
           sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 & # optional
-
-      - name: Set final file name
-        id: set_final_file_name
-        run: |
-          echo "::set-output name=final_file::$(python -c 'try: import user_config as config; except ImportError: import config as config; print(config.final_file)')"
-
       - name: Install pipenv
         run: pip3 install --user pipenv
       - name: Install dependecies
@@ -54,9 +48,14 @@ jobs:
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git diff
-          file="${{ steps.set_final_file_name.outputs.final_file }}"
-          if [[ -f "$file" ]]; then
-            git add ${{ steps.set_final_file_name.outputs.final_file }}
+          final_file=$(python -c '
+          try: 
+            import user_config as config
+          except ImportError: 
+            import config
+          print(config.final_file)')
+          if [[ -f "$final_file" ]]; then
+            git add "$final_file"
           fi
           if [[ -f user_result.log ]]; then
             git add user_result.log
