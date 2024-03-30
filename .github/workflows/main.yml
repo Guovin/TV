@@ -41,7 +41,7 @@ jobs:
       - name: Set final file name
         id: set_final_file_name
         run: |
-          echo "::set-output name=final_file::$(python -c 'try: import user_config as config; except ImportError: import config; print(config.final_file)')"
+          echo "::set-output name=final_file::$(python -c 'try: import user_config as config; except ImportError: import config as config; print(config.final_file)')"
 
       - name: Install pipenv
         run: pip3 install --user pipenv
