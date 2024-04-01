@@ -125,8 +125,21 @@ class UpdateSource:
             if os.path.exists("user_" + config.source_file)
             else "result.log"
         )
+        print("Final file:", user_final_file)
+        print("Log file:", user_log_file)
+
+        def print_file_content(file_name):
+            print(f"Content of {file_name}:")
+            with open(file_name, "r") as file:
+                print(file.read())
+
+        print_file_content("result_new.txt")
+        print_file_content("result_new.log")
         updateFile(user_final_file, "result_new.txt")
         updateFile(user_log_file, "result_new.log")
+        print("Updated files successfully!")
+        print_file_content(user_final_file)
+        print_file_content(user_log_file)
 
 
 UpdateSource().main()
