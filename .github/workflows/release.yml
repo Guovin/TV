@@ -4,7 +4,12 @@ on:
     branches:
       - master
     paths:
-      - './version.json'
+      - 'version.json'
+  pull_request:
+    branches:
+      - master
+    paths:
+      - 'version.json'
   workflow_dispatch:
     branches:
       - master
