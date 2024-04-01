@@ -66,22 +66,31 @@ def updateFile(final_file, old_file):
     """
     Update the file
     """
-    if os.path.exists(final_file):
-        os.remove(final_file)
     if os.path.exists(old_file):
-        os.rename(old_file, final_file)
+        os.replace(old_file, final_file)
 
 
 def getUrlInfo(result):
     """
     Get the url, date and resolution
     """
-    m3u8_div = result.find("div", class_="m3u8")
-    url = m3u8_div.text.strip() if m3u8_div else None
-    info_div = m3u8_div.find_next_sibling("div") if m3u8_div else None
-    date = resolution = None
-    if info_div:
-        info_text = info_div.text.strip()
+    url = date = resolution = None
+    tbodies = result.find_all("tbody")
+    for tbody in tbodies:
+        tds = tbody.find_all("td")
+        for td in tds:
+            td_text = td.get_text(strip=True)
+            url_match = re.search(
+                r"http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+",
+                td_text,
+            )
+            if url_match:
+                url = url_match.group()
+                break
+        if url:
+            break
+    info_text = result.find_all("div")[-1].get_text(strip=True)
+    if info_text:
         date, resolution = (
             (info_text.partition(" ")[0] if info_text.partition(" ")[0] else None),
             (

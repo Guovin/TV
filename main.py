@@ -79,9 +79,7 @@ class UpdateSource:
                             if tables_div
                             else []
                         )
-                        if not any(
-                            result.find("div", class_="m3u8") for result in results
-                        ):
+                        if not any(result.find("tbody") for result in results):
                             break
                         for result in results:
                             try:
