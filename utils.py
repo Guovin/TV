@@ -66,10 +66,8 @@ def updateFile(final_file, old_file):
     """
     Update the file
     """
-    if os.path.exists(final_file):
-        os.remove(final_file)
     if os.path.exists(old_file):
-        os.rename(old_file, final_file)
+        os.replace(old_file, final_file)
 
 
 def getUrlInfo(result):
