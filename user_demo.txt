@@ -152,8 +152,14 @@ CGTN阿语,http://livear.cgtn.com/1000a/prog_index.m3u8
 港澳台,#genre#
 凤凰中文,http://play-flive.ifeng.com/live/06OLEGEGM4G.m3u8
 凤凰资讯,http://play-flive.ifeng.com/live/06OLEEWQKN4.m3u8
+凤凰香港,http://[2409:8087:2001:20:2800:0:df6e:eb1d]:80/PLTV/1/224/3221231041/1.m3u8
 香港卫视,http://zhibo.hkstv.tv/livestream/mutfysrq/playlist.m3u8
+无线新闻,http://61.10.2.140/live_freedirect/freehd208_h.live/playlist.m3u8
+有线新闻,http://61.10.2.140/live_freedirect/freehd208_h.live/playlist.m3u8
 有线资讯,http://61.10.2.140/live_freedirect/freehd208_h.live/playlist.m3u8
+翡翠台,https://edge6a.v2h-cdn.com/jade/jade.stream/chunklist.m3u8
+TVBS新闻,http://38.64.72.148/hls/modn/list/4006/chunklist0.m3u8
+TVBS欢乐,http://50.7.238.114:8278/tvbshuanle_twn/playlist.m3u8?ct=19193&tid=MC8C2318787923187879&tsum=394d2b9af3df7846e2cdc60d69dd4219
 TVBS亚洲,http://38.64.72.148:80/hls/modn/list/4005/chunklist1.m3u8
 明珠台,http://qwas.eatuo.com:9901/tsfile/live/1014_1.m3u8?zgangd
 J2,http://198.16.100.90:8278/j2_twn/playlist.m3u8?tid=MFCF3274854132748541&ct=19254&tsum=699466c18aac56202ad1d2843fd21032
@@ -177,13 +183,10 @@ MOMO2台,https://raw.githubusercontent.com/ChiSheng9/iptv/master/TV05.m3u8
 澳门莲花,http://anren.live/HK/BiIOU11uLA.m3u8
 澳门葡语,http://61.244.22.5/ch2/ch2.live/chunklist_w1632175875.m3u8
 澳门资讯,http://61.244.22.5/ch5/info_ch5.live/index.m3u8
-翡翠台,https://edge6a.v2h-cdn.com/jade/jade.stream/chunklist.m3u8
 纬来体育,https://epg.pw/stream/4f18dfe0593db5c686eb64ae8edaf2a9202d4d46bdc9bbde2cee27708e12ea01.m3u8
 爱尔达体育,http://198.16.100.90:8278/eltasport2_twn/playlist.m3u8?tid=MCDC5093685750936857&ct=19225&tsum=592e009b281ea2abc43b21768cb1bec0
 ELEVEN体育,http://50.7.238.114:8278/golfchannel_twn/playlist.m3u8?tid=m43df9270caf7&ct=18335&tsum=3bcc02e810e7073b86bb40d392e95f23
 星河台,http://113.117.74.12:8081/hls/135/index.m3u8
-凤凰香港,http://[2409:8087:2001:20:2800:0:df6e:eb1d]:80/PLTV/1/224/3221231041/1.m3u8
-TVBS新闻,http://38.64.72.148/hls/modn/list/4006/chunklist0.m3u8
-TVBS欢乐,http://50.7.238.114:8278/tvbshuanle_twn/playlist.m3u8?ct=19193&tid=MC8C2318787923187879&tsum=394d2b9af3df7846e2cdc60d69dd4219
+
 
 
