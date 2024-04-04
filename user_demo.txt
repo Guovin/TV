@@ -17,7 +17,9 @@ CCTV14,http://113.57.109.36:9901/tsfile/live/0014_1.m3u8?key=txiptv
 CCTV15,http://gzcbn.ch-cdn.gitv.tv/gitv_escape/G_CCTV-15/G_CCTV-15.m3u8
 CCTV16,http://223.109.210.41/1301-tx.otvstream.otvcloud.com/otv/skcc/live/channel116/index.m3u8
 CCTV17,http://223.109.210.41/4309-tx.otvstream.otvcloud.com/otv/skcc/live/channel90/index.m3u8
+CCTV4k,https://yang-1989.eu.org/live/cctv8k
 CCTV8k,https://yang-1989.eu.org/live/cctv8k
+CCTV音乐,http://111.74.155.231:9901/tsfile/live/0015_1.m3u8?key=txiptv&playlive=0&authid=0
 CCTV世界地理,https://yang-1989.eu.org/live/sjdl
 CCTV兵器科技,https://yang-1989.eu.org/live/bqkj
 CCTV卫生健康,https://yang-1989.eu.org/live/wsjk
@@ -27,11 +29,10 @@ CCTV女性时尚,https://yang-1989.eu.org/live/nxss
 CCTV怀旧剧场,http://121.19.134.48:808/tsfile/live/1035_1.m3u8?key=txiptv&playlive=1&authid=0
 CCTV电视指南,https://yang-1989.eu.org/live/dszn
 CCTV第一剧场,https://yang-1989.eu.org/live/dyjc
-CCTV音乐,http://111.74.155.231:9901/tsfile/live/0015_1.m3u8?key=txiptv&playlive=0&authid=0
 CCTV风云剧场,https://yang-1989.eu.org/live/fyjc
 CCTV风云足球,https://yang-1989.eu.org/live/fyzq
 CCTV风云音乐,https://yang-1989.eu.org/live/fyyy
-CCTV高尔夫网球,https://yang-1989.eu.org/live/gefwq
+CCTV高尔夫球,https://yang-1989.eu.org/live/gefwq
 CGTN,https://yang-1989.eu.org/live/cgtn
 CGTN俄语,http://liveru.cgtn.com/1000r/prog_index.m3u8
 CGTN法语,https://livefr.cgtn.com/1000f/prog_index.m3u8
@@ -40,7 +41,6 @@ CGTN西语,http://livees.cgtn.com/1000e/prog_index.m3u8
 CGTN阿语,http://livear.cgtn.com/1000a/prog_index.m3u8
 
 卫视频道,#genre#
-安多卫视,http://stream.qhbtv.com/adws/sd/live.m3u8
 安徽卫视,http://gzcbn.ch-cdn.gitv.tv/gitv_escape/G_ANHUI-HD-265-8M/G_ANHUI-HD-265-8M.m3u8
 北京卫视,http://gzcbn.ch-cdn.gitv.tv/gitv_escape/G_BEIJING-HD-265-8M/G_BEIJING-HD-265-8M.m3u8
 兵团卫视,http://gzcbn.ch-cdn.gitv.tv/gitv_escape/G_BINGTUAN/G_BINGTUAN.m3u8
@@ -82,11 +82,26 @@ CGTN阿语,http://livear.cgtn.com/1000a/prog_index.m3u8
 云南卫视,http://gzcbn.ch-cdn.gitv.tv/gitv_escape/G_YUNNAN-HQ/G_YUNNAN-HQ.m3u8
 浙江卫视,http://ali-m-l.cztv.com/channels/lantian/channel001/1080p.m3u8
 重庆卫视,http://gzcbn.ch-cdn.gitv.tv/gitv_escape/G_CHONGQING-CQ/G_CHONGQING-CQ.m3u8
+南方卫视,http://219.135.208.218:8083/tsfile/live/1003_1.m3u8?key=txiptv&playlive=1&authid=0
+安多卫视,http://stream.qhbtv.com/adws/sd/live.m3u8
+山东教育,http://gzcbn.ch-cdn.gitv.tv/gitv_escape/G_SDETV/G_SDETV.m3u8
+大湾区卫视,http://www.namewee.xyz/gudou.php?id=1456
 黑龙江卫视,http://gzcbn.ch-cdn.gitv.tv/gitv_escape/G_HEILONGJIANG-HD-265-8M/G_HEILONGJIANG-HD-265-8M.m3u8
 内蒙古卫视,http://gzcbn.ch-cdn.gitv.tv/gitv_escape/G_NEIMENGGU/G_NEIMENGGU.m3u8
-广东南方卫视,http://219.135.208.218:8083/tsfile/live/1003_1.m3u8?key=txiptv&playlive=1&authid=0
-山东教育卫视,http://gzcbn.ch-cdn.gitv.tv/gitv_escape/G_SDETV/G_SDETV.m3u8
-大湾区卫视,http://www.namewee.xyz/gudou.php?id=1456
+
+儿童频道,#genre#
+优漫卡通,http://219.135.208.218:8083/tsfile/live/1007_1.m3u8?key=txiptv&playlive=1&authid=0
+卡酷少儿,http://gzcbn.ch-cdn.gitv.tv/gitv_escape/G_KAKU/G_KAKU.m3u8
+嘉佳卡通,http://222.71.189.186:9901/tsfile/live/1000_1.m3u8?key=txiptv&playlive=1&authid=0
+炫动卡通,http://61.170.164.195:9901/tsfile/live/1008_1.m3u8?key=txiptv&playlive=1&authid=0
+金鹰卡通,http://121.19.134.48:808/tsfile/live/1027_1.m3u8?key=txiptv&playlive=1&authid=0
+广东少儿,http://219.135.208.218:8083/tsfile/live/1006_1.m3u8?key=txiptv&playlive=1&authid=0
+云南少儿,https://epg.pw/stream/0408f1b5711a3f586ae7a6d8bd809950795878c727c614b9822ccb4ba1ccbfa1.m3u8
+浙江少儿,https://ali-m-l.cztv.com/channels/lantian/channel008/1080p.m3u8
+中国教育1,http://121.19.134.190:808/tsfile/live/1035_1.m3u8?key=txiptv&playlive=1&authid=0
+中国教育2,http://121.19.134.190:808/tsfile/live/1038_1.m3u8?key=txiptv&playlive=1&authid=0
+中国教育3,http://121.19.134.190:808/tsfile/live/1038_1.m3u8?key=txiptv&playlive=1&authid=0
+中国教育4,http://121.19.134.190:808/tsfile/live/1039_1.m3u8?key=txiptv&playlive=1&authid=0
 
 广东频道,#genre#
 广东珠江,http://ci.emdoor.tech:8080/touchtv.php?pk=1183
@@ -107,13 +122,7 @@ CGTN阿语,http://livear.cgtn.com/1000a/prog_index.m3u8
 江门综合,http://suixiaobin.dsmynas.net:5666/gudou.php?phone=18998910474&ptoken=SZESNUL4i2PcZZKV1JA9jw%3D%3D&pserialnumber=63eee104cf9602bf&cid=860&id=3712_1500
 江门侨乡生活,http://www.namewee.xyz/gudou.php?id=jiangmenyitao_1500
 江门侨乡生活,http://yzfvip.top:8000/rtp/239.77.0.202:5146
-江门侨乡生活,http://suixiaobin.dsmynas.net:5666/gudou.php?phone=18998910474&ptoken=SZESNUL4i2PcZZKV1JA9jw%3D%3D&pserialnumber=63eee104cf9602bf&cid=860&id=jiangmenyitao_1500
 广东体育,http://www.namewee.xyz/gudou.php?id=1413
-广东体育,https://skype.serv00.net/itouch.php?id=gdty
-广东体育,http://180.97.247.27/4403-tx.otvstream.otvcloud.com/otv/skcc/live/channel34/index.m3u8
-广东体育,http://lhq-cctv.8866.org:18181/tsfile/live/1026_1.m3u8
-广东新闻,http://www.namewee.xyz/gudou.php?id=1454
-广东新闻,http://ci.emdoor.tech:8080/touchtv.php?pk=1186
 广东新闻,http://lhq-cctv.8866.org:18181/tsfile/live/1023_1.m3u8
 广东卫视,http://www.namewee.xyz/gudou.php?id=1401
 广东卫视,http://dbiptv.sn.chinamobile.com/PLTV/88888890/224/3221226216/index.m3u8
@@ -138,8 +147,7 @@ CGTN阿语,http://livear.cgtn.com/1000a/prog_index.m3u8
 珠海,http://www.namewee.xyz/gudou.php?id=zhuhaiHD1_4500
 珠海,http://www.namewee.xyz/gudou.php?id=zhuhaiHD2_4500
 深圳卫视,http://111.193.107.119:4022/rtp/239.3.1.134:8020
-深圳卫视,https://iptv.luas.edu.cn/liverespath/536ebe8b7165b25c8670e42eb8b7b4b6d178f158/a98f61eca9-0-0-c5ea37622772aa5d5e0d8838c68c61d9/index.m3u8
-深圳卫视,https://epg.pw/stream/f71ce2c8d3869cd398598fccaa3ae45c79fc432743b033a33f58b7b2abd51c41.m3u8
+
 
 港澳台,#genre#
 凤凰中文,http://play-flive.ifeng.com/live/06OLEGEGM4G.m3u8
@@ -178,16 +186,4 @@ ELEVEN体育,http://50.7.238.114:8278/golfchannel_twn/playlist.m3u8?tid=m43df927
 TVBS新闻,http://38.64.72.148/hls/modn/list/4006/chunklist0.m3u8
 TVBS欢乐,http://50.7.238.114:8278/tvbshuanle_twn/playlist.m3u8?ct=19193&tid=MC8C2318787923187879&tsum=394d2b9af3df7846e2cdc60d69dd4219
 
-儿童频道,#genre#
-优漫卡通,http://219.135.208.218:8083/tsfile/live/1007_1.m3u8?key=txiptv&playlive=1&authid=0
-卡酷少儿,http://gzcbn.ch-cdn.gitv.tv/gitv_escape/G_KAKU/G_KAKU.m3u8
-嘉佳卡通,http://222.71.189.186:9901/tsfile/live/1000_1.m3u8?key=txiptv&playlive=1&authid=0
-炫动卡通,http://61.170.164.195:9901/tsfile/live/1008_1.m3u8?key=txiptv&playlive=1&authid=0
-金鹰卡通,http://121.19.134.48:808/tsfile/live/1027_1.m3u8?key=txiptv&playlive=1&authid=0
-广东少儿,http://219.135.208.218:8083/tsfile/live/1006_1.m3u8?key=txiptv&playlive=1&authid=0
-云南少儿,https://epg.pw/stream/0408f1b5711a3f586ae7a6d8bd809950795878c727c614b9822ccb4ba1ccbfa1.m3u8
-浙江少儿,https://ali-m-l.cztv.com/channels/lantian/channel008/1080p.m3u8
-中国教育1,http://121.19.134.190:808/tsfile/live/1035_1.m3u8?key=txiptv&playlive=1&authid=0
-中国教育2,http://121.19.134.190:808/tsfile/live/1038_1.m3u8?key=txiptv&playlive=1&authid=0
-中国教育3,http://121.19.134.190:808/tsfile/live/1038_1.m3u8?key=txiptv&playlive=1&authid=0
-中国教育4,http://121.19.134.190:808/tsfile/live/1039_1.m3u8?key=txiptv&playlive=1&authid=0
+
