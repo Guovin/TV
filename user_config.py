@@ -4,8 +4,8 @@ favorite_list = [
     "CCTV1",
     "CCTV2",
     "CCTV3",
-    "CCTV4"，
-    "CCTV5"，
+    "CCTV4",
+    "CCTV5",
     "CCTV6",
     "CCTV7",
     "CCTV8",
@@ -25,5 +25,5 @@ default_page_num = 8
 urls_limit = 15
 response_time_weight = 0.5
 resolution_weight = 0.5
-recent_days = 30
+recent_days = 35
 ipv_type = "ipv4"
