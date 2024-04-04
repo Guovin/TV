@@ -1,5 +1,5 @@
 source_file = "user_demo.txt"
-final_file = "user_result.txt"
+final_file = "mylist.txt"
 favorite_list = [
     "CCTV1",
     "CCTV2",
