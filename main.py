@@ -113,15 +113,9 @@ class UpdateSource:
 
     def main(self):
         asyncio.run(self.visitPage(getChannelItems()))
-        user_final_file = (
-            "user_" + config.final_file
-            if os.path.exists("user_" + config.source_file)
-            else getattr(config, "final_file", "result.txt")
-        )
+        user_final_file = getattr(config, "final_file", "result.txt")
         user_log_file = (
-            "user_result.log"
-            if os.path.exists("user_" + config.source_file)
-            else "result.log"
+            "user_result.log" if os.path.exists("user_config.py") else "result.log"
         )
         updateFile(user_final_file, "result_new.txt")
         updateFile(user_log_file, "result_new.log")
