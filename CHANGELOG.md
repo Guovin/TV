@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.0.2
+
+### 2024/4/5
+
+- 修复用户配置后接口更新结果与日志文件命名问题（Fix the issue of interface update results and log file naming after user configuration）
+
 ## v1.0.1
 
 ### 2024/4/1
