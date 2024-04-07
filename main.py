@@ -16,8 +16,10 @@ from utils import (
     getUrlInfo,
     compareSpeedAndResolution,
     getTotalUrls,
-    filterSortedDataByIPVType,
-    filterByIPVType,
+    checkUrlIPVType,
+    checkByDomainBlacklist,
+    checkByURLKeywordsBlacklist,
+    filterUrlsByPatterns,
 )
 import logging
 import os
@@ -84,7 +86,12 @@ class UpdateSource:
                         for result in results:
                             try:
                                 url, date, resolution = getUrlInfo(result)
-                                if url:
+                                if (
+                                    url
+                                    and checkUrlIPVType(url)
+                                    and checkByDomainBlacklist(url)
+                                    and checkByURLKeywordsBlacklist(url)
+                                ):
                                     infoList.append((url, date, resolution))
                             except Exception as e:
                                 print(f"Error on result {result}: {e}")
@@ -94,17 +101,16 @@ class UpdateSource:
                         continue
                 try:
                     sorted_data = await compareSpeedAndResolution(infoList)
-                    ipvSortedData = filterSortedDataByIPVType(sorted_data)
-                    if ipvSortedData:
+                    if sorted_data:
                         channelUrls[name] = (
-                            getTotalUrls(ipvSortedData) or channelObj[name]
+                            getTotalUrls(sorted_data) or channelObj[name]
                         )
-                        for (url, date, resolution), response_time in ipvSortedData:
+                        for (url, date, resolution), response_time in sorted_data:
                             logging.info(
                                 f"Name: {name}, URL: {url}, Date: {date}, Resolution: {resolution}, Response Time: {response_time}ms"
                             )
                     else:
-                        channelUrls[name] = filterByIPVType(channelObj[name])
+                        channelUrls[name] = filterUrlsByPatterns(channelObj[name])
                 except Exception as e:
                     print(f"Error on sorting: {e}")
                     continue

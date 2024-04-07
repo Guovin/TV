@@ -10,6 +10,7 @@ import datetime
 import os
 import urllib.parse
 import ipaddress
+from urllib.parse import urlparse
 
 # 在这里使用 some_config_variable
 
@@ -215,35 +216,43 @@ def is_ipv6(url):
         return False
 
 
-def filterSortedDataByIPVType(sorted_data):
+def checkUrlIPVType(url):
     """
-    Filter sorted data by ipv type
-    """
-    ipv_type = getattr(config, "ipv_type", "ipv4")
-    if ipv_type == "ipv4":
-        return [
-            ((url, date, resolution), response_time)
-            for (url, date, resolution), response_time in sorted_data
-            if not is_ipv6(url)
-        ]
-    elif ipv_type == "ipv6":
-        return [
-            ((url, date, resolution), response_time)
-            for (url, date, resolution), response_time in sorted_data
-            if is_ipv6(url)
-        ]
-    else:
-        return sorted_data
-
-
-def filterByIPVType(urls):
-    """
-    Filter by ipv type
+    Check if the url is compatible with the ipv type in the config
     """
     ipv_type = getattr(config, "ipv_type", "ipv4")
     if ipv_type == "ipv4":
-        return [url for url in urls if not is_ipv6(url)]
+        return not is_ipv6(url)
     elif ipv_type == "ipv6":
-        return [url for url in urls if is_ipv6(url)]
+        return is_ipv6(url)
     else:
-        return urls
+        return True
+
+
+def checkByDomainBlacklist(url):
+    """
+    Check by domain blacklist
+    """
+    domain_blacklist = [
+        urlparse(domain).netloc if urlparse(domain).scheme else domain
+        for domain in getattr(config, "domain_blacklist", [])
+    ]
+    return urlparse(url).netloc not in domain_blacklist
+
+
+def checkByURLKeywordsBlacklist(url):
+    """
+    Check by URL blacklist keywords
+    """
+    url_keywords_blacklist = getattr(config, "url_keywords_blacklist", [])
+    return not any(keyword in url for keyword in url_keywords_blacklist)
+
+
+def filterUrlsByPatterns(urls):
+    """
+    Filter urls by patterns
+    """
+    urls = [url for url in urls if checkUrlIPVType(url)]
+    urls = [url for url in urls if checkByDomainBlacklist(url)]
+    urls = [url for url in urls if checkByURLKeywordsBlacklist(url)]
+    return urls

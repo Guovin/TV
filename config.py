@@ -22,3 +22,5 @@ response_time_weight = 0.5
 resolution_weight = 0.5
 recent_days = 30
 ipv_type = "ipv4"
+domain_blacklist = ["epg.pw"]
+url_keywords_blacklist = []

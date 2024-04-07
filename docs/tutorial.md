@@ -68,6 +68,8 @@
 | resolution_weight | 0.5 | 分辨率权重值 （所有权重值总和应为 1） |
 | recent_days | 30 | 获取最近时间范围内更新的接口（单位天），适当减小可避免出现匹配问题 |
 | ipv_type | "ipv4" | 生成结果中接口的类型，可选值："ipv4"、"ipv6"、"all" |
+| domain_blacklist | ["epg.pw"] | 接口域名黑名单，用于过滤低质量含广告类域名的接口 |
+| url_keywords_blacklist | [] | 接口关键字黑名单，用于过滤含特定字符的接口 |
 
 ## 步骤四：开启自动更新
 

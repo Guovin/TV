@@ -1,4 +1,12 @@
-# Changelog
+# 更新日志（Changelog）
+
+## v1.0.3
+
+### 2024/4/7
+
+- 新增接口域名黑名单（Add interface domain blacklist）
+- 新增接口关键字黑名单（Add interface keyword blacklist）
+- 调整过滤逻辑执行顺序，提升工作流更新效率（Adjust the execution order of the filtering logic to improve workflow update efficiency）
 
 ## v1.0.2
 
