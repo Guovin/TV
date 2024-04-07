@@ -237,12 +237,12 @@ def checkByDomainBlacklist(url):
     return urlparse(url).netloc not in domain_blacklist
 
 
-def checkByURLBlacklistKeywords(url):
+def checkByURLKeywordsBlacklist(url):
     """
     Check by URL blacklist keywords
     """
-    url_blacklist_keywords = getattr(config, "url_blacklist_keywords", [])
-    return not any(keyword in url for keyword in url_blacklist_keywords)
+    url_keywords_blacklist = getattr(config, "url_keywords_blacklist", [])
+    return not any(keyword in url for keyword in url_keywords_blacklist)
 
 
 def filterUrlsByPatterns(urls):
@@ -251,5 +251,5 @@ def filterUrlsByPatterns(urls):
     """
     urls = [url for url in urls if checkUrlIPVType(url)]
     urls = [url for url in urls if checkByDomainBlacklist(url)]
-    urls = [url for url in urls if checkByURLBlacklistKeywords(url)]
+    urls = [url for url in urls if checkByURLKeywordsBlacklist(url)]
     return urls

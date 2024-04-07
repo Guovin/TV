@@ -23,4 +23,4 @@ resolution_weight = 0.5
 recent_days = 30
 ipv_type = "ipv4"
 domain_blacklist = ["https://epg.pw"]
-url_blacklist_keywords = []
+url_keywords_blacklist = []

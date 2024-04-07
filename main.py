@@ -18,7 +18,7 @@ from utils import (
     getTotalUrls,
     checkUrlIPVType,
     checkByDomainBlacklist,
-    checkByURLBlacklistKeywords,
+    checkByURLKeywordsBlacklist,
     filterUrlsByPatterns,
 )
 import logging
@@ -90,7 +90,7 @@ class UpdateSource:
                                     url
                                     and checkUrlIPVType(url)
                                     and checkByDomainBlacklist(url)
-                                    and checkByURLBlacklistKeywords(url)
+                                    and checkByURLKeywordsBlacklist(url)
                                 ):
                                     infoList.append((url, date, resolution))
                             except Exception as e:

@@ -30,7 +30,7 @@ Customize channel menus, automatically fetch and update the latest live source i
 | recent_days            | 30                 | Retrieve interfaces updated within a recent time range (in days), reducing appropriately can avoid matching issues |
 | ipv_type               | "ipv4"             | The type of interface in the generated result, optional values: "ipv4", "ipv6", "all"                              |
 | domain_blacklist       | ["https://epg.pw"] | Interface domain blacklist, used to filter out interfaces with low-quality, ad-inclusive domains                   |
-| url_blacklist_keywords | []                 | Interface keyword blacklist, used to filter out interfaces containing specific characters                          |
+| url_keywords_blacklist | []                 | Interface keyword blacklist, used to filter out interfaces containing specific characters                          |
 
 ## Quick Start
 
