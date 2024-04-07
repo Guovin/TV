@@ -234,7 +234,8 @@ def checkByDomainBlacklist(url):
     Check by domain blacklist
     """
     domain_blacklist = [
-        urlparse(domain).netloc for domain in getattr(config, "domain_blacklist", [])
+        urlparse(domain).netloc if urlparse(domain).scheme else domain
+        for domain in getattr(config, "domain_blacklist", [])
     ]
     return urlparse(url).netloc not in domain_blacklist
 
