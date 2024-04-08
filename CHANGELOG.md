@@ -1,5 +1,14 @@
 # 更新日志（Changelog）
 
+## v1.0.4
+
+### 2024/4/8
+
+- 更新 Github 使用条款，请务必仔细阅读并遵守（Updated GitHub Terms of Service, please read and comply carefully）
+- 更新使用说明，关于可能导致工作流资源滥用的情况说明（Updated usage instructions, explanation about situations that may lead to workflow resource abuse）
+- 增加.gitignore 文件，忽略用户配置、接口更新结果、日志文件等上传，非代码逻辑修改请不要发起 Pull requests，避免影响他人使用（Added .gitignore file to ignore uploads of user configurations, interface update results, log files, etc. Please do not initiate pull requests for non-code logic modifications to avoid affecting others' use）
+- 调整更新频率，每日 8:00 执行一次（Adjusted update frequency, executes once daily at 8:00）
+
 ## v1.0.3
 
 ### 2024/4/7
