@@ -51,7 +51,7 @@
 ![创建user_config.py](./images/edit-user-config.png '创建user_config.py')
 
 1. 创建文件
-2. 配置文件命名为 user_config.txt
+2. 配置文件命名为 user_config.py
 3. 粘贴默认模板，修改 source_file = "user_demo.txt"；final_file = "user_result.txt"
 4. 点击 Commit changes...进行保存
 
