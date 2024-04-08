@@ -51,7 +51,7 @@ Similar to editing the template, modify the running configuration
 ![Create user_config.py](./images/edit-user-config.png 'Create user_config.py')
 
 1. Create file
-2. Name the configuration file user_config.txt
+2. Name the configuration file user_config.py
 3. Paste the default template, modify source_file = "user_demo.txt"; final_file = "user_result.txt"
 4. Click Commit changes... to save.
 
