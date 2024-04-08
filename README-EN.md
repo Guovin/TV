@@ -9,11 +9,13 @@ Customize channel menus, automatically fetch and update the latest live source i
 - Customize templates to generate the channel categories and order you want
 - Interface validation to filter out invalid interfaces
 - Comprehensive sorting based on response time and resolution
-- Scheduled execution, updates every 12 hours
+- Scheduled execution, updates every day at 8:00 am Beijing time
+- The maximum number of update channels is 200
 - Set up key focus channels and configure the number of pages fetched separately
 - Pagination results retrieval (configurable number of pages and interfaces)
 - Ensure update timeliness, configure to retrieve interfaces updated within a recent time range
 - Can filter ipv4, ipv6 interfaces
+- Blacklist feature: Interface domain and keywords
 
 ## Config
 

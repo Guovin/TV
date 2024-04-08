@@ -31,7 +31,7 @@ When you click to confirm and create in step one, you will be automatically redi
 
 1. Create file
 2. Name the template file user_demo.txt
-3. The template file needs to be written in the format of (channel category, #genre#), (channel name, channel interface), note that it is an English comma.
+3. The template file needs to be written in the format of (channel category, #genre#), (channel name, channel interface), note that it is an English comma. The maximum number of channels is 200, any excess will not be updated.
 4. Click Commit changes... to save.
 
 ## Step 3: Modify the Configuration
@@ -125,12 +125,12 @@ https://mirror.ghproxy.com/raw.githubusercontent.com/your github username/reposi
 
 If you can access this link and it returns the updated interface content, then your live source interface link has been successfully created! Simply copy and paste this link into software like TVBox in the configuration field to use~
 
-- Note: Except for the first execution of the workflow, which requires you to manually trigger it, subsequent executions (default: daily at 8:00) will be automatically triggered. If you have modified the template or configuration files and want to execute the update immediately, you can manually trigger (2) Run workflow.
+- Note: Except for the first execution of the workflow, which requires you to manually trigger it, subsequent executions (default: daily at 8:00 am Beijing time) will be automatically triggered. If you have modified the template or configuration files and want to execute the update immediately, you can manually trigger (2) Run workflow.
 
 ## Step 5: Modify Workflow Update Frequency
 
 ![.github/workflows/main.yml](./images/schedule-cron.png '.github/workflows/main.yml')
-If you want to modify the update frequency (default: daily at 8:00), you can modify the on:schedule:- cron field.
+If you want to modify the update frequency (default: daily at 8:00 am Beijing time), you can modify the on:schedule:- cron field.
 
 - #### It is strongly discouraged to make modifications, as there is no difference in the content of the interface in a short period of time. Both too frequent updates and high-consumption running workflows may be judged as resource abuse, leading to the risk of the repository and account being banned.
 - #### Please pay attention to the runtime of your workflow. If you find that the execution time is too long, you need to appropriately reduce the number of channels in the template, modify the number of pages and interfaces in the configuration, in order to meet the compliant operation requirements.
