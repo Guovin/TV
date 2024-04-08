@@ -3,7 +3,7 @@ final_file = "result.txt"
 favorite_list = [
     
     "CCTV-1",
-    "CCTV-5",
+    "CCTV-4",
     "CCTV-5+",
     "CCTV-13",
 ]
