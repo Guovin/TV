@@ -56,6 +56,14 @@ In any case, the developer and any contributor do not assume any responsibility 
 
 Using the code or data of this project means that you have understood and accepted these terms.
 
+## GitHub Terms of Service
+
+When forking or using this project, you must comply with the [GitHub Terms of Service](https://docs.github.com/en/github/site-policy/github-terms-of-service). This includes, but is not limited to, the prohibition of uploading content that infringes copyright, is illegal, malicious, or violates our terms. Any violation of these provisions may result in the termination of your account. When using this project, please ensure that your behavior complies with these provisions.
+
+If you do not agree to comply with these terms, you should stop using the code and data of this project immediately.
+
+The use of the code or data of this project means that you have understood and accepted these terms.
+
 ## License
 
 [MIT](./LICENSE) License &copy; 2024-PRESENT [Govin](https://github.com/guovin)

@@ -129,7 +129,10 @@ https://mirror.ghproxy.com/raw.githubusercontent.com/您的github用户名/仓�
 ## 步骤五：修改工作流更新频率
 
 ![.github/workflows/main.yml](./images/schedule-cron.png '.github/workflows/main.yml')
-如果您想修改更新频率（默认 12 小时），可修改 on:schedule:- cron 字段。不建议更新频率过高，因为短时间内的接口并无差异。
+如果您想修改更新频率（默认 12 小时），可修改 on:schedule:- cron 字段。
+
+- #### 强烈不建议修改，因为短时间内的接口内容并无差异，过高的更新频率与高耗时运行的工作流都有可能被判定为资源滥用，导致仓库与账户被封禁的风险。
+- #### 请留意您的工作流运行时长，若发现执行时间过长，需要适当删减模板中频道数量、修改配置中的分页数量和接口数量，以达到合规的运行要求。
 
 ## 步骤六：更新源代码
 

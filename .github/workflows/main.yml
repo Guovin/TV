@@ -55,12 +55,12 @@ jobs:
             import config
           print(config.final_file)')
           if [[ -f "$final_file" ]]; then
-            git add "$final_file"
+            git add -f "$final_file"
           fi
           if [[ -f user_result.log ]]; then
-            git add user_result.log
+            git add -f user_result.log
           elif [[ -f result.log ]]; then
-            git add result.log
+            git add -f result.log
           fi
           if ! git diff --staged --quiet; then
             git commit -m "Github Action Auto Updated"

@@ -1,0 +1,7 @@
+*.log
+user_*.txt
+user_*.py
+config.py
+demo.txt
+result.txt
+source.json

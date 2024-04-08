@@ -130,7 +130,10 @@ If you can access this link and it returns the updated interface content, then y
 ## Step 5: Modify Workflow Update Frequency
 
 ![.github/workflows/main.yml](./images/schedule-cron.png '.github/workflows/main.yml')
-If you want to modify the update frequency (default 12 hours), you can modify the on:schedule:- cron field. It is not recommended to update the frequency too high, as there is no difference in interfaces in a short period.
+If you want to modify the update frequency (default 12 hours), you can modify the on:schedule:- cron field.
+
+- #### It is strongly discouraged to make modifications, as there is no difference in the content of the interface in a short period of time. Both too frequent updates and high-consumption running workflows may be judged as resource abuse, leading to the risk of the repository and account being banned.
+- #### Please pay attention to the runtime of your workflow. If you find that the execution time is too long, you need to appropriately reduce the number of channels in the template, modify the number of pages and interfaces in the configuration, in order to meet the compliant operation requirements.
 
 ## Step 6: Update the Source Code
 

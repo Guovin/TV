@@ -56,6 +56,14 @@
 
 使用本项目的代码或数据即表示您已经了解并接受这些条款。
 
+## GitHub 使用条款
+
+在 Fork 或使用本项目时，您必须遵守[GitHub 使用条款](https://docs.github.com/cn/github/site-policy/github-terms-of-service)。这包括但不限于禁止上传违规内容，包括侵犯版权、非法、恶意或违反条款中的内容。任何违反这些规定的行为都可能导致您的账户被封禁。在使用本项目时，请确保您的行为符合这些规定。
+
+如果您不同意遵守这些条款，您应立即停止使用本项目的代码和数据。
+
+使用本项目的代码或数据即表示您已经了解并接受这些条款。
+
 ## 许可证
 
 [MIT](./LICENSE) License &copy; 2024-PRESENT [Govin](https://github.com/guovin)
