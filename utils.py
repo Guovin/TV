@@ -12,8 +12,6 @@ import urllib.parse
 import ipaddress
 from urllib.parse import urlparse
 
-# 在这里使用 some_config_variable
-
 
 def getChannelItems():
     """
@@ -30,23 +28,28 @@ def getChannelItems():
 
     # Create a dictionary to store the channels.
     channels = {}
-    current_channel = ""
+    current_category = ""
     pattern = r"^(.*?),(?!#genre#)(.*?)$"
+    total_channels = 0
+    max_channels = 200
 
     for line in lines:
+        if total_channels >= max_channels:
+            break
         line = line.strip()
         if "#genre#" in line:
             # This is a new channel, create a new key in the dictionary.
-            current_channel = line.split(",")[0]
-            channels[current_channel] = {}
+            current_category = line.split(",")[0]
+            channels[current_category] = {}
         else:
             # This is a url, add it to the list of urls for the current channel.
             match = re.search(pattern, line)
             if match:
-                if match.group(1) not in channels[current_channel]:
-                    channels[current_channel][match.group(1)] = [match.group(2)]
+                if match.group(1) not in channels[current_category]:
+                    channels[current_category][match.group(1)] = [match.group(2)]
+                    total_channels += 1
                 else:
-                    channels[current_channel][match.group(1)].append(match.group(2))
+                    channels[current_category][match.group(1)].append(match.group(2))
     return channels
 
 
