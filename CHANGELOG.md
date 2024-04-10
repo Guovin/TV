@@ -1,5 +1,13 @@
 # 更新日志（Changelog）
 
+## v1.0.5
+
+### 2024/4/10
+
+- 移除工作流更新，鉴于有少数人反馈工作流甚至账号被封禁的情况，安全起见，只能暂时移除工作流更新机制，后续将增加其它平台部署方案（Removed workflow updates, in view of the feedback from a few people that their workflows and even accounts have been banned, for safety reasons, the workflow update mechanism can only be temporarily removed, and other platform deployment plans will be added in the future）
+- 新增本地更新，同时移除更新频道个数限制，具体使用方法请见快速上手（Added local updates and removed the limit on the number of channel updates. For specific usage, please see the quick start guide）
+- 适配提供方接口位置变更（Adapted to the change of the provider's interface location）
+
 ## v1.0.4
 
 ### 2024/4/8

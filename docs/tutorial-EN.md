@@ -72,7 +72,56 @@ Adjust the configuration as needed. Below is the default configuration explanati
 | domain_blacklist       | ["epg.pw"]         | Interface domain blacklist, used to filter out interfaces with low-quality, ad-inclusive domains                   |
 | url_keywords_blacklist | []                 | Interface keyword blacklist, used to filter out interfaces containing specific characters                          |
 
-## Step 4: Enable Auto-update
+## Step 4: Run Updates Locally
+
+### 1. Install Python
+
+Please download and install Python from the official website.
+
+### 2. Run the Update
+
+Run the following commands in the terminal under the project directory:
+
+```python
+pip3 install pipenv
+pipenv install
+pipenv run build
+```
+
+### 3. Update the File to the Repository
+
+After the interface update is completed, upload the user_result.txt to your personal repository to complete the update.
+![Username and Repository Name](./images/rep-info.png 'Username and Repository Name')
+https://mirror.ghproxy.com/raw.githubusercontent.com/your github username/repository name (corresponding to the TV created when forking)/master/user_result.txt
+
+## Step 5: Update the Source Code
+
+Since this project will continue to iterate and improve, if you want to get the latest updates, you can do the following:
+
+### 1. Star
+
+Click on the star button at the homepage of my repository to favorite this project (Your star is the motivation for me to keep updating).
+![Star](./images/star.png 'Star')
+
+### 2. Watch
+
+Follow this project to be notified by email about the latest updates and release logs through releases.
+![Watch-activity](./images/watch-activity.png 'Watch All Activity')
+
+### 3. Sync fork
+
+Return to the homepage of your repository. If there are updates to the project, click on "Sync fork" and then "Update branch" to confirm and update to the latest code.
+![Sync-fork](./images/sync-fork.png 'Sync fork')
+
+<center>
+
+## The following content is deprecated
+
+</center>
+
+<s>
+
+## Step 6: Enable Auto-update
 
 If your template and configuration modifications are correct, you can configure Actions to achieve automatic updates
 
@@ -127,7 +176,7 @@ If you can access this link and it returns the updated interface content, then y
 
 - Note: Except for the first execution of the workflow, which requires you to manually trigger it, subsequent executions (default: daily at 8:00 am Beijing time) will be automatically triggered. If you have modified the template or configuration files and want to execute the update immediately, you can manually trigger (2) Run workflow.
 
-## Step 5: Modify Workflow Update Frequency
+## Step 7: Modify Workflow Update Frequency
 
 ![.github/workflows/main.yml](./images/schedule-cron.png '.github/workflows/main.yml')
 If you want to modify the update frequency (default: daily at 8:00 am Beijing time), you can modify the on:schedule:- cron field.
@@ -135,21 +184,4 @@ If you want to modify the update frequency (default: daily at 8:00 am Beijing ti
 - #### It is strongly discouraged to make modifications, as there is no difference in the content of the interface in a short period of time. Both too frequent updates and high-consumption running workflows may be judged as resource abuse, leading to the risk of the repository and account being banned.
 - #### Please pay attention to the runtime of your workflow. If you find that the execution time is too long, you need to appropriately reduce the number of channels in the template, modify the number of pages and interfaces in the configuration, in order to meet the compliant operation requirements.
 
-## Step 6: Update the Source Code
-
-Since this project will continue to iterate and improve, if you want to get the latest updates, you can do the following:
-
-### 1. Star
-
-Click on the star button at the homepage of my repository to favorite this project (Your star is the motivation for me to keep updating).
-![Star](./images/star.png 'Star')
-
-### 2. Watch
-
-Follow this project to be notified by email about the latest updates and release logs through releases.
-![Watch-activity](./images/watch-activity.png 'Watch All Activity')
-
-### 3. Sync fork
-
-Return to the homepage of your repository. If there are updates to the project, click on "Sync fork" and then "Update branch" to confirm and update to the latest code.
-![Sync-fork](./images/sync-fork.png 'Sync fork')
+</s>
