@@ -71,7 +71,56 @@
 | domain_blacklist | ["epg.pw"] | 接口域名黑名单，用于过滤低质量含广告类域名的接口 |
 | url_keywords_blacklist | [] | 接口关键字黑名单，用于过滤含特定字符的接口 |
 
-## 步骤四：开启自动更新
+## 步骤四：本地运行更新
+
+### 1. 安装 Python
+
+请至官方下载并安装 Python
+
+### 2. 运行更新
+
+项目目录下终端运行以下命令：
+
+```python
+pip3 install pipenv
+pipenv install
+pipenv run build
+```
+
+### 3. 更新文件至仓库
+
+接口更新完成后，将 user_result.txt 上传至个人仓库，即可完成更新
+![用户名与仓库名称](./images/rep-info.png '用户名与仓库名称')
+https://mirror.ghproxy.com/raw.githubusercontent.com/您的github用户名/仓库名称（对应上述Fork创建时的TV）/master/user_result.txt
+
+## 步骤五：更新源代码
+
+由于本项目将持续迭代优化，如果您想获取最新的更新内容，可进行如下操作
+
+### 1. Star
+
+在我的仓库首页点击收藏该项目（您的 Star 是我持续更新的动力）
+![Star](./images/star.png 'Star')
+
+### 2. Watch
+
+关注该项目，后续更新日志将以 releases 发布，届时您将收到邮件通知
+![Watch-activity](./images/watch-activity.png 'Watch All Activity')
+
+### 3. Sync fork
+
+回到您的仓库首页，如果项目有更新内容，点击 Sync fork，Update branch 确认即可更新最新代码
+![Sync-fork](./images/sync-fork.png 'Sync fork')
+
+<center>
+
+## 以下内容已废弃
+
+</center>
+
+<s>
+
+## 步骤六：开启自动更新
 
 如果您的模板和配置修改没有问题的话，这时就可以配置 Actions 来实现自动更新啦
 
@@ -126,7 +175,7 @@ https://mirror.ghproxy.com/raw.githubusercontent.com/您的github用户名/仓�
 
 - 注意：除了首次执行工作流需要您手动触发，后续执行（默认北京时间每日 8:00）将自动触发。如果您修改了模板或配置文件想立刻执行更新，可手动触发（2）中的 Run workflow 即可。
 
-## 步骤五：修改工作流更新频率
+## 步骤七：修改工作流更新频率
 
 ![.github/workflows/main.yml](./images/schedule-cron.png '.github/workflows/main.yml')
 如果您想修改更新频率（默认北京时间每日 8:00），可修改 on:schedule:- cron 字段。
@@ -134,21 +183,4 @@ https://mirror.ghproxy.com/raw.githubusercontent.com/您的github用户名/仓�
 - #### 强烈不建议修改，因为短时间内的接口内容并无差异，过高的更新频率与高耗时运行的工作流都有可能被判定为资源滥用，导致仓库与账户被封禁的风险。
 - #### 请留意您的工作流运行时长，若发现执行时间过长，需要适当删减模板中频道数量、修改配置中的分页数量和接口数量，以达到合规的运行要求。
 
-## 步骤六：更新源代码
-
-由于本项目将持续迭代优化，如果您想获取最新的更新内容，可进行如下操作
-
-### 1. Star
-
-在我的仓库首页点击收藏该项目（您的 Star 是我持续更新的动力）
-![Star](./images/star.png 'Star')
-
-### 2. Watch
-
-关注该项目，后续更新日志将以 releases 发布，届时您将收到邮件通知
-![Watch-activity](./images/watch-activity.png 'Watch All Activity')
-
-### 3. Sync fork
-
-回到您的仓库首页，如果项目有更新内容，点击 Sync fork，Update branch 确认即可更新最新代码
-![Sync-fork](./images/sync-fork.png 'Sync fork')
+</s>

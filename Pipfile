@@ -16,6 +16,7 @@ selenium = "*"
 selenium-stealth = "*"
 aiohttp = "*"
 bs4 = "*"
+tqdm = "*"
 
 [requires]
 python_version = "*"

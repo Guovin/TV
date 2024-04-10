@@ -18,52 +18,60 @@ def getChannelItems():
     Get the channel items from the source file
     """
     # Open the source file and read all lines.
-    user_source_file = (
-        "user_" + config.source_file
-        if os.path.exists("user_" + config.source_file)
-        else getattr(config, "source_file", "demo.txt")
-    )
-    with open(user_source_file, "r") as f:
-        lines = f.readlines()
+    try:
+        user_source_file = (
+            "user_" + config.source_file
+            if os.path.exists("user_" + config.source_file)
+            else getattr(config, "source_file", "demo.txt")
+        )
+        with open(user_source_file, "r", encoding="utf-8") as f:
+            lines = f.readlines()
 
-    # Create a dictionary to store the channels.
-    channels = {}
-    current_category = ""
-    pattern = r"^(.*?),(?!#genre#)(.*?)$"
-    total_channels = 0
-    max_channels = 200
+        # Create a dictionary to store the channels.
+        channels = {}
+        current_category = ""
+        pattern = r"^(.*?),(?!#genre#)(.*?)$"
+        # total_channels = 0
+        # max_channels = 200
 
-    for line in lines:
-        if total_channels >= max_channels:
-            break
-        line = line.strip()
-        if "#genre#" in line:
-            # This is a new channel, create a new key in the dictionary.
-            current_category = line.split(",")[0]
-            channels[current_category] = {}
-        else:
-            # This is a url, add it to the list of urls for the current channel.
-            match = re.search(pattern, line)
-            if match:
-                if match.group(1) not in channels[current_category]:
-                    channels[current_category][match.group(1)] = [match.group(2)]
-                    total_channels += 1
-                else:
-                    channels[current_category][match.group(1)].append(match.group(2))
-    return channels
+        for line in lines:
+            # if total_channels >= max_channels:
+            #     break
+            line = line.strip()
+            if "#genre#" in line:
+                # This is a new channel, create a new key in the dictionary.
+                current_category = line.split(",")[0]
+                channels[current_category] = {}
+            else:
+                # This is a url, add it to the list of urls for the current channel.
+                match = re.search(pattern, line)
+                if match:
+                    if match.group(1) not in channels[current_category]:
+                        channels[current_category][match.group(1)] = [match.group(2)]
+                        # total_channels += 1
+                    else:
+                        channels[current_category][match.group(1)].append(
+                            match.group(2)
+                        )
+        return channels
+    finally:
+        f.close()
 
 
 def updateChannelUrlsTxt(cate, channelUrls):
     """
     Update the category and channel urls to the final file
     """
-    with open("result_new.txt", "a") as f:
-        f.write(cate + ",#genre#\n")
-        for name, urls in channelUrls.items():
-            for url in urls:
-                if url is not None:
-                    f.write(name + "," + url + "\n")
-        f.write("\n")
+    try:
+        with open("result_new.txt", "a", encoding="utf-8") as f:
+            f.write(cate + ",#genre#\n")
+            for name, urls in channelUrls.items():
+                for url in urls:
+                    if url is not None:
+                        f.write(name + "," + url + "\n")
+            f.write("\n")
+    finally:
+        f.close
 
 
 def updateFile(final_file, old_file):
@@ -79,30 +87,25 @@ def getUrlInfo(result):
     Get the url, date and resolution
     """
     url = date = resolution = None
-    tbodies = result.find_all("tbody")
-    for tbody in tbodies:
-        tds = tbody.find_all("td")
-        for td in tds:
-            td_text = td.get_text(strip=True)
-            url_match = re.search(
-                r"http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+",
-                td_text,
-            )
-            if url_match:
-                url = url_match.group()
-                break
-        if url:
-            break
-    info_text = result.find_all("div")[-1].get_text(strip=True)
-    if info_text:
-        date, resolution = (
-            (info_text.partition(" ")[0] if info_text.partition(" ")[0] else None),
-            (
-                info_text.partition(" ")[2].partition("•")[2]
-                if info_text.partition(" ")[2].partition("•")[2]
-                else None
-            ),
+    result_div = [div for div in result.children if div.name == "div"]
+    if 1 < len(result_div):
+        channel_text = result_div[1].get_text(strip=True)
+        url_match = re.search(
+            r"http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+",
+            channel_text,
         )
+        if url_match:
+            url = url_match.group()
+        info_text = result_div[-1].get_text(strip=True)
+        if info_text:
+            date, resolution = (
+                (info_text.partition(" ")[0] if info_text.partition(" ")[0] else None),
+                (
+                    info_text.partition(" ")[2].partition("•")[2]
+                    if info_text.partition(" ")[2].partition("•")[2]
+                    else None
+                ),
+            )
     return url, date, resolution
 
 
