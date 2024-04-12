@@ -20,6 +20,7 @@ from utils import (
     checkByDomainBlacklist,
     checkByURLKeywordsBlacklist,
     filterUrlsByPatterns,
+    checkUrlAccessible,
 )
 import logging
 import os
@@ -73,49 +74,53 @@ class UpdateSource:
                 pageNum = (
                     config.favorite_page_num if isFavorite else config.default_page_num
                 )
+                baseUrl = "https://www.foodieguide.com/iptvsearch/"
                 infoList = []
-                for page in range(1, pageNum + 1):
-                    try:
-                        page_url = f"https://www.foodieguide.com/iptvsearch/?page={page}&s={name}"
-                        self.driver.get(page_url)
-                        WebDriverWait(self.driver, 10).until(
-                            EC.presence_of_element_located(
-                                (By.CSS_SELECTOR, "div.tables")
+                urlAccessible = await checkUrlAccessible(baseUrl)
+                if urlAccessible:
+                    for page in range(1, pageNum + 1):
+                        try:
+                            page_url = f"{baseUrl}?page={page}&s={name}"
+                            self.driver.get(page_url)
+                            WebDriverWait(self.driver, 10).until(
+                                EC.presence_of_element_located(
+                                    (By.CSS_SELECTOR, "div.tables")
+                                )
                             )
-                        )
-                        soup = BeautifulSoup(self.driver.page_source, "html.parser")
-                        tables_div = soup.find("div", class_="tables")
-                        results = (
-                            tables_div.find_all("div", class_="result")
-                            if tables_div
-                            else []
-                        )
-                        for result in results:
-                            try:
-                                url, date, resolution = getUrlInfo(result)
-                                if (
-                                    url
-                                    and checkUrlIPVType(url)
-                                    and checkByDomainBlacklist(url)
-                                    and checkByURLKeywordsBlacklist(url)
-                                ):
-                                    infoList.append((url, date, resolution))
-                            except Exception as e:
-                                print(f"Error on result {result}: {e}")
-                                continue
-                    except Exception as e:
-                        print(f"Error on page {page}: {e}")
-                        continue
+                            soup = BeautifulSoup(self.driver.page_source, "html.parser")
+                            tables_div = soup.find("div", class_="tables")
+                            results = (
+                                tables_div.find_all("div", class_="result")
+                                if tables_div
+                                else []
+                            )
+                            for result in results:
+                                try:
+                                    url, date, resolution = getUrlInfo(result)
+                                    if (
+                                        url
+                                        and checkUrlIPVType(url)
+                                        and checkByDomainBlacklist(url)
+                                        and checkByURLKeywordsBlacklist(url)
+                                    ):
+                                        infoList.append((url, date, resolution))
+                                except Exception as e:
+                                    print(f"Error on result {result}: {e}")
+                                    continue
+                        except Exception as e:
+                            print(f"Error on page {page}: {e}")
+                            continue
                 try:
-                    sorted_data = await compareSpeedAndResolution(infoList)
-                    if sorted_data:
-                        channelUrls[name] = (
-                            getTotalUrls(sorted_data) or channelObj[name]
-                        )
-                        for (url, date, resolution), response_time in sorted_data:
-                            logging.info(
-                                f"Name: {name}, URL: {url}, Date: {date}, Resolution: {resolution}, Response Time: {response_time}ms"
+                    if infoList:
+                        sorted_data = await compareSpeedAndResolution(infoList)
+                        if sorted_data:
+                            channelUrls[name] = (
+                                getTotalUrls(sorted_data) or channelObj[name]
                             )
+                            for (url, date, resolution), response_time in sorted_data:
+                                logging.info(
+                                    f"Name: {name}, URL: {url}, Date: {date}, Resolution: {resolution}, Response Time: {response_time}ms"
+                                )
                     else:
                         channelUrls[name] = filterUrlsByPatterns(channelObj[name])
                 except Exception as e:
@@ -124,7 +129,7 @@ class UpdateSource:
                 finally:
                     pbar.update()
             updateChannelUrlsTxt(cate, channelUrls)
-            # await asyncio.sleep(1)
+            await asyncio.sleep(1)
         pbar.close()
 
     def main(self):

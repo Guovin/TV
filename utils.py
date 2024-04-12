@@ -31,12 +31,15 @@ def getChannelItems():
         channels = {}
         current_category = ""
         pattern = r"^(.*?),(?!#genre#)(.*?)$"
-        # total_channels = 0
-        # max_channels = 200
+        total_channels = 0
+        max_channels = 150
 
         for line in lines:
-            # if total_channels >= max_channels:
-            #     break
+            if (
+                total_channels >= max_channels
+                and os.environ.get("GITHUB_ACTIONS") == "true"
+            ):
+                break
             line = line.strip()
             if "#genre#" in line:
                 # This is a new channel, create a new key in the dictionary.
@@ -48,7 +51,7 @@ def getChannelItems():
                 if match:
                     if match.group(1) not in channels[current_category]:
                         channels[current_category][match.group(1)] = [match.group(2)]
-                        # total_channels += 1
+                        total_channels += 1
                     else:
                         channels[current_category][match.group(1)].append(
                             match.group(2)
@@ -262,3 +265,15 @@ def filterUrlsByPatterns(urls):
     urls = [url for url in urls if checkByDomainBlacklist(url)]
     urls = [url for url in urls if checkByURLKeywordsBlacklist(url)]
     return urls
+
+
+async def checkUrlAccessible(url):
+    """
+    Check if the url is accessible
+    """
+    async with aiohttp.ClientSession() as session:
+        try:
+            async with session.get(url, timeout=30) as response:
+                return response.status == 200
+        except:
+            return False

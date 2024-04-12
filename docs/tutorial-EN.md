@@ -72,7 +72,7 @@ Adjust the configuration as needed. Below is the default configuration explanati
 | domain_blacklist       | ["epg.pw"]         | Interface domain blacklist, used to filter out interfaces with low-quality, ad-inclusive domains                   |
 | url_keywords_blacklist | []                 | Interface keyword blacklist, used to filter out interfaces containing specific characters                          |
 
-## Step 4: Run Updates Locally
+## Step 4: Run Updates Locally (Recommended, Stable, Supports a large number of channel updates)
 
 ### 1. Install Python
 
@@ -113,15 +113,9 @@ Follow this project to be notified by email about the latest updates and release
 Return to the homepage of your repository. If there are updates to the project, click on "Sync fork" and then "Update branch" to confirm and update to the latest code.
 ![Sync-fork](./images/sync-fork.png 'Sync fork')
 
-<center>
+<p style="color: red; text-align: center; font-size: 24px; font-weight: bolder;">Please use the following content with caution. If you have a large number of channels that need to be updated, please use local updates instead of automatic updates. Improper configuration may lead to your account or workflow being banned!</p>
 
-## The following content is deprecated
-
-</center>
-
-<s>
-
-## Step 6: Enable Auto-update
+## Step 6: Enable Auto-update (Only suitable for a small number of channel updates)
 
 If your template and configuration modifications are correct, you can configure Actions to achieve automatic updates
 
@@ -181,7 +175,9 @@ If you can access this link and it returns the updated interface content, then y
 ![.github/workflows/main.yml](./images/schedule-cron.png '.github/workflows/main.yml')
 If you want to modify the update frequency (default: daily at 8:00 am Beijing time), you can modify the on:schedule:- cron field.
 
-- #### It is strongly discouraged to make modifications, as there is no difference in the content of the interface in a short period of time. Both too frequent updates and high-consumption running workflows may be judged as resource abuse, leading to the risk of the repository and account being banned.
-- #### Please pay attention to the runtime of your workflow. If you find that the execution time is too long, you need to appropriately reduce the number of channels in the template, modify the number of pages and interfaces in the configuration, in order to meet the compliant operation requirements.
-
-</s>
+<p style="color: red; font-size: 16px; font-weight: bolder;">
+1. It is strongly discouraged to make modifications, as there is no difference in the content of the interface in a short period of time. Both too frequent updates and high-consumption running workflows may be judged as resource abuse, leading to the risk of the repository and account being banned.
+</p>
+<p style="color: red; font-size: 16px; font-weight: bolder;">
+2. Please pay attention to the runtime of your workflow. If you find that the execution time is too long, you need to appropriately reduce the number of channels in the template, modify the number of pages and interfaces in the configuration, in order to meet the compliant operation requirements.
+</p>
