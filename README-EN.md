@@ -10,7 +10,7 @@ Customize channel menus, automatically fetch and update the latest live source i
 - Interface validation to filter out invalid interfaces
 - Comprehensive sorting based on response time and resolution
 - Scheduled execution, updates every day at 8:00 am Beijing time
-- The maximum number of update channels is 200
+- The maximum number of channels that can be updated in the workflow is 150, while there is no limit when running locally
 - Set up key focus channels and configure the number of pages fetched separately
 - Pagination results retrieval (configurable number of pages and interfaces)
 - Ensure update timeliness, configure to retrieve interfaces updated within a recent time range
