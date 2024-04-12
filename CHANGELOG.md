@@ -1,5 +1,14 @@
 # 更新日志（Changelog）
 
+## v1.0.6
+
+### 2024/4/12
+
+- 恢复工作流更新，请谨慎合理使用，勿尝试更改默认运行参数，可能导致封禁的风险！首推使用本地更新（Workflow updates have been restored. Please use them carefully and do not attempt to change the default runtime parameters, as this may risk being banned! It is recommended to use local updates first.）
+- 调整默认配置参数，降低单次更新运行时长（Adjusted the default configuration parameters to reduce the runtime of a single update.）
+- 依赖版本锁定，解决可能出现的环境错误（#72）（Dependency versions have been locked to solve potential environmental errors (#72).）
+- 优化逻辑与增加检测，避免网络异常占用工作流运行（Optimized logic and added checks to prevent network anomalies from occupying workflow operations.）
+
 ## v1.0.5
 
 ### 2024/4/10

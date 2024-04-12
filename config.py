@@ -15,9 +15,9 @@ favorite_list = [
     "湖南卫视",
     "翡翠台",
 ]
-favorite_page_num = 6
-default_page_num = 4
-urls_limit = 15
+favorite_page_num = 3
+default_page_num = 2
+urls_limit = 10
 response_time_weight = 0.5
 resolution_weight = 0.5
 recent_days = 30

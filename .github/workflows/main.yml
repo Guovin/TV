@@ -1,0 +1,67 @@
+name: 'update schedule'
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+    branches:
+      - master
+      - dev
+jobs:
+  push:
+    runs-on: ${{ matrix.operating-system }}
+    timeout-minutes: 120
+    strategy:
+      matrix:
+        operating-system: ['ubuntu-20.04']
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run with setup-python 3.9
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+          update-environment: false
+          cache: 'pipenv'
+      - name: Install Selenium
+        run: |
+          sudo pip3 install selenium
+      - name: Set up Chrome
+        uses: browser-actions/setup-chrome@latest
+        with:
+          chrome-version: stable
+      - name: Download chrome driver
+        uses: nanasess/setup-chromedriver@master
+      - name: Launch chrome driver
+        run: |
+          export DISPLAY=:99
+          chromedriver --url-base=/wd/hub &
+          sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 & # optional
+      - name: Install pipenv
+        run: pip3 install --user pipenv
+      - name: Install dependecies
+        run: pipenv --python python3 && pipenv install
+      - name: Build
+        run: pipenv run build
+      - name: Commit and push if changed
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git diff
+          final_file=$(python -c '
+          try: 
+            import user_config as config
+          except ImportError: 
+            import config
+          print(config.final_file)')
+          if [[ -f "$final_file" ]]; then
+            git add -f "$final_file"
+          fi
+          if [[ -f user_result.log ]]; then
+            git add -f user_result.log
+          elif [[ -f result.log ]]; then
+            git add -f result.log
+          fi
+          if ! git diff --staged --quiet; then
+            git commit -m "Github Action Auto Updated"
+            git push --force
+          fi
