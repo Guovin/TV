@@ -16,10 +16,10 @@ jobs:
         operating-system: ['ubuntu-20.04']
     steps:
       - uses: actions/checkout@v3
-      - name: Run with setup-python 3.9
+      - name: Run with setup-python 3.11
         uses: actions/setup-python@v4
         with:
-          python-version: '3.9'
+          python-version: '3.11'
           update-environment: false
           cache: 'pipenv'
       - name: Install Selenium

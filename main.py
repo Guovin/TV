@@ -23,15 +23,15 @@ from utils import (
     checkUrlAccessible,
 )
 import logging
+from logging.handlers import RotatingFileHandler
 import os
 from tqdm import tqdm
 
+handler = RotatingFileHandler("result_new.log", encoding="utf-8")
 logging.basicConfig(
-    filename="result_new.log",
-    filemode="a",
+    handlers=[handler],
     format="%(message)s",
     level=logging.INFO,
-    encoding="utf-8",
 )
 
 
