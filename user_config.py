@@ -1,4 +1,4 @@
-source_file = "demo.txt"
+source_file = "user_demo.txt"
 final_file = "user_result.txt"
 favorite_list = [
     "CCTV-1",
