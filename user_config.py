@@ -12,10 +12,12 @@ favorite_list = [
     "浙江卫视",
     "湖南卫视",
 ]
-favorite_page_num = 6
-default_page_num = 4
-urls_limit = 15
-response_time_weight = 0.6
-resolution_weight = 0.4
+favorite_page_num = 3
+default_page_num = 2
+urls_limit = 10
+response_time_weight = 0.9
+resolution_weight = 0.1
 recent_days = 30
 ipv_type = "ipv6"
+domain_blacklist = ["epg.pw"]
+url_keywords_blacklist = []
