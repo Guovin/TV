@@ -30,9 +30,12 @@ from tqdm import tqdm
 handler = RotatingFileHandler("result_new.log", encoding="utf-8")
 logging.basicConfig(
     handlers=[handler],
-    format="%(message)s",
+    format="%(asctime)s %(name)s:%(levelname)s:%(message)s",
+    datefmt="%d-%M-%Y %H:%M:%S",
     level=logging.INFO,
 )
+
+logger = logging.getLogger("tv")
 
 
 class UpdateSource:
@@ -81,6 +84,7 @@ class UpdateSource:
                     for page in range(1, pageNum + 1):
                         try:
                             page_url = f"{baseUrl}?page={page}&s={name}"
+                            logger.info("page_url: {}".format(page_url))
                             self.driver.get(page_url)
                             WebDriverWait(self.driver, 10).until(
                                 EC.presence_of_element_located(
@@ -97,6 +101,7 @@ class UpdateSource:
                             for result in results:
                                 try:
                                     url, date, resolution = getUrlInfo(result)
+                                    logger.info(f"url: {url}")
                                     if (
                                         url
                                         and checkUrlIPVType(url)
@@ -105,10 +110,10 @@ class UpdateSource:
                                     ):
                                         infoList.append((url, date, resolution))
                                 except Exception as e:
-                                    print(f"Error on result {result}: {e}")
+                                    logger.info(f"Error on result {result}: {e}")
                                     continue
                         except Exception as e:
-                            print(f"Error on page {page}: {e}")
+                            logger.info(f"Error on page {page}: {e}")
                             continue
                 try:
                     if infoList:
@@ -118,13 +123,13 @@ class UpdateSource:
                                 getTotalUrls(sorted_data) or channelObj[name]
                             )
                             for (url, date, resolution), response_time in sorted_data:
-                                logging.info(
+                                logger.info(
                                     f"Name: {name}, URL: {url}, Date: {date}, Resolution: {resolution}, Response Time: {response_time}ms"
                                 )
                     else:
                         channelUrls[name] = filterUrlsByPatterns(channelObj[name])
                 except Exception as e:
-                    print(f"Error on sorting: {e}")
+                    logger.info(f"Error on sorting: {e}")
                     continue
                 finally:
                     pbar.update()
@@ -138,12 +143,14 @@ class UpdateSource:
             handler.close()
             logging.root.removeHandler(handler)
         user_final_file = getattr(config, "final_file", "result.txt")
+        logger.info(f"user_final_file: {user_final_file}")
         user_log_file = (
             "user_result.log" if os.path.exists("user_config.py") else "result.log"
         )
+        logger.info(f"user_log_file: {user_log_file}")
         updateFile(user_final_file, "result_new.txt")
         updateFile(user_log_file, "result_new.log")
-        print(f"Update completed! Please check the {user_final_file} file!")
+        logger.info(f"Update completed! Please check the {user_final_file} file!")
 
 
 UpdateSource().main()

@@ -1,3 +1,5 @@
+import logging
+
 try:
     import user_config as config
 except ImportError:
@@ -12,6 +14,8 @@ import urllib.parse
 import ipaddress
 from urllib.parse import urlparse
 
+logger = logging.getLogger("tv")
+
 
 def getChannelItems():
     """
@@ -24,6 +28,7 @@ def getChannelItems():
             if os.path.exists("user_" + config.source_file)
             else getattr(config, "source_file", "demo.txt")
         )
+        logger.info("user_source_file: %s", user_source_file)
         with open(user_source_file, "r", encoding="utf-8") as f:
             lines = f.readlines()
 
