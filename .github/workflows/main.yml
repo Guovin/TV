@@ -2,7 +2,7 @@ name: 'update schedule'
 
 on:
   schedule:
-    - cron: '0 */12 * * *'
+    - cron: '0 0 * * *'
   workflow_dispatch:
     branches:
       - master
@@ -10,19 +10,18 @@ on:
 jobs:
   push:
     runs-on: ${{ matrix.operating-system }}
+    timeout-minutes: 120
     strategy:
       matrix:
-        # in this example, there is a newer version already installed, 3.7.7, so the older version will be downloaded
         operating-system: ['ubuntu-20.04']
     steps:
-      - uses: actions/checkout@v3 # Checking out the repo
-      - name: Run with setup-python 3.9
+      - uses: actions/checkout@v3
+      - name: Run with setup-python 3.11
         uses: actions/setup-python@v4
         with:
-          python-version: '3.9'
+          python-version: '3.11'
           update-environment: false
           cache: 'pipenv'
-
       - name: Install Selenium
         run: |
           sudo pip3 install selenium
@@ -55,12 +54,12 @@ jobs:
             import config
           print(config.final_file)')
           if [[ -f "$final_file" ]]; then
-            git add "$final_file"
+            git add -f "$final_file"
           fi
           if [[ -f user_result.log ]]; then
-            git add user_result.log
+            git add -f user_result.log
           elif [[ -f result.log ]]; then
-            git add result.log
+            git add -f result.log
           fi
           if ! git diff --staged --quiet; then
             git commit -m "Github Action Auto Updated"

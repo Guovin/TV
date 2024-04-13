@@ -9,26 +9,30 @@ Customize channel menus, automatically fetch and update the latest live source i
 - Customize templates to generate the channel categories and order you want
 - Interface validation to filter out invalid interfaces
 - Comprehensive sorting based on response time and resolution
-- Scheduled execution, updates every 12 hours
+- Scheduled execution, updates every day at 8:00 am Beijing time
+- The maximum number of channels that can be updated in the workflow is 150, while there is no limit when running locally
 - Set up key focus channels and configure the number of pages fetched separately
 - Pagination results retrieval (configurable number of pages and interfaces)
 - Ensure update timeliness, configure to retrieve interfaces updated within a recent time range
 - Can filter ipv4, ipv6 interfaces
+- Blacklist feature: Interface domain and keywords
 
 ## Config
 
-| Configuration Item   | Default Value      | Description                                                                                                        |
-| -------------------- | ------------------ | ------------------------------------------------------------------------------------------------------------------ |
-| source_file          | "demo.txt"         | Template file name                                                                                                 |
-| final_file           | "result.txt"       | Generated file name                                                                                                |
-| favorite_list        | ["CCTV1","CCTV13"] | List of favorite channel names (used only to distinguish from regular channels, custom page retrieval quantity)    |
-| favorite_page_num    | 6                  | Page retrieval quantity for favorite channels                                                                      |
-| default_page_num     | 4                  | Page retrieval quantity for regular channels                                                                       |
-| urls_limit           | 15                 | Number of interfaces per channel                                                                                   |
-| response_time_weight | 0.5                | Response time weight value (the sum of all weight values should be 1)                                              |
-| resolution_weight    | 0.5                | Resolution weight value (the sum of all weight values should be 1)                                                 |
-| recent_days          | 30                 | Retrieve interfaces updated within a recent time range (in days), reducing appropriately can avoid matching issues |
-| ipv_type             | "ipv4"             | The type of interface in the generated result, optional values: "ipv4", "ipv6", "all"                              |
+| Configuration Item     | Default Value      | Description                                                                                                        |
+| ---------------------- | ------------------ | ------------------------------------------------------------------------------------------------------------------ |
+| source_file            | "demo.txt"         | Template file name                                                                                                 |
+| final_file             | "result.txt"       | Generated file name                                                                                                |
+| favorite_list          | ["CCTV1","CCTV13"] | List of favorite channel names (used only to distinguish from regular channels, custom page retrieval quantity)    |
+| favorite_page_num      | 3                  | Page retrieval quantity for favorite channels                                                                      |
+| default_page_num       | 2                  | Page retrieval quantity for regular channels                                                                       |
+| urls_limit             | 10                 | Number of interfaces per channel                                                                                   |
+| response_time_weight   | 0.5                | Response time weight value (the sum of all weight values should be 1)                                              |
+| resolution_weight      | 0.5                | Resolution weight value (the sum of all weight values should be 1)                                                 |
+| recent_days            | 30                 | Retrieve interfaces updated within a recent time range (in days), reducing appropriately can avoid matching issues |
+| ipv_type               | "ipv4"             | The type of interface in the generated result, optional values: "ipv4", "ipv6", "all"                              |
+| domain_blacklist       | ["epg.pw"]         | Interface domain blacklist, used to filter out interfaces with low-quality, ad-inclusive domains                   |
+| url_keywords_blacklist | []                 | Interface keyword blacklist, used to filter out interfaces containing specific characters                          |
 
 ## Quick Start
 
@@ -53,6 +57,14 @@ In addition, the code and data of this project may be updated irregularly, but t
 In any case, the developer and any contributor do not assume any responsibility for any damage or other liability caused by the use or inability to use the code or data of this project.
 
 Using the code or data of this project means that you have understood and accepted these terms.
+
+## GitHub Terms of Service
+
+When forking or using this project, you must comply with the [GitHub Terms of Service](https://docs.github.com/en/github/site-policy/github-terms-of-service). This includes, but is not limited to, the prohibition of uploading content that infringes copyright, is illegal, malicious, or violates our terms. Any violation of these provisions may result in the termination of your account. When using this project, please ensure that your behavior complies with these provisions.
+
+If you do not agree to comply with these terms, you should stop using the code and data of this project immediately.
+
+The use of the code or data of this project means that you have understood and accepted these terms.
 
 ## License
 

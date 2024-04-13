@@ -1,15 +1,5 @@
 name: Release
 on:
-  push:
-    branches:
-      - master
-    paths:
-      - 'version.json'
-  pull_request:
-    branches:
-      - master
-    paths:
-      - 'version.json'
   workflow_dispatch:
     branches:
       - master

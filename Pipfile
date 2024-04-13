@@ -9,13 +9,15 @@ build = "python main.py"
 [dev-packages]
 
 [packages]
-requests = "*"
-feedparser = "*"
-pytz = "*"
-selenium = "*"
-selenium-stealth = "*"
-aiohttp = "*"
-bs4 = "*"
+requests = "2.31.0"
+feedparser = "6.0.11"
+pytz = "2024.1"
+selenium = "4.19.0"
+selenium-stealth = "1.0.6"
+aiohttp = "3.9.3"
+bs4 = "0.0.2"
+tqdm = "4.66.2"
+async-timeout = "4.0.3"
 
 [requires]
-python_version = "*"
+python_version = ">=3.11"

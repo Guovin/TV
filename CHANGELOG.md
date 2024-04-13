@@ -1,4 +1,39 @@
-# Changelog
+# 更新日志（Changelog）
+
+## v1.0.6
+
+### 2024/4/12
+
+- 恢复工作流更新，请谨慎合理使用，勿尝试更改默认运行参数，可能导致封禁的风险！首推使用本地更新（Workflow updates have been restored. Please use them carefully and do not attempt to change the default runtime parameters, as this may risk being banned! It is recommended to use local updates first.）
+- 调整默认配置参数，降低单次更新运行时长（Adjusted the default configuration parameters to reduce the runtime of a single update.）
+- 依赖版本锁定，解决可能出现的环境错误（#72）（Dependency versions have been locked to solve potential environmental errors (#72).）
+- 优化逻辑与增加检测，避免网络异常占用工作流运行（Optimized logic and added checks to prevent network anomalies from occupying workflow operations.）
+
+## v1.0.5
+
+### 2024/4/10
+
+- 移除工作流更新，鉴于有少数人反馈工作流甚至账号被封禁的情况，安全起见，只能暂时移除工作流更新机制，后续将增加其它平台部署方案（Removed workflow updates, in view of the feedback from a few people that their workflows and even accounts have been banned, for safety reasons, the workflow update mechanism can only be temporarily removed, and other platform deployment plans will be added in the future）
+- 新增本地更新，同时移除更新频道个数限制，具体使用方法请见快速上手（Added local updates and removed the limit on the number of channel updates. For specific usage, please see the quick start guide）
+- 适配提供方接口位置变更（Adapted to the change of the provider's interface location）
+
+## v1.0.4
+
+### 2024/4/8
+
+- 更新 Github 使用条款，请务必仔细阅读并遵守（Updated GitHub Terms of Service, please read and comply carefully）
+- 更新使用说明，关于可能导致工作流资源滥用的情况说明（Updated usage instructions, explanation about situations that may lead to workflow resource abuse）
+- 增加.gitignore 文件，忽略用户配置、接口更新结果、日志文件等上传，非代码逻辑修改请不要发起 Pull requests，避免影响他人使用（Added .gitignore file to ignore uploads of user configurations, interface update results, log files, etc. Please do not initiate pull requests for non-code logic modifications to avoid affecting others' use）
+- 调整更新频率，北京时间每日 8:00 执行一次（Adjusted update frequency, executes once daily at 8:00 am Beijing time）
+- 调整更新频道数量上限（200 个）（Adjusted the maximum limit for updating channel numbers (200)）
+
+## v1.0.3
+
+### 2024/4/7
+
+- 新增接口域名黑名单（Add interface domain blacklist）
+- 新增接口关键字黑名单（Add interface keyword blacklist）
+- 调整过滤逻辑执行顺序，提升工作流更新效率（Adjust the execution order of the filtering logic to improve workflow update efficiency）
 
 ## v1.0.2
 

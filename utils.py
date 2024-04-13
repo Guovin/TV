@@ -10,8 +10,7 @@ import datetime
 import os
 import urllib.parse
 import ipaddress
-
-# 在这里使用 some_config_variable
+from urllib.parse import urlparse
 
 
 def getChannelItems():
@@ -19,47 +18,63 @@ def getChannelItems():
     Get the channel items from the source file
     """
     # Open the source file and read all lines.
-    user_source_file = (
-        "user_" + config.source_file
-        if os.path.exists("user_" + config.source_file)
-        else getattr(config, "source_file", "demo.txt")
-    )
-    with open(user_source_file, "r") as f:
-        lines = f.readlines()
+    try:
+        user_source_file = (
+            "user_" + config.source_file
+            if os.path.exists("user_" + config.source_file)
+            else getattr(config, "source_file", "demo.txt")
+        )
+        with open(user_source_file, "r", encoding="utf-8") as f:
+            lines = f.readlines()
 
-    # Create a dictionary to store the channels.
-    channels = {}
-    current_channel = ""
-    pattern = r"^(.*?),(?!#genre#)(.*?)$"
+        # Create a dictionary to store the channels.
+        channels = {}
+        current_category = ""
+        pattern = r"^(.*?),(?!#genre#)(.*?)$"
+        total_channels = 0
+        max_channels = 150
 
-    for line in lines:
-        line = line.strip()
-        if "#genre#" in line:
-            # This is a new channel, create a new key in the dictionary.
-            current_channel = line.split(",")[0]
-            channels[current_channel] = {}
-        else:
-            # This is a url, add it to the list of urls for the current channel.
-            match = re.search(pattern, line)
-            if match:
-                if match.group(1) not in channels[current_channel]:
-                    channels[current_channel][match.group(1)] = [match.group(2)]
-                else:
-                    channels[current_channel][match.group(1)].append(match.group(2))
-    return channels
+        for line in lines:
+            if (
+                total_channels >= max_channels
+                and os.environ.get("GITHUB_ACTIONS") == "true"
+            ):
+                break
+            line = line.strip()
+            if "#genre#" in line:
+                # This is a new channel, create a new key in the dictionary.
+                current_category = line.split(",")[0]
+                channels[current_category] = {}
+            else:
+                # This is a url, add it to the list of urls for the current channel.
+                match = re.search(pattern, line)
+                if match:
+                    if match.group(1) not in channels[current_category]:
+                        channels[current_category][match.group(1)] = [match.group(2)]
+                        total_channels += 1
+                    else:
+                        channels[current_category][match.group(1)].append(
+                            match.group(2)
+                        )
+        return channels
+    finally:
+        f.close()
 
 
 def updateChannelUrlsTxt(cate, channelUrls):
     """
     Update the category and channel urls to the final file
     """
-    with open("result_new.txt", "a") as f:
-        f.write(cate + ",#genre#\n")
-        for name, urls in channelUrls.items():
-            for url in urls:
-                if url is not None:
-                    f.write(name + "," + url + "\n")
-        f.write("\n")
+    try:
+        with open("result_new.txt", "a", encoding="utf-8") as f:
+            f.write(cate + ",#genre#\n")
+            for name, urls in channelUrls.items():
+                for url in urls:
+                    if url is not None:
+                        f.write(name + "," + url + "\n")
+            f.write("\n")
+    finally:
+        f.close
 
 
 def updateFile(final_file, old_file):
@@ -75,30 +90,25 @@ def getUrlInfo(result):
     Get the url, date and resolution
     """
     url = date = resolution = None
-    tbodies = result.find_all("tbody")
-    for tbody in tbodies:
-        tds = tbody.find_all("td")
-        for td in tds:
-            td_text = td.get_text(strip=True)
-            url_match = re.search(
-                r"http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+",
-                td_text,
-            )
-            if url_match:
-                url = url_match.group()
-                break
-        if url:
-            break
-    info_text = result.find_all("div")[-1].get_text(strip=True)
-    if info_text:
-        date, resolution = (
-            (info_text.partition(" ")[0] if info_text.partition(" ")[0] else None),
-            (
-                info_text.partition(" ")[2].partition("•")[2]
-                if info_text.partition(" ")[2].partition("•")[2]
-                else None
-            ),
+    result_div = [div for div in result.children if div.name == "div"]
+    if 1 < len(result_div):
+        channel_text = result_div[1].get_text(strip=True)
+        url_match = re.search(
+            r"http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+",
+            channel_text,
         )
+        if url_match:
+            url = url_match.group()
+        info_text = result_div[-1].get_text(strip=True)
+        if info_text:
+            date, resolution = (
+                (info_text.partition(" ")[0] if info_text.partition(" ")[0] else None),
+                (
+                    info_text.partition(" ")[2].partition("•")[2]
+                    if info_text.partition(" ")[2].partition("•")[2]
+                    else None
+                ),
+            )
     return url, date, resolution
 
 
@@ -215,35 +225,55 @@ def is_ipv6(url):
         return False
 
 
-def filterSortedDataByIPVType(sorted_data):
+def checkUrlIPVType(url):
     """
-    Filter sorted data by ipv type
-    """
-    ipv_type = getattr(config, "ipv_type", "ipv4")
-    if ipv_type == "ipv4":
-        return [
-            ((url, date, resolution), response_time)
-            for (url, date, resolution), response_time in sorted_data
-            if not is_ipv6(url)
-        ]
-    elif ipv_type == "ipv6":
-        return [
-            ((url, date, resolution), response_time)
-            for (url, date, resolution), response_time in sorted_data
-            if is_ipv6(url)
-        ]
-    else:
-        return sorted_data
-
-
-def filterByIPVType(urls):
-    """
-    Filter by ipv type
+    Check if the url is compatible with the ipv type in the config
     """
     ipv_type = getattr(config, "ipv_type", "ipv4")
     if ipv_type == "ipv4":
-        return [url for url in urls if not is_ipv6(url)]
+        return not is_ipv6(url)
     elif ipv_type == "ipv6":
-        return [url for url in urls if is_ipv6(url)]
+        return is_ipv6(url)
     else:
-        return urls
+        return True
+
+
+def checkByDomainBlacklist(url):
+    """
+    Check by domain blacklist
+    """
+    domain_blacklist = [
+        urlparse(domain).netloc if urlparse(domain).scheme else domain
+        for domain in getattr(config, "domain_blacklist", [])
+    ]
+    return urlparse(url).netloc not in domain_blacklist
+
+
+def checkByURLKeywordsBlacklist(url):
+    """
+    Check by URL blacklist keywords
+    """
+    url_keywords_blacklist = getattr(config, "url_keywords_blacklist", [])
+    return not any(keyword in url for keyword in url_keywords_blacklist)
+
+
+def filterUrlsByPatterns(urls):
+    """
+    Filter urls by patterns
+    """
+    urls = [url for url in urls if checkUrlIPVType(url)]
+    urls = [url for url in urls if checkByDomainBlacklist(url)]
+    urls = [url for url in urls if checkByURLKeywordsBlacklist(url)]
+    return urls
+
+
+async def checkUrlAccessible(url):
+    """
+    Check if the url is accessible
+    """
+    async with aiohttp.ClientSession() as session:
+        try:
+            async with session.get(url, timeout=30) as response:
+                return response.status == 200
+        except:
+            return False

@@ -31,7 +31,7 @@
 
 1. 创建文件
 2. 模板文件命名为 user_demo.txt
-3. 模板文件需要按照（频道分类,#genre#），（频道名称,频道接口）进行编写，注意是英文逗号
+3. 模板文件需要按照（频道分类,#genre#），（频道名称,频道接口）进行编写，注意是英文逗号。频道总数上限为 200 个，超出部分将无法更新。
 4. 点击 Commit changes...进行保存
 
 ## 步骤三：修改配置
@@ -51,7 +51,7 @@
 ![创建user_config.py](./images/edit-user-config.png '创建user_config.py')
 
 1. 创建文件
-2. 配置文件命名为 user_config.txt
+2. 配置文件命名为 user_config.py
 3. 粘贴默认模板，修改 source_file = "user_demo.txt"；final_file = "user_result.txt"
 4. 点击 Commit changes...进行保存
 
@@ -61,15 +61,60 @@
 | source_file | "demo.txt" | 模板文件名称 |
 | final_file | "result.txt" | 生成文件名称 |
 | favorite_list | ["CCTV1","CCTV13"] | 关注频道名称列表（仅用于与常规频道区分，自定义获取分页数量） |
-| favorite_page_num | 6 | 关注频道获取分页数量 |
-| default_page_num | 4 | 常规频道获取分页数量 |
-| urls_limit | 15 | 单个频道接口数量 |
+| favorite_page_num | 3 | 关注频道获取分页数量 |
+| default_page_num | 2 | 常规频道获取分页数量 |
+| urls_limit | 10 | 单个频道接口数量 |
 | response_time_weight | 0.5 | 响应时间权重值（所有权重值总和应为 1） |
 | resolution_weight | 0.5 | 分辨率权重值 （所有权重值总和应为 1） |
 | recent_days | 30 | 获取最近时间范围内更新的接口（单位天），适当减小可避免出现匹配问题 |
 | ipv_type | "ipv4" | 生成结果中接口的类型，可选值："ipv4"、"ipv6"、"all" |
+| domain_blacklist | ["epg.pw"] | 接口域名黑名单，用于过滤低质量含广告类域名的接口 |
+| url_keywords_blacklist | [] | 接口关键字黑名单，用于过滤含特定字符的接口 |
 
-## 步骤四：开启自动更新
+## 步骤四：本地运行更新（推荐，稳定，支持大量频道更新）
+
+### 1. 安装 Python
+
+请至官方下载并安装 Python
+
+### 2. 运行更新
+
+项目目录下终端运行以下命令：
+
+```python
+pip3 install pipenv
+pipenv install
+pipenv run build
+```
+
+### 3. 更新文件至仓库
+
+接口更新完成后，将 user_result.txt 上传至个人仓库，即可完成更新
+![用户名与仓库名称](./images/rep-info.png '用户名与仓库名称')
+https://mirror.ghproxy.com/raw.githubusercontent.com/您的github用户名/仓库名称（对应上述Fork创建时的TV）/master/user_result.txt
+
+## 步骤五：更新源代码
+
+由于本项目将持续迭代优化，如果您想获取最新的更新内容，可进行如下操作
+
+### 1. Star
+
+在我的仓库首页点击收藏该项目（您的 Star 是我持续更新的动力）
+![Star](./images/star.png 'Star')
+
+### 2. Watch
+
+关注该项目，后续更新日志将以 releases 发布，届时您将收到邮件通知
+![Watch-activity](./images/watch-activity.png 'Watch All Activity')
+
+### 3. Sync fork
+
+回到您的仓库首页，如果项目有更新内容，点击 Sync fork，Update branch 确认即可更新最新代码
+![Sync-fork](./images/sync-fork.png 'Sync fork')
+
+<p style="color: red; text-align: center; font-size: 24px; font-weight: bolder;">以下内容请谨慎使用，如果您有大量的频道需要更新，请使用本地更新，勿使用自动更新，配置不当可能导致账户或工作流封禁！</p>
+
+## 步骤六：开启自动更新（仅适合少量频道更新）
 
 如果您的模板和配置修改没有问题的话，这时就可以配置 Actions 来实现自动更新啦
 
@@ -122,28 +167,16 @@ https://mirror.ghproxy.com/raw.githubusercontent.com/您的github用户名/仓�
 
 如果访问该链接能正常返回更新后的接口内容，说明您的直播源接口链接已经大功告成了！将该链接复制粘贴到 TVBox 等软件配置栏中即可使用~
 
-- 注意：除了首次执行工作流需要您手动触发，后续执行（默认每隔 12 小时）将自动触发。如果您修改了模板或配置文件想立刻执行更新，可手动触发（2）中的 Run workflow 即可。
+- 注意：除了首次执行工作流需要您手动触发，后续执行（默认北京时间每日 8:00）将自动触发。如果您修改了模板或配置文件想立刻执行更新，可手动触发（2）中的 Run workflow 即可。
 
-## 步骤五：修改工作流更新频率
+## 步骤七：修改工作流更新频率
 
 ![.github/workflows/main.yml](./images/schedule-cron.png '.github/workflows/main.yml')
-如果您想修改更新频率（默认 12 小时），可修改 on:schedule:- cron 字段。不建议更新频率过高，因为短时间内的接口并无差异。
+如果您想修改更新频率（默认北京时间每日 8:00），可修改 on:schedule:- cron 字段。
 
-## 步骤六：更新源代码
-
-由于本项目将持续迭代优化，如果您想获取最新的更新内容，可进行如下操作
-
-### 1. Star
-
-在我的仓库首页点击收藏该项目（您的 Star 是我持续更新的动力）
-![Star](./images/star.png 'Star')
-
-### 2. Watch
-
-关注该项目，后续更新日志将以 releases 发布，届时您将收到邮件通知
-![Watch-activity](./images/watch-activity.png 'Watch All Activity')
-
-### 3. Sync fork
-
-回到您的仓库首页，如果项目有更新内容，点击 Sync fork，Update branch 确认即可更新最新代码
-![Sync-fork](./images/sync-fork.png 'Sync fork')
+<p style="color: red; font-size: 16px; font-weight: bolder;">
+1. 强烈不建议修改，因为短时间内的接口内容并无差异，过高的更新频率与高耗时运行的工作流都有可能被判定为资源滥用，导致仓库与账户被封禁的风险。
+</p>
+<p style="color: red; font-size: 16px; font-weight: bolder;">
+2. 请留意您的工作流运行时长，若发现执行时间过长，需要适当删减模板中频道数量、修改配置中的分页数量和接口数量，以达到合规的运行要求。
+</p>
