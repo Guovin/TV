@@ -97,7 +97,7 @@ def getUrlInfo(result):
     url = date = resolution = None
     result_div = [div for div in result.children if div.name == "div"]
     if 1 < len(result_div):
-        channel_text = result_div[1].get_text(strip=True)
+        channel_text = result_div[-2].get_text(strip=True)
         url_match = re.search(
             r"http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+",
             channel_text,
