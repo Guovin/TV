@@ -17,9 +17,9 @@ favorite_list = [
 ]
 favorite_page_num = 3
 default_page_num = 2
-urls_limit = 10
-response_time_weight = 0.5
-resolution_weight = 0.5
+urls_limit = 8
+response_time_weight = 0.8
+resolution_weight = 0.6
 recent_days = 30
 ipv_type = "ipv4"
 domain_blacklist = ["epg.pw"]
