@@ -1,10 +1,6 @@
 央视频道,#genre#
 
 ﻿广东频道,#genre#
-大湾区卫视,http://39.134.24.162/dbiptv.sn.chinamobile.com/PLTV/88888890/224/3221226218/index.m3u8
-大湾区卫视,http://223.10.24.101:8085/udp/239.1.1.69:8069
-大湾区卫视,http://gmxw.7766.org:808/hls/132/index.m3u8
-大湾区卫视,http://38.64.72.148/hls/modn/list/4011/chunklist0.m3u8
 
 卫视频道,#genre#
 
