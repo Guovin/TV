@@ -111,16 +111,13 @@ class UpdateSource:
                             print(f"Error on page {page}: {e}")
                             continue
                 try:
-                    if infoList:
-                        sorted_data = await compareSpeedAndResolution(infoList)
-                        if sorted_data:
-                            channelUrls[name] = (
-                                getTotalUrls(sorted_data) or channelObj[name]
+                    sorted_data = await compareSpeedAndResolution(infoList)
+                    if sorted_data:
+                        channelUrls[name] = getTotalUrls(sorted_data)
+                        for (url, date, resolution), response_time in sorted_data:
+                            logging.info(
+                                f"Name: {name}, URL: {url}, Date: {date}, Resolution: {resolution}, Response Time: {response_time}ms"
                             )
-                            for (url, date, resolution), response_time in sorted_data:
-                                logging.info(
-                                    f"Name: {name}, URL: {url}, Date: {date}, Resolution: {resolution}, Response Time: {response_time}ms"
-                                )
                     else:
                         channelUrls[name] = filterUrlsByPatterns(channelObj[name])
                 except Exception as e:
