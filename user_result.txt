@@ -1,6 +1,43 @@
 央视频道,#genre#
+CCTV-3,http://114.100.195.107:4022/rtp/238.1.78.170:7232
+CCTV-3,http://39.134.24.166/dbiptv.sn.chinamobile.com/PLTV/88888888/224/3221226397/1.m3u8
+CCTV-3,http://114.252.225.231:8000/rtp/239.3.1.172:8001
+CCTV-3,http://111.126.255.2:808/hls/103/index.m3u8
+CCTV-3,http://angtv.cc/jd/gdlz.php?id=cctv3
+CCTV-3,http://223.109.210.41/zycfcdn.gdwlcloud.com/PLTV/88888888/224/3221225611/index.m3u8
+CCTV-3,https://cntv.lat/tv/live.php?auth=231110&id=cctv3
+CCTV-3,https://live.goodiptv.club/api/bestv.php?id=cctv38m/8000000
+CCTV-4,http://lu1.cc/itv/php/cctv4k.php
+CCTV-4,http://121.235.191.182:12999/hls/4/index.m3u8
+CCTV-4,http://159.75.85.63:5679/cctv4k.php
+CCTV-4,http://39.134.24.162/dbiptv.sn.chinamobile.com/PLTV/88888890/224/3221226191/index.m3u8
+CCTV-4,http://39.134.24.161/dbiptv.sn.chinamobile.com/PLTV/88888890/224/3221226191/index.m3u8
+CCTV-4,https://global.cgtn.cicc.media.caton.cloud/master/cgtn-america.m3u8
+CCTV-4,http://113.86.205.10:808/hls/116/index.m3u8
+CCTV-4,http://39.134.24.162/dbiptv.sn.chinamobile.com/PLTV/88888888/224/3221226191/1.m3u8
+CCTV-4,http://angtv.cc/jd/gdlz.php?id=cctv4
+CCTV-4,http://223.109.210.41/zycfcdn.gdwlcloud.com/PLTV/88888888/224/3221225610/index.m3u8
+CCTV-4,https://cntv.lat/tv/live.php?auth=231110&id=cctv4k
+CCTV-4,https://cntv.lat/tv/live.php?auth=231110&id=cctv4
+CCTV-4,https://live.goodiptv.club/api/bestv.php?id=cctv4hd8m/8000000
+CCTV-4,https://live.goodiptv.club/api/bestv.php?id=cctv4k/15000000
+CCTV-4,https://live.v1.mk/api/bestv.php?id=cctv4k/15000000
+CCTV-5+,http://114.249.19.38:4022/rtp/239.3.1.173:8001
+CCTV-5+,http://39.134.24.161/dbiptv.sn.chinamobile.com/PLTV/88888890/224/3221226395/index.m3u8
+CCTV-5+,http://xxw.me0.cn/api/migu.php?id=8
+CCTV-5+,https://piccpndali.v.myalicdn.com/audio/cctv5_2.m3u8
+CCTV-5+,https://live.goodiptv.club/api/bestv.php?id=cctv58m/8000000
+CCTV-6,http://117.141.149.101:4431/tsfile/live/faacts/0006_1.m3u8
+CCTV-6,http://39.134.24.166/dbiptv.sn.chinamobile.com/PLTV/88888888/224/3221226393/1.m3u8
+CCTV-6,http://123.112.246.1:5555/rtp/239.3.1.174:8001
+CCTV-6,http://110.7.130.110:9901/tsfile/live/0006_1.m3u8
+CCTV-6,http://110.7.130.246:9901/tsfile/live/0006_1.m3u8
+CCTV-6,http://angtv.cc/jd/gdlz.php?id=cctv6
+CCTV-6,http://223.109.210.41/zycfcdn.gdwlcloud.com/PLTV/88888888/224/3221225609/index.m3u8
+CCTV-6,https://live.goodiptv.club/api/bestv.php?id=cctv6hd8m/8000000
 
 ﻿广东频道,#genre#
+佛山公共,http://www.namewee.xyz/gudou.php?id=foshangonggongHD_4500
 
 卫视频道,#genre#
 
