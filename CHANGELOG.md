@@ -1,5 +1,12 @@
 # 更新日志（Changelog）
 
+## v1.0.7
+
+### 2024/4/19
+
+- 增加双节点接口来源获取（Added dual-node interface source acquisition）
+- 优化频道更新结果为空的情况（#81）（Optimized the situation where the channel update result is empty (#81)）
+
 ## v1.0.6
 
 ### 2024/4/12

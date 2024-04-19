@@ -1,6 +1,6 @@
-# TVBox Custom Channel Menu and Live Source Interface Auto-update
+# Customization of TVBox TV Channel Menu and Automatic Verification and Update of Live Source Interfaces
 
-Customize channel menus, automatically fetch and update the latest live source interfaces based on the template file, and generate usable channel interface files.
+Customize channel menus and automatically obtain and update the latest live source interfaces based on template files, verify, and generate usable channel interface files.
 
 [中文](./README.md) | English
 
