@@ -111,7 +111,7 @@ class UpdateSource:
                 try:
                     github_actions = os.environ.get("GITHUB_ACTIONS")
                     if not github_actions or (
-                        total_channels <= 150 and github_actions == "true"
+                        pbar.n <= 150 and github_actions == "true"
                     ):
                         sorted_data = await compareSpeedAndResolution(infoList)
                         if sorted_data:
