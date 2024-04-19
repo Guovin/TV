@@ -38,6 +38,11 @@ Customize channel menus and automatically obtain and update the latest live sour
 
 For detailed tutorial, please see [Quick Start](./docs/tutorial-EN.md)
 
+If you don't want to bother, and my configuration just meets your needs, you can use the following links:
+
+- Interface source: https://mirror.ghproxy.com/raw.githubusercontent.com/Guovin/TV/master/result.txt
+- Data source: https://mirror.ghproxy.com/raw.githubusercontent.com/Guovin/TV/master/source.json
+
 ## Changelog
 
 [Changelog](./CHANGELOG.md)
