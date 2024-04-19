@@ -63,6 +63,9 @@ class UpdateSource:
     async def visitPage(self, channelItems):
         total_channels = sum(len(channelObj) for _, channelObj in channelItems.items())
         pbar = tqdm(total=total_channels)
+        pageObj = await useAccessibleUrl()
+        pageUrl = pageObj["url"]
+        pageName = pageObj["name"]
         for cate, channelObj in channelItems.items():
             channelUrls = {}
             channelObjKeys = channelObj.keys()
@@ -75,11 +78,10 @@ class UpdateSource:
                     config.favorite_page_num if isFavorite else config.default_page_num
                 )
                 infoList = []
-                baseUrl = await useAccessibleUrl
-                if baseUrl:
+                if pageUrl:
                     for page in range(1, pageNum + 1):
                         try:
-                            page_url = f"{baseUrl}?page={page}&s={name}"
+                            page_url = f"{pageUrl}?page={page}&{pageName}={name}"
                             self.driver.get(page_url)
                             WebDriverWait(self.driver, 10).until(
                                 EC.presence_of_element_located(
@@ -107,13 +109,19 @@ class UpdateSource:
                             print(f"Error on page {page}: {e}")
                             continue
                 try:
-                    sorted_data = await compareSpeedAndResolution(infoList)
-                    if sorted_data:
-                        channelUrls[name] = getTotalUrls(sorted_data)
-                        for (url, date, resolution), response_time in sorted_data:
-                            logging.info(
-                                f"Name: {name}, URL: {url}, Date: {date}, Resolution: {resolution}, Response Time: {response_time}ms"
-                            )
+                    github_actions = os.environ.get("GITHUB_ACTIONS")
+                    if not github_actions or (
+                        total_channels <= 150 and github_actions == "true"
+                    ):
+                        sorted_data = await compareSpeedAndResolution(infoList)
+                        if sorted_data:
+                            channelUrls[name] = getTotalUrls(sorted_data)
+                            for (url, date, resolution), response_time in sorted_data:
+                                logging.info(
+                                    f"Name: {name}, URL: {url}, Date: {date}, Resolution: {resolution}, Response Time: {response_time}ms"
+                                )
+                        else:
+                            channelUrls[name] = filterUrlsByPatterns(channelObj[name])
                     else:
                         channelUrls[name] = filterUrlsByPatterns(channelObj[name])
                 except Exception as e:

@@ -31,15 +31,8 @@ def getChannelItems():
         channels = {}
         current_category = ""
         pattern = r"^(.*?),(?!#genre#)(.*?)$"
-        total_channels = 0
-        max_channels = 150
 
         for line in lines:
-            if (
-                total_channels >= max_channels
-                and os.environ.get("GITHUB_ACTIONS") == "true"
-            ):
-                break
             line = line.strip()
             if "#genre#" in line:
                 # This is a new channel, create a new key in the dictionary.
@@ -51,7 +44,6 @@ def getChannelItems():
                 if match:
                     if match.group(1) not in channels[current_category]:
                         channels[current_category][match.group(1)] = [match.group(2)]
-                        total_channels += 1
                     else:
                         channels[current_category][match.group(1)].append(
                             match.group(2)
@@ -112,14 +104,14 @@ def getUrlInfo(result):
     return url, date, resolution
 
 
-async def getSpeed(url):
+async def getSpeed(url, urlTimeout=5):
     """
     Get the speed of the url
     """
     async with aiohttp.ClientSession() as session:
         start = time.time()
         try:
-            async with session.get(url, timeout=5) as response:
+            async with session.get(url, timeout=urlTimeout) as response:
                 resStatus = response.status
         except:
             return float("inf")
@@ -273,11 +265,11 @@ async def useAccessibleUrl():
     """
     baseUrl1 = "https://www.foodieguide.com/iptvsearch/"
     baseUrl2 = "http://tonkiang.us/"
-    speed1 = await getSpeed(baseUrl1)
-    speed2 = await getSpeed(baseUrl2)
+    speed1 = await getSpeed(baseUrl1, 30)
+    speed2 = await getSpeed(baseUrl2, 30)
     if speed1 == float("inf") and speed2 == float("inf"):
-        return None
+        return {"url": None, "name": None}
     if speed1 < speed2:
-        return baseUrl1
+        return {"url": baseUrl1, "name": "s"}
     else:
-        return baseUrl2
+        return {"url": baseUrl2, "name": "tx"}
