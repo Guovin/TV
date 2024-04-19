@@ -4,8 +4,9 @@
 
 ### 2024/4/19
 
-- 增加双节点接口来源获取（Added dual-node interface source acquisition）
+- 增加双节点接口来源，按最佳节点更新（Added dual-node interface source, update according to the best node）
 - 优化频道更新结果为空的情况（#81）（Optimized the situation where the channel update result is empty (#81)）
+- 调整工作流资源使用限制逻辑，在允许的范围内提升更新速度（Adjusted the logic of workflow resource usage limit, increase the update speed within the allowable range）
 
 ## v1.0.6
 
