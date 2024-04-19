@@ -75,11 +75,11 @@
 
 ### 1. 安装 Python
 
-请至官方下载并安装 Python
+请至官方下载并安装 Python，安装时请选择将 Python 添加到系统环境变量 Path 中
 
 ### 2. 运行更新
 
-项目目录下终端运行以下命令：
+项目目录下打开终端 CMD 依次运行以下命令：
 
 ```python
 pip3 install pipenv
@@ -112,7 +112,7 @@ https://mirror.ghproxy.com/raw.githubusercontent.com/您的github用户名/仓�
 回到您的仓库首页，如果项目有更新内容，点击 Sync fork，Update branch 确认即可更新最新代码
 ![Sync-fork](./images/sync-fork.png 'Sync fork')
 
-<p style="color: red; text-align: center; font-size: 24px; font-weight: bolder;">以下内容请谨慎使用，如果您有大量的频道需要更新，请使用本地更新，勿使用自动更新，配置不当可能导致账户或工作流封禁！</p>
+## 以下内容请谨慎使用，如果您有大量的频道需要更新，请使用本地更新，勿使用自动更新，配置不当可能导致账户或工作流封禁！
 
 ## 步骤六：开启自动更新（仅适合少量频道更新）
 
@@ -174,9 +174,6 @@ https://mirror.ghproxy.com/raw.githubusercontent.com/您的github用户名/仓�
 ![.github/workflows/main.yml](./images/schedule-cron.png '.github/workflows/main.yml')
 如果您想修改更新频率（默认北京时间每日 8:00），可修改 on:schedule:- cron 字段。
 
-<p style="color: red; font-size: 16px; font-weight: bolder;">
-1. 强烈不建议修改，因为短时间内的接口内容并无差异，过高的更新频率与高耗时运行的工作流都有可能被判定为资源滥用，导致仓库与账户被封禁的风险。
-</p>
-<p style="color: red; font-size: 16px; font-weight: bolder;">
-2. 请留意您的工作流运行时长，若发现执行时间过长，需要适当删减模板中频道数量、修改配置中的分页数量和接口数量，以达到合规的运行要求。
-</p>
+### 1. 强烈不建议修改，因为短时间内的接口内容并无差异，过高的更新频率与高耗时运行的工作流都有可能被判定为资源滥用，导致仓库与账户被封禁的风险。
+
+### 2. 请留意您的工作流运行时长，若发现执行时间过长，需要适当删减模板中频道数量、修改配置中的分页数量和接口数量，以达到合规的运行要求。

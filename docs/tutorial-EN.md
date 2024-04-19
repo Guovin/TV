@@ -76,11 +76,11 @@ Adjust the configuration as needed. Below is the default configuration explanati
 
 ### 1. Install Python
 
-Please download and install Python from the official website.
+Please download and install Python from the official website, and choose to add Python to the system environment variable Path during installation.
 
 ### 2. Run the Update
 
-Run the following commands in the terminal under the project directory:
+Open the terminal CMD under the project directory and run the following commands in order:
 
 ```python
 pip3 install pipenv
@@ -113,7 +113,7 @@ Follow this project to be notified by email about the latest updates and release
 Return to the homepage of your repository. If there are updates to the project, click on "Sync fork" and then "Update branch" to confirm and update to the latest code.
 ![Sync-fork](./images/sync-fork.png 'Sync fork')
 
-<p style="color: red; text-align: center; font-size: 24px; font-weight: bolder;">Please use the following content with caution. If you have a large number of channels that need to be updated, please use local updates instead of automatic updates. Improper configuration may lead to your account or workflow being banned!</p>
+## Please use the following content with caution. If you have a large number of channels that need to be updated, please use local updates instead of automatic updates. Improper configuration may lead to your account or workflow being banned!
 
 ## Step 6: Enable Auto-update (Only suitable for a small number of channel updates)
 
@@ -175,9 +175,6 @@ If you can access this link and it returns the updated interface content, then y
 ![.github/workflows/main.yml](./images/schedule-cron.png '.github/workflows/main.yml')
 If you want to modify the update frequency (default: daily at 8:00 am Beijing time), you can modify the on:schedule:- cron field.
 
-<p style="color: red; font-size: 16px; font-weight: bolder;">
-1. It is strongly discouraged to make modifications, as there is no difference in the content of the interface in a short period of time. Both too frequent updates and high-consumption running workflows may be judged as resource abuse, leading to the risk of the repository and account being banned.
-</p>
-<p style="color: red; font-size: 16px; font-weight: bolder;">
-2. Please pay attention to the runtime of your workflow. If you find that the execution time is too long, you need to appropriately reduce the number of channels in the template, modify the number of pages and interfaces in the configuration, in order to meet the compliant operation requirements.
-</p>
+### 1. It is strongly discouraged to make modifications, as there is no difference in the content of the interface in a short period of time. Both too frequent updates and high-consumption running workflows may be judged as resource abuse, leading to the risk of the repository and account being banned.
+
+### 2. Please pay attention to the runtime of your workflow. If you find that the execution time is too long, you need to appropriately reduce the number of channels in the template, modify the number of pages and interfaces in the configuration, in order to meet the compliant operation requirements.
