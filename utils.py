@@ -267,13 +267,17 @@ def filterUrlsByPatterns(urls):
     return urls
 
 
-async def checkUrlAccessible(url):
+async def useAccessibleUrl():
     """
     Check if the url is accessible
     """
-    async with aiohttp.ClientSession() as session:
-        try:
-            async with session.get(url, timeout=30) as response:
-                return response.status == 200
-        except:
-            return False
+    baseUrl1 = "https://www.foodieguide.com/iptvsearch/"
+    baseUrl2 = "http://tonkiang.us/"
+    speed1 = await getSpeed(baseUrl1)
+    speed2 = await getSpeed(baseUrl2)
+    if speed1 == float("inf") and speed2 == float("inf"):
+        return None
+    if speed1 < speed2:
+        return baseUrl1
+    else:
+        return baseUrl2

@@ -20,7 +20,7 @@ from utils import (
     checkByDomainBlacklist,
     checkByURLKeywordsBlacklist,
     filterUrlsByPatterns,
-    checkUrlAccessible,
+    useAccessibleUrl,
 )
 import logging
 from logging.handlers import RotatingFileHandler
@@ -74,25 +74,21 @@ class UpdateSource:
                 pageNum = (
                     config.favorite_page_num if isFavorite else config.default_page_num
                 )
-                baseUrl = "https://www.foodieguide.com/iptvsearch/"
                 infoList = []
-                urlAccessible = await checkUrlAccessible(baseUrl)
-                if urlAccessible:
+                baseUrl = await useAccessibleUrl
+                if baseUrl:
                     for page in range(1, pageNum + 1):
                         try:
                             page_url = f"{baseUrl}?page={page}&s={name}"
                             self.driver.get(page_url)
                             WebDriverWait(self.driver, 10).until(
                                 EC.presence_of_element_located(
-                                    (By.CSS_SELECTOR, "div.tables")
+                                    (By.CSS_SELECTOR, "div.result")
                                 )
                             )
                             soup = BeautifulSoup(self.driver.page_source, "html.parser")
-                            tables_div = soup.find("div", class_="tables")
                             results = (
-                                tables_div.find_all("div", class_="result")
-                                if tables_div
-                                else []
+                                soup.find_all("div", class_="result") if soup else []
                             )
                             for result in results:
                                 try:
