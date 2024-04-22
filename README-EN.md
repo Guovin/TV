@@ -10,7 +10,7 @@ Customize channel menus and automatically obtain and update the latest live sour
 - Interface validation to filter out invalid interfaces
 - Comprehensive sorting based on response time and resolution
 - Scheduled execution, updates every day at 8:00 am Beijing time
-- The maximum number of channels that can be updated in the workflow is 150, while there is no limit when running locally
+- The maximum number of channels that can be updated in the workflow is 200, while there is no limit when running locally
 - Set up key focus channels and configure the number of pages fetched separately
 - Pagination results retrieval (configurable number of pages and interfaces)
 - Ensure update timeliness, configure to retrieve interfaces updated within a recent time range
@@ -24,8 +24,8 @@ Customize channel menus and automatically obtain and update the latest live sour
 | source_file            | "demo.txt"         | Template file name                                                                                                 |
 | final_file             | "result.txt"       | Generated file name                                                                                                |
 | favorite_list          | ["CCTV1","CCTV13"] | List of favorite channel names (used only to distinguish from regular channels, custom page retrieval quantity)    |
-| favorite_page_num      | 3                  | Page retrieval quantity for favorite channels                                                                      |
-| default_page_num       | 2                  | Page retrieval quantity for regular channels                                                                       |
+| favorite_page_num      | 5                  | Page retrieval quantity for favorite channels                                                                      |
+| default_page_num       | 3                  | Page retrieval quantity for regular channels                                                                       |
 | urls_limit             | 10                 | Number of interfaces per channel                                                                                   |
 | response_time_weight   | 0.5                | Response time weight value (the sum of all weight values should be 1)                                              |
 | resolution_weight      | 0.5                | Resolution weight value (the sum of all weight values should be 1)                                                 |
