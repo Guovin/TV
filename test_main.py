@@ -1,3 +1,5 @@
+from trans.trans2m3u import trans2m3u
+
 try:
     import user_config as config
 except ImportError:
@@ -20,7 +22,7 @@ from utils import (
     checkByDomainBlacklist,
     checkByURLKeywordsBlacklist,
     filterUrlsByPatterns,
-    checkUrlAccessible, check1920x1080,
+    checkUrlAccessible,
 )
 import logging
 from logging.handlers import RotatingFileHandler
@@ -28,14 +30,13 @@ import os
 from tqdm import tqdm
 
 console_handler = logging.StreamHandler()
-logger_level = logging.DEBUG
 
 handler = RotatingFileHandler("result_new.log", encoding="utf-8")
 logging.basicConfig(
     handlers=[handler, console_handler],
     format="%(asctime)s %(name)s:%(levelname)s:%(message)s",
     datefmt="%d-%M-%Y %H:%M:%S",
-    level=logger_level,
+    level=logging.INFO,
 )
 
 logger = logging.getLogger("tv")
@@ -73,7 +74,7 @@ class UpdateSource:
             channelUrls = {}
             channelObjKeys = channelObj.keys()
             for name in channelObjKeys:
-                logger.debug(f"--------------------------- name: {name}")
+                logger.info(f"--------------------------- name: {name}")
                 pbar.set_description(
                     f"Processing {name}, {total_channels - pbar.n} channels remaining"
                 )
@@ -84,12 +85,11 @@ class UpdateSource:
                 baseUrl = "https://www.foodieguide.com/iptvsearch/"
                 infoList = []
                 urlAccessible = await checkUrlAccessible(baseUrl)
-                logger.debug("urlAccessible: {}".format(urlAccessible))
                 if urlAccessible:
                     for page in range(1, pageNum + 1):
                         try:
                             page_url = f"{baseUrl}?page={page}&s={name}"
-                            logger.debug("========== page_url: {}".format(page_url))
+                            logger.info("========== page_url: {}".format(page_url))
                             self.driver.get(page_url)
                             WebDriverWait(self.driver, 10).until(
                                 EC.presence_of_element_located(
@@ -106,23 +106,26 @@ class UpdateSource:
                             for result in results:
                                 try:
                                     url, date, resolution = getUrlInfo(result)
-                                    logger.debug(f"-------> name：{name} url: {url} resolution: {resolution}")
+                                    logger.info(f"-------> name：{name} url: {url}")
                                     if (
                                         url
                                         and checkUrlIPVType(url)
                                         and checkByDomainBlacklist(url)
                                         and checkByURLKeywordsBlacklist(url)
-                                        and check1920x1080(resolution)
                                     ):
                                         infoList.append((url, date, resolution))
                                 except Exception as e:
-                                    logger.error(f"Error on result {result}: {e}")
+                                    logger.info(f"Error on result {result}: {e}")
                                     continue
                         except Exception as e:
-                            logger.error(f"Error on page {page}: {e}")
+                            logger.info(f"Error on page {page}: {e}")
                             continue
                 try:
                     if infoList:
+                        from datetime import datetime
+                        current_date = datetime.now().strftime('%m-%d-%Y')
+                        for url in channelObj[name]:
+                            infoList.append((url,current_date,'1920x1080'))
                         sorted_data = await compareSpeedAndResolution(infoList)
                         if sorted_data:
                             for (url, date, resolution), response_time in sorted_data:
@@ -137,7 +140,7 @@ class UpdateSource:
                     else:
                         channelUrls[name] = filterUrlsByPatterns(channelObj[name])
                 except Exception as e:
-                    logger.error(f"Error on sorting: {e}")
+                    logger.info(f"Error on sorting: {e}")
                     continue
                 finally:
                     pbar.update()
@@ -159,7 +162,7 @@ class UpdateSource:
         updateFile(user_final_file, "result_new.txt")
         updateFile(user_log_file, "result_new.log")
         logger.info(f"Update completed! Please check the {user_final_file} file!")
-        # trans2m3u(user_final_file, "playlist.m3u")
+        trans2m3u(user_final_file, "playlist.m3u")
 
 
 UpdateSource().main()

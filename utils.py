@@ -28,7 +28,7 @@ def getChannelItems():
             if os.path.exists("user_" + config.source_file)
             else getattr(config, "source_file", "demo.txt")
         )
-        logger.info("user_source_file: %s", user_source_file)
+        logger.debug("user_source_file: %s", user_source_file)
         with open(user_source_file, "r", encoding="utf-8") as f:
             lines = f.readlines()
 
@@ -133,6 +133,13 @@ async def getSpeed(url):
             return int(round((end - start) * 1000))
         else:
             return float("inf")
+
+async def compareSpeeds(urls):
+    response_times = await asyncio.gather(*(getSpeed(url) for url in urls))
+    valid_responses = [
+       (info, rt) for info, rt in zip(urls, response_times) if rt != float("inf")
+    ]
+
 
 
 async def compareSpeedAndResolution(infoList):
@@ -261,6 +268,18 @@ def checkByURLKeywordsBlacklist(url):
     url_keywords_blacklist = getattr(config, "url_keywords_blacklist", [])
     return not any(keyword in url for keyword in url_keywords_blacklist)
 
+def check1920x1080(resolution):
+    if resolution is None or resolution == "":
+        return False
+    if resolution == ' Fastest':
+        return True
+    numbers = re.findall(r"\d+x\d+", resolution)
+    if numbers:
+        width, height = map(int, numbers[0].split("x"))
+        if width >= 1920 and height >= 1080:
+            return True
+    else:
+        return False
 
 def filterUrlsByPatterns(urls):
     """
