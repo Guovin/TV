@@ -272,4 +272,4 @@ async def useAccessibleUrl():
     if speed1 < speed2:
         return {"url": baseUrl1, "name": "s"}
     else:
-        return {"url": baseUrl2, "name": "tx"}
+        return {"url": baseUrl2, "name": "tv"}
