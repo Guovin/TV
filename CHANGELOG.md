@@ -1,5 +1,12 @@
 # 更新日志（Changelog）
 
+## v1.0.8
+
+### 2024/4/24
+
+- 跟进某个节点检索频道名称参数变更（#91）（Follow up on the parameter change of channel name retrieval for a certain node (#91)）
+- 调整默认运行配置（Adjust the default running configuration）
+
 ## v1.0.7
 
 ### 2024/4/19
