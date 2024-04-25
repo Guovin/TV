@@ -1,5 +1,11 @@
 # 更新日志（Changelog）
 
+## v1.0.9
+
+### 2024/4/25
+
+- 改进接口获取方法，增强处理多种失效场景（Improve the method of obtaining the interface, enhance the handling of various failure scenarios）
+
 ## v1.0.8
 
 ### 2024/4/24
