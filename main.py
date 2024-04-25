@@ -14,13 +14,14 @@ from utils import (
     updateChannelUrlsTxt,
     updateFile,
     getUrlInfo,
-    compareSpeedAndResolution,
+    sortUrlsBySpeedAndResolution,
     getTotalUrls,
     checkUrlIPVType,
     checkByDomainBlacklist,
     checkByURLKeywordsBlacklist,
     filterUrlsByPatterns,
     useAccessibleUrl,
+    getChannelsByExtendBaseUrls,
 )
 import logging
 from logging.handlers import RotatingFileHandler
@@ -61,7 +62,11 @@ class UpdateSource:
         self.driver = self.setup_driver()
 
     async def visitPage(self, channelItems):
-        total_channels = sum(len(channelObj) for _, channelObj in channelItems.items())
+        channelNames = [
+            name for _, channelObj in channelItems.items() for name in channelObj.keys()
+        ]
+        extendResults = await getChannelsByExtendBaseUrls(channelNames)
+        total_channels = len(channelNames)
         pbar = tqdm(total=total_channels)
         pageUrl = await useAccessibleUrl()
         for cate, channelObj in channelItems.items():
@@ -84,6 +89,8 @@ class UpdateSource:
                     config.favorite_page_num if isFavorite else config.default_page_num
                 )
                 infoList = []
+                for url in extendResults.get(name, []):
+                    infoList.append((url, None, None))
                 if pageUrl:
                     for page in range(1, pageNum + 1):
                         try:
@@ -118,7 +125,7 @@ class UpdateSource:
                     if not github_actions or (
                         pbar.n <= 200 and github_actions == "true"
                     ):
-                        sorted_data = await compareSpeedAndResolution(infoList)
+                        sorted_data = await sortUrlsBySpeedAndResolution(infoList)
                         if sorted_data:
                             channelUrls[name] = getTotalUrls(sorted_data)
                             for (url, date, resolution), response_time in sorted_data:

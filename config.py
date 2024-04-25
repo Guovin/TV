@@ -24,3 +24,4 @@ recent_days = 30
 ipv_type = "ipv4"
 domain_blacklist = ["epg.pw"]
 url_keywords_blacklist = []
+extend_base_urls = []

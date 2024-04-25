@@ -11,6 +11,7 @@ import os
 import urllib.parse
 import ipaddress
 from urllib.parse import urlparse
+import requests
 
 
 def getChannelItems():
@@ -44,13 +45,62 @@ def getChannelItems():
                 if match:
                     if match.group(1) not in channels[current_category]:
                         channels[current_category][match.group(1)] = [match.group(2)]
-                    else:
+                    elif (
+                        match.group(2)
+                        and match.group(2)
+                        not in channels[current_category][match.group(1)]
+                    ):
                         channels[current_category][match.group(1)].append(
                             match.group(2)
                         )
         return channels
     finally:
         f.close()
+
+
+async def getChannelsByExtendBaseUrls(channel_names):
+    """
+    Get the channels by extending the base urls
+    """
+    channels = {}
+    pattern = r"^(.*?),(?!#genre#)(.*?)$"
+    for base_url in config.extend_base_urls:
+        try:
+            print(f"Processing extend base url: {base_url}")
+            try:
+                response = requests.get(base_url, timeout=10)
+            except requests.exceptions.Timeout:
+                print(f"Timeout on {base_url}")
+                continue
+            content = response.text
+            if content:
+                for channel_name in channel_names:
+                    urls = []
+                    lines = content.split("\n")
+                    for line in lines:
+                        line = line.strip()
+                        match = re.search(pattern, line)
+                        url = match.group(2)
+                        if (
+                            match
+                            and match.group(1) == channel_name
+                            and url
+                            and url not in urls
+                            and checkUrlIPVType(url)
+                            and checkByDomainBlacklist(url)
+                            and checkByURLKeywordsBlacklist(url)
+                        ):
+                            urls.append(url)
+                    if urls:
+                        if channel_name in channels:
+                            channels[channel_name] += urls
+                        else:
+                            channels[channel_name] = urls
+        except Exception as e:
+            print(f"Error on {base_url}: {e}")
+            continue
+    print("Finished processing extend base urls")
+    return channels
 
 
 def updateChannelUrlsTxt(cate, channelUrls):
@@ -122,7 +172,7 @@ async def getSpeed(url, urlTimeout=5):
             return float("inf")
 
 
-async def compareSpeedAndResolution(infoList):
+async def sortUrlsBySpeedAndResolution(infoList):
     """
     Sort by speed and resolution
     """
