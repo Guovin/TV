@@ -63,9 +63,7 @@ class UpdateSource:
     async def visitPage(self, channelItems):
         total_channels = sum(len(channelObj) for _, channelObj in channelItems.items())
         pbar = tqdm(total=total_channels)
-        pageObj = await useAccessibleUrl()
-        pageUrl = pageObj["url"]
-        pageName = pageObj["name"]
+        pageUrl = await useAccessibleUrl()
         for cate, channelObj in channelItems.items():
             channelUrls = {}
             channelObjKeys = channelObj.keys()
@@ -73,6 +71,14 @@ class UpdateSource:
                 pbar.set_description(
                     f"Processing {name}, {total_channels - pbar.n} channels remaining"
                 )
+                self.driver.get(pageUrl)
+                search_box = self.driver.find_element(By.XPATH, '//input[@type="text"]')
+                search_box.clear()
+                search_box.send_keys(name)
+                submit_button = self.driver.find_element(
+                    By.XPATH, '//input[@type="submit"]'
+                )
+                submit_button.click()
                 isFavorite = name in config.favorite_list
                 pageNum = (
                     config.favorite_page_num if isFavorite else config.default_page_num
@@ -81,13 +87,11 @@ class UpdateSource:
                 if pageUrl:
                     for page in range(1, pageNum + 1):
                         try:
-                            page_url = f"{pageUrl}?page={page}&{pageName}={name}"
-                            self.driver.get(page_url)
-                            WebDriverWait(self.driver, 10).until(
-                                EC.presence_of_element_located(
-                                    (By.CSS_SELECTOR, "div.result")
+                            if page > 1:
+                                page_link = self.driver.find_element(
+                                    By.XPATH, f'//a[contains(@href, "page={page}")]'
                                 )
-                            )
+                                page_link.click()
                             soup = BeautifulSoup(self.driver.page_source, "html.parser")
                             results = (
                                 soup.find_all("div", class_="result") if soup else []
@@ -95,6 +99,7 @@ class UpdateSource:
                             for result in results:
                                 try:
                                     url, date, resolution = getUrlInfo(result)
+                                    print(url, date, resolution)
                                     if (
                                         url
                                         and checkUrlIPVType(url)
