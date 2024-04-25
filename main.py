@@ -89,7 +89,8 @@ class UpdateSource:
                         try:
                             if page > 1:
                                 page_link = self.driver.find_element(
-                                    By.XPATH, f'//a[contains(@href, "page={page}")]'
+                                    By.XPATH,
+                                    f'//a[contains(@href, "={page}") and contains(@href, "{name}")]',
                                 )
                                 page_link.click()
                             soup = BeautifulSoup(self.driver.page_source, "html.parser")
@@ -99,7 +100,6 @@ class UpdateSource:
                             for result in results:
                                 try:
                                     url, date, resolution = getUrlInfo(result)
-                                    print(url, date, resolution)
                                     if (
                                         url
                                         and checkUrlIPVType(url)
