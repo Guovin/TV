@@ -268,8 +268,8 @@ async def useAccessibleUrl():
     speed1 = await getSpeed(baseUrl1, 30)
     speed2 = await getSpeed(baseUrl2, 30)
     if speed1 == float("inf") and speed2 == float("inf"):
-        return {"url": None, "name": None}
+        return None
     if speed1 < speed2:
-        return {"url": baseUrl1, "name": "s"}
+        return baseUrl1
     else:
-        return {"url": baseUrl2, "name": "tv"}
+        return baseUrl2
