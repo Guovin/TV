@@ -93,7 +93,7 @@ class UpdateSource:
                             (By.XPATH, '//input[@type="submit"]')
                         )
                     )
-                    submit_button.click()
+                    self.driver.execute_script("arguments[0].click();", submit_button)
                     isFavorite = name in config.favorite_list
                     pageNum = (
                         config.favorite_page_num
@@ -111,7 +111,9 @@ class UpdateSource:
                                         )
                                     )
                                 )
-                                page_link.click()
+                                self.driver.execute_script(
+                                    "arguments[0].click();", page_link
+                                )
                             soup = BeautifulSoup(self.driver.page_source, "html.parser")
                             results = (
                                 soup.find_all("div", class_="result") if soup else []
