@@ -12,6 +12,7 @@ import urllib.parse
 import ipaddress
 from urllib.parse import urlparse
 import requests
+import re
 
 
 def getChannelItems():
@@ -42,7 +43,7 @@ def getChannelItems():
             else:
                 # This is a url, add it to the list of urls for the current channel.
                 match = re.search(pattern, line)
-                if match:
+                if match is not None:
                     if match.group(1) not in channels[current_category]:
                         channels[current_category][match.group(1)] = [match.group(2)]
                     elif (
@@ -64,38 +65,47 @@ async def getChannelsByExtendBaseUrls(channel_names):
     """
     channels = {}
     pattern = r"^(.*?),(?!#genre#)(.*?)$"
+    sub_pattern = r"_\((.*?)\)|_\[(.*?)\]|频道"
     for base_url in config.extend_base_urls:
         try:
             print(f"Processing extend base url: {base_url}")
             try:
-                response = requests.get(base_url, timeout=10)
+                response = requests.get(base_url, timeout=30)
             except requests.exceptions.Timeout:
                 print(f"Timeout on {base_url}")
                 continue
             content = response.text
             if content:
-                for channel_name in channel_names:
-                    urls = []
-                    lines = content.split("\n")
-                    for line in lines:
-                        line = line.strip()
-                        match = re.search(pattern, line)
-                        url = match.group(2)
-                        if (
-                            match
-                            and match.group(1) == channel_name
-                            and url
-                            and url not in urls
-                            and checkUrlIPVType(url)
-                            and checkByDomainBlacklist(url)
-                            and checkByURLKeywordsBlacklist(url)
-                        ):
-                            urls.append(url)
-                    if urls:
-                        if channel_name in channels:
-                            channels[channel_name] += urls
+                lines = content.split("\n")
+                link_dict = {}
+                for line in lines:
+                    if re.match(pattern, line) is not None:
+                        key = re.match(pattern, line).group(1)
+                        resolution_match = re.search(r"_(\((.*?)\))", key)
+                        resolution = (
+                            resolution_match.group(2)
+                            if resolution_match is not None
+                            else None
+                        )
+                        key = re.sub(sub_pattern, "", key).lower()
+                        url = re.match(pattern, line).group(2)
+                        value = (url, None, resolution)
+                        if key in link_dict:
+                            link_dict[key].append(value)
                         else:
-                            channels[channel_name] = urls
+                            link_dict[key] = [value]
+                found_channels = []
+                for channel_name in channel_names:
+                    sub_channel_name = re.sub(sub_pattern, "", channel_name).lower()
+                    values = link_dict.get(sub_channel_name)
+                    if values:
+                        if channel_name in channels:
+                            channels[channel_name] += values
+                        else:
+                            channels[channel_name] = values
+                        found_channels.append(channel_name)
+                if found_channels:
+                    print(f"{base_url} found channels: {','.join(found_channels)}")
         except Exception as e:
             print(f"Error on {base_url}: {e}")
             continue
@@ -139,7 +149,7 @@ def getUrlInfo(result):
             r"http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+",
             channel_text,
         )
-        if url_match:
+        if url_match is not None:
             url = url_match.group()
         info_text = result_div[-1].get_text(strip=True)
         if info_text:
@@ -297,6 +307,17 @@ def checkByURLKeywordsBlacklist(url):
     """
     url_keywords_blacklist = getattr(config, "url_keywords_blacklist", [])
     return not any(keyword in url for keyword in url_keywords_blacklist)
+
+
+def checkUrlByPatterns(url):
+    """
+    Check the url by patterns
+    """
+    return (
+        checkUrlIPVType(url)
+        and checkByDomainBlacklist(url)
+        and checkByURLKeywordsBlacklist(url)
+    )
 
 
 def filterUrlsByPatterns(urls):

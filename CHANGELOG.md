@@ -1,5 +1,11 @@
 # 更新日志（Changelog）
 
+## v1.1.0
+
+### 2024/4/26
+
+- 新增自定义接口获取源，配置项为 extend_base_urls（#56）（Added custom interface for source acquisition, the configuration item is extend_base_urls (#56)）
+
 ## v1.0.9
 
 ### 2024/4/25

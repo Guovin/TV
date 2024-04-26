@@ -16,12 +16,10 @@ from utils import (
     getUrlInfo,
     sortUrlsBySpeedAndResolution,
     getTotalUrls,
-    checkUrlIPVType,
-    checkByDomainBlacklist,
-    checkByURLKeywordsBlacklist,
     filterUrlsByPatterns,
     useAccessibleUrl,
     getChannelsByExtendBaseUrls,
+    checkUrlByPatterns,
 )
 import logging
 from logging.handlers import RotatingFileHandler
@@ -69,6 +67,7 @@ class UpdateSource:
         total_channels = len(channelNames)
         pbar = tqdm(total=total_channels)
         pageUrl = await useAccessibleUrl()
+        wait = WebDriverWait(self.driver, 10)
         for cate, channelObj in channelItems.items():
             channelUrls = {}
             channelObjKeys = channelObj.keys()
@@ -76,28 +75,41 @@ class UpdateSource:
                 pbar.set_description(
                     f"Processing {name}, {total_channels - pbar.n} channels remaining"
                 )
-                self.driver.get(pageUrl)
-                search_box = self.driver.find_element(By.XPATH, '//input[@type="text"]')
-                search_box.clear()
-                search_box.send_keys(name)
-                submit_button = self.driver.find_element(
-                    By.XPATH, '//input[@type="submit"]'
-                )
-                submit_button.click()
-                isFavorite = name in config.favorite_list
-                pageNum = (
-                    config.favorite_page_num if isFavorite else config.default_page_num
-                )
                 infoList = []
-                for url in extendResults.get(name, []):
-                    infoList.append((url, None, None))
+                for url, date, resolution in extendResults.get(name, []):
+                    if url and checkUrlByPatterns(url):
+                        infoList.append((url, None, resolution))
                 if pageUrl:
+                    self.driver.get(pageUrl)
+                    search_box = wait.until(
+                        EC.presence_of_element_located(
+                            (By.XPATH, '//input[@type="text"]')
+                        )
+                    )
+                    search_box.clear()
+                    search_box.send_keys(name)
+                    submit_button = wait.until(
+                        EC.element_to_be_clickable(
+                            (By.XPATH, '//input[@type="submit"]')
+                        )
+                    )
+                    submit_button.click()
+                    isFavorite = name in config.favorite_list
+                    pageNum = (
+                        config.favorite_page_num
+                        if isFavorite
+                        else config.default_page_num
+                    )
                     for page in range(1, pageNum + 1):
                         try:
                             if page > 1:
-                                page_link = self.driver.find_element(
-                                    By.XPATH,
-                                    f'//a[contains(@href, "={page}") and contains(@href, "{name}")]',
+                                page_link = wait.until(
+                                    EC.element_to_be_clickable(
+                                        (
+                                            By.XPATH,
+                                            f'//a[contains(@href, "={page}") and contains(@href, "{name}")]',
+                                        )
+                                    )
                                 )
                                 page_link.click()
                             soup = BeautifulSoup(self.driver.page_source, "html.parser")
@@ -107,12 +119,7 @@ class UpdateSource:
                             for result in results:
                                 try:
                                     url, date, resolution = getUrlInfo(result)
-                                    if (
-                                        url
-                                        and checkUrlIPVType(url)
-                                        and checkByDomainBlacklist(url)
-                                        and checkByURLKeywordsBlacklist(url)
-                                    ):
+                                    if url and checkUrlByPatterns(url):
                                         infoList.append((url, date, resolution))
                                 except Exception as e:
                                     print(f"Error on result {result}: {e}")
