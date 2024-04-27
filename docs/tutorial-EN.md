@@ -57,30 +57,31 @@ Similar to editing the template, modify the running configuration
 
 Adjust the configuration as needed. Below is the default configuration explanation:
 
-| Configuration Item     | Default Value      | Description                                                                                                        |
-| ---------------------- | ------------------ | ------------------------------------------------------------------------------------------------------------------ |
-| source_file            | "demo.txt"         | Template file name                                                                                                 |
-| final_file             | "result.txt"       | Generated file name                                                                                                |
-| favorite_list          | ["CCTV1","CCTV13"] | List of favorite channel names (used only to distinguish from regular channels, custom page retrieval quantity)    |
-| favorite_page_num      | 3                  | Page retrieval quantity for favorite channels                                                                      |
-| default_page_num       | 2                  | Page retrieval quantity for regular channels                                                                       |
-| urls_limit             | 10                 | Number of interfaces per channel                                                                                   |
-| response_time_weight   | 0.5                | Response time weight value (the sum of all weight values should be 1)                                              |
-| resolution_weight      | 0.5                | Resolution weight value (the sum of all weight values should be 1)                                                 |
-| recent_days            | 30                 | Retrieve interfaces updated within a recent time range (in days), reducing appropriately can avoid matching issues |
-| ipv_type               | "ipv4"             | The type of interface in the generated result, optional values: "ipv4", "ipv6", "all"                              |
-| domain_blacklist       | ["epg.pw"]         | Interface domain blacklist, used to filter out interfaces with low-quality, ad-inclusive domains                   |
-| url_keywords_blacklist | []                 | Interface keyword blacklist, used to filter out interfaces containing specific characters                          |
+| Configuration Item     | Default Value                                                                                                               | Description                                                                                                                           |
+| ---------------------- | --------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| source_file            | "demo.txt"                                                                                                                  | Template file name                                                                                                                    |
+| final_file             | "result.txt"                                                                                                                | Generated file name                                                                                                                   |
+| favorite_list          | ["CCTV1","CCTV13"]                                                                                                          | List of favorite channel names (used only to distinguish from regular channels, custom page retrieval quantity)                       |
+| favorite_page_num      | 5                                                                                                                           | Page retrieval quantity for favorite channels                                                                                         |
+| default_page_num       | 3                                                                                                                           | Page retrieval quantity for regular channels                                                                                          |
+| urls_limit             | 10                                                                                                                          | Number of interfaces per channel                                                                                                      |
+| response_time_weight   | 0.5                                                                                                                         | Response time weight value (the sum of all weight values should be 1)                                                                 |
+| resolution_weight      | 0.5                                                                                                                         | Resolution weight value (the sum of all weight values should be 1)                                                                    |
+| recent_days            | 30                                                                                                                          | Retrieve interfaces updated within a recent time range (in days), reducing appropriately can avoid matching issues                    |
+| ipv_type               | "ipv4"                                                                                                                      | The type of interface in the generated result, optional values: "ipv4", "ipv6", "all"                                                 |
+| domain_blacklist       | ["epg.pw"]                                                                                                                  | Interface domain blacklist, used to filter out interfaces with low-quality, ad-inclusive domains                                      |
+| url_keywords_blacklist | []                                                                                                                          | Interface keyword blacklist, used to filter out interfaces containing specific characters                                             |
+| extend_base_urls       | ["https://m3u.ibert.me/txt/fmml_dv6.txt",<br>"https://m3u.ibert.me/txt/o_cn.txt",<br>"https://m3u.ibert.me/txt/j_iptv.txt"] | The source of interface acquisition, currently only compatible with specific content formats and fuzzy matching of some channel names |
 
 ## Step 4: Run Updates Locally (Recommended, Stable, Supports a large number of channel updates)
 
 ### 1. Install Python
 
-Please download and install Python from the official website.
+Please download and install Python from the official website, and choose to add Python to the system environment variable Path during installation.
 
 ### 2. Run the Update
 
-Run the following commands in the terminal under the project directory:
+Open the terminal CMD under the project directory and run the following commands in order:
 
 ```python
 pip3 install pipenv
@@ -113,7 +114,7 @@ Follow this project to be notified by email about the latest updates and release
 Return to the homepage of your repository. If there are updates to the project, click on "Sync fork" and then "Update branch" to confirm and update to the latest code.
 ![Sync-fork](./images/sync-fork.png 'Sync fork')
 
-<p style="color: red; text-align: center; font-size: 24px; font-weight: bolder;">Please use the following content with caution. If you have a large number of channels that need to be updated, please use local updates instead of automatic updates. Improper configuration may lead to your account or workflow being banned!</p>
+## Please use the following content with caution. If you have a large number of channels that need to be updated, please use local updates instead of automatic updates. Improper configuration may lead to your account or workflow being banned!
 
 ## Step 6: Enable Auto-update (Only suitable for a small number of channel updates)
 
@@ -175,9 +176,6 @@ If you can access this link and it returns the updated interface content, then y
 ![.github/workflows/main.yml](./images/schedule-cron.png '.github/workflows/main.yml')
 If you want to modify the update frequency (default: daily at 8:00 am Beijing time), you can modify the on:schedule:- cron field.
 
-<p style="color: red; font-size: 16px; font-weight: bolder;">
-1. It is strongly discouraged to make modifications, as there is no difference in the content of the interface in a short period of time. Both too frequent updates and high-consumption running workflows may be judged as resource abuse, leading to the risk of the repository and account being banned.
-</p>
-<p style="color: red; font-size: 16px; font-weight: bolder;">
-2. Please pay attention to the runtime of your workflow. If you find that the execution time is too long, you need to appropriately reduce the number of channels in the template, modify the number of pages and interfaces in the configuration, in order to meet the compliant operation requirements.
-</p>
+### 1. It is strongly discouraged to make modifications, as there is no difference in the content of the interface in a short period of time. Both too frequent updates and high-consumption running workflows may be judged as resource abuse, leading to the risk of the repository and account being banned.
+
+### 2. Please pay attention to the runtime of your workflow. If you find that the execution time is too long, you need to appropriately reduce the number of channels in the template, modify the number of pages and interfaces in the configuration, in order to meet the compliant operation requirements.

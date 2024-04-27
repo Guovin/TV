@@ -1,6 +1,6 @@
-# TVBox Custom Channel Menu and Live Source Interface Auto-update
+# Customization of TVBox TV Channel Menu and Automatic Verification and Update of Live Source Interfaces
 
-Customize channel menus, automatically fetch and update the latest live source interfaces based on the template file, and generate usable channel interface files.
+Customize channel menus and automatically obtain and update the latest live source interfaces based on template files, verify, and generate usable channel interface files.
 
 [中文](./README.md) | English
 
@@ -10,33 +10,40 @@ Customize channel menus, automatically fetch and update the latest live source i
 - Interface validation to filter out invalid interfaces
 - Comprehensive sorting based on response time and resolution
 - Scheduled execution, updates every day at 8:00 am Beijing time
-- The maximum number of channels that can be updated in the workflow is 150, while there is no limit when running locally
+- The maximum number of channels that can be updated in the workflow is 200, while there is no limit when running locally
 - Set up key focus channels and configure the number of pages fetched separately
 - Pagination results retrieval (configurable number of pages and interfaces)
 - Ensure update timeliness, configure to retrieve interfaces updated within a recent time range
 - Can filter ipv4, ipv6 interfaces
 - Blacklist feature: Interface domain and keywords
+- Customize the source of interface acquisition
 
 ## Config
 
-| Configuration Item     | Default Value      | Description                                                                                                        |
-| ---------------------- | ------------------ | ------------------------------------------------------------------------------------------------------------------ |
-| source_file            | "demo.txt"         | Template file name                                                                                                 |
-| final_file             | "result.txt"       | Generated file name                                                                                                |
-| favorite_list          | ["CCTV1","CCTV13"] | List of favorite channel names (used only to distinguish from regular channels, custom page retrieval quantity)    |
-| favorite_page_num      | 3                  | Page retrieval quantity for favorite channels                                                                      |
-| default_page_num       | 2                  | Page retrieval quantity for regular channels                                                                       |
-| urls_limit             | 10                 | Number of interfaces per channel                                                                                   |
-| response_time_weight   | 0.5                | Response time weight value (the sum of all weight values should be 1)                                              |
-| resolution_weight      | 0.5                | Resolution weight value (the sum of all weight values should be 1)                                                 |
-| recent_days            | 30                 | Retrieve interfaces updated within a recent time range (in days), reducing appropriately can avoid matching issues |
-| ipv_type               | "ipv4"             | The type of interface in the generated result, optional values: "ipv4", "ipv6", "all"                              |
-| domain_blacklist       | ["epg.pw"]         | Interface domain blacklist, used to filter out interfaces with low-quality, ad-inclusive domains                   |
-| url_keywords_blacklist | []                 | Interface keyword blacklist, used to filter out interfaces containing specific characters                          |
+| Configuration Item     | Default Value                                                                                                               | Description                                                                                                                           |
+| ---------------------- | --------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| source_file            | "demo.txt"                                                                                                                  | Template file name                                                                                                                    |
+| final_file             | "result.txt"                                                                                                                | Generated file name                                                                                                                   |
+| favorite_list          | ["CCTV1","CCTV13"]                                                                                                          | List of favorite channel names (used only to distinguish from regular channels, custom page retrieval quantity)                       |
+| favorite_page_num      | 5                                                                                                                           | Page retrieval quantity for favorite channels                                                                                         |
+| default_page_num       | 3                                                                                                                           | Page retrieval quantity for regular channels                                                                                          |
+| urls_limit             | 10                                                                                                                          | Number of interfaces per channel                                                                                                      |
+| response_time_weight   | 0.5                                                                                                                         | Response time weight value (the sum of all weight values should be 1)                                                                 |
+| resolution_weight      | 0.5                                                                                                                         | Resolution weight value (the sum of all weight values should be 1)                                                                    |
+| recent_days            | 30                                                                                                                          | Retrieve interfaces updated within a recent time range (in days), reducing appropriately can avoid matching issues                    |
+| ipv_type               | "ipv4"                                                                                                                      | The type of interface in the generated result, optional values: "ipv4", "ipv6", "all"                                                 |
+| domain_blacklist       | ["epg.pw"]                                                                                                                  | Interface domain blacklist, used to filter out interfaces with low-quality, ad-inclusive domains                                      |
+| url_keywords_blacklist | []                                                                                                                          | Interface keyword blacklist, used to filter out interfaces containing specific characters                                             |
+| extend_base_urls       | ["https://m3u.ibert.me/txt/fmml_dv6.txt",<br>"https://m3u.ibert.me/txt/o_cn.txt",<br>"https://m3u.ibert.me/txt/j_iptv.txt"] | The source of interface acquisition, currently only compatible with specific content formats and fuzzy matching of some channel names |
 
 ## Quick Start
 
 For detailed tutorial, please see [Quick Start](./docs/tutorial-EN.md)
+
+If you don't want to bother, and my configuration just meets your needs, you can use the following links:
+
+- Interface source: https://mirror.ghproxy.com/raw.githubusercontent.com/Guovin/TV/master/result.txt
+- Data source: https://mirror.ghproxy.com/raw.githubusercontent.com/Guovin/TV/master/source.json
 
 ## Changelog
 

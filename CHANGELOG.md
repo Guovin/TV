@@ -1,5 +1,32 @@
 # 更新日志（Changelog）
 
+## v1.1.0
+
+### 2024/4/26
+
+- 新增自定义接口获取源，配置项为 extend_base_urls（#56）（Added custom interface for source acquisition, the configuration item is extend_base_urls (#56)）
+
+## v1.0.9
+
+### 2024/4/25
+
+- 改进接口获取方法，增强处理多种失效场景（Improve the method of obtaining the interface, enhance the handling of various failure scenarios）
+
+## v1.0.8
+
+### 2024/4/24
+
+- 跟进某个节点检索频道名称参数变更（#91）（Follow up on the parameter change of channel name retrieval for a certain node (#91)）
+- 调整默认运行配置（Adjust the default running configuration）
+
+## v1.0.7
+
+### 2024/4/19
+
+- 增加双节点接口来源，按最佳节点更新（Added dual-node interface source, update according to the best node）
+- 优化频道更新结果为空的情况（#81）（Optimized the situation where the channel update result is empty (#81)）
+- 调整工作流资源使用限制逻辑，在允许的范围内提升更新速度（Adjusted the logic of workflow resource usage limit, increase the update speed within the allowable range）
+
 ## v1.0.6
 
 ### 2024/4/12

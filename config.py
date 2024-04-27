@@ -15,8 +15,8 @@ favorite_list = [
     "湖南卫视",
     "翡翠台",
 ]
-favorite_page_num = 3
-default_page_num = 2
+favorite_page_num = 5
+default_page_num = 3
 urls_limit = 10
 response_time_weight = 0.5
 resolution_weight = 0.5
@@ -24,3 +24,8 @@ recent_days = 30
 ipv_type = "ipv4"
 domain_blacklist = ["epg.pw"]
 url_keywords_blacklist = []
+extend_base_urls = [
+    "https://m3u.ibert.me/txt/fmml_dv6.txt",
+    "https://m3u.ibert.me/txt/o_cn.txt",
+    "https://m3u.ibert.me/txt/j_iptv.txt",
+]

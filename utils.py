@@ -11,6 +11,8 @@ import os
 import urllib.parse
 import ipaddress
 from urllib.parse import urlparse
+import requests
+import re
 
 
 def getChannelItems():
@@ -31,15 +33,8 @@ def getChannelItems():
         channels = {}
         current_category = ""
         pattern = r"^(.*?),(?!#genre#)(.*?)$"
-        total_channels = 0
-        max_channels = 150
 
         for line in lines:
-            if (
-                total_channels >= max_channels
-                and os.environ.get("GITHUB_ACTIONS") == "true"
-            ):
-                break
             line = line.strip()
             if "#genre#" in line:
                 # This is a new channel, create a new key in the dictionary.
@@ -48,17 +43,74 @@ def getChannelItems():
             else:
                 # This is a url, add it to the list of urls for the current channel.
                 match = re.search(pattern, line)
-                if match:
+                if match is not None:
                     if match.group(1) not in channels[current_category]:
                         channels[current_category][match.group(1)] = [match.group(2)]
-                        total_channels += 1
-                    else:
+                    elif (
+                        match.group(2)
+                        and match.group(2)
+                        not in channels[current_category][match.group(1)]
+                    ):
                         channels[current_category][match.group(1)].append(
                             match.group(2)
                         )
         return channels
     finally:
         f.close()
+
+
+async def getChannelsByExtendBaseUrls(channel_names):
+    """
+    Get the channels by extending the base urls
+    """
+    channels = {}
+    pattern = r"^(.*?),(?!#genre#)(.*?)$"
+    sub_pattern = r"_\((.*?)\)|_\[(.*?)\]|频道"
+    for base_url in config.extend_base_urls:
+        try:
+            print(f"Processing extend base url: {base_url}")
+            try:
+                response = requests.get(base_url, timeout=30)
+            except requests.exceptions.Timeout:
+                print(f"Timeout on {base_url}")
+                continue
+            content = response.text
+            if content:
+                lines = content.split("\n")
+                link_dict = {}
+                for line in lines:
+                    if re.match(pattern, line) is not None:
+                        key = re.match(pattern, line).group(1)
+                        resolution_match = re.search(r"_(\((.*?)\))", key)
+                        resolution = (
+                            resolution_match.group(2)
+                            if resolution_match is not None
+                            else None
+                        )
+                        key = re.sub(sub_pattern, "", key).lower()
+                        url = re.match(pattern, line).group(2)
+                        value = (url, None, resolution)
+                        if key in link_dict:
+                            link_dict[key].append(value)
+                        else:
+                            link_dict[key] = [value]
+                found_channels = []
+                for channel_name in channel_names:
+                    sub_channel_name = re.sub(sub_pattern, "", channel_name).lower()
+                    values = link_dict.get(sub_channel_name)
+                    if values:
+                        if channel_name in channels:
+                            channels[channel_name] += values
+                        else:
+                            channels[channel_name] = values
+                        found_channels.append(channel_name)
+                if found_channels:
+                    print(f"{base_url} found channels: {','.join(found_channels)}")
+        except Exception as e:
+            print(f"Error on {base_url}: {e}")
+            continue
+    print("Finished processing extend base urls")
+    return channels
 
 
 def updateChannelUrlsTxt(cate, channelUrls):
@@ -97,7 +149,7 @@ def getUrlInfo(result):
             r"http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+",
             channel_text,
         )
-        if url_match:
+        if url_match is not None:
             url = url_match.group()
         info_text = result_div[-1].get_text(strip=True)
         if info_text:
@@ -112,14 +164,14 @@ def getUrlInfo(result):
     return url, date, resolution
 
 
-async def getSpeed(url):
+async def getSpeed(url, urlTimeout=5):
     """
     Get the speed of the url
     """
     async with aiohttp.ClientSession() as session:
         start = time.time()
         try:
-            async with session.get(url, timeout=5) as response:
+            async with session.get(url, timeout=urlTimeout) as response:
                 resStatus = response.status
         except:
             return float("inf")
@@ -130,7 +182,7 @@ async def getSpeed(url):
             return float("inf")
 
 
-async def compareSpeedAndResolution(infoList):
+async def sortUrlsBySpeedAndResolution(infoList):
     """
     Sort by speed and resolution
     """
@@ -257,6 +309,17 @@ def checkByURLKeywordsBlacklist(url):
     return not any(keyword in url for keyword in url_keywords_blacklist)
 
 
+def checkUrlByPatterns(url):
+    """
+    Check the url by patterns
+    """
+    return (
+        checkUrlIPVType(url)
+        and checkByDomainBlacklist(url)
+        and checkByURLKeywordsBlacklist(url)
+    )
+
+
 def filterUrlsByPatterns(urls):
     """
     Filter urls by patterns
@@ -267,13 +330,17 @@ def filterUrlsByPatterns(urls):
     return urls
 
 
-async def checkUrlAccessible(url):
+async def useAccessibleUrl():
     """
     Check if the url is accessible
     """
-    async with aiohttp.ClientSession() as session:
-        try:
-            async with session.get(url, timeout=30) as response:
-                return response.status == 200
-        except:
-            return False
+    baseUrl1 = "https://www.foodieguide.com/iptvsearch/"
+    baseUrl2 = "http://tonkiang.us/"
+    speed1 = await getSpeed(baseUrl1, 30)
+    speed2 = await getSpeed(baseUrl2, 30)
+    if speed1 == float("inf") and speed2 == float("inf"):
+        return None
+    if speed1 < speed2:
+        return baseUrl1
+    else:
+        return baseUrl2
