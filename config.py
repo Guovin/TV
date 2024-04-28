@@ -28,4 +28,6 @@ extend_base_urls = [
     "https://m3u.ibert.me/txt/fmml_dv6.txt",
     "https://m3u.ibert.me/txt/o_cn.txt",
     "https://m3u.ibert.me/txt/j_iptv.txt",
+    "https://cc-im-kefu-cos.7moor-fs2.com/im/2768a390-5474-11ea-afc9-7b323e3e16c0/d4fe44c5-107c-4511-af02-aa08fb10dff7/2024-03-21/2024-03-21_01:12:05/1710954725395/37626265/live1213.txt",
+    "https://iptv.002397.xyz/txt/fmml_dv6.txt",
 ]
