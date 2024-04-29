@@ -1,5 +1,11 @@
 # 更新日志（Changelog）
 
+## v1.1.1
+
+### 2024/4/29
+
+- 为避免代码合并冲突，移除 master 分支作为运行更新工作流，master 仅作为新功能发布分支，有使用我的链接的小伙伴请修改使用 gd 分支（void code merge conflicts, the master branch has been removed as the branch for running update workflows. The master branch is now only used for releasing new features. If you are using my link, please modify it to use the gd branch）
+
 ## v1.1.0
 
 ### 2024/4/26
