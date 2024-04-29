@@ -42,8 +42,8 @@ For detailed tutorial, please see [Quick Start](./docs/tutorial-EN.md)
 
 If you don't want to bother, and my configuration just meets your needs, you can use the following links:
 
-- Interface source: https://mirror.ghproxy.com/raw.githubusercontent.com/Guovin/TV/master/result.txt
-- Data source: https://mirror.ghproxy.com/raw.githubusercontent.com/Guovin/TV/master/source.json
+- Interface source: https://mirror.ghproxy.com/raw.githubusercontent.com/Guovin/TV/gd/result.txt
+- Data source: https://mirror.ghproxy.com/raw.githubusercontent.com/Guovin/TV/gd/source.json
 
 ## Changelog
 
