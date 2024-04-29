@@ -2,8 +2,6 @@ source_file = "demo.txt"
 final_file = "result.txt"
 favorite_list = [
     "广东珠江",
-    "开平综合",
-    "开平生活",
     "CCTV-1",
     "CCTV-5",
     "CCTV-5+",
