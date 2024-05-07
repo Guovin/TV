@@ -1,5 +1,19 @@
 # 更新日志（Changelog）
 
+## v1.1.2
+
+### 2024/5/7
+
+- 重构接口获取方法，增强通用性，适应结构变更（Refactored the method for obtaining the interface, enhanced its universality, and adapted to structural changes）
+- 修复 gd 分支自动更新问题（#105）（Fixed the automatic update issue of the gd branch (#105)）
+- 优化自定义接口源获取，接口去重（Optimized the acquisition of custom interface sources and removed duplicate interfaces）
+
+## v1.1.1
+
+### 2024/4/29
+
+- 为避免代码合并冲突，移除 master 分支作为运行更新工作流，master 仅作为新功能发布分支，有使用我的链接的小伙伴请修改使用 gd 分支（void code merge conflicts, the master branch has been removed as the branch for running update workflows. The master branch is now only used for releasing new features. If you are using my link, please modify it to use the gd branch）
+
 ## v1.1.0
 
 ### 2024/4/26
