@@ -91,7 +91,8 @@ async def getChannelsByExtendBaseUrls(channel_names):
                         url = re.match(pattern, line).group(2)
                         value = (url, None, resolution)
                         if key in link_dict:
-                            link_dict[key].append(value)
+                            if value not in link_dict[key]:
+                                link_dict[key].append(value)
                         else:
                             link_dict[key] = [value]
                 found_channels = []
@@ -137,31 +138,37 @@ def updateFile(final_file, old_file):
         os.replace(old_file, final_file)
 
 
-def getUrlInfo(result):
+def getChannelUrl(element):
     """
     Get the url, date and resolution
     """
-    url = date = resolution = None
-    result_div = [div for div in result.children if div.name == "div"]
-    if 1 < len(result_div):
-        channel_text = result_div[1].get_text(strip=True)
-        url_match = re.search(
-            r"http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+",
-            channel_text,
+    url = None
+    urlRegex = r"http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+"
+    url_search = re.search(
+        urlRegex,
+        element.get_text(strip=True),
+    )
+    if url_search:
+        url = url_search.group()
+    return url
+
+
+def getChannelInfo(element):
+    """
+    Get the channel info
+    """
+    date, resolution = None, None
+    info_text = element.get_text(strip=True)
+    if info_text:
+        date, resolution = (
+            (info_text.partition(" ")[0] if info_text.partition(" ")[0] else None),
+            (
+                info_text.partition(" ")[2].partition("•")[2]
+                if info_text.partition(" ")[2].partition("•")[2]
+                else None
+            ),
         )
-        if url_match is not None:
-            url = url_match.group()
-        info_text = result_div[-1].get_text(strip=True)
-        if info_text:
-            date, resolution = (
-                (info_text.partition(" ")[0] if info_text.partition(" ")[0] else None),
-                (
-                    info_text.partition(" ")[2].partition("•")[2]
-                    if info_text.partition(" ")[2].partition("•")[2]
-                    else None
-                ),
-            )
-    return url, date, resolution
+    return date, resolution
 
 
 async def getSpeed(url, urlTimeout=5):

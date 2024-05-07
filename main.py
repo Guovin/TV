@@ -8,12 +8,13 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium_stealth import stealth
 import asyncio
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, NavigableString
 from utils import (
     getChannelItems,
     updateChannelUrlsTxt,
     updateFile,
-    getUrlInfo,
+    getChannelUrl,
+    getChannelInfo,
     sortUrlsBySpeedAndResolution,
     getTotalUrls,
     filterUrlsByPatterns,
@@ -25,6 +26,7 @@ import logging
 from logging.handlers import RotatingFileHandler
 import os
 from tqdm import tqdm
+import re
 
 handler = RotatingFileHandler("result_new.log", encoding="utf-8")
 logging.basicConfig(
@@ -114,18 +116,37 @@ class UpdateSource:
                                 self.driver.execute_script(
                                     "arguments[0].click();", page_link
                                 )
-                            soup = BeautifulSoup(self.driver.page_source, "html.parser")
-                            results = (
-                                soup.find_all("div", class_="result") if soup else []
+                            source = re.sub(
+                                r"<!--.*?-->",
+                                "",
+                                self.driver.page_source,
+                                flags=re.DOTALL,
                             )
-                            for result in results:
-                                try:
-                                    url, date, resolution = getUrlInfo(result)
+                            soup = BeautifulSoup(source, "html.parser")
+                            if soup:
+                                results = []
+                                for element in soup.descendants:
+                                    if isinstance(element, NavigableString):
+                                        url = getChannelUrl(element)
+                                        if url and not any(
+                                            item[0] == url for item in results
+                                        ):
+                                            url_element = soup.find(
+                                                lambda tag: tag.get_text(strip=True)
+                                                == url
+                                            )
+                                            if url_element:
+                                                info_element = (
+                                                    url_element.find_next_sibling()
+                                                )
+                                                date, resolution = getChannelInfo(
+                                                    info_element
+                                                )
+                                                results.append((url, date, resolution))
+                                for result in results:
+                                    url, date, resolution = result
                                     if url and checkUrlByPatterns(url):
                                         infoList.append((url, date, resolution))
-                                except Exception as e:
-                                    print(f"Error on result {result}: {e}")
-                                    continue
                         except Exception as e:
                             print(f"Error on page {page}: {e}")
                             continue
