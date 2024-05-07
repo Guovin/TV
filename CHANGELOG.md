@@ -1,5 +1,13 @@
 # 更新日志（Changelog）
 
+## v1.1.2
+
+### 2024/5/7
+
+- 重构接口获取方法，增强通用性，适应结构变更（Refactored the method for obtaining the interface, enhanced its universality, and adapted to structural changes）
+- 修复 gd 分支自动更新问题（#105）（Fixed the automatic update issue of the gd branch (#105)）
+- 优化自定义接口源获取，接口去重（Optimized the acquisition of custom interface sources and removed duplicate interfaces）
+
 ## v1.1.1
 
 ### 2024/4/29
