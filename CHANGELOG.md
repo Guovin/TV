@@ -1,5 +1,13 @@
 # 更新日志（Changelog）
 
+## v1.1.3
+
+### 2024/5/8
+
+- 优化频道接口不对应问题（#99）（Optimize the mismatch problem of the channel interface (#99)）
+- 处理 tqdm 安全问题（Handle the security issue of tqdm）
+- 修改即将被废弃的命令（Modify the commands that are about to be deprecated）
+
 ## v1.1.2
 
 ### 2024/5/7
