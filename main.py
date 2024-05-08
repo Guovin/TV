@@ -8,13 +8,12 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium_stealth import stealth
 import asyncio
-from bs4 import BeautifulSoup, NavigableString
+from bs4 import BeautifulSoup
 from utils import (
     getChannelItems,
     updateChannelUrlsTxt,
     updateFile,
-    getChannelUrl,
-    getChannelInfo,
+    getResultsFromSoup,
     sortUrlsBySpeedAndResolution,
     getTotalUrls,
     filterUrlsByPatterns,
@@ -124,25 +123,7 @@ class UpdateSource:
                             )
                             soup = BeautifulSoup(source, "html.parser")
                             if soup:
-                                results = []
-                                for element in soup.descendants:
-                                    if isinstance(element, NavigableString):
-                                        url = getChannelUrl(element)
-                                        if url and not any(
-                                            item[0] == url for item in results
-                                        ):
-                                            url_element = soup.find(
-                                                lambda tag: tag.get_text(strip=True)
-                                                == url
-                                            )
-                                            if url_element:
-                                                info_element = (
-                                                    url_element.find_next_sibling()
-                                                )
-                                                date, resolution = getChannelInfo(
-                                                    info_element
-                                                )
-                                                results.append((url, date, resolution))
+                                results = getResultsFromSoup(soup, name)
                                 for result in results:
                                     url, date, resolution = result
                                     if url and checkUrlByPatterns(url):

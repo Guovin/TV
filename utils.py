@@ -13,6 +13,7 @@ import ipaddress
 from urllib.parse import urlparse
 import requests
 import re
+from bs4 import NavigableString
 
 
 def getChannelItems():
@@ -44,16 +45,12 @@ def getChannelItems():
                 # This is a url, add it to the list of urls for the current channel.
                 match = re.search(pattern, line)
                 if match is not None:
-                    if match.group(1) not in channels[current_category]:
-                        channels[current_category][match.group(1)] = [match.group(2)]
-                    elif (
-                        match.group(2)
-                        and match.group(2)
-                        not in channels[current_category][match.group(1)]
-                    ):
-                        channels[current_category][match.group(1)].append(
-                            match.group(2)
-                        )
+                    name = match.group(1).strip()
+                    url = match.group(2).strip()
+                    if name not in channels[current_category]:
+                        channels[current_category][name] = [url]
+                    elif url and url not in channels[current_category][name]:
+                        channels[current_category][name].append(url)
         return channels
     finally:
         f.close()
@@ -169,6 +166,45 @@ def getChannelInfo(element):
             ),
         )
     return date, resolution
+
+
+def checkNameMatch(name, result_name):
+    pattern = r"[a-zA-Z]+[_\-+]|cctv"
+    if re.search(
+        pattern,
+        result_name,
+        re.IGNORECASE,
+    ):
+        print(
+            "Name test match:",
+            name.lower(),
+            result_name.lower(),
+            name.lower() == result_name.lower(),
+        )
+        return name.lower() == result_name.lower()
+    else:
+        return True
+
+
+def getResultsFromSoup(soup, name):
+    """
+    Get the results from the soup
+    """
+    results = []
+    for element in soup.descendants:
+        if isinstance(element, NavigableString):
+            url = getChannelUrl(element)
+            if url and not any(item[0] == url for item in results):
+                url_element = soup.find(lambda tag: tag.get_text(strip=True) == url)
+                if url_element:
+                    name_element = url_element.find_previous_sibling()
+                    if name_element:
+                        channel_name = name_element.get_text(strip=True)
+                        if checkNameMatch(name, channel_name):
+                            info_element = url_element.find_next_sibling()
+                            date, resolution = getChannelInfo(info_element)
+                            results.append((url, date, resolution))
+    return results
 
 
 async def getSpeed(url, urlTimeout=5):
