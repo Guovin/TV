@@ -387,3 +387,37 @@ async def useAccessibleUrl():
         return baseUrl1
     else:
         return baseUrl2
+
+
+def getChannelsByFOFA(source):
+    """
+    Get the channel by FOFA
+    """
+    urls = set(re.findall(r"https?://[\w\.-]+:\d+", source))
+    channels = {}
+    for url in urls:
+        try:
+            response = requests.get(url + "/iptv/live/1000.json?key=txiptv", timeout=2)
+            json_data = response.json()
+            if json_data["code"] == 0:
+                try:
+                    for item in json_data["data"]:
+                        if isinstance(item, dict):
+                            item_name = item.get("name")
+                            item_url = item.get("url")
+                            if item_name and item_url:
+                                total_url = url + item_url
+                                if item_name not in channels:
+                                    channels[item_name] = [total_url]
+                                else:
+                                    channels[item_name].append(total_url)
+                except Exception as e:
+                    print(f"Error on fofa: {e}")
+                    continue
+        except (
+            requests.exceptions.ConnectTimeout,
+            requests.exceptions.ReadTimeout,
+        ):
+            print(f"Connection to {url} timed out.")
+            continue
+    return channels

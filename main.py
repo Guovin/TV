@@ -6,7 +6,8 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium_stealth import stealth
+
+# from selenium_stealth import stealth
 import asyncio
 from bs4 import BeautifulSoup
 from utils import (
@@ -20,12 +21,14 @@ from utils import (
     useAccessibleUrl,
     getChannelsByExtendBaseUrls,
     checkUrlByPatterns,
+    getChannelsByFOFA,
 )
 import logging
 from logging.handlers import RotatingFileHandler
 import os
 from tqdm import tqdm
 import re
+import time
 
 handler = RotatingFileHandler("result_new.log", encoding="utf-8")
 logging.basicConfig(
@@ -46,15 +49,15 @@ class UpdateSource:
         options.add_argument("blink-settings=imagesEnabled=false")
         options.add_argument("--log-level=3")
         driver = webdriver.Chrome(options=options)
-        stealth(
-            driver,
-            languages=["en-US", "en"],
-            vendor="Google Inc.",
-            platform="Win32",
-            webgl_vendor="Intel Inc.",
-            renderer="Intel Iris OpenGL Engine",
-            fix_hairline=True,
-        )
+        # stealth(
+        #     driver,
+        #     languages=["en-US", "en"],
+        #     vendor="Google Inc.",
+        #     platform="Win32",
+        #     webgl_vendor="Intel Inc.",
+        #     renderer="Intel Iris OpenGL Engine",
+        #     fix_hairline=True,
+        # )
         return driver
 
     def __init__(self):
@@ -65,6 +68,15 @@ class UpdateSource:
             name for _, channelObj in channelItems.items() for name in channelObj.keys()
         ]
         extendResults = await getChannelsByExtendBaseUrls(channelNames)
+        print(f"Getting channels by FOFA...")
+        self.driver.get(
+            "https://fofa.info/result?qbase64=ImlwdHYvbGl2ZS96aF9jbi5qcyIgJiYgY291bnRyeT0iQ04iICYmIHJlZ2lvbj0iR3Vhbmdkb25nIg%3D%3D"
+        )
+        time.sleep(10)
+        fofa_source = re.sub(
+            r"<!--.*?-->", "", self.driver.page_source, flags=re.DOTALL
+        )
+        fofa_channels = getChannelsByFOFA(fofa_source)
         total_channels = len(channelNames)
         pbar = tqdm(total=total_channels)
         pageUrl = await useAccessibleUrl()
@@ -80,6 +92,9 @@ class UpdateSource:
                 for url, date, resolution in extendResults.get(name, []):
                     if url and checkUrlByPatterns(url):
                         infoList.append((url, None, resolution))
+                for url in fofa_channels.get(name, []):
+                    if url and checkUrlByPatterns(url):
+                        infoList.append((url, None, None))
                 if pageUrl:
                     self.driver.get(pageUrl)
                     search_box = wait.until(
