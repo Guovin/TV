@@ -1,427 +1,600 @@
-Name: 广东珠江, URL: http://183.6.110.242:9901/hls/1050/index.m3u8, Date: 05-04-2024, Resolution: 1920x1080, Response Time: 452ms
-Name: 广东珠江, URL: http://183.6.110.241:9901/hls/1050/index.m3u8, Date: 05-11-2024, Resolution: 1920x1080, Response Time: 467ms
-Name: 广东珠江, URL: http://183.11.239.36:808/hls/83/index.m3u8, Date: 04-13-2024, Resolution: 1920x1080, Response Time: 470ms
-Name: 广东珠江, URL: http://218.13.170.98:9901/tsfile/live/1000_1.m3u8, Date: 04-24-2024, Resolution: 1920x1080, Response Time: 487ms
-Name: 广东珠江, URL: http://219.135.208.218:8083/tsfile/live/0017_1.m3u8, Date: 04-18-2024, Resolution: 1024x576, Response Time: 466ms
-Name: 广东珠江, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 671ms
-Name: 广东珠江, URL: http://120.197.112.28:9901/tsfile/live/1019_1.m3u8, Date: 05-12-2024, Resolution: 1024x576, Response Time: 884ms
-Name: 开平综合, URL: http://php.jdshipin.com:8880/chudian.php?id=kpzh, Date: 03-27-2024, Resolution: None, Response Time: 2862ms
-Name: 开平生活, URL: http://php.jdshipin.com:8880/chudian.php?id=kpsh, Date: 03-27-2024, Resolution: None, Response Time: 1498ms
-Name: 广东体育, URL: http://116.21.123.52:4433/tsfile/live/0142_1.m3u8, Date: 05-13-2024, Resolution: 1920x1080, Response Time: 448ms
-Name: 广东体育, URL: http://218.13.170.98:9901/tsfile/live/0019_1.m3u8, Date: 05-10-2024, Resolution: 1920x1080, Response Time: 451ms
-Name: 广东体育, URL: http://php.jdshipin.com:8880/chudian.php?id=gdty, Date: 05-12-2024, Resolution: 1280x720, Response Time: 1320ms
-Name: 广东体育, URL: http://14.212.185.138:9901/tsfile/live/1002_1.m3u8, Date: 05-14-2024, Resolution: 1024x576, Response Time: 467ms
-Name: 广东体育, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 671ms
-Name: 广东体育, URL: http://219.135.208.218:8083/tsfile/live/1000_1.m3u8, Date: 03-29-2024, Resolution: None, Response Time: 466ms
-Name: 广东体育, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel34/index.m3u8, Date: 05-13-2024, Resolution: None, Response Time: 748ms
-Name: 广东新闻, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 671ms
-Name: 广东新闻, URL: http://gmxw.7766.org:808/hls/5/index.m3u8, Date: 11-06-2023, Resolution: None, Response Time: 4746ms
-Name: 广东卫视, URL: http://113.71.148.79:5555/udp/239.77.1.152:5146, Date: 05-13-2024, Resolution: 1920x1080, Response Time: 457ms
-Name: 广东卫视, URL: http://116.21.123.52:4433/tsfile/live/0125_1.m3u8, Date: 05-14-2024, Resolution: 1920x1080, Response Time: 461ms
-Name: 广东卫视, URL: http://fangke.blueswords.com:9901/tsfile/live/0142_1.m3u8, Date: 05-07-2024, Resolution: 1920x1080, Response Time: 987ms
-Name: 广东卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/gdwshd8m/8000000/mnf.m3u8, Date: 04-25-2024, Resolution: 1920x1080, Response Time: 4760ms
-Name: 广东卫视, URL: http://tvbox.netsite.cc/proxy/730496254/730496254.m3u8, Date: 05-11-2024, Resolution: 1280x720, Response Time: 665ms
-Name: 广东卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 685ms
-Name: 广东卫视, URL: http://www.8700956.top:18888/udp/239.81.0.36:4056, Date: 05-12-2024, Resolution: 786x576, Response Time: 1274ms
-Name: 广东卫视, URL: http://117.10.59.110:8888/newlive/live/hls/18/live.m3u8, Date: 05-09-2024, Resolution: 768x576, Response Time: 488ms
-Name: 广东卫视, URL: http://113.128.226.58:8888/newlive/live/hls/29/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 478ms
+Name: 广东珠江, URL: http://183.6.110.241:9901/hls/1050/index.m3u8, Date: 05-11-2024, Resolution: 1920x1080, Response Time: 453ms
+Name: 广东珠江, URL: http://183.6.110.242:9901/hls/1050/index.m3u8, Date: 05-04-2024, Resolution: 1920x1080, Response Time: 455ms
+Name: 广东珠江, URL: http://183.6.110.242:9901/hls/1050/index.m3u8, Date: 05-04-2024, Resolution: 1920x1080, Response Time: 459ms
+Name: 广东珠江, URL: http://218.13.170.98:9901/tsfile/live/1000_1.m3u8, Date: 04-24-2024, Resolution: 1920x1080, Response Time: 467ms
+Name: 广东珠江, URL: http://183.6.110.241:9901/hls/1050/index.m3u8, Date: 05-11-2024, Resolution: 1920x1080, Response Time: 472ms
+Name: 广东珠江, URL: http://218.13.170.98:9901/tsfile/live/1000_1.m3u8, Date: 04-24-2024, Resolution: 1920x1080, Response Time: 496ms
+Name: 广东珠江, URL: http://183.11.239.36:808/hls/83/index.m3u8, Date: 04-13-2024, Resolution: 1920x1080, Response Time: 519ms
+Name: 广东珠江, URL: http://183.11.239.36:808/hls/83/index.m3u8, Date: 04-13-2024, Resolution: 1920x1080, Response Time: 1476ms
+Name: 广东珠江, URL: http://219.135.208.218:8083/tsfile/live/0017_1.m3u8, Date: 04-18-2024, Resolution: 1024x576, Response Time: 458ms
+Name: 广东珠江, URL: http://219.135.208.218:8083/tsfile/live/0017_1.m3u8, Date: 04-18-2024, Resolution: 1024x576, Response Time: 464ms
+Name: 广东珠江, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 676ms
+Name: 广东珠江, URL: http://120.197.112.28:9901/tsfile/live/1019_1.m3u8, Date: 05-15-2024, Resolution: 1024x576, Response Time: 1341ms
+Name: 广东珠江, URL: http://120.197.112.28:9901/tsfile/live/1019_1.m3u8, Date: 05-15-2024, Resolution: 1024x576, Response Time: 1344ms
+Name: 广东珠江, URL: http://219.135.208.218:8083/tsfile/live/0017_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 463ms
+Name: 广东珠江, URL: http://mom.coms.hk:9901/tsfile/live/1007_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 481ms
+Name: 开平综合, URL: http://php.jdshipin.com:8880/chudian.php?id=kpzh, Date: 03-27-2024, Resolution: None, Response Time: 2799ms
+Name: 开平生活, URL: http://php.jdshipin.com:8880/chudian.php?id=kpsh, Date: 03-27-2024, Resolution: None, Response Time: 1447ms
+Name: 广东体育, URL: http://116.21.123.52:4433/tsfile/live/0142_1.m3u8, Date: 05-13-2024, Resolution: 1920x1080, Response Time: 450ms
+Name: 广东体育, URL: http://116.21.122.2:4433/tsfile/live/0142_1.m3u8, Date: 05-13-2024, Resolution: 1920x1080, Response Time: 460ms
+Name: 广东体育, URL: http://116.21.122.2:4433/tsfile/live/0142_1.m3u8, Date: 05-13-2024, Resolution: 1920x1080, Response Time: 463ms
+Name: 广东体育, URL: http://218.13.170.98:9901/tsfile/live/0019_1.m3u8, Date: 05-10-2024, Resolution: 1920x1080, Response Time: 477ms
+Name: 广东体育, URL: http://218.13.170.98:9901/tsfile/live/0019_1.m3u8, Date: 05-10-2024, Resolution: 1920x1080, Response Time: 497ms
+Name: 广东体育, URL: http://php.jdshipin.com:8880/chudian.php?id=gdty, Date: 05-12-2024, Resolution: 1280x720, Response Time: 1852ms
+Name: 广东体育, URL: http://php.jdshipin.com:8880/chudian.php?id=gdty, Date: 05-12-2024, Resolution: 1280x720, Response Time: 1857ms
+Name: 广东体育, URL: http://14.212.185.138:9901/tsfile/live/1002_1.m3u8, Date: 05-14-2024, Resolution: 1024x576, Response Time: 465ms
+Name: 广东体育, URL: http://14.212.185.138:9901/tsfile/live/1002_1.m3u8, Date: 05-14-2024, Resolution: 1024x576, Response Time: 479ms
+Name: 广东体育, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 675ms
+Name: 广东体育, URL: http://116.21.122.2:4433/tsfile/live/0142_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 457ms
+Name: 广东体育, URL: http://219.135.208.218:8083/tsfile/live/1000_1.m3u8, Date: 03-29-2024, Resolution: None, Response Time: 461ms
+Name: 广东体育, URL: http://219.135.208.218:8083/tsfile/live/1000_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 465ms
+Name: 广东体育, URL: http://219.135.208.218:8083/tsfile/live/1000_1.m3u8, Date: 03-29-2024, Resolution: None, Response Time: 467ms
+Name: 广东体育, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel34/index.m3u8, Date: 05-13-2024, Resolution: None, Response Time: 851ms
+Name: 广东体育, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel34/index.m3u8, Date: 05-13-2024, Resolution: None, Response Time: 861ms
+Name: 广东新闻, URL: http://113.101.160.144:8888/udp/239.77.0.173:5146, Date: 05-14-2024, Resolution: 1920x1080, Response Time: 476ms
+Name: 广东新闻, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 676ms
+Name: 广东新闻, URL: http://219.135.208.218:8083/tsfile/live/0018_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 468ms
+Name: 广东新闻, URL: http://mom.coms.hk:9901/tsfile/live/1008_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 470ms
+Name: 广东新闻, URL: http://gmxw.7766.org:808/hls/5/index.m3u8, Date: 11-06-2023, Resolution: None, Response Time: 962ms
+Name: 广东卫视, URL: http://116.21.123.52:4433/tsfile/live/0125_1.m3u8, Date: 05-14-2024, Resolution: 1920x1080, Response Time: 449ms
+Name: 广东卫视, URL: http://113.71.148.79:5555/udp/239.77.1.152:5146, Date: 05-13-2024, Resolution: 1920x1080, Response Time: 470ms
+Name: 广东卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/gdwshd8m/8000000/mnf.m3u8, Date: 04-25-2024, Resolution: 1920x1080, Response Time: 504ms
+Name: 广东卫视, URL: http://fangke.blueswords.com:9901/tsfile/live/0142_1.m3u8, Date: 05-07-2024, Resolution: 1920x1080, Response Time: 811ms
+Name: 广东卫视, URL: http://tvbox.netsite.cc/proxy/730496254/730496254.m3u8, Date: 05-11-2024, Resolution: 1280x720, Response Time: 692ms
+Name: 广东卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 675ms
+Name: 广东卫视, URL: http://www.8700956.top:18888/udp/239.81.0.36:4056, Date: 05-12-2024, Resolution: 786x576, Response Time: 1194ms
+Name: 广东卫视, URL: http://116.21.122.2:4433/tsfile/live/0125_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 457ms
+Name: 广东卫视, URL: http://219.135.208.218:8083/tsfile/live/0016_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 466ms
+Name: 广东卫视, URL: http://60.190.128.194:8888/newlive/live/hls/21/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 478ms
+Name: 广东卫视, URL: http://113.128.226.58:8888/newlive/live/hls/29/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 535ms
 Name: 大湾区卫视, URL: http://38.64.72.148/hls/modn/list/4011/chunklist0.m3u8, Date: 05-08-2024, Resolution: 1920x1080, Response Time: 109ms
-Name: 大湾区卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 684ms
-Name: 新会综合, URL: http://php.jdshipin.com:8880/chudian.php?id=xhzh, Date: 03-27-2024, Resolution: None, Response Time: 2104ms
-Name: 鹤山综合, URL: http://php.jdshipin.com:8880/chudian.php?id=hszh, Date: 03-29-2024, Resolution: None, Response Time: 2325ms
-Name: 广州综合, URL: http://v2.91kds.cn/b9/gdgztv.m3u8?id=gdgzzh&auth=rinimabi, Date: 10-25-2023, Resolution: None, Response Time: 3944ms
-Name: 广州影视, URL: http://v2.91kds.cn/b9/gdgztv.m3u8?id=gdgzys&auth=rinimabi, Date: 08-06-2023, Resolution: None, Response Time: 1700ms
-Name: 深圳卫视, URL: http://113.128.226.58:8888/newlive/live/hls/28/live.m3u8, Date: 05-02-2024, Resolution: 1920x1080, Response Time: 477ms
-Name: 深圳卫视, URL: http://116.11.156.112:1188/tsfile/live/1027_1.m3u8, Date: 05-14-2024, Resolution: 1920x1080, Response Time: 514ms
-Name: 深圳卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/szwshd8m/8000000/mnf.m3u8, Date: 04-29-2024, Resolution: 1920x1080, Response Time: 970ms
-Name: 深圳卫视, URL: http://tvbox.netsite.cc/proxy/846832031/846832031.m3u8, Date: 05-11-2024, Resolution: 1280x720, Response Time: 648ms
-Name: 深圳卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 683ms
-Name: 深圳卫视, URL: http://117.10.59.110:8888/newlive/live/hls/25/live.m3u8, Date: 05-10-2024, Resolution: 1024x576, Response Time: 2386ms
-Name: 深圳卫视, URL: http://58.220.219.14:9901/tsfile/live/0126_1.m3u8?key=txiptv, Date: 04-23-2024, Resolution: 720x576, Response Time: 478ms
-Name: 深圳卫视, URL: http://111.75.151.236:50085/newlive/live/hls/26/live.m3u8, Date: 04-01-2024, Resolution: None, Response Time: 499ms
-Name: 深圳卫视, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel17/index.m3u8, Date: 05-13-2024, Resolution: None, Response Time: 2161ms
-Name: CCTV-1, URL: http://nas.hssvm.com:8888/udp/225.1.1.120:5002, Date: 05-13-2024, Resolution: 1920x1080, Response Time: 606ms
-Name: CCTV-1, URL: http://tvbox.netsite.cc/proxy/753065176/753065176.m3u8, Date: 05-13-2024, Resolution: 1920x1080, Response Time: 753ms
-Name: CCTV-1, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel1/index.m3u8, Date: 05-14-2024, Resolution: 1280x720, Response Time: 2930ms
-Name: CCTV-1, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 682ms
-Name: CCTV-2, URL: http://tvbox.netsite.cc/proxy/1231349557/1231349557.m3u8, Date: 05-12-2024, Resolution: 1280x720, Response Time: 614ms
-Name: CCTV-2, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 682ms
-Name: CCTV-2, URL: http://222.137.229.88:808/hls/2/index.m3u8, Date: 04-25-2024, Resolution: 720x576, Response Time: 3280ms
-Name: CCTV-2, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel2/index.m3u8, Date: 05-13-2024, Resolution: None, Response Time: 1261ms
-Name: CCTV-3, URL: http://111.126.255.2:808/hls/103/index.m3u8, Date: 05-05-2024, Resolution: 1920x1080, Response Time: 528ms
-Name: CCTV-3, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 682ms
-Name: CCTV-4, URL: http://tvbox.netsite.cc/proxy/2065759974/2065759974.m3u8, Date: 05-14-2024, Resolution: 1920x1080, Response Time: 598ms
-Name: CCTV-4, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 684ms
-Name: CCTV-4, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel4/index.m3u8, Date: 05-13-2024, Resolution: None, Response Time: 2762ms
-Name: CCTV-5, URL: http://111.126.77.12:808/hls/105/index.m3u8, Date: 05-12-2024, Resolution: 1920x1080, Response Time: 553ms
-Name: CCTV-5, URL: http://tvbox.netsite.cc/proxy/1484254751/1484254751.m3u8, Date: 05-11-2024, Resolution: 1920x1080, Response Time: 605ms
-Name: CCTV-5, URL: http://222.137.229.88:808/hls/5/index.m3u8, Date: 04-26-2024, Resolution: 1920x1080, Response Time: 3529ms
-Name: CCTV-5, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 685ms
-Name: CCTV-5, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel5/index.m3u8, Date: 05-13-2024, Resolution: None, Response Time: 726ms
-Name: CCTV-5+, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 684ms
-Name: CCTV-5+, URL: https://cntv.lat/tv/live.php?auth=231110&id=cctv5p, Date: 09-19-2023, Resolution: None, Response Time: 359ms
-Name: CCTV-5+, URL: http://tvbox.netsite.cc/proxy/1319414029/1319414029.m3u8, Date: 05-05-2024, Resolution: None, Response Time: 640ms
-Name: CCTV-5+, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel13/index.m3u8, Date: 05-13-2024, Resolution: None, Response Time: 3771ms
-Name: CCTV-6, URL: http://tvbox.netsite.cc/proxy/1275265590/1275265590.m3u8, Date: 05-13-2024, Resolution: 1920x1080, Response Time: 1013ms
-Name: CCTV-6, URL: http://n1.dddmmh.space:8088/udp/225.0.4.144:7980, Date: 04-28-2024, Resolution: 1920x1080, Response Time: 1823ms
-Name: CCTV-6, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 684ms
-Name: CCTV-6, URL: http://111.224.101.19:4022/rtp/239.254.200.15:6000, Date: 05-11-2024, Resolution: 768x576, Response Time: 524ms
-Name: CCTV-6, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel6/index.m3u8, Date: 05-13-2024, Resolution: None, Response Time: 2695ms
-Name: CCTV-7, URL: http://tvbox.netsite.cc/proxy/1797993240/1797993240.m3u8, Date: 05-10-2024, Resolution: 1280x720, Response Time: 635ms
-Name: CCTV-7, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 686ms
-Name: CCTV-7, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel7/index.m3u8, Date: 05-13-2024, Resolution: None, Response Time: 1187ms
-Name: CCTV-8, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 684ms
-Name: CCTV-8, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel8/index.m3u8, Date: 05-13-2024, Resolution: None, Response Time: 618ms
-Name: CCTV-9, URL: http://nas.hssvm.com:8888/udp/225.1.1.119:5002, Date: 05-13-2024, Resolution: 1920x1080, Response Time: 1580ms
-Name: CCTV-9, URL: http://tvbox.netsite.cc/proxy/41408178/41408178.m3u8, Date: 05-05-2024, Resolution: 1280x720, Response Time: 706ms
-Name: CCTV-9, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 684ms
-Name: CCTV-9, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel9/index.m3u8, Date: 05-13-2024, Resolution: None, Response Time: 681ms
-Name: CCTV-10, URL: http://tvbox.netsite.cc/proxy/358752297/358752297.m3u8, Date: 05-11-2024, Resolution: 1280x720, Response Time: 588ms
-Name: CCTV-10, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 684ms
-Name: CCTV-10, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel10/index.m3u8, Date: 05-13-2024, Resolution: None, Response Time: 3773ms
-Name: CCTV-11, URL: http://tvbox.netsite.cc/proxy/1384058039/1384058039.m3u8, Date: 05-08-2024, Resolution: 1280x720, Response Time: 760ms
-Name: CCTV-11, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 684ms
-Name: CCTV-11, URL: http://58.19.13.92:9901/tsfile/live/1010_1.m3u8, Date: 02-02-2024, Resolution: None, Response Time: 1644ms
-Name: CCTV-12, URL: http://tvbox.netsite.cc/proxy/1168098921/1168098921.m3u8, Date: 05-13-2024, Resolution: 1280x720, Response Time: 632ms
-Name: CCTV-12, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 685ms
-Name: CCTV-12, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel11/index.m3u8, Date: 05-13-2024, Resolution: None, Response Time: 634ms
-Name: CCTV-12, URL: http://58.19.13.92:9901/tsfile/live/1011_1.m3u8, Date: 12-21-2023, Resolution: None, Response Time: 1099ms
-Name: CCTV-13, URL: http://tvbox.netsite.cc/proxy/547513505/547513505.m3u8, Date: 05-13-2024, Resolution: 1920x1080, Response Time: 595ms
-Name: CCTV-13, URL: http://mail.petzhu.top:7000/rtp/239.254.200.9:8264, Date: 04-26-2024, Resolution: 1920x1080, Response Time: 1517ms
-Name: CCTV-13, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 684ms
-Name: CCTV-13, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel39/index.m3u8, Date: 05-13-2024, Resolution: None, Response Time: 669ms
-Name: CCTV-14, URL: http://tvbox.netsite.cc/proxy/1977445545/1977445545.m3u8, Date: 05-11-2024, Resolution: 1280x720, Response Time: 741ms
-Name: CCTV-14, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 684ms
-Name: CCTV-14, URL: https://cntv.lat/tv/live.php?auth=231110&id=cctv14, Date: 09-19-2023, Resolution: None, Response Time: 142ms
-Name: CCTV-14, URL: http://58.19.13.92:9901/tsfile/live/1013_1.m3u8, Date: 12-21-2023, Resolution: None, Response Time: 550ms
-Name: CCTV-14, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel12/index.m3u8, Date: 05-13-2024, Resolution: None, Response Time: 3708ms
-Name: CCTV-15, URL: http://tvbox.netsite.cc/proxy/2128760541/2128760541.m3u8, Date: 05-03-2024, Resolution: 1280x720, Response Time: 858ms
-Name: CCTV-15, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 684ms
+Name: 大湾区卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 675ms
+Name: 大湾区卫视, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel58/index.m3u8, Date: 05-14-2024, Resolution: 1024x576, Response Time: 677ms
+Name: 新会综合, URL: http://php.jdshipin.com:8880/chudian.php?id=xhzh, Date: 03-27-2024, Resolution: None, Response Time: 2445ms
+Name: 鹤山综合, URL: http://php.jdshipin.com:8880/chudian.php?id=hszh, Date: 03-29-2024, Resolution: None, Response Time: 2536ms
+Name: 广州综合, URL: http://v2.91kds.cn/b9/gdgztv.m3u8?id=gdgzzh&auth=rinimabi, Date: 10-25-2023, Resolution: None, Response Time: 3229ms
+Name: 广州新闻, URL: http://v2.91kds.cn/b9/gdgztv.m3u8?id=gdgzxw&auth=rinimabi, Date: 08-06-2023, Resolution: None, Response Time: 1604ms
+Name: 广州影视, URL: http://v2.91kds.cn/b9/gdgztv.m3u8?id=gdgzys&auth=rinimabi, Date: 08-06-2023, Resolution: None, Response Time: 1766ms
+Name: 深圳卫视, URL: http://116.11.156.112:1188/tsfile/live/1027_1.m3u8, Date: 05-14-2024, Resolution: 1920x1080, Response Time: 479ms
+Name: 深圳卫视, URL: http://116.11.156.112:1188/tsfile/live/1027_1.m3u8, Date: 05-14-2024, Resolution: 1920x1080, Response Time: 493ms
+Name: 深圳卫视, URL: http://113.128.226.58:8888/newlive/live/hls/28/live.m3u8, Date: 05-02-2024, Resolution: 1920x1080, Response Time: 515ms
+Name: 深圳卫视, URL: http://113.128.226.58:8888/newlive/live/hls/28/live.m3u8, Date: 05-02-2024, Resolution: 1920x1080, Response Time: 522ms
+Name: 深圳卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/szwshd8m/8000000/mnf.m3u8, Date: 04-29-2024, Resolution: 1920x1080, Response Time: 577ms
+Name: 深圳卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/szwshd8m/8000000/mnf.m3u8, Date: 04-29-2024, Resolution: 1920x1080, Response Time: 583ms
+Name: 深圳卫视, URL: http://tvbox.netsite.cc/proxy/846832031/846832031.m3u8, Date: 05-11-2024, Resolution: 1280x720, Response Time: 617ms
+Name: 深圳卫视, URL: http://tvbox.netsite.cc/proxy/846832031/846832031.m3u8, Date: 05-11-2024, Resolution: 1280x720, Response Time: 629ms
+Name: 深圳卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 679ms
+Name: 深圳卫视, URL: http://58.220.219.14:9901/tsfile/live/0126_1.m3u8?key=txiptv, Date: 04-23-2024, Resolution: 720x576, Response Time: 1015ms
+Name: 深圳卫视, URL: http://58.220.219.14:9901/tsfile/live/0126_1.m3u8?key=txiptv, Date: 04-23-2024, Resolution: 720x576, Response Time: 1039ms
+Name: 深圳卫视, URL: http://219.135.208.218:8083/tsfile/live/0126_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 461ms
+Name: 深圳卫视, URL: http://60.190.128.194:8888/newlive/live/hls/28/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 463ms
+Name: 深圳卫视, URL: http://60.190.128.194:8888/newlive/live/hls/28/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 466ms
+Name: 深圳卫视, URL: http://111.75.151.236:50085/newlive/live/hls/26/live.m3u8, Date: 04-01-2024, Resolution: None, Response Time: 473ms
+Name: 深圳卫视, URL: http://111.75.151.236:50085/newlive/live/hls/26/live.m3u8, Date: 04-01-2024, Resolution: None, Response Time: 490ms
+Name: 深圳卫视, URL: http://mom.coms.hk:9901/tsfile/live/0126_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 557ms
+Name: 深圳卫视, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel17/index.m3u8, Date: 05-13-2024, Resolution: None, Response Time: 606ms
+Name: 深圳卫视, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel17/index.m3u8, Date: 05-13-2024, Resolution: None, Response Time: 612ms
+Name: CCTV-1, URL: http://nas.hssvm.com:8888/udp/225.1.1.120:5002, Date: 05-13-2024, Resolution: 1920x1080, Response Time: 614ms
+Name: CCTV-1, URL: http://tvbox.netsite.cc/proxy/753065176/753065176.m3u8, Date: 05-14-2024, Resolution: 1920x1080, Response Time: 644ms
+Name: CCTV-1, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel1/index.m3u8, Date: 05-15-2024, Resolution: 1280x720, Response Time: 682ms
+Name: CCTV-1, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 685ms
+Name: CCTV-2, URL: http://121.24.98.99:8090/hls/10/index.m3u8, Date: 04-30-2024, Resolution: 1920x1080, Response Time: 569ms
+Name: CCTV-2, URL: http://tvbox.netsite.cc/proxy/1231349557/1231349557.m3u8, Date: 05-12-2024, Resolution: 1280x720, Response Time: 631ms
+Name: CCTV-2, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel2/index.m3u8, Date: 05-14-2024, Resolution: 1024x576, Response Time: 644ms
+Name: CCTV-2, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 680ms
+Name: CCTV-2, URL: http://222.137.229.88:808/hls/2/index.m3u8, Date: 04-25-2024, Resolution: 720x576, Response Time: 528ms
+Name: CCTV-3, URL: http://121.24.99.216:8090/hls/11/index.m3u8, Date: 05-12-2024, Resolution: 1920x1080, Response Time: 491ms
+Name: CCTV-3, URL: http://111.126.255.2:808/hls/103/index.m3u8, Date: 05-05-2024, Resolution: 1920x1080, Response Time: 560ms
+Name: CCTV-3, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 675ms
+Name: CCTV-3, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel3/index.m3u8, Date: 05-13-2024, Resolution: None, Response Time: 651ms
+Name: CCTV-4, URL: http://tvbox.netsite.cc/proxy/2065759974/2065759974.m3u8, Date: 05-14-2024, Resolution: 1920x1080, Response Time: 636ms
+Name: CCTV-4, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 678ms
+Name: CCTV-4, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel4/index.m3u8, Date: 05-13-2024, Resolution: None, Response Time: 660ms
+Name: CCTV-5, URL: http://111.126.77.12:808/hls/105/index.m3u8, Date: 05-12-2024, Resolution: 1920x1080, Response Time: 509ms
+Name: CCTV-5, URL: http://222.137.229.88:808/hls/5/index.m3u8, Date: 04-26-2024, Resolution: 1920x1080, Response Time: 528ms
+Name: CCTV-5, URL: http://tvbox.netsite.cc/proxy/1484254751/1484254751.m3u8, Date: 05-11-2024, Resolution: 1920x1080, Response Time: 604ms
+Name: CCTV-5, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 678ms
+Name: CCTV-5, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel5/index.m3u8, Date: 05-13-2024, Resolution: None, Response Time: 673ms
+Name: CCTV-5+, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 674ms
+Name: CCTV-5+, URL: https://cntv.lat/tv/live.php?auth=231110&id=cctv5p, Date: 09-19-2023, Resolution: None, Response Time: 417ms
+Name: CCTV-5+, URL: https://cntv.lat/tv/live.php?auth=231110&id=cctv5p, Date: 09-19-2023, Resolution: None, Response Time: 422ms
+Name: CCTV-5+, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel13/index.m3u8, Date: 05-13-2024, Resolution: None, Response Time: 634ms
+Name: CCTV-5+, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel13/index.m3u8, Date: 05-13-2024, Resolution: None, Response Time: 639ms
+Name: CCTV-5+, URL: http://tvbox.netsite.cc/proxy/1319414029/1319414029.m3u8, Date: 05-05-2024, Resolution: None, Response Time: 659ms
+Name: CCTV-5+, URL: http://tvbox.netsite.cc/proxy/1319414029/1319414029.m3u8, Date: 05-05-2024, Resolution: None, Response Time: 664ms
+Name: CCTV-6, URL: http://tvbox.netsite.cc/proxy/1275265590/1275265590.m3u8, Date: 05-13-2024, Resolution: 1920x1080, Response Time: 606ms
+Name: CCTV-6, URL: http://n1.dddmmh.space:8088/udp/225.0.4.144:7980, Date: 04-28-2024, Resolution: 1920x1080, Response Time: 1269ms
+Name: CCTV-6, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 680ms
+Name: CCTV-6, URL: http://111.224.101.19:4022/rtp/239.254.200.15:6000, Date: 05-11-2024, Resolution: 768x576, Response Time: 493ms
+Name: CCTV-6, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel6/index.m3u8, Date: 05-13-2024, Resolution: None, Response Time: 566ms
+Name: CCTV-7, URL: http://tvbox.netsite.cc/proxy/1797993240/1797993240.m3u8, Date: 05-10-2024, Resolution: 1280x720, Response Time: 615ms
+Name: CCTV-7, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 675ms
+Name: CCTV-7, URL: http://58.19.13.92:9901/tsfile/live/1006_1.m3u8, Date: 12-21-2023, Resolution: None, Response Time: 553ms
+Name: CCTV-7, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel7/index.m3u8, Date: 05-13-2024, Resolution: None, Response Time: 639ms
+Name: CCTV-8, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 677ms
+Name: CCTV-8, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel8/index.m3u8, Date: 05-13-2024, Resolution: None, Response Time: 577ms
+Name: CCTV-9, URL: http://nas.hssvm.com:8888/udp/225.1.1.119:5002, Date: 05-13-2024, Resolution: 1920x1080, Response Time: 557ms
+Name: CCTV-9, URL: http://tvbox.netsite.cc/proxy/41408178/41408178.m3u8, Date: 05-05-2024, Resolution: 1280x720, Response Time: 713ms
+Name: CCTV-9, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 677ms
+Name: CCTV-9, URL: http://58.19.13.92:9901/tsfile/live/1008_1.m3u8, Date: 12-21-2023, Resolution: None, Response Time: 626ms
+Name: CCTV-9, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel9/index.m3u8, Date: 05-13-2024, Resolution: None, Response Time: 655ms
+Name: CCTV-10, URL: http://tvbox.netsite.cc/proxy/358752297/358752297.m3u8, Date: 05-11-2024, Resolution: 1280x720, Response Time: 638ms
+Name: CCTV-10, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 676ms
+Name: CCTV-10, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel10/index.m3u8, Date: 05-13-2024, Resolution: None, Response Time: 632ms
+Name: CCTV-10, URL: http://58.19.13.92:9901/tsfile/live/1009_1.m3u8, Date: 12-21-2023, Resolution: None, Response Time: 649ms
+Name: CCTV-11, URL: http://tvbox.netsite.cc/proxy/1384058039/1384058039.m3u8, Date: 05-08-2024, Resolution: 1280x720, Response Time: 640ms
+Name: CCTV-11, URL: http://tvbox.netsite.cc/proxy/1384058039/1384058039.m3u8, Date: 05-08-2024, Resolution: 1280x720, Response Time: 647ms
+Name: CCTV-11, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 679ms
+Name: CCTV-11, URL: http://58.19.13.92:9901/tsfile/live/1010_1.m3u8, Date: 02-02-2024, Resolution: None, Response Time: 628ms
+Name: CCTV-11, URL: http://58.19.13.92:9901/tsfile/live/1010_1.m3u8, Date: 02-02-2024, Resolution: None, Response Time: 669ms
+Name: CCTV-12, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel11/index.m3u8, Date: 05-14-2024, Resolution: 1280x720, Response Time: 664ms
+Name: CCTV-12, URL: http://tvbox.netsite.cc/proxy/1168098921/1168098921.m3u8, Date: 05-13-2024, Resolution: 1280x720, Response Time: 697ms
+Name: CCTV-12, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 675ms
+Name: CCTV-12, URL: http://58.19.13.92:9901/tsfile/live/1011_1.m3u8, Date: 12-21-2023, Resolution: None, Response Time: 635ms
+Name: CCTV-13, URL: http://121.24.98.99:8090/hls/21/index.m3u8, Date: 04-30-2024, Resolution: 1920x1080, Response Time: 569ms
+Name: CCTV-13, URL: http://tvbox.netsite.cc/proxy/547513505/547513505.m3u8, Date: 05-13-2024, Resolution: 1920x1080, Response Time: 605ms
+Name: CCTV-13, URL: http://mail.petzhu.top:7000/rtp/239.254.200.9:8264, Date: 04-26-2024, Resolution: 1920x1080, Response Time: 1683ms
+Name: CCTV-13, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 679ms
+Name: CCTV-13, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel39/index.m3u8, Date: 05-13-2024, Resolution: None, Response Time: 679ms
+Name: CCTV-14, URL: http://tvbox.netsite.cc/proxy/1977445545/1977445545.m3u8, Date: 05-11-2024, Resolution: 1280x720, Response Time: 616ms
+Name: CCTV-14, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 678ms
+Name: CCTV-14, URL: https://cntv.lat/tv/live.php?auth=231110&id=cctv14, Date: 09-19-2023, Resolution: None, Response Time: 100ms
+Name: CCTV-14, URL: http://58.19.13.92:9901/tsfile/live/1013_1.m3u8, Date: 12-21-2023, Resolution: None, Response Time: 576ms
+Name: CCTV-14, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel12/index.m3u8, Date: 05-13-2024, Resolution: None, Response Time: 627ms
+Name: CCTV-15, URL: http://tvbox.netsite.cc/proxy/2128760541/2128760541.m3u8, Date: 05-03-2024, Resolution: 1280x720, Response Time: 597ms
+Name: CCTV-15, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 676ms
 Name: CCTV-15, URL: http://58.19.13.92:9901/tsfile/live/0015_1.m3u8, Date: 12-23-2023, Resolution: None, Response Time: 628ms
-Name: CCTV-15, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel40/index.m3u8, Date: 05-13-2024, Resolution: None, Response Time: 1329ms
-Name: CCTV-16, URL: http://tvbox.netsite.cc/proxy/434481154/434481154.m3u8, Date: 05-11-2024, Resolution: 1280x720, Response Time: 599ms
-Name: CCTV-16, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 684ms
-Name: CCTV-16, URL: https://cntv.lat/tv/live.php?auth=231110&id=cctv16, Date: 09-19-2023, Resolution: None, Response Time: 183ms
-Name: CCTV-17, URL: http://tvbox.netsite.cc/proxy/2004643460/2004643460.m3u8, Date: 05-12-2024, Resolution: 1280x720, Response Time: 641ms
-Name: CCTV-17, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 684ms
-Name: CCTV-17, URL: https://cntv.lat/tv/live.php?auth=231110&id=cctv17, Date: 09-19-2023, Resolution: None, Response Time: 179ms
-Name: CCTV-17, URL: http://218.13.170.98:9901/tsfile/live/0016_1.m3u8, Date: 03-19-2024, Resolution: None, Response Time: 479ms
-Name: 大湾区卫视, URL: http://38.64.72.148/hls/modn/list/4011/chunklist0.m3u8, Date: 05-08-2024, Resolution: 1920x1080, Response Time: 112ms
-Name: 大湾区卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 686ms
-Name: 大湾区卫视, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel58/index.m3u8, Date: 05-13-2024, Resolution: None, Response Time: 703ms
-Name: 广东卫视, URL: http://113.71.148.79:5555/udp/239.77.1.152:5146, Date: 05-13-2024, Resolution: 1920x1080, Response Time: 457ms
-Name: 广东卫视, URL: http://116.21.123.52:4433/tsfile/live/0125_1.m3u8, Date: 05-14-2024, Resolution: 1920x1080, Response Time: 468ms
-Name: 广东卫视, URL: http://fangke.blueswords.com:9901/tsfile/live/0142_1.m3u8, Date: 05-07-2024, Resolution: 1920x1080, Response Time: 1038ms
-Name: 广东卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/gdwshd8m/8000000/mnf.m3u8, Date: 04-25-2024, Resolution: 1920x1080, Response Time: 5620ms
-Name: 广东卫视, URL: http://tvbox.netsite.cc/proxy/730496254/730496254.m3u8, Date: 05-11-2024, Resolution: 1280x720, Response Time: 600ms
-Name: 广东卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 683ms
-Name: 广东卫视, URL: http://www.8700956.top:18888/udp/239.81.0.36:4056, Date: 05-12-2024, Resolution: 786x576, Response Time: 1241ms
-Name: 广东卫视, URL: http://117.10.59.110:8888/newlive/live/hls/18/live.m3u8, Date: 05-09-2024, Resolution: 768x576, Response Time: 487ms
-Name: 广东卫视, URL: http://113.128.226.58:8888/newlive/live/hls/29/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 477ms
-Name: 浙江卫视, URL: http://64.140.167.170:8080/live/ydws7/hls.m3u8, Date: 05-13-2024, Resolution: 1920x1080, Response Time: 115ms
-Name: 浙江卫视, URL: http://111.75.151.236:50085/newlive/live/hls/21/live.m3u8, Date: 04-03-2024, Resolution: 1920x1080, Response Time: 500ms
-Name: 浙江卫视, URL: http://tvbox.netsite.cc/proxy/1076829733/1076829733.m3u8, Date: 05-14-2024, Resolution: 1920x1080, Response Time: 599ms
-Name: 浙江卫视, URL: https://ali-m-l.cztv.com/channels/lantian/channel001/1080p.m3u8, Date: 05-14-2024, Resolution: 1920x1080, Response Time: 1501ms
-Name: 浙江卫视, URL: http://tvbox.netsite.cc/proxy/1562317673/1562317673.m3u8, Date: 05-14-2024, Resolution: 1280x720, Response Time: 598ms
-Name: 浙江卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 684ms
-Name: 浙江卫视, URL: http://113.128.226.58:8888/newlive/live/hls/21/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 477ms
-Name: 浙江卫视, URL: http://117.10.59.110:8888/newlive/live/hls/21/live.m3u8, Date: 05-08-2024, Resolution: None, Response Time: 488ms
-Name: 浙江卫视, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel19/index.m3u8, Date: 05-13-2024, Resolution: None, Response Time: 2162ms
-Name: 湖南卫视, URL: http://64.140.167.170:8080/live/ydws5/hls.m3u8, Date: 05-14-2024, Resolution: 1920x1080, Response Time: 115ms
+Name: CCTV-15, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel40/index.m3u8, Date: 05-13-2024, Resolution: None, Response Time: 707ms
+Name: CCTV-16, URL: http://tvbox.netsite.cc/proxy/434481154/434481154.m3u8, Date: 05-11-2024, Resolution: 1280x720, Response Time: 702ms
+Name: CCTV-16, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 679ms
+Name: CCTV-16, URL: https://cntv.lat/tv/live.php?auth=231110&id=cctv16, Date: 09-19-2023, Resolution: None, Response Time: 82ms
+Name: CCTV-17, URL: http://tvbox.netsite.cc/proxy/2004643460/2004643460.m3u8, Date: 05-12-2024, Resolution: 1280x720, Response Time: 602ms
+Name: CCTV-17, URL: http://tvbox.netsite.cc/proxy/2004643460/2004643460.m3u8, Date: 05-12-2024, Resolution: 1280x720, Response Time: 608ms
+Name: CCTV-17, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 676ms
+Name: CCTV-17, URL: https://cntv.lat/tv/live.php?auth=231110&id=cctv17, Date: 09-19-2023, Resolution: None, Response Time: 147ms
+Name: CCTV-17, URL: https://cntv.lat/tv/live.php?auth=231110&id=cctv17, Date: 09-19-2023, Resolution: None, Response Time: 165ms
+Name: CCTV-17, URL: http://218.13.170.98:9901/tsfile/live/0016_1.m3u8, Date: 03-19-2024, Resolution: None, Response Time: 488ms
+Name: CCTV-17, URL: http://218.13.170.98:9901/tsfile/live/0016_1.m3u8, Date: 03-19-2024, Resolution: None, Response Time: 491ms
+Name: 大湾区卫视, URL: http://38.64.72.148/hls/modn/list/4011/chunklist0.m3u8, Date: 05-08-2024, Resolution: 1920x1080, Response Time: 109ms
+Name: 大湾区卫视, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel58/index.m3u8, Date: 05-14-2024, Resolution: 1024x576, Response Time: 636ms
+Name: 大湾区卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 680ms
+Name: 广东卫视, URL: http://116.21.123.52:4433/tsfile/live/0125_1.m3u8, Date: 05-14-2024, Resolution: 1920x1080, Response Time: 450ms
+Name: 广东卫视, URL: http://113.71.148.79:5555/udp/239.77.1.152:5146, Date: 05-13-2024, Resolution: 1920x1080, Response Time: 453ms
+Name: 广东卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/gdwshd8m/8000000/mnf.m3u8, Date: 04-25-2024, Resolution: 1920x1080, Response Time: 471ms
+Name: 广东卫视, URL: http://fangke.blueswords.com:9901/tsfile/live/0142_1.m3u8, Date: 05-07-2024, Resolution: 1920x1080, Response Time: 805ms
+Name: 广东卫视, URL: http://tvbox.netsite.cc/proxy/730496254/730496254.m3u8, Date: 05-11-2024, Resolution: 1280x720, Response Time: 598ms
+Name: 广东卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 679ms
+Name: 广东卫视, URL: http://www.8700956.top:18888/udp/239.81.0.36:4056, Date: 05-12-2024, Resolution: 786x576, Response Time: 1182ms
+Name: 广东卫视, URL: http://219.135.208.218:8083/tsfile/live/0016_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 464ms
+Name: 广东卫视, URL: http://60.190.128.194:8888/newlive/live/hls/21/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 465ms
+Name: 广东卫视, URL: http://113.128.226.58:8888/newlive/live/hls/29/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 523ms
+Name: 浙江卫视, URL: http://64.140.167.170:8080/live/ydws7/hls.m3u8, Date: 05-13-2024, Resolution: 1920x1080, Response Time: 111ms
+Name: 浙江卫视, URL: http://111.75.151.236:50085/newlive/live/hls/21/live.m3u8, Date: 04-03-2024, Resolution: 1920x1080, Response Time: 489ms
+Name: 浙江卫视, URL: http://tvbox.netsite.cc/proxy/1076829733/1076829733.m3u8, Date: 05-14-2024, Resolution: 1920x1080, Response Time: 597ms
+Name: 浙江卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/zjwshd8m/8000000/mnf.m3u8, Date: 04-29-2024, Resolution: 1920x1080, Response Time: 700ms
+Name: 浙江卫视, URL: https://ali-m-l.cztv.com/channels/lantian/channel001/1080p.m3u8, Date: 05-14-2024, Resolution: 1920x1080, Response Time: 1595ms
+Name: 浙江卫视, URL: http://tvbox.netsite.cc/proxy/1562317673/1562317673.m3u8, Date: 05-14-2024, Resolution: 1280x720, Response Time: 608ms
+Name: 浙江卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 675ms
+Name: 浙江卫视, URL: http://116.21.122.2:4433/tsfile/live/0124_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 452ms
+Name: 浙江卫视, URL: http://60.190.128.194:8888/newlive/live/hls/24/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 460ms
+Name: 浙江卫视, URL: http://219.135.208.218:8083/tsfile/live/0124_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 466ms
+Name: 浙江卫视, URL: http://mom.coms.hk:9901/tsfile/live/0016_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 479ms
+Name: 浙江卫视, URL: http://113.128.226.58:8888/newlive/live/hls/21/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 521ms
+Name: 浙江卫视, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel19/index.m3u8, Date: 05-13-2024, Resolution: None, Response Time: 701ms
+Name: 湖南卫视, URL: http://64.140.167.170:8080/live/ydws5/hls.m3u8, Date: 05-14-2024, Resolution: 1920x1080, Response Time: 111ms
+Name: 湖南卫视, URL: http://64.140.167.170:8080/live/ydws5/hls.m3u8, Date: 05-14-2024, Resolution: 1920x1080, Response Time: 112ms
+Name: 湖南卫视, URL: http://116.21.122.2:4433/tsfile/live/0128_1.m3u8, Date: 05-08-2024, Resolution: 1920x1080, Response Time: 449ms
 Name: 湖南卫视, URL: http://116.21.122.2:4433/tsfile/live/0128_1.m3u8, Date: 05-08-2024, Resolution: 1920x1080, Response Time: 456ms
-Name: 湖南卫视, URL: http://124.230.56.214:55555/udp/239.76.246.100:1234, Date: 05-06-2024, Resolution: 1920x1080, Response Time: 491ms
-Name: 湖南卫视, URL: http://118.254.200.3:8888/udp/239.76.245.115:1234, Date: 05-12-2024, Resolution: 1920x1080, Response Time: 496ms
-Name: 湖南卫视, URL: http://110.178.52.190:8083/udp/239.1.1.28:8028, Date: 05-08-2024, Resolution: 1920x1080, Response Time: 524ms
-Name: 湖南卫视, URL: http://www.yao87.com:4022/udp/239.76.245.115:1234, Date: 05-12-2024, Resolution: 1920x1080, Response Time: 797ms
-Name: 湖南卫视, URL: http://113.218.218.5:8001/tsfile/live/0128_1.m3u8, Date: 05-04-2024, Resolution: 1920x1080, Response Time: 1490ms
-Name: 湖南卫视, URL: http://117.10.59.110:8888/newlive/live/hls/20/live.m3u8, Date: 05-11-2024, Resolution: 1920x1080, Response Time: 3508ms
-Name: 湖南卫视, URL: http://tvbox.netsite.cc/proxy/823956387/823956387.m3u8, Date: 05-14-2024, Resolution: 1280x720, Response Time: 598ms
-Name: 湖南卫视, URL: http://antvlive.ab5c6921.cdnviet.com/antv/playlist.m3u8, Date: 05-12-2024, Resolution: 1047x576, Response Time: 937ms
-Name: 湖南卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 671ms
-Name: 湖南卫视, URL: https://node1.olelive.com:6443/live/HUNANHD/hls.m3u8, Date: 05-12-2024, Resolution: 785x576, Response Time: 263ms
-Name: 湖南卫视, URL: http://117.44.1.136:20000/hls/14/index.m3u8, Date: 05-07-2024, Resolution: 720x576, Response Time: 485ms
-Name: 湖南卫视, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel25/index.m3u8, Date: 05-13-2024, Resolution: None, Response Time: 3151ms
-Name: 北京卫视, URL: http://64.140.167.170:8080/live/bjws/hls.m3u8, Date: 05-13-2024, Resolution: 1920x1080, Response Time: 115ms
-Name: 北京卫视, URL: https://live-hls-web-ajb.getaj.net/AJB/01.m3u8, Date: 05-13-2024, Resolution: 1920x1080, Response Time: 152ms
-Name: 北京卫视, URL: http://120.224.178.16:9901/tsfile/live/0126_1.m3u8, Date: 04-22-2024, Resolution: 1920x1080, Response Time: 417ms
-Name: 北京卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/bjwshd8m/8000000/mnf.m3u8, Date: 04-28-2024, Resolution: 1920x1080, Response Time: 1022ms
-Name: 北京卫视, URL: http://tvbox.netsite.cc/proxy/469197887/469197887.m3u8, Date: 05-05-2024, Resolution: 1280x720, Response Time: 587ms
-Name: 北京卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 671ms
-Name: 北京卫视, URL: http://113.128.226.58:8888/newlive/live/hls/24/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 479ms
-Name: 北京卫视, URL: http://117.10.59.110:8888/newlive/live/hls/16/live.m3u8, Date: 05-08-2024, Resolution: None, Response Time: 2374ms
-Name: 湖北卫视, URL: http://tvbox.netsite.cc/proxy/1513765070/1513765070.m3u8, Date: 05-13-2024, Resolution: 1280x720, Response Time: 654ms
-Name: 湖北卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 671ms
-Name: 湖北卫视, URL: http://58.220.219.14:9901/tsfile/live/0132_1.m3u8?key=txiptv, Date: 04-10-2024, Resolution: 768x576, Response Time: 479ms
-Name: 湖北卫视, URL: http://113.128.226.58:8888/newlive/live/hls/41/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 477ms
-Name: 湖北卫视, URL: http://111.75.151.236:50085/newlive/live/hls/27/live.m3u8, Date: 04-01-2024, Resolution: None, Response Time: 503ms
-Name: 湖北卫视, URL: http://117.10.59.110:8888/newlive/live/hls/30/live.m3u8, Date: 05-08-2024, Resolution: None, Response Time: 1507ms
-Name: 湖北卫视, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel21/index.m3u8, Date: 05-13-2024, Resolution: None, Response Time: 2110ms
-Name: 黑龙江卫视, URL: http://8.134.82.80:32858/ysp0409/haiouysp.php?id=52, Date: 04-15-2024, Resolution: 1920x1080, Response Time: 1431ms
-Name: 黑龙江卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/hljwshd8m/8000000/mnf.m3u8, Date: 04-26-2024, Resolution: 1920x1080, Response Time: 2670ms
-Name: 黑龙江卫视, URL: http://tvbox.netsite.cc/proxy/797978954/797978954.m3u8, Date: 05-05-2024, Resolution: 1280x720, Response Time: 735ms
-Name: 黑龙江卫视, URL: http://tvbox.netsite.cc/proxy/1993445467/1993445467.m3u8, Date: 05-04-2024, Resolution: 1280x720, Response Time: 774ms
-Name: 黑龙江卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 671ms
-Name: 黑龙江卫视, URL: http://113.128.226.58:8888/newlive/live/hls/30/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 478ms
-Name: 黑龙江卫视, URL: http://111.75.151.236:50085/newlive/live/hls/32/live.m3u8, Date: 04-01-2024, Resolution: None, Response Time: 503ms
-Name: 黑龙江卫视, URL: http://117.10.59.110:8888/newlive/live/hls/41/live.m3u8, Date: 05-08-2024, Resolution: None, Response Time: 3178ms
-Name: 安徽卫视, URL: http://64.140.167.170:8080/live/ydws9/hls.m3u8, Date: 05-10-2024, Resolution: 1920x1080, Response Time: 115ms
-Name: 安徽卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/ahwshd8m/8000000/mnf.m3u8, Date: 04-30-2024, Resolution: 1920x1080, Response Time: 3674ms
-Name: 安徽卫视, URL: http://tvbox.netsite.cc/proxy/1453839032/1453839032.m3u8, Date: 05-06-2024, Resolution: 1280x720, Response Time: 728ms
-Name: 安徽卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 673ms
-Name: 安徽卫视, URL: http://113.128.226.58:8888/newlive/live/hls/25/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 477ms
-Name: 安徽卫视, URL: http://111.75.151.236:50085/newlive/live/hls/29/live.m3u8, Date: 04-01-2024, Resolution: None, Response Time: 482ms
-Name: 安徽卫视, URL: http://117.10.59.110:8888/newlive/live/hls/22/live.m3u8, Date: 05-08-2024, Resolution: None, Response Time: 2933ms
-Name: 安徽卫视, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel23/index.m3u8, Date: 05-13-2024, Resolution: None, Response Time: 3729ms
-Name: 重庆卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/cqws8m/8000000/mnf.m3u8, Date: 04-29-2024, Resolution: 1920x1080, Response Time: 613ms
-Name: 重庆卫视, URL: http://tvbox.netsite.cc/proxy/1866473212/1866473212.m3u8, Date: 05-11-2024, Resolution: 1280x720, Response Time: 689ms
+Name: 湖南卫视, URL: http://118.254.200.3:8888/udp/239.76.245.115:1234, Date: 05-12-2024, Resolution: 1920x1080, Response Time: 481ms
+Name: 湖南卫视, URL: http://221.223.73.151:4022/rtp/239.3.1.132:8012, Date: 05-14-2024, Resolution: 1920x1080, Response Time: 482ms
+Name: 湖南卫视, URL: http://118.254.200.3:8888/udp/239.76.245.115:1234, Date: 05-12-2024, Resolution: 1920x1080, Response Time: 495ms
+Name: 湖南卫视, URL: http://124.230.56.214:55555/udp/239.76.246.100:1234, Date: 05-06-2024, Resolution: 1920x1080, Response Time: 500ms
+Name: 湖南卫视, URL: http://124.230.56.214:55555/udp/239.76.246.100:1234, Date: 05-06-2024, Resolution: 1920x1080, Response Time: 504ms
+Name: 湖南卫视, URL: http://110.178.52.190:8083/udp/239.1.1.28:8028, Date: 05-08-2024, Resolution: 1920x1080, Response Time: 523ms
+Name: 湖南卫视, URL: http://110.178.52.190:8083/udp/239.1.1.28:8028, Date: 05-08-2024, Resolution: 1920x1080, Response Time: 526ms
+Name: 湖南卫视, URL: http://221.223.73.151:4022/rtp/239.3.1.132:8012, Date: 05-14-2024, Resolution: 1920x1080, Response Time: 547ms
+Name: 湖南卫视, URL: http://113.218.218.5:8001/tsfile/live/0128_1.m3u8, Date: 05-04-2024, Resolution: 1920x1080, Response Time: 648ms
+Name: 湖南卫视, URL: http://113.218.218.5:8001/tsfile/live/0128_1.m3u8, Date: 05-04-2024, Resolution: 1920x1080, Response Time: 654ms
+Name: 湖南卫视, URL: http://www.yao87.com:4022/udp/239.76.245.115:1234, Date: 05-12-2024, Resolution: 1920x1080, Response Time: 1050ms
+Name: 湖南卫视, URL: http://www.yao87.com:4022/udp/239.76.245.115:1234, Date: 05-12-2024, Resolution: 1920x1080, Response Time: 1056ms
+Name: 湖南卫视, URL: http://183.237.246.14:9931/tsfile/live/1058_1.m3u8, Date: 05-06-2024, Resolution: 1920x1080, Response Time: 3368ms
+Name: 湖南卫视, URL: http://tvbox.netsite.cc/proxy/823956387/823956387.m3u8, Date: 05-14-2024, Resolution: 1280x720, Response Time: 608ms
+Name: 湖南卫视, URL: http://tvbox.netsite.cc/proxy/823956387/823956387.m3u8, Date: 05-14-2024, Resolution: 1280x720, Response Time: 619ms
+Name: 湖南卫视, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel25/index.m3u8, Date: 05-15-2024, Resolution: 1280x720, Response Time: 634ms
+Name: 湖南卫视, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel25/index.m3u8, Date: 05-15-2024, Resolution: 1280x720, Response Time: 643ms
+Name: 湖南卫视, URL: http://antvlive.ab5c6921.cdnviet.com/antv/playlist.m3u8, Date: 05-12-2024, Resolution: 1047x576, Response Time: 1501ms
+Name: 湖南卫视, URL: http://antvlive.ab5c6921.cdnviet.com/antv/playlist.m3u8, Date: 05-12-2024, Resolution: 1047x576, Response Time: 1515ms
+Name: 湖南卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 676ms
+Name: 湖南卫视, URL: https://node1.olelive.com:6443/live/HUNANHD/hls.m3u8, Date: 05-12-2024, Resolution: 785x576, Response Time: 286ms
+Name: 湖南卫视, URL: https://node1.olelive.com:6443/live/HUNANHD/hls.m3u8, Date: 05-12-2024, Resolution: 785x576, Response Time: 292ms
+Name: 湖南卫视, URL: http://117.44.1.97:20000/hls/14/index.m3u8, Date: 05-13-2024, Resolution: 720x576, Response Time: 488ms
+Name: 湖南卫视, URL: http://117.44.1.97:20000/hls/14/index.m3u8, Date: 05-13-2024, Resolution: 720x576, Response Time: 504ms
+Name: 湖南卫视, URL: http://116.21.122.2:4433/tsfile/live/0128_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 451ms
+Name: 湖南卫视, URL: http://60.190.128.194:8888/newlive/live/hls/23/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 459ms
+Name: 湖南卫视, URL: http://60.190.128.194:8888/newlive/live/hls/23/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 463ms
+Name: 湖南卫视, URL: http://219.135.208.218:8083/tsfile/live/0128_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 467ms
+Name: 湖南卫视, URL: http://mom.coms.hk:9901/tsfile/live/0128_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 497ms
+Name: 北京卫视, URL: http://64.140.167.170:8080/live/bjws/hls.m3u8, Date: 05-13-2024, Resolution: 1920x1080, Response Time: 111ms
+Name: 北京卫视, URL: https://live-hls-web-ajb.getaj.net/AJB/01.m3u8, Date: 05-13-2024, Resolution: 1920x1080, Response Time: 154ms
+Name: 北京卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/bjwshd8m/8000000/mnf.m3u8, Date: 04-28-2024, Resolution: 1920x1080, Response Time: 467ms
+Name: 北京卫视, URL: http://120.224.178.16:9901/tsfile/live/0126_1.m3u8, Date: 04-22-2024, Resolution: 1920x1080, Response Time: 506ms
+Name: 北京卫视, URL: http://tvbox.netsite.cc/proxy/469197887/469197887.m3u8, Date: 05-05-2024, Resolution: 1280x720, Response Time: 645ms
+Name: 北京卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 678ms
+Name: 北京卫视, URL: http://60.190.128.194:8888/newlive/live/hls/19/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 460ms
+Name: 北京卫视, URL: http://219.135.208.218:8083/tsfile/live/0122_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 463ms
+Name: 北京卫视, URL: http://mom.coms.hk:9901/tsfile/live/38725_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 467ms
+Name: 北京卫视, URL: http://113.128.226.58:8888/newlive/live/hls/24/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 523ms
+Name: 北京卫视, URL: http://8.134.82.80:32858/ysp0409/haiouysp.php?id=39, Date: 04-13-2024, Resolution: None, Response Time: 2012ms
+Name: 湖北卫视, URL: http://tvbox.netsite.cc/proxy/1513765070/1513765070.m3u8, Date: 05-13-2024, Resolution: 1280x720, Response Time: 609ms
+Name: 湖北卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 675ms
+Name: 湖北卫视, URL: http://58.220.219.14:9901/tsfile/live/0132_1.m3u8?key=txiptv, Date: 04-10-2024, Resolution: 768x576, Response Time: 457ms
+Name: 湖北卫视, URL: http://60.190.128.194:8888/newlive/live/hls/34/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 459ms
+Name: 湖北卫视, URL: http://219.135.208.218:8083/tsfile/live/0132_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 465ms
+Name: 湖北卫视, URL: http://mom.coms.hk:9901/tsfile/live/38726_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 474ms
+Name: 湖北卫视, URL: http://111.75.151.236:50085/newlive/live/hls/27/live.m3u8, Date: 04-01-2024, Resolution: None, Response Time: 489ms
+Name: 湖北卫视, URL: http://113.128.226.58:8888/newlive/live/hls/41/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 521ms
+Name: 湖北卫视, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel21/index.m3u8, Date: 05-13-2024, Resolution: None, Response Time: 640ms
+Name: 黑龙江卫视, URL: http://8.134.82.80:32858/ysp0409/haiouysp.php?id=52, Date: 04-15-2024, Resolution: 1920x1080, Response Time: 533ms
+Name: 黑龙江卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/hljwshd8m/8000000/mnf.m3u8, Date: 04-26-2024, Resolution: 1920x1080, Response Time: 565ms
+Name: 黑龙江卫视, URL: http://tvbox.netsite.cc/proxy/797978954/797978954.m3u8, Date: 05-05-2024, Resolution: 1280x720, Response Time: 592ms
+Name: 黑龙江卫视, URL: http://tvbox.netsite.cc/proxy/1993445467/1993445467.m3u8, Date: 05-04-2024, Resolution: 1280x720, Response Time: 792ms
+Name: 黑龙江卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 679ms
+Name: 黑龙江卫视, URL: http://61.138.54.155:2233/hls/1/index.m3u8, Date: 05-12-2024, Resolution: 785x576, Response Time: 587ms
+Name: 黑龙江卫视, URL: http://60.190.128.194:8888/newlive/live/hls/47/live.m3u8, Date: 04-29-2024, Resolution: 720x528, Response Time: 459ms
+Name: 黑龙江卫视, URL: http://219.135.208.218:8083/tsfile/live/0143_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 465ms
+Name: 黑龙江卫视, URL: http://mom.coms.hk:9901/tsfile/live/0019_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 472ms
+Name: 黑龙江卫视, URL: http://111.75.151.236:50085/newlive/live/hls/32/live.m3u8, Date: 04-01-2024, Resolution: None, Response Time: 489ms
+Name: 黑龙江卫视, URL: http://113.128.226.58:8888/newlive/live/hls/30/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 521ms
+Name: 安徽卫视, URL: http://64.140.167.170:8080/live/ydws9/hls.m3u8, Date: 05-10-2024, Resolution: 1920x1080, Response Time: 111ms
+Name: 安徽卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/ahwshd8m/8000000/mnf.m3u8, Date: 04-30-2024, Resolution: 1920x1080, Response Time: 562ms
+Name: 安徽卫视, URL: http://tvbox.netsite.cc/proxy/1453839032/1453839032.m3u8, Date: 05-06-2024, Resolution: 1280x720, Response Time: 635ms
+Name: 安徽卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 676ms
+Name: 安徽卫视, URL: http://60.190.128.194:8888/newlive/live/hls/25/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 462ms
+Name: 安徽卫视, URL: http://mom.coms.hk:9901/tsfile/live/0130_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 468ms
+Name: 安徽卫视, URL: http://111.75.151.236:50085/newlive/live/hls/29/live.m3u8, Date: 04-01-2024, Resolution: None, Response Time: 489ms
+Name: 安徽卫视, URL: http://113.128.226.58:8888/newlive/live/hls/25/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 522ms
+Name: 安徽卫视, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel23/index.m3u8, Date: 05-13-2024, Resolution: None, Response Time: 606ms
+Name: 安徽卫视, URL: http://219.135.208.218:8083/tsfile/live/0130_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 1156ms
+Name: 重庆卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/cqws8m/8000000/mnf.m3u8, Date: 04-29-2024, Resolution: 1920x1080, Response Time: 569ms
+Name: 重庆卫视, URL: http://tvbox.netsite.cc/proxy/1866473212/1866473212.m3u8, Date: 05-11-2024, Resolution: 1280x720, Response Time: 711ms
 Name: 重庆卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 676ms
-Name: 重庆卫视, URL: http://113.128.226.58:8888/newlive/live/hls/31/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 478ms
-Name: 重庆卫视, URL: http://111.75.151.236:50085/newlive/live/hls/40/live.m3u8, Date: 04-01-2024, Resolution: None, Response Time: 502ms
-Name: 重庆卫视, URL: http://tvbox.netsite.cc/proxy/1555601247/1555601247.m3u8, Date: 05-04-2024, Resolution: None, Response Time: 918ms
-Name: 重庆卫视, URL: http://117.10.59.110:8888/newlive/live/hls/27/live.m3u8, Date: 05-08-2024, Resolution: None, Response Time: 4498ms
-Name: 东方卫视, URL: http://64.140.167.170:8080/live/ydws2/hls.m3u8, Date: 05-14-2024, Resolution: 1920x1080, Response Time: 115ms
-Name: 东方卫视, URL: http://tvbox.netsite.cc/proxy/609485212/609485212.m3u8, Date: 05-14-2024, Resolution: 1280x720, Response Time: 1087ms
-Name: 东方卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 671ms
-Name: 东方卫视, URL: http://1.202.10.125:8888/udp/225.1.8.147:8192, Date: 05-10-2024, Resolution: 720x576, Response Time: 500ms
-Name: 东方卫视, URL: http://113.128.226.58:8888/newlive/live/hls/22/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 477ms
-Name: 东方卫视, URL: http://117.10.59.110:8888/newlive/live/hls/17/live.m3u8, Date: 05-08-2024, Resolution: None, Response Time: 517ms
-Name: 东方卫视, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel26/index.m3u8, Date: 05-13-2024, Resolution: None, Response Time: 1323ms
-Name: 东南卫视, URL: http://php.jdshipin.com:8880/bst.php?id=dnwshd/4000000, Date: 04-20-2024, Resolution: 1920x1080, Response Time: 1052ms
-Name: 东南卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/dnwshd8m/8000000/mnf.m3u8, Date: 04-29-2024, Resolution: 1920x1080, Response Time: 1109ms
-Name: 东南卫视, URL: http://64.140.167.170:8080/live/ydws11/hls.m3u8, Date: 05-13-2024, Resolution: 1280x720, Response Time: 115ms
-Name: 东南卫视, URL: http://tvbox.netsite.cc/proxy/605886267/605886267.m3u8, Date: 05-09-2024, Resolution: 1280x720, Response Time: 988ms
-Name: 东南卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 687ms
-Name: 东南卫视, URL: http://113.128.226.58:8888/newlive/live/hls/40/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 477ms
-Name: 东南卫视, URL: http://111.75.151.236:50085/newlive/live/hls/33/live.m3u8, Date: 04-01-2024, Resolution: None, Response Time: 503ms
-Name: 东南卫视, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel80/index.m3u8, Date: 05-13-2024, Resolution: None, Response Time: 4748ms
-Name: 甘肃卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/gswshd8m/8000000/mnf.m3u8, Date: 04-26-2024, Resolution: 1920x1080, Response Time: 575ms
-Name: 甘肃卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 672ms
-Name: 甘肃卫视, URL: http://tvbox.netsite.cc/proxy/1209404373/1209404373.m3u8, Date: 05-03-2024, Resolution: 960x540, Response Time: 598ms
-Name: 甘肃卫视, URL: http://117.10.59.110:8888/newlive/live/hls/32/live.m3u8, Date: 05-12-2024, Resolution: 720x576, Response Time: 2182ms
-Name: 甘肃卫视, URL: http://113.128.226.58:8888/newlive/live/hls/39/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 475ms
-Name: 甘肃卫视, URL: http://111.75.151.236:50085/newlive/live/hls/41/live.m3u8, Date: 04-01-2024, Resolution: None, Response Time: 503ms
-Name: 甘肃卫视, URL: http://php.jdshipin.com:8880/bst.php?id=gswshd8m/8000000, Date: 03-09-2024, Resolution: None, Response Time: 1015ms
-Name: 广西卫视, URL: http://116.11.156.112:1188/tsfile/live/1025_1.m3u8, Date: 05-12-2024, Resolution: 1920x1080, Response Time: 506ms
-Name: 广西卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/gxwshd8m/8000000/mnf.m3u8, Date: 04-27-2024, Resolution: 1920x1080, Response Time: 3728ms
-Name: 广西卫视, URL: http://tvbox.netsite.cc/proxy/1407270894/1407270894.m3u8, Date: 05-12-2024, Resolution: 1280x720, Response Time: 656ms
-Name: 广西卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 686ms
-Name: 广西卫视, URL: http://113.128.226.58:8888/newlive/live/hls/44/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 478ms
-Name: 广西卫视, URL: http://111.75.151.236:50085/newlive/live/hls/37/live.m3u8, Date: 04-01-2024, Resolution: None, Response Time: 503ms
-Name: 贵州卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/gzwshd8m/8000000/mnf.m3u8, Date: 04-26-2024, Resolution: 1920x1080, Response Time: 1550ms
-Name: 贵州卫视, URL: http://tvbox.netsite.cc/proxy/344811278/344811278.m3u8, Date: 05-14-2024, Resolution: 1280x720, Response Time: 589ms
-Name: 贵州卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 671ms
-Name: 贵州卫视, URL: http://113.128.226.58:8888/newlive/live/hls/32/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 475ms
-Name: 贵州卫视, URL: http://111.75.151.236:50085/newlive/live/hls/45/live.m3u8, Date: 04-01-2024, Resolution: None, Response Time: 504ms
-Name: 贵州卫视, URL: http://tvbox.netsite.cc/proxy/1114625252/1114625252.m3u8, Date: 04-27-2024, Resolution: None, Response Time: 656ms
-Name: 贵州卫视, URL: http://117.10.59.110:8888/newlive/live/hls/26/live.m3u8, Date: 05-08-2024, Resolution: None, Response Time: 1766ms
-Name: 海南卫视, URL: http://tvbox.netsite.cc/proxy/1505336139/1505336139.m3u8, Date: 05-05-2024, Resolution: 1280x720, Response Time: 610ms
-Name: 海南卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 672ms
-Name: 海南卫视, URL: http://8.134.82.80:32858/ysp0409/haiouysp.php?id=60, Date: 04-13-2024, Resolution: None, Response Time: 481ms
-Name: 海南卫视, URL: http://113.128.226.58:8888/newlive/live/hls/35/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 483ms
-Name: 海南卫视, URL: http://111.75.151.236:50085/newlive/live/hls/42/live.m3u8, Date: 04-01-2024, Resolution: None, Response Time: 503ms
-Name: 海南卫视, URL: http://59.44.192.22:65000/hls/99/index.m3u8, Date: 03-30-2024, Resolution: None, Response Time: 566ms
-Name: 海南卫视, URL: http://tvbox.netsite.cc/proxy/2019508840/2019508840.m3u8, Date: 05-04-2024, Resolution: None, Response Time: 749ms
-Name: 海南卫视, URL: http://php.jdshipin.com:8880/bst.php?id=hainanwshd8m/8000000, Date: 03-09-2024, Resolution: None, Response Time: 806ms
-Name: 河北卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/hbwshd8m/8000000/mnf.m3u8, Date: 04-25-2024, Resolution: 1920x1080, Response Time: 588ms
-Name: 河北卫视, URL: http://tvbox.netsite.cc/proxy/866823714/866823714.m3u8, Date: 05-07-2024, Resolution: 1280x720, Response Time: 1091ms
-Name: 河北卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 685ms
-Name: 河北卫视, URL: http://tv.pull.hebtv.com/jishi/weishipindao.m3u8?t=2510710360&k=f1b16a3a3866dafecb94ec2bb4160e58, Date: 04-28-2024, Resolution: 960x540, Response Time: 1155ms
-Name: 河北卫视, URL: http://113.128.226.58:8888/newlive/live/hls/34/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 475ms
-Name: 河北卫视, URL: http://111.75.151.236:50085/newlive/live/hls/51/live.m3u8, Date: 04-01-2024, Resolution: None, Response Time: 483ms
-Name: 河南卫视, URL: http://y.vlanl.com:4022/rtp/225.1.4.254:1300, Date: 05-09-2024, Resolution: 3840x2160, Response Time: 3635ms
-Name: 河南卫视, URL: http://tvbox.netsite.cc/proxy/1555831884/1555831884.m3u8, Date: 05-11-2024, Resolution: 1280x720, Response Time: 588ms
-Name: 河南卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 686ms
-Name: 河南卫视, URL: http://221.210.64.165:2233/hls/48/index.m3u8, Date: 04-20-2024, Resolution: 720x576, Response Time: 2164ms
-Name: 河南卫视, URL: http://113.128.226.58:8888/newlive/live/hls/37/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 475ms
-Name: 河南卫视, URL: http://117.10.59.110:8888/newlive/live/hls/29/live.m3u8, Date: 05-08-2024, Resolution: None, Response Time: 488ms
-Name: 河南卫视, URL: http://8.134.82.80:32858/ysp0409/haiouysp.php?id=50, Date: 04-13-2024, Resolution: None, Response Time: 498ms
-Name: 吉林卫视, URL: http://64.140.167.170:8080/live/ydws4/hls.m3u8, Date: 05-05-2024, Resolution: 1920x1080, Response Time: 121ms
-Name: 吉林卫视, URL: http://nas.tuyuannet.cn:8800/rtp/239.37.0.101:5540, Date: 05-10-2024, Resolution: 1920x1080, Response Time: 841ms
-Name: 吉林卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/jlwshd8m/8000000/mnf.m3u8, Date: 04-27-2024, Resolution: 1920x1080, Response Time: 3551ms
-Name: 吉林卫视, URL: http://tvbox.netsite.cc/proxy/1831443675/1831443675.m3u8, Date: 05-11-2024, Resolution: 1600x900, Response Time: 734ms
-Name: 吉林卫视, URL: http://live.ybtvyun.com/video/s10016-7e5f23de35df/index.m3u8, Date: 05-14-2024, Resolution: 1280x720, Response Time: 1218ms
-Name: 吉林卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 686ms
-Name: 吉林卫视, URL: http://113.128.226.58:8888/newlive/live/hls/38/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 475ms
-Name: 吉林卫视, URL: http://111.75.151.236:50085/newlive/live/hls/35/live.m3u8, Date: 04-01-2024, Resolution: None, Response Time: 481ms
-Name: 吉林卫视, URL: http://php.jdshipin.com:8880/bst.php?id=jlwshd8m/8000000, Date: 03-09-2024, Resolution: None, Response Time: 1030ms
-Name: 吉林卫视, URL: http://stream1.jlntv.cn/jlws/playlist.m3u8?_upt=7c73ff331714202608, Date: 04-27-2024, Resolution: None, Response Time: 2383ms
-Name: 江苏卫视, URL: http://64.140.167.170:8080/live/ydws1/hls.m3u8, Date: 05-12-2024, Resolution: 1920x1080, Response Time: 115ms
-Name: 江苏卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/jswshd8m/8000000/mnf.m3u8, Date: 04-27-2024, Resolution: 1920x1080, Response Time: 560ms
-Name: 江苏卫视, URL: http://www.furymax.top:85/rtp/239.69.1.174:10680, Date: 05-12-2024, Resolution: 1920x1080, Response Time: 980ms
-Name: 江苏卫视, URL: http://tvbox.netsite.cc/proxy/1561313428/1561313428.m3u8, Date: 05-14-2024, Resolution: 1280x720, Response Time: 634ms
-Name: 江苏卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 663ms
-Name: 江苏卫视, URL: http://120.7.86.32:808/hls/19/index.m3u8, Date: 04-26-2024, Resolution: 768x576, Response Time: 1553ms
-Name: 江苏卫视, URL: http://117.44.0.158:20000/hls/15/index.m3u8, Date: 05-11-2024, Resolution: 720x576, Response Time: 2094ms
-Name: 江苏卫视, URL: http://113.128.226.58:8888/newlive/live/hls/23/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 478ms
-Name: 江苏卫视, URL: http://117.10.59.110:8888/newlive/live/hls/19/live.m3u8, Date: 05-08-2024, Resolution: None, Response Time: 1487ms
-Name: 江苏卫视, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel18/index.m3u8, Date: 05-13-2024, Resolution: None, Response Time: 3728ms
-Name: 江西卫视, URL: http://64.140.167.170:8080/live/ydws10/hls.m3u8, Date: 05-12-2024, Resolution: 1920x1080, Response Time: 121ms
-Name: 江西卫视, URL: http://171.35.87.124:6002/udp/239.252.220.63:5140, Date: 05-04-2024, Resolution: 1920x1080, Response Time: 515ms
-Name: 江西卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/jxws8m/8000000/mnf.m3u8, Date: 04-26-2024, Resolution: 1920x1080, Response Time: 3708ms
-Name: 江西卫视, URL: http://tvbox.netsite.cc/proxy/1507547400/1507547400.m3u8, Date: 05-11-2024, Resolution: 1280x720, Response Time: 628ms
-Name: 江西卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 671ms
-Name: 江西卫视, URL: http://113.128.226.58:8888/newlive/live/hls/33/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 487ms
-Name: 江西卫视, URL: http://111.75.151.236:50085/newlive/live/hls/16/live.m3u8, Date: 04-01-2024, Resolution: None, Response Time: 503ms
-Name: 江西卫视, URL: http://117.10.59.110:8888/newlive/live/hls/38/live.m3u8, Date: 05-08-2024, Resolution: None, Response Time: 528ms
-Name: 辽宁卫视, URL: http://64.140.167.170:8080/live/ydws6/hls.m3u8, Date: 05-08-2024, Resolution: 1920x1080, Response Time: 115ms
-Name: 辽宁卫视, URL: http://59.51.113.91:18888/udp/239.76.252.197:9000, Date: 05-13-2024, Resolution: 1920x1080, Response Time: 530ms
-Name: 辽宁卫视, URL: http://59.51.113.91:18888/udp/239.76.245.197:1234, Date: 05-13-2024, Resolution: 1920x1080, Response Time: 532ms
-Name: 辽宁卫视, URL: http://8.134.82.80:32858/ysp0409/haiouysp.php?id=51, Date: 04-14-2024, Resolution: 1920x1080, Response Time: 546ms
-Name: 辽宁卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/lnwshd8m/8000000/mnf.m3u8, Date: 04-25-2024, Resolution: 1920x1080, Response Time: 590ms
-Name: 辽宁卫视, URL: http://175.168.46.94:8888/rtp/232.0.0.126:1234, Date: 05-03-2024, Resolution: 1920x1080, Response Time: 594ms
-Name: 辽宁卫视, URL: http://221.220.135.32:9999/rtp/239.3.1.210:8056, Date: 05-08-2024, Resolution: 1920x1080, Response Time: 3563ms
-Name: 辽宁卫视, URL: http://tvbox.netsite.cc/proxy/1767807342/1767807342.m3u8, Date: 05-12-2024, Resolution: 1280x720, Response Time: 654ms
-Name: 辽宁卫视, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel32/index.m3u8, Date: 05-14-2024, Resolution: 1280x720, Response Time: 720ms
-Name: 辽宁卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 686ms
-Name: 辽宁卫视, URL: https://node1.olelive.com:6443/live/LIAONINGHD/hls.m3u8, Date: 05-14-2024, Resolution: 785x576, Response Time: 295ms
-Name: 辽宁卫视, URL: http://113.128.226.58:8888/newlive/live/hls/27/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 489ms
-Name: 辽宁卫视, URL: http://117.10.59.110:8888/newlive/live/hls/47/live.m3u8, Date: 05-08-2024, Resolution: None, Response Time: 2454ms
-Name: 内蒙古卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 662ms
-Name: 内蒙古卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/nmgws/1300000/mnf.m3u8, Date: 04-26-2024, Resolution: 768x576, Response Time: 640ms
-Name: 内蒙古卫视, URL: http://113.128.226.58:8888/newlive/live/hls/46/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 478ms
-Name: 内蒙古卫视, URL: http://111.75.151.236:50085/newlive/live/hls/48/live.m3u8, Date: 04-01-2024, Resolution: None, Response Time: 503ms
-Name: 内蒙古卫视, URL: http://php.jdshipin.com:8880/bst.php?id=nmgws/1300000, Date: 03-22-2024, Resolution: None, Response Time: 1020ms
-Name: 宁夏卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 666ms
-Name: 宁夏卫视, URL: http://tvbox.netsite.cc/proxy/1558349983/1558349983.m3u8, Date: 05-04-2024, Resolution: 960x540, Response Time: 705ms
-Name: 宁夏卫视, URL: http://117.10.59.110:8888/newlive/live/hls/36/live.m3u8, Date: 05-10-2024, Resolution: 768x576, Response Time: 533ms
-Name: 宁夏卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/nxws/1300000/mnf.m3u8, Date: 04-27-2024, Resolution: 768x576, Response Time: 1718ms
-Name: 宁夏卫视, URL: http://113.128.226.58:8888/newlive/live/hls/48/live.m3u8, Date: 04-29-2024, Resolution: 720x576, Response Time: 475ms
-Name: 宁夏卫视, URL: http://111.75.151.236:50085/newlive/live/hls/38/live.m3u8, Date: 04-01-2024, Resolution: None, Response Time: 483ms
-Name: 青海卫视, URL: http://tvbox.netsite.cc/proxy/1152127449/1152127449.m3u8, Date: 05-05-2024, Resolution: 1280x720, Response Time: 867ms
-Name: 青海卫视, URL: http://stream.qhbtv.com/qhws/playlist.m3u8, Date: 04-28-2024, Resolution: 1280x720, Response Time: 1333ms
-Name: 青海卫视, URL: http://stream.qhbtv.com/qhws/sd/live.m3u8, Date: 05-10-2024, Resolution: 1280x720, Response Time: 1604ms
-Name: 青海卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 663ms
-Name: 青海卫视, URL: http://113.128.226.58:8888/newlive/live/hls/47/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 479ms
-Name: 青海卫视, URL: http://111.75.151.236:50085/newlive/live/hls/46/live.m3u8, Date: 04-01-2024, Resolution: None, Response Time: 503ms
-Name: 青海卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/qhws/1300000/mnf.m3u8, Date: 04-24-2024, Resolution: None, Response Time: 622ms
-Name: 青海卫视, URL: http://php.jdshipin.com:8880/bst.php?id=qhws/1300000, Date: 03-09-2024, Resolution: None, Response Time: 1013ms
-Name: 青海卫视, URL: http://stream.qhbtv.com/qhws/sd/live.m3u8?_upt=e2bbe63d1714196546, Date: 04-27-2024, Resolution: None, Response Time: 1418ms
-Name: 青海卫视, URL: http://117.10.59.110:8888/newlive/live/hls/35/live.m3u8, Date: 05-08-2024, Resolution: None, Response Time: 1529ms
-Name: 山东卫视, URL: http://182.46.8.252:8686/udp/239.21.1.87:5002, Date: 04-01-2024, Resolution: 1920x1080, Response Time: 533ms
-Name: 山东卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 685ms
-Name: 山东卫视, URL: http://livealone.iqilu.com/iqilu/sdtvhjOF03kn.m3u8, Date: 05-05-2024, Resolution: 960x540, Response Time: 1081ms
-Name: 山东卫视, URL: http://182.38.178.100:4000/udp/239.21.1.52:5002, Date: 05-12-2024, Resolution: 786x576, Response Time: 511ms
-Name: 山东卫视, URL: http://113.128.226.58:8888/newlive/live/hls/19/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 490ms
-Name: 山东卫视, URL: http://tvbox.netsite.cc/proxy/1400078770/1400078770.m3u8, Date: 04-27-2024, Resolution: None, Response Time: 619ms
-Name: 山西卫视, URL: http://tvbox.netsite.cc/proxy/825435414/825435414.m3u8, Date: 05-13-2024, Resolution: 1280x720, Response Time: 597ms
-Name: 山西卫视, URL: http://80ec27bff7f9ae80b961481da488e302.livehwc3.cn/liveflash.sxrtv.com/live/sxwshd.m3u8?sub_m3u8=true&edge_slice=true&user_session_id=d04ce01474da4193c8863ea281ec4759, Date: 05-13-2024, Resolution: 1280x720, Response Time: 938ms
-Name: 山西卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 685ms
-Name: 山西卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/shanxiws/1300000/mnf.m3u8, Date: 04-28-2024, Resolution: 768x576, Response Time: 1661ms
-Name: 山西卫视, URL: http://113.128.226.58:8888/newlive/live/hls/43/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 477ms
-Name: 山西卫视, URL: http://117.10.59.110:8888/newlive/live/hls/40/live.m3u8, Date: 05-08-2024, Resolution: None, Response Time: 488ms
-Name: 山西卫视, URL: http://111.75.151.236:50085/newlive/live/hls/44/live.m3u8, Date: 04-01-2024, Resolution: None, Response Time: 507ms
-Name: 山西卫视, URL: http://php.jdshipin.com:8880/bst.php?id=shanxiws/1300000, Date: 03-09-2024, Resolution: None, Response Time: 774ms
-Name: 陕西卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 662ms
-Name: 陕西卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/sxws/1300000/mnf.m3u8, Date: 04-26-2024, Resolution: 720x540, Response Time: 2586ms
-Name: 陕西卫视, URL: http://tvbox.netsite.cc/proxy/917851306/917851306.m3u8, Date: 05-14-2024, Resolution: 720x406, Response Time: 602ms
-Name: 陕西卫视, URL: http://113.128.226.58:8888/newlive/live/hls/42/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 478ms
-Name: 陕西卫视, URL: http://111.75.151.236:50085/newlive/live/hls/47/live.m3u8, Date: 04-01-2024, Resolution: None, Response Time: 503ms
-Name: 陕西卫视, URL: http://php.jdshipin.com:8880/bst.php?id=sxws/1300000, Date: 03-10-2024, Resolution: None, Response Time: 806ms
-Name: 陕西卫视, URL: http://117.10.59.110:8888/newlive/live/hls/37/live.m3u8, Date: 05-08-2024, Resolution: None, Response Time: 1279ms
-Name: 四川卫视, URL: http://64.140.167.170:8080/live/ydws8/hls.m3u8, Date: 05-12-2024, Resolution: 1920x1080, Response Time: 115ms
-Name: 四川卫视, URL: http://118.114.96.20:8889/udp/239.93.0.169:5140, Date: 05-09-2024, Resolution: 1920x1080, Response Time: 507ms
-Name: 四川卫视, URL: http://wouu.net:9977/udp/239.93.0.169:5140, Date: 04-30-2024, Resolution: 1920x1080, Response Time: 790ms
-Name: 四川卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/scwshd/8000000/mnf.m3u8, Date: 04-29-2024, Resolution: 1920x1080, Response Time: 4862ms
-Name: 四川卫视, URL: http://tvbox.netsite.cc/proxy/1364123916/1364123916.m3u8, Date: 05-11-2024, Resolution: 1280x720, Response Time: 608ms
-Name: 四川卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 665ms
-Name: 四川卫视, URL: http://113.128.226.58:8888/newlive/live/hls/36/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 489ms
-Name: 四川卫视, URL: http://117.10.59.110:8888/newlive/live/hls/28/live.m3u8, Date: 05-08-2024, Resolution: None, Response Time: 3551ms
-Name: 深圳卫视, URL: http://113.128.226.58:8888/newlive/live/hls/28/live.m3u8, Date: 05-02-2024, Resolution: 1920x1080, Response Time: 477ms
-Name: 深圳卫视, URL: http://116.11.156.112:1188/tsfile/live/1027_1.m3u8, Date: 05-14-2024, Resolution: 1920x1080, Response Time: 508ms
-Name: 深圳卫视, URL: http://tvbox.netsite.cc/proxy/846832031/846832031.m3u8, Date: 05-11-2024, Resolution: 1280x720, Response Time: 687ms
-Name: 深圳卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 686ms
-Name: 深圳卫视, URL: http://117.10.59.110:8888/newlive/live/hls/25/live.m3u8, Date: 05-10-2024, Resolution: 1024x576, Response Time: 1657ms
-Name: 深圳卫视, URL: http://58.220.219.14:9901/tsfile/live/0126_1.m3u8?key=txiptv, Date: 04-23-2024, Resolution: 720x576, Response Time: 1013ms
-Name: 深圳卫视, URL: http://111.75.151.236:50085/newlive/live/hls/26/live.m3u8, Date: 04-01-2024, Resolution: None, Response Time: 499ms
-Name: 深圳卫视, URL: http://8.134.82.80:32858/ysp0409/haiouysp.php?id=53, Date: 04-13-2024, Resolution: None, Response Time: 526ms
-Name: 三沙卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/sswshd8m/8000000/mnf.m3u8, Date: 04-28-2024, Resolution: 1920x1080, Response Time: 657ms
-Name: 三沙卫视, URL: http://tvbox.netsite.cc/proxy/1337100319/1337100319.m3u8, Date: 05-05-2024, Resolution: 1280x720, Response Time: 702ms
-Name: 三沙卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 689ms
-Name: 三沙卫视, URL: http://222.71.11.180:4022/udp/239.45.1.82:5140, Date: 05-14-2024, Resolution: 768x576, Response Time: 486ms
-Name: 三沙卫视, URL: http://114.245.48.134:8688/rtp/239.3.1.155:4120, Date: 04-21-2024, Resolution: 768x576, Response Time: 860ms
-Name: 三沙卫视, URL: http://ik6.iptv8.net:8888/rtp/225.1.4.234:1280, Date: 04-15-2024, Resolution: 768x576, Response Time: 3864ms
-Name: 三沙卫视, URL: http://61.138.128.226:19901/tsfile/live/1020_1.m3u8, Date: 04-15-2024, Resolution: 720x540, Response Time: 1205ms
-Name: 天津卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/tjwshd8m/8000000/mnf.m3u8, Date: 04-27-2024, Resolution: 1920x1080, Response Time: 501ms
-Name: 天津卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 684ms
-Name: 天津卫视, URL: http://113.128.226.58:8888/newlive/live/hls/26/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 477ms
-Name: 天津卫视, URL: http://111.75.151.236:50085/newlive/live/hls/28/live.m3u8, Date: 04-01-2024, Resolution: None, Response Time: 499ms
-Name: 天津卫视, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel28/index.m3u8, Date: 05-13-2024, Resolution: None, Response Time: 2753ms
-Name: 天津卫视, URL: http://117.10.59.110:8888/newlive/live/hls/39/live.m3u8, Date: 05-08-2024, Resolution: None, Response Time: 4540ms
-Name: 西藏卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 683ms
-Name: 西藏卫视, URL: http://111.75.151.236:50085/newlive/live/hls/36/live.m3u8, Date: 04-09-2024, Resolution: 768x576, Response Time: 508ms
-Name: 西藏卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/xzws/2500000/mnf.m3u8, Date: 04-26-2024, Resolution: 768x576, Response Time: 2674ms
-Name: 西藏卫视, URL: http://php.jdshipin.com:8880/bst.php?id=xzws/1300000, Date: 03-09-2024, Resolution: None, Response Time: 1589ms
-Name: 新疆卫视, URL: http://tvbox.netsite.cc/proxy/1423426614/1423426614.m3u8, Date: 05-09-2024, Resolution: 1280x720, Response Time: 1173ms
-Name: 新疆卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 684ms
-Name: 新疆卫视, URL: http://live.wjyanghu.com/live/CH1.m3u8, Date: 05-12-2024, Resolution: 1024x576, Response Time: 1937ms
-Name: 新疆卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/xjws/1300000/mnf.m3u8, Date: 04-26-2024, Resolution: 768x576, Response Time: 3129ms
-Name: 新疆卫视, URL: http://113.128.226.58:8888/newlive/live/hls/49/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 476ms
-Name: 新疆卫视, URL: http://111.75.151.236:50085/newlive/live/hls/49/live.m3u8, Date: 04-01-2024, Resolution: None, Response Time: 507ms
-Name: 新疆卫视, URL: http://php.jdshipin.com:8880/bst.php?id=xjws/1300000, Date: 03-09-2024, Resolution: None, Response Time: 1006ms
-Name: 新疆卫视, URL: http://117.10.59.110:8888/newlive/live/hls/34/live.m3u8, Date: 05-08-2024, Resolution: None, Response Time: 3549ms
-Name: 云南卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/ynwshd8m/8000000/mnf.m3u8, Date: 04-27-2024, Resolution: 1920x1080, Response Time: 3645ms
-Name: 云南卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 684ms
-Name: 云南卫视, URL: http://113.128.226.58:8888/newlive/live/hls/45/live.m3u8, Date: 04-30-2024, Resolution: 785x576, Response Time: 491ms
-Name: 云南卫视, URL: http://111.75.151.236:50085/newlive/live/hls/34/live.m3u8, Date: 04-01-2024, Resolution: None, Response Time: 499ms
-Name: 云南卫视, URL: http://php.jdshipin.com:8880/bst.php?id=ynwshd8m/8000000, Date: 03-09-2024, Resolution: None, Response Time: 550ms
-Name: 云南卫视, URL: http://117.10.59.110:8888/newlive/live/hls/24/live.m3u8, Date: 05-08-2024, Resolution: None, Response Time: 4224ms
-Name: 翡翠台, URL: https://cloudfront41.lexanetwork.com:1344/relay01/livestream002.sdp/playlist.m3u8, Date: 05-14-2024, Resolution: 1920x1080, Response Time: 1244ms
-Name: 翡翠台, URL: http://tvdrs.wsrtv.com.cn:8100/channellive/ch1.flv, Date: 05-14-2024, Resolution: 1920x1080, Response Time: 1368ms
-Name: 翡翠台, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 664ms
-Name: 翡翠台, URL: http://210.210.155.37/dr9445/h/h20/index.m3u8, Date: 05-13-2024, Resolution: 1024x576, Response Time: 716ms
-Name: 翡翠台, URL: http://162.244.81.145:3333/live/telebostonrtb/playlist.m3u8, Date: 05-14-2024, Resolution: 854x480, Response Time: 52ms
-Name: 翡翠台, URL: https://pi.0472.org/tv/fct.php?auth=2309081833, Date: 03-13-2024, Resolution: None, Response Time: 735ms
-Name: 翡翠台, URL: https://pi.0472.org/tv/fct.php?auth=230918, Date: 03-24-2024, Resolution: None, Response Time: 739ms
-Name: 翡翠台, URL: http://ali.hlspull.yximgs.com/live/twlivefhwwzpthzyztzzzxcxbfhzzfzvhdtzdvbtvzszxzfszzcvbctvbfc.flv, Date: 03-12-2024, Resolution: None, Response Time: 1246ms
-Name: 纬来体育, URL: https://ktpremium.com:443/K3939/6757/877061, Date: 07-21-2023, Resolution: None, Response Time: 132ms
-Name: 爱尔达体育, URL: https://ktpremium.com:443/K3939/6757/879250, Date: 07-21-2023, Resolution: None, Response Time: 125ms
-Name: 爱尔达体育, URL: https://ktpremium.com:443/K3939/6757/879252, Date: 07-21-2023, Resolution: None, Response Time: 126ms
-Name: 爱尔达体育, URL: https://ktpremium.com:443/K3939/6757/879251, Date: 07-21-2023, Resolution: None, Response Time: 129ms
-Name: ELEVEN体育, URL: https://ktpremium.com:443/K3939/6757/910889, Date: 07-21-2023, Resolution: None, Response Time: 105ms
-Name: ELEVEN体育, URL: https://ktpremium.com:443/K3939/6757/910890, Date: 07-21-2023, Resolution: None, Response Time: 109ms
-Name: 明珠台, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 689ms
-Name: 明珠台, URL: http://107.167.12.58:27347/livehttpplay?channel_id=20125, Date: 09-21-2023, Resolution: None, Response Time: 108ms
-Name: 明珠台, URL: http://107.167.12.58:27347/livehttpplay?channel_id=30026, Date: 09-14-2023, Resolution: None, Response Time: 108ms
-Name: 明珠台, URL: https://pi.0472.org/tv/mzt.php?auth=230918, Date: 02-07-2024, Resolution: None, Response Time: 594ms
-Name: 明珠台, URL: https://pi.0472.org/tv/mzt.php?auth=2309081833, Date: 03-19-2024, Resolution: None, Response Time: 596ms
-Name: 明珠台, URL: http://nz189l149.bb27109.ctm.net:8892/bysid/2, Date: 03-10-2024, Resolution: None, Response Time: 755ms
-Name: 明珠台, URL: http://r.jdshipin.com/ZQ4kN, Date: 11-28-2023, Resolution: None, Response Time: 915ms
-Name: 明珠台, URL: http://zw9999.cnstream.top:80/play/ubI0Nrlni6TwusjXuSxNxEzv3SLBhKEUmYG73triGDY/ts, Date: 06-02-2023, Resolution: None, Response Time: 1037ms
-Name: 星河台, URL: http://v2h.jdshipin.com/xinghe/xinghe.stream/chunklist.m3u8, Date: 05-14-2024, Resolution: 1280x720, Response Time: 1337ms
-Name: 星河台, URL: https://edge6a.v2h-cdn.com/xinghe/xinghe.stream/chunklist.m3u8, Date: 05-11-2024, Resolution: 1280x720, Response Time: 1649ms
-Name: 星河台, URL: http://ali.hlspull.yximgs.com/live/twlivezzmzptvzszzwxnhzzwzztzzztyfzszzszcfzxfzwmxzdtvbxh.flv, Date: 03-12-2024, Resolution: None, Response Time: 705ms
-Name: 星河台, URL: http://r.jdshipin.com/sXuuD, Date: 12-30-2023, Resolution: None, Response Time: 781ms
-Name: 凤凰中文, URL: http://118.254.158.105:8888/udp/239.76.246.134:1234, Date: 05-14-2024, Resolution: 1920x1080, Response Time: 498ms
-Name: 凤凰中文, URL: http://tvbox.netsite.cc/proxy/1846789161/1846789161.m3u8, Date: 05-14-2024, Resolution: 1920x1080, Response Time: 2159ms
-Name: 凤凰中文, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 663ms
-Name: 凤凰中文, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 05-14-2024, Resolution: 1024x576, Response Time: 683ms
-Name: 凤凰中文, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8?app_type=web&userid=50n13N0v14nd1&tkn=829341hrjhaq0q30q&chname=Phoenix_Chinese, Date: 05-14-2024, Resolution: 1024x576, Response Time: 683ms
-Name: 凤凰中文, URL: https://raw.githubusercontent.com/ChiSheng9/iptv/master/TV43.m3u8, Date: 03-27-2024, Resolution: None, Response Time: 111ms
-Name: 凤凰中文, URL: http://171.223.215.229:4000/udp/239.93.0.162:2192, Date: 03-29-2024, Resolution: None, Response Time: 514ms
-Name: 凤凰中文, URL: http://playtv-live.ifeng.com:80/live/06OLEGEGM4G.m3u8, Date: 03-28-2024, Resolution: None, Response Time: 2303ms
-Name: 凤凰资讯, URL: https://raw.githubusercontent.com/ChiSheng9/iptv/master/TV22.m3u8, Date: 03-30-2024, Resolution: 1920x1080, Response Time: 74ms
-Name: 凤凰资讯, URL: http://61.221.215.25:8800/hls/47/index.m3u8, Date: 05-14-2024, Resolution: 1280x720, Response Time: 364ms
-Name: 凤凰资讯, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 684ms
-Name: 凤凰资讯, URL: http://playtv-live.ifeng.com:80/live/06OLEEWQKN4.m3u8, Date: 03-29-2024, Resolution: None, Response Time: 409ms
-Name: 凤凰资讯, URL: http://playtv-live.ifeng.com/live/06OLEEWQKN4.m3u8, Date: 03-27-2024, Resolution: None, Response Time: 409ms
-Name: 凤凰资讯, URL: http://ali.hlspull.yximgs.com/live/huanqiuhklivetvjjpcpdvuejljyjjyfjoxvchjwhjwojjjhdjjlsjhbjfhjx.flv, Date: 03-24-2024, Resolution: None, Response Time: 660ms
-Name: 凤凰香港, URL: http://113.64.145.61:8081/hls/38/index.m3u8, Date: 05-07-2024, Resolution: 1920x1080, Response Time: 492ms
-Name: 凤凰香港, URL: http://60.164.229.241:4040/udp/239.255.30.123:8231, Date: 04-25-2024, Resolution: 1920x1080, Response Time: 554ms
-Name: 凤凰香港, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 685ms
-Name: TVBS亚洲, URL: http://38.64.72.148:80/hls/modn/list/4005/chunklist1.m3u8, Date: 05-08-2024, Resolution: 1920x1080, Response Time: 109ms
-Name: TVBS亚洲, URL: http://38.64.72.148/hls/modn/list/4005/chunklist1.m3u8?$1920x1080, Date: 05-06-2024, Resolution: 1920x1080, Response Time: 110ms
-Name: TVBS亚洲, URL: http://38.64.72.148/hls/modn/list/4005/playlist.m3u8, Date: 05-13-2024, Resolution: 1920x1080, Response Time: 110ms
-Name: TVBS亚洲, URL: http://d2e1asnsl7br7b.cloudfront.net/7782e205e72f43aeb4a48ec97f66ebbe/index_5.m3u8?zshijd, Date: 05-11-2024, Resolution: 1920x1080, Response Time: 342ms
-Name: TVBS亚洲, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 687ms
-Name: TVBS亚洲, URL: http://38.64.72.148:80/hls/modn/list/4005/playlist.m3u8?$1920x1080, Date: 03-05-2023, Resolution: None, Response Time: 109ms
-Name: TVBS亚洲, URL: http://38.64.72.148/hls/modn/list/4005/chunklist1.m3u8, Date: 02-20-2024, Resolution: None, Response Time: 110ms
-Name: TVBS亚洲, URL: http://38.64.72.148:80/hls/modn/list/4005/playlist.m3u8, Date: 02-09-2024, Resolution: None, Response Time: 110ms
-Name: TVBS亚洲, URL: http://38.64.72.148:80/hls/modn/list/4005/chunklist0.m3u8, Date: 02-03-2024, Resolution: None, Response Time: 110ms
-Name: TVBS亚洲, URL: http://38.64.72.148/hls/modn/list/4005/chunklist0.m3u8, Date: 06-02-2023, Resolution: None, Response Time: 110ms
-Name: TVBS亚洲, URL: http://abcnew.site:8880/3ca7123n11/ewfr543ds/71045, Date: 02-08-2024, Resolution: None, Response Time: 3767ms
-Name: TVBS新闻, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 686ms
-Name: TVBS新闻, URL: http://ali.hlspull.yximgs.com/live/huanqiuhklivejojwhjxojhjjjlfhjljsjcnxjfvbhjdjwjfjjdsswvtvbsxw.flv, Date: 03-22-2024, Resolution: None, Response Time: 558ms
-Name: TVBS新闻, URL: https://fsv4.yj011.net/sat/tv551.flv, Date: 10-11-2023, Resolution: None, Response Time: 563ms
-Name: TVBS新闻, URL: http://ali.hlspull.yximgs.com/live/twlivezozwhzxozhzzzlfhzlzszcnxzfvbhzdzwzfzzdsswvtvbsxw.flv, Date: 03-11-2024, Resolution: None, Response Time: 850ms
-Name: TVBS欢乐, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 684ms
-Name: TVBS欢乐, URL: https://fsv4.yj011.net/sat/tv421.flv, Date: 09-15-2023, Resolution: None, Response Time: 346ms
+Name: 重庆卫视, URL: http://60.190.128.194:8888/newlive/live/hls/31/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 459ms
+Name: 重庆卫视, URL: http://219.135.208.218:8083/tsfile/live/0142_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 465ms
+Name: 重庆卫视, URL: http://mom.coms.hk:9901/tsfile/live/0142_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 471ms
+Name: 重庆卫视, URL: http://111.75.151.236:50085/newlive/live/hls/40/live.m3u8, Date: 04-01-2024, Resolution: None, Response Time: 489ms
+Name: 重庆卫视, URL: http://113.128.226.58:8888/newlive/live/hls/31/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 523ms
+Name: 重庆卫视, URL: http://tvbox.netsite.cc/proxy/1555601247/1555601247.m3u8, Date: 05-04-2024, Resolution: None, Response Time: 622ms
+Name: 东方卫视, URL: http://64.140.167.170:8080/live/ydws2/hls.m3u8, Date: 05-15-2024, Resolution: 1920x1080, Response Time: 111ms
+Name: 东方卫视, URL: http://64.140.167.170:8080/live/ydws2/hls.m3u8, Date: 05-15-2024, Resolution: 1920x1080, Response Time: 114ms
+Name: 东方卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/dfwshd8m/8000000/mnf.m3u8, Date: 04-28-2024, Resolution: 1920x1080, Response Time: 619ms
+Name: 东方卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/dfwshd8m/8000000/mnf.m3u8, Date: 04-28-2024, Resolution: 1920x1080, Response Time: 632ms
+Name: 东方卫视, URL: http://tvbox.netsite.cc/proxy/609485212/609485212.m3u8, Date: 05-14-2024, Resolution: 1280x720, Response Time: 606ms
+Name: 东方卫视, URL: http://tvbox.netsite.cc/proxy/609485212/609485212.m3u8, Date: 05-14-2024, Resolution: 1280x720, Response Time: 613ms
+Name: 东方卫视, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel26/index.m3u8, Date: 05-15-2024, Resolution: 1024x576, Response Time: 670ms
+Name: 东方卫视, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel26/index.m3u8, Date: 05-15-2024, Resolution: 1024x576, Response Time: 670ms
+Name: 东方卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 675ms
+Name: 东方卫视, URL: http://1.202.10.125:8888/udp/225.1.8.147:8192, Date: 05-10-2024, Resolution: 720x576, Response Time: 483ms
+Name: 东方卫视, URL: http://1.202.10.125:8888/udp/225.1.8.147:8192, Date: 05-10-2024, Resolution: 720x576, Response Time: 498ms
+Name: 东方卫视, URL: http://60.190.128.194:8888/newlive/live/hls/20/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 453ms
+Name: 东方卫视, URL: http://60.190.128.194:8888/newlive/live/hls/20/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 461ms
+Name: 东方卫视, URL: http://219.135.208.218:8083/tsfile/live/0107_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 468ms
+Name: 东方卫视, URL: http://113.128.226.58:8888/newlive/live/hls/22/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 517ms
+Name: 东方卫视, URL: http://113.128.226.58:8888/newlive/live/hls/22/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 526ms
+Name: 东南卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/dnwshd8m/8000000/mnf.m3u8, Date: 04-29-2024, Resolution: 1920x1080, Response Time: 521ms
+Name: 东南卫视, URL: http://php.jdshipin.com:8880/bst.php?id=dnwshd/4000000, Date: 04-20-2024, Resolution: 1920x1080, Response Time: 1025ms
+Name: 东南卫视, URL: http://64.140.167.170:8080/live/ydws11/hls.m3u8, Date: 05-13-2024, Resolution: 1280x720, Response Time: 111ms
+Name: 东南卫视, URL: http://tvbox.netsite.cc/proxy/605886267/605886267.m3u8, Date: 05-09-2024, Resolution: 1280x720, Response Time: 652ms
+Name: 东南卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 675ms
+Name: 东南卫视, URL: http://219.135.208.218:8083/tsfile/live/0137_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 464ms
+Name: 东南卫视, URL: http://60.190.128.194:8888/newlive/live/hls/49/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 474ms
+Name: 东南卫视, URL: http://111.75.151.236:50085/newlive/live/hls/33/live.m3u8, Date: 04-01-2024, Resolution: None, Response Time: 489ms
+Name: 东南卫视, URL: http://113.128.226.58:8888/newlive/live/hls/40/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 521ms
+Name: 东南卫视, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel80/index.m3u8, Date: 05-13-2024, Resolution: None, Response Time: 665ms
+Name: 甘肃卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/gswshd8m/8000000/mnf.m3u8, Date: 04-26-2024, Resolution: 1920x1080, Response Time: 563ms
+Name: 甘肃卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 677ms
+Name: 甘肃卫视, URL: http://tvbox.netsite.cc/proxy/1209404373/1209404373.m3u8, Date: 05-03-2024, Resolution: 960x540, Response Time: 684ms
+Name: 甘肃卫视, URL: http://60.190.128.194:8888/newlive/live/hls/36/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 472ms
+Name: 甘肃卫视, URL: http://mom.coms.hk:9901/tsfile/live/0141_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 477ms
+Name: 甘肃卫视, URL: http://111.75.151.236:50085/newlive/live/hls/41/live.m3u8, Date: 04-01-2024, Resolution: None, Response Time: 492ms
+Name: 甘肃卫视, URL: http://113.128.226.58:8888/newlive/live/hls/39/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 521ms
+Name: 甘肃卫视, URL: http://php.jdshipin.com:8880/bst.php?id=gswshd8m/8000000, Date: 03-09-2024, Resolution: None, Response Time: 715ms
+Name: 甘肃卫视, URL: http://219.135.208.218:8083/tsfile/live/0141_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 1010ms
+Name: 广西卫视, URL: http://116.11.156.112:1188/tsfile/live/1025_1.m3u8, Date: 05-12-2024, Resolution: 1920x1080, Response Time: 476ms
+Name: 广西卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/gxwshd8m/8000000/mnf.m3u8, Date: 04-27-2024, Resolution: 1920x1080, Response Time: 567ms
+Name: 广西卫视, URL: http://tvbox.netsite.cc/proxy/1407270894/1407270894.m3u8, Date: 05-12-2024, Resolution: 1280x720, Response Time: 679ms
+Name: 广西卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 677ms
+Name: 广西卫视, URL: http://60.190.128.194:8888/newlive/live/hls/26/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 459ms
+Name: 广西卫视, URL: http://219.135.208.218:8083/tsfile/live/0113_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 463ms
+Name: 广西卫视, URL: http://mom.coms.hk:9901/tsfile/live/0113_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 467ms
+Name: 广西卫视, URL: http://111.75.151.236:50085/newlive/live/hls/37/live.m3u8, Date: 04-01-2024, Resolution: None, Response Time: 489ms
+Name: 广西卫视, URL: http://113.128.226.58:8888/newlive/live/hls/44/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 522ms
+Name: 贵州卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/gzwshd8m/8000000/mnf.m3u8, Date: 04-26-2024, Resolution: 1920x1080, Response Time: 691ms
+Name: 贵州卫视, URL: http://tvbox.netsite.cc/proxy/344811278/344811278.m3u8, Date: 05-15-2024, Resolution: 1280x720, Response Time: 750ms
+Name: 贵州卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 681ms
+Name: 贵州卫视, URL: http://60.190.128.194:8888/newlive/live/hls/29/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 458ms
+Name: 贵州卫视, URL: http://219.135.208.218:8083/tsfile/live/0120_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 464ms
+Name: 贵州卫视, URL: http://mom.coms.hk:9901/tsfile/live/0120_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 470ms
+Name: 贵州卫视, URL: http://111.75.151.236:50085/newlive/live/hls/45/live.m3u8, Date: 04-01-2024, Resolution: None, Response Time: 489ms
+Name: 贵州卫视, URL: http://113.128.226.58:8888/newlive/live/hls/32/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 521ms
+Name: 贵州卫视, URL: http://tvbox.netsite.cc/proxy/1114625252/1114625252.m3u8, Date: 04-27-2024, Resolution: None, Response Time: 705ms
+Name: 海南卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/hainanwshd8m/8000000/mnf.m3u8, Date: 04-29-2024, Resolution: 1920x1080, Response Time: 923ms
+Name: 海南卫视, URL: http://tvbox.netsite.cc/proxy/1505336139/1505336139.m3u8, Date: 05-05-2024, Resolution: 1280x720, Response Time: 639ms
+Name: 海南卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 678ms
+Name: 海南卫视, URL: http://60.190.128.194:8888/newlive/live/hls/46/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 458ms
+Name: 海南卫视, URL: http://111.75.151.236:50085/newlive/live/hls/42/live.m3u8, Date: 04-01-2024, Resolution: None, Response Time: 489ms
+Name: 海南卫视, URL: http://113.128.226.58:8888/newlive/live/hls/35/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 521ms
+Name: 海南卫视, URL: http://tvbox.netsite.cc/proxy/2019508840/2019508840.m3u8, Date: 05-04-2024, Resolution: None, Response Time: 598ms
+Name: 海南卫视, URL: http://59.44.192.22:65000/hls/99/index.m3u8, Date: 03-30-2024, Resolution: None, Response Time: 608ms
+Name: 海南卫视, URL: http://php.jdshipin.com:8880/bst.php?id=hainanwshd8m/8000000, Date: 03-09-2024, Resolution: None, Response Time: 928ms
+Name: 河北卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/hbwshd8m/8000000/mnf.m3u8, Date: 04-25-2024, Resolution: 1920x1080, Response Time: 604ms
+Name: 河北卫视, URL: http://tvbox.netsite.cc/proxy/866823714/866823714.m3u8, Date: 05-14-2024, Resolution: 1280x720, Response Time: 657ms
+Name: 河北卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 677ms
+Name: 河北卫视, URL: http://tv.pull.hebtv.com/jishi/weishipindao.m3u8?t=2510710360&k=f1b16a3a3866dafecb94ec2bb4160e58, Date: 04-28-2024, Resolution: 960x540, Response Time: 1305ms
+Name: 河北卫视, URL: http://60.190.128.194:8888/newlive/live/hls/48/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 463ms
+Name: 河北卫视, URL: http://219.135.208.218:8083/tsfile/live/0117_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 466ms
+Name: 河北卫视, URL: http://mom.coms.hk:9901/tsfile/live/0117_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 481ms
+Name: 河北卫视, URL: http://111.75.151.236:50085/newlive/live/hls/51/live.m3u8, Date: 04-01-2024, Resolution: None, Response Time: 489ms
+Name: 河北卫视, URL: http://113.128.226.58:8888/newlive/live/hls/34/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 521ms
+Name: 河南卫视, URL: http://y.vlanl.com:4022/rtp/225.1.4.254:1300, Date: 05-09-2024, Resolution: 3840x2160, Response Time: 658ms
+Name: 河南卫视, URL: http://y.vlanl.com:4022/rtp/225.1.4.254:1300, Date: 05-09-2024, Resolution: 3840x2160, Response Time: 671ms
+Name: 河南卫视, URL: http://123.13.247.37:4000/rtp/225.1.4.98:1127, Date: 05-14-2024, Resolution: 1920x1080, Response Time: 486ms
+Name: 河南卫视, URL: http://123.13.247.37:4000/rtp/225.1.4.98:1127, Date: 05-14-2024, Resolution: 1920x1080, Response Time: 530ms
+Name: 河南卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/hnwshd8m/8000000/mnf.m3u8, Date: 04-28-2024, Resolution: 1920x1080, Response Time: 672ms
+Name: 河南卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/hnwshd8m/8000000/mnf.m3u8, Date: 04-28-2024, Resolution: 1920x1080, Response Time: 683ms
+Name: 河南卫视, URL: http://tvbox.netsite.cc/proxy/1555831884/1555831884.m3u8, Date: 05-11-2024, Resolution: 1280x720, Response Time: 1076ms
+Name: 河南卫视, URL: http://tvbox.netsite.cc/proxy/1555831884/1555831884.m3u8, Date: 05-11-2024, Resolution: 1280x720, Response Time: 1080ms
+Name: 河南卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 675ms
+Name: 河南卫视, URL: http://221.210.64.165:2233/hls/48/index.m3u8, Date: 04-20-2024, Resolution: 720x576, Response Time: 540ms
+Name: 河南卫视, URL: http://221.210.64.165:2233/hls/48/index.m3u8, Date: 04-20-2024, Resolution: 720x576, Response Time: 585ms
+Name: 河南卫视, URL: http://60.190.128.194:8888/newlive/live/hls/33/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 455ms
+Name: 河南卫视, URL: http://60.190.128.194:8888/newlive/live/hls/33/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 458ms
+Name: 河南卫视, URL: http://219.135.208.218:8083/tsfile/live/0139_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 463ms
+Name: 河南卫视, URL: http://mom.coms.hk:9901/tsfile/live/0139_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 470ms
+Name: 河南卫视, URL: http://113.128.226.58:8888/newlive/live/hls/37/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 511ms
+Name: 河南卫视, URL: http://113.128.226.58:8888/newlive/live/hls/37/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 522ms
+Name: 吉林卫视, URL: http://64.140.167.170:8080/live/ydws4/hls.m3u8, Date: 05-05-2024, Resolution: 1920x1080, Response Time: 111ms
+Name: 吉林卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/jlwshd8m/8000000/mnf.m3u8, Date: 04-27-2024, Resolution: 1920x1080, Response Time: 666ms
+Name: 吉林卫视, URL: http://nas.tuyuannet.cn:8800/rtp/239.37.0.101:5540, Date: 05-10-2024, Resolution: 1920x1080, Response Time: 5306ms
+Name: 吉林卫视, URL: http://tvbox.netsite.cc/proxy/1831443675/1831443675.m3u8, Date: 05-14-2024, Resolution: 1600x900, Response Time: 797ms
+Name: 吉林卫视, URL: http://live.ybtvyun.com/video/s10016-7e5f23de35df/index.m3u8, Date: 05-14-2024, Resolution: 1280x720, Response Time: 5653ms
+Name: 吉林卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 676ms
+Name: 吉林卫视, URL: http://60.190.128.194:8888/newlive/live/hls/35/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 459ms
+Name: 吉林卫视, URL: http://219.135.208.218:8083/tsfile/live/0116_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 464ms
+Name: 吉林卫视, URL: http://php.jdshipin.com:8880/bst.php?id=jlwshd8m/8000000, Date: 03-09-2024, Resolution: None, Response Time: 477ms
+Name: 吉林卫视, URL: http://111.75.151.236:50085/newlive/live/hls/35/live.m3u8, Date: 04-01-2024, Resolution: None, Response Time: 489ms
+Name: 吉林卫视, URL: http://mom.coms.hk:9901/tsfile/live/0017_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 498ms
+Name: 吉林卫视, URL: http://113.128.226.58:8888/newlive/live/hls/38/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 521ms
+Name: 江苏卫视, URL: http://64.140.167.170:8080/live/ydws1/hls.m3u8, Date: 05-12-2024, Resolution: 1920x1080, Response Time: 111ms
+Name: 江苏卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/jswshd8m/8000000/mnf.m3u8, Date: 04-27-2024, Resolution: 1920x1080, Response Time: 611ms
+Name: 江苏卫视, URL: http://www.furymax.top:85/rtp/239.69.1.174:10680, Date: 05-12-2024, Resolution: 1920x1080, Response Time: 1690ms
+Name: 江苏卫视, URL: http://tvbox.netsite.cc/proxy/1561313428/1561313428.m3u8, Date: 05-14-2024, Resolution: 1280x720, Response Time: 610ms
+Name: 江苏卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 679ms
+Name: 江苏卫视, URL: http://120.7.86.32:808/hls/19/index.m3u8, Date: 04-26-2024, Resolution: 768x576, Response Time: 485ms
+Name: 江苏卫视, URL: http://117.44.0.158:20000/hls/15/index.m3u8, Date: 05-11-2024, Resolution: 720x576, Response Time: 3066ms
+Name: 江苏卫视, URL: http://116.21.122.2:4433/tsfile/live/0127_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 452ms
+Name: 江苏卫视, URL: http://60.190.128.194:8888/newlive/live/hls/22/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 458ms
+Name: 江苏卫视, URL: http://219.135.208.218:8083/tsfile/live/0127_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 464ms
+Name: 江苏卫视, URL: http://mom.coms.hk:9901/tsfile/live/0135_2.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 473ms
+Name: 江苏卫视, URL: http://113.128.226.58:8888/newlive/live/hls/23/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 520ms
+Name: 江苏卫视, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel18/index.m3u8, Date: 05-13-2024, Resolution: None, Response Time: 670ms
+Name: 江西卫视, URL: http://64.140.167.170:8080/live/ydws10/hls.m3u8, Date: 05-12-2024, Resolution: 1920x1080, Response Time: 111ms
+Name: 江西卫视, URL: http://171.35.87.124:6002/udp/239.252.220.63:5140, Date: 05-04-2024, Resolution: 1920x1080, Response Time: 550ms
+Name: 江西卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/jxws8m/8000000/mnf.m3u8, Date: 04-26-2024, Resolution: 1920x1080, Response Time: 627ms
+Name: 江西卫视, URL: http://tvbox.netsite.cc/proxy/1507547400/1507547400.m3u8, Date: 05-11-2024, Resolution: 1280x720, Response Time: 689ms
+Name: 江西卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 669ms
+Name: 江西卫视, URL: http://60.190.128.194:8888/newlive/live/hls/44/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 458ms
+Name: 江西卫视, URL: http://219.135.208.218:8083/tsfile/live/0138_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 464ms
+Name: 江西卫视, URL: http://111.75.151.236:50085/newlive/live/hls/16/live.m3u8, Date: 04-01-2024, Resolution: None, Response Time: 473ms
+Name: 江西卫视, URL: http://mom.coms.hk:9901/tsfile/live/0138_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 518ms
+Name: 江西卫视, URL: http://113.128.226.58:8888/newlive/live/hls/33/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 520ms
+Name: 辽宁卫视, URL: http://64.140.167.170:8080/live/ydws6/hls.m3u8, Date: 05-08-2024, Resolution: 1920x1080, Response Time: 111ms
+Name: 辽宁卫视, URL: http://59.51.113.91:18888/udp/239.76.252.197:9000, Date: 05-14-2024, Resolution: 1920x1080, Response Time: 491ms
+Name: 辽宁卫视, URL: http://59.51.113.91:18888/udp/239.76.245.197:1234, Date: 05-14-2024, Resolution: 1920x1080, Response Time: 504ms
+Name: 辽宁卫视, URL: http://175.168.46.94:8888/rtp/232.0.0.126:1234, Date: 05-03-2024, Resolution: 1920x1080, Response Time: 523ms
+Name: 辽宁卫视, URL: http://221.220.135.32:9999/rtp/239.3.1.210:8056, Date: 05-14-2024, Resolution: 1920x1080, Response Time: 540ms
+Name: 辽宁卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/lnwshd8m/8000000/mnf.m3u8, Date: 04-25-2024, Resolution: 1920x1080, Response Time: 620ms
+Name: 辽宁卫视, URL: http://tvbox.netsite.cc/proxy/1767807342/1767807342.m3u8, Date: 05-12-2024, Resolution: 1280x720, Response Time: 607ms
+Name: 辽宁卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 679ms
+Name: 辽宁卫视, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel32/index.m3u8, Date: 05-14-2024, Resolution: 1024x576, Response Time: 686ms
+Name: 辽宁卫视, URL: https://node1.olelive.com:6443/live/LIAONINGHD/hls.m3u8, Date: 05-14-2024, Resolution: 785x576, Response Time: 279ms
+Name: 辽宁卫视, URL: http://219.135.208.218:8083/tsfile/live/0121_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 463ms
+Name: 辽宁卫视, URL: http://mom.coms.hk:9901/tsfile/live/0018_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 470ms
+Name: 辽宁卫视, URL: http://60.190.128.194:8888/newlive/live/hls/45/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 487ms
+Name: 辽宁卫视, URL: http://113.128.226.58:8888/newlive/live/hls/27/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 521ms
+Name: 内蒙古卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 676ms
+Name: 内蒙古卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/nmgws/1300000/mnf.m3u8, Date: 04-26-2024, Resolution: 768x576, Response Time: 648ms
+Name: 内蒙古卫视, URL: http://60.190.128.194:8888/newlive/live/hls/41/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 463ms
+Name: 内蒙古卫视, URL: http://mom.coms.hk:9901/tsfile/live/0109_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 476ms
+Name: 内蒙古卫视, URL: http://111.75.151.236:50085/newlive/live/hls/48/live.m3u8, Date: 04-01-2024, Resolution: None, Response Time: 490ms
+Name: 内蒙古卫视, URL: http://113.128.226.58:8888/newlive/live/hls/46/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 511ms
+Name: 内蒙古卫视, URL: http://php.jdshipin.com:8880/bst.php?id=nmgws/1300000, Date: 03-22-2024, Resolution: None, Response Time: 938ms
+Name: 宁夏卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 671ms
+Name: 宁夏卫视, URL: http://tvbox.netsite.cc/proxy/1558349983/1558349983.m3u8, Date: 05-04-2024, Resolution: 960x540, Response Time: 707ms
+Name: 宁夏卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/nxws/1300000/mnf.m3u8, Date: 04-27-2024, Resolution: 768x576, Response Time: 646ms
+Name: 宁夏卫视, URL: http://113.128.226.58:8888/newlive/live/hls/48/live.m3u8, Date: 04-29-2024, Resolution: 720x576, Response Time: 520ms
+Name: 宁夏卫视, URL: http://60.190.128.194:8888/newlive/live/hls/39/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 454ms
+Name: 宁夏卫视, URL: http://219.135.208.218:8083/tsfile/live/0112_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 466ms
+Name: 宁夏卫视, URL: http://111.75.151.236:50085/newlive/live/hls/38/live.m3u8, Date: 04-01-2024, Resolution: None, Response Time: 489ms
+Name: 青海卫视, URL: http://tvbox.netsite.cc/proxy/1152127449/1152127449.m3u8, Date: 05-05-2024, Resolution: 1280x720, Response Time: 707ms
+Name: 青海卫视, URL: http://tvbox.netsite.cc/proxy/1152127449/1152127449.m3u8, Date: 05-05-2024, Resolution: 1280x720, Response Time: 797ms
+Name: 青海卫视, URL: http://stream.qhbtv.com/qhws/playlist.m3u8, Date: 04-28-2024, Resolution: 1280x720, Response Time: 1404ms
+Name: 青海卫视, URL: http://stream.qhbtv.com/qhws/sd/live.m3u8, Date: 05-10-2024, Resolution: 1280x720, Response Time: 1510ms
+Name: 青海卫视, URL: http://stream.qhbtv.com/qhws/sd/live.m3u8, Date: 05-10-2024, Resolution: 1280x720, Response Time: 1816ms
+Name: 青海卫视, URL: http://stream.qhbtv.com/qhws/playlist.m3u8, Date: 04-28-2024, Resolution: 1280x720, Response Time: 1851ms
+Name: 青海卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 678ms
+Name: 青海卫视, URL: http://60.190.128.194:8888/newlive/live/hls/38/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 453ms
+Name: 青海卫视, URL: http://60.190.128.194:8888/newlive/live/hls/38/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 459ms
+Name: 青海卫视, URL: http://111.75.151.236:50085/newlive/live/hls/46/live.m3u8, Date: 04-01-2024, Resolution: None, Response Time: 472ms
+Name: 青海卫视, URL: http://mom.coms.hk:9901/tsfile/live/0140_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 479ms
+Name: 青海卫视, URL: http://111.75.151.236:50085/newlive/live/hls/46/live.m3u8, Date: 04-01-2024, Resolution: None, Response Time: 489ms
+Name: 青海卫视, URL: http://113.128.226.58:8888/newlive/live/hls/47/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 512ms
+Name: 青海卫视, URL: http://113.128.226.58:8888/newlive/live/hls/47/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 520ms
+Name: 青海卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/qhws/1300000/mnf.m3u8, Date: 04-24-2024, Resolution: None, Response Time: 599ms
+Name: 青海卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/qhws/1300000/mnf.m3u8, Date: 04-24-2024, Resolution: None, Response Time: 611ms
+Name: 青海卫视, URL: http://php.jdshipin.com:8880/bst.php?id=qhws/1300000, Date: 03-09-2024, Resolution: None, Response Time: 1242ms
+Name: 青海卫视, URL: http://php.jdshipin.com:8880/bst.php?id=qhws/1300000, Date: 03-09-2024, Resolution: None, Response Time: 1445ms
+Name: 青海卫视, URL: http://stream.qhbtv.com/qhws/sd/live.m3u8?_upt=e2bbe63d1714196546, Date: 04-27-2024, Resolution: None, Response Time: 1800ms
+Name: 青海卫视, URL: http://stream.qhbtv.com/qhws/sd/live.m3u8?_upt=e2bbe63d1714196546, Date: 04-27-2024, Resolution: None, Response Time: 1832ms
+Name: 山东卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/sdws8m/8000000/mnf.m3u8, Date: 04-27-2024, Resolution: 1920x1080, Response Time: 574ms
+Name: 山东卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 678ms
+Name: 山东卫视, URL: http://livealone.iqilu.com/iqilu/sdtvhjOF03kn.m3u8, Date: 05-05-2024, Resolution: 960x540, Response Time: 2289ms
+Name: 山东卫视, URL: http://182.38.178.100:4000/udp/239.21.1.52:5002, Date: 05-12-2024, Resolution: 786x576, Response Time: 532ms
+Name: 山东卫视, URL: http://60.190.128.194:8888/newlive/live/hls/30/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 452ms
+Name: 山东卫视, URL: http://219.135.208.218:8083/tsfile/live/0131_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 463ms
+Name: 山东卫视, URL: http://mom.coms.hk:9901/tsfile/live/0131_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 471ms
+Name: 山东卫视, URL: http://113.128.226.58:8888/newlive/live/hls/19/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 522ms
+Name: 山东卫视, URL: http://tvbox.netsite.cc/proxy/1400078770/1400078770.m3u8, Date: 04-27-2024, Resolution: None, Response Time: 789ms
+Name: 山西卫视, URL: http://tvbox.netsite.cc/proxy/825435414/825435414.m3u8, Date: 05-13-2024, Resolution: 1280x720, Response Time: 785ms
+Name: 山西卫视, URL: http://80ec27bff7f9ae80b961481da488e302.livehwc3.cn/liveflash.sxrtv.com/live/sxwshd.m3u8?sub_m3u8=true&edge_slice=true&user_session_id=d04ce01474da4193c8863ea281ec4759, Date: 05-13-2024, Resolution: 1280x720, Response Time: 1662ms
+Name: 山西卫视, URL: http://live.cooltv.top/tv/tide.php?id=sxiws2, Date: 05-12-2024, Resolution: 1280x720, Response Time: 3359ms
+Name: 山西卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 677ms
+Name: 山西卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/shanxiws/1300000/mnf.m3u8, Date: 04-28-2024, Resolution: 768x576, Response Time: 636ms
+Name: 山西卫视, URL: http://219.135.208.218:8083/tsfile/live/0118_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 457ms
+Name: 山西卫视, URL: http://60.190.128.194:8888/newlive/live/hls/42/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 458ms
+Name: 山西卫视, URL: http://111.75.151.236:50085/newlive/live/hls/44/live.m3u8, Date: 04-01-2024, Resolution: None, Response Time: 471ms
+Name: 山西卫视, URL: http://mom.coms.hk:9901/tsfile/live/0118_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 496ms
+Name: 山西卫视, URL: http://113.128.226.58:8888/newlive/live/hls/43/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 522ms
+Name: 山西卫视, URL: http://php.jdshipin.com:8880/bst.php?id=shanxiws/1300000, Date: 03-09-2024, Resolution: None, Response Time: 753ms
+Name: 陕西卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 684ms
+Name: 陕西卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/sxws/1300000/mnf.m3u8, Date: 04-26-2024, Resolution: 720x540, Response Time: 621ms
+Name: 陕西卫视, URL: http://tvbox.netsite.cc/proxy/917851306/917851306.m3u8, Date: 05-15-2024, Resolution: 720x405, Response Time: 660ms
+Name: 陕西卫视, URL: http://60.190.128.194:8888/newlive/live/hls/40/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 455ms
+Name: 陕西卫视, URL: http://mom.coms.hk:9901/tsfile/live/0136_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 474ms
+Name: 陕西卫视, URL: http://111.75.151.236:50085/newlive/live/hls/47/live.m3u8, Date: 04-01-2024, Resolution: None, Response Time: 489ms
+Name: 陕西卫视, URL: http://113.128.226.58:8888/newlive/live/hls/42/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 511ms
+Name: 陕西卫视, URL: http://php.jdshipin.com:8880/bst.php?id=sxws/1300000, Date: 03-10-2024, Resolution: None, Response Time: 685ms
+Name: 四川卫视, URL: http://64.140.167.170:8080/live/ydws8/hls.m3u8, Date: 05-14-2024, Resolution: 1920x1080, Response Time: 111ms
+Name: 四川卫视, URL: http://118.114.96.20:8889/udp/239.93.0.169:5140, Date: 05-09-2024, Resolution: 1920x1080, Response Time: 495ms
+Name: 四川卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/scwshd/8000000/mnf.m3u8, Date: 04-29-2024, Resolution: 1920x1080, Response Time: 646ms
+Name: 四川卫视, URL: http://wouu.net:9977/udp/239.93.0.169:5140, Date: 04-30-2024, Resolution: 1920x1080, Response Time: 765ms
+Name: 四川卫视, URL: http://tvbox.netsite.cc/proxy/1364123916/1364123916.m3u8, Date: 05-11-2024, Resolution: 1280x720, Response Time: 634ms
+Name: 四川卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 675ms
+Name: 四川卫视, URL: http://219.135.208.218:8083/tsfile/live/0123_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 464ms
+Name: 四川卫视, URL: http://mom.coms.hk:9901/tsfile/live/0123_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 474ms
+Name: 四川卫视, URL: http://60.190.128.194:8888/newlive/live/hls/32/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 480ms
+Name: 四川卫视, URL: http://113.128.226.58:8888/newlive/live/hls/36/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 535ms
+Name: 四川卫视, URL: http://8.134.82.80:32858/ysp0409/haiouysp.php?id=57, Date: 04-13-2024, Resolution: None, Response Time: 566ms
+Name: 四川卫视, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel31/index.m3u8, Date: 05-13-2024, Resolution: None, Response Time: 648ms
+Name: 深圳卫视, URL: http://116.11.156.112:1188/tsfile/live/1027_1.m3u8, Date: 05-14-2024, Resolution: 1920x1080, Response Time: 481ms
+Name: 深圳卫视, URL: http://113.128.226.58:8888/newlive/live/hls/28/live.m3u8, Date: 05-02-2024, Resolution: 1920x1080, Response Time: 536ms
+Name: 深圳卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/szwshd8m/8000000/mnf.m3u8, Date: 04-29-2024, Resolution: 1920x1080, Response Time: 568ms
+Name: 深圳卫视, URL: http://tvbox.netsite.cc/proxy/846832031/846832031.m3u8, Date: 05-11-2024, Resolution: 1280x720, Response Time: 587ms
+Name: 深圳卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 675ms
+Name: 深圳卫视, URL: http://58.220.219.14:9901/tsfile/live/0126_1.m3u8?key=txiptv, Date: 04-23-2024, Resolution: 720x576, Response Time: 470ms
+Name: 深圳卫视, URL: http://219.135.208.218:8083/tsfile/live/0126_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 464ms
+Name: 深圳卫视, URL: http://mom.coms.hk:9901/tsfile/live/0126_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 470ms
+Name: 深圳卫视, URL: http://60.190.128.194:8888/newlive/live/hls/28/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 480ms
+Name: 深圳卫视, URL: http://111.75.151.236:50085/newlive/live/hls/26/live.m3u8, Date: 04-01-2024, Resolution: None, Response Time: 489ms
+Name: 深圳卫视, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel17/index.m3u8, Date: 05-13-2024, Resolution: None, Response Time: 672ms
+Name: 三沙卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/sswshd8m/8000000/mnf.m3u8, Date: 04-28-2024, Resolution: 1920x1080, Response Time: 618ms
+Name: 三沙卫视, URL: http://tvbox.netsite.cc/proxy/1337100319/1337100319.m3u8, Date: 05-05-2024, Resolution: 1280x720, Response Time: 596ms
+Name: 三沙卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 678ms
+Name: 三沙卫视, URL: http://222.71.11.180:4022/udp/239.45.1.82:5140, Date: 05-14-2024, Resolution: 768x576, Response Time: 493ms
+Name: 三沙卫视, URL: http://ik6.iptv8.net:8888/rtp/225.1.4.234:1280, Date: 04-15-2024, Resolution: 768x576, Response Time: 754ms
+Name: 三沙卫视, URL: http://61.138.128.226:19901/tsfile/live/1020_1.m3u8, Date: 04-15-2024, Resolution: 720x540, Response Time: 581ms
+Name: 天津卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/tjwshd8m/8000000/mnf.m3u8, Date: 04-27-2024, Resolution: 1920x1080, Response Time: 457ms
+Name: 天津卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/tjwshd8m/8000000/mnf.m3u8, Date: 04-27-2024, Resolution: 1920x1080, Response Time: 500ms
+Name: 天津卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 678ms
+Name: 天津卫视, URL: http://120.7.86.107:808/hls/20/index.m3u8, Date: 04-19-2024, Resolution: 768x576, Response Time: 476ms
+Name: 天津卫视, URL: http://120.7.86.107:808/hls/20/index.m3u8, Date: 04-19-2024, Resolution: 768x576, Response Time: 1484ms
+Name: 天津卫视, URL: http://219.135.208.218:8083/tsfile/live/0135_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 466ms
+Name: 天津卫视, URL: http://mom.coms.hk:9901/tsfile/live/0135_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 481ms
+Name: 天津卫视, URL: http://111.75.151.236:50085/newlive/live/hls/28/live.m3u8, Date: 04-01-2024, Resolution: None, Response Time: 487ms
+Name: 天津卫视, URL: http://111.75.151.236:50085/newlive/live/hls/28/live.m3u8, Date: 04-01-2024, Resolution: None, Response Time: 489ms
+Name: 天津卫视, URL: http://113.128.226.58:8888/newlive/live/hls/26/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 511ms
+Name: 天津卫视, URL: http://113.128.226.58:8888/newlive/live/hls/26/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 536ms
+Name: 天津卫视, URL: http://8.134.82.80:32858/ysp0409/haiouysp.php?id=47, Date: 04-13-2024, Resolution: None, Response Time: 552ms
+Name: 天津卫视, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel28/index.m3u8, Date: 05-13-2024, Resolution: None, Response Time: 624ms
+Name: 天津卫视, URL: http://116.162.6.192/4403-txt.yiyang.otvcloud.com/otv/skcc/live/channel28/index.m3u8, Date: 05-13-2024, Resolution: None, Response Time: 625ms
+Name: 西藏卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 681ms
+Name: 西藏卫视, URL: http://111.75.151.236:50085/newlive/live/hls/36/live.m3u8, Date: 04-09-2024, Resolution: 768x576, Response Time: 489ms
+Name: 西藏卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/xzws/2500000/mnf.m3u8, Date: 04-26-2024, Resolution: 768x576, Response Time: 573ms
+Name: 西藏卫视, URL: http://mom.coms.hk:9901/tsfile/live/0132_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 483ms
+Name: 西藏卫视, URL: http://60.190.128.194:8888/newlive/live/hls/37/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 492ms
+Name: 西藏卫视, URL: http://php.jdshipin.com:8880/bst.php?id=xzws/1300000, Date: 03-09-2024, Resolution: None, Response Time: 1709ms
+Name: 新疆卫视, URL: http://tvbox.netsite.cc/proxy/1423426614/1423426614.m3u8, Date: 05-09-2024, Resolution: 1280x720, Response Time: 1180ms
+Name: 新疆卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 676ms
+Name: 新疆卫视, URL: http://live.wjyanghu.com/live/CH1.m3u8, Date: 05-12-2024, Resolution: 1024x576, Response Time: 2221ms
+Name: 新疆卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/xjws/1300000/mnf.m3u8, Date: 04-26-2024, Resolution: 768x576, Response Time: 594ms
+Name: 新疆卫视, URL: http://111.75.151.236:50085/newlive/live/hls/49/live.m3u8, Date: 04-01-2024, Resolution: None, Response Time: 489ms
+Name: 新疆卫视, URL: http://8.134.82.80:32858/ysp0409/haiouysp.php?id=61, Date: 04-13-2024, Resolution: None, Response Time: 530ms
+Name: 新疆卫视, URL: http://113.128.226.58:8888/newlive/live/hls/49/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 535ms
+Name: 新疆卫视, URL: http://php.jdshipin.com:8880/bst.php?id=xjws/1300000, Date: 03-09-2024, Resolution: None, Response Time: 954ms
+Name: 云南卫视, URL: http://116.162.6.192/sxbuv52.live.bestvcdn.com.cn/live/ynwshd8m/8000000/mnf.m3u8, Date: 04-27-2024, Resolution: 1920x1080, Response Time: 467ms
+Name: 云南卫视, URL: http://tvbox.netsite.cc/proxy/1057712184/1057712184.m3u8, Date: 05-03-2024, Resolution: 1920x1080, Response Time: 711ms
+Name: 云南卫视, URL: http://tvlive.ynradio.com/live/yunnanweishi/chunks.m3u8, Date: 05-11-2024, Resolution: 1280x720, Response Time: 1020ms
+Name: 云南卫视, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 680ms
+Name: 云南卫视, URL: http://113.128.226.58:8888/newlive/live/hls/45/live.m3u8, Date: 04-30-2024, Resolution: 785x576, Response Time: 536ms
+Name: 云南卫视, URL: http://219.135.208.218:8083/tsfile/live/0119_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 464ms
+Name: 云南卫视, URL: http://mom.coms.hk:9901/tsfile/live/0119_1.m3u8?key=txiptv&playlive=1&authid=0, Date: None, Resolution: None, Response Time: 471ms
+Name: 云南卫视, URL: http://60.190.128.194:8888/newlive/live/hls/27/live.m3u8, Date: 04-28-2024, Resolution: None, Response Time: 480ms
+Name: 云南卫视, URL: http://111.75.151.236:50085/newlive/live/hls/34/live.m3u8, Date: 04-01-2024, Resolution: None, Response Time: 489ms
+Name: 云南卫视, URL: http://php.jdshipin.com:8880/bst.php?id=ynwshd8m/8000000, Date: 03-09-2024, Resolution: None, Response Time: 709ms
+Name: 翡翠台, URL: https://cloudfront41.lexanetwork.com:1344/relay01/livestream002.sdp/playlist.m3u8, Date: 05-14-2024, Resolution: 1920x1080, Response Time: 1108ms
+Name: 翡翠台, URL: http://tvdrs.wsrtv.com.cn:8100/channellive/ch1.flv, Date: 05-14-2024, Resolution: 1920x1080, Response Time: 1269ms
+Name: 翡翠台, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 681ms
+Name: 翡翠台, URL: http://210.210.155.37/dr9445/h/h20/index.m3u8, Date: 05-13-2024, Resolution: 1024x576, Response Time: 692ms
+Name: 翡翠台, URL: http://162.244.81.145:3333/live/telebostonrtb/playlist.m3u8, Date: 05-14-2024, Resolution: 854x480, Response Time: 157ms
+Name: 翡翠台, URL: https://pi.0472.org/tv/fct.php?auth=2309081833, Date: 03-13-2024, Resolution: None, Response Time: 846ms
+Name: 翡翠台, URL: https://pi.0472.org/tv/fct.php?auth=230918, Date: 03-24-2024, Resolution: None, Response Time: 847ms
+Name: 翡翠台, URL: http://ali.hlspull.yximgs.com/live/twlivefhwwzpthzyztzzzxcxbfhzzfzvhdtzdvbtvzszxzfszzcvbctvbfc.flv, Date: 03-12-2024, Resolution: None, Response Time: 1882ms
+Name: 纬来体育, URL: https://ktpremium.com:443/K3939/6757/877061, Date: 07-21-2023, Resolution: None, Response Time: 1161ms
+Name: 爱尔达体育, URL: https://ktpremium.com:443/K3939/6757/879252, Date: 07-21-2023, Resolution: None, Response Time: 101ms
+Name: 爱尔达体育, URL: https://ktpremium.com:443/K3939/6757/879250, Date: 07-21-2023, Resolution: None, Response Time: 106ms
+Name: 爱尔达体育, URL: https://ktpremium.com:443/K3939/6757/879251, Date: 07-21-2023, Resolution: None, Response Time: 1122ms
+Name: ELEVEN体育, URL: https://ktpremium.com:443/K3939/6757/910889, Date: 07-21-2023, Resolution: None, Response Time: 103ms
+Name: ELEVEN体育, URL: https://ktpremium.com:443/K3939/6757/910890, Date: 07-21-2023, Resolution: None, Response Time: 106ms
+Name: 明珠台, URL: http://107.167.12.58:27347/livehttpplay?channel_id=20125, Date: 09-21-2023, Resolution: None, Response Time: 107ms
+Name: 明珠台, URL: http://107.167.12.58:27347/livehttpplay?channel_id=30026, Date: 09-14-2023, Resolution: None, Response Time: 107ms
+Name: 明珠台, URL: http://107.167.12.58:27347/livehttpplay?channel_id=20125, Date: 09-21-2023, Resolution: None, Response Time: 111ms
+Name: 明珠台, URL: http://107.167.12.58:27347/livehttpplay?channel_id=30026, Date: 09-14-2023, Resolution: None, Response Time: 111ms
+Name: 明珠台, URL: https://pi.0472.org/tv/mzt.php?auth=2309081833, Date: 03-19-2024, Resolution: None, Response Time: 576ms
+Name: 明珠台, URL: https://pi.0472.org/tv/mzt.php?auth=230918, Date: 02-07-2024, Resolution: None, Response Time: 576ms
+Name: 明珠台, URL: https://pi.0472.org/tv/mzt.php?auth=2309081833, Date: 03-19-2024, Resolution: None, Response Time: 620ms
+Name: 明珠台, URL: https://pi.0472.org/tv/mzt.php?auth=230918, Date: 02-07-2024, Resolution: None, Response Time: 809ms
+Name: 明珠台, URL: http://r.jdshipin.com/ZQ4kN, Date: 11-28-2023, Resolution: None, Response Time: 819ms
+Name: 明珠台, URL: http://zw9999.cnstream.top:80/play/ubI0Nrlni6TwusjXuSxNxEzv3SLBhKEUmYG73triGDY/ts, Date: 06-02-2023, Resolution: None, Response Time: 924ms
+Name: 明珠台, URL: http://nz189l149.bb27109.ctm.net:8892/bysid/2, Date: 03-10-2024, Resolution: None, Response Time: 975ms
+Name: 明珠台, URL: http://zw9999.cnstream.top:80/play/ubI0Nrlni6TwusjXuSxNxEzv3SLBhKEUmYG73triGDY/ts, Date: 06-02-2023, Resolution: None, Response Time: 981ms
+Name: 明珠台, URL: http://nz189l149.bb27109.ctm.net:8892/bysid/2, Date: 03-10-2024, Resolution: None, Response Time: 982ms
+Name: 明珠台, URL: http://r.jdshipin.com/ZQ4kN, Date: 11-28-2023, Resolution: None, Response Time: 1021ms
+Name: 星河台, URL: http://v2h.jdshipin.com/xinghe/xinghe.stream/chunklist.m3u8, Date: 05-15-2024, Resolution: 1280x720, Response Time: 1278ms
+Name: 星河台, URL: https://edge6a.v2h-cdn.com/xinghe/xinghe.stream/chunklist.m3u8, Date: 05-11-2024, Resolution: 1280x720, Response Time: 1750ms
+Name: 星河台, URL: http://r.jdshipin.com/sXuuD, Date: 12-30-2023, Resolution: None, Response Time: 527ms
+Name: 星河台, URL: http://ali.hlspull.yximgs.com/live/twlivezzmzptvzszzwxnhzzwzztzzztyfzszzszcfzxfzwmxzdtvbxh.flv, Date: 03-12-2024, Resolution: None, Response Time: 1160ms
+Name: 凤凰中文, URL: http://118.254.158.105:8888/udp/239.76.246.134:1234, Date: 05-14-2024, Resolution: 1920x1080, Response Time: 470ms
+Name: 凤凰中文, URL: http://tvbox.netsite.cc/proxy/1846789161/1846789161.m3u8, Date: 05-15-2024, Resolution: 1024x576, Response Time: 635ms
+Name: 凤凰中文, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 676ms
+Name: 凤凰中文, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 05-15-2024, Resolution: 1024x576, Response Time: 677ms
+Name: 凤凰中文, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8?app_type=web&userid=50n13N0v14nd1&tkn=829341hrjhaq0q30q&chname=Phoenix_Chinese, Date: 05-15-2024, Resolution: 1024x576, Response Time: 683ms
+Name: 凤凰中文, URL: https://raw.githubusercontent.com/ChiSheng9/iptv/master/TV43.m3u8, Date: 03-27-2024, Resolution: None, Response Time: 40ms
+Name: 凤凰中文, URL: http://171.223.215.229:4000/udp/239.93.0.162:2192, Date: 03-29-2024, Resolution: None, Response Time: 508ms
+Name: 凤凰中文, URL: http://playtv-live.ifeng.com:80/live/06OLEGEGM4G.m3u8, Date: 03-28-2024, Resolution: None, Response Time: 1275ms
+Name: 凤凰资讯, URL: https://raw.githubusercontent.com/ChiSheng9/iptv/master/TV22.m3u8, Date: 03-30-2024, Resolution: 1920x1080, Response Time: 98ms
+Name: 凤凰资讯, URL: http://61.221.215.25:8800/hls/47/index.m3u8, Date: 05-14-2024, Resolution: 1280x720, Response Time: 373ms
+Name: 凤凰资讯, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 676ms
+Name: 凤凰资讯, URL: http://ali.hlspull.yximgs.com/live/huanqiuhklivetvjjpcpdvuejljyjjyfjoxvchjwhjwojjjhdjjlsjhbjfhjx.flv, Date: 03-24-2024, Resolution: None, Response Time: 559ms
+Name: 凤凰资讯, URL: http://playtv-live.ifeng.com:80/live/06OLEEWQKN4.m3u8, Date: 03-29-2024, Resolution: None, Response Time: 620ms
+Name: 凤凰资讯, URL: http://playtv-live.ifeng.com/live/06OLEEWQKN4.m3u8, Date: 03-27-2024, Resolution: None, Response Time: 620ms
+Name: 凤凰香港, URL: http://113.64.145.91:8081/hls/38/index.m3u8, Date: 05-01-2024, Resolution: 1920x1080, Response Time: 501ms
+Name: 凤凰香港, URL: http://60.164.229.241:4040/udp/239.255.30.123:8231, Date: 04-25-2024, Resolution: 1920x1080, Response Time: 539ms
+Name: 凤凰香港, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 676ms
+Name: TVBS亚洲, URL: http://38.64.72.148/hls/modn/list/4005/playlist.m3u8, Date: 05-13-2024, Resolution: 1920x1080, Response Time: 111ms
+Name: TVBS亚洲, URL: http://38.64.72.148:80/hls/modn/list/4005/chunklist1.m3u8, Date: 05-08-2024, Resolution: 1920x1080, Response Time: 112ms
+Name: TVBS亚洲, URL: http://38.64.72.148/hls/modn/list/4005/chunklist1.m3u8?$1920x1080, Date: 05-06-2024, Resolution: 1920x1080, Response Time: 112ms
+Name: TVBS亚洲, URL: http://d2e1asnsl7br7b.cloudfront.net/7782e205e72f43aeb4a48ec97f66ebbe/index_5.m3u8?zshijd, Date: 05-11-2024, Resolution: 1920x1080, Response Time: 371ms
+Name: TVBS亚洲, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 675ms
+Name: TVBS亚洲, URL: http://38.64.72.148/hls/modn/list/4005/chunklist1.m3u8, Date: 02-20-2024, Resolution: None, Response Time: 117ms
+Name: TVBS亚洲, URL: http://38.64.72.148:80/hls/modn/list/4005/playlist.m3u8, Date: 02-09-2024, Resolution: None, Response Time: 122ms
+Name: TVBS亚洲, URL: http://38.64.72.148/hls/modn/list/4005/chunklist0.m3u8, Date: 06-02-2023, Resolution: None, Response Time: 156ms
+Name: TVBS亚洲, URL: http://38.64.72.148:80/hls/modn/list/4005/playlist.m3u8?$1920x1080, Date: 03-05-2023, Resolution: None, Response Time: 164ms
+Name: TVBS亚洲, URL: http://38.64.72.148:80/hls/modn/list/4005/chunklist0.m3u8, Date: 02-03-2024, Resolution: None, Response Time: 165ms
+Name: TVBS新闻, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 675ms
+Name: TVBS新闻, URL: https://fsv4.yj011.net/sat/tv551.flv, Date: 10-11-2023, Resolution: None, Response Time: 521ms
+Name: TVBS新闻, URL: http://ali.hlspull.yximgs.com/live/twlivezozwhzxozhzzzlfhzlzszcnxzfvbhzdzwzfzzdsswvtvbsxw.flv, Date: 03-11-2024, Resolution: None, Response Time: 589ms
+Name: TVBS新闻, URL: http://ali.hlspull.yximgs.com/live/huanqiuhklivejojwhjxojhjjjlfhjljsjcnxjfvbhjdjwjfjjdsswvtvbsxw.flv, Date: 03-22-2024, Resolution: None, Response Time: 593ms
+Name: TVBS新闻, URL: http://ali.hlspull.yximgs.com/live/twlivezozwhzxozhzzzlfhzlzszcnxzfvbhzdzwzfzzdsswvtvbsxw.flv, Date: 03-11-2024, Resolution: None, Response Time: 595ms
+Name: TVBS新闻, URL: http://ali.hlspull.yximgs.com/live/huanqiuhklivejojwhjxojhjjjlfhjljsjcnxjfvbhjdjwjfjjdsswvtvbsxw.flv, Date: 03-22-2024, Resolution: None, Response Time: 596ms
+Name: TVBS新闻, URL: https://fsv4.yj011.net/sat/tv551.flv, Date: 10-11-2023, Resolution: None, Response Time: 602ms
+Name: TVBS欢乐, URL: http://210.210.155.37/uq2663/h/h157/index2.m3u8, Date: 04-23-2024, Resolution: 1024x576 • Faster, Response Time: 675ms
+Name: TVBS欢乐, URL: https://fsv4.yj011.net/sat/tv421.flv, Date: 09-15-2023, Resolution: None, Response Time: 391ms
