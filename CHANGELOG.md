@@ -1,5 +1,14 @@
 # 更新日志（Changelog）
 
+## v1.1.4
+
+### 2024/5/15
+
+- 新增组播源功能（Added multicast source feature）
+- 新增控制开关，控制多种获取模式的启用状态（Added control switch to manage the activation status of various acquisition modes）
+- 新增严格匹配（Added strict matching）
+- 优化文件读取，提升模板初始化速度（Optimized file reading to improve initialization speed based on templates）
+
 ## v1.1.3
 
 ### 2024/5/8
