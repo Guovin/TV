@@ -14,6 +14,8 @@ from urllib.parse import urlparse
 import requests
 import re
 from bs4 import NavigableString
+import fofa_map
+from collections import defaultdict
 
 
 def getChannelItems():
@@ -21,39 +23,33 @@ def getChannelItems():
     Get the channel items from the source file
     """
     # Open the source file and read all lines.
-    try:
-        user_source_file = (
-            "user_" + config.source_file
-            if os.path.exists("user_" + config.source_file)
-            else getattr(config, "source_file", "demo.txt")
-        )
-        with open(user_source_file, "r", encoding="utf-8") as f:
-            lines = f.readlines()
+    user_source_file = (
+        "user_" + config.source_file
+        if os.path.exists("user_" + config.source_file)
+        else getattr(config, "source_file", "demo.txt")
+    )
 
-        # Create a dictionary to store the channels.
-        channels = {}
-        current_category = ""
-        pattern = r"^(.*?),(?!#genre#)(.*?)$"
+    # Create a dictionary to store the channels.
+    channels = defaultdict(lambda: defaultdict(list))
+    current_category = ""
+    pattern = r"^(.*?),(?!#genre#)(.*?)$"
 
-        for line in lines:
+    with open(user_source_file, "r", encoding="utf-8") as f:
+        for line in f:
             line = line.strip()
             if "#genre#" in line:
                 # This is a new channel, create a new key in the dictionary.
                 current_category = line.split(",")[0]
-                channels[current_category] = {}
             else:
                 # This is a url, add it to the list of urls for the current channel.
                 match = re.search(pattern, line)
                 if match is not None:
                     name = match.group(1).strip()
                     url = match.group(2).strip()
-                    if name not in channels[current_category]:
-                        channels[current_category][name] = [url]
-                    elif url and url not in channels[current_category][name]:
+                    if url and url not in channels[current_category][name]:
                         channels[current_category][name].append(url)
-        return channels
-    finally:
-        f.close()
+
+    return channels
 
 
 async def getChannelsByExtendBaseUrls(channel_names):
@@ -63,7 +59,7 @@ async def getChannelsByExtendBaseUrls(channel_names):
     channels = {}
     pattern = r"^(.*?),(?!#genre#)(.*?)$"
     sub_pattern = r"_\((.*?)\)|_\[(.*?)\]|频道"
-    for base_url in config.extend_base_urls:
+    for base_url in config.subscribe_urls:
         try:
             print(f"Processing extend base url: {base_url}")
             try:
@@ -94,7 +90,11 @@ async def getChannelsByExtendBaseUrls(channel_names):
                             link_dict[key] = [value]
                 found_channels = []
                 for channel_name in channel_names:
-                    sub_channel_name = re.sub(sub_pattern, "", channel_name).lower()
+                    sub_channel_name = (
+                        channel_name.lower()
+                        if config.strict_match
+                        else re.sub(sub_pattern, "", channel_name).lower()
+                    )
                     values = link_dict.get(sub_channel_name)
                     if values:
                         if channel_name in channels:
@@ -175,12 +175,6 @@ def checkNameMatch(name, result_name):
         result_name,
         re.IGNORECASE,
     ):
-        print(
-            "Name test match:",
-            name.lower(),
-            result_name.lower(),
-            name.lower() == result_name.lower(),
-        )
         return name.lower() == result_name.lower()
     else:
         return True
@@ -308,6 +302,16 @@ def getTotalUrls(data):
     return list(dict.fromkeys(total_urls))
 
 
+def getTotalUrlsFromInfoList(infoList):
+    """
+    Get the total urls from info list
+    """
+    total_urls = [
+        url for url, _, _ in infoList[: min(len(infoList), config.urls_limit)]
+    ]
+    return list(dict.fromkeys(total_urls))
+
+
 def is_ipv6(url):
     """
     Check if the url is ipv6
@@ -387,3 +391,74 @@ async def useAccessibleUrl():
         return baseUrl1
     else:
         return baseUrl2
+
+
+def getFOFAUrlsFromRegionList():
+    """
+    Get the FOFA url from region
+    """
+    region_list = getattr(config, "region_list", [])
+    urls = []
+    for region in region_list:
+        region_url = getattr(fofa_map, "region_url")
+        if region in region_url:
+            urls.append(region_url[region])
+    return urls
+
+
+def getChannelsByFOFA(source):
+    """
+    Get the channel by FOFA
+    """
+    urls = set(re.findall(r"https?://[\w\.-]+:\d+", source))
+    channels = {}
+    for url in urls:
+        try:
+            response = requests.get(url + "/iptv/live/1000.json?key=txiptv", timeout=2)
+            try:
+                json_data = response.json()
+                if json_data["code"] == 0:
+                    try:
+                        for item in json_data["data"]:
+                            if isinstance(item, dict):
+                                item_name = item.get("name").strip()
+                                item_url = item.get("url").strip()
+                                if item_name and item_url:
+                                    total_url = url + item_url
+                                    if item_name not in channels:
+                                        channels[item_name] = [total_url]
+                                    else:
+                                        channels[item_name].append(total_url)
+                    except Exception as e:
+                        # print(f"Error on fofa: {e}")
+                        continue
+            except Exception as e:
+                # print(f"{url}: {e}")
+                continue
+        except Exception as e:
+            # print(f"{url}: {e}")
+            continue
+    return channels
+
+
+def mergeObjects(*objects):
+    """
+    Merge objects
+    """
+    merged_dict = {}
+    for obj in objects:
+        if not isinstance(obj, dict):
+            raise TypeError("All input objects must be dictionaries")
+        for key, value in obj.items():
+            if key not in merged_dict:
+                merged_dict[key] = set()
+            if isinstance(value, set):
+                merged_dict[key].update(value)
+            elif isinstance(value, list):
+                for item in value:
+                    merged_dict[key].add(item)
+            else:
+                merged_dict[key].add(value)
+    for key, value in merged_dict.items():
+        merged_dict[key] = list(value)
+    return merged_dict
