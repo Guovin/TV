@@ -175,9 +175,7 @@ def getChannelInfo(element):
 
 def checkNameMatch(name, result_name):
     pattern = r"[a-zA-Z]+[_\-+]|cctv"
-    if config.strict_match:
-        return name.lower() == result_name.lower()
-    elif re.search(
+    if re.search(
         pattern,
         result_name,
         re.IGNORECASE,
@@ -428,8 +426,8 @@ def getChannelsByFOFA(source):
                     try:
                         for item in json_data["data"]:
                             if isinstance(item, dict):
-                                item_name = item.get("name")
-                                item_url = item.get("url")
+                                item_name = item.get("name").strip()
+                                item_url = item.get("url").strip()
                                 if item_name and item_url:
                                     total_url = url + item_url
                                     if item_name not in channels:
