@@ -15,6 +15,7 @@ import requests
 import re
 from bs4 import NavigableString
 import fofa_map
+from collections import defaultdict
 
 
 def getChannelItems():
@@ -22,39 +23,33 @@ def getChannelItems():
     Get the channel items from the source file
     """
     # Open the source file and read all lines.
-    try:
-        user_source_file = (
-            "user_" + config.source_file
-            if os.path.exists("user_" + config.source_file)
-            else getattr(config, "source_file", "demo.txt")
-        )
-        with open(user_source_file, "r", encoding="utf-8") as f:
-            lines = f.readlines()
+    user_source_file = (
+        "user_" + config.source_file
+        if os.path.exists("user_" + config.source_file)
+        else getattr(config, "source_file", "demo.txt")
+    )
 
-        # Create a dictionary to store the channels.
-        channels = {}
-        current_category = ""
-        pattern = r"^(.*?),(?!#genre#)(.*?)$"
+    # Create a dictionary to store the channels.
+    channels = defaultdict(lambda: defaultdict(list))
+    current_category = ""
+    pattern = r"^(.*?),(?!#genre#)(.*?)$"
 
-        for line in lines:
+    with open(user_source_file, "r", encoding="utf-8") as f:
+        for line in f:
             line = line.strip()
             if "#genre#" in line:
                 # This is a new channel, create a new key in the dictionary.
                 current_category = line.split(",")[0]
-                channels[current_category] = {}
             else:
                 # This is a url, add it to the list of urls for the current channel.
                 match = re.search(pattern, line)
                 if match is not None:
                     name = match.group(1).strip()
                     url = match.group(2).strip()
-                    if name not in channels[current_category]:
-                        channels[current_category][name] = [url]
-                    elif url and url not in channels[current_category][name]:
+                    if url and url not in channels[current_category][name]:
                         channels[current_category][name].append(url)
-        return channels
-    finally:
-        f.close()
+
+    return channels
 
 
 async def getChannelsByExtendBaseUrls(channel_names):
