@@ -21,13 +21,16 @@ from utils import (
     useAccessibleUrl,
     getChannelsByExtendBaseUrls,
     checkUrlByPatterns,
+    getFOFAUrlsFromRegionList,
     getChannelsByFOFA,
+    mergeObjects,
 )
 import logging
 from logging.handlers import RotatingFileHandler
 import os
 from tqdm import tqdm
 import re
+import fofa_map
 import time
 
 handler = RotatingFileHandler("result_new.log", encoding="utf-8")
@@ -69,14 +72,17 @@ class UpdateSource:
         ]
         extendResults = await getChannelsByExtendBaseUrls(channelNames)
         print(f"Getting channels by FOFA...")
-        self.driver.get(
-            "https://fofa.info/result?qbase64=ImlwdHYvbGl2ZS96aF9jbi5qcyIgJiYgY291bnRyeT0iQ04iICYmIHJlZ2lvbj0iR3Vhbmdkb25nIg%3D%3D"
-        )
-        time.sleep(10)
-        fofa_source = re.sub(
-            r"<!--.*?-->", "", self.driver.page_source, flags=re.DOTALL
-        )
-        fofa_channels = getChannelsByFOFA(fofa_source)
+        fofa_urls = getFOFAUrlsFromRegionList()
+        fofa_results = {}
+        for url in fofa_urls:
+            if url:
+                self.driver.get(url)
+                time.sleep(10)
+                fofa_source = re.sub(
+                    r"<!--.*?-->", "", self.driver.page_source, flags=re.DOTALL
+                )
+                fofa_channels = getChannelsByFOFA(fofa_source)
+                fofa_results = mergeObjects(fofa_results, fofa_channels)
         total_channels = len(channelNames)
         pbar = tqdm(total=total_channels)
         pageUrl = await useAccessibleUrl()
@@ -92,7 +98,7 @@ class UpdateSource:
                 for url, date, resolution in extendResults.get(name, []):
                     if url and checkUrlByPatterns(url):
                         infoList.append((url, None, resolution))
-                for url in fofa_channels.get(name, []):
+                for url in fofa_results.get(name, []):
                     if url and checkUrlByPatterns(url):
                         infoList.append((url, None, None))
                 if pageUrl:

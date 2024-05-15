@@ -14,6 +14,7 @@ from urllib.parse import urlparse
 import requests
 import re
 from bs4 import NavigableString
+import fofa_map
 
 
 def getChannelItems():
@@ -175,12 +176,6 @@ def checkNameMatch(name, result_name):
         result_name,
         re.IGNORECASE,
     ):
-        print(
-            "Name test match:",
-            name.lower(),
-            result_name.lower(),
-            name.lower() == result_name.lower(),
-        )
         return name.lower() == result_name.lower()
     else:
         return True
@@ -389,6 +384,19 @@ async def useAccessibleUrl():
         return baseUrl2
 
 
+def getFOFAUrlsFromRegionList():
+    """
+    Get the FOFA url from region
+    """
+    region_list = getattr(config, "region_list", [])
+    urls = []
+    for region in region_list:
+        region_url = getattr(fofa_map, "region_url")
+        if region in region_url:
+            urls.append(region_url[region])
+    return urls
+
+
 def getChannelsByFOFA(source):
     """
     Get the channel by FOFA
@@ -398,26 +406,50 @@ def getChannelsByFOFA(source):
     for url in urls:
         try:
             response = requests.get(url + "/iptv/live/1000.json?key=txiptv", timeout=2)
-            json_data = response.json()
-            if json_data["code"] == 0:
-                try:
-                    for item in json_data["data"]:
-                        if isinstance(item, dict):
-                            item_name = item.get("name")
-                            item_url = item.get("url")
-                            if item_name and item_url:
-                                total_url = url + item_url
-                                if item_name not in channels:
-                                    channels[item_name] = [total_url]
-                                else:
-                                    channels[item_name].append(total_url)
-                except Exception as e:
-                    print(f"Error on fofa: {e}")
-                    continue
-        except (
-            requests.exceptions.ConnectTimeout,
-            requests.exceptions.ReadTimeout,
-        ):
-            print(f"Connection to {url} timed out.")
+            try:
+                json_data = response.json()
+                if json_data["code"] == 0:
+                    try:
+                        for item in json_data["data"]:
+                            if isinstance(item, dict):
+                                item_name = item.get("name")
+                                item_url = item.get("url")
+                                if item_name and item_url:
+                                    total_url = url + item_url
+                                    if item_name not in channels:
+                                        channels[item_name] = [total_url]
+                                    else:
+                                        channels[item_name].append(total_url)
+                    except Exception as e:
+                        # print(f"Error on fofa: {e}")
+                        continue
+            except Exception as e:
+                # print(f"{url}: {e}")
+                continue
+        except Exception as e:
+            # print(f"{url}: {e}")
             continue
     return channels
+
+
+def mergeObjects(*objects):
+    """
+    Merge objects
+    """
+    merged_dict = {}
+    for obj in objects:
+        if not isinstance(obj, dict):
+            raise TypeError("All input objects must be dictionaries")
+        for key, value in obj.items():
+            if key not in merged_dict:
+                merged_dict[key] = set()
+            if isinstance(value, set):
+                merged_dict[key].update(value)
+            elif isinstance(value, list):
+                for item in value:
+                    merged_dict[key].add(item)
+            else:
+                merged_dict[key].add(value)
+    for key, value in merged_dict.items():
+        merged_dict[key] = list(value)
+    return merged_dict

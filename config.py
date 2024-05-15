@@ -27,3 +27,4 @@ extend_base_urls = [
     "https://m3u.ibert.me/txt/o_cn.txt",
     "https://m3u.ibert.me/txt/j_iptv.txt",
 ]
+region_list = ["广东"]
