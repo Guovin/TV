@@ -95,7 +95,11 @@ async def getChannelsByExtendBaseUrls(channel_names):
                             link_dict[key] = [value]
                 found_channels = []
                 for channel_name in channel_names:
-                    sub_channel_name = re.sub(sub_pattern, "", channel_name).lower()
+                    sub_channel_name = (
+                        channel_name.lower()
+                        if config.strict_match
+                        else re.sub(sub_pattern, "", channel_name).lower()
+                    )
                     values = link_dict.get(sub_channel_name)
                     if values:
                         if channel_name in channels:
@@ -171,7 +175,9 @@ def getChannelInfo(element):
 
 def checkNameMatch(name, result_name):
     pattern = r"[a-zA-Z]+[_\-+]|cctv"
-    if re.search(
+    if config.strict_match:
+        return name.lower() == result_name.lower()
+    elif re.search(
         pattern,
         result_name,
         re.IGNORECASE,
@@ -300,6 +306,16 @@ def getTotalUrls(data):
         total_urls = [url for (url, _, _), _ in filterByDate(data)]
     else:
         total_urls = [url for (url, _, _), _ in data]
+    return list(dict.fromkeys(total_urls))
+
+
+def getTotalUrlsFromInfoList(infoList):
+    """
+    Get the total urls from info list
+    """
+    total_urls = [
+        url for url, _, _ in infoList[: min(len(infoList), config.urls_limit)]
+    ]
     return list(dict.fromkeys(total_urls))
 
 

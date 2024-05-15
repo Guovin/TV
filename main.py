@@ -24,6 +24,7 @@ from utils import (
     getFOFAUrlsFromRegionList,
     getChannelsByFOFA,
     mergeObjects,
+    getTotalUrlsFromInfoList,
 )
 import logging
 from logging.handlers import RotatingFileHandler
@@ -70,22 +71,24 @@ class UpdateSource:
         channelNames = [
             name for _, channelObj in channelItems.items() for name in channelObj.keys()
         ]
-        extendResults = await getChannelsByExtendBaseUrls(channelNames)
-        print(f"Getting channels by FOFA...")
-        fofa_urls = getFOFAUrlsFromRegionList()
-        fofa_results = {}
-        for url in fofa_urls:
-            if url:
-                self.driver.get(url)
-                time.sleep(10)
-                fofa_source = re.sub(
-                    r"<!--.*?-->", "", self.driver.page_source, flags=re.DOTALL
-                )
-                fofa_channels = getChannelsByFOFA(fofa_source)
-                fofa_results = mergeObjects(fofa_results, fofa_channels)
+        if config.open_subscribe:
+            extendResults = await getChannelsByExtendBaseUrls(channelNames)
+        if config.open_multicast:
+            print(f"Getting channels by FOFA...")
+            fofa_urls = getFOFAUrlsFromRegionList()
+            fofa_results = {}
+            for url in fofa_urls:
+                if url:
+                    self.driver.get(url)
+                    time.sleep(10)
+                    fofa_source = re.sub(
+                        r"<!--.*?-->", "", self.driver.page_source, flags=re.DOTALL
+                    )
+                    fofa_channels = getChannelsByFOFA(fofa_source)
+                    fofa_results = mergeObjects(fofa_results, fofa_channels)
         total_channels = len(channelNames)
         pbar = tqdm(total=total_channels)
-        pageUrl = await useAccessibleUrl()
+        pageUrl = await useAccessibleUrl() if config.open_online_search else None
         wait = WebDriverWait(self.driver, 10)
         for cate, channelObj in channelItems.items():
             channelUrls = {}
@@ -94,14 +97,16 @@ class UpdateSource:
                 pbar.set_description(
                     f"Processing {name}, {total_channels - pbar.n} channels remaining"
                 )
-                infoList = []
-                for url, date, resolution in extendResults.get(name, []):
-                    if url and checkUrlByPatterns(url):
-                        infoList.append((url, None, resolution))
-                for url in fofa_results.get(name, []):
-                    if url and checkUrlByPatterns(url):
-                        infoList.append((url, None, None))
-                if pageUrl:
+                info_list = []
+                if config.open_subscribe:
+                    for url, date, resolution in extendResults.get(name, []):
+                        if url and checkUrlByPatterns(url):
+                            info_list.append((url, None, resolution))
+                if config.open_multicast:
+                    for url in fofa_results.get(name, []):
+                        if url and checkUrlByPatterns(url):
+                            info_list.append((url, None, None))
+                if config.open_online_search and pageUrl:
                     self.driver.get(pageUrl)
                     search_box = wait.until(
                         EC.presence_of_element_located(
@@ -148,7 +153,7 @@ class UpdateSource:
                                 for result in results:
                                     url, date, resolution = result
                                     if url and checkUrlByPatterns(url):
-                                        infoList.append((url, date, resolution))
+                                        info_list.append((url, date, resolution))
                         except Exception as e:
                             print(f"Error on page {page}: {e}")
                             continue
@@ -157,15 +162,26 @@ class UpdateSource:
                     if not github_actions or (
                         pbar.n <= 200 and github_actions == "true"
                     ):
-                        sorted_data = await sortUrlsBySpeedAndResolution(infoList)
-                        if sorted_data:
-                            channelUrls[name] = getTotalUrls(sorted_data)
-                            for (url, date, resolution), response_time in sorted_data:
-                                logging.info(
-                                    f"Name: {name}, URL: {url}, Date: {date}, Resolution: {resolution}, Response Time: {response_time}ms"
+                        if config.open_sort:
+                            sorted_data = await sortUrlsBySpeedAndResolution(info_list)
+                            if sorted_data:
+                                channelUrls[name] = getTotalUrls(sorted_data)
+                                for (
+                                    url,
+                                    date,
+                                    resolution,
+                                ), response_time in sorted_data:
+                                    logging.info(
+                                        f"Name: {name}, URL: {url}, Date: {date}, Resolution: {resolution}, Response Time: {response_time}ms"
+                                    )
+                            else:
+                                channelUrls[name] = filterUrlsByPatterns(
+                                    channelObj[name]
                                 )
                         else:
-                            channelUrls[name] = filterUrlsByPatterns(channelObj[name])
+                            channelUrls[name] = filterUrlsByPatterns(
+                                getTotalUrlsFromInfoList(info_list)
+                            )
                     else:
                         channelUrls[name] = filterUrlsByPatterns(channelObj[name])
                 except Exception as e:
