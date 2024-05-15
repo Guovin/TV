@@ -39,7 +39,7 @@
 | open_subscribe         | True                                                                                                                        | 开启订阅源功能                                                             |
 | subscribe_urls         | ["https://m3u.ibert.me/txt/fmml_dv6.txt",<br>"https://m3u.ibert.me/txt/o_cn.txt",<br>"https://m3u.ibert.me/txt/j_iptv.txt"] | 订阅源列表                                                                 |
 | open_multicast         | True                                                                                                                        | 开启组播源功能                                                             |
-| region_list            | ['广东']                                                                                                                    | 组播源地区列表，更多地区请见 fofa_map.py 文件                              |
+| region_list            | ["广东"]                                                                                                                    | 组播源地区列表，更多地区请见 fofa_map.py 文件                              |
 | strict_match           | False                                                                                                                       | 严格匹配，开启可最大程度减少频道接口不匹配问题，同时会丢失部分模糊匹配结果 |
 
 ## 快速上手
