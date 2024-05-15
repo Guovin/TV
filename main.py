@@ -31,7 +31,6 @@ from logging.handlers import RotatingFileHandler
 import os
 from tqdm import tqdm
 import re
-import fofa_map
 import time
 
 handler = RotatingFileHandler("result_new.log", encoding="utf-8")

@@ -59,7 +59,7 @@ async def getChannelsByExtendBaseUrls(channel_names):
     channels = {}
     pattern = r"^(.*?),(?!#genre#)(.*?)$"
     sub_pattern = r"_\((.*?)\)|_\[(.*?)\]|频道"
-    for base_url in config.extend_base_urls:
+    for base_url in config.subscribe_urls:
         try:
             print(f"Processing extend base url: {base_url}")
             try:
