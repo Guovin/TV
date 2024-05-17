@@ -25,7 +25,7 @@
 | source_file            | "demo.txt"                                                                                                                  | 模板文件名称                                                         |
 | final_file             | "result.txt"                                                                                                                | 生成文件名称                                                         |
 | favorite_list          | ["广东珠江","CCTV-1","CCTV-5","CCTV-5+","CCTV-13","广东体育","广东卫视","大湾区卫视","浙江卫视","湖南卫视","翡翠台"]        | 关注频道名称列表（仅用于与常规频道区分，自定义获取分页数量）         |
-| open_online_search     | True                                                                                                                        | 开启线上检索源功能                                                   |
+| open_online_search     | False                                                                                                                       | 开启线上检索源功能                                                   |
 | favorite_page_num      | 5                                                                                                                           | 关注频道获取分页数量                                                 |
 | default_page_num       | 3                                                                                                                           | 常规频道获取分页数量                                                 |
 | urls_limit             | 10                                                                                                                          | 单个频道接口数量                                                     |
@@ -39,7 +39,7 @@
 | open_subscribe         | True                                                                                                                        | 开启订阅源功能                                                       |
 | subscribe_urls         | ["https://m3u.ibert.me/txt/fmml_dv6.txt",<br>"https://m3u.ibert.me/txt/o_cn.txt",<br>"https://m3u.ibert.me/txt/j_iptv.txt"] | 订阅源列表                                                           |
 | open_multicast         | True                                                                                                                        | 开启组播源功能                                                       |
-| region_list            | ["广东"]                                                                                                                    | 组播源地区列表，[更多地区](./fofa_map.py)                            |
+| region_list            | ["all"]                                                                                                                     | 组播源地区列表，[更多地区](./fofa_map.py)，"all"表示所有地区         |
 
 ## 快速上手
 
