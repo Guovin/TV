@@ -1,5 +1,12 @@
 # 更新日志（Changelog）
 
+## v1.1.6
+
+### 2024/5/17
+
+- 增加组播源可全地区运行更新（Added multicast sources to run region-wide updates）
+- 修改默认值：关闭在线检索功能，组播源全地区更新（Change the default value: Disable the online search function and update the multicast source in all regions）
+
 ## v1.1.5
 
 ### 2024/5/17

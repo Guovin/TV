@@ -13,10 +13,10 @@ favorite_list = [
     "湖南卫视",
     "翡翠台",
 ]
-open_online_search = True
+open_online_search = False
 favorite_page_num = 5
 default_page_num = 3
-urls_limit = 10
+urls_limit = 15
 open_sort = True
 response_time_weight = 0.5
 resolution_weight = 0.5
@@ -31,4 +31,4 @@ subscribe_urls = [
     "https://m3u.ibert.me/txt/j_iptv.txt",
 ]
 open_multicast = True
-region_list = ["广东"]
+region_list = ["all"]
