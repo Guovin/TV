@@ -1,5 +1,15 @@
 # 更新日志（Changelog）
 
+## v1.1.5
+
+### 2024/5/17
+
+- 增加模糊匹配规则，适配在线检索、订阅源、组播源（Add fuzzy matching rules for online search, subscription sources, and multicast sources）
+- 增加订阅源、组播源更新进度条（Added the update progress bar for subscription sources and multicast sources）
+- 优化组播源更新可能出现的无匹配结果情况（Optimize the possible situation of no match results in multicast source updates）
+- 移除部分错误日志打印（Removes some error log prints）
+- 移除严格匹配配置（Removes strict matching configurations）
+
 ## v1.1.4
 
 ### 2024/5/15

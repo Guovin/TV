@@ -65,7 +65,7 @@
 | favorite_page_num | 5 | 关注频道获取分页数量 |
 | default_page_num | 3 | 常规频道获取分页数量 |
 | urls_limit | 10 | 单个频道接口数量 |
-| open_sort | True | 开启排序测试功能，若没有使用线上检索建议关闭 |
+| open_sort | True | 开启排序功能（响应速度、日期、分辨率），若更执行时间较长可关闭此功能 |
 | response_time_weight | 0.5 | 响应时间权重值（所有权重值总和应为 1） |
 | resolution_weight | 0.5 | 分辨率权重值 （所有权重值总和应为 1） |
 | recent_days | 30 | 获取最近时间范围内更新的接口（单位天），适当减小可避免出现匹配问题 |
@@ -75,8 +75,7 @@
 | open_subscribe | True | 开启订阅源功能 |
 | subscribe_urls | ["https://m3u.ibert.me/txt/fmml_dv6.txt",<br>"https://m3u.ibert.me/txt/o_cn.txt",<br>"https://m3u.ibert.me/txt/j_iptv.txt"] | 订阅源列表 |
 | open_multicast | True | 开启组播源功能 |
-| region_list | ["广东"] | 组播源地区列表，更多地区请见 fofa_map.py 文件 |
-| strict_match | False | 严格匹配，开启可最大程度减少频道接口不匹配问题，同时会丢失部分模糊匹配结果 |
+| region_list | ["广东"] | 组播源地区列表，[更多地区](./fofa_map.py) |
 
 ## 步骤四：本地运行更新（推荐，稳定，支持大量频道更新）
 

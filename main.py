@@ -3,28 +3,25 @@ try:
 except ImportError:
     import config
 from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 
 # from selenium_stealth import stealth
 import asyncio
-from bs4 import BeautifulSoup
 from utils import (
     getChannelItems,
     updateChannelUrlsTxt,
     updateFile,
-    getResultsFromSoup,
     sortUrlsBySpeedAndResolution,
-    getTotalUrls,
+    getTotalUrlsFromInfoList,
+    getTotalUrlsFromSortedData,
     filterUrlsByPatterns,
     useAccessibleUrl,
-    getChannelsByExtendBaseUrls,
+    getChannelsBySubscribeUrls,
     checkUrlByPatterns,
     getFOFAUrlsFromRegionList,
     getChannelsByFOFA,
     mergeObjects,
-    getTotalUrlsFromInfoList,
+    getChannelsInfoListByOnlineSearch,
+    formatChannelName,
 )
 import logging
 from logging.handlers import RotatingFileHandler
@@ -71,9 +68,8 @@ class UpdateSource:
             name for _, channelObj in channelItems.items() for name in channelObj.keys()
         ]
         if config.open_subscribe:
-            extendResults = await getChannelsByExtendBaseUrls(channelNames)
+            extendResults = await getChannelsBySubscribeUrls(channelNames)
         if config.open_multicast:
-            print(f"Getting channels by FOFA...")
             fofa_urls = getFOFAUrlsFromRegionList()
             fofa_results = {}
             for url in fofa_urls:
@@ -88,7 +84,6 @@ class UpdateSource:
         total_channels = len(channelNames)
         pbar = tqdm(total=total_channels)
         pageUrl = await useAccessibleUrl() if config.open_online_search else None
-        wait = WebDriverWait(self.driver, 10)
         for cate, channelObj in channelItems.items():
             channelUrls = {}
             channelObjKeys = channelObj.keys()
@@ -96,95 +91,46 @@ class UpdateSource:
                 pbar.set_description(
                     f"Processing {name}, {total_channels - pbar.n} channels remaining"
                 )
+                format_name = formatChannelName(name)
                 info_list = []
                 if config.open_subscribe:
-                    for url, date, resolution in extendResults.get(name, []):
+                    for url, date, resolution in extendResults.get(format_name, []):
                         if url and checkUrlByPatterns(url):
                             info_list.append((url, None, resolution))
                 if config.open_multicast:
-                    for url in fofa_results.get(name, []):
+                    for url in fofa_results.get(format_name, []):
                         if url and checkUrlByPatterns(url):
                             info_list.append((url, None, None))
                 if config.open_online_search and pageUrl:
-                    self.driver.get(pageUrl)
-                    search_box = wait.until(
-                        EC.presence_of_element_located(
-                            (By.XPATH, '//input[@type="text"]')
-                        )
+                    online_info_list = getChannelsInfoListByOnlineSearch(
+                        self.driver, pageUrl, format_name
                     )
-                    search_box.clear()
-                    search_box.send_keys(name)
-                    submit_button = wait.until(
-                        EC.element_to_be_clickable(
-                            (By.XPATH, '//input[@type="submit"]')
-                        )
-                    )
-                    self.driver.execute_script("arguments[0].click();", submit_button)
-                    isFavorite = name in config.favorite_list
-                    pageNum = (
-                        config.favorite_page_num
-                        if isFavorite
-                        else config.default_page_num
-                    )
-                    for page in range(1, pageNum + 1):
-                        try:
-                            if page > 1:
-                                page_link = wait.until(
-                                    EC.element_to_be_clickable(
-                                        (
-                                            By.XPATH,
-                                            f'//a[contains(@href, "={page}") and contains(@href, "{name}")]',
-                                        )
-                                    )
-                                )
-                                self.driver.execute_script(
-                                    "arguments[0].click();", page_link
-                                )
-                            source = re.sub(
-                                r"<!--.*?-->",
-                                "",
-                                self.driver.page_source,
-                                flags=re.DOTALL,
-                            )
-                            soup = BeautifulSoup(source, "html.parser")
-                            if soup:
-                                results = getResultsFromSoup(soup, name)
-                                for result in results:
-                                    url, date, resolution = result
-                                    if url and checkUrlByPatterns(url):
-                                        info_list.append((url, date, resolution))
-                        except Exception as e:
-                            print(f"Error on page {page}: {e}")
-                            continue
+                    if online_info_list:
+                        info_list.extend(online_info_list)
                 try:
+                    channelUrls[name] = filterUrlsByPatterns(
+                        getTotalUrlsFromInfoList(info_list)
+                    )
                     github_actions = os.environ.get("GITHUB_ACTIONS")
-                    if not github_actions or (
-                        pbar.n <= 200 and github_actions == "true"
+                    if (
+                        config.open_sort
+                        and not github_actions
+                        or (pbar.n <= 200 and github_actions == "true")
                     ):
-                        if config.open_sort:
-                            sorted_data = await sortUrlsBySpeedAndResolution(info_list)
-                            if sorted_data:
-                                channelUrls[name] = getTotalUrls(sorted_data)
-                                for (
-                                    url,
-                                    date,
-                                    resolution,
-                                ), response_time in sorted_data:
-                                    logging.info(
-                                        f"Name: {name}, URL: {url}, Date: {date}, Resolution: {resolution}, Response Time: {response_time}ms"
-                                    )
-                            else:
-                                channelUrls[name] = filterUrlsByPatterns(
-                                    channelObj[name]
+                        sorted_data = await sortUrlsBySpeedAndResolution(info_list)
+                        if sorted_data:
+                            channelUrls[name] = getTotalUrlsFromSortedData(sorted_data)
+                            for (
+                                url,
+                                date,
+                                resolution,
+                            ), response_time in sorted_data:
+                                logging.info(
+                                    f"Name: {name}, URL: {url}, Date: {date}, Resolution: {resolution}, Response Time: {response_time}ms"
                                 )
-                        else:
-                            channelUrls[name] = filterUrlsByPatterns(
-                                getTotalUrlsFromInfoList(info_list)
-                            )
-                    else:
+                    if len(channelUrls[name]) == 0:
                         channelUrls[name] = filterUrlsByPatterns(channelObj[name])
-                except Exception as e:
-                    print(f"Error on sorting: {e}")
+                except:
                     continue
                 finally:
                     pbar.update()
