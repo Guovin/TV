@@ -31,5 +31,5 @@ subscribe_urls = [
     "https://m3u.ibert.me/txt/j_iptv.txt",
 ]
 open_multicast = True
-region_list = ["广西"]
+region_list = ["江西"]
 strict_match = False
