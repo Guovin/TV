@@ -472,10 +472,13 @@ def getFOFAUrlsFromRegionList():
     """
     region_list = getattr(config, "region_list", [])
     urls = []
-    for region in region_list:
-        region_url = getattr(fofa_map, "region_url")
-        if region in region_url:
-            urls.append(region_url[region])
+    region_url = getattr(fofa_map, "region_url")
+    if "all" in region_list:
+        urls = [url for url in region_url.values() if url]
+    else:
+        for region in region_list:
+            if region in region_url:
+                urls.append(region_url[region])
     return urls
 
 
