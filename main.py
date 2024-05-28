@@ -29,6 +29,7 @@ import os
 from tqdm import tqdm
 import re
 import time
+import threading
 
 handler = RotatingFileHandler("result_new.log", encoding="utf-8")
 logging.basicConfig(
@@ -62,6 +63,8 @@ class UpdateSource:
 
     def __init__(self):
         self.driver = self.setup_driver()
+        self.stop_event = threading.Event()
+        self.tasks = []
 
     async def visitPage(self, channelItems):
         channelNames = [
@@ -75,7 +78,7 @@ class UpdateSource:
             for url in fofa_urls:
                 if url:
                     self.driver.get(url)
-                    time.sleep(10)
+                    await asyncio.sleep(10)
                     fofa_source = re.sub(
                         r"<!--.*?-->", "", self.driver.page_source, flags=re.DOTALL
                     )
@@ -138,18 +141,32 @@ class UpdateSource:
             await asyncio.sleep(1)
         pbar.close()
 
-    def main(self):
-        asyncio.run(self.visitPage(getChannelItems()))
-        for handler in logging.root.handlers[:]:
-            handler.close()
-            logging.root.removeHandler(handler)
-        user_final_file = getattr(config, "final_file", "result.txt")
-        user_log_file = (
-            "user_result.log" if os.path.exists("user_config.py") else "result.log"
-        )
-        updateFile(user_final_file, "result_new.txt")
-        updateFile(user_log_file, "result_new.log")
-        print(f"Update completed! Please check the {user_final_file} file!")
+    async def main(self):
+        try:
+            task = asyncio.create_task(self.visitPage(getChannelItems()))
+            self.tasks.append(task)
+            await task
+            for handler in logging.root.handlers[:]:
+                handler.close()
+                logging.root.removeHandler(handler)
+            user_final_file = getattr(config, "final_file", "result.txt")
+            user_log_file = (
+                "user_result.log" if os.path.exists("user_config.py") else "result.log"
+            )
+            updateFile(user_final_file, "result_new.txt")
+            updateFile(user_log_file, "result_new.log")
+            print(f"Update completed! Please check the {user_final_file} file!")
+        except asyncio.exceptions.CancelledError:
+            print("Update cancelled!")
 
+    def start(self):
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        thread = threading.Thread(target=loop.run_until_complete, args=(self.main(),))
+        thread.start()
 
-UpdateSource().main()
+    def stop(self):
+        self.stop_event.set()
+        for task in self.tasks:
+            task.cancel()
+        self.stop_event.clear()
