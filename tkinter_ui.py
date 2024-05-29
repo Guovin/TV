@@ -27,23 +27,22 @@ class TkinterUI:
         self.update_running = not self.update_running
         if self.update_running:
             self.run_button.config(text="取消更新", state="normal")
-            self.update_source.start()
-            self.progress_thread = threading.Thread(target=self.update_progress)
+            self.progress_bar["value"] = 0
             self.progress_label.pack()
             self.progress_bar.pack()
+            self.update_source.start(self.update_progress)
         else:
             self.update_source.stop()
             self.run_button.config(text="开始更新", state="normal")
-            self.progress_thread = None
             self.progress_bar.pack_forget()
             self.progress_label.pack_forget()
 
     def open_online_search_change_dropdown(self):
         config.open_online_search = self.open_online_search_combo.get()
 
-    def update_progress(self, progress):
+    def update_progress(self, title, progress):
         self.progress_bar["value"] = progress
-        self.progress_label["text"] = f"进度: {progress}%"
+        self.progress_label["text"] = f"{title}, 进度: {progress}%"
         self.root.update()
 
     def init_UI(self):

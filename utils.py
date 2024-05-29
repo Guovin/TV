@@ -21,6 +21,8 @@ from tqdm import tqdm
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from queue import Queue
+import threading
 
 
 def formatChannelName(name):
@@ -99,7 +101,7 @@ def getChannelItems():
     return channels
 
 
-async def getChannelsBySubscribeUrls(channel_names):
+async def getChannelsBySubscribeUrls(callback):
     """
     Get the channels by subscribe urls
     """
@@ -112,6 +114,8 @@ async def getChannelsBySubscribeUrls(channel_names):
             pbar.set_description(
                 f"Processing subscribe {base_url}, {subscribe_urls_len - pbar.n} urls remaining"
             )
+            if pbar.n == 0:
+                callback(f"正在获取订阅源", 0)
             try:
                 response = requests.get(base_url, timeout=30)
             except requests.exceptions.Timeout:
@@ -142,6 +146,7 @@ async def getChannelsBySubscribeUrls(channel_names):
             continue
         finally:
             pbar.update()
+            callback(f"正在获取订阅源", int((pbar.n / subscribe_urls_len) * 100))
     print("Finished processing subscribe urls")
     pbar.close()
     return channels
@@ -196,20 +201,20 @@ def getChannelsInfoListByOnlineSearch(driver, pageUrl, name):
     return info_list
 
 
-def updateChannelUrlsTxt(cate, channelUrls):
+async def updateChannelUrlsTxt(lock, cate, name, urls):
     """
     Update the category and channel urls to the final file
     """
-    try:
-        with open("result_new.txt", "a", encoding="utf-8") as f:
-            f.write(cate + ",#genre#\n")
-            for name, urls in channelUrls.items():
+    async with lock:
+        try:
+            with open("result_new.txt", "a", encoding="utf-8") as f:
+                f.write(cate + ",#genre#\n")
                 for url in urls:
                     if url is not None:
                         f.write(name + "," + url + "\n")
-            f.write("\n")
-    finally:
-        f.close
+                f.write("\n")
+        finally:
+            f.close
 
 
 def updateFile(final_file, old_file):
@@ -482,47 +487,90 @@ def getFOFAUrlsFromRegionList():
     return urls
 
 
-def getChannelsByFOFA(source):
+fofa_results = {}
+fofa_queue = Queue()
+
+
+async def processFOFAChannels(pbar, fofa_urls_len, driver, callback):
+    while True:
+        fofa_url = fofa_queue.get()
+        if fofa_url:
+            try:
+                pbar.set_description(
+                    f"Processing multicast {fofa_url}, {fofa_urls_len - pbar.n} urls remaining"
+                )
+                if pbar.n == 0:
+                    callback(f"正在获取组播源", 0)
+                driver.get(fofa_url)
+                await asyncio.sleep(10)
+                fofa_source = re.sub(
+                    r"<!--.*?-->", "", driver.page_source, flags=re.DOTALL
+                )
+                urls = set(re.findall(r"https?://[\w\.-]+:\d+", fofa_source))
+                channels = {}
+                for url in urls:
+                    try:
+                        response = requests.get(
+                            url + "/iptv/live/1000.json?key=txiptv", timeout=2
+                        )
+                        try:
+                            json_data = response.json()
+                            if json_data["code"] == 0:
+                                try:
+                                    for item in json_data["data"]:
+                                        if isinstance(item, dict):
+                                            item_name = formatChannelName(
+                                                item.get("name")
+                                            )
+                                            item_url = item.get("url").strip()
+                                            if item_name and item_url:
+                                                total_url = url + item_url
+                                                if item_name not in channels:
+                                                    channels[item_name] = [total_url]
+                                                else:
+                                                    channels[item_name].append(
+                                                        total_url
+                                                    )
+                                except Exception as e:
+                                    # print(f"Error on fofa: {e}")
+                                    continue
+                        except Exception as e:
+                            # print(f"{url}: {e}")
+                            continue
+                    except Exception as e:
+                        # print(f"{url}: {e}")
+                        continue
+                mergeObjects(fofa_results, channels)
+                fofa_queue.task_done()
+            except Exception as e:
+                print(e)
+                # continue
+            finally:
+                pbar.update()
+                callback(f"正在获取组播源", int((pbar.n / fofa_urls_len) * 100))
+
+
+async def getChannelsByFOFA(driver, callback):
     """
     Get the channel by FOFA
     """
-    urls = set(re.findall(r"https?://[\w\.-]+:\d+", source))
-    channels = {}
-    urls_len = len(urls)
-    pbar = tqdm(total=urls_len)
-    for url in urls:
-        try:
-            pbar.set_description(
-                f"Processing multicast {url}, {urls_len - pbar.n} urls remaining"
-            )
-            response = requests.get(url + "/iptv/live/1000.json?key=txiptv", timeout=2)
-            try:
-                json_data = response.json()
-                if json_data["code"] == 0:
-                    try:
-                        for item in json_data["data"]:
-                            if isinstance(item, dict):
-                                item_name = formatChannelName(item.get("name"))
-                                item_url = item.get("url").strip()
-                                if item_name and item_url:
-                                    total_url = url + item_url
-                                    if item_name not in channels:
-                                        channels[item_name] = [total_url]
-                                    else:
-                                        channels[item_name].append(total_url)
-                    except Exception as e:
-                        # print(f"Error on fofa: {e}")
-                        continue
-            except Exception as e:
-                # print(f"{url}: {e}")
-                continue
-        except Exception as e:
-            # print(f"{url}: {e}")
-            continue
-        finally:
-            pbar.update()
+    fofa_urls = getFOFAUrlsFromRegionList()
+    fofa_urls_len = len(fofa_urls)
+    pbar = tqdm(total=fofa_urls_len)
+    for fofa_url in fofa_urls:
+        fofa_queue.put(fofa_url)
+    for _ in range(10):
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        channel_thread = threading.Thread(
+            target=loop.run_until_complete,
+            args=(processFOFAChannels(pbar, fofa_urls_len, driver, callback),),
+            daemon=True,
+        )
+        channel_thread.start()
+    fofa_queue.join()
     pbar.close()
-    return channels
+    return fofa_results
 
 
 def mergeObjects(*objects):

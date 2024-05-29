@@ -3,8 +3,6 @@ try:
 except ImportError:
     import config
 from selenium import webdriver
-
-# from selenium_stealth import stealth
 import asyncio
 from utils import (
     getChannelItems,
@@ -17,9 +15,7 @@ from utils import (
     useAccessibleUrl,
     getChannelsBySubscribeUrls,
     checkUrlByPatterns,
-    getFOFAUrlsFromRegionList,
     getChannelsByFOFA,
-    mergeObjects,
     getChannelsInfoListByOnlineSearch,
     formatChannelName,
 )
@@ -27,9 +23,8 @@ import logging
 from logging.handlers import RotatingFileHandler
 import os
 from tqdm import tqdm
-import re
-import time
 import threading
+from queue import Queue
 
 handler = RotatingFileHandler("result_new.log", encoding="utf-8")
 logging.basicConfig(
@@ -50,102 +45,125 @@ class UpdateSource:
         options.add_argument("blink-settings=imagesEnabled=false")
         options.add_argument("--log-level=3")
         driver = webdriver.Chrome(options=options)
-        # stealth(
-        #     driver,
-        #     languages=["en-US", "en"],
-        #     vendor="Google Inc.",
-        #     platform="Win32",
-        #     webgl_vendor="Intel Inc.",
-        #     renderer="Intel Iris OpenGL Engine",
-        #     fix_hairline=True,
-        # )
         return driver
 
     def __init__(self):
         self.driver = self.setup_driver()
         self.stop_event = threading.Event()
         self.tasks = []
+        self.results = {}
+        self.channel_queue = Queue()
+        self.lock = asyncio.Lock()
 
-    async def visitPage(self, channelItems):
-        channelNames = [
-            name for _, channelObj in channelItems.items() for name in channelObj.keys()
-        ]
-        if config.open_subscribe:
-            extendResults = await getChannelsBySubscribeUrls(channelNames)
-        if config.open_multicast:
-            fofa_urls = getFOFAUrlsFromRegionList()
-            fofa_results = {}
-            for url in fofa_urls:
-                if url:
-                    self.driver.get(url)
-                    await asyncio.sleep(10)
-                    fofa_source = re.sub(
-                        r"<!--.*?-->", "", self.driver.page_source, flags=re.DOTALL
-                    )
-                    fofa_channels = getChannelsByFOFA(fofa_source)
-                    fofa_results = mergeObjects(fofa_results, fofa_channels)
-        total_channels = len(channelNames)
-        pbar = tqdm(total=total_channels)
-        pageUrl = await useAccessibleUrl() if config.open_online_search else None
-        for cate, channelObj in channelItems.items():
-            channelUrls = {}
-            channelObjKeys = channelObj.keys()
-            for name in channelObjKeys:
-                pbar.set_description(
-                    f"Processing {name}, {total_channels - pbar.n} channels remaining"
+    async def process_channel(self):
+        while True:
+            cate, name, old_urls = self.channel_queue.get()
+            channel_urls = []
+            # pbar.set_description(
+            #     f"Processing {name}, {total_channels - pbar.n} channels remaining"
+            # )
+            # if pbar.n == 0:
+            #     self.update_progress(f"正在处理频道: {name}", 0)
+            format_name = formatChannelName(name)
+            info_list = []
+            if config.open_subscribe:
+                for url, date, resolution in self.results["open_subscribe"].get(
+                    format_name, []
+                ):
+                    if url and checkUrlByPatterns(url):
+                        info_list.append((url, None, resolution))
+            if config.open_multicast:
+                for url in self.results["open_multicast"].get(format_name, []):
+                    if url and checkUrlByPatterns(url):
+                        info_list.append((url, None, None))
+            if config.open_online_search and self.results["open_online_search"]:
+                online_info_list = getChannelsInfoListByOnlineSearch(
+                    self.driver, self.results["open_online_search"], format_name
                 )
-                format_name = formatChannelName(name)
-                info_list = []
-                if config.open_subscribe:
-                    for url, date, resolution in extendResults.get(format_name, []):
-                        if url and checkUrlByPatterns(url):
-                            info_list.append((url, None, resolution))
-                if config.open_multicast:
-                    for url in fofa_results.get(format_name, []):
-                        if url and checkUrlByPatterns(url):
-                            info_list.append((url, None, None))
-                if config.open_online_search and pageUrl:
-                    online_info_list = getChannelsInfoListByOnlineSearch(
-                        self.driver, pageUrl, format_name
+                if online_info_list:
+                    info_list.extend(online_info_list)
+            try:
+                channel_urls = filterUrlsByPatterns(getTotalUrlsFromInfoList(info_list))
+                github_actions = os.environ.get("GITHUB_ACTIONS")
+                if (
+                    config.open_sort
+                    and not github_actions
+                    or github_actions == "true"
+                    # or (pbar.n <= 200 and github_actions == "true")
+                ):
+                    sorted_data = await sortUrlsBySpeedAndResolution(info_list)
+                    if sorted_data:
+                        channel_urls = getTotalUrlsFromSortedData(sorted_data)
+                        for (
+                            url,
+                            date,
+                            resolution,
+                        ), response_time in sorted_data:
+                            logging.info(
+                                f"Name: {name}, URL: {url}, Date: {date}, Resolution: {resolution}, Response Time: {response_time}ms"
+                            )
+                if len(channel_urls) == 0:
+                    channel_urls = filterUrlsByPatterns(old_urls)
+            except Exception as e:
+                print(e)
+            # finally:
+            #     pbar.update()
+            #     self.update_progress(
+            #         f"正在处理频道: {name}", int((pbar.n / total_channels) * 100)
+            #     )
+            await updateChannelUrlsTxt(self.lock, cate, name, channel_urls)
+            self.channel_queue.task_done()
+
+    async def visitPage(self, channel_items):
+        # channel_names = [
+        #     name
+        #     for _, channel_obj in channel_items.items()
+        #     for name in channel_obj.keys()
+        # ]
+        task_dict = {
+            "open_subscribe": getChannelsBySubscribeUrls,
+            "open_multicast": getChannelsByFOFA,
+            "open_online_search": useAccessibleUrl,
+        }
+        tasks = []
+        for config_name, task_func in task_dict.items():
+            if getattr(config, config_name):
+                task = None
+                if config_name == "open_subscribe":
+                    task = asyncio.create_task(task_func(self.update_progress))
+                elif config_name == "open_multicast":
+                    task = asyncio.create_task(
+                        task_func(self.driver, self.update_progress)
                     )
-                    if online_info_list:
-                        info_list.extend(online_info_list)
-                try:
-                    channelUrls[name] = filterUrlsByPatterns(
-                        getTotalUrlsFromInfoList(info_list)
-                    )
-                    github_actions = os.environ.get("GITHUB_ACTIONS")
-                    if (
-                        config.open_sort
-                        and not github_actions
-                        or (pbar.n <= 200 and github_actions == "true")
-                    ):
-                        sorted_data = await sortUrlsBySpeedAndResolution(info_list)
-                        if sorted_data:
-                            channelUrls[name] = getTotalUrlsFromSortedData(sorted_data)
-                            for (
-                                url,
-                                date,
-                                resolution,
-                            ), response_time in sorted_data:
-                                logging.info(
-                                    f"Name: {name}, URL: {url}, Date: {date}, Resolution: {resolution}, Response Time: {response_time}ms"
-                                )
-                    if len(channelUrls[name]) == 0:
-                        channelUrls[name] = filterUrlsByPatterns(channelObj[name])
-                except:
-                    continue
-                finally:
-                    pbar.update()
-            updateChannelUrlsTxt(cate, channelUrls)
-            await asyncio.sleep(1)
-        pbar.close()
+                else:
+                    task = asyncio.create_task(task_func)
+                tasks.append(task)
+        task_results = await asyncio.gather(*tasks)
+        for i, config_name in enumerate(
+            [name for name in task_dict if getattr(config, name)]
+        ):
+            self.results[config_name] = task_results[i]
+        # total_channels = len(channel_names)
+        # pbar = tqdm(total=total_channels)
+        for cate, channel_obj in channel_items.items():
+            channel_obj_keys = channel_obj.keys()
+            for name in channel_obj_keys:
+                self.channel_queue.put((cate, name, channel_obj[name]))
+        # pbar.close()
 
     async def main(self):
         try:
             task = asyncio.create_task(self.visitPage(getChannelItems()))
             self.tasks.append(task)
             await task
+            for _ in range(10):
+                loop = asyncio.new_event_loop()
+                asyncio.set_event_loop(loop)
+                channel_thread = threading.Thread(
+                    target=loop.run_until_complete, args=(self.process_channel(),)
+                )
+                channel_thread.start()
+            self.channel_queue.join()
             for handler in logging.root.handlers[:]:
                 handler.close()
                 logging.root.removeHandler(handler)
@@ -156,10 +174,12 @@ class UpdateSource:
             updateFile(user_final_file, "result_new.txt")
             updateFile(user_log_file, "result_new.log")
             print(f"Update completed! Please check the {user_final_file} file!")
+            self.update_progress(f"更新完成, 请检查{user_final_file}文件", 100)
         except asyncio.exceptions.CancelledError:
             print("Update cancelled!")
 
-    def start(self):
+    def start(self, callback):
+        self.update_progress = callback
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
         thread = threading.Thread(target=loop.run_until_complete, args=(self.main(),))
