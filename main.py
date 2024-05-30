@@ -23,8 +23,6 @@ import logging
 from logging.handlers import RotatingFileHandler
 import os
 from tqdm import tqdm
-import threading
-from queue import Queue
 
 handler = RotatingFileHandler("result_new.log", encoding="utf-8")
 logging.basicConfig(
@@ -49,21 +47,16 @@ class UpdateSource:
 
     def __init__(self):
         self.driver = self.setup_driver()
-        self.stop_event = threading.Event()
         self.tasks = []
         self.results = {}
-        self.channel_queue = Queue()
-        self.lock = asyncio.Lock()
+        self.channel_queue = asyncio.Queue()
+        self.pbar = None
+        self.total = 0
 
     async def process_channel(self):
-        while True:
-            cate, name, old_urls = self.channel_queue.get()
+        while not self.channel_queue.empty():
+            cate, name, old_urls = await self.channel_queue.get()
             channel_urls = []
-            # pbar.set_description(
-            #     f"Processing {name}, {total_channels - pbar.n} channels remaining"
-            # )
-            # if pbar.n == 0:
-            #     self.update_progress(f"正在处理频道: {name}", 0)
             format_name = formatChannelName(name)
             info_list = []
             if config.open_subscribe:
@@ -88,8 +81,7 @@ class UpdateSource:
                 if (
                     config.open_sort
                     and not github_actions
-                    or github_actions == "true"
-                    # or (pbar.n <= 200 and github_actions == "true")
+                    or (self.pbar.n <= 200 and github_actions == "true")
                 ):
                     sorted_data = await sortUrlsBySpeedAndResolution(info_list)
                     if sorted_data:
@@ -104,28 +96,23 @@ class UpdateSource:
                             )
                 if len(channel_urls) == 0:
                     channel_urls = filterUrlsByPatterns(old_urls)
-            except Exception as e:
-                print(e)
-            # finally:
-            #     pbar.update()
-            #     self.update_progress(
-            #         f"正在处理频道: {name}", int((pbar.n / total_channels) * 100)
-            #     )
-            await updateChannelUrlsTxt(self.lock, cate, name, channel_urls)
+            except:
+                pass
+            await updateChannelUrlsTxt(cate, name, channel_urls)
             self.channel_queue.task_done()
 
+    async def run_task(self, task, pbar):
+        result = await task
+        pbar.update()
+        self.update_progress(f"正在更新...", int((self.pbar.n / self.total) * 100))
+        return result
+
     async def visitPage(self, channel_items):
-        # channel_names = [
-        #     name
-        #     for _, channel_obj in channel_items.items()
-        #     for name in channel_obj.keys()
-        # ]
         task_dict = {
             "open_subscribe": getChannelsBySubscribeUrls,
             "open_multicast": getChannelsByFOFA,
             "open_online_search": useAccessibleUrl,
         }
-        tasks = []
         for config_name, task_func in task_dict.items():
             if getattr(config, config_name):
                 task = None
@@ -136,34 +123,38 @@ class UpdateSource:
                         task_func(self.driver, self.update_progress)
                     )
                 else:
-                    task = asyncio.create_task(task_func)
-                tasks.append(task)
-        task_results = await asyncio.gather(*tasks)
+                    task = asyncio.create_task(task_func())
+                if task:
+                    self.tasks.append(task)
+        task_results = await asyncio.gather(*self.tasks)
+        self.tasks = []
         for i, config_name in enumerate(
             [name for name in task_dict if getattr(config, name)]
         ):
             self.results[config_name] = task_results[i]
-        # total_channels = len(channel_names)
-        # pbar = tqdm(total=total_channels)
         for cate, channel_obj in channel_items.items():
             channel_obj_keys = channel_obj.keys()
             for name in channel_obj_keys:
-                self.channel_queue.put((cate, name, channel_obj[name]))
-        # pbar.close()
+                await self.channel_queue.put((cate, name, channel_obj[name]))
 
     async def main(self):
         try:
-            task = asyncio.create_task(self.visitPage(getChannelItems()))
-            self.tasks.append(task)
-            await task
+            await self.visitPage(getChannelItems())
             for _ in range(10):
-                loop = asyncio.new_event_loop()
-                asyncio.set_event_loop(loop)
-                channel_thread = threading.Thread(
-                    target=loop.run_until_complete, args=(self.process_channel(),)
-                )
-                channel_thread.start()
-            self.channel_queue.join()
+                channel_task = asyncio.create_task(self.process_channel())
+                self.tasks.append(channel_task)
+            self.total = self.channel_queue.qsize()
+            self.pbar = tqdm(total=self.channel_queue.qsize())
+            self.pbar.set_description(
+                f"Processing..., {self.channel_queue.qsize()} channels remaining"
+            )
+            self.update_progress(f"正在更新...", int((self.pbar.n / self.total) * 100))
+            tasks_with_progress = [
+                self.run_task(task, self.pbar) for task in self.tasks
+            ]
+            await asyncio.gather(*tasks_with_progress)
+            self.tasks = []
+            self.pbar.close()
             for handler in logging.root.handlers[:]:
                 handler.close()
                 logging.root.removeHandler(handler)
@@ -180,13 +171,8 @@ class UpdateSource:
 
     def start(self, callback):
         self.update_progress = callback
-        loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(loop)
-        thread = threading.Thread(target=loop.run_until_complete, args=(self.main(),))
-        thread.start()
+        asyncio.run(self.main())
 
     def stop(self):
-        self.stop_event.set()
         for task in self.tasks:
             task.cancel()
-        self.stop_event.clear()
