@@ -18,7 +18,7 @@ from bs4 import BeautifulSoup
 from bs4 import NavigableString
 import fofa_map
 from collections import defaultdict
-from tqdm import tqdm
+from tqdm.asyncio import tqdm_asyncio
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -107,61 +107,52 @@ async def getChannelsBySubscribeUrls(callback):
     channels = {}
     pattern = r"^(.*?),(?!#genre#)(.*?)$"
     subscribe_urls_len = len(config.subscribe_urls)
-    pbar = tqdm(total=subscribe_urls_len)
-    queue = asyncio.Queue()
-    for base_url in config.subscribe_urls:
-        await queue.put(base_url)
+    pbar = tqdm_asyncio(total=subscribe_urls_len)
 
-    async def processSubscribeChannels():
-        while not queue.empty():
-            base_url = await queue.get()
-            if base_url:
-                try:
-                    pbar.set_description(
-                        f"Processing subscribe {base_url}, {subscribe_urls_len - pbar.n} urls remaining"
-                    )
-                    if pbar.n == 0:
-                        callback(f"正在获取订阅源", 0)
-                    try:
-                        response = requests.get(base_url, timeout=30)
-                    except requests.exceptions.Timeout:
-                        print(f"Timeout on {base_url}")
-                        continue
-                    content = response.text
-                    if content:
-                        lines = content.split("\n")
-                        for line in lines:
-                            if re.match(pattern, line) is not None:
-                                key = re.match(pattern, line).group(1)
-                                resolution_match = re.search(r"_(\((.*?)\))", key)
-                                resolution = (
-                                    resolution_match.group(2)
-                                    if resolution_match is not None
-                                    else None
-                                )
-                                key = formatChannelName(key)
-                                url = re.match(pattern, line).group(2)
-                                value = (url, None, resolution)
-                                if key in channels:
-                                    if value not in channels[key]:
-                                        channels[key].append(value)
-                                else:
-                                    channels[key] = [value]
-                except Exception as e:
-                    print(f"Error on {base_url}: {e}")
-                    continue
-                finally:
-                    pbar.update()
-                    callback(
-                        f"正在获取订阅源", int((pbar.n / subscribe_urls_len) * 100)
-                    )
-            queue.task_done()
+    async def processSubscribeChannels(base_url):
+        try:
+            try:
+                response = requests.get(base_url, timeout=30)
+            except requests.exceptions.Timeout:
+                print(f"Timeout on {base_url}")
+            content = response.text
+            if content:
+                lines = content.split("\n")
+                for line in lines:
+                    if re.match(pattern, line) is not None:
+                        key = re.match(pattern, line).group(1)
+                        resolution_match = re.search(r"_(\((.*?)\))", key)
+                        resolution = (
+                            resolution_match.group(2)
+                            if resolution_match is not None
+                            else None
+                        )
+                        key = formatChannelName(key)
+                        url = re.match(pattern, line).group(2)
+                        value = (url, None, resolution)
+                        if key in channels:
+                            if value not in channels[key]:
+                                channels[key].append(value)
+                        else:
+                            channels[key] = [value]
+        except Exception as e:
+            print(f"Error on {base_url}: {e}")
+        finally:
+            pbar.update()
+            remain = subscribe_urls_len - pbar.n
+            pbar.set_description(f"Processing subscribe, {remain} urls remaining")
+            callback(
+                f"正在获取订阅源, 剩余{remain}个订阅源待处理",
+                int((pbar.n / subscribe_urls_len) * 100),
+            )
 
-    tasks = []
-    for _ in range(10):
-        task = asyncio.create_task(processSubscribeChannels())
-        tasks.append(task)
-    await asyncio.gather(*tasks)
+    tasks = [
+        asyncio.create_task(processSubscribeChannels(base_url))
+        for base_url in config.subscribe_urls
+    ]
+    pbar.set_description(f"Processing subscribe, {subscribe_urls_len} urls remaining")
+    callback(f"正在获取订阅源, 共{subscribe_urls_len}个订阅源", 0)
+    await tqdm_asyncio.gather(*tasks, disable=True)
     print("Finished processing subscribe urls")
     pbar.close()
     return channels
@@ -220,15 +211,21 @@ async def updateChannelUrlsTxt(cate, name, urls):
     """
     Update the category and channel urls to the final file
     """
-    try:
-        async with aiofiles.open("result_new.txt", "a", encoding="utf-8") as f:
-            await f.write(cate + ",#genre#\n")
-            for url in urls:
-                if url is not None:
-                    await f.write(name + "," + url + "\n")
-            await f.write("\n")
-    finally:
-        f.close
+    genre_line = cate + ",#genre#\n"
+    filename = "result_new.txt"
+
+    if not os.path.exists(filename):
+        open(filename, "w").close()
+
+    async with aiofiles.open(filename, "r", encoding="utf-8") as f:
+        content = await f.read()
+
+    async with aiofiles.open(filename, "a", encoding="utf-8") as f:
+        if genre_line not in content:
+            await f.write(genre_line)
+        for url in urls:
+            if url is not None:
+                await f.write(name + "," + url + "\n")
 
 
 def updateFile(final_file, old_file):
@@ -508,79 +505,65 @@ async def getChannelsByFOFA(driver, callback):
     """
     fofa_urls = getFOFAUrlsFromRegionList()
     fofa_urls_len = len(fofa_urls)
-    pbar = tqdm(total=fofa_urls_len)
+    pbar = tqdm_asyncio(total=fofa_urls_len)
     fofa_results = {}
-    fofa_queue = asyncio.Queue()
-    for fofa_url in fofa_urls:
-        await fofa_queue.put(fofa_url)
 
-    async def processFOFAChannels(pbar, fofa_urls_len, driver, callback):
-        while not fofa_queue.empty():
-            fofa_url = await fofa_queue.get()
-            if fofa_url:
+    async def processFOFAChannels(fofa_url, pbar, fofa_urls_len, driver, callback):
+        try:
+            driver.get(fofa_url)
+            fofa_source = re.sub(r"<!--.*?-->", "", driver.page_source, flags=re.DOTALL)
+            urls = set(re.findall(r"https?://[\w\.-]+:\d+", fofa_source))
+            channels = {}
+            for url in urls:
                 try:
-                    pbar.set_description(
-                        f"Processing multicast {fofa_url}, {fofa_urls_len - pbar.n} urls remaining"
+                    response = requests.get(
+                        url + "/iptv/live/1000.json?key=txiptv", timeout=2
                     )
-                    if pbar.n == 0:
-                        callback(f"正在获取组播源", 0)
-                    driver.get(fofa_url)
-                    await asyncio.sleep(10)
-                    fofa_source = re.sub(
-                        r"<!--.*?-->", "", driver.page_source, flags=re.DOTALL
-                    )
-                    urls = set(re.findall(r"https?://[\w\.-]+:\d+", fofa_source))
-                    channels = {}
-                    for url in urls:
-                        try:
-                            response = requests.get(
-                                url + "/iptv/live/1000.json?key=txiptv", timeout=2
-                            )
+                    try:
+                        json_data = response.json()
+                        if json_data["code"] == 0:
                             try:
-                                json_data = response.json()
-                                if json_data["code"] == 0:
-                                    try:
-                                        for item in json_data["data"]:
-                                            if isinstance(item, dict):
-                                                item_name = formatChannelName(
-                                                    item.get("name")
-                                                )
-                                                item_url = item.get("url").strip()
-                                                if item_name and item_url:
-                                                    total_url = url + item_url
-                                                    if item_name not in channels:
-                                                        channels[item_name] = [
-                                                            total_url
-                                                        ]
-                                                    else:
-                                                        channels[item_name].append(
-                                                            total_url
-                                                        )
-                                    except Exception as e:
-                                        # print(f"Error on fofa: {e}")
-                                        continue
+                                for item in json_data["data"]:
+                                    if isinstance(item, dict):
+                                        item_name = formatChannelName(item.get("name"))
+                                        item_url = item.get("url").strip()
+                                        if item_name and item_url:
+                                            total_url = url + item_url
+                                            if item_name not in channels:
+                                                channels[item_name] = [total_url]
+                                            else:
+                                                channels[item_name].append(total_url)
                             except Exception as e:
-                                # print(f"{url}: {e}")
+                                # print(f"Error on fofa: {e}")
                                 continue
-                        except Exception as e:
-                            # print(f"{url}: {e}")
-                            continue
-                    mergeObjects(fofa_results, channels)
+                    except Exception as e:
+                        # print(f"{url}: {e}")
+                        continue
                 except Exception as e:
-                    print(e)
-                    # continue
-                finally:
-                    pbar.update()
-                    callback(f"正在获取组播源", int((pbar.n / fofa_urls_len) * 100))
-            fofa_queue.task_done()
+                    # print(f"{url}: {e}")
+                    continue
+            mergeObjects(fofa_results, channels)
+        except Exception as e:
+            print(e)
+            # continue
+        finally:
+            pbar.update()
+            remain = fofa_urls_len - pbar.n
+            pbar.set_description(f"Processing multicast, {remain} regions remaining")
+            callback(
+                f"正在获取组播源, 剩余{remain}个地区待处理",
+                int((pbar.n / fofa_urls_len) * 100),
+            )
 
-    tasks = []
-    for _ in range(10):
-        task = asyncio.create_task(
-            processFOFAChannels(pbar, fofa_urls_len, driver, callback)
+    tasks = [
+        asyncio.create_task(
+            processFOFAChannels(fofa_url, pbar, fofa_urls_len, driver, callback)
         )
-        tasks.append(task)
-    await asyncio.gather(*tasks)
+        for fofa_url in fofa_urls
+    ]
+    pbar.set_description(f"Processing multicast, {fofa_urls_len} regions remaining")
+    callback(f"正在获取组播源, 共{fofa_urls_len}个地区", 0)
+    await tqdm_asyncio.gather(*tasks, disable=True)
     pbar.close()
     return fofa_results
 

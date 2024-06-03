@@ -40,10 +40,12 @@ class TkinterUI:
     def open_online_search_change_dropdown(self):
         config.open_online_search = self.open_online_search_combo.get()
 
-    def update_progress(self, title, progress):
+    def update_progress(self, title, progress, finished=False):
         self.progress_bar["value"] = progress
         self.progress_label["text"] = f"{title}, 进度: {progress}%"
         self.root.update()
+        if finished:
+            self.run_button.config(text="开始更新", state="normal")
 
     def init_UI(self):
         source_file_label = tk.Label(self.root, text="模板文件")
