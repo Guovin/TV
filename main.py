@@ -2,24 +2,24 @@ try:
     import user_config as config
 except ImportError:
     import config
-from selenium import webdriver
 import asyncio
 from utils import (
-    getChannelItems,
-    updateChannelUrlsTxt,
-    updateFile,
-    sortUrlsBySpeedAndResolution,
-    getTotalUrlsFromInfoList,
-    useAccessibleUrl,
-    getChannelsBySubscribeUrls,
-    checkUrlByPatterns,
-    getChannelsByFOFA,
-    getChannelsInfoListByOnlineSearch,
-    formatChannelName,
+    get_channel_items,
+    update_channel_urls_txt,
+    update_file,
+    sort_urls_by_speed_and_resolution,
+    get_total_urls_from_info_list,
+    use_accessible_url,
+    get_channels_by_subscribe_urls,
+    check_url_by_patterns,
+    get_channels_by_fofa,
+    async_get_channels_info_list_by_online_search,
+    format_channel_name,
 )
 import logging
 from logging.handlers import RotatingFileHandler
 import os
+from tqdm import tqdm
 from tqdm.asyncio import tqdm_asyncio
 import threading
 from time import time
@@ -34,24 +34,12 @@ logging.basicConfig(
 
 class UpdateSource:
 
-    def setup_driver(self):
-        options = webdriver.ChromeOptions()
-        options.add_argument("start-maximized")
-        options.add_argument("--headless")
-        options.add_experimental_option("excludeSwitches", ["enable-automation"])
-        options.add_experimental_option("useAutomationExtension", False)
-        options.add_argument("blink-settings=imagesEnabled=false")
-        options.add_argument("--log-level=3")
-        options.add_argument("--ignore-certificate-errors")
-        options.add_argument("--allow-running-insecure-content")
-        driver = webdriver.Chrome(options=options)
-        return driver
-
     def __init__(self):
-        self.driver = self.setup_driver()
         self.tasks = []
+        self.channel_items = get_channel_items()
         self.results = {}
         self.channel_queue = asyncio.Queue()
+        self.semaphore = asyncio.Semaphore(10)
         self.channel_data = {}
         self.pbar = None
         self.total = 0
@@ -75,7 +63,7 @@ class UpdateSource:
 
     def append_data_to_info_data(self, cate, name, data):
         for url, date, resolution in data:
-            if url and checkUrlByPatterns(url):
+            if url and check_url_by_patterns(url):
                 if self.channel_data.get(cate) is None:
                     self.channel_data[cate] = {}
                 if self.channel_data[cate].get(name) is None:
@@ -90,7 +78,7 @@ class UpdateSource:
                 and not github_actions
                 or (self.pbar.n <= 200 and github_actions == "true")
             ):
-                sorted_data = await sortUrlsBySpeedAndResolution(info_list)
+                sorted_data = await sort_urls_by_speed_and_resolution(info_list)
                 if sorted_data:
                     for (
                         url,
@@ -113,46 +101,50 @@ class UpdateSource:
                 f"Sorting, {self.pbar.total - self.pbar.n} urls remaining"
             )
             self.update_progress(
-                f"正在排序, 剩余{self.pbar.total - self.pbar.n}个接口, 预计剩余时间: {self.get_pbar_remaining()}",
+                f"正在测速排序, 剩余{self.pbar.total - self.pbar.n}个接口, 预计剩余时间: {self.get_pbar_remaining()}",
                 int((self.pbar.n / self.total) * 100),
             )
 
     async def process_channel(self):
-        try:
-            cate, name, old_urls = await self.channel_queue.get()
-            format_name = formatChannelName(name)
-            if config.open_subscribe:
-                self.append_data_to_info_data(
-                    cate, name, self.results["open_subscribe"].get(format_name, [])
+        async with self.semaphore:
+            try:
+                cate, name, old_urls = await self.channel_queue.get()
+                format_name = format_channel_name(name)
+                if config.open_subscribe:
+                    self.append_data_to_info_data(
+                        cate, name, self.results["open_subscribe"].get(format_name, [])
+                    )
+                if config.open_multicast:
+                    self.append_data_to_info_data(
+                        cate, name, self.results["open_multicast"].get(format_name, [])
+                    )
+                if config.open_online_search and self.results["open_online_search"]:
+                    online_info_list = (
+                        await async_get_channels_info_list_by_online_search(
+                            self.results["open_online_search"],
+                            format_name,
+                        )
+                    )
+                    if online_info_list:
+                        self.append_data_to_info_data(cate, name, online_info_list)
+                if len(self.channel_data.get(cate, {}).get(name, [])) == 0:
+                    self.append_data_to_info_data(
+                        cate, name, [(url, None, None) for url in old_urls]
+                    )
+            except asyncio.exceptions.CancelledError:
+                print("Update cancelled!")
+            finally:
+                self.channel_queue.task_done()
+                self.pbar.update()
+                self.pbar.set_description(
+                    f"Processing, {self.total - self.pbar.n} channels remaining"
                 )
-            if config.open_multicast:
-                self.append_data_to_info_data(
-                    cate, name, self.results["open_multicast"].get(format_name, [])
+                self.update_progress(
+                    f"正在更新, 剩余{self.total - self.pbar.n}个频道待处理, 预计剩余时间: {self.get_pbar_remaining()}",
+                    int((self.pbar.n / self.total) * 100),
                 )
-            if config.open_online_search and self.results["open_online_search"]:
-                online_info_list = getChannelsInfoListByOnlineSearch(
-                    self.driver, self.results["open_online_search"], format_name
-                )
-                if online_info_list:
-                    self.append_data_to_info_data(cate, name, online_info_list)
-            if len(self.channel_data.get(cate, {}).get(name, [])) == 0:
-                self.append_data_to_info_data(
-                    cate, name, [(url, None, None) for url in old_urls]
-                )
-        except asyncio.exceptions.CancelledError:
-            print("Update cancelled!")
-        finally:
-            self.channel_queue.task_done()
-            self.pbar.update()
-            self.pbar.set_description(
-                f"Processing, {self.channel_queue.qsize()} channels remaining"
-            )
-            self.update_progress(
-                f"正在更新, 剩余{self.channel_queue.qsize()}个频道待处理, 预计剩余时间: {self.get_pbar_remaining()}",
-                int((self.pbar.n / self.total) * 100),
-            )
 
-    async def write_channel_to_file(self):
+    def write_channel_to_file(self):
         total = len(
             [
                 name
@@ -160,14 +152,15 @@ class UpdateSource:
                 for name in channel_obj.keys()
             ]
         )
-        self.pbar = tqdm_asyncio(total=total)
+        self.pbar = tqdm(total=total)
         self.pbar.set_description(f"Writing, {total} channels remaining")
         self.start_time = time()
-        for cate, channel_obj in self.channel_data.items():
-            for name, info_list in channel_obj.items():
+        for cate, channel_obj in self.channel_items.items():
+            for name in channel_obj.keys():
+                info_list = self.channel_data.get(cate, {}).get(name, [])
                 try:
-                    channel_urls = getTotalUrlsFromInfoList(info_list)
-                    await updateChannelUrlsTxt(cate, name, channel_urls)
+                    channel_urls = get_total_urls_from_info_list(info_list)
+                    update_channel_urls_txt(cate, name, channel_urls)
                 finally:
                     self.pbar.update()
                     self.pbar.set_description(
@@ -178,11 +171,11 @@ class UpdateSource:
                         int((self.pbar.n / self.total) * 100),
                     )
 
-    async def visitPage(self, channel_items):
+    async def visit_page(self):
         task_dict = {
-            "open_subscribe": getChannelsBySubscribeUrls,
-            "open_multicast": getChannelsByFOFA,
-            "open_online_search": useAccessibleUrl,
+            "open_subscribe": get_channels_by_subscribe_urls,
+            "open_multicast": get_channels_by_fofa,
+            "open_online_search": use_accessible_url,
         }
         for config_name, task_func in task_dict.items():
             if getattr(config, config_name):
@@ -190,11 +183,9 @@ class UpdateSource:
                 if config_name == "open_subscribe":
                     task = asyncio.create_task(task_func(self.update_progress))
                 elif config_name == "open_multicast":
-                    task = asyncio.create_task(
-                        task_func(self.driver, self.update_progress)
-                    )
+                    task = asyncio.create_task(task_func(self.update_progress))
                 else:
-                    task = asyncio.create_task(task_func())
+                    task = asyncio.create_task(task_func(self.update_progress))
                 if task:
                     self.tasks.append(task)
         task_results = await tqdm_asyncio.gather(*self.tasks, disable=True)
@@ -203,15 +194,14 @@ class UpdateSource:
             [name for name in task_dict if getattr(config, name)]
         ):
             self.results[config_name] = task_results[i]
-        for cate, channel_obj in channel_items.items():
-            channel_obj_keys = channel_obj.keys()
-            for name in channel_obj_keys:
+        for cate, channel_obj in self.channel_items.items():
+            for name in channel_obj.keys():
                 await self.channel_queue.put((cate, name, channel_obj[name]))
 
     async def main(self):
         try:
             self.tasks = []
-            await self.visitPage(getChannelItems())
+            await self.visit_page()
             self.total = self.channel_queue.qsize()
             self.tasks = [
                 asyncio.create_task(self.process_channel()) for _ in range(self.total)
@@ -233,13 +223,13 @@ class UpdateSource:
                 self.pbar = tqdm_asyncio(total=len(self.tasks))
                 self.pbar.set_description(f"Sorting, {len(self.tasks)} urls remaining")
                 self.update_progress(
-                    f"正在排序, 共{len(self.tasks)}个接口",
+                    f"正在测速排序, 共{len(self.tasks)}个接口",
                     int((self.pbar.n / len(self.tasks)) * 100),
                 )
                 self.start_time = time()
                 self.channel_data = {}
                 await tqdm_asyncio.gather(*self.tasks, disable=True)
-            await self.write_channel_to_file()
+            self.write_channel_to_file()
             self.pbar.close()
             for handler in logging.root.handlers[:]:
                 handler.close()
@@ -248,8 +238,8 @@ class UpdateSource:
             user_log_file = (
                 "user_result.log" if os.path.exists("user_config.py") else "result.log"
             )
-            updateFile(user_final_file, "result_new.txt")
-            updateFile(user_log_file, "result_new.log")
+            update_file(user_final_file, "result_new.txt")
+            update_file(user_log_file, "result_new.log")
             print(f"Update completed! Please check the {user_final_file} file!")
             self.update_progress(f"更新完成, 请检查{user_final_file}文件", 100, True)
         except asyncio.exceptions.CancelledError:
