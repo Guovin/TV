@@ -1,7 +1,3 @@
-try:
-    import user_config as config
-except ImportError:
-    import config
 import asyncio
 from utils import (
     get_channel_items,
@@ -15,6 +11,8 @@ from utils import (
     get_channels_by_fofa,
     async_get_channels_info_list_by_online_search,
     format_channel_name,
+    resource_path,
+    load_external_config,
 )
 import logging
 from logging.handlers import RotatingFileHandler
@@ -24,11 +22,12 @@ from tqdm.asyncio import tqdm_asyncio
 import threading
 from time import time
 
-handler = RotatingFileHandler("result_new.log", encoding="utf-8")
-logging.basicConfig(
-    handlers=[handler],
-    format="%(message)s",
-    level=logging.INFO,
+config_path = resource_path("user_config.py")
+default_config_path = resource_path("config.py")
+config = (
+    load_external_config("user_config.py")
+    if os.path.exists(config_path)
+    else load_external_config("config.py")
 )
 
 
@@ -253,6 +252,12 @@ class UpdateSource:
 
         self.update_progress = callback or default_callback
         self.run_ui = True if callback else False
+        handler = RotatingFileHandler("result_new.log", encoding="utf-8")
+        logging.basicConfig(
+            handlers=[handler],
+            format="%(message)s",
+            level=logging.INFO,
+        )
         loop = asyncio.get_event_loop()
         asyncio.set_event_loop(loop)
         self.thread = threading.Thread(

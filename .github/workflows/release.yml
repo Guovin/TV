@@ -11,6 +11,29 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.11'
+
+      - name: Install pipenv
+        run: pip install pipenv
+
+      - name: Install dependencies with pipenv
+        run: pipenv install --dev
+
+      - name: Install PyInstaller
+        run: pipenv install pyinstaller
+
+      - name: Build the application
+        run: pipenv run pyinstaller --onefile --windowed --add-data demo.txt:. --add-data config.py:. --add-data fofa_map.py:. --add-data main.py:. --add-data utils.py:. --name update-tool tkinter_ui.py
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: update-tool
+          path: dist/tkinter_ui
+
       - name: Install jq
         run: sudo apt-get install jq
 

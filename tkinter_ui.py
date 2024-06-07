@@ -3,13 +3,17 @@ from tkinter import messagebox
 from tkinter import scrolledtext
 from tkinter import ttk
 from tkinter import filedialog
-
-try:
-    import user_config as config
-except ImportError:
-    import config
+from utils import resource_path, load_external_config
 from main import UpdateSource
 import os
+
+config_path = resource_path("user_config.py")
+default_config_path = resource_path("config.py")
+config = (
+    load_external_config("user_config.py")
+    if os.path.exists(config_path)
+    else load_external_config("config.py")
+)
 
 
 class TkinterUI:
@@ -74,7 +78,7 @@ class TkinterUI:
         user_config_file = (
             "user_config.py" if os.path.exists("user_config.py") else "config.py"
         )
-        with open(user_config_file, "w", encoding="utf-8") as f:
+        with open(resource_path(user_config_file, True), "w", encoding="utf-8") as f:
             for key, value in config_values.items():
                 f.write(f"{key} = {value}\n")
         if tip:
