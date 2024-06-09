@@ -1,5 +1,12 @@
 # 更新日志（Changelog）
 
+## v1.2.0
+
+### 2024/6/9
+
+- 异步并发、多线程支持，大幅提升更新速度（近 10 倍）（Asynchronous concurrency and multi-threading support, significantly increasing update speeds (nearly 10 times faster)）
+- 新增更新工具软件（release 附件:update-tool.exe），首个版本可能会有不可预见的问题，请见谅（Added new update tool software (release attachment: update-tool.exe); the first version may have unforeseen issues, please be understanding）
+
 ## v1.1.6
 
 ### 2024/5/17
