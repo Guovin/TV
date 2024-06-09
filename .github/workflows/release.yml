@@ -32,7 +32,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: update-tool
-          path: dist/update-tool.exe
+          path: /home/runner/work/TV/TV/dist/update-tool
 
       - name: Install jq
         run: sudo apt-get install jq
@@ -66,6 +66,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./dist/update-tool.exe
+          asset_path: /home/runner/work/TV/TV/dist/update-tool
           asset_name: update-tool.exe
           asset_content_type: application/octet-stream
