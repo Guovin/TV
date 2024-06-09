@@ -73,12 +73,7 @@ class UpdateSource:
 
     async def sort_channel_list(self, cate, name, info_list):
         try:
-            github_actions = os.environ.get("GITHUB_ACTIONS")
-            if (
-                config.open_sort
-                and not github_actions
-                or (self.pbar.n <= 200 and github_actions == "true")
-            ):
+            if config.open_sort:
                 sorted_data = await sort_urls_by_speed_and_resolution(info_list)
                 if sorted_data:
                     for (

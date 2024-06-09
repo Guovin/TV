@@ -21,6 +21,7 @@ class TkinterUI:
     def __init__(self, root):
         self.root = root
         self.root.title("直播源接口更新工具")
+        self.version = "v1.0.0"
         self.update_source = UpdateSource()
         self.update_running = False
         self.config_entrys = [
@@ -464,6 +465,14 @@ class TkinterUI:
         )
         self.run_button.pack(side=tk.LEFT, padx=4, pady=4)
 
+        version_frame = tk.Frame(self.root)
+        version_frame.pack(side=tk.BOTTOM, fill=tk.X)
+
+        self.version_label = tk.Label(
+            version_frame, text=self.version, fg="gray", anchor="se"
+        )
+        self.version_label.pack(side=tk.RIGHT, padx=5, pady=5)
+
         row14 = tk.Frame(self.root)
         row14.pack(fill=tk.X)
 
@@ -480,7 +489,7 @@ if __name__ == "__main__":
     screen_width = root.winfo_screenwidth()
     screen_height = root.winfo_screenheight()
     width = 500
-    height = 750
+    height = 780
     x = (screen_width / 2) - (width / 2)
     y = (screen_height / 2) - (height / 2)
     root.geometry("%dx%d+%d+%d" % (width, height, x, y))
