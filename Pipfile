@@ -22,4 +22,4 @@ async-timeout = ">=4.0.3"
 pyinstaller = "*"
 
 [requires]
-python_version = ">=3.11"
+python_version = "3.11"
