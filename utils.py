@@ -1,7 +1,3 @@
-try:
-    import user_config as config
-except ImportError:
-    import config
 from selenium import webdriver
 import aiohttp
 import asyncio
@@ -23,6 +19,53 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import concurrent.futures
+import sys
+import importlib.util
+
+
+def resource_path(relative_path, persistent=False):
+    """
+    Get the resource path
+    """
+    base_path = os.path.abspath(".")
+    total_path = os.path.join(base_path, relative_path)
+    if persistent:
+        return total_path
+    if os.path.exists(total_path):
+        return total_path
+    else:
+        try:
+            base_path = sys._MEIPASS
+            return os.path.join(base_path, relative_path)
+        except Exception:
+            return total_path
+
+
+def load_external_config(name):
+    """
+    Load the external config file
+    """
+    config = None
+    config_path = name
+    config_filename = os.path.join(os.path.dirname(sys.executable), config_path)
+
+    if os.path.exists(config_filename):
+        spec = importlib.util.spec_from_file_location(name, config_filename)
+        config = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(config)
+    else:
+        import config
+
+    return config
+
+
+config_path = resource_path("user_config.py")
+default_config_path = resource_path("config.py")
+config = (
+    load_external_config("user_config.py")
+    if os.path.exists(config_path)
+    else load_external_config("config.py")
+)
 
 
 def setup_driver():
@@ -101,7 +144,7 @@ def get_channel_items():
     current_category = ""
     pattern = r"^(.*?),(?!#genre#)(.*?)$"
 
-    with open(user_source_file, "r", encoding="utf-8") as f:
+    with open(resource_path(user_source_file), "r", encoding="utf-8") as f:
         for line in f:
             line = line.strip()
             if "#genre#" in line:
@@ -269,8 +312,10 @@ def update_file(final_file, old_file):
     """
     Update the file
     """
-    if os.path.exists(old_file):
-        os.replace(old_file, final_file)
+    old_file_path = resource_path(old_file, persistent=True)
+    final_file_path = resource_path(final_file, persistent=True)
+    if os.path.exists(old_file_path):
+        os.replace(old_file_path, final_file_path)
 
 
 def get_channel_url(element):
@@ -423,7 +468,7 @@ def get_total_urls_from_info_list(infoList):
     Get the total urls from info list
     """
     total_urls = [url for url, _, _ in infoList]
-    return list(dict.fromkeys(total_urls))[: config.urls_limit]
+    return list(dict.fromkeys(total_urls))[: int(config.urls_limit)]
 
 
 def get_total_urls_from_sorted_data(data):

@@ -19,6 +19,7 @@ aiohttp = ">=3.9.4"
 bs4 = ">=0.0.2"
 tqdm = ">=4.66.3"
 async-timeout = ">=4.0.3"
+pyinstaller = "*"
 
 [requires]
 python_version = ">=3.11"

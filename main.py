@@ -146,15 +146,8 @@ class UpdateSource:
                 )
 
     def write_channel_to_file(self):
-        total = len(
-            [
-                name
-                for channel_obj in self.channel_data.values()
-                for name in channel_obj.keys()
-            ]
-        )
-        self.pbar = tqdm(total=total)
-        self.pbar.set_description(f"Writing, {total} channels remaining")
+        self.pbar = tqdm(total=self.total)
+        self.pbar.set_description(f"Writing, {self.total} channels remaining")
         self.start_time = time()
         for cate, channel_obj in self.channel_items.items():
             for name in channel_obj.keys():
@@ -243,6 +236,7 @@ class UpdateSource:
             update_file(user_log_file, "result_new.log")
             print(f"Update completed! Please check the {user_final_file} file!")
             self.update_progress(f"更新完成, 请检查{user_final_file}文件", 100, True)
+            self.stop()
         except asyncio.exceptions.CancelledError:
             print("Update cancelled!")
 
@@ -258,11 +252,16 @@ class UpdateSource:
             format="%(message)s",
             level=logging.INFO,
         )
-        loop = asyncio.get_event_loop()
-        asyncio.set_event_loop(loop)
-        self.thread = threading.Thread(
-            target=loop.run_until_complete, args=(self.main(),)
-        )
+
+        def run_loop():
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+            try:
+                loop.run_until_complete(self.main())
+            finally:
+                loop.close()
+
+        self.thread = threading.Thread(target=run_loop, daemon=True)
         self.thread.start()
         if not self.run_ui:
             self.thread.join()
