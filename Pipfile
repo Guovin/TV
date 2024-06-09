@@ -5,19 +5,21 @@ verify_ssl = true
 
 [scripts]
 build = "python main.py"
+ui = "python tkinter_ui.py"
 
 [dev-packages]
 
 [packages]
-requests = "2.31.0"
-feedparser = "6.0.11"
-pytz = "2024.1"
-selenium = "4.19.0"
-selenium-stealth = "1.0.6"
+requests = ">=2.31.0"
+feedparser = ">=6.0.11"
+pytz = ">=2024.1"
+selenium = ">=4.19.0"
+selenium-stealth = ">=1.0.6"
 aiohttp = ">=3.9.4"
-bs4 = "0.0.2"
+bs4 = ">=0.0.2"
 tqdm = ">=4.66.3"
-async-timeout = "4.0.3"
+async-timeout = ">=4.0.3"
+pyinstaller = "*"
 
 [requires]
-python_version = ">=3.11"
+python_version = "3.11"

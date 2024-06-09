@@ -10,7 +10,6 @@ Customize channel menus and automatically obtain and update the latest live sour
 - Interface validation to filter out invalid interfaces
 - Comprehensive sorting based on response time and resolution
 - Scheduled execution, updates every day at 8:00 am Beijing time
-- The maximum number of channels that can be updated in the workflow is 200, while there is no limit when running locally
 - Set up key focus channels and configure the number of pages fetched separately
 - Pagination results retrieval (configurable number of pages and interfaces)
 - Ensure update timeliness, configure to retrieve interfaces updated within a recent time range
@@ -42,6 +41,8 @@ Customize channel menus and automatically obtain and update the latest live sour
 | region_list            | ["all"]                                                                                                                     | Multicast source region list, [more regions](./fofa_map.py, "all" means all regions)                               |
 
 ## Quick Start
+
+[Update tool software](https://github.com/Guovin/TV/releases)
 
 For detailed tutorial, please see [Quick Start](./docs/tutorial-EN.md)
 

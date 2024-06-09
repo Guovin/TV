@@ -11,6 +11,29 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.11'
+
+      - name: Install pipenv
+        run: pip install pipenv
+
+      - name: Install dependencies with pipenv
+        run: pipenv install --dev
+
+      - name: Install PyInstaller
+        run: pipenv install pyinstaller
+
+      - name: Build the application
+        run: pipenv run pyinstaller tkinter_ui.spec
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: update-tool
+          path: /home/runner/work/TV/TV/dist/update-tool
+
       - name: Install jq
         run: sudo apt-get install jq
 
@@ -36,3 +59,13 @@ jobs:
           body: ${{ fromJSON(env.changelog) }}
           draft: false
           prerelease: false
+
+      - name: Upload Release Asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: /home/runner/work/TV/TV/dist/update-tool
+          asset_name: update-tool.exe
+          asset_content_type: application/octet-stream
