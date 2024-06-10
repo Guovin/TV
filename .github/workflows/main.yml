@@ -24,10 +24,10 @@ jobs:
         with:
           ref: ${{ env.BRANCH_NAME }}
       - name: Run with setup-python 3.11
-        uses: actions/setup-python@v4
+        uses: actions/setup-python
         with:
           python-version: '3.11'
-          update-environment: false
+          update-environment: true
           cache: 'pipenv'
       - name: Install Selenium
         run: |
