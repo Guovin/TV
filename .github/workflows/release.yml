@@ -22,7 +22,7 @@ jobs:
         run: pip install pipenv
 
       - name: Install dependencies with pipenv
-        run: pipenv install --dev
+        run: pipenv --python 3.11 && pipenv install
 
       - name: Install PyInstaller
         run: pipenv install pyinstaller
