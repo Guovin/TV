@@ -46,7 +46,7 @@ jobs:
       - name: Install pipenv
         run: pip3 install --user pipenv
       - name: Install dependecies
-        run: pipenv --python python3 && pipenv install
+        run: pipenv --python 3.11 && pipenv install
       - name: Build
         run: pipenv run build
       - name: Commit and push if changed
