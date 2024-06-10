@@ -114,15 +114,14 @@ CCTV17,https://live.v1.mk/api/bestv.php?id=cctv17hd8m/8000000
 云南卫视,http://59.62.8.250:9901/tsfile/live/0119_1.m3u8?key=txiptv&playlive=1&authid=0
 
 港·澳·台,#genre#
-翡翠台,https://pull-f5-spe.ixigua.com/yeslivetv.com/291403ea-fabd-4dc1-bdfa-f14ebe74411e/index.m3u8
 翡翠台,http://r.jdshipin.com/qClQf
-翡翠台,http://185.243.7.13/play/live.php?mac=00:1A:79:BF:D2:44&extension=ts&play_token=1pLS8RVt8V&stream=941619
 纬来体育,http://123.51.230.108:18509/http/192.168.1.9:8081/hls/67/809/12_2440494.m3u8
 纬来体育,http://47.113.189.55/iptv/iptv.php?key=ced93979274d74470b525fc6372adbc9&id=73
 纬来体育,http://123.51.230.108:18509/.m3u8
 爱尔达体育,http://50.7.238.114:8278/eltasport_twn/playlist.m3u8?tid=md3567b35401611916221&ct=17874&tsum=be2a069324faa7f0737ca0d396d43745
 ELEVEN体育,http://50.7.238.114:8278/golfchannel_twn/playlist.m3u8?tid=MFBF2798068027980680&ct=18393&tsum=d8204023f67120512c75a8882f121120
 ELEVEN体育,http://50.7.238.114:8278/golfchannel_twn/playlist.m3u8?tid=m43df9270caf7&ct=18335&tsum=3bcc02e810e7073b86bb40d392e95f23
+明珠台,http://r.jdshipin.com/ZQ4kN
 明珠台,http://zw9999.cnstream.top:80/play/ubI0Nrlni6TwusjXuSxNxEzv3SLBhKEUmYG73triGDY/ts
 星河台,http://113.117.74.32:8081/hls/135/index.m3u8
 星河台,http://120.79.160.134:8066/HK/xh/hls.m3u8
