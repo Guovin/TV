@@ -24,7 +24,7 @@ jobs:
         with:
           ref: ${{ env.BRANCH_NAME }}
       - name: Run with setup-python 3.11
-        uses: actions/setup-python
+        uses: actions/setup-python@4
         with:
           python-version: '3.11'
           update-environment: true
