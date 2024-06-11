@@ -12,4 +12,6 @@ CCTV-17,https://live.v1.mk/api/bestv.php?id=cctv17hd8m/8000000
 海南卫视,https://live.v1.mk/api/bestv.php?id=hainanwshd8m/8000000
 江苏卫视,http://222.240.82.92:9901/tsfile/live/0127_1.m3u8
 港·澳·台,#genre#
+翡翠台,http://r.jdshipin.com/qClQf
 明珠台,http://zw9999.cnstream.top:80/play/ubI0Nrlni6TwusjXuSxNxEzv3SLBhKEUmYG73triGDY/ts
+明珠台,http://r.jdshipin.com/ZQ4kN
