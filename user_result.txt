@@ -38,8 +38,8 @@ CCTV17,https://live.v1.mk/api/bestv.php?id=cctv17hd8m/8000000
 湖北卫视,http://59.62.8.250:9901/tsfile/live/0132_1.m3u8?key=txiptv&playlive=1&authid=0
 湖北卫视,http://115.149.139.141:10001/tsfile/live/1027_1.m3u8
 黑龙江卫视,http://59.62.8.250:9901/tsfile/live/0143_1.m3u8?key=txiptv&playlive=1&authid=0
-安徽卫视,http://115.149.139.141:10001/tsfile/live/1025_1.m3u8
 安徽卫视,http://59.62.8.250:9901/tsfile/live/0130_1.m3u8?key=txiptv&playlive=1&authid=0
+安徽卫视,http://115.149.139.141:10001/tsfile/live/1025_1.m3u8
 重庆卫视,http://59.62.8.250:9901/tsfile/live/0142_1.m3u8?key=txiptv&playlive=1&authid=0
 东方卫视,http://iptvrr.sh.chinamobile.com:6060/cms001/ch00000090990000001013/index.m3u8
 东方卫视,http://39.134.115.163:8080/PLTV/88888910/224/3221225658/index.m3u8
