@@ -274,7 +274,8 @@ def get_channels_info_list_by_online_search(pageUrl, name):
         # print(f"Error on search: {e}")
         pass
     finally:
-        driver.quit()
+        if driver:
+            driver.quit()
         return info_list
 
 
@@ -641,7 +642,8 @@ async def get_channels_by_fofa(callback):
                 f"正在获取组播源更新, 剩余{remain}个地区待获取",
                 int((pbar.n / fofa_urls_len) * 100),
             )
-            driver.quit()
+            if driver:
+                driver.quit()
 
     pbar.set_description(f"Processing multicast, {fofa_urls_len} regions remaining")
     callback(f"正在获取组播源更新, 共{fofa_urls_len}个地区", 0)
