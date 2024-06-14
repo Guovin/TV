@@ -279,8 +279,7 @@ def get_channels_info_list_by_online_search(pageUrl, name):
         return info_list
 
 
-async def async_get_channels_info_list_by_online_search(pageUrl, name):
-    loop = asyncio.get_running_loop()
+async def async_get_channels_info_list_by_online_search(loop, pageUrl, name):
     with concurrent.futures.ThreadPoolExecutor() as pool:
         info_list = await loop.run_in_executor(
             pool, get_channels_info_list_by_online_search, pageUrl, name

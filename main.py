@@ -100,7 +100,7 @@ class UpdateSource:
                 int((self.pbar.n / self.total) * 100),
             )
 
-    async def process_channel(self):
+    async def process_channel(self, loop):
         async with self.semaphore:
             try:
                 cate, name, old_urls = await self.channel_queue.get()
@@ -116,6 +116,7 @@ class UpdateSource:
                 if config.open_online_search and self.results["open_online_search"]:
                     online_info_list = (
                         await async_get_channels_info_list_by_online_search(
+                            loop,
                             self.results["open_online_search"],
                             format_name,
                         )
@@ -191,8 +192,10 @@ class UpdateSource:
             self.tasks = []
             await self.visit_page()
             self.total = self.channel_queue.qsize()
+            loop = asyncio.get_running_loop()
             self.tasks = [
-                asyncio.create_task(self.process_channel()) for _ in range(self.total)
+                asyncio.create_task(self.process_channel(loop))
+                for _ in range(self.total)
             ]
             self.pbar = tqdm_asyncio(total=self.total)
             self.pbar.set_description(f"Processing, {self.total} channels remaining")
