@@ -3,5 +3,4 @@
 央视频道,#genre#
 卫视频道,#genre#
 港·澳·台,#genre#
-星河台,https://edge6a.v2h-cdn.com/xinghe/xinghe.stream/chunklist.m3u8
 TVBS亚洲,http://38.64.72.148/hls/modn/list/4005/playlist.m3u8
