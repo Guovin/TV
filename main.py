@@ -233,7 +233,6 @@ class UpdateSource:
             update_file(user_log_file, "result_new.log")
             print(f"Update completed! Please check the {user_final_file} file!")
             self.update_progress(f"更新完成, 请检查{user_final_file}文件", 100, True)
-            self.stop()
         except asyncio.exceptions.CancelledError:
             print("Update cancelled!")
 
