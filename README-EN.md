@@ -85,4 +85,4 @@ The use of the code or data of this project means that you have understood and a
 
 ## Appreciate
 
-![image](./docs/images/appreciate.jpeg)
+![image](./docs/images/appreciate.jpg)
