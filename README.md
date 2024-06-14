@@ -85,4 +85,4 @@
 
 ## 赞赏
 
-![image](./docs/images/appreciate.jpeg)
+![image](./docs/images/appreciate.jpg)
