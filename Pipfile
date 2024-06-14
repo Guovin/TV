@@ -21,4 +21,4 @@ tqdm = ">=4.66.3"
 async-timeout = ">=4.0.3"
 
 [requires]
-python_version = "3.11"
+python_version = "3.8"

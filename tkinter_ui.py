@@ -6,6 +6,8 @@ from tkinter import filedialog
 from utils import resource_path, load_external_config
 from main import UpdateSource
 import os
+import asyncio
+import threading
 
 config_path = resource_path("user_config.py")
 default_config_path = resource_path("config.py")
@@ -21,7 +23,7 @@ class TkinterUI:
     def __init__(self, root):
         self.root = root
         self.root.title("直播源接口更新工具")
-        self.version = "v1.0.0"
+        self.version = "v1.0.1"
         self.update_source = UpdateSource()
         self.update_running = False
         self.config_entrys = [
@@ -169,7 +171,7 @@ class TkinterUI:
                 f.write(f"{key} = {value}\n")
         messagebox.showinfo("提示", "保存成功")
 
-    def run_update(self):
+    async def run_update(self):
         self.update_running = not self.update_running
         if self.update_running:
             self.run_button.config(text="取消更新", state="normal")
@@ -178,14 +180,30 @@ class TkinterUI:
             self.progress_bar["value"] = 0
             self.progress_label.pack()
             self.progress_bar.pack()
-            self.update_source.start(self.update_progress)
+            await self.update_source.start(self.update_progress)
         else:
+            self.stop()
             self.update_source.stop()
             self.run_button.config(text="开始更新", state="normal")
             for entry in self.config_entrys:
                 getattr(self, entry).config(state="normal")
             self.progress_bar.pack_forget()
             self.progress_label.pack_forget()
+
+    def on_run_update(self):
+        def run_loop():
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+            try:
+                loop.run_until_complete(self.run_update())
+            finally:
+                loop.close()
+
+        self.thread = threading.Thread(target=run_loop, daemon=True)
+        self.thread.start()
+
+    def stop(self):
+        asyncio.get_event_loop().stop()
 
     def update_progress(self, title, progress, finished=False):
         self.progress_bar["value"] = progress
@@ -461,7 +479,7 @@ class TkinterUI:
         self.save_button.pack(side=tk.LEFT, padx=4, pady=4)
 
         self.run_button = tk.Button(
-            row13_column2, text="开始更新", command=self.run_update
+            row13_column2, text="开始更新", command=self.on_run_update
         )
         self.run_button.pack(side=tk.LEFT, padx=4, pady=4)
 

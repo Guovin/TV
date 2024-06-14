@@ -82,3 +82,7 @@
 ## 许可证
 
 [MIT](./LICENSE) License &copy; 2024-PRESENT [Govin](https://github.com/guovin)
+
+## 赞赏
+
+![image](./docs/images/appreciate.jpeg)

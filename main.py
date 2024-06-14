@@ -35,7 +35,6 @@ class UpdateSource:
 
     def __init__(self):
         self.run_ui = False
-        self.thread = None
         self.tasks = []
         self.channel_items = get_channel_items()
         self.results = {}
@@ -101,7 +100,7 @@ class UpdateSource:
                 int((self.pbar.n / self.total) * 100),
             )
 
-    async def process_channel(self):
+    async def process_channel(self, loop):
         async with self.semaphore:
             try:
                 cate, name, old_urls = await self.channel_queue.get()
@@ -117,6 +116,7 @@ class UpdateSource:
                 if config.open_online_search and self.results["open_online_search"]:
                     online_info_list = (
                         await async_get_channels_info_list_by_online_search(
+                            loop,
                             self.results["open_online_search"],
                             format_name,
                         )
@@ -192,8 +192,10 @@ class UpdateSource:
             self.tasks = []
             await self.visit_page()
             self.total = self.channel_queue.qsize()
+            loop = asyncio.get_running_loop()
             self.tasks = [
-                asyncio.create_task(self.process_channel()) for _ in range(self.total)
+                asyncio.create_task(self.process_channel(loop))
+                for _ in range(self.total)
             ]
             self.pbar = tqdm_asyncio(total=self.total)
             self.pbar.set_description(f"Processing, {self.total} channels remaining")
@@ -235,7 +237,7 @@ class UpdateSource:
         except asyncio.exceptions.CancelledError:
             print("Update cancelled!")
 
-    def start(self, callback=None):
+    async def start(self, callback=None):
         def default_callback(self, *args, **kwargs):
             pass
 
@@ -247,27 +249,16 @@ class UpdateSource:
             format="%(message)s",
             level=logging.INFO,
         )
-
-        def run_loop():
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
-            try:
-                loop.run_until_complete(self.main())
-            finally:
-                loop.close()
-
-        self.thread = threading.Thread(target=run_loop, daemon=True)
-        self.thread.start()
-        if not self.run_ui:
-            self.thread.join()
+        await self.main()
 
     def stop(self):
         for task in self.tasks:
             task.cancel()
         self.tasks = []
         asyncio.get_event_loop().stop()
+        self.pbar.close()
 
 
 if __name__ == "__main__":
     update_source = UpdateSource()
-    update_source.start()
+    asyncio.run(update_source.start())
