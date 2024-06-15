@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "1d1e4f62291d7e9f7cb0343b70860aacf3746baa9fd2aa58cc2c2be8ee595ecd"
+            "sha256": "11c3de86a4608bc8cb9df8ad66ccc8badc83779b3a5daf7b221a7a3a53ae1660"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -309,6 +309,14 @@
             ],
             "markers": "platform_system == 'Windows'",
             "version": "==0.4.6"
+        },
+        "exceptiongroup": {
+            "hashes": [
+                "sha256:5258b9ed329c5bbdd31a309f53cbfb0b155341807f6ff7606a1e801a891b29ad",
+                "sha256:a4785e48b045528f5bfe627b6ad554ff32def154f42372786903b7abcfe1aa16"
+            ],
+            "markers": "python_version < '3.11'",
+            "version": "==1.2.1"
         },
         "feedparser": {
             "hashes": [
