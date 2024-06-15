@@ -1,6 +1,6 @@
 # 使用教程
 
-[English](./tutorial-EN.md) | 中文
+[English](./tutorial_en.md) | 中文
 
 ## 步骤一：Fork 本项目
 

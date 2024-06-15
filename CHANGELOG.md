@@ -6,6 +6,8 @@
 
 - 兼容 Win7 系统，请使用 Python 版本>=3.8（Compatible with Windows 7 system, please use Python version >= 3.8）
 - 修复部分设备运行更新报错（Fixed an error that occurred when some devices ran updates）
+- 修复工作流更新错误（Fixed an error in the workflow update）
+- 新增捐赠途径（主页底部），本项目完全免费，维护不易，若对您有帮助，可选择捐赠（Add new donation channels (bottom of the homepage), this project is completely free, maintenance is not easy, if it helps you, you can choose to donate）
 
 ## v1.2.0
 
