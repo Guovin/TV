@@ -304,6 +304,7 @@ async def get_channels_by_online_search(names, callback):
             # print(f"Error on search: {e}")
             pass
         finally:
+            channels[format_channel_name(name)] = info_list
             names_queue.task_done()
             pbar.update()
             pbar.set_description(
@@ -315,7 +316,6 @@ async def get_channels_by_online_search(names, callback):
             )
             if driver:
                 driver.quit()
-            channels[name] = info_list
 
     names_queue = asyncio.Queue()
     for name in names:
