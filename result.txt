@@ -1,7 +1,6 @@
 广东频道,#genre#
 广东体育,http://116.162.6.192/4403-txt.otvstream.otvcloud.com/otv/skcc/live/channel34/2300.m3u8
 广东卫视,http://116.162.6.192/4403-txt.otvstream.otvcloud.com/otv/skcc/live/channel16/1300.m3u8
-广州竞赛,https://tencentplay.gztv.com/live/jingsai.m3u8?txSecret=f0caf677b15fe7b314aa18a8e00702d3&txTime=19019f0d637
 深圳卫视,http://116.162.6.192/4403-txt.otvstream.otvcloud.com/otv/skcc/live/channel17/1300.m3u8
 央视频道,#genre#
 CCTV-1,http://116.162.6.192/4403-txt.otvstream.otvcloud.com/otv/skcc/live/channel91/index.m3u8
@@ -12,7 +11,6 @@ CCTV-5+,https://node1.olelive.com:6443/live/CCTV5PHD/hls.m3u8
 CCTV-6,http://116.162.6.192/4403-txt.otvstream.otvcloud.com/otv/skcc/live/channel6/1300.m3u8
 CCTV-7,http://116.162.6.192/4403-txt.otvstream.otvcloud.com/otv/skcc/live/channel7/1300.m3u8
 CCTV-8,http://116.162.6.192/4403-txt.otvstream.otvcloud.com/otv/skcc/live/channel8/2300.m3u8
-CCTV-9,https://node1.olelive.com:6443/live/CCTV9HD/hls.m3u8
 CCTV-10,http://116.162.6.192/4403-txt.otvstream.otvcloud.com/otv/skcc/live/channel10/1300.m3u8
 CCTV-11,http://116.162.6.192/4403-txt.otvstream.otvcloud.com/otv/skcc/live/channel41/2300.m3u8
 CCTV-12,http://116.162.6.192/4403-txt.otvstream.otvcloud.com/otv/skcc/live/channel11/1300.m3u8
@@ -21,12 +19,12 @@ CCTV-15,http://116.162.6.192/4403-txt.otvstream.otvcloud.com/otv/skcc/live/chann
 卫视频道,#genre#
 广东卫视,http://116.162.6.192/4403-txt.otvstream.otvcloud.com/otv/skcc/live/channel16/1300.m3u8
 湖南卫视,http://116.162.6.192/4403-txt.otvstream.otvcloud.com/otv/skcc/live/channel25/1300.m3u8
-北京卫视,http://116.162.6.192/4403-txt.otvstream.otvcloud.com/otv/skcc/live/channel24/2300.m3u8
 北京卫视,http://222.240.82.92:9901/tsfile/live/0122_1.m3u8
-湖北卫视,http://116.162.6.192/4403-txt.otvstream.otvcloud.com/otv/skcc/live/channel21/1300.m3u8
+北京卫视,http://116.162.6.192/4403-txt.otvstream.otvcloud.com/otv/skcc/live/channel24/2300.m3u8
 湖北卫视,http://115.149.139.141:10001/tsfile/live/1027_1.m3u8
-安徽卫视,http://116.162.6.192/4403-txt.otvstream.otvcloud.com/otv/skcc/live/channel23/2300.m3u8
+湖北卫视,http://116.162.6.192/4403-txt.otvstream.otvcloud.com/otv/skcc/live/channel21/1300.m3u8
 安徽卫视,http://115.149.139.141:10001/tsfile/live/1025_1.m3u8
+安徽卫视,http://116.162.6.192/4403-txt.otvstream.otvcloud.com/otv/skcc/live/channel23/2300.m3u8
 东方卫视,http://116.162.6.192/4403-txt.otvstream.otvcloud.com/otv/skcc/live/channel26/1300.m3u8
 甘肃卫视,http://222.240.82.92:9901/tsfile/live/0141_1.m3u8
 吉林卫视,http://116.162.6.192/4403-txt.otvstream.otvcloud.com/otv/skcc/live/channel20/1300.m3u8
