@@ -5,21 +5,20 @@ from utils import (
     update_file,
     sort_urls_by_speed_and_resolution,
     get_total_urls_from_info_list,
-    use_accessible_url,
     get_channels_by_subscribe_urls,
     check_url_by_patterns,
     get_channels_by_fofa,
-    async_get_channels_info_list_by_online_search,
+    get_channels_by_online_search,
     format_channel_name,
     resource_path,
     load_external_config,
+    get_pbar_remaining,
 )
 import logging
 from logging.handlers import RotatingFileHandler
 import os
 from tqdm import tqdm
 from tqdm.asyncio import tqdm_asyncio
-import threading
 from time import time
 
 config_path = resource_path("user_config.py")
@@ -38,28 +37,11 @@ class UpdateSource:
         self.tasks = []
         self.channel_items = get_channel_items()
         self.results = {}
-        self.channel_queue = asyncio.Queue()
         self.semaphore = asyncio.Semaphore(10)
         self.channel_data = {}
         self.pbar = None
         self.total = 0
         self.start_time = None
-
-    def get_pbar_remaining(self):
-        try:
-            elapsed = time() - self.start_time
-            completed_tasks = self.pbar.n
-            if completed_tasks > 0:
-                avg_time_per_task = elapsed / completed_tasks
-                remaining_tasks = self.pbar.total - completed_tasks
-                remaining_time = self.pbar.format_interval(
-                    avg_time_per_task * remaining_tasks
-                )
-            else:
-                remaining_time = "未知"
-            return remaining_time
-        except Exception as e:
-            print(f"Error: {e}")
 
     def append_data_to_info_data(self, cate, name, data):
         for url, date, resolution in data:
@@ -96,14 +78,13 @@ class UpdateSource:
                 f"Sorting, {self.pbar.total - self.pbar.n} urls remaining"
             )
             self.update_progress(
-                f"正在测速排序, 剩余{self.pbar.total - self.pbar.n}个接口, 预计剩余时间: {self.get_pbar_remaining()}",
+                f"正在测速排序, 剩余{self.pbar.total - self.pbar.n}个接口, 预计剩余时间: {get_pbar_remaining(self.pbar, self.start_time)}",
                 int((self.pbar.n / self.total) * 100),
             )
 
-    async def process_channel(self):
-        async with self.semaphore:
-            try:
-                cate, name, old_urls = await self.channel_queue.get()
+    def process_channel(self):
+        for cate, channel_obj in self.channel_items.items():
+            for name, old_urls in channel_obj.items():
                 format_name = format_channel_name(name)
                 if config.open_subscribe:
                     self.append_data_to_info_data(
@@ -113,31 +94,16 @@ class UpdateSource:
                     self.append_data_to_info_data(
                         cate, name, self.results["open_multicast"].get(format_name, [])
                     )
-                if config.open_online_search and self.results["open_online_search"]:
-                    online_info_list = (
-                        await async_get_channels_info_list_by_online_search(
-                            self.results["open_online_search"],
-                            format_name,
-                        )
+                if config.open_online_search:
+                    self.append_data_to_info_data(
+                        cate,
+                        name,
+                        self.results["open_online_search"].get(format_name, []),
                     )
-                    if online_info_list:
-                        self.append_data_to_info_data(cate, name, online_info_list)
                 if len(self.channel_data.get(cate, {}).get(name, [])) == 0:
                     self.append_data_to_info_data(
                         cate, name, [(url, None, None) for url in old_urls]
                     )
-            except asyncio.exceptions.CancelledError:
-                print("Update cancelled!")
-            finally:
-                self.channel_queue.task_done()
-                self.pbar.update()
-                self.pbar.set_description(
-                    f"Processing, {self.total - self.pbar.n} channels remaining"
-                )
-                self.update_progress(
-                    f"正在更新, 剩余{self.total - self.pbar.n}个频道待处理, 预计剩余时间: {self.get_pbar_remaining()}",
-                    int((self.pbar.n / self.total) * 100),
-                )
 
     def write_channel_to_file(self):
         self.pbar = tqdm(total=self.total)
@@ -155,25 +121,25 @@ class UpdateSource:
                         f"Writing, {self.pbar.total - self.pbar.n} channels remaining"
                     )
                     self.update_progress(
-                        f"正在写入结果, 剩余{self.pbar.total - self.pbar.n}个接口, 预计剩余时间: {self.get_pbar_remaining()}",
+                        f"正在写入结果, 剩余{self.pbar.total - self.pbar.n}个接口, 预计剩余时间: {get_pbar_remaining(self.pbar, self.start_time)}",
                         int((self.pbar.n / self.total) * 100),
                     )
 
-    async def visit_page(self):
+    async def visit_page(self, channel_names=None):
         task_dict = {
             "open_subscribe": get_channels_by_subscribe_urls,
             "open_multicast": get_channels_by_fofa,
-            "open_online_search": use_accessible_url,
+            "open_online_search": get_channels_by_online_search,
         }
         for config_name, task_func in task_dict.items():
             if getattr(config, config_name):
                 task = None
-                if config_name == "open_subscribe":
-                    task = asyncio.create_task(task_func(self.update_progress))
-                elif config_name == "open_multicast":
+                if config_name == "open_subscribe" or config_name == "open_multicast":
                     task = asyncio.create_task(task_func(self.update_progress))
                 else:
-                    task = asyncio.create_task(task_func(self.update_progress))
+                    task = asyncio.create_task(
+                        task_func(channel_names, self.update_progress)
+                    )
                 if task:
                     self.tasks.append(task)
         task_results = await tqdm_asyncio.gather(*self.tasks, disable=True)
@@ -182,26 +148,18 @@ class UpdateSource:
             [name for name in task_dict if getattr(config, name)]
         ):
             self.results[config_name] = task_results[i]
-        for cate, channel_obj in self.channel_items.items():
-            for name in channel_obj.keys():
-                await self.channel_queue.put((cate, name, channel_obj[name]))
 
     async def main(self):
         try:
             self.tasks = []
-            await self.visit_page()
-            self.total = self.channel_queue.qsize()
-            self.tasks = [
-                asyncio.create_task(self.process_channel()) for _ in range(self.total)
+            channel_names = [
+                name
+                for cate, channel_obj in self.channel_items.items()
+                for name in channel_obj.keys()
             ]
-            self.pbar = tqdm_asyncio(total=self.total)
-            self.pbar.set_description(f"Processing, {self.total} channels remaining")
-            self.update_progress(
-                f"正在更新, 共{self.total}个频道",
-                int((self.pbar.n / self.total) * 100),
-            )
-            self.start_time = time()
-            await tqdm_asyncio.gather(*self.tasks, disable=True)
+            self.total = len(channel_names)
+            await self.visit_page(channel_names)
+            self.process_channel()
             if config.open_sort:
                 self.tasks = [
                     asyncio.create_task(self.sort_channel_list(cate, name, info_list))
@@ -251,8 +209,8 @@ class UpdateSource:
         for task in self.tasks:
             task.cancel()
         self.tasks = []
-        asyncio.get_event_loop().stop()
-        self.pbar.close()
+        if self.pbar:
+            self.pbar.close()
 
 
 if __name__ == "__main__":

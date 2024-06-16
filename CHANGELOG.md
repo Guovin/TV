@@ -1,5 +1,12 @@
 # 更新日志（Changelog）
 
+## v1.2.2
+
+### 2024/6/16
+
+- 优化在线查询更新速度与修复无更新结果情况（Optimize online query update speed and fix no update result situation）
+- 解决个别环境运行更新报错（Solved the problem of running updates in some environments）
+
 ## v1.2.1
 
 ### 2024/6/14
