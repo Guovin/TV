@@ -314,8 +314,7 @@ async def get_channels_by_online_search(names, callback):
                 f"正在线上查询更新, 剩余{names_len - pbar.n}个频道待查询, 预计剩余时间: {get_pbar_remaining(pbar, start_time)}",
                 int((pbar.n / names_len) * 100),
             )
-            if driver:
-                driver.quit()
+            driver.quit()
 
     names_queue = asyncio.Queue()
     for name in names:
@@ -641,8 +640,8 @@ async def get_channels_by_fofa(callback):
     fofa_results = {}
 
     def process_fofa_channels(fofa_url, pbar, fofa_urls_len, callback):
+        driver = setup_driver()
         try:
-            driver = setup_driver()
             driver.get(fofa_url)
             fofa_source = re.sub(r"<!--.*?-->", "", driver.page_source, flags=re.DOTALL)
             urls = set(re.findall(r"https?://[\w\.-]+:\d+", fofa_source))
@@ -691,8 +690,7 @@ async def get_channels_by_fofa(callback):
             )
             if config.open_online_search and pbar.n / fofa_urls_len == 1:
                 callback("正在获取在线搜索结果, 请耐心等待", 0)
-            if driver:
-                driver.quit()
+            driver.quit()
 
     pbar.set_description(f"Processing multicast, {fofa_urls_len} regions remaining")
     callback(f"正在获取组播源更新, 共{fofa_urls_len}个地区", 0)
