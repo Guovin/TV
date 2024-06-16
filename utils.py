@@ -1,7 +1,7 @@
 from selenium import webdriver
 import aiohttp
 import asyncio
-import time
+from time import time
 import re
 import datetime
 import os
@@ -162,6 +162,24 @@ def get_channel_items():
     return channels
 
 
+def get_pbar_remaining(pbar, start_time):
+    """
+    Get the remaining time of the progress bar
+    """
+    try:
+        elapsed = time() - start_time
+        completed_tasks = pbar.n
+        if completed_tasks > 0:
+            avg_time_per_task = elapsed / completed_tasks
+            remaining_tasks = pbar.total - completed_tasks
+            remaining_time = pbar.format_interval(avg_time_per_task * remaining_tasks)
+        else:
+            remaining_time = "未知"
+        return remaining_time
+    except Exception as e:
+        print(f"Error: {e}")
+
+
 async def get_channels_by_subscribe_urls(callback):
     """
     Get the channels by subscribe urls
@@ -170,6 +188,7 @@ async def get_channels_by_subscribe_urls(callback):
     pattern = r"^(.*?),(?!#genre#)(.*?)$"
     subscribe_urls_len = len(config.subscribe_urls)
     pbar = tqdm_asyncio(total=subscribe_urls_len)
+    start_time = time()
 
     def process_subscribe_channels(subscribe_url):
         try:
@@ -204,9 +223,11 @@ async def get_channels_by_subscribe_urls(callback):
             remain = subscribe_urls_len - pbar.n
             pbar.set_description(f"Processing subscribe, {remain} urls remaining")
             callback(
-                f"正在获取订阅源更新, 剩余{remain}个订阅源待获取",
+                f"正在获取订阅源更新, 剩余{remain}个订阅源待获取, 预计剩余时间: {get_pbar_remaining(pbar, start_time)}",
                 int((pbar.n / subscribe_urls_len) * 100),
             )
+            if config.open_online_search and pbar.n / subscribe_urls_len == 1:
+                callback("正在获取在线搜索结果, 请耐心等待", 0)
 
     pbar.set_description(f"Processing subscribe, {subscribe_urls_len} urls remaining")
     callback(f"正在获取订阅源更新, 共{subscribe_urls_len}个订阅源", 0)
@@ -222,74 +243,95 @@ async def get_channels_by_subscribe_urls(callback):
     return channels
 
 
-def get_channels_info_list_by_online_search(pageUrl, name):
+async def get_channels_by_online_search(names, callback):
     """
-    Get the channels info list by online search
+    Get the channels by online search
     """
-    driver = setup_driver()
-    wait = WebDriverWait(driver, 10)
-    info_list = []
-    try:
-        driver.get(pageUrl)
-        search_box = wait.until(
-            EC.presence_of_element_located((By.XPATH, '//input[@type="text"]'))
-        )
-        search_box.clear()
-        search_box.send_keys(name)
-        submit_button = wait.until(
-            EC.element_to_be_clickable((By.XPATH, '//input[@type="submit"]'))
-        )
-        driver.execute_script("arguments[0].click();", submit_button)
-        isFavorite = name in config.favorite_list
-        pageNum = config.favorite_page_num if isFavorite else config.default_page_num
-        for page in range(1, pageNum + 1):
-            try:
-                if page > 1:
-                    page_link = wait.until(
-                        EC.element_to_be_clickable(
-                            (
-                                By.XPATH,
-                                f'//a[contains(@href, "={page}") and contains(@href, "{name}")]',
+    channels = {}
+    pageUrl = await use_accessible_url(callback)
+    if not pageUrl:
+        return channels
+    start_time = time()
+
+    def process_channel_by_online_search(name):
+        driver = setup_driver()
+        wait = WebDriverWait(driver, 10)
+        info_list = []
+        try:
+            driver.get(pageUrl)
+            search_box = wait.until(
+                EC.presence_of_element_located((By.XPATH, '//input[@type="text"]'))
+            )
+            search_box.clear()
+            search_box.send_keys(name)
+            submit_button = wait.until(
+                EC.element_to_be_clickable((By.XPATH, '//input[@type="submit"]'))
+            )
+            driver.execute_script("arguments[0].click();", submit_button)
+            isFavorite = name in config.favorite_list
+            pageNum = (
+                config.favorite_page_num if isFavorite else config.default_page_num
+            )
+            for page in range(1, pageNum + 1):
+                try:
+                    if page > 1:
+                        page_link = wait.until(
+                            EC.element_to_be_clickable(
+                                (
+                                    By.XPATH,
+                                    f'//a[contains(@href, "={page}") and contains(@href, "{name}")]',
+                                )
                             )
                         )
+                        driver.execute_script("arguments[0].click();", page_link)
+                    source = re.sub(
+                        r"<!--.*?-->",
+                        "",
+                        driver.page_source,
+                        flags=re.DOTALL,
                     )
-                    driver.execute_script("arguments[0].click();", page_link)
-                source = re.sub(
-                    r"<!--.*?-->",
-                    "",
-                    driver.page_source,
-                    flags=re.DOTALL,
-                )
-                soup = BeautifulSoup(source, "html.parser")
-                if soup:
-                    results = get_results_from_soup(soup, name)
-                    for result in results:
-                        url, date, resolution = result
-                        if url and check_url_by_patterns(url):
-                            info_list.append((url, date, resolution))
-            except Exception as e:
-                # print(f"Error on page {page}: {e}")
-                continue
-    except Exception as e:
-        # print(f"Error on search: {e}")
-        pass
-    finally:
-        if driver:
-            driver.quit()
-        return info_list
+                    soup = BeautifulSoup(source, "html.parser")
+                    if soup:
+                        results = get_results_from_soup(soup, name)
+                        for result in results:
+                            url, date, resolution = result
+                            if url and check_url_by_patterns(url):
+                                info_list.append((url, date, resolution))
+                except Exception as e:
+                    # print(f"Error on page {page}: {e}")
+                    continue
+        except Exception as e:
+            # print(f"Error on search: {e}")
+            pass
+        finally:
+            names_queue.task_done()
+            pbar.update()
+            pbar.set_description(
+                f"Processing online search, {names_len - pbar.n} channels remaining"
+            )
+            callback(
+                f"正在线上查询更新, 剩余{names_len - pbar.n}个频道待查询, 预计剩余时间: {get_pbar_remaining(pbar, start_time)}",
+                int((pbar.n / names_len) * 100),
+            )
+            if driver:
+                driver.quit()
+            channels[name] = info_list
 
-
-async def async_get_channels_info_list_by_online_search(pageUrl, name):
-    """
-    Get the channels info list by online search
-    """
-    # with concurrent.futures.ThreadPoolExecutor() as pool:
-    #     loop = asyncio.geto_running_loop()
-    #     info_list = await loop.run_in_executor(
-    #         pool, get_channels_info_list_by_online_search, pageUrl, name
-    #     )
-    info_list = get_channels_info_list_by_online_search(pageUrl, name)
-    return info_list
+    names_queue = asyncio.Queue()
+    for name in names:
+        await names_queue.put(name)
+    names_len = names_queue.qsize()
+    pbar = tqdm_asyncio(total=names_len)
+    pbar.set_description(f"Processing online search, {names_len} channels remaining")
+    callback(f"正在线上查询更新, 共{names_len}个频道", 0)
+    with concurrent.futures.ThreadPoolExecutor(max_workers=10) as pool:
+        while not names_queue.empty():
+            loop = asyncio.get_running_loop()
+            name = await names_queue.get()
+            loop.run_in_executor(pool, process_channel_by_online_search, name)
+    print("Finished processing online search")
+    pbar.close()
+    return channels
 
 
 def update_channel_urls_txt(cate, name, urls):
@@ -382,13 +424,13 @@ async def get_speed(url, urlTimeout=5):
     Get the speed of the url
     """
     async with aiohttp.ClientSession() as session:
-        start = time.time()
+        start = time()
         try:
             async with session.get(url, timeout=urlTimeout) as response:
                 resStatus = response.status
         except:
             return float("inf")
-        end = time.time()
+        end = time()
         if resStatus == 200:
             return int(round((end - start) * 1000))
         else:
@@ -595,6 +637,7 @@ async def get_channels_by_fofa(callback):
     fofa_urls = get_fofa_urls_from_region_list()
     fofa_urls_len = len(fofa_urls)
     pbar = tqdm_asyncio(total=fofa_urls_len)
+    start_time = time()
     fofa_results = {}
 
     def process_fofa_channels(fofa_url, pbar, fofa_urls_len, callback):
@@ -643,9 +686,11 @@ async def get_channels_by_fofa(callback):
             remain = fofa_urls_len - pbar.n
             pbar.set_description(f"Processing multicast, {remain} regions remaining")
             callback(
-                f"正在获取组播源更新, 剩余{remain}个地区待获取",
+                f"正在获取组播源更新, 剩余{remain}个地区待获取, 预计剩余时间: {get_pbar_remaining(pbar, start_time)}",
                 int((pbar.n / fofa_urls_len) * 100),
             )
+            if config.open_online_search and pbar.n / fofa_urls_len == 1:
+                callback("正在获取在线搜索结果, 请耐心等待", 0)
             if driver:
                 driver.quit()
 

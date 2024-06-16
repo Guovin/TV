@@ -23,7 +23,7 @@ class TkinterUI:
     def __init__(self, root):
         self.root = root
         self.root.title("直播源接口更新工具")
-        self.version = "v1.0.1"
+        self.version = "v1.0.2"
         self.update_source = UpdateSource()
         self.update_running = False
         self.config_entrys = [
@@ -194,10 +194,7 @@ class TkinterUI:
         def run_loop():
             loop = asyncio.new_event_loop()
             asyncio.set_event_loop(loop)
-            try:
-                loop.run_until_complete(self.run_update())
-            finally:
-                loop.close()
+            loop.run_until_complete(self.run_update())
 
         self.thread = threading.Thread(target=run_loop, daemon=True)
         self.thread.start()
