@@ -1,5 +1,12 @@
 # 更新日志（Changelog）
 
+## v1.2.3
+
+### 2024/6/17
+
+- 新增请求重连重试功能（Added request reconnection retry function）
+- 修复个别系统环境文件路径报错问题（Fixed some system environment file path errors）
+
 ## v1.2.2
 
 ### 2024/6/16
