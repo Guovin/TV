@@ -18,9 +18,30 @@ from tqdm.asyncio import tqdm_asyncio
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium_stealth import stealth
 import concurrent.futures
 import sys
 import importlib.util
+
+timeout = 15
+max_retries = 3
+
+
+def retry_func(func, retries=max_retries + 1, name=""):
+    """
+    Retry the function
+    """
+    for i in range(retries):
+        try:
+            return func()
+        except Exception as e:
+            count = retries - 1
+            if name and i < count:
+                print(f"Failed to connect to the {name}. Retrying {i+1}...")
+            if i == count:
+                break
+            else:
+                continue
 
 
 def resource_path(relative_path, persistent=False):
@@ -83,6 +104,15 @@ def setup_driver():
     options.add_argument("--allow-running-insecure-content")
     options.add_argument("blink-settings=imagesEnabled=false")
     driver = webdriver.Chrome(options=options)
+    stealth(
+        driver,
+        languages=["en-US", "en"],
+        vendor="Google Inc.",
+        platform="Win32",
+        webgl_vendor="Intel Inc.",
+        renderer="Intel Iris OpenGL Engine",
+        fix_hairline=True,
+    )
     return driver
 
 
@@ -192,12 +222,16 @@ async def get_channels_by_subscribe_urls(callback):
 
     def process_subscribe_channels(subscribe_url):
         try:
+            response = None
             try:
-                response = requests.get(subscribe_url, timeout=30)
+                response = retry_func(
+                    lambda: requests.get(subscribe_url, timeout=timeout),
+                    name=subscribe_url,
+                )
             except requests.exceptions.Timeout:
                 print(f"Timeout on {subscribe_url}")
-            content = response.text
-            if content:
+            if response:
+                content = response.text
                 lines = content.split("\n")
                 for line in lines:
                     if re.match(pattern, line) is not None:
@@ -255,17 +289,21 @@ async def get_channels_by_online_search(names, callback):
 
     def process_channel_by_online_search(name):
         driver = setup_driver()
-        wait = WebDriverWait(driver, 10)
+        wait = WebDriverWait(driver, timeout)
         info_list = []
         try:
-            driver.get(pageUrl)
-            search_box = wait.until(
-                EC.presence_of_element_located((By.XPATH, '//input[@type="text"]'))
+            retry_func(lambda: driver.get(pageUrl), name="online search")
+            search_box = retry_func(
+                lambda: wait.until(
+                    EC.presence_of_element_located((By.XPATH, '//input[@type="text"]'))
+                )
             )
             search_box.clear()
             search_box.send_keys(name)
-            submit_button = wait.until(
-                EC.element_to_be_clickable((By.XPATH, '//input[@type="submit"]'))
+            submit_button = retry_func(
+                lambda: wait.until(
+                    EC.element_to_be_clickable((By.XPATH, '//input[@type="submit"]'))
+                )
             )
             driver.execute_script("arguments[0].click();", submit_button)
             isFavorite = name in config.favorite_list
@@ -275,11 +313,13 @@ async def get_channels_by_online_search(names, callback):
             for page in range(1, pageNum + 1):
                 try:
                     if page > 1:
-                        page_link = wait.until(
-                            EC.element_to_be_clickable(
-                                (
-                                    By.XPATH,
-                                    f'//a[contains(@href, "={page}") and contains(@href, "{name}")]',
+                        page_link = retry_func(
+                            lambda: wait.until(
+                                EC.element_to_be_clickable(
+                                    (
+                                        By.XPATH,
+                                        f'//a[contains(@href, "={page}") and contains(@href, "{name}")]',
+                                    )
                                 )
                             )
                         )
@@ -418,7 +458,7 @@ def get_results_from_soup(soup, name):
     return results
 
 
-async def get_speed(url, urlTimeout=5):
+async def get_speed(url, urlTimeout=10):
     """
     Get the speed of the url
     """
@@ -642,14 +682,16 @@ async def get_channels_by_fofa(callback):
     def process_fofa_channels(fofa_url, pbar, fofa_urls_len, callback):
         driver = setup_driver()
         try:
-            driver.get(fofa_url)
+            retry_func(lambda: driver.get(fofa_url), name=fofa_url)
             fofa_source = re.sub(r"<!--.*?-->", "", driver.page_source, flags=re.DOTALL)
             urls = set(re.findall(r"https?://[\w\.-]+:\d+", fofa_source))
             channels = {}
             for url in urls:
                 try:
-                    response = requests.get(
-                        url + "/iptv/live/1000.json?key=txiptv", timeout=2
+                    final_url = url + "/iptv/live/1000.json?key=txiptv"
+                    response = retry_func(
+                        lambda: requests.get(final_url, timeout=timeout),
+                        name=final_url,
                     )
                     try:
                         json_data = response.json()
