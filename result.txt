@@ -22,8 +22,8 @@ CCTV-15,http://116.162.6.192/4403-txt.otvstream.otvcloud.com/otv/skcc/live/chann
 广东卫视,http://116.162.6.192/4403-txt.otvstream.otvcloud.com/otv/skcc/live/channel16/1300.m3u8
 浙江卫视,http://ali-m-l.cztv.com/channels/lantian/channel001/1080p.m3u8
 湖南卫视,http://116.162.6.192/4403-txt.otvstream.otvcloud.com/otv/skcc/live/channel25/1300.m3u8
-北京卫视,http://222.240.82.92:9901/tsfile/live/0122_1.m3u8
 北京卫视,http://116.162.6.192/4403-txt.otvstream.otvcloud.com/otv/skcc/live/channel24/2300.m3u8
+北京卫视,http://222.240.82.92:9901/tsfile/live/0122_1.m3u8
 湖北卫视,http://116.162.6.192/4403-txt.otvstream.otvcloud.com/otv/skcc/live/channel21/1300.m3u8
 湖北卫视,http://115.149.139.141:10001/tsfile/live/1027_1.m3u8
 安徽卫视,http://115.149.139.141:10001/tsfile/live/1025_1.m3u8
