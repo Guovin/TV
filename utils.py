@@ -1,5 +1,5 @@
 from selenium import webdriver
-import aiohttp
+from aiohttp_retry import RetryClient, ExponentialRetry
 import asyncio
 from time import time
 import re
@@ -23,7 +23,7 @@ import concurrent.futures
 import sys
 import importlib.util
 
-timeout = 15
+timeout = 10
 max_retries = 3
 
 
@@ -50,9 +50,7 @@ def resource_path(relative_path, persistent=False):
     """
     base_path = os.path.abspath(".")
     total_path = os.path.join(base_path, relative_path)
-    if persistent:
-        return total_path
-    if os.path.exists(total_path):
+    if persistent or os.path.exists(total_path):
         return total_path
     else:
         try:
@@ -292,7 +290,7 @@ async def get_channels_by_online_search(names, callback):
         wait = WebDriverWait(driver, timeout)
         info_list = []
         try:
-            retry_func(lambda: driver.get(pageUrl), name="online search")
+            retry_func(lambda: driver.get(pageUrl), name=f"online search:{name}")
             search_box = retry_func(
                 lambda: wait.until(
                     EC.presence_of_element_located((By.XPATH, '//input[@type="text"]'))
@@ -458,22 +456,26 @@ def get_results_from_soup(soup, name):
     return results
 
 
-async def get_speed(url, urlTimeout=10):
+async def get_speed(url, urlTimeout=timeout):
     """
     Get the speed of the url
     """
-    async with aiohttp.ClientSession() as session:
-        start = time()
-        try:
-            async with session.get(url, timeout=urlTimeout) as response:
-                resStatus = response.status
-        except:
-            return float("inf")
-        end = time()
-        if resStatus == 200:
-            return int(round((end - start) * 1000))
-        else:
-            return float("inf")
+    retry_options = ExponentialRetry(attempts=1, max_timeout=urlTimeout)
+    retry_client = RetryClient(raise_for_status=False, retry_options=retry_options)
+    start = time()
+    total = float("inf")
+    try:
+        async with retry_client.get(url) as response:
+            resStatus = response.status
+            end = time()
+            if resStatus == 200:
+                total = int(round((end - start) * 1000))
+            else:
+                total = float("inf")
+    except:
+        total = float("inf")
+    await retry_client.close()
+    return total
 
 
 async def sort_urls_by_speed_and_resolution(infoList):
