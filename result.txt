@@ -22,8 +22,8 @@ CCTV-15,http://116.162.6.192/4403-txt.otvstream.otvcloud.com/otv/skcc/live/chann
 广东卫视,http://116.162.6.192/4403-txt.otvstream.otvcloud.com/otv/skcc/live/channel16/1300.m3u8
 浙江卫视,http://ali-m-l.cztv.com/channels/lantian/channel001/1080p.m3u8
 湖南卫视,http://116.162.6.192/4403-txt.otvstream.otvcloud.com/otv/skcc/live/channel25/1300.m3u8
-北京卫视,http://116.162.6.192/4403-txt.otvstream.otvcloud.com/otv/skcc/live/channel24/2300.m3u8
 北京卫视,http://222.240.82.92:9901/tsfile/live/0122_1.m3u8
+北京卫视,http://116.162.6.192/4403-txt.otvstream.otvcloud.com/otv/skcc/live/channel24/2300.m3u8
 湖北卫视,http://115.149.139.141:10001/tsfile/live/1027_1.m3u8
 湖北卫视,http://116.162.6.192/4403-txt.otvstream.otvcloud.com/otv/skcc/live/channel21/2300.m3u8
 安徽卫视,http://115.149.139.141:10001/tsfile/live/1025_1.m3u8
@@ -31,7 +31,6 @@ CCTV-15,http://116.162.6.192/4403-txt.otvstream.otvcloud.com/otv/skcc/live/chann
 东方卫视,http://116.162.6.192/4403-txt.otvstream.otvcloud.com/otv/skcc/live/channel26/2300.m3u8
 东南卫视,http://116.162.6.192/4403-txt.otvstream.otvcloud.com/otv/skcc/live/channel80/1300.m3u8
 甘肃卫视,http://222.240.82.92:9901/tsfile/live/0141_1.m3u8
-广西卫视,https://mobilelive.gxtv.cn/live/nn_live1004/playlist.m3u8
 海南卫视,https://live.v1.mk/api/bestv.php?id=hainanwshd8m/8000000
 吉林卫视,http://116.162.6.192/4403-txt.otvstream.otvcloud.com/otv/skcc/live/channel20/1300.m3u8
 江苏卫视,http://116.162.6.192/4403-txt.otvstream.otvcloud.com/otv/skcc/live/channel18/1300.m3u8
