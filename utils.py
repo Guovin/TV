@@ -449,7 +449,9 @@ def get_results_from_soup(soup, name):
                     name_element = url_element.find_previous_sibling()
                     if name_element:
                         channel_name = name_element.get_text(strip=True)
-                        if name == format_channel_name(channel_name):
+                        if format_channel_name(name) == format_channel_name(
+                            channel_name
+                        ):
                             info_element = url_element.find_next_sibling()
                             date, resolution = get_channel_info(info_element)
                             results.append((url, date, resolution))
