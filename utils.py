@@ -333,8 +333,10 @@ async def get_channels_by_online_search(names, callback):
         proxy_list_with_speed.sort(key=lambda x: x[1])
         print(f"Proxy list with speed: {proxy_list_with_speed}")
         best_proxy = proxy_list_with_speed[0][0] if proxy_list_with_speed else None
-        print(f"Using proxy: {best_proxy}, response time: {proxy_list_with_speed[0][1]}ms")
-        start_time = time()
+        print(
+            f"Using proxy: {best_proxy}, response time: {proxy_list_with_speed[0][1]}ms"
+        )
+    start_time = time()
 
     def process_channel_by_online_search(name):
         driver = setup_driver(best_proxy if github_actions else None)
