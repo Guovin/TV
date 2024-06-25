@@ -22,6 +22,7 @@ from selenium_stealth import stealth
 import concurrent.futures
 import sys
 import importlib.util
+from time import sleep
 
 timeout = 10
 max_retries = 3
@@ -33,6 +34,7 @@ def retry_func(func, retries=max_retries + 1, name=""):
     """
     for i in range(retries):
         try:
+            sleep(3)
             return func()
         except Exception as e:
             count = retries - 1
@@ -329,8 +331,11 @@ async def get_channels_by_online_search(names, callback):
             if response_time is not None
         ]
         proxy_list_with_speed.sort(key=lambda x: x[1])
+        print(f"Proxy list with speed: {proxy_list_with_speed}")
         best_proxy = proxy_list_with_speed[0][0] if proxy_list_with_speed else None
-        print(f"Using proxy: {best_proxy}")
+        print(
+            f"Using proxy: {best_proxy}, response time: {proxy_list_with_speed[0][1]}ms"
+        )
     start_time = time()
 
     def process_channel_by_online_search(name):
@@ -344,51 +349,59 @@ async def get_channels_by_online_search(names, callback):
                     EC.presence_of_element_located((By.XPATH, '//input[@type="text"]'))
                 )
             )
-            search_box.clear()
-            search_box.send_keys(name)
-            submit_button = retry_func(
-                lambda: wait.until(
-                    EC.element_to_be_clickable((By.XPATH, '//input[@type="submit"]'))
+            if search_box:
+                search_box.clear()
+                search_box.send_keys(name)
+                submit_button = retry_func(
+                    lambda: wait.until(
+                        EC.element_to_be_clickable(
+                            (By.XPATH, '//input[@type="submit"]')
+                        )
+                    )
                 )
-            )
-            driver.execute_script("arguments[0].click();", submit_button)
-            isFavorite = name in config.favorite_list
-            pageNum = (
-                config.favorite_page_num if isFavorite else config.default_page_num
-            )
-            for page in range(1, pageNum + 1):
-                try:
-                    if page > 1:
-                        page_link = retry_func(
-                            lambda: wait.until(
-                                EC.element_to_be_clickable(
-                                    (
-                                        By.XPATH,
-                                        f'//a[contains(@href, "={page}") and contains(@href, "{name}")]',
+                if submit_button:
+                    driver.execute_script("arguments[0].click();", submit_button)
+                    isFavorite = name in config.favorite_list
+                    pageNum = (
+                        config.favorite_page_num
+                        if isFavorite
+                        else config.default_page_num
+                    )
+                    for page in range(1, pageNum + 1):
+                        try:
+                            if page > 1:
+                                page_link = retry_func(
+                                    lambda: wait.until(
+                                        EC.element_to_be_clickable(
+                                            (
+                                                By.XPATH,
+                                                f'//a[contains(@href, "={page}") and contains(@href, "{name}")]',
+                                            )
+                                        )
                                     )
                                 )
+                                driver.execute_script(
+                                    "arguments[0].click();", page_link
+                                )
+                            source = re.sub(
+                                r"<!--.*?-->",
+                                "",
+                                driver.page_source,
+                                flags=re.DOTALL,
                             )
-                        )
-                        driver.execute_script("arguments[0].click();", page_link)
-                    source = re.sub(
-                        r"<!--.*?-->",
-                        "",
-                        driver.page_source,
-                        flags=re.DOTALL,
-                    )
-                    soup = BeautifulSoup(source, "html.parser")
-                    if soup:
-                        results = get_results_from_soup(soup, name)
-                        print(name, "page:", page, "results len:", len(results))
-                        for result in results:
-                            url, date, resolution = result
-                            if url and check_url_by_patterns(url):
-                                info_list.append((url, date, resolution))
-                    else:
-                        print(f"No results found for {name}")
-                except Exception as e:
-                    print(f"Error on page {page}: {e}")
-                    continue
+                            soup = BeautifulSoup(source, "html.parser")
+                            if soup:
+                                results = get_results_from_soup(soup, name)
+                                print(name, "page:", page, "results len:", len(results))
+                                for result in results:
+                                    url, date, resolution = result
+                                    if url and check_url_by_patterns(url):
+                                        info_list.append((url, date, resolution))
+                            else:
+                                print(f"No results found for {name}")
+                        except Exception as e:
+                            print(f"Error on page {page}: {e}")
+                            continue
         except Exception as e:
             print(f"Error on search: {e}")
             pass
