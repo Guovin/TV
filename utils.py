@@ -87,7 +87,7 @@ config = (
 )
 
 
-def setup_driver():
+def setup_driver(proxy=None):
     """
     Setup the driver for selenium
     """
@@ -101,6 +101,8 @@ def setup_driver():
     options.add_argument("--ignore-certificate-errors")
     options.add_argument("--allow-running-insecure-content")
     options.add_argument("blink-settings=imagesEnabled=false")
+    if proxy:
+        options.add_argument("--proxy-server=%s" % proxy)
     driver = webdriver.Chrome(options=options)
     stealth(
         driver,
@@ -112,6 +114,39 @@ def setup_driver():
         fix_hairline=True,
     )
     return driver
+
+
+def get_proxy_list(page_count=1):
+    """
+    Get the proxy list
+    """
+    url_pattern = [
+        "https://www.kuaidaili.com/free/inha/{}/",
+        "https://www.kuaidaili.com/free/intr/{}/",
+    ]
+    proxy_list = []
+    driver = setup_driver()
+    for page_index in range(1, page_count + 1):
+        for pattern in url_pattern:
+            url = pattern.format(page_index)
+            retry_func(lambda: driver.get(url), name=url)
+            source = re.sub(
+                r"<!--.*?-->",
+                "",
+                driver.page_source,
+                flags=re.DOTALL,
+            )
+            soup = BeautifulSoup(source, "html.parser")
+            table = soup.find("table")
+            trs = table.find_all("tr") if table else []
+            for tr in trs[1:]:
+                tds = tr.find_all("td")
+                ip = tds[0].get_text().strip()
+                port = tds[1].get_text().strip()
+                proxy = f"{ip}:{port}"
+                proxy_list.append(proxy)
+
+    return proxy_list
 
 
 def format_channel_name(name):
@@ -284,10 +319,22 @@ async def get_channels_by_online_search(names, callback):
     pageUrl = await use_accessible_url(callback)
     if not pageUrl:
         return channels
+    github_actions = os.environ.get("GITHUB_ACTIONS")
+    if github_actions:
+        proxy_list = get_proxy_list()
+        response_times = await asyncio.gather(*(get_speed(url) for url in proxy_list))
+        proxy_list_with_speed = [
+            (proxy, response_time)
+            for proxy, response_time in zip(proxy_list, response_times)
+            if response_time is not None
+        ]
+        proxy_list_with_speed.sort(key=lambda x: x[1])
+        best_proxy = proxy_list_with_speed[0][0] if proxy_list_with_speed else None
+        print(f"Using proxy: {best_proxy}")
     start_time = time()
 
     def process_channel_by_online_search(name):
-        driver = setup_driver()
+        driver = setup_driver(best_proxy if github_actions else None)
         wait = WebDriverWait(driver, timeout)
         info_list = []
         try:
