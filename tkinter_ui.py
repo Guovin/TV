@@ -23,7 +23,7 @@ class TkinterUI:
     def __init__(self, root):
         self.root = root
         self.root.title("直播源接口更新工具")
-        self.version = "v1.0.2"
+        self.version = "v1.2.4"
         self.update_source = UpdateSource()
         self.update_running = False
         self.config_entrys = [
@@ -59,7 +59,7 @@ class TkinterUI:
         if filepath:
             self.source_file_entry.delete(0, tk.END)
             self.source_file_entry.insert(0, filepath)
-            config.source_file = f'"{filepath}"'
+            config.source_file = filepath
 
     def select_final_file(self):
         filepath = filedialog.askopenfilename(
@@ -68,7 +68,7 @@ class TkinterUI:
         if filepath:
             self.final_file_entry.delete(0, tk.END)
             self.final_file_entry.insert(0, filepath)
-            config.final_file = f'"{filepath}"'
+            config.final_file = filepath
 
     def update_open_subscribe(self):
         config.open_subscribe = self.open_subscribe_var.get()

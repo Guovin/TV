@@ -15,10 +15,11 @@ feedparser = "*"
 pytz = "*"
 selenium = "*"
 selenium-stealth = "*"
-aiohttp = "*"
 bs4 = "*"
 tqdm = "*"
 async-timeout = "*"
+pyinstaller = "*"
+aiohttp-retry = "*"
 
 [requires]
 python_version = "3.8"

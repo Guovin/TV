@@ -1,5 +1,20 @@
 # 更新日志（Changelog）
 
+## v1.2.4
+
+### 2024/6/21
+
+- 优化排序执行逻辑（Optimize the sorting execution logic）
+- 优化超时重试方法（Optimize the timeout retry method）
+- 调整默认配置 open_sort：关闭工作流测速排序，建议本地运行更准确（Adjust the default configuration open_sort: turn off the workflow speed test sorting, local execution is recommended for more accurate results）
+
+## v1.2.3
+
+### 2024/6/17
+
+- 新增请求重连重试功能（Added request reconnection retry function）
+- 修复个别系统环境文件路径报错问题（Fixed some system environment file path errors）
+
 ## v1.2.2
 
 ### 2024/6/16
