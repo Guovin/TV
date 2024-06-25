@@ -232,22 +232,23 @@ async def get_channels_by_subscribe_urls(callback):
                 content = response.text
                 lines = content.split("\n")
                 for line in lines:
-                    if re.match(pattern, line) is not None:
-                        key = re.match(pattern, line).group(1)
+                    matcher = re.match(pattern, line)
+                    if matcher is not None:
+                        key = matcher.group(1)
                         resolution_match = re.search(r"_(\((.*?)\))", key)
                         resolution = (
                             resolution_match.group(2)
                             if resolution_match is not None
                             else None
                         )
-                        key = format_channel_name(key)
-                        url = re.match(pattern, line).group(2)
+                        url = matcher.group(2)
                         value = (url, None, resolution)
-                        if key in channels:
-                            if value not in channels[key]:
-                                channels[key].append(value)
+                        name = format_channel_name(key)
+                        if name in channels:
+                            if value not in channels[name]:
+                                channels[name].append(value)
                         else:
-                            channels[key] = [value]
+                            channels[name] = [value]
         except Exception as e:
             print(f"Error on {subscribe_url}: {e}")
         finally:
@@ -331,15 +332,18 @@ async def get_channels_by_online_search(names, callback):
                     soup = BeautifulSoup(source, "html.parser")
                     if soup:
                         results = get_results_from_soup(soup, name)
+                        print(name, "page:", page, "results len:", len(results))
                         for result in results:
                             url, date, resolution = result
                             if url and check_url_by_patterns(url):
                                 info_list.append((url, date, resolution))
+                    else:
+                        print(f"No results found for {name}")
                 except Exception as e:
-                    # print(f"Error on page {page}: {e}")
+                    print(f"Error on page {page}: {e}")
                     continue
         except Exception as e:
-            # print(f"Error on search: {e}")
+            print(f"Error on search: {e}")
             pass
         finally:
             channels[format_channel_name(name)] = info_list
