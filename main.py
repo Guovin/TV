@@ -37,7 +37,6 @@ class UpdateSource:
         self.tasks = []
         self.channel_items = get_channel_items()
         self.results = {}
-        self.semaphore = asyncio.Semaphore(10)
         self.channel_data = {}
         self.pbar = None
         self.total = 0
@@ -89,21 +88,26 @@ class UpdateSource:
     def process_channel(self):
         for cate, channel_obj in self.channel_items.items():
             for name, old_urls in channel_obj.items():
-                format_name = format_channel_name(name)
+                formatName = format_channel_name(name)
                 if config.open_subscribe:
                     self.append_data_to_info_data(
-                        cate, name, self.results["open_subscribe"].get(format_name, [])
+                        cate, name, self.results["open_subscribe"].get(formatName, [])
                     )
                 if config.open_multicast:
                     self.append_data_to_info_data(
-                        cate, name, self.results["open_multicast"].get(format_name, [])
+                        cate, name, self.results["open_multicast"].get(formatName, [])
                     )
                 if config.open_online_search:
                     self.append_data_to_info_data(
                         cate,
                         name,
-                        self.results["open_online_search"].get(format_name, []),
+                        self.results["open_online_search"].get(formatName, []),
                     )
+                print(
+                    name,
+                    "total len:",
+                    len(self.channel_data.get(cate, {}).get(name, [])),
+                )
                 if len(self.channel_data.get(cate, {}).get(name, [])) == 0:
                     self.append_data_to_info_data(
                         cate, name, [(url, None, None) for url in old_urls]
@@ -118,6 +122,7 @@ class UpdateSource:
                 info_list = self.channel_data.get(cate, {}).get(name, [])
                 try:
                     channel_urls = get_total_urls_from_info_list(info_list)
+                    print("write:", cate, name, len(channel_urls))
                     update_channel_urls_txt(cate, name, channel_urls)
                 finally:
                     self.pbar.update()
@@ -227,4 +232,6 @@ class UpdateSource:
 
 if __name__ == "__main__":
     update_source = UpdateSource()
-    asyncio.run(update_source.start())
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    loop.run_until_complete(update_source.start())
