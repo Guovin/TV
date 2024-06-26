@@ -354,16 +354,15 @@ async def get_channels_by_online_search(names, callback):
     pageUrl = await use_accessible_url(callback)
     if not pageUrl:
         return channels
-    # github_actions = os.environ.get("GITHUB_ACTIONS")
-    # if github_actions:
-    proxy_list = get_proxy_list(3)
-    print(f"Proxy list: {proxy_list}")
-    proxy = await get_best_proxy(pageUrl, proxy_list) if proxy_list else None
-    start_time = time()
+    github_actions = os.environ.get("GITHUB_ACTIONS")
+    if github_actions:
+        proxy_list = get_proxy_list(3)
+        print(f"Proxy list: {proxy_list}")
+        proxy = await get_best_proxy(pageUrl, proxy_list) if proxy_list else None
+        start_time = time()
 
     def process_channel_by_online_search(name):
-        # driver = setup_driver(proxy if github_actions else None)
-        driver = setup_driver(proxy)
+        driver = setup_driver(proxy if github_actions else None)
         wait = WebDriverWait(driver, timeout)
         info_list = []
         try:
