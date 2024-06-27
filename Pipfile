@@ -19,7 +19,7 @@ bs4 = "*"
 tqdm = "*"
 async-timeout = "*"
 pyinstaller = "*"
-aiohttp-retry = "*"
+aiohttp = "*"
 
 [requires]
 python_version = "3.8"

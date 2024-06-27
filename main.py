@@ -93,9 +93,19 @@ class UpdateSource:
                     self.append_data_to_info_data(
                         cate, name, self.results["open_subscribe"].get(formatName, [])
                     )
+                    print(
+                        name,
+                        "subscribe num:",
+                        len(self.results["open_subscribe"].get(formatName, [])),
+                    )
                 if config.open_multicast:
                     self.append_data_to_info_data(
                         cate, name, self.results["open_multicast"].get(formatName, [])
+                    )
+                    print(
+                        name,
+                        "multicast num:",
+                        len(self.results["open_multicast"].get(formatName, [])),
                     )
                 if config.open_online_search:
                     self.append_data_to_info_data(
@@ -103,9 +113,14 @@ class UpdateSource:
                         name,
                         self.results["open_online_search"].get(formatName, []),
                     )
+                    print(
+                        name,
+                        "online search num:",
+                        len(self.results["open_online_search"].get(formatName, [])),
+                    )
                 print(
                     name,
-                    "total len:",
+                    "total num:",
                     len(self.channel_data.get(cate, {}).get(name, [])),
                 )
                 if len(self.channel_data.get(cate, {}).get(name, [])) == 0:
@@ -122,7 +137,7 @@ class UpdateSource:
                 info_list = self.channel_data.get(cate, {}).get(name, [])
                 try:
                     channel_urls = get_total_urls_from_info_list(info_list)
-                    print("write:", cate, name, len(channel_urls))
+                    print("write:", cate, name, "num:", len(channel_urls))
                     update_channel_urls_txt(cate, name, channel_urls)
                 finally:
                     self.pbar.update()
