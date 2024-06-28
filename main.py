@@ -20,6 +20,9 @@ import os
 from tqdm import tqdm
 from tqdm.asyncio import tqdm_asyncio
 from time import time
+from flask import Flask, render_template_string
+
+app = Flask(__name__)
 
 config_path = resource_path("user_config.py")
 default_config_path = resource_path("config.py")
@@ -41,6 +44,13 @@ class UpdateSource:
         self.pbar = None
         self.total = 0
         self.start_time = None
+
+    @app.route("/")
+    def show_result():
+        user_final_file = getattr(config, "final_file", "result.txt")
+        with open(user_final_file, "r", encoding="utf-8") as file:
+            content = file.read()
+        return render_template_string("<pre>{{ content }}</pre>", content=content)
 
     def check_info_data(self, cate, name):
         if self.channel_data.get(cate) is None:
@@ -246,7 +256,11 @@ class UpdateSource:
 
 
 if __name__ == "__main__":
-    update_source = UpdateSource()
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
-    loop.run_until_complete(update_source.start())
+    if config.open_update:
+        update_source = UpdateSource()
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        loop.run_until_complete(update_source.start())
+    github_actions = os.environ.get("GITHUB_ACTIONS")
+    if not github_actions:
+        app.run(host="0.0.0.0", port=80)

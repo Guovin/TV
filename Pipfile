@@ -20,6 +20,7 @@ tqdm = "*"
 async-timeout = "*"
 pyinstaller = "*"
 aiohttp = "*"
+flask = "*"
 
 [requires]
 python_version = "3.8"
