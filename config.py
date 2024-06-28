@@ -1,3 +1,4 @@
+open_update = True
 source_file = "demo.txt"
 final_file = "result.txt"
 favorite_list = [
