@@ -55,47 +55,50 @@
 3. 粘贴默认模板，修改 source_file = "user_demo.txt"；final_file = "user_result.txt"
 4. 点击 Commit changes...进行保存
 
-按照您的需要适当调整配置，以下是默认配置说明
-| 配置项 | 默认值 | 描述 |
-| ---------------------- | --------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| source_file | "demo.txt" | 模板文件名称 |
-| final_file | "result.txt" | 生成文件名称 |
-| favorite_list | ["广东珠江","CCTV-1","CCTV-5","CCTV-5+","CCTV-13","广东体育","广东卫视","大湾区卫视","浙江卫视","湖南卫视","翡翠台"] | 关注频道名称列表（仅用于与常规频道区分，自定义获取分页数量） |
-| open_online_search | False | 开启线上检索源功能 |
-| favorite_page_num | 5 | 关注频道获取分页数量 |
-| default_page_num | 3 | 常规频道获取分页数量 |
-| urls_limit | 10 | 单个频道接口数量 |
-| open_sort | True | 开启排序功能（响应速度、日期、分辨率），若更执行时间较长可关闭此功能 |
-| response_time_weight | 0.5 | 响应时间权重值（所有权重值总和应为 1） |
-| resolution_weight | 0.5 | 分辨率权重值 （所有权重值总和应为 1） |
-| recent_days | 30 | 获取最近时间范围内更新的接口（单位天），适当减小可避免出现匹配问题 |
-| ipv_type | "ipv4" | 生成结果中接口的类型，可选值："ipv4"、"ipv6"、"all" |
-| domain_blacklist | ["epg.pw"] | 接口域名黑名单，用于过滤低质量含广告类域名的接口 |
-| url_keywords_blacklist | [] | 接口关键字黑名单，用于过滤含特定字符的接口 |
-| open_subscribe | True | 开启订阅源功能 |
-| subscribe_urls | ["https://m3u.ibert.me/txt/fmml_dv6.txt",<br>"https://m3u.ibert.me/txt/o_cn.txt",<br>"https://m3u.ibert.me/txt/j_iptv.txt"] | 订阅源列表 |
-| open_multicast | True | 开启组播源功能 |
-| region_list | ["all"] | 组播源地区列表，[更多地区](./fofa_map.py)，"all"表示所有地区 |
+按照您的需要适当调整配置，以下是默认配置说明：
+[配置参数](./docs/config.md)
 
-## 步骤四：本地运行更新（推荐，稳定，支持大量频道更新）
+## 步骤四：运行更新
 
-### 1. 安装 Python
-
-请至官方下载并安装 Python，安装时请选择将 Python 添加到系统环境变量 Path 中
-
-### 2. 运行更新
-
-项目目录下打开终端 CMD 依次运行以下命令：
+### 方式一：命令行更新
 
 ```python
+1. 安装 Python
+请至官方下载并安装 Python，安装时请选择将 Python 添加到系统环境变量 Path 中
+
+2. 运行更新
+项目目录下打开终端 CMD 依次运行以下命令：
 pip3 install pipenv
 pipenv install
 pipenv run build
 ```
 
-### 3. 更新文件至仓库
+### 方式二：界面软件更新
 
-接口更新完成后，将 user_result.txt 上传至个人仓库，即可完成更新
+```python
+1. 下载[更新工具软件](https://github.com/Guovin/TV/releases)，打开软件，点击更新，即可完成更新
+
+2. 或者在项目目录下运行以下命令，即可打开界面软件：
+pipenv run ui
+```
+
+### 方式三：Docker 更新
+
+```bash
+1. 拉取镜像：docker pull guovern/tv-update:latest
+2. 运行容器：docker run -d -p 8000:8000 tv-update
+3. 访问（域名:8000）查看更新结果
+```
+
+#### 注：方式一至三更新完成后的结果文件链接：http://本地 ip:8000
+
+### 方式四：工作流更新
+
+请见步骤六
+
+### 上传更新文件至仓库（可选）
+
+如果您没有自己的域名地址，接口更新完成后，将 user_result.txt 上传至个人仓库，即可使用
 ![用户名与仓库名称](./images/rep-info.png '用户名与仓库名称')
 https://mirror.ghproxy.com/raw.githubusercontent.com/您的github用户名/仓库名称（对应上述Fork创建时的TV）/master/user_result.txt
 
@@ -120,7 +123,7 @@ https://mirror.ghproxy.com/raw.githubusercontent.com/您的github用户名/仓�
 
 ## 以下内容请谨慎使用，如果您有大量的频道需要更新，请使用本地更新，勿使用自动更新，配置不当可能导致账户或工作流封禁！
 
-## 步骤六：开启自动更新（仅适合少量频道更新）
+## 步骤六：开启工作流自动更新
 
 如果您的模板和配置修改没有问题的话，这时就可以配置 Actions 来实现自动更新啦
 

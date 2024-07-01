@@ -1,5 +1,16 @@
 # 更新日志（Changelog）
 
+## v1.3.0
+
+### 2024/7/1
+
+- 新增更新结果页面服务（ip:8000）（Add new update results page service (ip:8000)）
+- 新增支持 Docker 运行，并支持定时自动更新（Added support for Docker running and automatic updates）
+- 修复在线查询更新，增加随机代理、失败重试，提高获取结果成功率（Fixed online query update, added random proxy, increased failure retry, and improved the success rate of getting results）
+- 更换使用阿里云镜像源（Switched to use Alibaba Cloud mirror source）
+- 增加更新开关配置：open_update（Add update switch configuration: open_update）
+- 更新说明文档（Update documentation）
+
 ## v1.2.4
 
 ### 2024/6/21

@@ -8,6 +8,7 @@ from main import UpdateSource
 import os
 import asyncio
 import threading
+import webbrowser
 
 config_path = resource_path("user_config.py")
 default_config_path = resource_path("config.py")
@@ -23,7 +24,7 @@ class TkinterUI:
     def __init__(self, root):
         self.root = root
         self.root.title("直播源接口更新工具")
-        self.version = "v1.2.4"
+        self.version = "v1.3.0"
         self.update_source = UpdateSource()
         self.update_running = False
         self.config_entrys = [
@@ -48,6 +49,7 @@ class TkinterUI:
             "subscribe_urls_text",
             "region_list_text",
         ]
+        self.result_url = None
 
     def format_list(self, text):
         return [f"{item.strip()}" for item in text.split(",") if item.strip()]
@@ -131,6 +133,9 @@ class TkinterUI:
     def update_region_list(self, event):
         config.region_list = self.format_list(self.region_list_text.get(1.0, tk.END))
 
+    def view_result_link_callback(self, event):
+        webbrowser.open_new_tab(self.result_url)
+
     def save_config(self):
         config_values = {
             "source_file": f'"{self.source_file_entry.get()}"',
@@ -179,6 +184,7 @@ class TkinterUI:
                 getattr(self, entry).config(state="disabled")
             self.progress_bar["value"] = 0
             self.progress_label.pack()
+            self.view_result_link.pack()
             self.progress_bar.pack()
             await self.update_source.start(self.update_progress)
         else:
@@ -188,6 +194,7 @@ class TkinterUI:
             for entry in self.config_entrys:
                 getattr(self, entry).config(state="normal")
             self.progress_bar.pack_forget()
+            self.view_result_link.pack_forget()
             self.progress_label.pack_forget()
 
     def on_run_update(self):
@@ -202,15 +209,19 @@ class TkinterUI:
     def stop(self):
         asyncio.get_event_loop().stop()
 
-    def update_progress(self, title, progress, finished=False):
+    def update_progress(self, title, progress, finished=False, url=None):
         self.progress_bar["value"] = progress
-        self.progress_label["text"] = f"{title}, 进度: {progress}%"
+        progress_text = f"{title}, 进度: {progress}%" if not finished else f"{title}"
+        self.progress_label["text"] = progress_text
         self.root.update()
         if finished:
             self.run_button.config(text="开始更新", state="normal")
             self.update_running = False
             for entry in self.config_entrys:
                 getattr(self, entry).config(state="normal")
+            if url:
+                self.view_result_link.config(text=url)
+                self.result_url = url
 
     def init_UI(self):
 
@@ -488,6 +499,23 @@ class TkinterUI:
         )
         self.version_label.pack(side=tk.RIGHT, padx=5, pady=5)
 
+        self.author_label = tk.Label(
+            version_frame,
+            text="by Govin",
+            fg="gray",
+            anchor="se",
+        )
+        self.author_label.pack(side=tk.LEFT, padx=5, pady=5)
+
+        self.project_link = tk.Label(
+            version_frame, text="访问项目主页", fg="blue", cursor="hand2"
+        )
+        self.project_link.pack(side=tk.LEFT, padx=5, pady=5)
+        self.project_link.bind(
+            "<Button-1>",
+            lambda e: webbrowser.open_new_tab("https://github.com/Guovin/TV"),
+        )
+
         row14 = tk.Frame(self.root)
         row14.pack(fill=tk.X)
 
@@ -495,6 +523,12 @@ class TkinterUI:
         self.progress_bar.pack_forget()
         self.progress_label = tk.Label(row14, text="进度: 0%")
         self.progress_label.pack_forget()
+        self.view_result_link = tk.Label(row14, text="", fg="blue", cursor="hand2")
+        self.view_result_link.bind(
+            "<Button-1>",
+            self.view_result_link_callback,
+        )
+        self.view_result_link.pack_forget()
 
 
 if __name__ == "__main__":
@@ -504,7 +538,7 @@ if __name__ == "__main__":
     screen_width = root.winfo_screenwidth()
     screen_height = root.winfo_screenheight()
     width = 500
-    height = 780
+    height = 800
     x = (screen_width / 2) - (width / 2)
     y = (screen_height / 2) - (height / 2)
     root.geometry("%dx%d+%d+%d" % (width, height, x, y))

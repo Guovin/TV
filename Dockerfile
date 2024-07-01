@@ -4,10 +4,21 @@ WORKDIR /app
 
 COPY . /app
 
-# RUN pip install --trusted-host pypi.python.org Flask
+RUN pip install -i https://mirrors.aliyun.com/pypi/simple pipenv
 
-EXPOSE 80
+RUN pipenv install
 
-ENV NAME World
+RUN sed -i 's@deb.debian.org@mirrors.aliyun.com@g' /etc/apt/sources.list \
+  && sed -i 's@security.debian.org@mirrors.aliyun.com@g' /etc/apt/sources.list
 
-CMD ["python", "./main.py"]
+RUN apt-get update && apt-get install -y chromium chromium-driver cron
+
+RUN (crontab -l 2>/dev/null; echo "0 0 * * * cd /app && pipenv run python main.py scheduled_task") | crontab -
+
+EXPOSE 8000
+
+COPY entrypoint.sh /entrypoint.sh
+
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]

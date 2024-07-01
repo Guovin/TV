@@ -1,6 +1,6 @@
 [[source]]
-name = "pypi"
-url = "https://pypi.org/simple"
+name = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple"
 verify_ssl = true
 
 [scripts]
@@ -21,6 +21,7 @@ async-timeout = "*"
 pyinstaller = "*"
 aiohttp = "*"
 flask = "*"
+gunicorn = "*"
 
 [requires]
 python_version = "3.8"
