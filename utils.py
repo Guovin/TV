@@ -19,11 +19,11 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
-from selenium_stealth import stealth
 import concurrent.futures
 import sys
 import importlib.util
 from time import sleep
+import socket
 
 timeout = 10
 max_retries = 3
@@ -132,18 +132,11 @@ def setup_driver(proxy=None):
     options.add_argument("--ignore-certificate-errors")
     options.add_argument("--allow-running-insecure-content")
     options.add_argument("blink-settings=imagesEnabled=false")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
     if proxy:
         options.add_argument("--proxy-server=%s" % proxy)
     driver = webdriver.Chrome(options=options)
-    stealth(
-        driver,
-        languages=["en-US", "en"],
-        vendor="Google Inc.",
-        platform="Win32",
-        webgl_vendor="Intel Inc.",
-        renderer="Intel Iris OpenGL Engine",
-        fix_hairline=True,
-    )
     return driver
 
 
@@ -901,3 +894,18 @@ def merge_objects(*objects):
     for key, value in merged_dict.items():
         merged_dict[key] = list(value)
     return merged_dict
+
+
+def get_ip_address():
+    """
+    Get the IP address
+    """
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    try:
+        s.connect(("10.255.255.255", 1))
+        IP = s.getsockname()[0]
+    except Exception:
+        IP = "127.0.0.1"
+    finally:
+        s.close()
+    return f"http://{IP}:8000"
