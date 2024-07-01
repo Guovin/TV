@@ -39,8 +39,8 @@ pipenv run ui
 ### 方式三：Docker 更新
 
 ```bash
-1. 拉取镜像：docker pull guovern/tv-update:latest
-2. 运行容器：docker run -d -p 8000:8000 tv-update
+1. 拉取镜像：docker pull guovern/tv:latest
+2. 运行容器：docker run -d -p 8000:8000 tv
 3. 访问（域名:8000）查看更新结果
 ```
 

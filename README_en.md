@@ -39,8 +39,8 @@ pipenv run ui
 ### Method 3: Docker Update
 
 ```bash
-1. Pull the image: docker pull guovern/tv-update:latest
-2. Run the container: docker run -d -p 8000:8000 tv-update
+1. Pull the image: docker pull guovern/tv:latest
+2. Run the container: docker run -d -p 8000:8000 tv
 3. Access (domain:8000) to check the update results
 ```
 
