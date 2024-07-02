@@ -29,10 +29,11 @@ pipenv run build
 
 ### Method 2: GUI Software Update
 
-```python
 1. Download [Update tool software](https://github.com/Guovin/TV/releases), open the software, click update to complete the update
 
 2. Or run the following command in the project directory to open the GUI software:
+
+```python
 pipenv run ui
 ```
 

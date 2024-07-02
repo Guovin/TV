@@ -29,10 +29,11 @@ pipenv run build
 
 ### 方式二：界面软件更新
 
-```python
 1. 下载[更新工具软件](https://github.com/Guovin/TV/releases)，打开软件，点击更新，即可完成更新
 
 2. 或者在项目目录下运行以下命令，即可打开界面软件：
+
+```python
 pipenv run ui
 ```
 
