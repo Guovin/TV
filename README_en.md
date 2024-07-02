@@ -9,7 +9,7 @@ Customize channel menus and automatically obtain and update the latest live sour
 - Custom templates for creating desired channel categories and order
 - Supports multiple source acquisition methods: online search, multicast source, hotel source, subscription source
 - Interface speed testing and verification, with priority on response time and resolution, filtering out ineffective interfaces
-- Scheduled execution at 8:00 AM Beijing time daily
+- Scheduled execution at 6:00 AM Beijing time daily
 - Supports various execution methods: workflows, command line, GUI software, Docker
 - For more features, see [Config parameter](./docs/config_en.md)
 
