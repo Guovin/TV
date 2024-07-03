@@ -172,19 +172,19 @@ class UpdateSource:
                 get_channels_by_subscribe_urls(self.update_progress)
             )
             self.tasks.append(subscribe_task)
-            self.subscribe_result = await subscribe_task()
+            self.subscribe_result = await subscribe_task
         if config.open_multicast:
             multicast_task = asyncio.create_task(
                 get_channels_by_fofa(self.update_progress)
             )
             self.tasks.append(multicast_task)
-            self.multicast_result = await multicast_task()
+            self.multicast_result = await multicast_task
         if config.open_online_search:
             online_search_task = asyncio.create_task(
                 get_channels_by_online_search(channel_names, self.update_progress)
             )
             self.tasks.append(online_search_task)
-            self.online_search_result = await online_search_task()
+            self.online_search_result = await online_search_task
 
     async def main(self):
         try:

@@ -183,7 +183,7 @@ async def get_proxy_list(page_count=1):
             url_queue.task_done()
             pbar.update()
 
-    with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
         while not url_queue.empty():
             loop = asyncio.get_running_loop()
             url = await url_queue.get()
@@ -376,7 +376,7 @@ async def get_channels_by_subscribe_urls(callback):
             if config.open_online_search and pbar.n / subscribe_urls_len == 1:
                 callback("正在获取在线搜索结果, 请耐心等待", 0)
 
-    with concurrent.futures.ThreadPoolExecutor(max_workers=5) as pool:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=10) as pool:
         loop = asyncio.get_running_loop()
         subscribe_url = await subscribe_queue.get()
         loop.run_in_executor(pool, process_subscribe_channels, subscribe_url)
@@ -394,7 +394,7 @@ async def get_channels_by_online_search(names, callback):
     if not pageUrl:
         return channels
     if config.open_proxy:
-        proxy_list = get_proxy_list(3)
+        proxy_list = await get_proxy_list(3)
         proxy_list_test = (
             await get_proxy_list_with_test(pageUrl, proxy_list) if proxy_list else []
         )
@@ -499,7 +499,7 @@ async def get_channels_by_online_search(names, callback):
     pbar = tqdm_asyncio(total=names_len)
     pbar.set_description(f"Processing online search, {names_len} channels remaining")
     callback(f"正在线上查询更新, 共{names_len}个频道", 0)
-    with concurrent.futures.ThreadPoolExecutor(max_workers=5) as pool:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=10) as pool:
         while not names_queue.empty():
             loop = asyncio.get_running_loop()
             name = await names_queue.get()
@@ -886,7 +886,7 @@ async def get_channels_by_fofa(callback):
                 callback("正在获取在线搜索结果, 请耐心等待", 0)
             driver.quit()
 
-    with concurrent.futures.ThreadPoolExecutor(max_workers=5) as pool:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=10) as pool:
         while not fofa_queue.empty():
             loop = asyncio.get_running_loop()
             fofa_url = await fofa_queue.get()
