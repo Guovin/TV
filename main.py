@@ -49,11 +49,14 @@ class UpdateSource:
         self.run_ui = False
         self.tasks = []
         self.channel_items = get_channel_items()
-        self.results = {}
+        self.subscribe_result = {}
+        self.multicast_result = {}
+        self.online_search_result = {}
         self.channel_data = {}
         self.pbar = None
         self.total = 0
         self.start_time = None
+        self.semaphore = asyncio.Semaphore(10)
 
     def check_info_data(self, cate, name):
         if self.channel_data.get(cate) is None:
@@ -68,35 +71,36 @@ class UpdateSource:
                 self.channel_data[cate][name].append((url, date, resolution))
 
     async def sort_channel_list(self, cate, name, info_list):
-        try:
-            sorted_data = await sort_urls_by_speed_and_resolution(info_list)
-            if sorted_data:
-                self.check_info_data(cate, name)
-                self.channel_data[cate][name] = []
-                for (
-                    url,
-                    date,
-                    resolution,
-                ), response_time in sorted_data:
-                    logging.info(
-                        f"Name: {name}, URL: {url}, Date: {date}, Resolution: {resolution}, Response Time: {response_time}ms"
-                    )
-                data = [
-                    (url, date, resolution)
-                    for (url, date, resolution), _ in sorted_data
-                ]
-                self.append_data_to_info_data(cate, name, data, False)
-        except Exception as e:
-            logging.error(f"Error: {e}")
-        finally:
-            self.pbar.update()
-            self.pbar.set_description(
-                f"Sorting, {self.pbar.total - self.pbar.n} channels remaining"
-            )
-            self.update_progress(
-                f"正在测速排序, 剩余{self.pbar.total - self.pbar.n}个频道, 预计剩余时间: {get_pbar_remaining(self.pbar, self.start_time)}",
-                int((self.pbar.n / self.total) * 100),
-            )
+        async with self.semaphore:
+            try:
+                sorted_data = await sort_urls_by_speed_and_resolution(info_list)
+                if sorted_data:
+                    self.check_info_data(cate, name)
+                    self.channel_data[cate][name] = []
+                    for (
+                        url,
+                        date,
+                        resolution,
+                    ), response_time in sorted_data:
+                        logging.info(
+                            f"Name: {name}, URL: {url}, Date: {date}, Resolution: {resolution}, Response Time: {response_time}ms"
+                        )
+                    data = [
+                        (url, date, resolution)
+                        for (url, date, resolution), _ in sorted_data
+                    ]
+                    self.append_data_to_info_data(cate, name, data, False)
+            except Exception as e:
+                logging.error(f"Error: {e}")
+            finally:
+                self.pbar.update()
+                self.pbar.set_description(
+                    f"Sorting, {self.pbar.total - self.pbar.n} channels remaining"
+                )
+                self.update_progress(
+                    f"正在测速排序, 剩余{self.pbar.total - self.pbar.n}个频道, 预计剩余时间: {get_pbar_remaining(self.pbar, self.start_time)}",
+                    int((self.pbar.n / self.total) * 100),
+                )
 
     def process_channel(self):
         for cate, channel_obj in self.channel_items.items():
@@ -104,32 +108,32 @@ class UpdateSource:
                 formatName = format_channel_name(name)
                 if config.open_subscribe:
                     self.append_data_to_info_data(
-                        cate, name, self.results["open_subscribe"].get(formatName, [])
+                        cate, name, self.subscribe_result.get(formatName, [])
                     )
                     print(
                         name,
                         "subscribe num:",
-                        len(self.results["open_subscribe"].get(formatName, [])),
+                        len(self.subscribe_result.get(formatName, [])),
                     )
                 if config.open_multicast:
                     self.append_data_to_info_data(
-                        cate, name, self.results["open_multicast"].get(formatName, [])
+                        cate, name, self.multicast_result.get(formatName, [])
                     )
                     print(
                         name,
                         "multicast num:",
-                        len(self.results["open_multicast"].get(formatName, [])),
+                        len(self.multicast_result.get(formatName, [])),
                     )
                 if config.open_online_search:
                     self.append_data_to_info_data(
                         cate,
                         name,
-                        self.results["open_online_search"].get(formatName, []),
+                        self.online_search_result.get(formatName, []),
                     )
                     print(
                         name,
                         "online search num:",
-                        len(self.results["open_online_search"].get(formatName, [])),
+                        len(self.online_search_result.get(formatName, [])),
                     )
                 print(
                     name,
@@ -163,32 +167,27 @@ class UpdateSource:
                     )
 
     async def visit_page(self, channel_names=None):
-        task_dict = {
-            "open_subscribe": get_channels_by_subscribe_urls,
-            "open_multicast": get_channels_by_fofa,
-            "open_online_search": get_channels_by_online_search,
-        }
-        for config_name, task_func in task_dict.items():
-            if getattr(config, config_name):
-                task = None
-                if config_name == "open_subscribe" or config_name == "open_multicast":
-                    task = asyncio.create_task(task_func(self.update_progress))
-                else:
-                    task = asyncio.create_task(
-                        task_func(channel_names, self.update_progress)
-                    )
-                if task:
-                    self.tasks.append(task)
-        task_results = await tqdm_asyncio.gather(*self.tasks, disable=True)
-        self.tasks = []
-        for i, config_name in enumerate(
-            [name for name in task_dict if getattr(config, name)]
-        ):
-            self.results[config_name] = task_results[i]
+        if config.open_subscribe:
+            subscribe_task = asyncio.create_task(
+                get_channels_by_subscribe_urls(self.update_progress)
+            )
+            self.tasks.append(subscribe_task)
+            self.subscribe_result = await subscribe_task()
+        if config.open_multicast:
+            multicast_task = asyncio.create_task(
+                get_channels_by_fofa(self.update_progress)
+            )
+            self.tasks.append(multicast_task)
+            self.multicast_result = await multicast_task()
+        if config.open_online_search:
+            online_search_task = asyncio.create_task(
+                get_channels_by_online_search(channel_names, self.update_progress)
+            )
+            self.tasks.append(online_search_task)
+            self.online_search_result = await online_search_task()
 
     async def main(self):
         try:
-            self.tasks = []
             channel_names = [
                 name
                 for channel_obj in self.channel_items.values()
@@ -196,6 +195,7 @@ class UpdateSource:
             ]
             self.total = len(channel_names)
             await self.visit_page(channel_names)
+            self.tasks = []
             self.process_channel()
             if config.open_sort:
                 self.tasks = [

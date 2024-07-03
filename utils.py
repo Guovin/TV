@@ -140,7 +140,7 @@ def setup_driver(proxy=None):
     return driver
 
 
-def get_proxy_list(page_count=1):
+async def get_proxy_list(page_count=1):
     """
     Get proxy list, parameter page_count is the number of pages to get
     """
@@ -150,10 +150,16 @@ def get_proxy_list(page_count=1):
         "https://www.kuaidaili.com/free/intr/{}/",
     ]
     proxy_list = []
-    driver = setup_driver()
-    pbar = tqdm_asyncio(total=page_count, desc="Getting proxy list")
+    url_queue = asyncio.Queue()
     for page_index in range(1, page_count + 1):
         for pattern in url_pattern:
+            url = pattern.format(page_index)
+            await url_queue.put(url)
+    pbar = tqdm_asyncio(total=url_queue.qsize(), desc="Getting proxy list")
+
+    def get_proxy(url):
+        driver = setup_driver()
+        try:
             url = pattern.format(page_index)
             retry_func(lambda: driver.get(url), name=url)
             sleep(1)
@@ -172,7 +178,16 @@ def get_proxy_list(page_count=1):
                 port = tds[1].get_text().strip()
                 proxy = f"http://{ip}:{port}"
                 proxy_list.append(proxy)
-        pbar.update()
+        finally:
+            driver.quit()
+            url_queue.task_done()
+            pbar.update()
+
+    with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+        while not url_queue.empty():
+            loop = asyncio.get_running_loop()
+            url = await url_queue.get()
+            loop.run_in_executor(executor, get_proxy, url)
     pbar.close()
     return proxy_list
 
@@ -183,8 +198,14 @@ async def get_proxy_list_with_test(base_url, proxy_list):
     """
     if not proxy_list:
         return []
+    semaphore = asyncio.Semaphore(10)
+
+    async def get_speed_task(url, timeout, proxy):
+        async with semaphore:
+            return await get_speed(url, timeout=timeout, proxy=proxy)
+
     response_times = await tqdm_asyncio.gather(
-        *(get_speed(base_url, timeout=30, proxy=url) for url in proxy_list),
+        *(get_speed_task(base_url, timeout=30, proxy=url) for url in proxy_list),
         desc="Testing proxy speed",
     )
     proxy_list_with_test = [
@@ -304,6 +325,11 @@ async def get_channels_by_subscribe_urls(callback):
     subscribe_urls_len = len(config.subscribe_urls)
     pbar = tqdm_asyncio(total=subscribe_urls_len)
     start_time = time()
+    pbar.set_description(f"Processing subscribe, {subscribe_urls_len} urls remaining")
+    callback(f"正在获取订阅源更新, 共{subscribe_urls_len}个订阅源", 0)
+    subscribe_queue = asyncio.Queue()
+    for subscribe_url in config.subscribe_urls:
+        await subscribe_queue.put(subscribe_url)
 
     def process_subscribe_channels(subscribe_url):
         try:
@@ -339,6 +365,7 @@ async def get_channels_by_subscribe_urls(callback):
         except Exception as e:
             print(f"Error on {subscribe_url}: {e}")
         finally:
+            subscribe_queue.task_done()
             pbar.update()
             remain = subscribe_urls_len - pbar.n
             pbar.set_description(f"Processing subscribe, {remain} urls remaining")
@@ -349,15 +376,10 @@ async def get_channels_by_subscribe_urls(callback):
             if config.open_online_search and pbar.n / subscribe_urls_len == 1:
                 callback("正在获取在线搜索结果, 请耐心等待", 0)
 
-    pbar.set_description(f"Processing subscribe, {subscribe_urls_len} urls remaining")
-    callback(f"正在获取订阅源更新, 共{subscribe_urls_len}个订阅源", 0)
-    with concurrent.futures.ThreadPoolExecutor() as pool:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=5) as pool:
         loop = asyncio.get_running_loop()
-        tasks = []
-        for subscribe_url in config.subscribe_urls:
-            task = loop.run_in_executor(pool, process_subscribe_channels, subscribe_url)
-            tasks.append(task)
-        await tqdm_asyncio.gather(*tasks, disable=True)
+        subscribe_url = await subscribe_queue.get()
+        loop.run_in_executor(pool, process_subscribe_channels, subscribe_url)
     print("Finished processing subscribe urls")
     pbar.close()
     return channels
@@ -477,7 +499,7 @@ async def get_channels_by_online_search(names, callback):
     pbar = tqdm_asyncio(total=names_len)
     pbar.set_description(f"Processing online search, {names_len} channels remaining")
     callback(f"正在线上查询更新, 共{names_len}个频道", 0)
-    with concurrent.futures.ThreadPoolExecutor(max_workers=10) as pool:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=5) as pool:
         while not names_queue.empty():
             loop = asyncio.get_running_loop()
             name = await names_queue.get()
@@ -802,8 +824,13 @@ async def get_channels_by_fofa(callback):
     pbar = tqdm_asyncio(total=fofa_urls_len)
     start_time = time()
     fofa_results = {}
+    pbar.set_description(f"Processing multicast, {fofa_urls_len} regions remaining")
+    callback(f"正在获取组播源更新, 共{fofa_urls_len}个地区", 0)
+    fofa_queue = asyncio.Queue()
+    for fofa_url in fofa_urls:
+        await fofa_queue.put(fofa_url)
 
-    def process_fofa_channels(fofa_url, pbar, fofa_urls_len, callback):
+    def process_fofa_channels(fofa_url, fofa_urls_len, callback):
         driver = setup_driver()
         try:
             retry_func(lambda: driver.get(fofa_url), name=fofa_url)
@@ -847,6 +874,7 @@ async def get_channels_by_fofa(callback):
             # print(e)
             pass
         finally:
+            fofa_queue.task_done()
             pbar.update()
             remain = fofa_urls_len - pbar.n
             pbar.set_description(f"Processing multicast, {remain} regions remaining")
@@ -858,17 +886,14 @@ async def get_channels_by_fofa(callback):
                 callback("正在获取在线搜索结果, 请耐心等待", 0)
             driver.quit()
 
-    pbar.set_description(f"Processing multicast, {fofa_urls_len} regions remaining")
-    callback(f"正在获取组播源更新, 共{fofa_urls_len}个地区", 0)
-    with concurrent.futures.ThreadPoolExecutor() as pool:
-        loop = asyncio.get_running_loop()
-        tasks = []
-        for fofa_url in fofa_urls:
-            task = loop.run_in_executor(
-                pool, process_fofa_channels, fofa_url, pbar, fofa_urls_len, callback
+    with concurrent.futures.ThreadPoolExecutor(max_workers=5) as pool:
+        while not fofa_queue.empty():
+            loop = asyncio.get_running_loop()
+            fofa_url = await fofa_queue.get()
+            loop.run_in_executor(
+                pool, process_fofa_channels, fofa_url, fofa_urls_len, callback
             )
-            tasks.append(task)
-        await tqdm_asyncio.gather(*tasks, disable=True)
+    print("Finish processing fofa url")
     pbar.close()
     return fofa_results
 
