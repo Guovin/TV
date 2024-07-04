@@ -1,20 +1,20 @@
 import asyncio
-from utils import (
+from utils.config import get_config
+from utils.channel import (
     get_channel_items,
     update_channel_urls_txt,
-    update_file,
-    sort_urls_by_speed_and_resolution,
-    get_total_urls_from_info_list,
-    get_channels_by_subscribe_urls,
-    check_url_by_patterns,
-    get_channels_by_fofa,
-    get_channels_by_online_search,
     format_channel_name,
-    resource_path,
-    load_external_config,
+)
+from utils.utils import (
+    update_file,
+    check_url_by_patterns,
     get_pbar_remaining,
     get_ip_address,
 )
+from utils.speed import sort_urls_by_speed_and_resolution, get_total_urls_from_info_list
+from subscribe import get_channels_by_subscribe_urls
+from fofa import get_channels_by_fofa
+from online_search import get_channels_by_online_search
 import logging
 from logging.handlers import RotatingFileHandler
 import os
@@ -24,13 +24,7 @@ from time import time
 from flask import Flask, render_template_string
 import sys
 
-config_path = resource_path("user_config.py")
-default_config_path = resource_path("config.py")
-config = (
-    load_external_config("user_config.py")
-    if os.path.exists(config_path)
-    else load_external_config("config.py")
-)
+config = get_config()
 
 app = Flask(__name__)
 
