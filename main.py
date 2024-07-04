@@ -56,7 +56,6 @@ class UpdateSource:
         self.pbar = None
         self.total = 0
         self.start_time = None
-        self.semaphore = asyncio.Semaphore(10)
 
     def check_info_data(self, cate, name):
         if self.channel_data.get(cate) is None:
@@ -70,8 +69,8 @@ class UpdateSource:
             if (url and not check) or (url and check and check_url_by_patterns(url)):
                 self.channel_data[cate][name].append((url, date, resolution))
 
-    async def sort_channel_list(self, cate, name, info_list):
-        async with self.semaphore:
+    async def sort_channel_list(self, semaphore, cate, name, info_list):
+        async with semaphore:
             try:
                 sorted_data = await sort_urls_by_speed_and_resolution(info_list)
                 if sorted_data:
@@ -198,8 +197,11 @@ class UpdateSource:
             self.tasks = []
             self.process_channel()
             if config.open_sort:
+                semaphore = asyncio.Semaphore(10)
                 self.tasks = [
-                    asyncio.create_task(self.sort_channel_list(cate, name, info_list))
+                    asyncio.create_task(
+                        self.sort_channel_list(semaphore, cate, name, info_list)
+                    )
                     for cate, channel_obj in self.channel_data.items()
                     for name, info_list in channel_obj.items()
                 ]

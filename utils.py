@@ -834,16 +834,18 @@ async def get_channels_by_fofa(callback):
         driver = setup_driver()
         try:
             retry_func(lambda: driver.get(fofa_url), name=fofa_url)
+            driver.get(fofa_url)
             fofa_source = re.sub(r"<!--.*?-->", "", driver.page_source, flags=re.DOTALL)
             urls = set(re.findall(r"https?://[\w\.-]+:\d+", fofa_source))
             channels = {}
             for url in urls:
                 try:
                     final_url = url + "/iptv/live/1000.json?key=txiptv"
-                    response = retry_func(
-                        lambda: requests.get(final_url, timeout=timeout),
-                        name=final_url,
-                    )
+                    # response = retry_func(
+                    #     lambda: requests.get(final_url, timeout=timeout),
+                    #     name=final_url,
+                    # )
+                    response = requests.get(final_url, timeout=timeout)
                     try:
                         json_data = response.json()
                         if json_data["code"] == 0:
