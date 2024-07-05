@@ -1,5 +1,5 @@
 from selenium import webdriver
-from aiohttp_retry import RetryClient, ExponentialRetry
+import aiohttp
 import asyncio
 from time import time
 import re
@@ -18,10 +18,12 @@ from tqdm.asyncio import tqdm_asyncio
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium_stealth import stealth
+from selenium.common.exceptions import TimeoutException
 import concurrent.futures
 import sys
 import importlib.util
+from time import sleep
+import socket
 
 timeout = 10
 max_retries = 3
@@ -33,6 +35,7 @@ def retry_func(func, retries=max_retries + 1, name=""):
     """
     for i in range(retries):
         try:
+            sleep(3)
             return func()
         except Exception as e:
             count = retries - 1
@@ -42,6 +45,34 @@ def retry_func(func, retries=max_retries + 1, name=""):
                 break
             else:
                 continue
+
+
+def locate_element_with_retry(driver, locator, timeout=timeout, retries=max_retries):
+    """
+    Locate the element with retry
+    """
+    wait = WebDriverWait(driver, timeout)
+    for _ in range(retries):
+        try:
+            return wait.until(EC.presence_of_element_located(locator))
+        except TimeoutException:
+            driver.refresh()
+    return None
+
+
+def find_clickable_element_with_retry(
+    driver, locator, timeout=timeout, retries=max_retries
+):
+    """
+    Find the clickable element with retry
+    """
+    wait = WebDriverWait(driver, timeout)
+    for _ in range(retries):
+        try:
+            return wait.until(EC.element_to_be_clickable(locator))
+        except TimeoutException:
+            driver.refresh()
+    return None
 
 
 def resource_path(relative_path, persistent=False):
@@ -87,7 +118,7 @@ config = (
 )
 
 
-def setup_driver():
+def setup_driver(proxy=None):
     """
     Setup the driver for selenium
     """
@@ -101,17 +132,73 @@ def setup_driver():
     options.add_argument("--ignore-certificate-errors")
     options.add_argument("--allow-running-insecure-content")
     options.add_argument("blink-settings=imagesEnabled=false")
+    options.add_argument("--no-sandbox")
+    options.add_argument("--disable-dev-shm-usage")
+    if proxy:
+        options.add_argument("--proxy-server=%s" % proxy)
     driver = webdriver.Chrome(options=options)
-    stealth(
-        driver,
-        languages=["en-US", "en"],
-        vendor="Google Inc.",
-        platform="Win32",
-        webgl_vendor="Intel Inc.",
-        renderer="Intel Iris OpenGL Engine",
-        fix_hairline=True,
-    )
     return driver
+
+
+def get_proxy_list(page_count=1):
+    """
+    Get proxy list, parameter page_count is the number of pages to get
+    """
+    url_pattern = [
+        "https://www.zdaye.com/free/{}/",
+        "https://www.kuaidaili.com/free/inha/{}/",
+        "https://www.kuaidaili.com/free/intr/{}/",
+    ]
+    proxy_list = []
+    driver = setup_driver()
+    pbar = tqdm_asyncio(total=page_count, desc="Getting proxy list")
+    for page_index in range(1, page_count + 1):
+        for pattern in url_pattern:
+            url = pattern.format(page_index)
+            retry_func(lambda: driver.get(url), name=url)
+            sleep(1)
+            source = re.sub(
+                r"<!--.*?-->",
+                "",
+                driver.page_source,
+                flags=re.DOTALL,
+            )
+            soup = BeautifulSoup(source, "html.parser")
+            table = soup.find("table")
+            trs = table.find_all("tr") if table else []
+            for tr in trs[1:]:
+                tds = tr.find_all("td")
+                ip = tds[0].get_text().strip()
+                port = tds[1].get_text().strip()
+                proxy = f"http://{ip}:{port}"
+                proxy_list.append(proxy)
+        pbar.update()
+    pbar.close()
+    return proxy_list
+
+
+async def get_proxy_list_with_test(base_url, proxy_list):
+    """
+    Get the proxy list with speed test
+    """
+    if not proxy_list:
+        return []
+    response_times = await tqdm_asyncio.gather(
+        *(get_speed(base_url, timeout=30, proxy=url) for url in proxy_list),
+        desc="Testing proxy speed",
+    )
+    proxy_list_with_test = [
+        (proxy, response_time)
+        for proxy, response_time in zip(proxy_list, response_times)
+        if response_time != float("inf")
+    ]
+    if not proxy_list_with_test:
+        print("No valid proxy found")
+        return []
+    proxy_list_with_test.sort(key=lambda x: x[1])
+    proxy_urls = [url for url, _ in proxy_list_with_test]
+    print(f"{len(proxy_urls)} valid proxy found")
+    return proxy_urls
 
 
 def format_channel_name(name):
@@ -227,27 +314,28 @@ async def get_channels_by_subscribe_urls(callback):
                     name=subscribe_url,
                 )
             except requests.exceptions.Timeout:
-                print(f"Timeout on {subscribe_url}")
+                print(f"Timeout on subscribe: {subscribe_url}")
             if response:
                 content = response.text
                 lines = content.split("\n")
                 for line in lines:
-                    if re.match(pattern, line) is not None:
-                        key = re.match(pattern, line).group(1)
+                    matcher = re.match(pattern, line)
+                    if matcher is not None:
+                        key = matcher.group(1)
                         resolution_match = re.search(r"_(\((.*?)\))", key)
                         resolution = (
                             resolution_match.group(2)
                             if resolution_match is not None
                             else None
                         )
-                        key = format_channel_name(key)
-                        url = re.match(pattern, line).group(2)
+                        url = matcher.group(2)
                         value = (url, None, resolution)
-                        if key in channels:
-                            if value not in channels[key]:
-                                channels[key].append(value)
+                        name = format_channel_name(key)
+                        if name in channels:
+                            if value not in channels[name]:
+                                channels[name].append(value)
                         else:
-                            channels[key] = [value]
+                            channels[name] = [value]
         except Exception as e:
             print(f"Error on {subscribe_url}: {e}")
         finally:
@@ -283,63 +371,91 @@ async def get_channels_by_online_search(names, callback):
     pageUrl = await use_accessible_url(callback)
     if not pageUrl:
         return channels
+    if config.open_proxy:
+        proxy_list = get_proxy_list(3)
+        proxy_list_test = (
+            await get_proxy_list_with_test(pageUrl, proxy_list) if proxy_list else []
+        )
+        proxy_index = 0
     start_time = time()
 
-    def process_channel_by_online_search(name):
-        driver = setup_driver()
-        wait = WebDriverWait(driver, timeout)
+    def process_channel_by_online_search(name, proxy=None):
+        driver = setup_driver(proxy)
         info_list = []
         try:
             retry_func(lambda: driver.get(pageUrl), name=f"online search:{name}")
-            search_box = retry_func(
-                lambda: wait.until(
-                    EC.presence_of_element_located((By.XPATH, '//input[@type="text"]'))
-                )
+            search_box = locate_element_with_retry(
+                driver, (By.XPATH, '//input[@type="text"]')
             )
+            if not search_box:
+                return
             search_box.clear()
             search_box.send_keys(name)
-            submit_button = retry_func(
-                lambda: wait.until(
-                    EC.element_to_be_clickable((By.XPATH, '//input[@type="submit"]'))
-                )
+            submit_button = find_clickable_element_with_retry(
+                driver, (By.XPATH, '//input[@type="submit"]')
             )
+            if not submit_button:
+                return
+            sleep(3)
             driver.execute_script("arguments[0].click();", submit_button)
             isFavorite = name in config.favorite_list
             pageNum = (
                 config.favorite_page_num if isFavorite else config.default_page_num
             )
+            retry_limit = 3
             for page in range(1, pageNum + 1):
-                try:
-                    if page > 1:
-                        page_link = retry_func(
-                            lambda: wait.until(
-                                EC.element_to_be_clickable(
-                                    (
-                                        By.XPATH,
-                                        f'//a[contains(@href, "={page}") and contains(@href, "{name}")]',
-                                    )
-                                )
+                retries = 0
+                while retries < retry_limit:
+                    try:
+                        if page > 1:
+                            page_link = find_clickable_element_with_retry(
+                                driver,
+                                (
+                                    By.XPATH,
+                                    f'//a[contains(@href, "={page}") and contains(@href, "{name}")]',
+                                ),
                             )
+                            if not page_link:
+                                break
+                            sleep(3)
+                            driver.execute_script("arguments[0].click();", page_link)
+                        sleep(3)
+                        source = re.sub(
+                            r"<!--.*?-->",
+                            "",
+                            driver.page_source,
+                            flags=re.DOTALL,
                         )
-                        driver.execute_script("arguments[0].click();", page_link)
-                    source = re.sub(
-                        r"<!--.*?-->",
-                        "",
-                        driver.page_source,
-                        flags=re.DOTALL,
-                    )
-                    soup = BeautifulSoup(source, "html.parser")
-                    if soup:
-                        results = get_results_from_soup(soup, name)
-                        for result in results:
-                            url, date, resolution = result
-                            if url and check_url_by_patterns(url):
-                                info_list.append((url, date, resolution))
-                except Exception as e:
-                    # print(f"Error on page {page}: {e}")
-                    continue
+                        soup = BeautifulSoup(source, "html.parser")
+                        if soup:
+                            results = get_results_from_soup(soup, name)
+                            print(name, "page:", page, "results num:", len(results))
+                            if len(results) == 0 and retries < retry_limit - 1:
+                                print(
+                                    f"{name}:No results found, refreshing page and retrying..."
+                                )
+                                driver.refresh()
+                                retries += 1
+                                continue
+                            for result in results:
+                                url, date, resolution = result
+                                if url and check_url_by_patterns(url):
+                                    info_list.append((url, date, resolution))
+                            break
+                        else:
+                            print(
+                                f"{name}:No results found, refreshing page and retrying..."
+                            )
+                            driver.refresh()
+                            retries += 1
+                            continue
+                    except Exception as e:
+                        print(f"{name}:Error on page {page}: {e}")
+                        break
+                if retries == retry_limit:
+                    print(f"{name}:Reached retry limit, moving to next page")
         except Exception as e:
-            # print(f"Error on search: {e}")
+            print(f"{name}:Error on search: {e}")
             pass
         finally:
             channels[format_channel_name(name)] = info_list
@@ -365,7 +481,12 @@ async def get_channels_by_online_search(names, callback):
         while not names_queue.empty():
             loop = asyncio.get_running_loop()
             name = await names_queue.get()
-            loop.run_in_executor(pool, process_channel_by_online_search, name)
+            proxy = (
+                proxy_list_test[0] if config.open_proxy and proxy_list_test else None
+            )
+            if config.open_proxy and proxy_list_test:
+                proxy_index = (proxy_index + 1) % len(proxy_list_test)
+            loop.run_in_executor(pool, process_channel_by_online_search, name, proxy)
     print("Finished processing online search")
     pbar.close()
     return channels
@@ -458,26 +579,25 @@ def get_results_from_soup(soup, name):
     return results
 
 
-async def get_speed(url, urlTimeout=timeout):
+async def get_speed(url, timeout=timeout, proxy=None):
     """
     Get the speed of the url
     """
-    retry_options = ExponentialRetry(attempts=1, max_timeout=urlTimeout)
-    retry_client = RetryClient(raise_for_status=False, retry_options=retry_options)
-    start = time()
-    total = float("inf")
-    try:
-        async with retry_client.get(url) as response:
-            resStatus = response.status
-            end = time()
-            if resStatus == 200:
-                total = int(round((end - start) * 1000))
-            else:
-                total = float("inf")
-    except:
-        total = float("inf")
-    await retry_client.close()
-    return total
+    async with aiohttp.ClientSession(
+        connector=aiohttp.TCPConnector(verify_ssl=False), trust_env=True
+    ) as session:
+        start = time()
+        end = None
+        try:
+            async with session.get(url, timeout=timeout, proxy=proxy) as response:
+                resStatus = response.status
+                if resStatus == 200:
+                    end = time()
+                else:
+                    return float("inf")
+        except Exception as e:
+            return float("inf")
+        return int(round((end - start) * 1000)) if end else float("inf")
 
 
 async def sort_urls_by_speed_and_resolution(infoList):
@@ -645,8 +765,8 @@ async def use_accessible_url(callback):
     callback(f"正在获取最优的在线检索节点", 0)
     baseUrl1 = "https://www.foodieguide.com/iptvsearch/"
     baseUrl2 = "http://tonkiang.us/"
-    task1 = asyncio.create_task(get_speed(baseUrl1, 30))
-    task2 = asyncio.create_task(get_speed(baseUrl2, 30))
+    task1 = asyncio.create_task(get_speed(baseUrl1, timeout=30))
+    task2 = asyncio.create_task(get_speed(baseUrl2, timeout=30))
     task_results = await asyncio.gather(task1, task2)
     callback(f"获取在线检索节点完成", 100)
     if task_results[0] == float("inf") and task_results[1] == float("inf"):
@@ -774,3 +894,18 @@ def merge_objects(*objects):
     for key, value in merged_dict.items():
         merged_dict[key] = list(value)
     return merged_dict
+
+
+def get_ip_address():
+    """
+    Get the IP address
+    """
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    try:
+        s.connect(("10.255.255.255", 1))
+        IP = s.getsockname()[0]
+    except Exception:
+        IP = "127.0.0.1"
+    finally:
+        s.close()
+    return f"http://{IP}:8000"
