@@ -2,7 +2,7 @@ from utils.config import get_config
 from tqdm.asyncio import tqdm_asyncio
 from time import time
 from asyncio import Queue
-from request import get, exceptions
+from requests import get, exceptions
 from utils.retry import retry_func
 import re
 from utils.channel import format_channel_name
@@ -75,7 +75,7 @@ async def get_channels_by_subscribe_urls(callback):
             if config.open_online_search and pbar.n / subscribe_urls_len == 1:
                 callback("正在获取在线搜索结果, 请耐心等待", 0)
 
-    with ThreadPoolExecutor(max_workers=10) as pool:
+    with ThreadPoolExecutor(max_workers=5) as pool:
         loop = get_running_loop()
         subscribe_url = await subscribe_queue.get()
         loop.run_in_executor(pool, process_subscribe_channels, subscribe_url)

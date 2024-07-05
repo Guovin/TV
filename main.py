@@ -10,8 +10,9 @@ from utils.utils import (
     check_url_by_patterns,
     get_pbar_remaining,
     get_ip_address,
+    get_total_urls_from_info_list,
 )
-from utils.speed import sort_urls_by_speed_and_resolution, get_total_urls_from_info_list
+from utils.speed import sort_urls_by_speed_and_resolution
 from subscribe import get_channels_by_subscribe_urls
 from fofa import get_channels_by_fofa
 from online_search import get_channels_by_online_search

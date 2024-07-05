@@ -2,7 +2,7 @@ from utils.config import get_config
 from tqdm.asyncio import tqdm_asyncio
 from time import time
 from asyncio import Queue, get_running_loop
-from request import get
+from requests import get
 from concurrent.futures import ThreadPoolExecutor
 import fofa_map
 from driver.setup import setup_driver
@@ -47,10 +47,10 @@ async def get_channels_by_fofa(callback):
         await fofa_queue.put(fofa_url)
 
     def process_fofa_channels(fofa_url, fofa_urls_len, callback):
-        driver = setup_driver()
+        driver = None
         try:
+            driver = setup_driver()
             retry_func(lambda: driver.get(fofa_url), name=fofa_url)
-            driver.get(fofa_url)
             fofa_source = re.sub(r"<!--.*?-->", "", driver.page_source, flags=re.DOTALL)
             urls = set(re.findall(r"https?://[\w\.-]+:\d+", fofa_source))
             channels = {}
@@ -92,6 +92,8 @@ async def get_channels_by_fofa(callback):
             # print(e)
             pass
         finally:
+            if driver:
+                driver.quit()
             fofa_queue.task_done()
             pbar.update()
             remain = fofa_urls_len - pbar.n
@@ -102,9 +104,8 @@ async def get_channels_by_fofa(callback):
             )
             if config.open_online_search and pbar.n / fofa_urls_len == 1:
                 callback("正在获取在线搜索结果, 请耐心等待", 0)
-            driver.quit()
 
-    with ThreadPoolExecutor(max_workers=10) as pool:
+    with ThreadPoolExecutor(max_workers=5) as pool:
         while not fofa_queue.empty():
             loop = get_running_loop()
             fofa_url = await fofa_queue.get()

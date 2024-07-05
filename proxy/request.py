@@ -27,8 +27,9 @@ async def get_proxy_list(page_count=1):
     pbar = tqdm_asyncio(total=url_queue.qsize(), desc="Getting proxy list")
 
     def get_proxy(url):
-        driver = setup_driver()
+        driver = None
         try:
+            driver = setup_driver()
             url = pattern.format(page_index)
             retry_func(lambda: driver.get(url), name=url)
             sleep(1)
@@ -48,11 +49,12 @@ async def get_proxy_list(page_count=1):
                 proxy = f"http://{ip}:{port}"
                 proxy_list.append(proxy)
         finally:
-            driver.quit()
+            if driver:
+                driver.quit()
             url_queue.task_done()
             pbar.update()
 
-    with ThreadPoolExecutor(max_workers=10) as executor:
+    with ThreadPoolExecutor(max_workers=5) as executor:
         while not url_queue.empty():
             loop = get_running_loop()
             url = await url_queue.get()
