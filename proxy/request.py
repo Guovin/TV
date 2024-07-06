@@ -1,15 +1,15 @@
-from asyncio import Queue, get_running_loop, Semaphore
+from asyncio import Semaphore
 import re
 from bs4 import BeautifulSoup
+from tqdm import tqdm
 from tqdm.asyncio import tqdm_asyncio
-from concurrent.futures import ThreadPoolExecutor
 from driver.setup import setup_driver
 from utils.retry import retry_func
 from time import sleep
 from utils.speed import get_speed
 
 
-async def get_proxy_list(page_count=1):
+def get_proxy_list(page_count=1):
     """
     Get proxy list, parameter page_count is the number of pages to get
     """
@@ -19,18 +19,16 @@ async def get_proxy_list(page_count=1):
         "https://www.kuaidaili.com/free/intr/{}/",
     ]
     proxy_list = []
-    url_queue = Queue()
+    urls = []
     for page_index in range(1, page_count + 1):
         for pattern in url_pattern:
             url = pattern.format(page_index)
-            await url_queue.put(url)
-    pbar = tqdm_asyncio(total=url_queue.qsize(), desc="Getting proxy list")
+            urls.append(url)
+    pbar = tqdm(total=len(urls), desc="Getting proxy list")
     driver = setup_driver()
 
     def get_proxy(url):
-        # driver = None
         try:
-            # driver = setup_driver()
             url = pattern.format(page_index)
             retry_func(lambda: driver.get(url), name=url)
             sleep(1)
@@ -50,17 +48,10 @@ async def get_proxy_list(page_count=1):
                 proxy = f"http://{ip}:{port}"
                 proxy_list.append(proxy)
         finally:
-            # if driver:
-            #     driver.quit()
-            url_queue.task_done()
             pbar.update()
 
-    # with ThreadPoolExecutor(max_workers=5) as executor:
-    while not url_queue.empty():
-        # loop = get_running_loop()
-        url = await url_queue.get()
+    for url in urls:
         get_proxy(url)
-        # loop.run_in_executor(executor, get_proxy, url)
     driver.quit()
     pbar.close()
     return proxy_list
@@ -72,7 +63,7 @@ async def get_proxy_list_with_test(base_url, proxy_list):
     """
     if not proxy_list:
         return []
-    semaphore = Semaphore(10)
+    semaphore = Semaphore(100)
 
     async def get_speed_task(url, timeout, proxy):
         async with semaphore:

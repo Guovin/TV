@@ -18,9 +18,7 @@ from utils.retry import (
 from selenium.webdriver.common.by import By
 import re
 from bs4 import BeautifulSoup
-from asyncio import Queue, get_running_loop
 from tqdm.asyncio import tqdm_asyncio
-from concurrent.futures import ThreadPoolExecutor
 
 config = get_config()
 
@@ -58,11 +56,9 @@ async def get_channels_by_online_search(names, callback):
     start_time = time()
     driver = setup_driver(proxy)
 
-    def process_channel_by_online_search(name, proxy=None):
+    def process_channel_by_online_search(name):
         info_list = []
-        # driver = None
         try:
-            # driver = setup_driver(proxy)
             retry_func(lambda: driver.get(pageUrl), name=f"online search:{name}")
             search_box = locate_element_with_retry(
                 driver, (By.XPATH, '//input[@type="text"]')
@@ -138,28 +134,18 @@ async def get_channels_by_online_search(names, callback):
             print(f"{name}:Error on search: {e}")
             pass
         finally:
-            # if driver:
-            #     driver.quit()
             channels[format_channel_name(name)] = info_list
-            names_queue.task_done()
             pbar.update()
             callback(
                 f"正在线上查询更新, 剩余{names_len - pbar.n}个频道待查询, 预计剩余时间: {get_pbar_remaining(pbar, start_time)}",
                 int((pbar.n / names_len) * 100),
             )
 
-    names_queue = Queue()
-    for name in names:
-        await names_queue.put(name)
-    names_len = names_queue.qsize()
+    names_len = len(names)
     pbar = tqdm_asyncio(total=names_len, desc="Online search")
     callback(f"正在线上查询更新, 共{names_len}个频道", 0)
-    # with ThreadPoolExecutor(max_workers=5) as pool:
-    while not names_queue.empty():
-        # loop = get_running_loop()
-        name = await names_queue.get()
+    for name in names:
         process_channel_by_online_search(name)
-        # loop.run_in_executor(pool, process_channel_by_online_search, name, proxy)
     driver.quit()
     pbar.close()
     return channels

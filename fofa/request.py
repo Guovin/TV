@@ -1,7 +1,6 @@
 from utils.config import get_config
 from tqdm.asyncio import tqdm_asyncio
 from time import time
-from asyncio import Queue, get_running_loop
 from requests import get
 from concurrent.futures import ThreadPoolExecutor
 import fofa_map
@@ -42,62 +41,24 @@ async def get_channels_by_fofa(callback):
     start_time = time()
     fofa_results = {}
     callback(f"正在获取组播源更新, 共{fofa_urls_len}个地区", 0)
-    fofa_queue = Queue()
-    for fofa_url in fofa_urls:
-        await fofa_queue.put(fofa_url)
     proxy = None
     if config.open_proxy:
         proxy = await get_proxy(fofa_urls[0], best=True, with_test=True)
     driver = setup_driver(proxy)
 
-    def process_fofa_channels(fofa_url, fofa_urls_len, proxy=None):
-        # driver = None
+    def process_fofa_channels(fofa_url, fofa_urls_len):
         try:
-            # driver = setup_driver(proxy)
             retry_func(lambda: driver.get(fofa_url), name=fofa_url)
             fofa_source = re.sub(r"<!--.*?-->", "", driver.page_source, flags=re.DOTALL)
             urls = set(re.findall(r"https?://[\w\.-]+:\d+", fofa_source))
-            channels = {}
-            for url in urls:
-                try:
-                    final_url = url + "/iptv/live/1000.json?key=txiptv"
-                    # response = retry_func(
-                    #     lambda: get(final_url, timeout=timeout),
-                    #     name=final_url,
-                    # )
-                    response = get(final_url, timeout=timeout)
-                    try:
-                        json_data = response.json()
-                        if json_data["code"] == 0:
-                            try:
-                                for item in json_data["data"]:
-                                    if isinstance(item, dict):
-                                        item_name = format_channel_name(
-                                            item.get("name")
-                                        )
-                                        item_url = item.get("url").strip()
-                                        if item_name and item_url:
-                                            total_url = url + item_url
-                                            if item_name not in channels:
-                                                channels[item_name] = [total_url]
-                                            else:
-                                                channels[item_name].append(total_url)
-                            except Exception as e:
-                                # print(f"Error on fofa: {e}")
-                                continue
-                    except Exception as e:
-                        # print(f"{url}: {e}")
-                        continue
-                except Exception as e:
-                    # print(f"{url}: {e}")
-                    continue
-            merge_objects(fofa_results, channels)
+            
+            with ThreadPoolExecutor(max_workers=100) as executor:
+                futures = [executor.submit(process_fofa_json_url, url) for url in urls]
+                for future in futures:
+                    merge_objects(fofa_results, future.result())
         except Exception as e:
             print(e)
         finally:
-            # if driver:
-            #     driver.quit()
-            fofa_queue.task_done()
             pbar.update()
             remain = fofa_urls_len - pbar.n
             callback(
@@ -107,14 +68,49 @@ async def get_channels_by_fofa(callback):
             if config.open_online_search and pbar.n / fofa_urls_len == 1:
                 callback("正在获取在线搜索结果, 请耐心等待", 0)
 
-    # with ThreadPoolExecutor(max_workers=5) as pool:
-    while not fofa_queue.empty():
-        # loop = get_running_loop()
-        fofa_url = await fofa_queue.get()
-        process_fofa_channels(fofa_url, fofa_urls_len, proxy)
-        # loop.run_in_executor(
-        #     pool, process_fofa_channels, fofa_url, fofa_urls_len, proxy
-        # )
+    for fofa_url in fofa_urls:
+        process_fofa_channels(fofa_url, fofa_urls_len)
     driver.quit()
     pbar.close()
     return fofa_results
+
+
+def process_fofa_json_url(url):
+    """
+    Process the FOFA json url
+    """
+    channels = {}
+    try:
+        final_url = url + "/iptv/live/1000.json?key=txiptv"
+        # response = retry_func(
+        #     lambda: get(final_url, timeout=timeout),
+        #     name=final_url,
+        # )
+        response = get(final_url, timeout=timeout)
+        try:
+            json_data = response.json()
+            if json_data["code"] == 0:
+                try:
+                    for item in json_data["data"]:
+                        if isinstance(item, dict):
+                            item_name = format_channel_name(
+                                item.get("name")
+                            )
+                            item_url = item.get("url").strip()
+                            if item_name and item_url:
+                                total_url = url + item_url
+                                if item_name not in channels:
+                                    channels[item_name] = [total_url]
+                                else:
+                                    channels[item_name].append(total_url)
+                except Exception as e:
+                    # print(f"Error on fofa: {e}")
+                    pass
+        except Exception as e:
+            # print(f"{url}: {e}")
+            pass
+    except Exception as e:
+        # print(f"{url}: {e}")
+        pass
+    finally:
+        return channels

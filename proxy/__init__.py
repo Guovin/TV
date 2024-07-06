@@ -9,7 +9,7 @@ async def get_proxy(url=None, best=False, with_test=False):
   """
   global proxy_list, proxy_list_test, proxy_index
   if not proxy_list:
-    proxy_list = await get_proxy_list(3)
+    proxy_list = get_proxy_list(3)
   if not proxy_list_test or with_test:
     proxy_list_test = await get_proxy_list_with_test(url or "https://www.baidu.com", proxy_list)
   if not proxy_list_test:

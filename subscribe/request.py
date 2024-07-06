@@ -1,14 +1,12 @@
 from utils.config import get_config
 from tqdm.asyncio import tqdm_asyncio
 from time import time
-from asyncio import Queue
 from requests import get, exceptions
 from utils.retry import retry_func
 import re
 from utils.channel import format_channel_name
-from utils.utils import get_pbar_remaining
+from utils.utils import merge_objects, get_pbar_remaining
 from concurrent.futures import ThreadPoolExecutor
-from asyncio import get_running_loop
 
 
 config = get_config()
@@ -19,17 +17,15 @@ async def get_channels_by_subscribe_urls(callback):
     """
     Get the channels by subscribe urls
     """
-    channels = {}
+    subscribe_results = {}
     pattern = r"^(.*?),(?!#genre#)(.*?)$"
     subscribe_urls_len = len(config.subscribe_urls)
     pbar = tqdm_asyncio(total=subscribe_urls_len, desc="Processing subscribe")
     start_time = time()
     callback(f"正在获取订阅源更新, 共{subscribe_urls_len}个订阅源", 0)
-    subscribe_queue = Queue()
-    for subscribe_url in config.subscribe_urls:
-        await subscribe_queue.put(subscribe_url)
 
     def process_subscribe_channels(subscribe_url):
+        channels = {}
         try:
             response = None
             try:
@@ -63,7 +59,6 @@ async def get_channels_by_subscribe_urls(callback):
         except Exception as e:
             print(f"Error on {subscribe_url}: {e}")
         finally:
-            subscribe_queue.task_done()
             pbar.update()
             remain = subscribe_urls_len - pbar.n
             callback(
@@ -72,12 +67,11 @@ async def get_channels_by_subscribe_urls(callback):
             )
             if config.open_online_search and pbar.n / subscribe_urls_len == 1:
                 callback("正在获取在线搜索结果, 请耐心等待", 0)
+            return channels
 
-    # with ThreadPoolExecutor(max_workers=10) as pool:
-    while not subscribe_queue.empty():
-        # loop = get_running_loop()
-        subscribe_url = await subscribe_queue.get()
-        process_subscribe_channels(subscribe_url)
-        # loop.run_in_executor(pool, process_subscribe_channels, subscribe_url)
+    with ThreadPoolExecutor(max_workers=100) as executor:
+        futures = [executor.submit(process_subscribe_channels, subscribe_url) for subscribe_url in config.subscribe_urls]
+        for future in futures:
+            merge_objects(subscribe_results, future.result()) 
     pbar.close()
-    return channels
+    return subscribe_results
