@@ -88,9 +88,6 @@ class UpdateSource:
                 logging.error(f"Error: {e}")
             finally:
                 self.pbar.update()
-                self.pbar.set_description(
-                    f"Sorting, {self.pbar.total - self.pbar.n} channels remaining"
-                )
                 self.update_progress(
                     f"正在测速排序, 剩余{self.pbar.total - self.pbar.n}个频道, 预计剩余时间: {get_pbar_remaining(self.pbar, self.start_time)}",
                     int((self.pbar.n / self.total) * 100),
@@ -140,8 +137,7 @@ class UpdateSource:
                     )
 
     def write_channel_to_file(self):
-        self.pbar = tqdm(total=self.total)
-        self.pbar.set_description(f"Writing, {self.total} channels remaining")
+        self.pbar = tqdm(total=self.total, desc="Writing")
         self.start_time = time()
         for cate, channel_obj in self.channel_items.items():
             for name in channel_obj.keys():
@@ -152,9 +148,6 @@ class UpdateSource:
                     update_channel_urls_txt(cate, name, channel_urls)
                 finally:
                     self.pbar.update()
-                    self.pbar.set_description(
-                        f"Writing, {self.pbar.total - self.pbar.n} channels remaining"
-                    )
                     self.update_progress(
                         f"正在写入结果, 剩余{self.pbar.total - self.pbar.n}个接口, 预计剩余时间: {get_pbar_remaining(self.pbar, self.start_time)}",
                         int((self.pbar.n / self.total) * 100),
@@ -200,10 +193,7 @@ class UpdateSource:
                     for cate, channel_obj in self.channel_data.items()
                     for name, info_list in channel_obj.items()
                 ]
-                self.pbar = tqdm_asyncio(total=len(self.tasks))
-                self.pbar.set_description(
-                    f"Sorting, {len(self.tasks)} channels remaining"
-                )
+                self.pbar = tqdm_asyncio(total=len(self.tasks), desc="Sorting")
                 self.update_progress(
                     f"正在测速排序, 共{len(self.tasks)}个频道",
                     int((self.pbar.n / len(self.tasks)) * 100),

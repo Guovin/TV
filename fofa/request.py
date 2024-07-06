@@ -10,6 +10,7 @@ import re
 from utils.retry import retry_func
 from utils.channel import format_channel_name
 from utils.utils import merge_objects, get_pbar_remaining
+from proxy import get_proxy
 
 config = get_config()
 timeout = 10
@@ -37,19 +38,22 @@ async def get_channels_by_fofa(callback):
     """
     fofa_urls = get_fofa_urls_from_region_list()
     fofa_urls_len = len(fofa_urls)
-    pbar = tqdm_asyncio(total=fofa_urls_len)
+    pbar = tqdm_asyncio(total=fofa_urls_len, desc="Processing multicast")
     start_time = time()
     fofa_results = {}
-    pbar.set_description(f"Processing multicast, {fofa_urls_len} regions remaining")
     callback(f"正在获取组播源更新, 共{fofa_urls_len}个地区", 0)
     fofa_queue = Queue()
     for fofa_url in fofa_urls:
         await fofa_queue.put(fofa_url)
+    proxy = None
+    if config.open_proxy:
+        proxy = await get_proxy(fofa_urls[0], best=True, with_test=True)
+    driver = setup_driver(proxy)
 
-    def process_fofa_channels(fofa_url, fofa_urls_len, callback):
-        driver = None
+    def process_fofa_channels(fofa_url, fofa_urls_len, proxy=None):
+        # driver = None
         try:
-            driver = setup_driver()
+            # driver = setup_driver(proxy)
             retry_func(lambda: driver.get(fofa_url), name=fofa_url)
             fofa_source = re.sub(r"<!--.*?-->", "", driver.page_source, flags=re.DOTALL)
             urls = set(re.findall(r"https?://[\w\.-]+:\d+", fofa_source))
@@ -89,15 +93,13 @@ async def get_channels_by_fofa(callback):
                     continue
             merge_objects(fofa_results, channels)
         except Exception as e:
-            # print(e)
-            pass
+            print(e)
         finally:
-            if driver:
-                driver.quit()
+            # if driver:
+            #     driver.quit()
             fofa_queue.task_done()
             pbar.update()
             remain = fofa_urls_len - pbar.n
-            pbar.set_description(f"Processing multicast, {remain} regions remaining")
             callback(
                 f"正在获取组播源更新, 剩余{remain}个地区待获取, 预计剩余时间: {get_pbar_remaining(pbar, start_time)}",
                 int((pbar.n / fofa_urls_len) * 100),
@@ -105,13 +107,14 @@ async def get_channels_by_fofa(callback):
             if config.open_online_search and pbar.n / fofa_urls_len == 1:
                 callback("正在获取在线搜索结果, 请耐心等待", 0)
 
-    with ThreadPoolExecutor(max_workers=5) as pool:
-        while not fofa_queue.empty():
-            loop = get_running_loop()
-            fofa_url = await fofa_queue.get()
-            loop.run_in_executor(
-                pool, process_fofa_channels, fofa_url, fofa_urls_len, callback
-            )
-    print("Finish processing fofa url")
+    # with ThreadPoolExecutor(max_workers=5) as pool:
+    while not fofa_queue.empty():
+        # loop = get_running_loop()
+        fofa_url = await fofa_queue.get()
+        process_fofa_channels(fofa_url, fofa_urls_len, proxy)
+        # loop.run_in_executor(
+        #     pool, process_fofa_channels, fofa_url, fofa_urls_len, proxy
+        # )
+    driver.quit()
     pbar.close()
     return fofa_results

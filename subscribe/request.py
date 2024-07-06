@@ -22,9 +22,8 @@ async def get_channels_by_subscribe_urls(callback):
     channels = {}
     pattern = r"^(.*?),(?!#genre#)(.*?)$"
     subscribe_urls_len = len(config.subscribe_urls)
-    pbar = tqdm_asyncio(total=subscribe_urls_len)
+    pbar = tqdm_asyncio(total=subscribe_urls_len, desc="Processing subscribe")
     start_time = time()
-    pbar.set_description(f"Processing subscribe, {subscribe_urls_len} urls remaining")
     callback(f"正在获取订阅源更新, 共{subscribe_urls_len}个订阅源", 0)
     subscribe_queue = Queue()
     for subscribe_url in config.subscribe_urls:
@@ -67,7 +66,6 @@ async def get_channels_by_subscribe_urls(callback):
             subscribe_queue.task_done()
             pbar.update()
             remain = subscribe_urls_len - pbar.n
-            pbar.set_description(f"Processing subscribe, {remain} urls remaining")
             callback(
                 f"正在获取订阅源更新, 剩余{remain}个订阅源待获取, 预计剩余时间: {get_pbar_remaining(pbar, start_time)}",
                 int((pbar.n / subscribe_urls_len) * 100),
@@ -75,10 +73,11 @@ async def get_channels_by_subscribe_urls(callback):
             if config.open_online_search and pbar.n / subscribe_urls_len == 1:
                 callback("正在获取在线搜索结果, 请耐心等待", 0)
 
-    with ThreadPoolExecutor(max_workers=5) as pool:
-        loop = get_running_loop()
+    # with ThreadPoolExecutor(max_workers=10) as pool:
+    while not subscribe_queue.empty():
+        # loop = get_running_loop()
         subscribe_url = await subscribe_queue.get()
-        loop.run_in_executor(pool, process_subscribe_channels, subscribe_url)
-    print("Finished processing subscribe urls")
+        process_subscribe_channels(subscribe_url)
+        # loop.run_in_executor(pool, process_subscribe_channels, subscribe_url)
     pbar.close()
     return channels

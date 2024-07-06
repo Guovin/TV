@@ -3,7 +3,7 @@ from tkinter import messagebox
 from tkinter import scrolledtext
 from tkinter import ttk
 from tkinter import filedialog
-from utils import resource_path, load_external_config
+from utils.config import resource_path, load_external_config
 from main import UpdateSource
 import os
 import asyncio

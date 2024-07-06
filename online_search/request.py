@@ -7,7 +7,7 @@ from utils.utils import (
     get_results_from_soup,
 )
 from utils.config import get_config
-from proxy.request import get_proxy_list, get_proxy_list_with_test
+from proxy import get_proxy
 from time import time, sleep
 from driver.setup import setup_driver
 from utils.retry import (
@@ -52,19 +52,17 @@ async def get_channels_by_online_search(names, callback):
     pageUrl = await use_accessible_url(callback)
     if not pageUrl:
         return channels
+    proxy = None
     if config.open_proxy:
-        proxy_list = await get_proxy_list(3)
-        proxy_list_test = (
-            await get_proxy_list_with_test(pageUrl, proxy_list) if proxy_list else []
-        )
-        proxy_index = 0
+        proxy = await get_proxy(pageUrl, best=True, with_test=True)
     start_time = time()
+    driver = setup_driver(proxy)
 
     def process_channel_by_online_search(name, proxy=None):
         info_list = []
-        driver = None
+        # driver = None
         try:
-            driver = setup_driver(proxy)
+            # driver = setup_driver(proxy)
             retry_func(lambda: driver.get(pageUrl), name=f"online search:{name}")
             search_box = locate_element_with_retry(
                 driver, (By.XPATH, '//input[@type="text"]')
@@ -140,14 +138,11 @@ async def get_channels_by_online_search(names, callback):
             print(f"{name}:Error on search: {e}")
             pass
         finally:
-            if driver:
-                driver.quit()
+            # if driver:
+            #     driver.quit()
             channels[format_channel_name(name)] = info_list
             names_queue.task_done()
             pbar.update()
-            pbar.set_description(
-                f"Processing online search, {names_len - pbar.n} channels remaining"
-            )
             callback(
                 f"正在线上查询更新, 剩余{names_len - pbar.n}个频道待查询, 预计剩余时间: {get_pbar_remaining(pbar, start_time)}",
                 int((pbar.n / names_len) * 100),
@@ -157,21 +152,14 @@ async def get_channels_by_online_search(names, callback):
     for name in names:
         await names_queue.put(name)
     names_len = names_queue.qsize()
-    pbar = tqdm_asyncio(total=names_len)
-    pbar.set_description(f"Processing online search, {names_len} channels remaining")
+    pbar = tqdm_asyncio(total=names_len, desc="Online search")
     callback(f"正在线上查询更新, 共{names_len}个频道", 0)
-    with ThreadPoolExecutor(max_workers=5) as pool:
-        while not names_queue.empty():
-            loop = get_running_loop()
-            name = await names_queue.get()
-            proxy = (
-                proxy_list_test[proxy_index]
-                if config.open_proxy and proxy_list_test
-                else None
-            )
-            if config.open_proxy and proxy_list_test:
-                proxy_index = (proxy_index + 1) % len(proxy_list_test)
-            loop.run_in_executor(pool, process_channel_by_online_search, name, proxy)
-    print("Finished processing online search")
+    # with ThreadPoolExecutor(max_workers=5) as pool:
+    while not names_queue.empty():
+        # loop = get_running_loop()
+        name = await names_queue.get()
+        process_channel_by_online_search(name)
+        # loop.run_in_executor(pool, process_channel_by_online_search, name, proxy)
+    driver.quit()
     pbar.close()
     return channels
