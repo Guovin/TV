@@ -1,9 +1,10 @@
 from utils.config import get_config, resource_path
-from utils.utils import check_url_by_patterns
+from utils.tools import check_url_by_patterns, get_total_urls_from_info_list
 from utils.speed import sort_urls_by_speed_and_resolution
 import os
 from collections import defaultdict
 import re
+from bs4 import NavigableString
 import logging
 from logging.handlers import RotatingFileHandler
 
@@ -91,6 +92,29 @@ def format_channel_name(name):
     name = name.replace("CCTV17农业农村", "CCTV17")
     name = name.replace("CCTV17农业", "CCTV17")
     return name.lower()
+
+
+def get_results_from_soup(soup, name):
+    """
+    Get the results from the soup
+    """
+    results = []
+    for element in soup.descendants:
+        if isinstance(element, NavigableString):
+            url = get_channel_url(element)
+            if url and not any(item[0] == url for item in results):
+                url_element = soup.find(lambda tag: tag.get_text(strip=True) == url)
+                if url_element:
+                    name_element = url_element.find_previous_sibling()
+                    if name_element:
+                        channel_name = name_element.get_text(strip=True)
+                        if format_channel_name(name) == format_channel_name(
+                            channel_name
+                        ):
+                            info_element = url_element.find_next_sibling()
+                            date, resolution = get_channel_info(info_element)
+                            results.append((url, date, resolution))
+    return results
 
 
 def update_channel_urls_txt(cate, name, urls):
@@ -230,7 +254,7 @@ def append_all_method_data(
     return data
 
 
-async def sort_channel_list(semaphore, name, info_list, callback):
+async def sort_channel_list(semaphore, cate, name, info_list, callback):
     """
     Sort the channel list
     """

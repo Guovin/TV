@@ -8,7 +8,7 @@ from driver.setup import setup_driver
 import re
 from utils.retry import retry_func
 from utils.channel import format_channel_name
-from utils.utils import merge_objects, get_pbar_remaining
+from utils.tools import merge_objects, get_pbar_remaining
 from proxy import get_proxy
 
 config = get_config()
@@ -51,7 +51,7 @@ async def get_channels_by_fofa(callback):
             retry_func(lambda: driver.get(fofa_url), name=fofa_url)
             fofa_source = re.sub(r"<!--.*?-->", "", driver.page_source, flags=re.DOTALL)
             urls = set(re.findall(r"https?://[\w\.-]+:\d+", fofa_source))
-            
+
             with ThreadPoolExecutor(max_workers=100) as executor:
                 futures = [executor.submit(process_fofa_json_url, url) for url in urls]
                 for future in futures:
@@ -93,9 +93,7 @@ def process_fofa_json_url(url):
                 try:
                     for item in json_data["data"]:
                         if isinstance(item, dict):
-                            item_name = format_channel_name(
-                                item.get("name")
-                            )
+                            item_name = format_channel_name(item.get("name"))
                             item_url = item.get("url").strip()
                             if item_name and item_url:
                                 total_url = url + item_url

@@ -5,7 +5,7 @@ from requests import get, exceptions
 from utils.retry import retry_func
 import re
 from utils.channel import format_channel_name
-from utils.utils import merge_objects, get_pbar_remaining
+from utils.tools import merge_objects, get_pbar_remaining
 from concurrent.futures import ThreadPoolExecutor
 
 
@@ -70,8 +70,11 @@ async def get_channels_by_subscribe_urls(callback):
             return channels
 
     with ThreadPoolExecutor(max_workers=100) as executor:
-        futures = [executor.submit(process_subscribe_channels, subscribe_url) for subscribe_url in config.subscribe_urls]
+        futures = [
+            executor.submit(process_subscribe_channels, subscribe_url)
+            for subscribe_url in config.subscribe_urls
+        ]
         for future in futures:
-            merge_objects(subscribe_results, future.result()) 
+            merge_objects(subscribe_results, future.result())
     pbar.close()
     return subscribe_results

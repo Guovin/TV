@@ -2,19 +2,15 @@ import asyncio
 from utils.config import get_config
 from utils.channel import (
     get_channel_items,
-    update_channel_urls_txt,
-    format_channel_name,
-    init_info_data,
     append_data_to_info_data,
     append_all_method_data,
+    sort_channel_list,
     write_channel_to_file,
 )
-from utils.utils import (
+from utils.tools import (
     update_file,
-    check_url_by_patterns,
     get_pbar_remaining,
     get_ip_address,
-    get_total_urls_from_info_list,
 )
 from subscribe import get_channels_by_subscribe_urls
 from fofa import get_channels_by_fofa
@@ -73,7 +69,7 @@ class UpdateSource:
             self.tasks.append(online_search_task)
             self.online_search_result = await online_search_task
 
-    def pbar_update(name=""):
+    def pbar_update(self, name=""):
         self.pbar.update()
         self.update_progress(
             f"正在进行{name}, 剩余{self.pbar.total - self.pbar.n}个接口, 预计剩余时间: {get_pbar_remaining(self.pbar, self.start_time)}",
@@ -102,7 +98,7 @@ class UpdateSource:
                 semaphore = asyncio.Semaphore(100)
                 self.tasks = [
                     asyncio.create_task(
-                        self.sort_channel_list(
+                        sort_channel_list(
                             semaphore,
                             cate,
                             name,
@@ -134,7 +130,7 @@ class UpdateSource:
             write_channel_to_file(
                 self.channel_items.items(),
                 self.channel_data,
-                lambda: pbar_update("写入结果"),
+                lambda: self.pbar_update("写入结果"),
             )
             self.pbar.close()
             user_final_file = getattr(config, "final_file", "result.txt")

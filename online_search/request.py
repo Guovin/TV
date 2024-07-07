@@ -1,11 +1,7 @@
 from asyncio import create_task, gather
 from utils.speed import get_speed
-from utils.channel import format_channel_name
-from utils.utils import (
-    check_url_by_patterns,
-    get_pbar_remaining,
-    get_results_from_soup,
-)
+from utils.channel import format_channel_name, get_results_from_soup
+from utils.tools import check_url_by_patterns, get_pbar_remaining
 from utils.config import get_config
 from proxy import get_proxy
 from time import time, sleep

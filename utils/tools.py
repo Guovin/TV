@@ -4,10 +4,8 @@ import os
 import urllib.parse
 import ipaddress
 from urllib.parse import urlparse
-from bs4 import NavigableString
 import socket
 from utils.config import get_config, resource_path
-from utils.channel import get_channel_url, get_channel_info, format_channel_name
 
 config = get_config()
 timeout = 10
@@ -39,29 +37,6 @@ def update_file(final_file, old_file):
     final_file_path = resource_path(final_file, persistent=True)
     if os.path.exists(old_file_path):
         os.replace(old_file_path, final_file_path)
-
-
-def get_results_from_soup(soup, name):
-    """
-    Get the results from the soup
-    """
-    results = []
-    for element in soup.descendants:
-        if isinstance(element, NavigableString):
-            url = get_channel_url(element)
-            if url and not any(item[0] == url for item in results):
-                url_element = soup.find(lambda tag: tag.get_text(strip=True) == url)
-                if url_element:
-                    name_element = url_element.find_previous_sibling()
-                    if name_element:
-                        channel_name = name_element.get_text(strip=True)
-                        if format_channel_name(name) == format_channel_name(
-                            channel_name
-                        ):
-                            info_element = url_element.find_next_sibling()
-                            date, resolution = get_channel_info(info_element)
-                            results.append((url, date, resolution))
-    return results
 
 
 def filter_by_date(data):
