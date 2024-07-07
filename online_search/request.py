@@ -13,8 +13,6 @@ from utils.retry import (
 )
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
-import re
-from bs4 import BeautifulSoup
 from tqdm.asyncio import tqdm_asyncio
 
 config = get_config()
@@ -57,18 +55,6 @@ def search_submit(driver, name):
     driver.execute_script("arguments[0].click();", submit_button)
 
 
-async def reset_driver(driver, url):
-    """
-    Reset the driver
-    """
-    driver.quit()
-    proxy = None
-    if config.open_proxy:
-        proxy = await get_proxy(url, best=True, with_test=True)
-    driver = setup_driver(proxy)
-    return driver
-
-
 async def get_channels_by_online_search(names, callback):
     """
     Get the channels by online search
@@ -86,10 +72,7 @@ async def get_channels_by_online_search(names, callback):
     async def process_channel_by_online_search(name):
         info_list = []
         try:
-            flag = retry_func(lambda: driver.get(pageUrl), name=f"online search:{name}")
-            if not flag:
-                driver = await reset_driver(pageUrl, driver)
-                driver.get(pageUrl)
+            retry_func(lambda: driver.get(pageUrl), name=f"online search:{name}")
             search_submit(driver, name)
             isFavorite = name in config.favorite_list
             pageNum = (
@@ -132,7 +115,6 @@ async def get_channels_by_online_search(names, callback):
                                     )
                                 )
                                 if next_page_link:
-                                    driver = await reset_driver(driver, pageUrl)
                                     search_submit(driver, name)
                                     continue
                             for result in results:
