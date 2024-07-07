@@ -20,7 +20,7 @@ def retry_func(func, retries=max_retries + 1, name=""):
             if name and i < count:
                 print(f"Failed to connect to the {name}. Retrying {i+1}...")
             if i == count:
-                break
+                return False
             else:
                 continue
 

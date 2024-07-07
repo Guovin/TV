@@ -6,6 +6,8 @@ import ipaddress
 from urllib.parse import urlparse
 import socket
 from utils.config import get_config, resource_path
+import re
+from bs4 import BeautifulSoup
 
 config = get_config()
 timeout = 10
@@ -67,6 +69,18 @@ def filter_by_date(data):
         recent_data.extend(unrecent_data[: config.urls_limit - len(recent_data)])
     return recent_data
 
+def get_soup(source):
+    """
+    Get soup from source
+    """
+    source = re.sub(
+        r"<!--.*?-->",
+        "",
+        source,
+        flags=re.DOTALL,
+    )
+    soup = BeautifulSoup(source, "html.parser")
+    return soup
 
 def get_total_urls_from_info_list(infoList):
     """
