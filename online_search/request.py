@@ -12,7 +12,6 @@ from utils.retry import (
     find_clickable_element_with_retry,
 )
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
 from tqdm.asyncio import tqdm_asyncio
 
 config = get_config()
@@ -108,11 +107,13 @@ async def get_channels_by_online_search(names, callback):
                                 retries += 1
                                 continue
                             elif len(results) <= 3:
-                                next_page_link = EC.element_to_be_clickable(
+                                next_page_link = find_clickable_element_with_retry(
+                                    driver,
                                     (
                                         By.XPATH,
-                                        f'//a[contains(@href, "={page + 1}") and contains(@href, "{name}")]',
-                                    )
+                                        f'//a[contains(@href, "={page+1}") and contains(@href, "{name}")]',
+                                    ),
+                                    retries=1,
                                 )
                                 if next_page_link:
                                     search_submit(driver, name)
