@@ -1,9 +1,20 @@
 from utils.config import get_config, resource_path
+from utils.utils import check_url_by_patterns
+from utils.speed import sort_urls_by_speed_and_resolution
 import os
 from collections import defaultdict
 import re
+import logging
+from logging.handlers import RotatingFileHandler
 
 config = get_config()
+
+handler = RotatingFileHandler("result_new.log", encoding="utf-8")
+logging.basicConfig(
+    handlers=[handler],
+    format="%(message)s",
+    level=logging.INFO,
+)
 
 
 def get_channel_items():
@@ -134,3 +145,132 @@ def get_channel_info(element):
             ),
         )
     return date, resolution
+
+
+def init_info_data(data, cate, name):
+    """
+    Init channel info data
+    """
+    if data.get(cate) is None:
+        data[cate] = {}
+    if data[cate].get(name) is None:
+        data[cate][name] = []
+    return data
+
+
+def append_data_to_info_data(info_data, cate, name, data, check=True):
+    """
+    Append channel data to total info data
+    """
+    info_data = init_info_data(info_data, cate, name)
+    for url, date, resolution in data:
+        if (url and not check) or (url and check and check_url_by_patterns(url)):
+            info_data[cate][name].append((url, date, resolution))
+    return info_data
+
+
+def append_all_method_data(
+    items, data, subscribe_result=None, multicast_result=None, online_search_result=None
+):
+    """
+    Append all method data to total info data
+    """
+    for cate, channel_obj in items:
+        for name, old_urls in channel_obj.items():
+            formatName = format_channel_name(name)
+            if config.open_subscribe:
+                data = append_data_to_info_data(
+                    data,
+                    cate,
+                    name,
+                    subscribe_result.get(formatName, []),
+                )
+                print(
+                    name,
+                    "subscribe num:",
+                    len(subscribe_result.get(formatName, [])),
+                )
+            if config.open_multicast:
+                data = append_data_to_info_data(
+                    data,
+                    cate,
+                    name,
+                    multicast_result.get(formatName, []),
+                )
+                print(
+                    name,
+                    "multicast num:",
+                    len(multicast_result.get(formatName, [])),
+                )
+            if config.open_online_search:
+                data = append_data_to_info_data(
+                    data,
+                    cate,
+                    name,
+                    online_search_result.get(formatName, []),
+                )
+                print(
+                    name,
+                    "online search num:",
+                    len(online_search_result.get(formatName, [])),
+                )
+            total_channel_data_len = len(data.get(cate, {}).get(name, []))
+            print(
+                name,
+                "total num:",
+                total_channel_data_len,
+            )
+            if total_channel_data_len == 0:
+                data = append_data_to_info_data(
+                    data,
+                    cate,
+                    name,
+                    [(url, None, None) for url in old_urls],
+                )
+    return data
+
+
+async def sort_channel_list(semaphore, name, info_list, callback):
+    """
+    Sort the channel list
+    """
+    async with semaphore:
+        data = []
+        try:
+            sorted_data = await sort_urls_by_speed_and_resolution(info_list)
+            if sorted_data:
+                for (
+                    url,
+                    date,
+                    resolution,
+                ), response_time in sorted_data:
+                    logging.info(
+                        f"Name: {name}, URL: {url}, Date: {date}, Resolution: {resolution}, Response Time: {response_time}ms"
+                    )
+                data = [
+                    (url, date, resolution)
+                    for (url, date, resolution), _ in sorted_data
+                ]
+        except Exception as e:
+            logging.error(f"Error: {e}")
+        finally:
+            callback()
+            return {cate, name, data}
+
+
+def write_channel_to_file(items, data, callback):
+    """
+    Write channel to file
+    """
+    for cate, channel_obj in items:
+        for name in channel_obj.keys():
+            info_list = data.get(cate, {}).get(name, [])
+            try:
+                channel_urls = get_total_urls_from_info_list(info_list)
+                print("write:", cate, name, "num:", len(channel_urls))
+                update_channel_urls_txt(cate, name, channel_urls)
+            finally:
+                callback()
+    for handler in logging.root.handlers[:]:
+        handler.close()
+        logging.root.removeHandler(handler)
