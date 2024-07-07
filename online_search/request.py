@@ -69,7 +69,7 @@ async def get_channels_by_online_search(names, callback):
     start_time = time()
     driver = setup_driver(proxy)
 
-    async def process_channel_by_online_search(name):
+    def process_channel_by_online_search(name):
         info_list = []
         try:
             retry_func(lambda: driver.get(pageUrl), name=f"online search:{name}")
@@ -116,6 +116,7 @@ async def get_channels_by_online_search(names, callback):
                                 )
                                 if next_page_link:
                                     search_submit(driver, name)
+                                    retries += 1
                                     continue
                             for result in results:
                                 url, date, resolution = result

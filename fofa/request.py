@@ -46,7 +46,7 @@ async def get_channels_by_fofa(callback):
         proxy = await get_proxy(fofa_urls[0], best=True, with_test=True)
     driver = setup_driver(proxy)
 
-    async def process_fofa_channels(fofa_url, fofa_urls_len):
+    def process_fofa_channels(fofa_url, fofa_urls_len):
         try:
             retry_func(lambda: driver.get(fofa_url), name=fofa_url)
             fofa_source = re.sub(r"<!--.*?-->", "", driver.page_source, flags=re.DOTALL)

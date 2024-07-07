@@ -239,11 +239,6 @@ def append_all_method_data(
                     len(online_search_result.get(formatName, [])),
                 )
             total_channel_data_len = len(data.get(cate, {}).get(name, []))
-            print(
-                name,
-                "total num:",
-                total_channel_data_len,
-            )
             if total_channel_data_len == 0:
                 data = append_data_to_info_data(
                     data,
@@ -251,6 +246,11 @@ def append_all_method_data(
                     name,
                     [(url, None, None) for url in old_urls],
                 )
+            print(
+                name,
+                "total num:",
+                len(data.get(cate, {}).get(name, [])),
+            )
     return data
 
 
@@ -261,25 +261,26 @@ async def sort_channel_list(semaphore, cate, name, info_list, callback):
     async with semaphore:
         data = []
         try:
-            sorted_data = await sort_urls_by_speed_and_resolution(info_list)
-            if sorted_data:
-                for (
-                    url,
-                    date,
-                    resolution,
-                ), response_time in sorted_data:
-                    logging.info(
-                        f"Name: {name}, URL: {url}, Date: {date}, Resolution: {resolution}, Response Time: {response_time}ms"
-                    )
-                data = [
-                    (url, date, resolution)
-                    for (url, date, resolution), _ in sorted_data
-                ]
+            if info_list:
+                sorted_data = await sort_urls_by_speed_and_resolution(info_list)
+                if sorted_data:
+                    for (
+                        url,
+                        date,
+                        resolution,
+                    ), response_time in sorted_data:
+                        logging.info(
+                            f"Name: {name}, URL: {url}, Date: {date}, Resolution: {resolution}, Response Time: {response_time}ms"
+                        )
+                    data = [
+                        (url, date, resolution)
+                        for (url, date, resolution), _ in sorted_data
+                    ]
         except Exception as e:
             logging.error(f"Error: {e}")
         finally:
             callback()
-            return {cate, name, data}
+            return {cate: cate, name: name, data: data}
 
 
 def write_channel_to_file(items, data, callback):

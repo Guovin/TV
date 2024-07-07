@@ -86,7 +86,6 @@ class UpdateSource:
             self.total = len(channel_names)
             await self.visit_page(channel_names)
             self.tasks = []
-            self.process_channel()
             self.channel_data = append_all_method_data(
                 self.channel_items.items(),
                 self.channel_data,
