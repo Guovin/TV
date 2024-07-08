@@ -20,3 +20,15 @@ async def get_proxy(url=None, best=False, with_test=False):
     proxy = proxy_list_test[proxy_index]
     proxy_index = (proxy_index + 1) % len(proxy_list_test)
     return proxy
+  
+def get_proxy_next():
+  """
+  Get the next proxy
+  """
+  global proxy_list_test, proxy_index
+  if not proxy_list_test:
+    return None
+  else:
+    proxy = proxy_list_test[proxy_index]
+    proxy_index = (proxy_index + 1) % len(proxy_list_test)
+    return proxy
