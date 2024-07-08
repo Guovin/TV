@@ -7,6 +7,7 @@ from driver.setup import setup_driver
 from utils.retry import retry_func
 from time import sleep
 from utils.speed import get_speed
+from concurrent.futures import ThreadPoolExecutor
 
 
 def get_proxy_list(page_count=1):
@@ -25,10 +26,11 @@ def get_proxy_list(page_count=1):
             url = pattern.format(page_index)
             urls.append(url)
     pbar = tqdm(total=len(urls), desc="Getting proxy list")
-    driver = setup_driver()
 
     def get_proxy(url):
+        proxys = []
         try:
+            driver = setup_driver()
             url = pattern.format(page_index)
             retry_func(lambda: driver.get(url), name=url)
             sleep(1)
@@ -46,13 +48,17 @@ def get_proxy_list(page_count=1):
                 ip = tds[0].get_text().strip()
                 port = tds[1].get_text().strip()
                 proxy = f"http://{ip}:{port}"
-                proxy_list.append(proxy)
+                proxys.append(proxy)
         finally:
+            driver.close()
+            driver.quit()
             pbar.update()
+            return proxys
 
-    for url in urls:
-        get_proxy(url)
-    driver.quit()
+    with ThreadPoolExecutor(max_workers=3) as executor:
+        futures = [executor.submit(get_proxy, url) for url in urls]
+        for future in futures:
+            proxy_list.extend(future.result())
     pbar.close()
     return proxy_list
 

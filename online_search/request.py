@@ -3,7 +3,7 @@ from utils.speed import get_speed
 from utils.channel import format_channel_name, get_results_from_soup
 from utils.tools import check_url_by_patterns, get_pbar_remaining, get_soup
 from utils.config import get_config
-from proxy import get_proxy
+from proxy import get_proxy, get_proxy_next
 from time import time, sleep
 from driver.setup import setup_driver
 from utils.retry import (
@@ -13,6 +13,7 @@ from utils.retry import (
 )
 from selenium.webdriver.common.by import By
 from tqdm.asyncio import tqdm_asyncio
+from concurrent.futures import ThreadPoolExecutor
 
 config = get_config()
 
@@ -50,7 +51,7 @@ def search_submit(driver, name):
     )
     if not submit_button:
         return
-    sleep(3)
+    sleep(1)
     driver.execute_script("arguments[0].click();", submit_button)
 
 
@@ -66,12 +67,21 @@ async def get_channels_by_online_search(names, callback):
     if config.open_proxy:
         proxy = await get_proxy(pageUrl, best=True, with_test=True)
     start_time = time()
-    driver = setup_driver(proxy)
 
     def process_channel_by_online_search(name):
         info_list = []
+        nonlocal proxy
         try:
-            retry_func(lambda: driver.get(pageUrl), name=f"online search:{name}")
+            driver = setup_driver(proxy)
+            try:
+                retry_func(lambda: driver.get(pageUrl), name=f"online search:{name}")
+            except Exception as e:
+                if config.open_proxy:
+                    proxy = get_proxy_next()
+                driver.close()
+                driver.quit()
+                driver = setup_driver(proxy)
+                driver.get(pageUrl)
             search_submit(driver, name)
             isFavorite = name in config.favorite_list
             pageNum = (
@@ -92,9 +102,9 @@ async def get_channels_by_online_search(names, callback):
                             )
                             if not page_link:
                                 break
-                            sleep(3)
+                            sleep(1)
                             driver.execute_script("arguments[0].click();", page_link)
-                        sleep(3)
+                        sleep(1)
                         soup = get_soup(driver.page_source)
                         if soup:
                             results = get_results_from_soup(soup, name)
@@ -116,6 +126,11 @@ async def get_channels_by_online_search(names, callback):
                                     retries=1,
                                 )
                                 if next_page_link:
+                                    if config.open_proxy:
+                                        proxy = get_proxy_next()
+                                    driver.close()
+                                    driver.quit()
+                                    driver = setup_driver(proxy)
                                     search_submit(driver, name)
                                     retries += 1
                                     continue
@@ -140,18 +155,25 @@ async def get_channels_by_online_search(names, callback):
             print(f"{name}:Error on search: {e}")
             pass
         finally:
-            channels[format_channel_name(name)] = info_list
+            driver.close()
+            driver.quit()
             pbar.update()
             callback(
                 f"正在线上查询更新, 剩余{names_len - pbar.n}个频道待查询, 预计剩余时间: {get_pbar_remaining(pbar, start_time)}",
                 int((pbar.n / names_len) * 100),
             )
+            return {name: format_channel_name(name), data: info_list}
 
     names_len = len(names)
     pbar = tqdm_asyncio(total=names_len, desc="Online search")
     callback(f"正在线上查询更新, 共{names_len}个频道", 0)
-    for name in names:
-        process_channel_by_online_search(name)
-    driver.quit()
+    with ThreadPoolExecutor(max_workers=3) as executor:
+        futures = [executor.submit(process_channel_by_online_search, name) for name in names]
+        for future in futures:
+            result = future.result()
+            name = result.get('name')
+            data = result.get('data', [])
+            if name:
+                channels[name] = data
     pbar.close()
     return channels

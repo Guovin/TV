@@ -9,7 +9,7 @@ import re
 from utils.retry import retry_func
 from utils.channel import format_channel_name
 from utils.tools import merge_objects, get_pbar_remaining
-from proxy import get_proxy
+from proxy import get_proxy, get_proxy_next
 
 config = get_config()
 timeout = 10
@@ -44,21 +44,33 @@ async def get_channels_by_fofa(callback):
     proxy = None
     if config.open_proxy:
         proxy = await get_proxy(fofa_urls[0], best=True, with_test=True)
-    driver = setup_driver(proxy)
 
-    def process_fofa_channels(fofa_url, fofa_urls_len):
+    def process_fofa_channels(fofa_url):
+        nonlocal proxy, fofa_urls_len
+        results = {}
         try:
-            retry_func(lambda: driver.get(fofa_url), name=fofa_url)
+            driver = setup_driver(proxy)
+            try:
+                retry_func(lambda: driver.get(fofa_url), name=fofa_url)
+            except Exception as e:
+                if config.open_proxy:
+                    proxy = get_proxy_next()
+                driver.close()
+                driver.quit()
+                driver = setup_driver(proxy)
+                driver.get(fofa_url)
             fofa_source = re.sub(r"<!--.*?-->", "", driver.page_source, flags=re.DOTALL)
             urls = set(re.findall(r"https?://[\w\.-]+:\d+", fofa_source))
 
             with ThreadPoolExecutor(max_workers=100) as executor:
                 futures = [executor.submit(process_fofa_json_url, url) for url in urls]
                 for future in futures:
-                    merge_objects(fofa_results, future.result())
+                    merge_objects(results, future.result())
         except Exception as e:
             print(e)
         finally:
+            driver.close()
+            driver.quit()
             pbar.update()
             remain = fofa_urls_len - pbar.n
             callback(
@@ -67,10 +79,12 @@ async def get_channels_by_fofa(callback):
             )
             if config.open_online_search and pbar.n / fofa_urls_len == 1:
                 callback("正在获取在线搜索结果, 请耐心等待", 0)
+            return results
 
-    for fofa_url in fofa_urls:
-        process_fofa_channels(fofa_url, fofa_urls_len)
-    driver.quit()
+    with ThreadPoolExecutor(max_workers=3) as executor:
+        futures = [executor.submit(process_fofa_channels, fofa_url) for fofa_url in fofa_urls]
+        for future in futures:
+            merge_objects(fofa_results, future.result())
     pbar.close()
     return fofa_results
 
