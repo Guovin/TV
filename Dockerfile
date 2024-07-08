@@ -13,7 +13,7 @@ RUN sed -i 's@deb.debian.org@mirrors.aliyun.com@g' /etc/apt/sources.list \
 
 RUN apt-get update && apt-get install -y chromium chromium-driver cron
 
-RUN (crontab -l 2>/dev/null; echo "0 0 * * * cd /app && pipenv run python main.py scheduled_task") | crontab -
+RUN (crontab -l 2>/dev/null; echo "0 22 * * * cd /app && pipenv run python main.py scheduled_task") | crontab -
 
 EXPOSE 8000
 
