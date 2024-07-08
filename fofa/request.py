@@ -69,7 +69,7 @@ async def get_channels_by_fofa(callback):
                 callback("正在获取在线搜索结果, 请耐心等待", 0)
 
     for fofa_url in fofa_urls:
-        await process_fofa_channels(fofa_url, fofa_urls_len)
+        process_fofa_channels(fofa_url, fofa_urls_len)
     driver.quit()
     pbar.close()
     return fofa_results
