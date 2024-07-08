@@ -1,7 +1,7 @@
 from utils.config import get_config
 from tqdm.asyncio import tqdm_asyncio
 from time import time
-from requests import get, exceptions
+from requests import Session, exceptions
 from utils.retry import retry_func
 import re
 from utils.channel import format_channel_name
@@ -23,6 +23,7 @@ async def get_channels_by_subscribe_urls(callback):
     pbar = tqdm_asyncio(total=subscribe_urls_len, desc="Processing subscribe")
     start_time = time()
     callback(f"正在获取订阅源更新, 共{subscribe_urls_len}个订阅源", 0)
+    session = Session()
 
     def process_subscribe_channels(subscribe_url):
         channels = {}
@@ -30,7 +31,7 @@ async def get_channels_by_subscribe_urls(callback):
             response = None
             try:
                 response = retry_func(
-                    lambda: get(subscribe_url, timeout=timeout),
+                    lambda: session.get(subscribe_url, timeout=timeout),
                     name=subscribe_url,
                 )
             except exceptions.Timeout:
@@ -76,5 +77,6 @@ async def get_channels_by_subscribe_urls(callback):
         ]
         for future in futures:
             merge_objects(subscribe_results, future.result())
+    session.close()
     pbar.close()
     return subscribe_results
