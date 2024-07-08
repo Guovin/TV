@@ -280,7 +280,7 @@ async def sort_channel_list(semaphore, cate, name, info_list, callback):
             logging.error(f"Error: {e}")
         finally:
             callback()
-            return {cate: cate, name: name, data: data}
+            return {'cate': cate, 'name': name, 'data': data}
 
 
 def write_channel_to_file(items, data, callback):
