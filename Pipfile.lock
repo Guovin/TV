@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "513ed2d5439904fe7a8043886b946726a4e704a202910667678927224f65e98e"
+            "sha256": "f2e414a925be2ea62fcf7660090d518ea80826d1e510d62732a75b5894b58730"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -859,14 +859,6 @@
             "index": "aliyun",
             "markers": "python_version >= '3.8'",
             "version": "==4.22.0"
-        },
-        "selenium-stealth": {
-            "hashes": [
-                "sha256:b62da5452aa4a84f29a4dfb21a9696aff20788a7c570dd0b81bc04a940848b97"
-            ],
-            "index": "aliyun",
-            "markers": "python_version >= '3' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4'",
-            "version": "==1.0.6"
         },
         "setuptools": {
             "hashes": [
