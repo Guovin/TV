@@ -39,9 +39,20 @@ pipenv run ui
 
 ### Method 3: Docker Update
 
+- requests: lightweight, low performance requirements, fast update speed, lower success rate
+- driver: large footprint, higher performance requirements, slow update speed, high stability and success rate
+
 ```bash
-1. Pull the image: docker pull guovern/tv:latest
+1. Pull the image:
+
+requests version:
+docker pull guovern/tv-requests:latest
+
+driver version:
+docker pull guovern/tv-driver:latest
+
 2. Run the container: docker run -d -p 8000:8000 tv
+
 3. Access (domain:8000) to check the update results
 ```
 
