@@ -5,7 +5,8 @@ from utils.speed import get_speed
 from concurrent.futures import ThreadPoolExecutor
 from utils.config import get_config
 from driver.utils import get_soup_driver
-from requests_custom.utils import get_soup_requests, close_session
+from requests_custom.utils import get_soup_requests, reset_user_agent, close_session
+from utils.retry import retry_func
 
 config = get_config()
 
@@ -30,9 +31,14 @@ def get_proxy_list(page_count=1):
     def get_proxy(url):
         proxys = []
         try:
-            soup = (
-                get_soup_driver(url) if config.open_driver else get_soup_requests(url)
-            )
+            if config.open_driver:
+                soup = retry_func(lambda: get_soup_driver(url), name=url)
+            else:
+                try:
+                    soup = retry_func(lambda: get_soup_requests(url), name=url)
+                except Exception as e:
+                    reset_user_agent()
+                    soup = get_soup_requests(url)
             table = soup.find("table")
             trs = table.find_all("tr") if table else []
             for tr in trs[1:]:
@@ -61,6 +67,7 @@ async def get_proxy_list_with_test(base_url, proxy_list):
     Get the proxy list with speed test
     """
     if not proxy_list:
+        print("No valid proxy found")
         return []
     semaphore = Semaphore(100)
 

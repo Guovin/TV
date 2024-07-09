@@ -18,7 +18,7 @@ from utils.retry import (
 from selenium.webdriver.common.by import By
 from tqdm.asyncio import tqdm_asyncio
 from concurrent.futures import ThreadPoolExecutor
-from requests_custom.utils import get_soup_requests, close_session
+from requests_custom.utils import get_soup_requests, reset_user_agent, close_session
 
 config = get_config()
 
@@ -103,6 +103,7 @@ async def get_channels_by_online_search(names, callback):
                 except Exception as e:
                     if config.open_proxy:
                         proxy = get_proxy_next()
+                    reset_user_agent()
                     page_soup = get_soup_requests(request_url, proxy=proxy)
                 if not page_soup:
                     print(f"{name}:Request fail.")

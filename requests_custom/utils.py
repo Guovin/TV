@@ -2,6 +2,7 @@ import requests
 import re
 from bs4 import BeautifulSoup
 import random
+from time import sleep
 
 user_agents = [
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
@@ -25,6 +26,7 @@ def get_source_requests(url, proxy=None, timeout=30):
     """
     proxies = {"http": proxy}
     response = session.get(url, headers=headers, proxies=proxies, timeout=timeout)
+    sleep(1)
     source = re.sub(
         r"<!--.*?-->",
         "",

@@ -10,7 +10,7 @@ from utils.retry import retry_func
 from utils.channel import format_channel_name
 from utils.tools import merge_objects, get_pbar_remaining
 from proxy import get_proxy, get_proxy_next
-from requests_custom.utils import get_source_requests, close_session
+from requests_custom.utils import get_source_requests, reset_user_agent, close_session
 
 config = get_config()
 timeout = 30
@@ -61,11 +61,15 @@ async def get_channels_by_fofa(callback):
                     driver.quit()
                     driver = setup_driver(proxy)
                     driver.get(fofa_url)
-            page_source = (
-                driver.page_source
-                if config.open_driver
-                else get_source_requests(fofa_url)
-            )
+                page_source = driver.page_source
+            else:
+                try:
+                    page_source = retry_func(
+                        lambda: get_source_requests(fofa_url), name=fofa_url
+                    )
+                except Exception as e:
+                    reset_user_agent()
+                    page_source = get_source_requests(fofa_url)
             fofa_source = re.sub(r"<!--.*?-->", "", page_source, flags=re.DOTALL)
             urls = set(re.findall(r"https?://[\w\.-]+:\d+", fofa_source))
 
