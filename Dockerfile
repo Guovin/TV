@@ -11,7 +11,7 @@ RUN pipenv install
 RUN sed -i 's@deb.debian.org@mirrors.aliyun.com@g' /etc/apt/sources.list \
   && sed -i 's@security.debian.org@mirrors.aliyun.com@g' /etc/apt/sources.list
 
-RUN apt-get update && apt get install -y cron
+RUN apt-get update && apt-get install -y cron
 
 ARG INSTALL_CHROMIUM=false
 
