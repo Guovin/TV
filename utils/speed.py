@@ -6,7 +6,7 @@ from utils.config import get_config
 
 
 config = get_config()
-timeout = 10
+timeout = 15
 
 
 async def get_speed(url, timeout=timeout, proxy=None):

@@ -11,7 +11,11 @@ RUN pipenv install
 RUN sed -i 's@deb.debian.org@mirrors.aliyun.com@g' /etc/apt/sources.list \
   && sed -i 's@security.debian.org@mirrors.aliyun.com@g' /etc/apt/sources.list
 
-RUN apt-get update && apt-get install -y chromium chromium-driver cron
+RUN apt-get update && apt get install -y cron
+
+ARG INSTALL_CHROMIUM=false
+
+RUN if [ "$INSTALL_CHROMIUM" = "true" ]; then apt-get install -y chromium chromium-driver cron; fi
 
 RUN (crontab -l 2>/dev/null; echo "0 22 * * * cd /app && pipenv run python main.py scheduled_task") | crontab -
 
