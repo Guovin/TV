@@ -13,7 +13,7 @@ from proxy import get_proxy, get_proxy_next
 from requests_custom.utils import get_source_requests, close_session
 
 config = get_config()
-timeout = 10
+timeout = 30
 
 
 def get_fofa_urls_from_region_list():

@@ -65,7 +65,8 @@ async def get_channels_by_online_search(names, callback):
     Get the channels by online search
     """
     channels = {}
-    pageUrl = await use_accessible_url(callback)
+    # pageUrl = await use_accessible_url(callback)
+    pageUrl = "http://tonkiang.us/"
     if not pageUrl:
         return channels
     proxy = None

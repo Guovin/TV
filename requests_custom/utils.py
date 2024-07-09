@@ -19,12 +19,12 @@ headers = {
 session = requests.Session()
 
 
-def get_source_requests(url, proxy=None):
+def get_source_requests(url, proxy=None, timeout=30):
     """
     Get the source by requests
     """
     proxies = {"http": proxy}
-    response = session.get(url, headers=headers, proxies=proxies, timeout=30)
+    response = session.get(url, headers=headers, proxies=proxies, timeout=timeout)
     source = re.sub(
         r"<!--.*?-->",
         "",
@@ -34,11 +34,11 @@ def get_source_requests(url, proxy=None):
     return source
 
 
-def get_soup_requests(url, proxy=None):
+def get_soup_requests(url, proxy=None, timeout=30):
     """
     Get the soup by requests
     """
-    source = get_source_requests(url, proxy)
+    source = get_source_requests(url, proxy, timeout)
     soup = BeautifulSoup(source, "html.parser")
     return soup
 

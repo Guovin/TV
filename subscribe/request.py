@@ -10,7 +10,7 @@ from concurrent.futures import ThreadPoolExecutor
 
 
 config = get_config()
-timeout = 10
+timeout = 30
 
 
 async def get_channels_by_subscribe_urls(callback):
