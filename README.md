@@ -39,9 +39,20 @@ pipenv run ui
 
 ### 方式三：Docker 更新
 
+- requests：轻量级，性能要求低，更新速度快，成功率较低
+- driver：占用大，性能要求较高，更新速度慢，稳定性、成功率高
+
 ```bash
-1. 拉取镜像：docker pull guovern/tv:latest
+1. 拉取镜像：
+
+requests版本：
+docker pull guovern/tv-requests:latest
+
+driver版本：
+docker pull guovern/tv-driver:latest
+
 2. 运行容器：docker run -d -p 8000:8000 tv
+
 3. 访问（域名:8000）查看更新结果
 ```
 

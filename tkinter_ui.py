@@ -24,10 +24,13 @@ class TkinterUI:
     def __init__(self, root):
         self.root = root
         self.root.title("直播源接口更新工具")
-        self.version = "v1.3.0"
+        self.version = "v1.3.1"
         self.update_source = UpdateSource()
         self.update_running = False
         self.config_entrys = [
+            "open_update_checkbutton",
+            "open_driver_checkbutton",
+            "open_proxy_checkbutton",
             "source_file_entry",
             "source_file_button",
             "final_file_entry",
@@ -53,6 +56,9 @@ class TkinterUI:
 
     def format_list(self, text):
         return [f"{item.strip()}" for item in text.split(",") if item.strip()]
+
+    def update_open_update(self):
+        config.open_update = self.open_update_var.get()
 
     def select_source_file(self):
         filepath = filedialog.askopenfilename(
@@ -80,6 +86,12 @@ class TkinterUI:
 
     def update_open_online_search(self):
         config.open_online_search = self.open_online_search_var.get()
+
+    def update_open_driver(self):
+        config.open_driver = self.open_driver_var.get()
+
+    def update_open_proxy(self):
+        config.open_proxy = self.open_proxy_var.get()
 
     def update_open_sort(self):
         config.open_sort = self.open_sort_var.get()
@@ -138,6 +150,7 @@ class TkinterUI:
 
     def save_config(self):
         config_values = {
+            "open_update": self.open_update_var.get(),
             "source_file": f'"{self.source_file_entry.get()}"',
             "final_file": f'"{self.final_file_entry.get()}"',
             "favorite_list": self.format_list(self.favorite_list_text.get(1.0, tk.END)),
@@ -145,6 +158,8 @@ class TkinterUI:
             "favorite_page_num": self.favorite_page_num_entry.get(),
             "default_page_num": self.default_page_num_entry.get(),
             "urls_limit": self.urls_limit_entry.get(),
+            "open_driver": self.open_driver_var.get(),
+            "open_proxy": self.open_proxy_var.get(),
             "open_sort": self.open_sort_var.get(),
             "response_time_weight": self.response_time_weight_entry.get(),
             "resolution_weight": self.resolution_weight_entry.get(),
@@ -225,223 +240,202 @@ class TkinterUI:
 
     def init_UI(self):
 
-        row1 = tk.Frame(self.root)
-        row1.pack(fill=tk.X)
-        row1_column1 = tk.Frame(row1)
-        row1_column1.pack(side=tk.LEFT, fill=tk.Y)
-        row1_column2 = tk.Frame(row1)
-        row1_column2.pack(side=tk.RIGHT, fill=tk.Y)
+        notebook = ttk.Notebook(self.root)
+        notebook.pack(expand=True, fill="both", padx=10, pady=0)
 
-        self.open_subscribe_label = tk.Label(row1_column1, text="开启订阅源:", width=14)
-        self.open_subscribe_label.pack(side=tk.LEFT, padx=4, pady=4)
-        self.open_subscribe_var = tk.BooleanVar(value=config.open_subscribe)
-        self.open_subscribe_checkbutton = ttk.Checkbutton(
-            row1_column1,
-            width=12,
-            variable=self.open_subscribe_var,
+        frame1 = ttk.Frame(notebook, width=500, height=500)
+        frame2 = ttk.Frame(notebook, width=500, height=500)
+        frame3 = ttk.Frame(notebook, width=500, height=500)
+        frame4 = ttk.Frame(notebook, width=500, height=500)
+
+        notebook.add(frame1, text="通用设置")
+        notebook.add(frame2, text="在线搜索")
+        notebook.add(frame3, text="订阅源")
+        notebook.add(frame4, text="组播源")
+
+        frame1_open_update = tk.Frame(frame1)
+        frame1_open_update.pack(fill=tk.X)
+
+        self.open_update_label = tk.Label(frame1_open_update, text="开启更新:", width=8)
+        self.open_update_label.pack(side=tk.LEFT, padx=4, pady=8)
+        self.open_update_var = tk.BooleanVar(value=config.open_update)
+        self.open_update_checkbutton = ttk.Checkbutton(
+            frame1_open_update,
+            variable=self.open_update_var,
             onvalue=True,
             offvalue=False,
-            command=self.update_open_subscribe,
+            command=self.update_open_update,
+            text="(关闭则只运行结果页面服务)",
         )
-        self.open_subscribe_checkbutton.pack(side=tk.LEFT, padx=4, pady=4)
+        self.open_update_checkbutton.pack(side=tk.LEFT, padx=4, pady=8)
 
-        self.open_multicast_label = tk.Label(row1_column2, text="开启组播源:", width=14)
-        self.open_multicast_label.pack(side=tk.LEFT, padx=4, pady=4)
-        self.open_multicast_var = tk.BooleanVar(value=config.open_multicast)
-        self.open_multicast_checkbutton = ttk.Checkbutton(
-            row1_column2,
-            width=12,
-            variable=self.open_multicast_var,
+        frame1_source_file = tk.Frame(frame1)
+        frame1_source_file.pack(fill=tk.X)
+
+        self.source_file_label = tk.Label(frame1_source_file, text="模板文件:", width=8)
+        self.source_file_entry = tk.Entry(frame1_source_file)
+        self.source_file_label.pack(side=tk.LEFT, padx=4, pady=8)
+        self.source_file_entry.pack(fill=tk.X, padx=4, expand=True)
+        self.source_file_entry.insert(0, config.source_file)
+
+        frame1_source_file_select = tk.Frame(frame1)
+        frame1_source_file_select.pack(fill=tk.X)
+
+        self.source_file_button = tk.Button(
+            frame1_source_file_select, text="选择文件", command=self.select_source_file
+        )
+        self.source_file_button.pack(side=tk.LEFT, padx=4, pady=0)
+
+        frame1_final_file = tk.Frame(frame1)
+        frame1_final_file.pack(fill=tk.X)
+
+        self.final_file_label = tk.Label(frame1_final_file, text="结果文件:", width=8)
+        self.final_file_entry = tk.Entry(frame1_final_file)
+        self.final_file_label.pack(side=tk.LEFT, padx=4, pady=8)
+        self.final_file_entry.pack(fill=tk.X, padx=4, expand=True)
+        self.final_file_entry.insert(0, config.final_file)
+
+        frame1_final_file_select = tk.Frame(frame1)
+        frame1_final_file_select.pack(fill=tk.X)
+
+        self.final_file_button = tk.Button(
+            frame1_final_file_select, text="选择文件", command=self.select_final_file
+        )
+        self.final_file_button.pack(side=tk.LEFT, padx=4, pady=0)
+
+        frame1_mode = tk.Frame(frame1)
+        frame1_mode.pack(fill=tk.X)
+        frame1_mode_params_column1 = tk.Frame(frame1_mode)
+        frame1_mode_params_column1.pack(side=tk.LEFT, fill=tk.Y)
+        frame1_mode_params_column2 = tk.Frame(frame1_mode)
+        frame1_mode_params_column2.pack(side=tk.RIGHT, fill=tk.Y)
+
+        self.open_driver_label = tk.Label(
+            frame1_mode_params_column1, text="浏览器模式:", width=12
+        )
+        self.open_driver_label.pack(side=tk.LEFT, padx=4, pady=8)
+        self.open_driver_var = tk.BooleanVar(value=config.open_driver)
+        self.open_driver_checkbutton = ttk.Checkbutton(
+            frame1_mode_params_column1,
+            variable=self.open_driver_var,
             onvalue=True,
             offvalue=False,
-            command=self.update_open_multicast,
+            command=self.update_open_driver,
+            text="(较消耗性能)",
         )
-        self.open_multicast_checkbutton.pack(side=tk.LEFT, padx=4, pady=4)
+        self.open_driver_checkbutton.pack(side=tk.LEFT, padx=4, pady=8)
 
-        row2 = tk.Frame(self.root)
-        row2.pack(fill=tk.X)
-        row2_column1 = tk.Frame(row2)
-        row2_column1.pack(side=tk.LEFT, fill=tk.Y)
-        row2_column2 = tk.Frame(row2)
-        row2_column2.pack(side=tk.RIGHT, fill=tk.Y)
-
-        self.open_online_search_label = tk.Label(
-            row2_column1, text="开启线上搜索:", width=14
+        self.open_proxy_label = tk.Label(
+            frame1_mode_params_column2, text="开启代理:", width=12
         )
-        self.open_online_search_label.pack(side=tk.LEFT, padx=4, pady=4)
-        self.open_online_search_var = tk.BooleanVar(value=config.open_online_search)
-        self.open_online_search_checkbutton = ttk.Checkbutton(
-            row2_column1,
-            width=12,
-            variable=self.open_online_search_var,
+        self.open_proxy_label.pack(side=tk.LEFT, padx=4, pady=8)
+        self.open_proxy_var = tk.BooleanVar(value=config.open_proxy)
+        self.open_proxy_checkbutton = ttk.Checkbutton(
+            frame1_mode_params_column2,
+            variable=self.open_proxy_var,
             onvalue=True,
             offvalue=False,
-            command=self.update_open_online_search,
+            command=self.update_open_proxy,
+            text="(自动获取免费代理)",
         )
-        self.open_online_search_checkbutton.pack(side=tk.LEFT, padx=4, pady=4)
+        self.open_proxy_checkbutton.pack(side=tk.LEFT, padx=4, pady=8)
 
-        self.open_sort_label = tk.Label(row2_column2, text="开启测速排序:", width=14)
-        self.open_sort_label.pack(side=tk.LEFT, padx=4, pady=4)
+        frame1_channel = tk.Frame(frame1)
+        frame1_channel.pack(fill=tk.X)
+        frame1_channel_column1 = tk.Frame(frame1_channel)
+        frame1_channel_column1.pack(side=tk.LEFT, fill=tk.Y)
+        frame1_channel_column2 = tk.Frame(frame1_channel)
+        frame1_channel_column2.pack(side=tk.RIGHT, fill=tk.Y)
+
+        self.urls_limit_label = tk.Label(
+            frame1_channel_column1, text="频道接口数量:", width=12
+        )
+        self.urls_limit_label.pack(side=tk.LEFT, padx=4, pady=8)
+        self.urls_limit_entry = tk.Entry(frame1_channel_column1)
+        self.urls_limit_entry.pack(side=tk.LEFT, padx=4, pady=8)
+        self.urls_limit_entry.insert(15, config.urls_limit)
+        self.urls_limit_entry.bind("<KeyRelease>", self.update_urls_limit)
+
+        self.ipv_type_label = tk.Label(
+            frame1_channel_column2, text="接口协议类型:", width=12
+        )
+        self.ipv_type_label.pack(side=tk.LEFT, padx=4, pady=8)
+        self.ipv_type_combo = ttk.Combobox(frame1_channel_column2)
+        self.ipv_type_combo.pack(side=tk.LEFT, padx=4, pady=8)
+        self.ipv_type_combo["values"] = ("ipv4", "ipv6", "all")
+        self.ipv_type_combo.current(0)
+        self.ipv_type_combo.bind("<<ComboboxSelected>>", self.update_ipv_type)
+
+        frame1_sort = tk.Frame(frame1)
+        frame1_sort.pack(fill=tk.X)
+
+        self.open_sort_label = tk.Label(frame1_sort, text="开启测速排序:", width=12)
+        self.open_sort_label.pack(side=tk.LEFT, padx=4, pady=8)
         self.open_sort_var = tk.BooleanVar(value=config.open_sort)
         self.open_sort_checkbutton = ttk.Checkbutton(
-            row2_column2,
-            width=12,
+            frame1_sort,
             variable=self.open_sort_var,
             onvalue=True,
             offvalue=False,
             command=self.update_open_sort,
         )
-        self.open_sort_checkbutton.pack(side=tk.LEFT, padx=4, pady=4)
+        self.open_sort_checkbutton.pack(side=tk.LEFT, padx=4, pady=8)
 
-        row3 = tk.Frame(self.root)
-        row3.pack(fill=tk.X)
-        row3_column1 = tk.Frame(row3)
-        row3_column1.pack(side=tk.LEFT, fill=tk.Y)
-        row3_column2 = tk.Frame(row3)
-        row3_column2.pack(side=tk.RIGHT, fill=tk.Y)
-
-        self.source_file_label = tk.Label(row3_column1, text="模板文件:", width=14)
-        self.source_file_entry = tk.Entry(row3_column1)
-        self.source_file_label.pack(side=tk.LEFT, padx=4, pady=4)
-        self.source_file_entry.pack(fill=tk.X, padx=4, expand=True)
-        self.source_file_entry.insert(0, config.source_file)
-
-        self.source_file_button = tk.Button(
-            row3_column1, text="选择文件", command=self.select_source_file
-        )
-        self.source_file_button.pack(side=tk.LEFT, padx=4, pady=4)
-
-        self.final_file_label = tk.Label(row3_column2, text="结果文件:", width=14)
-        self.final_file_entry = tk.Entry(row3_column2)
-        self.final_file_label.pack(side=tk.LEFT, padx=4, pady=4)
-        self.final_file_entry.pack(fill=tk.X, padx=4, expand=True)
-        self.final_file_entry.insert(0, config.final_file)
-
-        self.final_file_button = tk.Button(
-            row3_column2, text="选择文件", command=self.select_final_file
-        )
-        self.final_file_button.pack(side=tk.LEFT, padx=4, pady=4)
-
-        row4 = tk.Frame(self.root)
-        row4.pack(fill=tk.X)
-
-        self.favorite_list_label = tk.Label(row4, text="关注频道:", width=14)
-        self.favorite_list_label.pack(side=tk.LEFT, padx=4, pady=4)
-        self.favorite_list_text = scrolledtext.ScrolledText(row4, height=5)
-        self.favorite_list_text.pack(
-            side=tk.LEFT, padx=4, pady=4, expand=True, fill=tk.BOTH
-        )
-        self.favorite_list_text.insert(tk.END, ",".join(config.favorite_list))
-        self.favorite_list_text.bind("<KeyRelease>", self.update_favorite_list)
-
-        row5 = tk.Frame(self.root)
-        row5.pack(fill=tk.X)
-        row5_column1 = tk.Frame(row5)
-        row5_column1.pack(side=tk.LEFT, fill=tk.Y)
-        row5_column2 = tk.Frame(row5)
-        row5_column2.pack(side=tk.RIGHT, fill=tk.Y)
-
-        self.favorite_page_num_label = tk.Label(
-            row5_column1, text="关注获取页数:", width=14
-        )
-        self.favorite_page_num_label.pack(side=tk.LEFT, padx=4, pady=4)
-        self.favorite_page_num_entry = tk.Entry(row5_column1)
-        self.favorite_page_num_entry.pack(side=tk.LEFT, padx=4, pady=4)
-        self.favorite_page_num_entry.insert(0, config.favorite_page_num)
-        self.favorite_page_num_entry.bind("<KeyRelease>", self.update_favorite_page_num)
-
-        self.default_page_num_label = tk.Label(
-            row5_column2, text="默认获取页数:", width=14
-        )
-        self.default_page_num_label.pack(side=tk.LEFT, padx=4, pady=4)
-        self.default_page_num_entry = tk.Entry(row5_column2)
-        self.default_page_num_entry.pack(side=tk.LEFT, padx=4, pady=4)
-        self.default_page_num_entry.insert(0, config.default_page_num)
-        self.default_page_num_entry.bind("<KeyRelease>", self.update_default_page_num)
-
-        row6 = tk.Frame(self.root)
-        row6.pack(fill=tk.X)
-        row6_column1 = tk.Frame(row6)
-        row6_column1.pack(side=tk.LEFT, fill=tk.Y)
-        row6_column2 = tk.Frame(row6)
-        row6_column2.pack(side=tk.RIGHT, fill=tk.Y)
-
-        self.urls_limit_label = tk.Label(
-            row6_column1, text="单个频道接口数量:", width=14
-        )
-        self.urls_limit_label.pack(side=tk.LEFT, padx=4, pady=4)
-        self.urls_limit_entry = tk.Entry(row6_column1)
-        self.urls_limit_entry.pack(side=tk.LEFT, padx=4, pady=4)
-        self.urls_limit_entry.insert(15, config.urls_limit)
-        self.urls_limit_entry.bind("<KeyRelease>", self.update_urls_limit)
-
-        self.ipv_type_label = tk.Label(row6_column2, text="接口协议类型:", width=14)
-        self.ipv_type_label.pack(side=tk.LEFT, padx=4, pady=4)
-        self.ipv_type_combo = ttk.Combobox(row6_column2)
-        self.ipv_type_combo.pack(side=tk.LEFT, padx=4, pady=4)
-        self.ipv_type_combo["values"] = ("ipv4", "ipv6", "all")
-        self.ipv_type_combo.current(0)
-        self.ipv_type_combo.bind("<<ComboboxSelected>>", self.update_ipv_type)
-
-        row7 = tk.Frame(self.root)
-        row7.pack(fill=tk.X)
-        row7_column1 = tk.Frame(row7)
-        row7_column1.pack(side=tk.LEFT, fill=tk.Y)
-        row7_column2 = tk.Frame(row7)
-        row7_column2.pack(side=tk.RIGHT, fill=tk.Y)
+        frame1_sort_params = tk.Frame(frame1)
+        frame1_sort_params.pack(fill=tk.X)
+        frame1_sort_params_column1 = tk.Frame(frame1_sort_params)
+        frame1_sort_params_column1.pack(side=tk.LEFT, fill=tk.Y)
+        frame1_sort_params_column2 = tk.Frame(frame1_sort_params)
+        frame1_sort_params_column2.pack(side=tk.RIGHT, fill=tk.Y)
 
         self.response_time_weight_label = tk.Label(
-            row7_column1, text="响应时间权重:", width=14
+            frame1_sort_params_column1, text="响应时间权重:", width=12
         )
-        self.response_time_weight_label.pack(side=tk.LEFT, padx=4, pady=4)
-        self.response_time_weight_entry = tk.Entry(row7_column1)
-        self.response_time_weight_entry.pack(side=tk.LEFT, padx=4, pady=4)
+        self.response_time_weight_label.pack(side=tk.LEFT, padx=4, pady=8)
+        self.response_time_weight_entry = tk.Entry(frame1_sort_params_column1)
+        self.response_time_weight_entry.pack(side=tk.LEFT, padx=4, pady=8)
         self.response_time_weight_entry.insert(0, config.response_time_weight)
         self.response_time_weight_entry.bind(
             "<KeyRelease>", self.update_response_time_weight
         )
 
         self.resolution_weight_label = tk.Label(
-            row7_column2, text="分辨率权重:", width=14
+            frame1_sort_params_column2, text="分辨率权重:", width=12
         )
-        self.resolution_weight_label.pack(side=tk.LEFT, padx=4, pady=4)
-        self.resolution_weight_entry = tk.Entry(row7_column2)
-        self.resolution_weight_entry.pack(side=tk.LEFT, padx=4, pady=4)
+        self.resolution_weight_label.pack(side=tk.LEFT, padx=4, pady=8)
+        self.resolution_weight_entry = tk.Entry(frame1_sort_params_column2)
+        self.resolution_weight_entry.pack(side=tk.LEFT, padx=4, pady=8)
         self.resolution_weight_entry.insert(0, config.resolution_weight)
         self.resolution_weight_entry.bind("<KeyRelease>", self.update_resolution_weight)
 
-        row8 = tk.Frame(self.root)
-        row8.pack(fill=tk.X)
+        frame1_domain_blacklist = tk.Frame(frame1)
+        frame1_domain_blacklist.pack(fill=tk.X)
 
-        self.recent_days_label = tk.Label(row8, text="获取时间范围(天):", width=14)
-        self.recent_days_label.pack(side=tk.LEFT, padx=4, pady=4)
-        self.recent_days_entry = tk.Entry(row8)
-        self.recent_days_entry.pack(side=tk.LEFT, padx=4, pady=4)
-        self.recent_days_entry.insert(30, config.recent_days)
-        self.recent_days_entry.bind("<KeyRelease>", self.update_recent_days)
-
-        row9 = tk.Frame(self.root)
-        row9.pack(fill=tk.X)
-
-        self.domain_blacklist_label = tk.Label(row9, text="域名黑名单:", width=14)
-        self.domain_blacklist_label.pack(side=tk.LEFT, padx=4, pady=4)
-        self.domain_blacklist_text = scrolledtext.ScrolledText(row9, height=5)
+        self.domain_blacklist_label = tk.Label(
+            frame1_domain_blacklist, text="域名黑名单:", width=12
+        )
+        self.domain_blacklist_label.pack(side=tk.LEFT, padx=4, pady=8)
+        self.domain_blacklist_text = scrolledtext.ScrolledText(
+            frame1_domain_blacklist, height=5
+        )
         self.domain_blacklist_text.pack(
-            side=tk.LEFT, padx=4, pady=4, expand=True, fill=tk.BOTH
+            side=tk.LEFT, padx=4, pady=8, expand=True, fill=tk.BOTH
         )
         self.domain_blacklist_text.insert(tk.END, ",".join(config.domain_blacklist))
         self.domain_blacklist_text.bind("<KeyRelease>", self.update_domain_blacklist)
 
-        row10 = tk.Frame(self.root)
-        row10.pack(fill=tk.X)
+        frame1_url_keywords_blacklist = tk.Frame(frame1)
+        frame1_url_keywords_blacklist.pack(fill=tk.X)
 
         self.url_keywords_blacklist_label = tk.Label(
-            row10, text="关键字黑名单:", width=14
+            frame1_url_keywords_blacklist, text="关键字黑名单:", width=12
         )
-        self.url_keywords_blacklist_label.pack(side=tk.LEFT, padx=4, pady=4)
-        self.url_keywords_blacklist_text = scrolledtext.ScrolledText(row10, height=5)
+        self.url_keywords_blacklist_label.pack(side=tk.LEFT, padx=4, pady=8)
+        self.url_keywords_blacklist_text = scrolledtext.ScrolledText(
+            frame1_url_keywords_blacklist, height=5
+        )
         self.url_keywords_blacklist_text.pack(
-            side=tk.LEFT, padx=4, pady=4, expand=True, fill=tk.BOTH
+            side=tk.LEFT, padx=4, pady=8, expand=True, fill=tk.BOTH
         )
         self.url_keywords_blacklist_text.insert(
             tk.END, ",".join(config.url_keywords_blacklist)
@@ -450,46 +444,153 @@ class TkinterUI:
             "<KeyRelease>", self.update_url_keywords_blacklist
         )
 
-        row11 = tk.Frame(self.root)
-        row11.pack(fill=tk.X)
+        frame2_open_online_search = tk.Frame(frame2)
+        frame2_open_online_search.pack(fill=tk.X)
 
-        self.subscribe_urls_label = tk.Label(row11, text="订阅源:", width=14)
-        self.subscribe_urls_label.pack(side=tk.LEFT, padx=4, pady=4)
-        self.subscribe_urls_text = scrolledtext.ScrolledText(row11, height=5)
+        self.open_online_search_label = tk.Label(
+            frame2_open_online_search, text="开启在线搜索:", width=13
+        )
+        self.open_online_search_label.pack(side=tk.LEFT, padx=4, pady=8)
+        self.open_online_search_var = tk.BooleanVar(value=config.open_online_search)
+        self.open_online_search_checkbutton = ttk.Checkbutton(
+            frame2_open_online_search,
+            variable=self.open_online_search_var,
+            onvalue=True,
+            offvalue=False,
+            command=self.update_open_online_search,
+        )
+        self.open_online_search_checkbutton.pack(side=tk.LEFT, padx=4, pady=8)
+
+        frame2_favorite_list = tk.Frame(frame2)
+        frame2_favorite_list.pack(fill=tk.X)
+
+        self.favorite_list_label = tk.Label(
+            frame2_favorite_list, text="关注频道:", width=13
+        )
+        self.favorite_list_label.pack(side=tk.LEFT, padx=4, pady=8)
+        self.favorite_list_text = scrolledtext.ScrolledText(
+            frame2_favorite_list, height=5
+        )
+        self.favorite_list_text.pack(
+            side=tk.LEFT, padx=4, pady=8, expand=True, fill=tk.BOTH
+        )
+        self.favorite_list_text.insert(tk.END, ",".join(config.favorite_list))
+        self.favorite_list_text.bind("<KeyRelease>", self.update_favorite_list)
+
+        frame2_favorite_page_num = tk.Frame(frame2)
+        frame2_favorite_page_num.pack(fill=tk.X)
+
+        self.favorite_page_num_label = tk.Label(
+            frame2_favorite_page_num, text="关注获取页数:", width=13
+        )
+        self.favorite_page_num_label.pack(side=tk.LEFT, padx=4, pady=8)
+        self.favorite_page_num_entry = tk.Entry(frame2_favorite_page_num)
+        self.favorite_page_num_entry.pack(side=tk.LEFT, padx=4, pady=8)
+        self.favorite_page_num_entry.insert(0, config.favorite_page_num)
+        self.favorite_page_num_entry.bind("<KeyRelease>", self.update_favorite_page_num)
+
+        frame2_default_page_num = tk.Frame(frame2)
+        frame2_default_page_num.pack(fill=tk.X)
+
+        self.default_page_num_label = tk.Label(
+            frame2_default_page_num, text="默认获取页数:", width=13
+        )
+        self.default_page_num_label.pack(side=tk.LEFT, padx=4, pady=8)
+        self.default_page_num_entry = tk.Entry(frame2_default_page_num)
+        self.default_page_num_entry.pack(side=tk.LEFT, padx=4, pady=8)
+        self.default_page_num_entry.insert(0, config.default_page_num)
+        self.default_page_num_entry.bind("<KeyRelease>", self.update_default_page_num)
+
+        frame2_recent_days = tk.Frame(frame2)
+        frame2_recent_days.pack(fill=tk.X)
+
+        self.recent_days_label = tk.Label(
+            frame2_recent_days, text="获取时间范围(天):", width=13
+        )
+        self.recent_days_label.pack(side=tk.LEFT, padx=4, pady=8)
+        self.recent_days_entry = tk.Entry(frame2_recent_days)
+        self.recent_days_entry.pack(side=tk.LEFT, padx=4, pady=8)
+        self.recent_days_entry.insert(30, config.recent_days)
+        self.recent_days_entry.bind("<KeyRelease>", self.update_recent_days)
+
+        frame3_open_subscribe = tk.Frame(frame3)
+        frame3_open_subscribe.pack(fill=tk.X)
+
+        self.open_subscribe_label = tk.Label(
+            frame3_open_subscribe, text="开启订阅源:", width=9
+        )
+        self.open_subscribe_label.pack(side=tk.LEFT, padx=4, pady=8)
+        self.open_subscribe_var = tk.BooleanVar(value=config.open_subscribe)
+        self.open_subscribe_checkbutton = ttk.Checkbutton(
+            frame3_open_subscribe,
+            variable=self.open_subscribe_var,
+            onvalue=True,
+            offvalue=False,
+            command=self.update_open_subscribe,
+        )
+        self.open_subscribe_checkbutton.pack(side=tk.LEFT, padx=4, pady=8)
+
+        frame3_subscribe_urls = tk.Frame(frame3)
+        frame3_subscribe_urls.pack(fill=tk.X)
+
+        self.subscribe_urls_label = tk.Label(
+            frame3_subscribe_urls, text="订阅源:", width=9
+        )
+        self.subscribe_urls_label.pack(side=tk.LEFT, padx=4, pady=8)
+        self.subscribe_urls_text = scrolledtext.ScrolledText(
+            frame3_subscribe_urls, height=5
+        )
         self.subscribe_urls_text.pack(
-            side=tk.LEFT, padx=4, pady=4, expand=True, fill=tk.BOTH
+            side=tk.LEFT, padx=4, pady=8, expand=True, fill=tk.BOTH
         )
         self.subscribe_urls_text.insert(tk.END, ",".join(config.subscribe_urls))
         self.subscribe_urls_text.bind("<KeyRelease>", self.update_subscribe_urls)
 
-        row12 = tk.Frame(self.root)
-        row12.pack(fill=tk.X)
+        frame4_multicast = tk.Frame(frame4)
+        frame4_multicast.pack(fill=tk.X)
 
-        self.region_list_label = tk.Label(row12, text="组播地区:", width=14)
-        self.region_list_label.pack(side=tk.LEFT, padx=4, pady=4)
-        self.region_list_text = scrolledtext.ScrolledText(row12, height=5)
+        self.open_multicast_label = tk.Label(
+            frame4_multicast, text="开启组播源:", width=9
+        )
+        self.open_multicast_label.pack(side=tk.LEFT, padx=4, pady=8)
+        self.open_multicast_var = tk.BooleanVar(value=config.open_multicast)
+        self.open_multicast_checkbutton = ttk.Checkbutton(
+            frame4_multicast,
+            variable=self.open_multicast_var,
+            onvalue=True,
+            offvalue=False,
+            command=self.update_open_multicast,
+        )
+        self.open_multicast_checkbutton.pack(side=tk.LEFT, padx=4, pady=8)
+
+        frame4_region_list = tk.Frame(frame4)
+        frame4_region_list.pack(fill=tk.X)
+
+        self.region_list_label = tk.Label(frame4_region_list, text="组播地区:", width=9)
+        self.region_list_label.pack(side=tk.LEFT, padx=4, pady=8)
+        self.region_list_text = scrolledtext.ScrolledText(frame4_region_list, height=5)
         self.region_list_text.pack(
-            side=tk.LEFT, padx=4, pady=4, expand=True, fill=tk.BOTH
+            side=tk.LEFT, padx=4, pady=8, expand=True, fill=tk.BOTH
         )
         self.region_list_text.insert(tk.END, ",".join(config.region_list))
         self.region_list_text.bind("<KeyRelease>", self.update_region_list)
 
-        row13 = tk.Frame(self.root)
-        row13.pack(fill=tk.X, pady=10, padx=120)
-        row13_column1 = tk.Frame(row13)
-        row13_column1.pack(side=tk.LEFT, fill=tk.Y)
-        row13_column2 = tk.Frame(row13)
-        row13_column2.pack(side=tk.RIGHT, fill=tk.Y)
+        root_operate = tk.Frame(self.root)
+        root_operate.pack(fill=tk.X, pady=8, padx=120)
+        root_operate_column1 = tk.Frame(root_operate)
+        root_operate_column1.pack(side=tk.LEFT, fill=tk.Y)
+        root_operate_column2 = tk.Frame(root_operate)
+        root_operate_column2.pack(side=tk.RIGHT, fill=tk.Y)
 
         self.save_button = tk.Button(
-            row13_column1, text="保存设置", command=self.save_config
+            root_operate_column1, text="保存设置", command=self.save_config
         )
-        self.save_button.pack(side=tk.LEFT, padx=4, pady=4)
+        self.save_button.pack(side=tk.LEFT, padx=4, pady=8)
 
         self.run_button = tk.Button(
-            row13_column2, text="开始更新", command=self.on_run_update
+            root_operate_column2, text="开始更新", command=self.on_run_update
         )
-        self.run_button.pack(side=tk.LEFT, padx=4, pady=4)
+        self.run_button.pack(side=tk.LEFT, padx=4, pady=8)
 
         version_frame = tk.Frame(self.root)
         version_frame.pack(side=tk.BOTTOM, fill=tk.X)
@@ -516,14 +617,18 @@ class TkinterUI:
             lambda e: webbrowser.open_new_tab("https://github.com/Guovin/TV"),
         )
 
-        row14 = tk.Frame(self.root)
-        row14.pack(fill=tk.X)
+        root_progress = tk.Frame(self.root)
+        root_progress.pack(fill=tk.X)
 
-        self.progress_bar = ttk.Progressbar(row14, length=300, mode="determinate")
+        self.progress_bar = ttk.Progressbar(
+            root_progress, length=300, mode="determinate"
+        )
         self.progress_bar.pack_forget()
-        self.progress_label = tk.Label(row14, text="进度: 0%")
+        self.progress_label = tk.Label(root_progress, text="进度: 0%")
         self.progress_label.pack_forget()
-        self.view_result_link = tk.Label(row14, text="", fg="blue", cursor="hand2")
+        self.view_result_link = tk.Label(
+            root_progress, text="", fg="blue", cursor="hand2"
+        )
         self.view_result_link.bind(
             "<Button-1>",
             self.view_result_link_callback,
@@ -538,7 +643,7 @@ if __name__ == "__main__":
     screen_width = root.winfo_screenwidth()
     screen_height = root.winfo_screenheight()
     width = 500
-    height = 800
+    height = 700
     x = (screen_width / 2) - (width / 2)
     y = (screen_height / 2) - (height / 2)
     root.geometry("%dx%d+%d+%d" % (width, height, x, y))

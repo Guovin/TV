@@ -160,8 +160,17 @@ class UpdateSource:
 
         self.update_progress = callback or default_callback
         self.run_ui = True if callback else False
-        await self.main()
+        if config.open_update:
+            await self.main()
         if self.run_ui:
+            if not config.open_update:
+                print(f"You can access the result at {get_ip_address()}")
+                self.update_progress(
+                    f"服务启动成功, 可访问以下链接:",
+                    100,
+                    True,
+                    url=f"{get_ip_address()}",
+                )
             app.run(host="0.0.0.0", port=8000)
 
     def stop(self):
