@@ -10,7 +10,6 @@ import re
 from bs4 import BeautifulSoup
 
 config = get_config()
-timeout = 10
 
 
 def get_pbar_remaining(pbar, start_time):
@@ -69,6 +68,7 @@ def filter_by_date(data):
         recent_data.extend(unrecent_data[: config.urls_limit - len(recent_data)])
     return recent_data
 
+
 def get_soup(source):
     """
     Get soup from source
@@ -81,6 +81,7 @@ def get_soup(source):
     )
     soup = BeautifulSoup(source, "html.parser")
     return soup
+
 
 def get_total_urls_from_info_list(infoList):
     """

@@ -117,6 +117,23 @@ def get_results_from_soup(soup, name):
     return results
 
 
+def get_results_from_soup_requests(soup, name):
+    """
+    Get the results from the soup by requests
+    """
+    results = []
+    elements = soup.find_all("div", class_="resultplus") if soup else []
+    for element in elements:
+        name_element = element.find("div", class_="channel")
+        if name_element:
+            channel_name = name_element.get_text(strip=True)
+            if format_channel_name(name) == format_channel_name(channel_name):
+                url = get_channel_url(element)
+                date, resolution = get_channel_info(element)
+                results.append((url, date, resolution))
+    return results
+
+
 def update_channel_urls_txt(cate, name, urls):
     """
     Update the category and channel urls to the final file
@@ -280,7 +297,7 @@ async def sort_channel_list(semaphore, cate, name, info_list, callback):
             logging.error(f"Error: {e}")
         finally:
             callback()
-            return {'cate': cate, 'name': name, 'data': data}
+            return {"cate": cate, "name": name, "data": data}
 
 
 def write_channel_to_file(items, data, callback):

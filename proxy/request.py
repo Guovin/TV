@@ -1,13 +1,14 @@
 from asyncio import Semaphore
-import re
-from bs4 import BeautifulSoup
 from tqdm import tqdm
 from tqdm.asyncio import tqdm_asyncio
-from driver.setup import setup_driver
-from utils.retry import retry_func
-from time import sleep
 from utils.speed import get_speed
 from concurrent.futures import ThreadPoolExecutor
+from utils.config import get_config
+from driver.utils import get_soup_driver
+from requests_custom.utils import get_soup_requests, reset_user_agent, close_session
+from utils.retry import retry_func
+
+config = get_config()
 
 
 def get_proxy_list(page_count=1):
@@ -30,17 +31,14 @@ def get_proxy_list(page_count=1):
     def get_proxy(url):
         proxys = []
         try:
-            driver = setup_driver()
-            url = pattern.format(page_index)
-            retry_func(lambda: driver.get(url), name=url)
-            sleep(1)
-            source = re.sub(
-                r"<!--.*?-->",
-                "",
-                driver.page_source,
-                flags=re.DOTALL,
-            )
-            soup = BeautifulSoup(source, "html.parser")
+            if config.open_driver:
+                soup = retry_func(lambda: get_soup_driver(url), name=url)
+            else:
+                try:
+                    soup = retry_func(lambda: get_soup_requests(url), name=url)
+                except Exception as e:
+                    reset_user_agent()
+                    soup = get_soup_requests(url)
             table = soup.find("table")
             trs = table.find_all("tr") if table else []
             for tr in trs[1:]:
@@ -50,15 +48,16 @@ def get_proxy_list(page_count=1):
                 proxy = f"http://{ip}:{port}"
                 proxys.append(proxy)
         finally:
-            driver.close()
-            driver.quit()
             pbar.update()
             return proxys
 
-    with ThreadPoolExecutor(max_workers=3) as executor:
+    max_workers = 3 if config.open_driver else 10
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
         futures = [executor.submit(get_proxy, url) for url in urls]
         for future in futures:
             proxy_list.extend(future.result())
+    if not config.open_driver:
+        close_session()
     pbar.close()
     return proxy_list
 
@@ -68,6 +67,7 @@ async def get_proxy_list_with_test(base_url, proxy_list):
     Get the proxy list with speed test
     """
     if not proxy_list:
+        print("No valid proxy found")
         return []
     semaphore = Semaphore(100)
 
