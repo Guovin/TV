@@ -75,30 +75,41 @@ pipenv run build
 
 ### Method 2: GUI Software Update
 
-```python
 1. Download the update tool software, open the software, click update to complete the update.
 
 2. Alternatively, run the following command in the project directory to open the GUI software:
+
+```python
 pipenv run ui
 ```
 
+![Update tool software](./images/ui.png 'Update tool software')
+
 ### Method 3: Docker Update
 
-- requests: lightweight, low performance requirements, fast update speed, lower success rate
-- driver: large footprint, higher performance requirements, slow update speed, high stability and success rate
+- requests: Lightweight, low performance requirements, fast update speed, stability uncertain (recommend this version only for subscription sources)
+- driver: Higher performance requirements, slower update speed, high stability, high success rate (use this version for online search, multicast sources)
 
 ```bash
 1. Pull the image:
 
-requests version:
+For requests version:
 docker pull guovern/tv-requests:latest
 
-driver version:
+For driver version:
 docker pull guovern/tv-driver:latest
 
-2. Run the container: docker run -d -p 8000:8000 tv
+2. Run the container: docker run --name tv-requests or driver -d -p 8000:8000 guovern/tv-requests or driver
 
-3. Access (domain:8000) to check the update results
+3. Check the update results: Visit (domain:8000)
+
+4. Customization (optional):
+
+- Modify the template:
+docker cp your_system_path/user-demo.txt tv-requests or driver:/app/user-demo.txt
+
+- Modify the configuration:
+docker cp your_system_path/user-config.py tv-requests or driver:/app/user-config.py
 ```
 
 #### Note: Link to the result file after updates of methods one to three: http://local ip:8000
