@@ -6,7 +6,7 @@ Customize channel menus and automatically obtain and update the latest live sour
   <a href="https://github.com/Guovin/TV/releases">
     <img src="https://img.shields.io/badge/Version-1.3.1-307cf7" />
   </a>
-  <a>
+  <a href="https://www.python.org/">
     <img src="https://img.shields.io/badge/Python-%20%3E%3D%203.8-47c219" />
   </a>
   <a href="https://github.com/Guovin/TV/releases">
