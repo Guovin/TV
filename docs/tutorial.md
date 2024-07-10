@@ -75,17 +75,20 @@ pipenv run build
 
 ### 方式二：界面软件更新
 
-```python
 1. 下载[更新工具软件](https://github.com/Guovin/TV/releases)，打开软件，点击更新，即可完成更新
 
 2. 或者在项目目录下运行以下命令，即可打开界面软件：
+
+```python
 pipenv run ui
 ```
 
+![更新工具软件](./images/ui.png '更新工具软件')
+
 ### 方式三：Docker 更新
 
-- requests：轻量级，性能要求低，更新速度快，成功率较低
-- driver：占用大，性能要求较高，更新速度慢，稳定性、成功率高
+- requests：轻量级，性能要求低，更新速度快，稳定性不确定（只使用订阅源推荐此版本）
+- driver：性能要求较高，更新速度较慢，稳定性、成功率高（使用在线搜索、组播源使用此版本）
 
 ```bash
 1. 拉取镜像：
@@ -96,9 +99,17 @@ docker pull guovern/tv-requests:latest
 driver版本：
 docker pull guovern/tv-driver:latest
 
-2. 运行容器：docker run -d -p 8000:8000 tv
+2. 运行容器：docker run --name tv-requests或driver -d -p 8000:8000 guovern/tv-requests或driver
 
-3. 访问（域名:8000）查看更新结果
+3. 查看更新结果：访问（域名:8000）
+
+4. 自定义（可选）：
+
+- 修改模板：
+docker cp 系统路径/user-demo.txt tv-requests或driver:/app/user-demo.txt
+
+- 修改配置：
+docker cp 系统路径/user-config.py tv-requests或driver:/app/user-config.py
 ```
 
 #### 注：方式一至三更新完成后的结果文件链接：http://本地 ip:8000
