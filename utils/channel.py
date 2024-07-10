@@ -7,6 +7,7 @@ import re
 from bs4 import NavigableString
 import logging
 from logging.handlers import RotatingFileHandler
+from opencc import OpenCC
 
 config = get_config()
 
@@ -94,6 +95,31 @@ def format_channel_name(name):
     return name.lower()
 
 
+def channel_name_is_equal(name1, name2):
+    """
+    Check if the channel name is equal
+    """
+    cc = OpenCC("t2s")
+    name1_converted = cc.convert(format_channel_name(name1))
+    name2_converted = cc.convert(format_channel_name(name2))
+    return name1_converted == name2_converted
+
+
+def get_channel_results_by_name(name, data):
+    """
+    Get channel results from data by name
+    """
+    format_name = format_channel_name(name)
+    cc1 = OpenCC("s2t")
+    converted1 = cc1.convert(format_name)
+    cc2 = OpenCC("t2s")
+    converted2 = cc2.convert(format_name)
+    result1 = data.get(converted1, [])
+    result2 = data.get(converted2, [])
+    results = list(dict.fromkeys(result1 + result2))
+    return results
+
+
 def get_element_child_text_list(element, child_name):
     """
     Get the child text of the element
@@ -123,9 +149,7 @@ def get_results_from_soup(soup, name):
                     name_element = url_element.find_previous_sibling()
                     if name_element:
                         channel_name = name_element.get_text(strip=True)
-                        if format_channel_name(name) == format_channel_name(
-                            channel_name
-                        ):
+                        if channel_name_is_equal(name, channel_name):
                             info_element = url_element.find_next_sibling()
                             date, resolution = get_channel_info(
                                 info_element.get_text(strip=True)
@@ -144,7 +168,7 @@ def get_results_from_soup_requests(soup, name):
         name_element = element.find("div", class_="channel")
         if name_element:
             channel_name = name_element.get_text(strip=True)
-            if format_channel_name(name) == format_channel_name(channel_name):
+            if channel_name_is_equal(name, channel_name):
                 text_list = get_element_child_text_list(element, "div")
                 url = date = resolution = None
                 for text in text_list:
@@ -242,42 +266,41 @@ def append_all_method_data(
     """
     for cate, channel_obj in items:
         for name, old_urls in channel_obj.items():
-            formatName = format_channel_name(name)
             if config.open_subscribe:
                 data = append_data_to_info_data(
                     data,
                     cate,
                     name,
-                    subscribe_result.get(formatName, []),
+                    get_channel_results_by_name(name, subscribe_result),
                 )
                 print(
                     name,
                     "subscribe num:",
-                    len(subscribe_result.get(formatName, [])),
+                    len(get_channel_results_by_name(name, subscribe_result)),
                 )
             if config.open_multicast:
                 data = append_data_to_info_data(
                     data,
                     cate,
                     name,
-                    multicast_result.get(formatName, []),
+                    get_channel_results_by_name(name, multicast_result),
                 )
                 print(
                     name,
                     "multicast num:",
-                    len(multicast_result.get(formatName, [])),
+                    len(get_channel_results_by_name(name, multicast_result)),
                 )
             if config.open_online_search:
                 data = append_data_to_info_data(
                     data,
                     cate,
                     name,
-                    online_search_result.get(formatName, []),
+                    get_channel_results_by_name(name, online_search_result),
                 )
                 print(
                     name,
                     "online search num:",
-                    len(online_search_result.get(formatName, [])),
+                    len(get_channel_results_by_name(name, online_search_result)),
                 )
             total_channel_data_len = len(data.get(cate, {}).get(name, []))
             if total_channel_data_len == 0:

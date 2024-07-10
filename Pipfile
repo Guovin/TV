@@ -21,6 +21,7 @@ pyinstaller = "*"
 aiohttp = "*"
 flask = "*"
 gunicorn = "*"
+opencc-python-reimplemented = "*"
 
 [requires]
 python_version = "3.8"
