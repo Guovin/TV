@@ -2,6 +2,24 @@
 
 Customize channel menus and automatically obtain and update the latest live source interfaces based on template files, verify, and generate usable channel interface files.
 
+<p align="center">
+  <a href="https://github.com/Guovin/TV/releases">
+    <img src="https://img.shields.io/badge/Version-1.3.1-307cf7" />
+  </a>
+  <a>
+    <img src="https://img.shields.io/badge/Python-%20%3E%3D%203.8-47c219" />
+  </a>
+  <a href="https://github.com/Guovin/TV/releases">
+    <img src="https://img.shields.io/github/downloads/guovin/tv/total" />
+  </a>
+  <a href="https://hub.docker.com/repository/docker/guovern/tv-requests">
+    <img src="https://img.shields.io/docker/pulls/guovern/tv-requests?label=docker:requests" />
+  </a>
+   <a href="https://hub.docker.com/repository/docker/guovern/tv-driver">
+    <img src="https://img.shields.io/docker/pulls/guovern/tv-driver?label=docker:driver" />
+  </a>
+</p>
+
 [中文](./README.md) | English
 
 ## Features
