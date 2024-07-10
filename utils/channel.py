@@ -94,6 +94,20 @@ def format_channel_name(name):
     return name.lower()
 
 
+def get_element_child_text_list(element, child_name):
+    """
+    Get the child text of the element
+    """
+    text_list = []
+    children = element.find_all(child_name)
+    if children:
+        for child in children:
+            text = child.get_text(strip=True)
+            if text:
+                text_list.append(text)
+    return text_list
+
+
 def get_results_from_soup(soup, name):
     """
     Get the results from the soup
@@ -101,7 +115,8 @@ def get_results_from_soup(soup, name):
     results = []
     for element in soup.descendants:
         if isinstance(element, NavigableString):
-            url = get_channel_url(element)
+            text = element.get_text(strip=True)
+            url = get_channel_url(text)
             if url and not any(item[0] == url for item in results):
                 url_element = soup.find(lambda tag: tag.get_text(strip=True) == url)
                 if url_element:
@@ -112,7 +127,9 @@ def get_results_from_soup(soup, name):
                             channel_name
                         ):
                             info_element = url_element.find_next_sibling()
-                            date, resolution = get_channel_info(info_element)
+                            date, resolution = get_channel_info(
+                                info_element.get_text(strip=True)
+                            )
                             results.append((url, date, resolution))
     return results
 
@@ -128,9 +145,17 @@ def get_results_from_soup_requests(soup, name):
         if name_element:
             channel_name = name_element.get_text(strip=True)
             if format_channel_name(name) == format_channel_name(channel_name):
-                url = get_channel_url(element)
-                date, resolution = get_channel_info(element)
-                results.append((url, date, resolution))
+                text_list = get_element_child_text_list(element, "div")
+                url = date = resolution = None
+                for text in text_list:
+                    text_url = get_channel_url(text)
+                    if text_url:
+                        url = text_url
+                    if " " in text:
+                        text_info = get_channel_info(text)
+                        date, resolution = text_info
+                if url:
+                    results.append((url, date, resolution))
     return results
 
 
@@ -155,33 +180,32 @@ def update_channel_urls_txt(cate, name, urls):
                 f.write(name + "," + url + "\n")
 
 
-def get_channel_url(element):
+def get_channel_url(text):
     """
-    Get the url, date and resolution
+    Get the url from text
     """
     url = None
     urlRegex = r"http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+"
     url_search = re.search(
         urlRegex,
-        element.get_text(strip=True),
+        text,
     )
     if url_search:
         url = url_search.group()
     return url
 
 
-def get_channel_info(element):
+def get_channel_info(text):
     """
-    Get the channel info
+    Get the channel info from text
     """
     date, resolution = None, None
-    info_text = element.get_text(strip=True)
-    if info_text:
+    if text:
         date, resolution = (
-            (info_text.partition(" ")[0] if info_text.partition(" ")[0] else None),
+            (text.partition(" ")[0] if text.partition(" ")[0] else None),
             (
-                info_text.partition(" ")[2].partition("•")[2]
-                if info_text.partition(" ")[2].partition("•")[2]
+                text.partition(" ")[2].partition("•")[2]
+                if text.partition(" ")[2].partition("•")[2]
                 else None
             ),
         )
@@ -287,7 +311,7 @@ async def sort_channel_list(semaphore, cate, name, info_list, callback):
                         resolution,
                     ), response_time in sorted_data:
                         logging.info(
-                            f"Name: {name}, URL: {url}, Date: {date}, Resolution: {resolution}, Response Time: {response_time}ms"
+                            f"Name: {name}, URL: {url}, Date: {date}, Resolution: {resolution}, Response Time: {response_time} ms"
                         )
                     data = [
                         (url, date, resolution)
