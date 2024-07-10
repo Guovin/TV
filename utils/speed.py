@@ -35,9 +35,7 @@ async def sort_urls_by_speed_and_resolution(infoList):
     Sort by speed and resolution
     """
     response_times = await gather(*(get_speed(url) for url, _, _ in infoList))
-    valid_responses = [
-        (info, rt) for info, rt in zip(infoList, response_times) if rt != float("inf")
-    ]
+    valid_responses = [(info, rt) for info, rt in zip(infoList, response_times)]
 
     def extract_resolution(resolution_str):
         numbers = re.findall(r"\d+x\d+", resolution_str)

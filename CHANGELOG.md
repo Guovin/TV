@@ -1,5 +1,13 @@
 # 更新日志（Changelog）
 
+## v1.3.2
+
+### 2024/7/10
+
+- 新增支持频道名称简体繁体匹配（Added support for channel name Simplified and Traditional Chinese match）
+- 新增 Docker 修改模板与配置教程（Added Docker modification template and configuration tutorial）
+- 修复频道更新结果为空问题（Fixed the issue where channel update result is empty）
+
 ## v1.3.1
 
 ### 2024/7/9
