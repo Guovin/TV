@@ -3,13 +3,13 @@
 自定义频道菜单，根据模板文件的直播源接口，自动获取并更新最新的直播源接口，校验并生成可用的频道接口文件
 
 <p align="center">
-  <a href="https://github.com/Guovin/TV/releases">
-    <img src="https://img.shields.io/badge/Version-1.3.1-307cf7" />
+  <a href="https://github.com/Guovin/TV/releases/latest">
+    <img src="https://img.shields.io/github/v/release/guovin/tv" />
   </a>
   <a href="https://www.python.org/">
-    <img src="https://img.shields.io/badge/Python-%20%3E%3D%203.8-47c219" />
+    <img src="https://img.shields.io/badge/python-%20%3E%3D%203.8-47c219" />
   </a>
-  <a href="https://github.com/Guovin/TV/releases">
+  <a href="https://github.com/Guovin/TV/releases/latest">
     <img src="https://img.shields.io/github/downloads/guovin/tv/total" />
   </a>
   <a href="https://hub.docker.com/repository/docker/guovern/tv-requests">
