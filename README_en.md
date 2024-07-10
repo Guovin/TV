@@ -3,13 +3,13 @@
 Customize channel menus and automatically obtain and update the latest live source interfaces based on template files, verify, and generate usable channel interface files.
 
 <p align="center">
-  <a href="https://github.com/Guovin/TV/releases">
-    <img src="https://img.shields.io/badge/Version-1.3.1-307cf7" />
+  <a href="https://github.com/Guovin/TV/releases/latest">
+    <img src="https://img.shields.io/github/v/release/guovin/tv" />
   </a>
   <a href="https://www.python.org/">
-    <img src="https://img.shields.io/badge/Python-%20%3E%3D%203.8-47c219" />
+    <img src="https://img.shields.io/badge/python-%20%3E%3D%203.8-47c219" />
   </a>
-  <a href="https://github.com/Guovin/TV/releases">
+  <a href="https://github.com/Guovin/TV/releases/latest">
     <img src="https://img.shields.io/github/downloads/guovin/tv/total" />
   </a>
   <a href="https://hub.docker.com/repository/docker/guovern/tv-requests">
