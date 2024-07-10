@@ -7,6 +7,7 @@ import re
 from bs4 import NavigableString
 import logging
 from logging.handlers import RotatingFileHandler
+from opencc import OpenCC
 
 config = get_config()
 
@@ -94,6 +95,45 @@ def format_channel_name(name):
     return name.lower()
 
 
+def channel_name_is_equal(name1, name2):
+    """
+    Check if the channel name is equal
+    """
+    cc = OpenCC("t2s")
+    name1_converted = cc.convert(format_channel_name(name1))
+    name2_converted = cc.convert(format_channel_name(name2))
+    return name1_converted == name2_converted
+
+
+def get_channel_results_by_name(name, data):
+    """
+    Get channel results from data by name
+    """
+    format_name = format_channel_name(name)
+    cc1 = OpenCC("s2t")
+    converted1 = cc1.convert(format_name)
+    cc2 = OpenCC("t2s")
+    converted2 = cc2.convert(format_name)
+    result1 = data.get(converted1, [])
+    result2 = data.get(converted2, [])
+    results = list(dict.fromkeys(result1 + result2))
+    return results
+
+
+def get_element_child_text_list(element, child_name):
+    """
+    Get the child text of the element
+    """
+    text_list = []
+    children = element.find_all(child_name)
+    if children:
+        for child in children:
+            text = child.get_text(strip=True)
+            if text:
+                text_list.append(text)
+    return text_list
+
+
 def get_results_from_soup(soup, name):
     """
     Get the results from the soup
@@ -101,18 +141,19 @@ def get_results_from_soup(soup, name):
     results = []
     for element in soup.descendants:
         if isinstance(element, NavigableString):
-            url = get_channel_url(element)
+            text = element.get_text(strip=True)
+            url = get_channel_url(text)
             if url and not any(item[0] == url for item in results):
                 url_element = soup.find(lambda tag: tag.get_text(strip=True) == url)
                 if url_element:
                     name_element = url_element.find_previous_sibling()
                     if name_element:
                         channel_name = name_element.get_text(strip=True)
-                        if format_channel_name(name) == format_channel_name(
-                            channel_name
-                        ):
+                        if channel_name_is_equal(name, channel_name):
                             info_element = url_element.find_next_sibling()
-                            date, resolution = get_channel_info(info_element)
+                            date, resolution = get_channel_info(
+                                info_element.get_text(strip=True)
+                            )
                             results.append((url, date, resolution))
     return results
 
@@ -127,10 +168,18 @@ def get_results_from_soup_requests(soup, name):
         name_element = element.find("div", class_="channel")
         if name_element:
             channel_name = name_element.get_text(strip=True)
-            if format_channel_name(name) == format_channel_name(channel_name):
-                url = get_channel_url(element)
-                date, resolution = get_channel_info(element)
-                results.append((url, date, resolution))
+            if channel_name_is_equal(name, channel_name):
+                text_list = get_element_child_text_list(element, "div")
+                url = date = resolution = None
+                for text in text_list:
+                    text_url = get_channel_url(text)
+                    if text_url:
+                        url = text_url
+                    if " " in text:
+                        text_info = get_channel_info(text)
+                        date, resolution = text_info
+                if url:
+                    results.append((url, date, resolution))
     return results
 
 
@@ -155,33 +204,32 @@ def update_channel_urls_txt(cate, name, urls):
                 f.write(name + "," + url + "\n")
 
 
-def get_channel_url(element):
+def get_channel_url(text):
     """
-    Get the url, date and resolution
+    Get the url from text
     """
     url = None
     urlRegex = r"http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+"
     url_search = re.search(
         urlRegex,
-        element.get_text(strip=True),
+        text,
     )
     if url_search:
         url = url_search.group()
     return url
 
 
-def get_channel_info(element):
+def get_channel_info(text):
     """
-    Get the channel info
+    Get the channel info from text
     """
     date, resolution = None, None
-    info_text = element.get_text(strip=True)
-    if info_text:
+    if text:
         date, resolution = (
-            (info_text.partition(" ")[0] if info_text.partition(" ")[0] else None),
+            (text.partition(" ")[0] if text.partition(" ")[0] else None),
             (
-                info_text.partition(" ")[2].partition("•")[2]
-                if info_text.partition(" ")[2].partition("•")[2]
+                text.partition(" ")[2].partition("•")[2]
+                if text.partition(" ")[2].partition("•")[2]
                 else None
             ),
         )
@@ -218,42 +266,41 @@ def append_all_method_data(
     """
     for cate, channel_obj in items:
         for name, old_urls in channel_obj.items():
-            formatName = format_channel_name(name)
             if config.open_subscribe:
                 data = append_data_to_info_data(
                     data,
                     cate,
                     name,
-                    subscribe_result.get(formatName, []),
+                    get_channel_results_by_name(name, subscribe_result),
                 )
                 print(
                     name,
                     "subscribe num:",
-                    len(subscribe_result.get(formatName, [])),
+                    len(get_channel_results_by_name(name, subscribe_result)),
                 )
             if config.open_multicast:
                 data = append_data_to_info_data(
                     data,
                     cate,
                     name,
-                    multicast_result.get(formatName, []),
+                    get_channel_results_by_name(name, multicast_result),
                 )
                 print(
                     name,
                     "multicast num:",
-                    len(multicast_result.get(formatName, [])),
+                    len(get_channel_results_by_name(name, multicast_result)),
                 )
             if config.open_online_search:
                 data = append_data_to_info_data(
                     data,
                     cate,
                     name,
-                    online_search_result.get(formatName, []),
+                    get_channel_results_by_name(name, online_search_result),
                 )
                 print(
                     name,
                     "online search num:",
-                    len(online_search_result.get(formatName, [])),
+                    len(get_channel_results_by_name(name, online_search_result)),
                 )
             total_channel_data_len = len(data.get(cate, {}).get(name, []))
             if total_channel_data_len == 0:
@@ -287,7 +334,7 @@ async def sort_channel_list(semaphore, cate, name, info_list, callback):
                         resolution,
                     ), response_time in sorted_data:
                         logging.info(
-                            f"Name: {name}, URL: {url}, Date: {date}, Resolution: {resolution}, Response Time: {response_time}ms"
+                            f"Name: {name}, URL: {url}, Date: {date}, Resolution: {resolution}, Response Time: {response_time} ms"
                         )
                     data = [
                         (url, date, resolution)
