@@ -75,19 +75,41 @@ pipenv run build
 
 ### Method 2: GUI Software Update
 
-```python
 1. Download the update tool software, open the software, click update to complete the update.
 
 2. Alternatively, run the following command in the project directory to open the GUI software:
+
+```python
 pipenv run ui
 ```
 
+![Update tool software](./images/ui.png 'Update tool software')
+
 ### Method 3: Docker Update
 
+- requests: Lightweight, low performance requirements, fast update speed, stability uncertain (recommend this version only for subscription sources)
+- driver: Higher performance requirements, slower update speed, high stability, high success rate (use this version for online search, multicast sources)
+
 ```bash
-1. Pull the image: docker pull guovern/tv:latest
-2. Run the container: docker run -d -p 8000:8000 tv
-3. Access (domain:8000) to view the update results
+1. Pull the image:
+
+For requests version:
+docker pull guovern/tv-requests:latest
+
+For driver version:
+docker pull guovern/tv-driver:latest
+
+2. Run the container: docker run --name tv-requests or driver -d -p 8000:8000 guovern/tv-requests or driver
+
+3. Check the update results: Visit (domain:8000)
+
+4. Customization (optional):
+
+- Modify the template:
+docker cp your_system_path/user-demo.txt tv-requests or driver:/app/user-demo.txt
+
+- Modify the configuration:
+docker cp your_system_path/user-config.py tv-requests or driver:/app/user-config.py
 ```
 
 #### Note: Link to the result file after updates of methods one to three: http://local ip:8000
@@ -176,12 +198,12 @@ https://mirror.ghproxy.com/raw.githubusercontent.com/your github username/reposi
 
 If you can access this link and it returns the updated interface content, then your live source interface link has been successfully created! Simply copy and paste this link into software like TVBox in the configuration field to use~
 
-- Note: Except for the first execution of the workflow, which requires you to manually trigger it, subsequent executions (default: daily at 8:00 am Beijing time) will be automatically triggered. If you have modified the template or configuration files and want to execute the update immediately, you can manually trigger (2) Run workflow.
+- Note: Except for the first execution of the workflow, which requires you to manually trigger it, subsequent executions (default: daily at 6:00 am Beijing time) will be automatically triggered. If you have modified the template or configuration files and want to execute the update immediately, you can manually trigger (2) Run workflow.
 
 ## Step 7: Modify Workflow Update Frequency
 
 ![.github/workflows/main.yml](./images/schedule-cron.png '.github/workflows/main.yml')
-If you want to modify the update frequency (default: daily at 8:00 am Beijing time), you can modify the on:schedule:- cron field.
+If you want to modify the update frequency (default: daily at 6:00 am Beijing time), you can modify the on:schedule:- cron field.
 
 ### 1. It is strongly discouraged to make modifications, as there is no difference in the content of the interface in a short period of time. Both too frequent updates and high-consumption running workflows may be judged as resource abuse, leading to the risk of the repository and account being banned.
 

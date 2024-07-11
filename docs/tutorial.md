@@ -75,19 +75,41 @@ pipenv run build
 
 ### 方式二：界面软件更新
 
-```python
 1. 下载[更新工具软件](https://github.com/Guovin/TV/releases)，打开软件，点击更新，即可完成更新
 
 2. 或者在项目目录下运行以下命令，即可打开界面软件：
+
+```python
 pipenv run ui
 ```
 
+![更新工具软件](./images/ui.png '更新工具软件')
+
 ### 方式三：Docker 更新
 
+- requests：轻量级，性能要求低，更新速度快，稳定性不确定（只使用订阅源推荐此版本）
+- driver：性能要求较高，更新速度较慢，稳定性、成功率高（使用在线搜索、组播源使用此版本）
+
 ```bash
-1. 拉取镜像：docker pull guovern/tv:latest
-2. 运行容器：docker run -d -p 8000:8000 tv
-3. 访问（域名:8000）查看更新结果
+1. 拉取镜像：
+
+requests版本：
+docker pull guovern/tv-requests:latest
+
+driver版本：
+docker pull guovern/tv-driver:latest
+
+2. 运行容器：docker run --name tv-requests或driver -d -p 8000:8000 guovern/tv-requests或driver
+
+3. 查看更新结果：访问（域名:8000）
+
+4. 自定义（可选）：
+
+- 修改模板：
+docker cp 系统路径/user-demo.txt tv-requests或driver:/app/user-demo.txt
+
+- 修改配置：
+docker cp 系统路径/user-config.py tv-requests或driver:/app/user-config.py
 ```
 
 #### 注：方式一至三更新完成后的结果文件链接：http://本地 ip:8000
@@ -176,12 +198,12 @@ https://mirror.ghproxy.com/raw.githubusercontent.com/您的github用户名/仓�
 
 如果访问该链接能正常返回更新后的接口内容，说明您的直播源接口链接已经大功告成了！将该链接复制粘贴到 TVBox 等软件配置栏中即可使用~
 
-- 注意：除了首次执行工作流需要您手动触发，后续执行（默认北京时间每日 8:00）将自动触发。如果您修改了模板或配置文件想立刻执行更新，可手动触发（2）中的 Run workflow 即可。
+- 注意：除了首次执行工作流需要您手动触发，后续执行（默认北京时间每日 6:00）将自动触发。如果您修改了模板或配置文件想立刻执行更新，可手动触发（2）中的 Run workflow 即可。
 
 ## 步骤七：修改工作流更新频率
 
 ![.github/workflows/main.yml](./images/schedule-cron.png '.github/workflows/main.yml')
-如果您想修改更新频率（默认北京时间每日 8:00），可修改 on:schedule:- cron 字段。
+如果您想修改更新频率（默认北京时间每日 6:00），可修改 on:schedule:- cron 字段。
 
 ### 1. 强烈不建议修改，因为短时间内的接口内容并无差异，过高的更新频率与高耗时运行的工作流都有可能被判定为资源滥用，导致仓库与账户被封禁的风险。
 

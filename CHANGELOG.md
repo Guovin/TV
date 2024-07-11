@@ -1,5 +1,23 @@
 # 更新日志（Changelog）
 
+## v1.3.2
+
+### 2024/7/10
+
+- 新增支持频道名称简体繁体匹配（Added support for channel name Simplified and Traditional Chinese match）
+- 新增 Docker 修改模板与配置教程（Added Docker modification template and configuration tutorial）
+- 修复频道更新结果为空问题（Fixed the issue where channel update result is empty）
+
+## v1.3.1
+
+### 2024/7/9
+
+- 重构代码，模块拆分，优化 CPU/内存占用（Refactor code, modular decomposition, optimize CPU/memory usage）
+- 新增两种工作模式：driver 模式、requests 模式，具体差异见文档说明（Add two new working modes: driver mode and requests mode, see documentation for specific differences）
+- 调整软件界面，功能分类摆放，增加配置：开启更新、开启浏览器模式、开启代理（Adjust the software interface, arrange features by category, add configurations: enable updates, enable browser mode, enable proxy）
+- 调整工作流更新时间为北京时间每日 6:00（Adjust workflow update time to 6:00 AM Beijing time daily）
+- Docker 镜像增加两种工作模式版本（Docker image adds two new working mode versions）
+
 ## v1.3.0
 
 ### 2024/7/1
