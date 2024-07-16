@@ -34,4 +34,4 @@ subscribe_urls = [
 open_multicast = True
 region_list = ["all"]
 open_proxy = True
-open_driver = False
+open_driver = True
