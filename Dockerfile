@@ -1,8 +1,12 @@
 FROM python:3.8-slim
 
-WORKDIR /app
+ARG APP_WORKDIR=/tv
 
-COPY . /app
+ENV APP_WORKDIR=$APP_WORKDIR
+
+COPY . $APP_WORKDIR
+
+WORKDIR $APP_WORKDIR
 
 RUN pip install -i https://mirrors.aliyun.com/pypi/simple pipenv
 
@@ -17,12 +21,12 @@ ARG INSTALL_CHROMIUM=false
 
 RUN if [ "$INSTALL_CHROMIUM" = "true" ]; then apt-get install -y chromium chromium-driver cron; fi
 
-RUN (crontab -l 2>/dev/null; echo "0 22 * * * cd /app && pipenv run python main.py scheduled_task") | crontab -
+RUN (crontab -l 2>/dev/null; echo "0 7 * * * pipenv run python $APP_WORKDIR/main.py scheduled_task"; echo "0 8 * * * pipenv run python $APP_WORKDIR/main.py scheduled_task") | crontab -
 
 EXPOSE 8000
 
-COPY entrypoint.sh /entrypoint.sh
+COPY entrypoint.sh /tv_entrypoint.sh
 
-RUN chmod +x /entrypoint.sh
+RUN chmod +x /tv_entrypoint.sh
 
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT /tv_entrypoint.sh

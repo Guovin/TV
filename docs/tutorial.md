@@ -92,24 +92,22 @@ pipenv run ui
 
 ```bash
 1. 拉取镜像：
-
-requests版本：
+requests：
 docker pull guovern/tv-requests:latest
 
-driver版本：
+driver：
 docker pull guovern/tv-driver:latest
 
-2. 运行容器：docker run --name tv-requests或driver -d -p 8000:8000 guovern/tv-requests或driver
+2. 运行容器：
+docker run -d -p 8000:8000 guovern/tv-requests 或 tv-driver
+
+卷挂载参数（可选）：
+-v 宿主机路径/TV:/tv-requests 或 tv-driver
+
+实现宿主机文件与容器文件同步，修改模板、配置、获取更新结果文件可直接在宿主机文件夹下操作
+注：使用此命令运行容器，请务必先clone本项目至宿主机
 
 3. 查看更新结果：访问（域名:8000）
-
-4. 自定义（可选）：
-
-- 修改模板：
-docker cp 系统路径/user-demo.txt tv-requests或driver:/app/user-demo.txt
-
-- 修改配置：
-docker cp 系统路径/user-config.py tv-requests或driver:/app/user-config.py
 ```
 
 #### 注：方式一至三更新完成后的结果文件链接：http://本地 ip:8000
