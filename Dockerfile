@@ -12,8 +12,8 @@ RUN pip install -i https://mirrors.aliyun.com/pypi/simple pipenv
 
 RUN pipenv install
 
-RUN sed -i 's@deb.debian.org@mirrors.aliyun.com@g' /etc/apt/sources.list \
-  && sed -i 's@security.debian.org@mirrors.aliyun.com@g' /etc/apt/sources.list
+RUN sed -i "s@deb.debian.org@mirrors.aliyun.com@g" /etc/apt/sources.list \
+  && sed -i "s@security.debian.org@mirrors.aliyun.com@g" /etc/apt/sources.list
 
 RUN apt-get update && apt-get install -y cron
 
@@ -21,7 +21,7 @@ ARG INSTALL_CHROMIUM=false
 
 RUN if [ "$INSTALL_CHROMIUM" = "true" ]; then apt-get install -y chromium chromium-driver cron; fi
 
-RUN (crontab -l 2>/dev/null; echo "0 7 * * * pipenv run python $APP_WORKDIR/main.py scheduled_task"; echo "0 8 * * * pipenv run python $APP_WORKDIR/main.py scheduled_task") | crontab -
+RUN (crontab -l ; echo "0 22 * * * pipenv run python $APP_WORKDIR/main.py scheduled_task 2>&1 | tee -a /var/log/tv.log"; echo "0 10 * * * pipenv run python $APP_WORKDIR/main.py scheduled_task 2>&1 | tee -a /var/log/tv.log") | crontab -
 
 EXPOSE 8000
 
