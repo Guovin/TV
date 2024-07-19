@@ -1,7 +1,7 @@
 #!/bin/bash
 
-pipenv run python /app/main.py scheduled_task
+pipenv run python $APP_WORKDIR/main.py scheduled_task 2>&1 | tee -a /var/log/tv.log
 
-service cron start
+cron
 
-pipenv run gunicorn -b :8000 main:app
+tail -f /var/log/tv.log
