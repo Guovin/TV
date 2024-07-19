@@ -2,12 +2,12 @@
 
 ## v1.3.3
 
-### 2024/7/18
+### 2024/7/19
 
 - 支持 Docker 卷挂载目录映射（Support for Docker volume mount directory mapping）
 - 新增 requests 随机 User-Agent（Added random User-Agent for requests）
 - 修复读取用户配置问题（#208）（Fixed issue with reading user configuration (#208)）
-- 自动更新执行时间调整：6 点与 18 点（utomatic update execution time adjustment: 6 AM and 6 PM）
+- 支持单日更新两次：6 点与 18 点（Supports updating twice a day: at 6 AM and 6 PM）
 
 ## v1.3.2
 
