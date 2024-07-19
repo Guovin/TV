@@ -3,6 +3,7 @@ name: 'update schedule'
 on:
   schedule:
     - cron: '0 22 * * *'
+    - cron: '0 10 * * *'
   workflow_dispatch:
     branches:
       - master
@@ -34,9 +35,9 @@ jobs:
         run: |
           echo "OPEN_DRIVER=$(python -c '
           try:
-            import config
-          except ImportError:
             import user_config as config
+          except ImportError:
+            import config
           print(config.open_driver)')" >> $GITHUB_ENV
       - name: Install Selenium
         if: env.OPEN_DRIVER == 'True'

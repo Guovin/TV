@@ -20,8 +20,8 @@ async-timeout = "*"
 pyinstaller = "*"
 aiohttp = "*"
 flask = "*"
-gunicorn = "*"
 opencc-python-reimplemented = "*"
+fake-useragent = "*"
 
 [requires]
 python_version = "3.8"
