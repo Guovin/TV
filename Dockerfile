@@ -21,7 +21,7 @@ ARG INSTALL_CHROMIUM=false
 
 RUN if [ "$INSTALL_CHROMIUM" = "true" ]; then apt-get install -y chromium chromium-driver cron; fi
 
-RUN (crontab -l ; echo "0 22 * * * pipenv run python $APP_WORKDIR/main.py scheduled_task 2>&1 | tee -a /var/log/tv.log"; echo "0 10 * * * pipenv run python $APP_WORKDIR/main.py scheduled_task 2>&1 | tee -a /var/log/tv.log") | crontab -
+RUN (crontab -l ; echo "0 22 * * * cd $APP_WORKDIR && /usr/local/bin/pipenv run python main.py scheduled_task 2>&1 | tee -a /var/log/tv.log"; echo "0 10 * * * cd $APP_WORKDIR && /usr/local/bin/pipenv run python main.py scheduled_task 2>&1 | tee -a /var/log/tv.log") | crontab -
 
 EXPOSE 8000
 
