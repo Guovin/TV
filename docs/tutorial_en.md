@@ -92,24 +92,22 @@ pipenv run ui
 
 ```bash
 1. Pull the image:
-
 For requests version:
 docker pull guovern/tv-requests:latest
 
 For driver version:
 docker pull guovern/tv-driver:latest
 
-2. Run the container: docker run --name tv-requests or driver -d -p 8000:8000 guovern/tv-requests or driver
+2. Run the container:
+docker run -d -p 8000:8000 guovern/tv-requests or driver
+
+Volume Mount Parameter (Optional):
+-v host path/TV:/tv-requests or tv-driver
+
+This allows synchronization of files between the host machine and the container. Modifying templates, configurations, and retrieving updated result files can be directly operated in the host machine's folder.
+Note: Before running the container with this command, be sure to first clone this project to the host machine.
 
 3. Check the update results: Visit (domain:8000)
-
-4. Customization (optional):
-
-- Modify the template:
-docker cp your_system_path/user-demo.txt tv-requests or driver:/app/user-demo.txt
-
-- Modify the configuration:
-docker cp your_system_path/user-config.py tv-requests or driver:/app/user-config.py
 ```
 
 #### Note: Link to the result file after updates of methods one to three: http://local ip:8000
