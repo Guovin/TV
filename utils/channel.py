@@ -19,6 +19,29 @@ logging.basicConfig(
 )
 
 
+def get_channel_data_from_file(channels, file):
+    """
+    Get the channel data from the file
+    """
+    current_category = ""
+    pattern = r"^(.*?),(?!#genre#)(.*?)$"
+
+    for line in file:
+        line = line.strip()
+        if "#genre#" in line:
+            # This is a new channel, create a new key in the dictionary.
+            current_category = line.split(",")[0]
+        else:
+            # This is a url, add it to the list of urls for the current channel.
+            match = re.search(pattern, line)
+            if match is not None:
+                name = match.group(1).strip()
+                url = match.group(2).strip()
+                if url and url not in channels[current_category][name]:
+                    channels[current_category][name].append(url)
+    return channels
+
+
 def get_channel_items():
     """
     Get the channel items from the source file
@@ -30,25 +53,22 @@ def get_channel_items():
         else getattr(config, "source_file", "demo.txt")
     )
 
+    # Open the old final file and read all lines.
+    user_final_file = (
+        "user_" + config.final_file
+        if os.path.exists("user_" + config.final_file)
+        else getattr(config, "final_file", "result.txt")
+    )
+
     # Create a dictionary to store the channels.
     channels = defaultdict(lambda: defaultdict(list))
-    current_category = ""
-    pattern = r"^(.*?),(?!#genre#)(.*?)$"
 
-    with open(resource_path(user_source_file), "r", encoding="utf-8") as f:
-        for line in f:
-            line = line.strip()
-            if "#genre#" in line:
-                # This is a new channel, create a new key in the dictionary.
-                current_category = line.split(",")[0]
-            else:
-                # This is a url, add it to the list of urls for the current channel.
-                match = re.search(pattern, line)
-                if match is not None:
-                    name = match.group(1).strip()
-                    url = match.group(2).strip()
-                    if url and url not in channels[current_category][name]:
-                        channels[current_category][name].append(url)
+    with open(resource_path(user_source_file), "r", encoding="utf-8") as file:
+        get_channel_data_from_file(channels, file)
+
+    if config.open_use_old_result:
+        with open(resource_path(user_final_file), "r", encoding="utf-8") as file:
+            get_channel_data_from_file(channels, file)
 
     return channels
 
