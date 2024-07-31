@@ -352,7 +352,7 @@ class TkinterUI:
             onvalue=True,
             offvalue=False,
             command=self.update_open_driver,
-            text="(较消耗性能)",
+            text="(若获取更新异常请开启)",
         )
         self.open_driver_checkbutton.pack(side=tk.LEFT, padx=4, pady=8)
 
@@ -367,7 +367,7 @@ class TkinterUI:
             onvalue=True,
             offvalue=False,
             command=self.update_open_proxy,
-            text="(通过代理获取更新结果)",
+            text="(通过代理进行更新)",
         )
         self.open_proxy_checkbutton.pack(side=tk.LEFT, padx=4, pady=8)
 
