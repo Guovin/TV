@@ -63,12 +63,13 @@ def get_channel_items():
     # Create a dictionary to store the channels.
     channels = defaultdict(lambda: defaultdict(list))
 
-    with open(resource_path(user_source_file), "r", encoding="utf-8") as file:
-        get_channel_data_from_file(channels, file)
+    if os.path.exists(resource_path(user_source_file)):
+        with open(resource_path(user_source_file), "r", encoding="utf-8") as file:
+            channels = get_channel_data_from_file(channels, file)
 
-    if config.open_use_old_result:
+    if config.open_use_old_result and os.path.exists(resource_path(user_final_file)):
         with open(resource_path(user_final_file), "r", encoding="utf-8") as file:
-            get_channel_data_from_file(channels, file)
+            channels = get_channel_data_from_file(channels, file)
 
     return channels
 
@@ -77,6 +78,8 @@ def format_channel_name(name):
     """
     Format the channel name with sub and replace and lower
     """
+    if config.open_keep_all:
+        return name
     sub_pattern = (
         r"-|_|\((.*?)\)|\[(.*?)\]| |频道|标清|高清|HD|hd|超清|超高|超高清|中央|央视|台"
     )
@@ -119,6 +122,8 @@ def channel_name_is_equal(name1, name2):
     """
     Check if the channel name is equal
     """
+    if config.open_keep_all:
+        return True
     cc = OpenCC("t2s")
     name1_converted = cc.convert(format_channel_name(name1))
     name2_converted = cc.convert(format_channel_name(name2))
@@ -278,6 +283,16 @@ def append_data_to_info_data(info_data, cate, name, data, check=True):
     return info_data
 
 
+def append_total_data(*args, **kwargs):
+    """
+    Append total channel data
+    """
+    if config.open_keep_all:
+        return append_all_method_data_keep_all(*args, **kwargs)
+    else:
+        return append_all_method_data(*args, **kwargs)
+
+
 def append_all_method_data(
     items, data, subscribe_result=None, multicast_result=None, online_search_result=None
 ):
@@ -286,44 +301,25 @@ def append_all_method_data(
     """
     for cate, channel_obj in items:
         for name, old_urls in channel_obj.items():
-            if config.open_subscribe:
-                data = append_data_to_info_data(
-                    data,
-                    cate,
-                    name,
-                    get_channel_results_by_name(name, subscribe_result),
-                )
-                print(
-                    name,
-                    "subscribe num:",
-                    len(get_channel_results_by_name(name, subscribe_result)),
-                )
-            if config.open_multicast:
-                data = append_data_to_info_data(
-                    data,
-                    cate,
-                    name,
-                    get_channel_results_by_name(name, multicast_result),
-                )
-                print(
-                    name,
-                    "multicast num:",
-                    len(get_channel_results_by_name(name, multicast_result)),
-                )
-            if config.open_online_search:
-                data = append_data_to_info_data(
-                    data,
-                    cate,
-                    name,
-                    get_channel_results_by_name(name, online_search_result),
-                )
-                print(
-                    name,
-                    "online search num:",
-                    len(get_channel_results_by_name(name, online_search_result)),
-                )
+            for method, result in [
+                ("subscribe", subscribe_result),
+                ("multicast", multicast_result),
+                ("online_search", online_search_result),
+            ]:
+                if getattr(config, f"open_{method}"):
+                    data = append_data_to_info_data(
+                        data,
+                        cate,
+                        name,
+                        get_channel_results_by_name(name, result),
+                    )
+                    print(
+                        name,
+                        f"{method.capitalize()} num:",
+                        len(get_channel_results_by_name(name, result)),
+                    )
             total_channel_data_len = len(data.get(cate, {}).get(name, []))
-            if total_channel_data_len == 0:
+            if total_channel_data_len == 0 or config.open_use_old_result:
                 data = append_data_to_info_data(
                     data,
                     cate,
@@ -335,6 +331,34 @@ def append_all_method_data(
                 "total num:",
                 len(data.get(cate, {}).get(name, [])),
             )
+    return data
+
+
+def append_all_method_data_keep_all(
+    items, data, subscribe_result=None, multicast_result=None, online_search_result=None
+):
+    """
+    Append all method data to total info data, keep all channel name and urls
+    """
+    for cate, channel_obj in items:
+        for result_name, result in [
+            ("subscribe", subscribe_result),
+            ("multicast", multicast_result),
+            ("online_search", online_search_result),
+        ]:
+            if result and getattr(config, f"open_{result_name}"):
+                for name, urls in result.items():
+                    data = append_data_to_info_data(data, cate, name, urls)
+                    print(name, f"{result_name.capitalize()} num:", len(urls))
+                    if config.open_use_old_result:
+                        old_urls = channel_obj.get(name, [])
+                        data = append_data_to_info_data(
+                            data,
+                            cate,
+                            name,
+                            [(url, None, None) for url in old_urls],
+                        )
+
     return data
 
 
