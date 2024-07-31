@@ -3,7 +3,7 @@ from utils.config import get_config
 from utils.channel import (
     get_channel_items,
     append_data_to_info_data,
-    append_all_method_data,
+    append_total_data,
     sort_channel_list,
     write_channel_to_file,
 )
@@ -86,7 +86,7 @@ class UpdateSource:
             self.total = len(channel_names)
             await self.visit_page(channel_names)
             self.tasks = []
-            self.channel_data = append_all_method_data(
+            self.channel_data = append_total_data(
                 self.channel_items.items(),
                 self.channel_data,
                 self.subscribe_result,

@@ -1,5 +1,12 @@
 # 更新日志（Changelog）
 
+## v1.3.4
+
+### 2024/7/31
+
+- 新增配置 open_use_old_result：保留使用历史更新结果，合并至本次更新中（Add configuration open_use_old_result: Keep using the previous update results and merge them into the current update）
+- 新增配置 open_keep_all：保留所有检索结果，推荐手动维护时开启（#121）（Add configuration open_keep_all: Keep all search results, recommend enabling it for manual maintenance (#121)）
+
 ## v1.3.3
 
 ### 2024/7/19

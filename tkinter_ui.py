@@ -24,11 +24,12 @@ class TkinterUI:
     def __init__(self, root):
         self.root = root
         self.root.title("直播源接口更新工具")
-        self.version = "v1.3.3"
+        self.version = "v1.3.4"
         self.update_source = UpdateSource()
         self.update_running = False
         self.config_entrys = [
             "open_update_checkbutton",
+            "open_use_old_result_checkbutton",
             "open_driver_checkbutton",
             "open_proxy_checkbutton",
             "source_file_entry",
@@ -38,6 +39,7 @@ class TkinterUI:
             "open_subscribe_checkbutton",
             "open_multicast_checkbutton",
             "open_online_search_checkbutton",
+            "open_keep_all_checkbutton",
             "open_sort_checkbutton",
             "favorite_list_text",
             "favorite_page_num_entry",
@@ -59,6 +61,9 @@ class TkinterUI:
 
     def update_open_update(self):
         config.open_update = self.open_update_var.get()
+
+    def update_open_use_old_result(self):
+        config.open_use_old_result = self.open_use_old_result_var.get()
 
     def select_source_file(self):
         filepath = filedialog.askopenfilename(
@@ -92,6 +97,9 @@ class TkinterUI:
 
     def update_open_proxy(self):
         config.open_proxy = self.open_proxy_var.get()
+
+    def update_open_keep_all(self):
+        config.open_keep_all = self.open_keep_all_var.get()
 
     def update_open_sort(self):
         config.open_sort = self.open_sort_var.get()
@@ -151,6 +159,7 @@ class TkinterUI:
     def save_config(self):
         config_values = {
             "open_update": self.open_update_var.get(),
+            "open_use_old_result": self.open_use_old_result_var.get(),
             "source_file": f'"{self.source_file_entry.get()}"',
             "final_file": f'"{self.final_file_entry.get()}"',
             "favorite_list": self.format_list(self.favorite_list_text.get(1.0, tk.END)),
@@ -160,6 +169,7 @@ class TkinterUI:
             "urls_limit": self.urls_limit_entry.get(),
             "open_driver": self.open_driver_var.get(),
             "open_proxy": self.open_proxy_var.get(),
+            "open_keep_all": self.open_keep_all_var.get(),
             "open_sort": self.open_sort_var.get(),
             "response_time_weight": self.response_time_weight_entry.get(),
             "resolution_weight": self.resolution_weight_entry.get(),
@@ -255,12 +265,18 @@ class TkinterUI:
 
         frame1_open_update = tk.Frame(frame1)
         frame1_open_update.pack(fill=tk.X)
+        frame1_open_update_column1 = tk.Frame(frame1_open_update)
+        frame1_open_update_column1.pack(side=tk.LEFT, fill=tk.Y)
+        frame1_open_update_column2 = tk.Frame(frame1_open_update)
+        frame1_open_update_column2.pack(side=tk.RIGHT, fill=tk.Y)
 
-        self.open_update_label = tk.Label(frame1_open_update, text="开启更新:", width=8)
+        self.open_update_label = tk.Label(
+            frame1_open_update_column1, text="开启更新:", width=8
+        )
         self.open_update_label.pack(side=tk.LEFT, padx=4, pady=8)
         self.open_update_var = tk.BooleanVar(value=config.open_update)
         self.open_update_checkbutton = ttk.Checkbutton(
-            frame1_open_update,
+            frame1_open_update_column1,
             variable=self.open_update_var,
             onvalue=True,
             offvalue=False,
@@ -268,6 +284,21 @@ class TkinterUI:
             text="(关闭则只运行结果页面服务)",
         )
         self.open_update_checkbutton.pack(side=tk.LEFT, padx=4, pady=8)
+
+        self.open_use_old_result_label = tk.Label(
+            frame1_open_update_column2, text="使用历史结果:", width=12
+        )
+        self.open_use_old_result_label.pack(side=tk.LEFT, padx=4, pady=8)
+        self.open_use_old_result_var = tk.BooleanVar(value=config.open_use_old_result)
+        self.open_use_old_result_checkbutton = ttk.Checkbutton(
+            frame1_open_update_column2,
+            variable=self.open_use_old_result_var,
+            onvalue=True,
+            offvalue=False,
+            command=self.update_open_use_old_result,
+            text="(保留上次更新可用结果)",
+        )
+        self.open_use_old_result_checkbutton.pack(side=tk.LEFT, padx=4, pady=8)
 
         frame1_source_file = tk.Frame(frame1)
         frame1_source_file.pack(fill=tk.X)
@@ -321,7 +352,7 @@ class TkinterUI:
             onvalue=True,
             offvalue=False,
             command=self.update_open_driver,
-            text="(较消耗性能)",
+            text="(若获取更新异常请开启)",
         )
         self.open_driver_checkbutton.pack(side=tk.LEFT, padx=4, pady=8)
 
@@ -336,7 +367,7 @@ class TkinterUI:
             onvalue=True,
             offvalue=False,
             command=self.update_open_proxy,
-            text="(自动获取免费代理)",
+            text="(通过代理进行更新)",
         )
         self.open_proxy_checkbutton.pack(side=tk.LEFT, padx=4, pady=8)
 
@@ -368,12 +399,33 @@ class TkinterUI:
 
         frame1_sort = tk.Frame(frame1)
         frame1_sort.pack(fill=tk.X)
+        frame1_sort_column1 = tk.Frame(frame1_sort)
+        frame1_sort_column1.pack(side=tk.LEFT, fill=tk.Y)
+        frame1_sort_column2 = tk.Frame(frame1_sort)
+        frame1_sort_column2.pack(side=tk.RIGHT, fill=tk.Y)
 
-        self.open_sort_label = tk.Label(frame1_sort, text="开启测速排序:", width=12)
+        self.open_keep_all_label = tk.Label(
+            frame1_sort_column1, text="保留模式:", width=12
+        )
+        self.open_keep_all_label.pack(side=tk.LEFT, padx=4, pady=8)
+        self.open_keep_all_var = tk.BooleanVar(value=config.open_keep_all)
+        self.open_keep_all_checkbutton = ttk.Checkbutton(
+            frame1_sort_column1,
+            variable=self.open_keep_all_var,
+            onvalue=True,
+            offvalue=False,
+            command=self.update_open_keep_all,
+            text="(保留所有检索结果，建议手动维护时开启)",
+        )
+        self.open_keep_all_checkbutton.pack(side=tk.LEFT, padx=4, pady=8)
+
+        self.open_sort_label = tk.Label(
+            frame1_sort_column2, text="开启测速排序:", width=12
+        )
         self.open_sort_label.pack(side=tk.LEFT, padx=4, pady=8)
         self.open_sort_var = tk.BooleanVar(value=config.open_sort)
         self.open_sort_checkbutton = ttk.Checkbutton(
-            frame1_sort,
+            frame1_sort_column2,
             variable=self.open_sort_var,
             onvalue=True,
             offvalue=False,
@@ -642,7 +694,7 @@ if __name__ == "__main__":
     tkinter_ui.init_UI()
     screen_width = root.winfo_screenwidth()
     screen_height = root.winfo_screenheight()
-    width = 500
+    width = 550
     height = 700
     x = (screen_width / 2) - (width / 2)
     y = (screen_height / 2) - (height / 2)
