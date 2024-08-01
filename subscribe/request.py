@@ -13,7 +13,7 @@ config = get_config()
 timeout = 30
 
 
-async def get_channels_by_subscribe_urls(callback):
+async def get_channels_by_subscribe_urls(urls=None, callback=None):
     """
     Get the channels by subscribe urls
     """
@@ -66,14 +66,12 @@ async def get_channels_by_subscribe_urls(callback):
                 f"正在获取订阅源更新, 剩余{remain}个订阅源待获取, 预计剩余时间: {get_pbar_remaining(pbar, start_time)}",
                 int((pbar.n / subscribe_urls_len) * 100),
             )
-            if config.open_online_search and pbar.n / subscribe_urls_len == 1:
-                callback("正在获取在线搜索结果, 请耐心等待", 0)
             return channels
 
     with ThreadPoolExecutor(max_workers=100) as executor:
         futures = [
             executor.submit(process_subscribe_channels, subscribe_url)
-            for subscribe_url in config.subscribe_urls
+            for subscribe_url in (urls if urls else config.subscribe_urls)
         ]
         for future in futures:
             merge_objects(subscribe_results, future.result())

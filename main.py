@@ -52,7 +52,7 @@ class UpdateSource:
     async def visit_page(self, channel_names=None):
         if config.open_subscribe:
             subscribe_task = asyncio.create_task(
-                get_channels_by_subscribe_urls(self.update_progress)
+                get_channels_by_subscribe_urls(callback=self.update_progress)
             )
             self.tasks.append(subscribe_task)
             self.subscribe_result = await subscribe_task
