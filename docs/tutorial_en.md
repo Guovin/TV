@@ -110,7 +110,7 @@ Note: Before running the container with this command, be sure to first clone thi
 3. Check the update results: Visit (domain:8000)
 ```
 
-#### Note: Link to the result file after updates of methods one to three: http://local ip:8000
+#### Note: Link to the result file after updates of methods one to three: http://local ip:8000 or http://localhost:8000
 
 ### Method 4: Workflow Update
 
