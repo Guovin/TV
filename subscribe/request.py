@@ -42,14 +42,14 @@ async def get_channels_by_subscribe_urls(urls=None, callback=None):
                 for line in lines:
                     matcher = re.match(pattern, line)
                     if matcher is not None:
-                        key = matcher.group(1)
+                        key = matcher.group(1).strip()
                         resolution_match = re.search(r"_(\((.*?)\))", key)
                         resolution = (
                             resolution_match.group(2)
                             if resolution_match is not None
                             else None
                         )
-                        url = matcher.group(2)
+                        url = matcher.group(2).strip()
                         value = (url, None, resolution)
                         name = format_channel_name(key)
                         if name in channels:
@@ -74,7 +74,7 @@ async def get_channels_by_subscribe_urls(urls=None, callback=None):
             for subscribe_url in (urls if urls else config.subscribe_urls)
         ]
         for future in futures:
-            merge_objects(subscribe_results, future.result())
+            subscribe_results = merge_objects(subscribe_results, future.result())
     session.close()
     pbar.close()
     return subscribe_results

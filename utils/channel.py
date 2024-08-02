@@ -279,13 +279,13 @@ def get_channel_url(text):
     Get the url from text
     """
     url = None
-    urlRegex = r"(http[s]?://)?(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+(:[0-9]+)?"
+    urlRegex = r"((http|https)://)?((([0-9]{1,3}\.){3}[0-9]{1,3})|([a-zA-Z0-9-]+\.[a-zA-Z]{2,}))(:[0-9]+)?(/[a-zA-Z0-9-._~:/?#[\]@!$&'()*+,;=%]*)?"
     url_search = re.search(
         urlRegex,
         text,
     )
     if url_search:
-        url = url_search.group()
+        url = url_search.group().strip()
     return url
 
 

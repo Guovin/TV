@@ -14,6 +14,7 @@ from utils.tools import (
 )
 from subscribe import get_channels_by_subscribe_urls
 from fofa import get_channels_by_fofa
+from multicast import get_channels_by_multicast
 from online_search import get_channels_by_online_search
 import os
 from tqdm import tqdm
@@ -58,7 +59,7 @@ class UpdateSource:
             self.subscribe_result = await subscribe_task
         if config.open_multicast:
             multicast_task = asyncio.create_task(
-                get_channels_by_fofa(self.update_progress)
+                get_channels_by_multicast(channel_names, self.update_progress)
             )
             self.tasks.append(multicast_task)
             self.multicast_result = await multicast_task

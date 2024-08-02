@@ -5,7 +5,12 @@ from utils.channel import (
     get_results_from_multicast_soup,
     get_results_from_multicast_soup_requests,
 )
-from utils.tools import check_url_by_patterns, get_pbar_remaining, get_soup
+from utils.tools import (
+    check_url_by_patterns,
+    get_pbar_remaining,
+    get_soup,
+    get_total_urls_from_info_list,
+)
 from utils.config import get_config
 from proxy import get_proxy, get_proxy_next
 from time import time, sleep
@@ -23,6 +28,7 @@ import urllib.parse as urlparse
 from urllib.parse import parse_qs
 import multicast_map
 from subscribe import get_channels_by_subscribe_urls
+import re
 
 config = get_config()
 
@@ -80,18 +86,33 @@ def get_multicast_urls_from_region_list():
     return urls
 
 
+def get_multicast_ip_list(urls):
+    """
+    Get multicast ip from url
+    """
+    ip_list = []
+    for url in urls:
+        pattern = r"rtp://((\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(?::(\d+))?)"
+        matcher = re.search(pattern, url)
+        if matcher:
+            ip_list.append(matcher.group(1))
+    return ip_list
+
+
 async def get_channels_by_multicast(names, callback):
     """
     Get the channels by multicase
     """
-    multicast_urls = get_multicast_urls_from_region_list()
-    multicast_results = get_channels_by_subscribe_urls(
-        urls=multicast_urls, callback=callback
+    multicast_region_urls = get_multicast_urls_from_region_list()
+    multicast_results = await get_channels_by_subscribe_urls(
+        urls=multicast_region_urls, callback=callback
     )
     channels = {}
     # pageUrl = await use_accessible_url(callback)
     pageUrl = "http://tonkiang.us/hoteliptv.php"
-    if not pageUrl:
+    # if not pageUrl:
+    #     return channels
+    if not multicast_results:
         return channels
     proxy = None
     if config.open_proxy:
@@ -99,7 +120,15 @@ async def get_channels_by_multicast(names, callback):
     start_time = time()
 
     def process_channel_by_multicast(name):
+        format_name = format_channel_name(name)
         info_list = []
+        multicast_info_list = multicast_results.get(format_name)
+        if not multicast_info_list:
+            return {"name": format_name, "data": info_list}
+        multicast_urls = get_total_urls_from_info_list(multicast_info_list)
+        multicast_ip_list = get_multicast_ip_list(multicast_urls)
+        if not multicast_ip_list:
+            return {"name": format_name, "data": info_list}
         nonlocal proxy
         try:
             if config.open_driver:
@@ -131,7 +160,7 @@ async def get_channels_by_multicast(names, callback):
                     page_soup = get_soup_requests(request_url, proxy=proxy)
                 if not page_soup:
                     print(f"{name}:Request fail.")
-                    return
+                    return {"name": format_name, "data": info_list}
                 else:
                     a_tags = page_soup.find_all("a", href=True)
                     for a_tag in a_tags:
@@ -182,11 +211,9 @@ async def get_channels_by_multicast(names, callback):
                         )
                         if soup:
                             results = (
-                                get_results_from_multicast_soup(soup, name)
+                                get_results_from_multicast_soup(soup)
                                 if config.open_driver
-                                else get_results_from_multicast_soup_requests(
-                                    soup, name
-                                )
+                                else get_results_from_multicast_soup_requests(soup)
                             )
                             print(name, "page:", page, "results num:", len(results))
                             if len(results) == 0:
@@ -219,7 +246,9 @@ async def get_channels_by_multicast(names, callback):
                             for result in results:
                                 url, date, resolution = result
                                 if url and check_url_by_patterns(url):
-                                    info_list.append((url, date, resolution))
+                                    for ip in multicast_ip_list:
+                                        total_url = f"http://{url}/rtp/{ip}"
+                                        info_list.append((total_url, date, resolution))
                             break
                         else:
                             print(
@@ -246,7 +275,7 @@ async def get_channels_by_multicast(names, callback):
                 f"正在进行组播更新, 剩余{names_len - pbar.n}个频道待查询, 预计剩余时间: {get_pbar_remaining(pbar, start_time)}",
                 int((pbar.n / names_len) * 100),
             )
-            return {"name": format_channel_name(name), "data": info_list}
+            return {"name": format_name, "data": info_list}
 
     names_len = len(names)
     pbar = tqdm_asyncio(total=names_len, desc="Multicast search")
