@@ -19,7 +19,7 @@ async def get_channels_by_subscribe_urls(urls=None, callback=None):
     """
     subscribe_results = {}
     pattern = r"^(.*?),(?!#genre#)(.*?)$"
-    subscribe_urls_len = len(config.subscribe_urls)
+    subscribe_urls_len = len(urls if urls else config.subscribe_urls)
     pbar = tqdm_asyncio(total=subscribe_urls_len, desc="Processing subscribe")
     start_time = time()
     callback(f"正在获取订阅源更新, 共{subscribe_urls_len}个订阅源", 0)
