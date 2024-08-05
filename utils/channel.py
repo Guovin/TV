@@ -183,6 +183,28 @@ def get_results_from_soup(soup, name):
     return results
 
 
+def get_results_from_multicast_soup(soup):
+    """
+    Get the results from the multicast soup
+    """
+    results = []
+    for element in soup.descendants:
+        if isinstance(element, NavigableString):
+            text = element.get_text(strip=True)
+            url = get_channel_url(text)
+            if url and not any(item[0] == url for item in results):
+                url_element = soup.find(lambda tag: tag.get_text(strip=True) == url)
+                if url_element:
+                    next_first_element = url_element.find_next_sibling()
+                    if next_first_element:
+                        valid_element = next_first_element.find_next_sibling()
+                        if valid_element:
+                            valid_text = valid_element.get_text(strip=True)
+                            if "失效" not in valid_text:
+                                results.append((url, None, None))
+    return results
+
+
 def get_results_from_soup_requests(soup, name):
     """
     Get the results from the soup by requests
@@ -205,6 +227,29 @@ def get_results_from_soup_requests(soup, name):
                         date, resolution = text_info
                 if url:
                     results.append((url, date, resolution))
+    return results
+
+
+def get_results_from_multicast_soup_requests(soup):
+    """
+    Get the results from the multicast soup by requests
+    """
+    results = []
+    elements = soup.find_all("div", class_="result") if soup else []
+    for element in elements:
+        name_element = element.find("div", class_="channel")
+        if name_element:
+            text_list = get_element_child_text_list(element, "div")
+            url = date = resolution = None
+            valid = True
+            for text in text_list:
+                text_url = get_channel_url(text)
+                if text_url:
+                    url = text_url
+                if "失效" in text:
+                    valid = False
+            if url and valid:
+                results.append((url, date, resolution))
     return results
 
 
@@ -234,13 +279,13 @@ def get_channel_url(text):
     Get the url from text
     """
     url = None
-    urlRegex = r"http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\\(\\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+"
+    urlRegex = r"((http|https)://)?((([0-9]{1,3}\.){3}[0-9]{1,3})|([a-zA-Z0-9-]+\.[a-zA-Z]{2,}))(:[0-9]+)?(/[a-zA-Z0-9-._~:/?#[\]@!$&'()*+,;=%]*)?"
     url_search = re.search(
         urlRegex,
         text,
     )
     if url_search:
-        url = url_search.group()
+        url = url_search.group().strip()
     return url
 
 
@@ -362,7 +407,7 @@ def append_all_method_data_keep_all(
     return data
 
 
-async def sort_channel_list(semaphore, cate, name, info_list, callback):
+async def sort_channel_list(semaphore, cate, name, info_list, is_ffmpeg, callback):
     """
     Sort the channel list
     """
@@ -370,7 +415,9 @@ async def sort_channel_list(semaphore, cate, name, info_list, callback):
         data = []
         try:
             if info_list:
-                sorted_data = await sort_urls_by_speed_and_resolution(info_list)
+                sorted_data = await sort_urls_by_speed_and_resolution(
+                    info_list, is_ffmpeg
+                )
                 if sorted_data:
                     for (
                         url,
