@@ -27,7 +27,7 @@ recent_days = 30
 ipv_type = "ipv4"
 domain_blacklist = ["epg.pw"]
 url_keywords_blacklist = []
-open_subscribe = True
+open_subscribe = False
 subscribe_urls = [
     "https://m3u.ibert.me/txt/fmml_dv6.txt",
     "https://m3u.ibert.me/txt/o_cn.txt",
@@ -36,6 +36,6 @@ subscribe_urls = [
 ]
 open_multicast = True
 region_list = ["all"]
-open_proxy = True
+open_proxy = False
 open_driver = False
 open_use_old_result = True

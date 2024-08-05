@@ -407,7 +407,7 @@ def append_all_method_data_keep_all(
     return data
 
 
-async def sort_channel_list(semaphore, cate, name, info_list, callback):
+async def sort_channel_list(semaphore, cate, name, info_list, is_ffmpeg, callback):
     """
     Sort the channel list
     """
@@ -415,7 +415,9 @@ async def sort_channel_list(semaphore, cate, name, info_list, callback):
         data = []
         try:
             if info_list:
-                sorted_data = await sort_urls_by_speed_and_resolution(info_list)
+                sorted_data = await sort_urls_by_speed_and_resolution(
+                    info_list, is_ffmpeg
+                )
                 if sorted_data:
                     for (
                         url,

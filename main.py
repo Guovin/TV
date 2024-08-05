@@ -12,8 +12,8 @@ from utils.tools import (
     get_pbar_remaining,
     get_ip_address,
 )
+from utils.speed import is_ffmpeg_installed
 from subscribe import get_channels_by_subscribe_urls
-from fofa import get_channels_by_fofa
 from multicast import get_channels_by_multicast
 from online_search import get_channels_by_online_search
 import os
@@ -95,7 +95,10 @@ class UpdateSource:
                 self.online_search_result,
             )
             if config.open_sort:
-                semaphore = asyncio.Semaphore(100)
+                is_ffmpeg = is_ffmpeg_installed()
+                if not is_ffmpeg:
+                    print("FFmpeg is not installed, using requests for sorting.")
+                semaphore = asyncio.Semaphore(1 if is_ffmpeg else 100)
                 self.tasks = [
                     asyncio.create_task(
                         sort_channel_list(
@@ -103,6 +106,7 @@ class UpdateSource:
                             cate,
                             name,
                             info_list,
+                            is_ffmpeg,
                             lambda: self.pbar_update("测速排序"),
                         )
                     )
@@ -197,4 +201,4 @@ if __name__ == "__main__":
     # If not run with 'scheduled_task' argument and not in GitHub Actions, start Flask server
     if len(sys.argv) <= 1 or sys.argv[1] != "scheduled_task":
         if not os.environ.get("GITHUB_ACTIONS"):
-            app.run(host="0.0.0.0", port=3000)
+            app.run(host="0.0.0.0", port=3001)
