@@ -26,9 +26,10 @@ from concurrent.futures import ThreadPoolExecutor
 from requests_custom.utils import get_soup_requests, close_session
 import urllib.parse as urlparse
 from urllib.parse import parse_qs
-import multicast_map
 from subscribe import get_channels_by_subscribe_urls
 import re
+from driver.utils import get_soup_driver
+import json
 
 config = get_config()
 
@@ -70,20 +71,53 @@ def search_submit(driver, name):
     driver.execute_script("arguments[0].click();", submit_button)
 
 
-def get_multicast_urls_from_region_list():
+def get_region_urls_from_IPTV_Multicast_source():
     """
-    Get the multicast url from region
+    Get the region urls from IPTV_Multicast_source
+    """
+    region_url = {}
+    origin_url = "https://github.com/xisohi/IPTV-Multicast-source/blob/main/README.md"
+    soup = get_soup_driver(origin_url)
+    tbody = soup.find("tbody")
+    trs = tbody.find_all("tr") if tbody else []
+    for tr in trs:
+        tds = tr.find_all("td")
+        name = tds[0].get_text().strip()
+        unicom = tds[1].find("a", href=True).get("href")
+        mobile = tds[2].find("a", href=True).get("href")
+        telecom = tds[3].find("a", href=True).get("href")
+        if name not in region_url:
+            region_url[name] = {}
+        region_url[name]["联通"] = unicom
+        region_url[name]["移动"] = mobile
+        region_url[name]["电信"] = telecom
+    with open("multicast/multicast_map.json", "w", encoding="utf-8") as f:
+        json.dump(region_url, f, ensure_ascii=False, indent=4)
+
+
+def get_multicast_urls_info_from_region_list():
+    """
+    Get the multicast urls info from region
     """
     region_list = getattr(config, "region_list", [])
-    urls = []
-    region_url = getattr(multicast_map, "region_url")
+    urls_info = []
+    with open("multicast/multicast_map.json", "r", encoding="utf-8") as f:
+        region_url = json.load(f)
     if "all" in region_list:
-        urls = [url for url in region_url.values() if url]
+        urls_info = [
+            {"type": type, "url": url}
+            for value in region_url.values()
+            for type, url in value.items()
+        ]
     else:
         for region in region_list:
             if region in region_url:
-                urls.append(region_url[region])
-    return urls
+                region_data = [
+                    {"type": type, "url": url}
+                    for type, url in region_url[region].items()
+                ]
+                urls_info.append(region_data)
+    return urls_info
 
 
 def get_multicast_ip_list(urls):
@@ -99,21 +133,27 @@ def get_multicast_ip_list(urls):
     return ip_list
 
 
+async def get_multicast_region_result():
+    """
+    Get multicast region result
+    """
+    multicast_region_urls_info = get_multicast_urls_info_from_region_list()
+    multicast_result = await get_channels_by_subscribe_urls(
+        urls=multicast_region_urls_info, multicast=True
+    )
+    with open("multicast/multicast_region_result.json", "w", encoding="utf-8") as f:
+        json.dump(multicast_result, f, ensure_ascii=False, indent=4)
+
+
 async def get_channels_by_multicast(names, callback):
     """
     Get the channels by multicase
     """
-    multicast_region_urls = get_multicast_urls_from_region_list()
-    multicast_results = await get_channels_by_subscribe_urls(
-        urls=multicast_region_urls, callback=callback
-    )
     channels = {}
     # pageUrl = await use_accessible_url(callback)
     pageUrl = "http://tonkiang.us/hoteliptv.php"
     # if not pageUrl:
     #     return channels
-    if not multicast_results:
-        return channels
     proxy = None
     if config.open_proxy:
         proxy = await get_proxy(pageUrl, best=True, with_test=True)

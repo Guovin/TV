@@ -172,22 +172,28 @@ def merge_objects(*objects):
     """
     Merge objects
     """
+
+    def merge_dicts(dict1, dict2):
+        for key, value in dict2.items():
+            if key in dict1:
+                if isinstance(dict1[key], dict) and isinstance(value, dict):
+                    merge_dicts(dict1[key], value)
+                elif isinstance(dict1[key], set):
+                    dict1[key].update(value)
+                elif isinstance(dict1[key], list):
+                    dict1[key].extend(value)
+                    dict1[key] = list(set(dict1[key]))  # Remove duplicates
+                else:
+                    dict1[key] = {dict1[key], value}
+            else:
+                dict1[key] = value
+
     merged_dict = {}
     for obj in objects:
         if not isinstance(obj, dict):
             raise TypeError("All input objects must be dictionaries")
-        for key, value in obj.items():
-            if key not in merged_dict:
-                merged_dict[key] = set()
-            if isinstance(value, set):
-                merged_dict[key].update(value)
-            elif isinstance(value, list):
-                for item in value:
-                    merged_dict[key].add(item)
-            else:
-                merged_dict[key].add(value)
-    for key, value in merged_dict.items():
-        merged_dict[key] = list(value)
+        merge_dicts(merged_dict, obj)
+
     return merged_dict
 
 

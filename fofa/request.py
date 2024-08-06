@@ -3,7 +3,7 @@ from tqdm.asyncio import tqdm_asyncio
 from time import time
 from requests import get
 from concurrent.futures import ThreadPoolExecutor
-import fofa_map
+import fofa.fofa_map as fofa_map
 from driver.setup import setup_driver
 import re
 from utils.retry import retry_func

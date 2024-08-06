@@ -45,18 +45,18 @@ def is_ffmpeg_installed():
         return False
 
 
-async def ffmpeg_url(url, timeout, cmd="ffmpeg"):
+async def ffmpeg_url(url, timeout):
     """
     Get url info by ffmpeg
     """
-    args = [cmd, "-t", str(timeout), "-stats", "-i", url, "-f", "null", "-"]
+    args = ["ffmpeg", "-t", str(timeout), "-stats", "-i", url, "-f", "null", "-"]
     proc = None
     res = None
     try:
         proc = await asyncio.create_subprocess_exec(
             *args, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
         )
-        out, err = await asyncio.wait_for(proc.communicate(), timeout=timeout + 30)
+        out, err = await asyncio.wait_for(proc.communicate(), timeout=timeout)
         if out:
             res = out.decode("utf-8")
         if err:

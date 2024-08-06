@@ -13,7 +13,7 @@ config = get_config()
 timeout = 30
 
 
-async def get_channels_by_subscribe_urls(urls=None, callback=None):
+async def get_channels_by_subscribe_urls(urls=None, multicast=False, callback=None):
     """
     Get the channels by subscribe urls
     """
@@ -22,10 +22,16 @@ async def get_channels_by_subscribe_urls(urls=None, callback=None):
     subscribe_urls_len = len(urls if urls else config.subscribe_urls)
     pbar = tqdm_asyncio(total=subscribe_urls_len, desc="Processing subscribe")
     start_time = time()
-    callback(f"正在获取订阅源更新, 共{subscribe_urls_len}个订阅源", 0)
+    if callback:
+        callback(f"正在获取订阅源更新, 共{subscribe_urls_len}个订阅源", 0)
     session = Session()
 
-    def process_subscribe_channels(subscribe_url):
+    def process_subscribe_channels(subscribe_info):
+        if multicast and isinstance(subscribe_info, dict):
+            type = subscribe_info.get("type")
+            subscribe_url = subscribe_info.get("url")
+        else:
+            subscribe_url = subscribe_info
         channels = {}
         try:
             response = None
@@ -50,22 +56,24 @@ async def get_channels_by_subscribe_urls(urls=None, callback=None):
                             else None
                         )
                         url = matcher.group(2).strip()
-                        value = (url, None, resolution)
+                        value = url if multicast else (url, None, resolution)
                         name = format_channel_name(key)
                         if name in channels:
-                            if value not in channels[name]:
-                                channels[name].append(value)
+                            if value not in channels[name][type]:
+                                channels[name][type].append(value)
                         else:
-                            channels[name] = [value]
+                            channels[name] = {}
+                            channels[name][type] = [value]
         except Exception as e:
             print(f"Error on {subscribe_url}: {e}")
         finally:
             pbar.update()
             remain = subscribe_urls_len - pbar.n
-            callback(
-                f"正在获取订阅源更新, 剩余{remain}个订阅源待获取, 预计剩余时间: {get_pbar_remaining(pbar, start_time)}",
-                int((pbar.n / subscribe_urls_len) * 100),
-            )
+            if callback:
+                callback(
+                    f"正在获取订阅源更新, 剩余{remain}个订阅源待获取, 预计剩余时间: {get_pbar_remaining(pbar, start_time)}",
+                    int((pbar.n / subscribe_urls_len) * 100),
+                )
             return channels
 
     with ThreadPoolExecutor(max_workers=100) as executor:

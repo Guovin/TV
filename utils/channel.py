@@ -8,6 +8,7 @@ from bs4 import NavigableString
 import logging
 from logging.handlers import RotatingFileHandler
 from opencc import OpenCC
+import json
 
 config = get_config()
 
@@ -158,6 +159,35 @@ def get_element_child_text_list(element, child_name):
                 text_list.append(text)
     return text_list
 
+
+def get_multicast_region_ip_list(content):
+    """
+    Get multicast region ip list for content
+    """
+    with open("multicast/multicast_region_result.json", "r", encoding="utf-8") as f:
+        result = json.load(f)
+        for name, obj in result.items():
+            types = obj.keys()
+            if name in content:
+                for type in types:
+                    if type in content:
+                        return obj[type]
+        return None
+
+# def get_multicast_region_ip_list(channel_name):
+#     """
+#     Get multicast region ip list for channel name
+#     """
+#     with open("multicast/multicast_region_result.json", "r", encoding="utf-8") as f:
+#         format_name = format_channel_name(channel_name)
+#         result = json.load(f)
+#         for name, obj in result.items():
+#             types = obj.keys()
+#             if name in content:
+#                 for type in types:
+#                     if type in content:
+#                         return obj[type]
+#         return None
 
 def get_results_from_soup(soup, name):
     """
