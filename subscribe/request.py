@@ -7,7 +7,7 @@ import re
 from utils.channel import format_channel_name
 from utils.tools import merge_objects, get_pbar_remaining
 from concurrent.futures import ThreadPoolExecutor
-
+from collections import defaultdict
 
 config = get_config()
 timeout = 30
@@ -28,11 +28,12 @@ async def get_channels_by_subscribe_urls(urls=None, multicast=False, callback=No
 
     def process_subscribe_channels(subscribe_info):
         if multicast and isinstance(subscribe_info, dict):
+            region = subscribe_info.get("region")
             type = subscribe_info.get("type")
             subscribe_url = subscribe_info.get("url")
         else:
             subscribe_url = subscribe_info
-        channels = {}
+        channels = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))
         try:
             response = None
             try:
@@ -59,11 +60,15 @@ async def get_channels_by_subscribe_urls(urls=None, multicast=False, callback=No
                         value = url if multicast else (url, None, resolution)
                         name = format_channel_name(key)
                         if name in channels:
-                            if value not in channels[name][type]:
-                                channels[name][type].append(value)
+                            if multicast and value not in channels[name][region][type]:
+                                channels[name][region][type].append(value)
+                            elif value not in channels[name]:
+                                channels[name].append(value)
                         else:
-                            channels[name] = {}
-                            channels[name][type] = [value]
+                            if multicast:
+                                channels[name][region][type] = [value]
+                            else:
+                                channels[name] = [value]
         except Exception as e:
             print(f"Error on {subscribe_url}: {e}")
         finally:

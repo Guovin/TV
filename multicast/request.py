@@ -4,13 +4,9 @@ from utils.channel import (
     format_channel_name,
     get_results_from_multicast_soup,
     get_results_from_multicast_soup_requests,
+    get_channel_multicast_region_result,
 )
-from utils.tools import (
-    check_url_by_patterns,
-    get_pbar_remaining,
-    get_soup,
-    get_total_urls_from_info_list,
-)
+from utils.tools import check_url_by_patterns, get_pbar_remaining, get_soup
 from utils.config import get_config
 from proxy import get_proxy, get_proxy_next
 from time import time, sleep
@@ -105,32 +101,19 @@ def get_multicast_urls_info_from_region_list():
         region_url = json.load(f)
     if "all" in region_list:
         urls_info = [
-            {"type": type, "url": url}
-            for value in region_url.values()
+            {"region": region, "type": type, "url": url}
+            for region, value in region_url.items()
             for type, url in value.items()
         ]
     else:
         for region in region_list:
             if region in region_url:
                 region_data = [
-                    {"type": type, "url": url}
+                    {"region": region, "type": type, "url": url}
                     for type, url in region_url[region].items()
                 ]
                 urls_info.append(region_data)
     return urls_info
-
-
-def get_multicast_ip_list(urls):
-    """
-    Get multicast ip from url
-    """
-    ip_list = []
-    for url in urls:
-        pattern = r"rtp://((\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(?::(\d+))?)"
-        matcher = re.search(pattern, url)
-        if matcher:
-            ip_list.append(matcher.group(1))
-    return ip_list
 
 
 async def get_multicast_region_result():
@@ -158,16 +141,16 @@ async def get_channels_by_multicast(names, callback):
     if config.open_proxy:
         proxy = await get_proxy(pageUrl, best=True, with_test=True)
     start_time = time()
+    with open("multicast/multicast_region_result.json", "r", encoding="utf-8") as f:
+        multicast_region_result = json.load(f)
 
     def process_channel_by_multicast(name):
         format_name = format_channel_name(name)
         info_list = []
-        multicast_info_list = multicast_results.get(format_name)
-        if not multicast_info_list:
-            return {"name": format_name, "data": info_list}
-        multicast_urls = get_total_urls_from_info_list(multicast_info_list)
-        multicast_ip_list = get_multicast_ip_list(multicast_urls)
-        if not multicast_ip_list:
+        channel_multicast_region_result = get_channel_multicast_region_result(
+            multicast_region_result, format_name
+        )
+        if not channel_multicast_region_result:
             return {"name": format_name, "data": info_list}
         nonlocal proxy
         try:
@@ -251,9 +234,13 @@ async def get_channels_by_multicast(names, callback):
                         )
                         if soup:
                             results = (
-                                get_results_from_multicast_soup(soup)
+                                get_results_from_multicast_soup(
+                                    soup, channel_multicast_region_result
+                                )
                                 if config.open_driver
-                                else get_results_from_multicast_soup_requests(soup)
+                                else get_results_from_multicast_soup_requests(
+                                    soup, channel_multicast_region_result
+                                )
                             )
                             print(name, "page:", page, "results num:", len(results))
                             if len(results) == 0:
@@ -286,9 +273,7 @@ async def get_channels_by_multicast(names, callback):
                             for result in results:
                                 url, date, resolution = result
                                 if url and check_url_by_patterns(url):
-                                    for ip in multicast_ip_list:
-                                        total_url = f"http://{url}/rtp/{ip}"
-                                        info_list.append((total_url, date, resolution))
+                                    info_list.append((url, date, resolution))
                             break
                         else:
                             print(
