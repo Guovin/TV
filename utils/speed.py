@@ -99,7 +99,7 @@ async def check_stream_speed(url_info):
     """
     try:
         url = url_info[0]
-        video_info = await ffmpeg_url(url, 10)
+        video_info = await ffmpeg_url(url, timeout)
         if video_info is None:
             return float("inf")
         frame, resolution = get_video_info(video_info)

@@ -159,6 +159,19 @@ def get_element_child_text_list(element, child_name):
     return text_list
 
 
+def get_multicast_ip_list(urls):
+    """
+    Get the multicast ip list from urls
+    """
+    ip_list = []
+    for url in urls:
+        pattern = r"rtp://((\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(?::(\d+))?)"
+        matcher = re.search(pattern, url)
+        if matcher:
+            ip_list.append(matcher.group(1))
+    return ip_list
+
+
 def get_channel_multicast_region_ip_list(result, channel_region, channel_type):
     """
     Get the channel multicast region ip list by region and type from result
@@ -171,11 +184,7 @@ def get_channel_multicast_region_ip_list(result, channel_region, channel_type):
                 for type in types:
                     if type in channel_type:
                         urls = result_obj[type]
-                        for url in urls:
-                            pattern = r"rtp://((\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(?::(\d+))?)"
-                            matcher = re.search(pattern, url)
-                            if matcher:
-                                ip_list.append(matcher.group(1))
+                        ip_list = ip_list + get_multicast_ip_list(urls)
     return ip_list
 
 
@@ -190,14 +199,56 @@ def get_channel_multicast_total_url_list(url, ip_list):
     return total_url_list
 
 
-def get_channel_multicast_region_result(result, channel_name):
+def get_channel_multicast_name_region_type_result(result, names):
     """
-    Get the multicast region result by channel name from result
+    Get the multicast name and region and type result by names from result
     """
-    format_name = format_channel_name(channel_name)
-    if result.get(format_name):
-        return result.get(format_name)
-    return None
+    name_region_type_result = {}
+    for name in names:
+        format_name = format_channel_name(name)
+        data = result.get(format_name)
+        if data:
+            name_region_type_result[format_name] = data
+    return name_region_type_result
+
+
+def get_channel_multicast_region_type_list(result):
+    """
+    Get the channel multicast region type list from result
+    """
+    region_type_list = set()
+    for region_type in result.values():
+        for region, types in region_type.items():
+            for type in types.keys():
+                region_type_list.add((region, type))
+    return list(region_type_list)
+
+
+def get_channel_multicast_result(result, search_result):
+    """
+    Get the channel multicast info result by result and search result
+    """
+    info_result = {}
+    for region, type_obj in search_result.items():
+        for name, result_obj in result.items():
+            info_list = []
+            result_type_obj = result_obj.get(region)
+            if result_type_obj:
+                for type, data_list in type_obj.items():
+                    urls = result_type_obj.get(type)
+                    if urls:
+                        ip_list = get_multicast_ip_list(urls)
+                        if ip_list:
+                            for data in data_list:
+                                url, date, resolution = data
+                                total_urls = get_channel_multicast_total_url_list(
+                                    url, ip_list
+                                )
+                                for total_url in total_urls:
+                                    if check_url_by_patterns(total_url):
+                                        info_list.append((total_url, date, resolution))
+            info_result[name] = info_list
+    return info_result
 
 
 def get_results_from_soup(soup, name):
@@ -224,7 +275,7 @@ def get_results_from_soup(soup, name):
     return results
 
 
-def get_results_from_multicast_soup(soup, multicast_region_result):
+def get_results_from_multicast_soup(soup):
     """
     Get the results from the multicast soup
     """
@@ -253,18 +304,7 @@ def get_results_from_multicast_soup(soup, multicast_region_result):
                                     date, region, type = get_multicast_channel_info(
                                         info_text
                                     )
-                                    ip_list = get_channel_multicast_region_ip_list(
-                                        multicast_region_result, region, type
-                                    )
-                                    if ip_list:
-                                        total_urls = (
-                                            get_channel_multicast_total_url_list(
-                                                url, ip_list
-                                            )
-                                        )
-                                        if total_urls:
-                                            for total_url in total_urls:
-                                                results.append((total_url, date, None))
+                                    results.append((url, date, region, type))
     return results
 
 
@@ -293,7 +333,7 @@ def get_results_from_soup_requests(soup, name):
     return results
 
 
-def get_results_from_multicast_soup_requests(soup, multicast_region_result):
+def get_results_from_multicast_soup_requests(soup):
     """
     Get the results from the multicast soup by requests
     """
@@ -303,9 +343,8 @@ def get_results_from_multicast_soup_requests(soup, multicast_region_result):
         name_element = element.find("div", class_="channel")
         if name_element:
             text_list = get_element_child_text_list(element, "div")
-            url = date = resolution = None
+            url = date = region = type = None
             valid = True
-            total_urls = []
             for text in text_list:
                 text_url = get_channel_url(text)
                 if text_url:
@@ -314,14 +353,8 @@ def get_results_from_multicast_soup_requests(soup, multicast_region_result):
                     valid = False
                 if url and "上线" in text and " " in text:
                     date, region, type = get_multicast_channel_info(text)
-                    ip_list = get_channel_multicast_region_ip_list(
-                        multicast_region_result, region, type
-                    )
-                    if ip_list:
-                        total_urls = get_channel_multicast_total_url_list(url, ip_list)
-            if total_urls and valid:
-                for total_url in total_urls:
-                    results.append((total_url, date, resolution))
+            if url and valid:
+                results.append((url, date, region, type))
     return results
 
 

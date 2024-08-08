@@ -1,10 +1,11 @@
 from asyncio import create_task, gather
 from utils.speed import get_speed
 from utils.channel import (
-    format_channel_name,
     get_results_from_multicast_soup,
     get_results_from_multicast_soup_requests,
-    get_channel_multicast_region_result,
+    get_channel_multicast_name_region_type_result,
+    get_channel_multicast_region_type_list,
+    get_channel_multicast_result,
 )
 from utils.tools import check_url_by_patterns, get_pbar_remaining, get_soup
 from utils.config import get_config
@@ -23,9 +24,9 @@ from requests_custom.utils import get_soup_requests, close_session
 import urllib.parse as urlparse
 from urllib.parse import parse_qs
 from subscribe import get_channels_by_subscribe_urls
-import re
 from driver.utils import get_soup_driver
 import json
+from collections import defaultdict
 
 config = get_config()
 
@@ -143,15 +144,16 @@ async def get_channels_by_multicast(names, callback):
     start_time = time()
     with open("multicast/multicast_region_result.json", "r", encoding="utf-8") as f:
         multicast_region_result = json.load(f)
+    name_region_type_result = get_channel_multicast_name_region_type_result(
+        multicast_region_result, names
+    )
+    region_type_list = get_channel_multicast_region_type_list(name_region_type_result)
+    search_region_type_result = defaultdict(lambda: defaultdict(list))
 
-    def process_channel_by_multicast(name):
-        format_name = format_channel_name(name)
+    def process_channel_by_multicast(params):
+        region, type = params
+        name = f"{region}{type}"
         info_list = []
-        channel_multicast_region_result = get_channel_multicast_region_result(
-            multicast_region_result, format_name
-        )
-        if not channel_multicast_region_result:
-            return {"name": format_name, "data": info_list}
         nonlocal proxy
         try:
             if config.open_driver:
@@ -183,7 +185,7 @@ async def get_channels_by_multicast(names, callback):
                     page_soup = get_soup_requests(request_url, proxy=proxy)
                 if not page_soup:
                     print(f"{name}:Request fail.")
-                    return {"name": format_name, "data": info_list}
+                    return {"region": region, "type": type, "data": info_list}
                 else:
                     a_tags = page_soup.find_all("a", href=True)
                     for a_tag in a_tags:
@@ -196,98 +198,90 @@ async def get_channels_by_multicast(names, callback):
             pageNum = (
                 config.favorite_page_num if isFavorite else config.default_page_num
             )
-            retry_limit = 3
+            # retry_limit = 3
             for page in range(1, pageNum + 1):
-                retries = 0
-                if not config.open_driver and page == 1:
-                    retries = 2
-                while retries < retry_limit:
-                    try:
-                        if page > 1:
-                            if config.open_driver:
-                                page_link = find_clickable_element_with_retry(
-                                    driver,
-                                    (
-                                        By.XPATH,
-                                        f'//a[contains(@href, "={page}") and contains(@href, "{name}")]',
-                                    ),
-                                )
-                                if not page_link:
-                                    break
-                                sleep(1)
-                                driver.execute_script(
-                                    "arguments[0].click();", page_link
-                                )
-                            else:
-                                request_url = (
-                                    f"{pageUrl}?net={name}&page={page}&code={code}"
-                                )
-                                page_soup = retry_func(
-                                    lambda: get_soup_requests(request_url, proxy=proxy),
-                                    name=f"multicast search:{name}, page:{page}",
-                                )
-                        sleep(1)
-                        soup = (
-                            get_soup(driver.page_source)
-                            if config.open_driver
-                            else page_soup
-                        )
-                        if soup:
-                            results = (
-                                get_results_from_multicast_soup(
-                                    soup, channel_multicast_region_result
-                                )
-                                if config.open_driver
-                                else get_results_from_multicast_soup_requests(
-                                    soup, channel_multicast_region_result
-                                )
+                # retries = 0
+                # if not config.open_driver and page == 1:
+                #     retries = 2
+                # while retries < retry_limit:
+                try:
+                    if page > 1:
+                        if config.open_driver:
+                            page_link = find_clickable_element_with_retry(
+                                driver,
+                                (
+                                    By.XPATH,
+                                    f'//a[contains(@href, "={page}") and contains(@href, "{name}")]',
+                                ),
                             )
-                            print(name, "page:", page, "results num:", len(results))
-                            if len(results) == 0:
-                                print(
-                                    f"{name}:No results found, refreshing page and retrying..."
-                                )
-                                if config.open_driver:
-                                    driver.refresh()
-                                retries += 1
+                            if not page_link:
+                                # break
                                 continue
-                            elif len(results) <= 3:
-                                if config.open_driver:
-                                    next_page_link = find_clickable_element_with_retry(
-                                        driver,
-                                        (
-                                            By.XPATH,
-                                            f'//a[contains(@href, "={page+1}") and contains(@href, "{name}")]',
-                                        ),
-                                        retries=1,
-                                    )
-                                    if next_page_link:
-                                        if config.open_proxy:
-                                            proxy = get_proxy_next()
-                                        driver.close()
-                                        driver.quit()
-                                        driver = setup_driver(proxy)
-                                        search_submit(driver, name)
-                                retries += 1
-                                continue
-                            for result in results:
-                                url, date, resolution = result
-                                if url and check_url_by_patterns(url):
-                                    info_list.append((url, date, resolution))
-                            break
+                            sleep(1)
+                            driver.execute_script("arguments[0].click();", page_link)
                         else:
-                            print(
-                                f"{name}:No results found, refreshing page and retrying..."
+                            request_url = (
+                                f"{pageUrl}?net={name}&page={page}&code={code}"
                             )
-                            if config.open_driver:
-                                driver.refresh()
-                            retries += 1
-                            continue
-                    except Exception as e:
-                        print(f"{name}:Error on page {page}: {e}")
-                        break
-                if retries == retry_limit:
-                    print(f"{name}:Reached retry limit, moving to next page")
+                            page_soup = retry_func(
+                                lambda: get_soup_requests(request_url, proxy=proxy),
+                                name=f"multicast search:{name}, page:{page}",
+                            )
+                    sleep(1)
+                    soup = (
+                        get_soup(driver.page_source)
+                        if config.open_driver
+                        else page_soup
+                    )
+                    if soup:
+                        results = (
+                            get_results_from_multicast_soup(soup)
+                            if config.open_driver
+                            else get_results_from_multicast_soup_requests(soup)
+                        )
+                        print(name, "page:", page, "results num:", len(results))
+                        if len(results) == 0:
+                            print(f"{name}:No results found")
+                            # if config.open_driver:
+                            #     driver.refresh()
+                            # retries += 1
+                            # continue
+                        # elif len(results) <= 3:
+                        #     if config.open_driver:
+                        #         next_page_link = find_clickable_element_with_retry(
+                        #             driver,
+                        #             (
+                        #                 By.XPATH,
+                        #                 f'//a[contains(@href, "={page+1}") and contains(@href, "{name}")]',
+                        #             ),
+                        #             retries=1,
+                        #         )
+                        #         if next_page_link:
+                        #             if config.open_proxy:
+                        #                 proxy = get_proxy_next()
+                        #             driver.close()
+                        #             driver.quit()
+                        #             driver = setup_driver(proxy)
+                        #             search_submit(driver, name)
+                        #     retries += 1
+                        #     continue
+                        for result in results:
+                            url, date, _, _ = result
+                            if url:
+                                info_list.append((url, date, None))
+                        # break
+                    else:
+                        print(f"{name}:No results found")
+                        # if config.open_driver:
+                        #     driver.refresh()
+                        # retries += 1
+                        # continue
+                except Exception as e:
+                    print(f"{name}:Error on page {page}: {e}")
+                    # break
+                    continue
+            # if retries == retry_limit:
+            #     print(f"{name}:Reached retry limit, moving to next page")
         except Exception as e:
             print(f"{name}:Error on search: {e}")
             pass
@@ -297,24 +291,31 @@ async def get_channels_by_multicast(names, callback):
                 driver.quit()
             pbar.update()
             callback(
-                f"正在进行组播更新, 剩余{names_len - pbar.n}个频道待查询, 预计剩余时间: {get_pbar_remaining(pbar, start_time)}",
-                int((pbar.n / names_len) * 100),
+                f"正在进行组播更新, 剩余{region_type_list_len - pbar.n}个地区组播源待查询, 预计剩余时间: {get_pbar_remaining(pbar, start_time)}",
+                int((pbar.n / region_type_list_len) * 100),
             )
-            return {"name": format_name, "data": info_list}
+            return {"region": region, "type": type, "data": info_list}
 
-    names_len = len(names)
-    pbar = tqdm_asyncio(total=names_len, desc="Multicast search")
-    callback(f"正在进行组播更新, 共{names_len}个频道", 0)
+    region_type_list_len = len(region_type_list)
+    pbar = tqdm_asyncio(total=region_type_list_len, desc="Multicast search")
+    callback(
+        f"正在进行组播更新, {len(names)}个频道, 共{region_type_list_len}个地区组播源", 0
+    )
     with ThreadPoolExecutor(max_workers=3) as executor:
         futures = [
-            executor.submit(process_channel_by_multicast, name) for name in names
+            executor.submit(process_channel_by_multicast, (region, type))
+            for (region, type) in region_type_list
         ]
         for future in futures:
             result = future.result()
-            name = result.get("name")
+            region = result.get("region")
+            type = result.get("type")
             data = result.get("data", [])
-            if name:
-                channels[name] = data
+            if region and type and data:
+                search_region_type_result[region][type] = data
+    channels = get_channel_multicast_result(
+        name_region_type_result, search_region_type_result
+    )
     if not config.open_driver:
         close_session()
     pbar.close()
