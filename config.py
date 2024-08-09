@@ -36,6 +36,6 @@ subscribe_urls = [
 ]
 open_multicast = True
 region_list = ["广东"]
-open_proxy = False
+open_proxy = True
 open_driver = False
 open_use_old_result = True
