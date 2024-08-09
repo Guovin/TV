@@ -3,7 +3,7 @@ from tqdm.asyncio import tqdm_asyncio
 from time import time
 from requests import get
 from concurrent.futures import ThreadPoolExecutor
-import fofa_map
+import fofa.fofa_map as fofa_map
 from driver.setup import setup_driver
 import re
 from utils.retry import retry_func
@@ -72,7 +72,7 @@ async def get_channels_by_fofa(callback):
             with ThreadPoolExecutor(max_workers=100) as executor:
                 futures = [executor.submit(process_fofa_json_url, url) for url in urls]
                 for future in futures:
-                    merge_objects(results, future.result())
+                    results = merge_objects(results, future.result())
         except Exception as e:
             print(e)
         finally:
@@ -95,7 +95,7 @@ async def get_channels_by_fofa(callback):
             executor.submit(process_fofa_channels, fofa_url) for fofa_url in fofa_urls
         ]
         for future in futures:
-            merge_objects(fofa_results, future.result())
+            fofa_results = merge_objects(fofa_results, future.result())
     if not config.open_driver:
         close_session()
     pbar.close()

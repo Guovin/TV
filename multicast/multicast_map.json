@@ -1,0 +1,157 @@
+{
+    "安徽": {
+        "联通": "https://chinaiptv.pages.dev/anhui/unicom.txt",
+        "移动": "https://chinaiptv.pages.dev/anhui/mobile.txt",
+        "电信": "https://chinaiptv.pages.dev/anhui/telecom.txt"
+    },
+    "北京": {
+        "联通": "https://chinaiptv.pages.dev/beijing/unicom.txt",
+        "移动": "https://chinaiptv.pages.dev/beijing/mobile.txt",
+        "电信": "https://chinaiptv.pages.dev/beijing/telecom.txt"
+    },
+    "重庆": {
+        "联通": "https://chinaiptv.pages.dev/chongqing/unicom.txt",
+        "移动": "https://chinaiptv.pages.dev/chongqing/mobile.txt",
+        "电信": "https://chinaiptv.pages.dev/chongqing/telecom.txt"
+    },
+    "福建": {
+        "联通": "https://chinaiptv.pages.dev/fujian/unicom.txt",
+        "移动": "https://chinaiptv.pages.dev/fujian/mobile.txt",
+        "电信": "https://chinaiptv.pages.dev/fujian/telecom.txt"
+    },
+    "甘肃": {
+        "联通": "https://chinaiptv.pages.dev/gansu/unicom.txt",
+        "移动": "https://chinaiptv.pages.dev/gansu/mobile.txt",
+        "电信": "https://chinaiptv.pages.dev/gansu/telecom.txt"
+    },
+    "广东": {
+        "联通": "https://chinaiptv.pages.dev/guangdong/unicom.txt",
+        "移动": "https://chinaiptv.pages.dev/guangdong/mobile.txt",
+        "电信": "https://chinaiptv.pages.dev/guangdong/telecom.txt"
+    },
+    "广西": {
+        "联通": "https://chinaiptv.pages.dev/guangxi/unicom.txt",
+        "移动": "https://chinaiptv.pages.dev/guangxi/mobile.txt",
+        "电信": "https://chinaiptv.pages.dev/guangxi/telecom.txt"
+    },
+    "贵州": {
+        "联通": "https://chinaiptv.pages.dev/guizhou/unicom.txt",
+        "移动": "https://chinaiptv.pages.dev/guizhou/mobile.txt",
+        "电信": "https://chinaiptv.pages.dev/guizhou/telecom.txt"
+    },
+    "海南": {
+        "联通": "https://chinaiptv.pages.dev/hainan/unicom.txt",
+        "移动": "https://chinaiptv.pages.dev/hainan/mobile.txt",
+        "电信": "https://chinaiptv.pages.dev/hainan/telecom.txt"
+    },
+    "河北": {
+        "联通": "https://chinaiptv.pages.dev/hebei/unicom.txt",
+        "移动": "https://chinaiptv.pages.dev/hebei/mobile.txt",
+        "电信": "https://chinaiptv.pages.dev/hebei/telecom.txt"
+    },
+    "黑龙江": {
+        "联通": "https://chinaiptv.pages.dev/heilongjiang/unicom.txt",
+        "移动": "https://chinaiptv.pages.dev/heilongjiang/mobile.txt",
+        "电信": "https://chinaiptv.pages.dev/heilongjiang/telecom.txt"
+    },
+    "河南": {
+        "联通": "https://chinaiptv.pages.dev/henan/unicom.txt",
+        "移动": "https://chinaiptv.pages.dev/henan/mobile.txt",
+        "电信": "https://chinaiptv.pages.dev/henan/telecom.txt"
+    },
+    "湖北": {
+        "联通": "https://chinaiptv.pages.dev/hubei/unicom.txt",
+        "移动": "https://chinaiptv.pages.dev/hubei/mobile.txt",
+        "电信": "https://chinaiptv.pages.dev/hubei/telecom.txt"
+    },
+    "湖南": {
+        "联通": "https://chinaiptv.pages.dev/hunan/unicom.txt",
+        "移动": "https://chinaiptv.pages.dev/hunan/mobile.txt",
+        "电信": "https://chinaiptv.pages.dev/hunan/telecom.txt"
+    },
+    "江苏": {
+        "联通": "https://chinaiptv.pages.dev/jiangsu/unicom.txt",
+        "移动": "https://chinaiptv.pages.dev/jiangsu/mobile.txt",
+        "电信": "https://chinaiptv.pages.dev/jiangsu/telecom.txt"
+    },
+    "江西": {
+        "联通": "https://chinaiptv.pages.dev/jiangxi/unicom.txt",
+        "移动": "https://chinaiptv.pages.dev/jiangxi/mobile.txt",
+        "电信": "https://chinaiptv.pages.dev/jiangxi/telecom.txt"
+    },
+    "吉林": {
+        "联通": "https://chinaiptv.pages.dev/jilin/unicom.txt",
+        "移动": "https://chinaiptv.pages.dev/jilin/mobile.txt",
+        "电信": "https://chinaiptv.pages.dev/jilin/telecom.txt"
+    },
+    "辽宁": {
+        "联通": "https://chinaiptv.pages.dev/liaoning/unicom.txt",
+        "移动": "https://chinaiptv.pages.dev/liaoning/mobile.txt",
+        "电信": "https://chinaiptv.pages.dev/liaoning/telecom.txt"
+    },
+    "内蒙古": {
+        "联通": "https://chinaiptv.pages.dev/neimenggu/unicom.txt",
+        "移动": "https://chinaiptv.pages.dev/neimenggu/mobile.txt",
+        "电信": "https://chinaiptv.pages.dev/neimenggu/telecom.txt"
+    },
+    "宁夏": {
+        "联通": "https://chinaiptv.pages.dev/ningxia/unicom.txt",
+        "移动": "https://chinaiptv.pages.dev/ningxia/mobile.txt",
+        "电信": "https://chinaiptv.pages.dev/ningxia/telecom.txt"
+    },
+    "青海": {
+        "联通": "https://chinaiptv.pages.dev/qinghai/unicom.txt",
+        "移动": "https://chinaiptv.pages.dev/qinghai/mobile.txt",
+        "电信": "https://chinaiptv.pages.dev/qinghai/telecom.txt"
+    },
+    "陕西": {
+        "联通": "https://chinaiptv.pages.dev/shan3xi/unicom.txt",
+        "移动": "https://chinaiptv.pages.dev/shan3xi/mobile.txt",
+        "电信": "https://chinaiptv.pages.dev/shan3xi/telecom.txt"
+    },
+    "山东": {
+        "联通": "https://chinaiptv.pages.dev/shandong/unicom.txt",
+        "移动": "https://chinaiptv.pages.dev/shandong/mobile.txt",
+        "电信": "https://chinaiptv.pages.dev/shandong/telecom.txt"
+    },
+    "上海": {
+        "联通": "https://chinaiptv.pages.dev/shanghai/unicom.txt",
+        "移动": "https://chinaiptv.pages.dev/shanghai/mobile.txt",
+        "电信": "https://chinaiptv.pages.dev/shanghai/telecom.txt"
+    },
+    "山西": {
+        "联通": "https://chinaiptv.pages.dev/shanxi/unicom.txt",
+        "移动": "https://chinaiptv.pages.dev/shanxi/mobile.txt",
+        "电信": "https://chinaiptv.pages.dev/shanxi/telecom.txt"
+    },
+    "四川": {
+        "联通": "https://chinaiptv.pages.dev/sichuan/unicom.txt",
+        "移动": "https://chinaiptv.pages.dev/sichuan/mobile.txt",
+        "电信": "https://chinaiptv.pages.dev/sichuan/telecom.txt"
+    },
+    "天津": {
+        "联通": "https://chinaiptv.pages.dev/tianjin/unicom.txt",
+        "移动": "https://chinaiptv.pages.dev/tianjin/mobile.txt",
+        "电信": "https://chinaiptv.pages.dev/tianjin/telecom.txt"
+    },
+    "新疆": {
+        "联通": "https://chinaiptv.pages.dev/xinjiang/unicom.txt",
+        "移动": "https://chinaiptv.pages.dev/xinjiang/mobile.txt",
+        "电信": "https://chinaiptv.pages.dev/xinjiang/telecom.txt"
+    },
+    "西藏": {
+        "联通": "https://chinaiptv.pages.dev/xizang/unicom.txt",
+        "移动": "https://chinaiptv.pages.dev/xizang/mobile.txt",
+        "电信": "https://chinaiptv.pages.dev/xizang/telecom.txt"
+    },
+    "云南": {
+        "联通": "https://chinaiptv.pages.dev/yunnan/unicom.txt",
+        "移动": "https://chinaiptv.pages.dev/yunnan/mobile.txt",
+        "电信": "https://chinaiptv.pages.dev/yunnan/telecom.txt"
+    },
+    "浙江": {
+        "联通": "https://chinaiptv.pages.dev/zhejiang/unicom.txt",
+        "移动": "https://chinaiptv.pages.dev/zhejiang/mobile.txt",
+        "电信": "https://chinaiptv.pages.dev/zhejiang/telecom.txt"
+    }
+}
