@@ -45,7 +45,7 @@ def is_ffmpeg_installed():
         return False
 
 
-async def ffmpeg_url(url, timeout):
+async def ffmpeg_url(url, timeout=timeout):
     """
     Get url info by ffmpeg
     """
@@ -56,7 +56,7 @@ async def ffmpeg_url(url, timeout):
         proc = await asyncio.create_subprocess_exec(
             *args, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
         )
-        out, err = await asyncio.wait_for(proc.communicate(), timeout=timeout)
+        out, err = await asyncio.wait_for(proc.communicate(), timeout=timeout + 15)
         if out:
             res = out.decode("utf-8")
         if err:
@@ -99,7 +99,7 @@ async def check_stream_speed(url_info):
     """
     try:
         url = url_info[0]
-        video_info = await ffmpeg_url(url, timeout)
+        video_info = await ffmpeg_url(url, timeout=timeout)
         if video_info is None:
             return float("inf")
         frame, resolution = get_video_info(video_info)
@@ -114,22 +114,21 @@ async def check_stream_speed(url_info):
         return float("inf")
 
 
-async def get_info_with_speed(url_info, semaphore):
+async def get_info_with_speed(url_info):
     """
     Get the info with speed
     """
-    async with semaphore:
-        url, _, _ = url_info
-        url_info = list(url_info)
-        if "$" in url:
-            url = url.split("$")[0]
-        url = quote(url, safe=":/?&=$[]")
-        url_info[0] = url
-        try:
-            speed = await check_stream_speed(url_info)
-            return speed
-        except Exception:
-            return float("inf")
+    url, _, _ = url_info
+    url_info = list(url_info)
+    if "$" in url:
+        url = url.split("$")[0]
+    url = quote(url, safe=":/?&=$[]")
+    url_info[0] = url
+    try:
+        speed = await check_stream_speed(url_info)
+        return speed
+    except Exception:
+        return float("inf")
 
 
 async def sort_urls_by_speed_and_resolution(infoList, ffmpeg=False):
@@ -137,9 +136,8 @@ async def sort_urls_by_speed_and_resolution(infoList, ffmpeg=False):
     Sort by speed and resolution
     """
     if ffmpeg:
-        semaphore = asyncio.Semaphore(10)
         response = await asyncio.gather(
-            *(get_info_with_speed(url_info, semaphore) for url_info in infoList)
+            *(get_info_with_speed(url_info) for url_info in infoList)
         )
         valid_response = [res for res in response if res != float("inf")]
     else:

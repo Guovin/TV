@@ -7,7 +7,7 @@ from utils.channel import (
     get_channel_multicast_region_type_list,
     get_channel_multicast_result,
 )
-from utils.tools import check_url_by_patterns, get_pbar_remaining, get_soup
+from utils.tools import get_pbar_remaining, get_soup
 from utils.config import get_config
 from proxy import get_proxy, get_proxy_next
 from time import time, sleep
@@ -19,7 +19,7 @@ from utils.retry import (
 )
 from selenium.webdriver.common.by import By
 from tqdm.asyncio import tqdm_asyncio
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from requests_custom.utils import get_soup_requests, close_session
 import urllib.parse as urlparse
 from urllib.parse import parse_qs
@@ -148,10 +148,8 @@ async def get_channels_by_multicast(names, callback):
         multicast_region_result, names
     )
     region_type_list = get_channel_multicast_region_type_list(name_region_type_result)
-    search_region_type_result = defaultdict(lambda: defaultdict(list))
 
-    def process_channel_by_multicast(params):
-        region, type = params
+    def process_channel_by_multicast(region, type):
         name = f"{region}{type}"
         info_list = []
         nonlocal proxy
@@ -172,17 +170,17 @@ async def get_channels_by_multicast(names, callback):
                 search_submit(driver, name)
             else:
                 page_soup = None
-                request_url = f"{pageUrl}?net={name}"
+                post_form = {"saerch": name}
                 code = None
                 try:
                     page_soup = retry_func(
-                        lambda: get_soup_requests(request_url, proxy=proxy),
+                        lambda: get_soup_requests(pageUrl, data=post_form, proxy=proxy),
                         name=f"multicast search:{name}",
                     )
                 except Exception as e:
                     if config.open_proxy:
                         proxy = get_proxy_next()
-                    page_soup = get_soup_requests(request_url, proxy=proxy)
+                    page_soup = get_soup_requests(pageUrl, data=post_form, proxy=proxy)
                 if not page_soup:
                     print(f"{name}:Request fail.")
                     return {"region": region, "type": type, "data": info_list}
@@ -265,10 +263,7 @@ async def get_channels_by_multicast(names, callback):
                         #             search_submit(driver, name)
                         #     retries += 1
                         #     continue
-                        for result in results:
-                            url, date, _, _ = result
-                            if url:
-                                info_list.append((url, date, None))
+                        info_list = info_list + results
                         # break
                     else:
                         print(f"{name}:No results found")
@@ -301,18 +296,25 @@ async def get_channels_by_multicast(names, callback):
     callback(
         f"正在进行组播更新, {len(names)}个频道, 共{region_type_list_len}个地区组播源", 0
     )
+    search_region_type_result = defaultdict(lambda: defaultdict(list))
     with ThreadPoolExecutor(max_workers=3) as executor:
-        futures = [
-            executor.submit(process_channel_by_multicast, (region, type))
-            for (region, type) in region_type_list
-        ]
-        for future in futures:
+        futures = {
+            executor.submit(process_channel_by_multicast, region, type): (region, type)
+            for region, type in region_type_list
+        }
+
+        for future in as_completed(futures):
+            region, type = futures[future]
             result = future.result()
-            region = result.get("region")
-            type = result.get("type")
-            data = result.get("data", [])
-            if region and type and data:
-                search_region_type_result[region][type] = data
+            data = result.get("data")
+
+            if data:
+                region_type_results = search_region_type_result[region][type]
+                for item in data:
+                    url = item.get("url")
+                    date = item.get("date")
+                    if url:
+                        region_type_results.append((url, date, None))
     channels = get_channel_multicast_result(
         name_region_type_result, search_region_type_result
     )

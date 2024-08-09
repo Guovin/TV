@@ -35,7 +35,7 @@ subscribe_urls = [
     "https://github.moeyy.xyz/https://raw.githubusercontent.com/PizazzGY/TVBox/main/live.txt",
 ]
 open_multicast = True
-region_list = ["all"]
+region_list = ["广东"]
 open_proxy = False
 open_driver = False
 open_use_old_result = True
