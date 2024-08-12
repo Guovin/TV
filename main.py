@@ -13,9 +13,9 @@ from utils.tools import (
     get_ip_address,
 )
 from utils.speed import is_ffmpeg_installed
-from subscribe import get_channels_by_subscribe_urls
-from multicast import get_channels_by_multicast
-from online_search import get_channels_by_online_search
+from updates.subscribe import get_channels_by_subscribe_urls
+from updates.multicast import get_channels_by_multicast
+from updates.online_search import get_channels_by_online_search
 import os
 from tqdm import tqdm
 from tqdm.asyncio import tqdm_asyncio
