@@ -83,10 +83,13 @@ jobs:
           if [[ -f "$final_file" ]]; then
             git add -f "$final_file"
           fi
-          if [[ -f user_result.log ]]; then
-            git add -f user_result.log
-          elif [[ -f result.log ]]; then
-            git add -f result.log
+          if [[ -f "result.txt" ]]; then
+            git add -f "result.txt"
+          fi
+          if [[ -f "output/user_result.log" ]]; then
+            git add -f "output/user_result.log"
+          elif [[ -f "output/result.log" ]]; then
+            git add -f "output/result.log"
           fi
           if ! git diff --staged --quiet; then
             git commit -m "Github Action Auto Updated"

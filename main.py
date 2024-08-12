@@ -22,6 +22,7 @@ from tqdm.asyncio import tqdm_asyncio
 from time import time
 from flask import Flask, render_template_string
 import sys
+import shutil
 
 config = get_config()
 
@@ -139,6 +140,13 @@ class UpdateSource:
             self.pbar.close()
             user_final_file = config.get("Settings", "final_file")
             update_file(user_final_file, "output/result_new.txt")
+            if os.path.exists(user_final_file):
+                result_file = (
+                    "user_result.txt"
+                    if os.path.exists("config/user_config.ini")
+                    else "result.txt"
+                )
+                shutil.copy(user_final_file, result_file)
             if config.getboolean("Settings", "open_sort"):
                 user_log_file = "output/" + (
                     "user_result.log"
