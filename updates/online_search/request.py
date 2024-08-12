@@ -7,7 +7,7 @@ from utils.channel import (
 )
 from utils.tools import check_url_by_patterns, get_pbar_remaining, get_soup
 from utils.config import get_config
-from proxy import get_proxy, get_proxy_next
+from updates.proxy import get_proxy, get_proxy_next
 from time import time, sleep
 from driver.setup import setup_driver
 from utils.retry import (
@@ -70,22 +70,31 @@ async def get_channels_by_online_search(names, callback):
     if not pageUrl:
         return channels
     proxy = None
-    if config.open_proxy:
+    open_proxy = config.getboolean("Settings", "open_proxy")
+    open_driver = config.getboolean("Settings", "open_driver")
+    favorite_list = [
+        favorite
+        for favorite in config.get("Settings", "favorite_list").split(",")
+        if favorite.strip()
+    ]
+    favorite_page_num = config.getint("Settings", "favorite_page_num")
+    default_page_num = config.getint("Settings", "default_page_num")
+    if open_proxy:
         proxy = await get_proxy(pageUrl, best=True, with_test=True)
     start_time = time()
 
     def process_channel_by_online_search(name):
+        nonlocal proxy, open_proxy, open_driver, favorite_list, favorite_page_num, default_page_num
         info_list = []
-        nonlocal proxy
         try:
-            if config.open_driver:
+            if open_driver:
                 driver = setup_driver(proxy)
                 try:
                     retry_func(
                         lambda: driver.get(pageUrl), name=f"online search:{name}"
                     )
                 except Exception as e:
-                    if config.open_proxy:
+                    if open_proxy:
                         proxy = get_proxy_next()
                     driver.close()
                     driver.quit()
@@ -101,25 +110,22 @@ async def get_channels_by_online_search(names, callback):
                         name=f"online search:{name}",
                     )
                 except Exception as e:
-                    if config.open_proxy:
+                    if open_proxy:
                         proxy = get_proxy_next()
                     page_soup = get_soup_requests(request_url, proxy=proxy)
                 if not page_soup:
                     print(f"{name}:Request fail.")
                     return
-            isFavorite = name in config.favorite_list
-            pageNum = (
-                config.favorite_page_num if isFavorite else config.default_page_num
-            )
+            pageNum = favorite_page_num if name in favorite_list else default_page_num
             retry_limit = 3
             for page in range(1, pageNum + 1):
                 retries = 0
-                if not config.open_driver and page == 1:
+                if not open_driver and page == 1:
                     retries = 2
                 while retries < retry_limit:
                     try:
                         if page > 1:
-                            if config.open_driver:
+                            if open_driver:
                                 page_link = find_clickable_element_with_retry(
                                     driver,
                                     (
@@ -141,14 +147,12 @@ async def get_channels_by_online_search(names, callback):
                                 )
                         sleep(1)
                         soup = (
-                            get_soup(driver.page_source)
-                            if config.open_driver
-                            else page_soup
+                            get_soup(driver.page_source) if open_driver else page_soup
                         )
                         if soup:
                             results = (
                                 get_results_from_soup(soup, name)
-                                if config.open_driver
+                                if open_driver
                                 else get_results_from_soup_requests(soup, name)
                             )
                             print(name, "page:", page, "results num:", len(results))
@@ -156,12 +160,12 @@ async def get_channels_by_online_search(names, callback):
                                 print(
                                     f"{name}:No results found, refreshing page and retrying..."
                                 )
-                                if config.open_driver:
+                                if open_driver:
                                     driver.refresh()
                                 retries += 1
                                 continue
                             elif len(results) <= 3:
-                                if config.open_driver:
+                                if open_driver:
                                     next_page_link = find_clickable_element_with_retry(
                                         driver,
                                         (
@@ -171,7 +175,7 @@ async def get_channels_by_online_search(names, callback):
                                         retries=1,
                                     )
                                     if next_page_link:
-                                        if config.open_proxy:
+                                        if open_proxy:
                                             proxy = get_proxy_next()
                                         driver.close()
                                         driver.quit()
@@ -188,7 +192,7 @@ async def get_channels_by_online_search(names, callback):
                             print(
                                 f"{name}:No results found, refreshing page and retrying..."
                             )
-                            if config.open_driver:
+                            if open_driver:
                                 driver.refresh()
                             retries += 1
                             continue
@@ -201,7 +205,7 @@ async def get_channels_by_online_search(names, callback):
             print(f"{name}:Error on search: {e}")
             pass
         finally:
-            if config.open_driver:
+            if open_driver:
                 driver.close()
                 driver.quit()
             pbar.update()
@@ -224,7 +228,7 @@ async def get_channels_by_online_search(names, callback):
             data = result.get("data", [])
             if name:
                 channels[name] = data
-    if not config.open_driver:
+    if not open_driver:
         close_session()
     pbar.close()
     return channels

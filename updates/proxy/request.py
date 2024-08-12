@@ -22,6 +22,7 @@ def get_proxy_list(page_count=1):
     ]
     proxy_list = []
     urls = []
+    open_driver = config.getboolean("Settings", "open_driver")
     for page_index in range(1, page_count + 1):
         for pattern in url_pattern:
             url = pattern.format(page_index)
@@ -29,9 +30,10 @@ def get_proxy_list(page_count=1):
     pbar = tqdm(total=len(urls), desc="Getting proxy list")
 
     def get_proxy(url):
+        nonlocal open_driver
         proxys = []
         try:
-            if config.open_driver:
+            if open_driver:
                 soup = retry_func(lambda: get_soup_driver(url), name=url)
             else:
                 try:
@@ -50,12 +52,12 @@ def get_proxy_list(page_count=1):
             pbar.update()
             return proxys
 
-    max_workers = 3 if config.open_driver else 10
+    max_workers = 3 if open_driver else 10
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         futures = [executor.submit(get_proxy, url) for url in urls]
         for future in futures:
             proxy_list.extend(future.result())
-    if not config.open_driver:
+    if not open_driver:
         close_session()
     pbar.close()
     return proxy_list

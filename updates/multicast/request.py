@@ -9,7 +9,7 @@ from utils.channel import (
 )
 from utils.tools import get_pbar_remaining, get_soup
 from utils.config import get_config
-from proxy import get_proxy, get_proxy_next
+from updates.proxy import get_proxy, get_proxy_next
 from time import time, sleep
 from driver.setup import setup_driver
 from utils.retry import (
@@ -23,7 +23,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from requests_custom.utils import get_soup_requests, close_session
 import urllib.parse as urlparse
 from urllib.parse import parse_qs
-from subscribe import get_channels_by_subscribe_urls
+from updates.subscribe import get_channels_by_subscribe_urls
 from driver.utils import get_soup_driver
 import json
 from collections import defaultdict
@@ -88,7 +88,7 @@ def get_region_urls_from_IPTV_Multicast_source():
         region_url[name]["联通"] = unicom
         region_url[name]["移动"] = mobile
         region_url[name]["电信"] = telecom
-    with open("multicast/multicast_map.json", "w", encoding="utf-8") as f:
+    with open("updates/multicast/multicast_map.json", "w", encoding="utf-8") as f:
         json.dump(region_url, f, ensure_ascii=False, indent=4)
 
 
@@ -96,9 +96,9 @@ def get_multicast_urls_info_from_region_list():
     """
     Get the multicast urls info from region
     """
-    region_list = getattr(config, "region_list", [])
+    region_list = config.get("Settings", "region_list").split(",")
     urls_info = []
-    with open("multicast/multicast_map.json", "r", encoding="utf-8") as f:
+    with open("updates/multicast/multicast_map.json", "r", encoding="utf-8") as f:
         region_url = json.load(f)
     if "all" in region_list:
         urls_info = [
@@ -125,7 +125,9 @@ async def get_multicast_region_result():
     multicast_result = await get_channels_by_subscribe_urls(
         urls=multicast_region_urls_info, multicast=True
     )
-    with open("multicast/multicast_region_result.json", "w", encoding="utf-8") as f:
+    with open(
+        "updates/multicast/multicast_region_result.json", "w", encoding="utf-8"
+    ) as f:
         json.dump(multicast_result, f, ensure_ascii=False, indent=4)
 
 
@@ -139,10 +141,15 @@ async def get_channels_by_multicast(names, callback):
     # if not pageUrl:
     #     return channels
     proxy = None
-    if config.open_proxy:
+    open_proxy = config.getboolean("Settings", "open_proxy")
+    open_driver = config.getboolean("Settings", "open_driver")
+    default_page_num = config.getint("Settings", "default_page_num")
+    if open_proxy:
         proxy = await get_proxy(pageUrl, best=True, with_test=True)
     start_time = time()
-    with open("multicast/multicast_region_result.json", "r", encoding="utf-8") as f:
+    with open(
+        "updates/multicast/multicast_region_result.json", "r", encoding="utf-8"
+    ) as f:
         multicast_region_result = json.load(f)
     name_region_type_result = get_channel_multicast_name_region_type_result(
         multicast_region_result, names
@@ -150,18 +157,18 @@ async def get_channels_by_multicast(names, callback):
     region_type_list = get_channel_multicast_region_type_list(name_region_type_result)
 
     def process_channel_by_multicast(region, type):
+        nonlocal proxy, open_driver, default_page_num
         name = f"{region}{type}"
         info_list = []
-        nonlocal proxy
         try:
-            if config.open_driver:
+            if open_driver:
                 driver = setup_driver(proxy)
                 try:
                     retry_func(
                         lambda: driver.get(pageUrl), name=f"multicast search:{name}"
                     )
                 except Exception as e:
-                    if config.open_proxy:
+                    if open_proxy:
                         proxy = get_proxy_next()
                     driver.close()
                     driver.quit()
@@ -178,7 +185,7 @@ async def get_channels_by_multicast(names, callback):
                         name=f"multicast search:{name}",
                     )
                 except Exception as e:
-                    if config.open_proxy:
+                    if open_proxy:
                         proxy = get_proxy_next()
                     page_soup = get_soup_requests(pageUrl, data=post_form, proxy=proxy)
                 if not page_soup:
@@ -192,19 +199,16 @@ async def get_channels_by_multicast(names, callback):
                         code = parse_qs(parsed_url.query).get("code", [None])[0]
                         if code:
                             break
-            isFavorite = name in config.favorite_list
-            pageNum = (
-                config.favorite_page_num if isFavorite else config.default_page_num
-            )
+            pageNum = default_page_num
             # retry_limit = 3
             for page in range(1, pageNum + 1):
                 # retries = 0
-                # if not config.open_driver and page == 1:
+                # if not open_driver and page == 1:
                 #     retries = 2
                 # while retries < retry_limit:
                 try:
                     if page > 1:
-                        if config.open_driver:
+                        if open_driver:
                             page_link = find_clickable_element_with_retry(
                                 driver,
                                 (
@@ -226,26 +230,22 @@ async def get_channels_by_multicast(names, callback):
                                 name=f"multicast search:{name}, page:{page}",
                             )
                     sleep(1)
-                    soup = (
-                        get_soup(driver.page_source)
-                        if config.open_driver
-                        else page_soup
-                    )
+                    soup = get_soup(driver.page_source) if open_driver else page_soup
                     if soup:
                         results = (
                             get_results_from_multicast_soup(soup)
-                            if config.open_driver
+                            if open_driver
                             else get_results_from_multicast_soup_requests(soup)
                         )
                         print(name, "page:", page, "results num:", len(results))
                         if len(results) == 0:
                             print(f"{name}:No results found")
-                            # if config.open_driver:
+                            # if open_driver:
                             #     driver.refresh()
                             # retries += 1
                             # continue
                         # elif len(results) <= 3:
-                        #     if config.open_driver:
+                        #     if open_driver:
                         #         next_page_link = find_clickable_element_with_retry(
                         #             driver,
                         #             (
@@ -255,7 +255,7 @@ async def get_channels_by_multicast(names, callback):
                         #             retries=1,
                         #         )
                         #         if next_page_link:
-                        #             if config.open_proxy:
+                        #             if open_proxy:
                         #                 proxy = get_proxy_next()
                         #             driver.close()
                         #             driver.quit()
@@ -267,7 +267,7 @@ async def get_channels_by_multicast(names, callback):
                         # break
                     else:
                         print(f"{name}:No results found")
-                        # if config.open_driver:
+                        # if open_driver:
                         #     driver.refresh()
                         # retries += 1
                         # continue
@@ -281,7 +281,7 @@ async def get_channels_by_multicast(names, callback):
             print(f"{name}:Error on search: {e}")
             pass
         finally:
-            if config.open_driver:
+            if open_driver:
                 driver.close()
                 driver.quit()
             pbar.update()
@@ -318,7 +318,7 @@ async def get_channels_by_multicast(names, callback):
     channels = get_channel_multicast_result(
         name_region_type_result, search_region_type_result
     )
-    if not config.open_driver:
+    if not open_driver:
         close_session()
     pbar.close()
     return channels

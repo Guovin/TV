@@ -35,10 +35,12 @@ jobs:
         run: |
           echo "OPEN_DRIVER=$(python -c '
           try:
-            import user_config as config
-          except ImportError:
-            import config
-          print(config.open_driver)')" >> $GITHUB_ENV
+            from utils.config import get_config
+            config = get_config()
+            open_driver = config.getboolean("Settings", "open_driver")
+          except:
+            open_driver = False
+          print(open_driver)')" >> $GITHUB_ENV
       - name: Install Selenium
         if: env.OPEN_DRIVER == 'True'
         run: |
@@ -72,17 +74,22 @@ jobs:
           git diff
           final_file=$(python -c '
           try: 
-            import user_config as config
-          except ImportError: 
-            import config
-          print(config.final_file)')
+            from utils.config import get_config
+            config = get_config()
+            final_file = config.get("Settings", "final_file")
+          except: 
+            final_file = "output/result.txt"
+          print(final_file)')
           if [[ -f "$final_file" ]]; then
             git add -f "$final_file"
           fi
-          if [[ -f user_result.log ]]; then
-            git add -f user_result.log
-          elif [[ -f result.log ]]; then
-            git add -f result.log
+          if [[ -f "result.txt" ]]; then
+            git add -f "result.txt"
+          fi
+          if [[ -f "output/user_result.log" ]]; then
+            git add -f "output/user_result.log"
+          elif [[ -f "output/result.log" ]]; then
+            git add -f "output/result.log"
           fi
           if ! git diff --staged --quiet; then
             git commit -m "Github Action Auto Updated"

@@ -3,13 +3,13 @@ from tqdm.asyncio import tqdm_asyncio
 from time import time
 from requests import get
 from concurrent.futures import ThreadPoolExecutor
-import fofa.fofa_map as fofa_map
+import updates.fofa.fofa_map as fofa_map
 from driver.setup import setup_driver
 import re
 from utils.retry import retry_func
 from utils.channel import format_channel_name
 from utils.tools import merge_objects, get_pbar_remaining
-from proxy import get_proxy, get_proxy_next
+from updates.proxy import get_proxy, get_proxy_next
 from requests_custom.utils import get_source_requests, close_session
 
 config = get_config()
@@ -20,7 +20,7 @@ def get_fofa_urls_from_region_list():
     """
     Get the FOFA url from region
     """
-    region_list = getattr(config, "region_list", [])
+    region_list = config.get("Settings", "region_list").split(",")
     urls = []
     region_url = getattr(fofa_map, "region_url")
     if "all" in region_list:
@@ -43,19 +43,21 @@ async def get_channels_by_fofa(callback):
     fofa_results = {}
     callback(f"正在获取组播源更新, 共{fofa_urls_len}个地区", 0)
     proxy = None
-    if config.open_proxy:
+    open_proxy = config.getboolean("Settings", "open_proxy")
+    open_driver = config.getboolean("Settings", "open_driver")
+    if open_proxy:
         proxy = await get_proxy(fofa_urls[0], best=True, with_test=True)
 
     def process_fofa_channels(fofa_url):
-        nonlocal proxy, fofa_urls_len
+        nonlocal proxy, fofa_urls_len, open_driver
         results = {}
         try:
-            if config.open_driver:
+            if open_driver:
                 driver = setup_driver(proxy)
                 try:
                     retry_func(lambda: driver.get(fofa_url), name=fofa_url)
                 except Exception as e:
-                    if config.open_proxy:
+                    if open_proxy:
                         proxy = get_proxy_next()
                     driver.close()
                     driver.quit()
@@ -76,7 +78,7 @@ async def get_channels_by_fofa(callback):
         except Exception as e:
             print(e)
         finally:
-            if config.open_driver:
+            if open_driver:
                 driver.close()
                 driver.quit()
             pbar.update()
@@ -85,18 +87,16 @@ async def get_channels_by_fofa(callback):
                 f"正在获取组播源更新, 剩余{remain}个地区待获取, 预计剩余时间: {get_pbar_remaining(pbar, start_time)}",
                 int((pbar.n / fofa_urls_len) * 100),
             )
-            if config.open_online_search and pbar.n / fofa_urls_len == 1:
-                callback("正在获取在线搜索结果, 请耐心等待", 0)
             return results
 
-    max_workers = 3 if config.open_driver else 10
+    max_workers = 3 if open_driver else 10
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         futures = [
             executor.submit(process_fofa_channels, fofa_url) for fofa_url in fofa_urls
         ]
         for future in futures:
             fofa_results = merge_objects(fofa_results, future.result())
-    if not config.open_driver:
+    if not open_driver:
         close_session()
     pbar.close()
     return fofa_results

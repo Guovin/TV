@@ -11,7 +11,14 @@ from opencc import OpenCC
 
 config = get_config()
 
-handler = RotatingFileHandler("result_new.log", encoding="utf-8")
+log_dir = "output"
+log_file = "result_new.log"
+log_path = os.path.join(log_dir, log_file)
+
+if not os.path.exists(log_dir):
+    os.makedirs(log_dir)
+
+handler = RotatingFileHandler(log_path, encoding="utf-8")
 logging.basicConfig(
     handlers=[handler],
     format="%(message)s",
@@ -46,28 +53,17 @@ def get_channel_items():
     """
     Get the channel items from the source file
     """
-    # Open the source file and read all lines.
-    user_source_file = (
-        "user_" + config.source_file
-        if os.path.exists("user_" + config.source_file)
-        else getattr(config, "source_file", "demo.txt")
-    )
-
-    # Open the old final file and read all lines.
-    user_final_file = (
-        "user_" + config.final_file
-        if os.path.exists("user_" + config.final_file)
-        else getattr(config, "final_file", "result.txt")
-    )
-
-    # Create a dictionary to store the channels.
+    user_source_file = config.get("Settings", "source_file")
+    user_final_file = config.get("Settings", "final_file")
     channels = defaultdict(lambda: defaultdict(list))
 
     if os.path.exists(resource_path(user_source_file)):
         with open(resource_path(user_source_file), "r", encoding="utf-8") as file:
             channels = get_channel_data_from_file(channels, file)
 
-    if config.open_use_old_result and os.path.exists(resource_path(user_final_file)):
+    if config.getboolean("Settings", "open_use_old_result") and os.path.exists(
+        resource_path(user_final_file)
+    ):
         with open(resource_path(user_final_file), "r", encoding="utf-8") as file:
             channels = get_channel_data_from_file(channels, file)
 
@@ -78,7 +74,7 @@ def format_channel_name(name):
     """
     Format the channel name with sub and replace and lower
     """
-    if config.open_keep_all:
+    if config.getboolean("Settings", "open_keep_all"):
         return name
     sub_pattern = (
         r"-|_|\((.*?)\)|\[(.*?)\]| |频道|标清|高清|HD|hd|超清|超高|超高清|中央|央视|台"
@@ -122,7 +118,7 @@ def channel_name_is_equal(name1, name2):
     """
     Check if the channel name is equal
     """
-    if config.open_keep_all:
+    if config.getboolean("Settings", "open_keep_all"):
         return True
     cc = OpenCC("t2s")
     name1_converted = cc.convert(format_channel_name(name1))
@@ -214,7 +210,7 @@ def get_channel_multicast_region_type_list(result):
     """
     Get the channel multicast region type list from result
     """
-    config_region_list = set(getattr(config, "region_list", []))
+    config_region_list = set(config.get("Settings", "region_list").split(","))
     region_type_list = {
         (region, type)
         for region_type in result.values()
@@ -376,7 +372,7 @@ def update_channel_urls_txt(cate, name, urls):
     Update the category and channel urls to the final file
     """
     genre_line = cate + ",#genre#\n"
-    filename = "result_new.txt"
+    filename = "output/result_new.txt"
 
     if not os.path.exists(filename):
         open(filename, "w").close()
@@ -465,7 +461,7 @@ def append_total_data(*args, **kwargs):
     """
     Append total channel data
     """
-    if config.open_keep_all:
+    if config.getboolean("Settings", "open_keep_all"):
         return append_all_method_data_keep_all(*args, **kwargs)
     else:
         return append_all_method_data(*args, **kwargs)
@@ -484,7 +480,7 @@ def append_all_method_data(
                 ("multicast", multicast_result),
                 ("online_search", online_search_result),
             ]:
-                if getattr(config, f"open_{method}"):
+                if config.getboolean("Settings", f"open_{method}"):
                     data = append_data_to_info_data(
                         data,
                         cate,
@@ -497,7 +493,9 @@ def append_all_method_data(
                         len(get_channel_results_by_name(name, result)),
                     )
             total_channel_data_len = len(data.get(cate, {}).get(name, []))
-            if total_channel_data_len == 0 or config.open_use_old_result:
+            if total_channel_data_len == 0 or config.getboolean(
+                "Settings", "open_use_old_result"
+            ):
                 data = append_data_to_info_data(
                     data,
                     cate,
@@ -524,11 +522,11 @@ def append_all_method_data_keep_all(
             ("multicast", multicast_result),
             ("online_search", online_search_result),
         ]:
-            if result and getattr(config, f"open_{result_name}"):
+            if result and config.getboolean("Settings", f"open_{result_name}"):
                 for name, urls in result.items():
                     data = append_data_to_info_data(data, cate, name, urls)
                     print(name, f"{result_name.capitalize()} num:", len(urls))
-                    if config.open_use_old_result:
+                    if config.getboolean("Settings", "open_use_old_result"):
                         old_urls = channel_obj.get(name, [])
                         data = append_data_to_info_data(
                             data,
