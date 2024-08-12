@@ -3,13 +3,13 @@ from tqdm.asyncio import tqdm_asyncio
 from time import time
 from requests import get
 from concurrent.futures import ThreadPoolExecutor
-import fofa.fofa_map as fofa_map
+import updates.fofa.fofa_map as fofa_map
 from driver.setup import setup_driver
 import re
 from utils.retry import retry_func
 from utils.channel import format_channel_name
 from utils.tools import merge_objects, get_pbar_remaining
-from proxy import get_proxy, get_proxy_next
+from updates.proxy import get_proxy, get_proxy_next
 from requests_custom.utils import get_source_requests, close_session
 
 config = get_config()

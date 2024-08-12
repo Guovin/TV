@@ -7,7 +7,7 @@ from utils.channel import (
 )
 from utils.tools import check_url_by_patterns, get_pbar_remaining, get_soup
 from utils.config import get_config
-from proxy import get_proxy, get_proxy_next
+from updates.proxy import get_proxy, get_proxy_next
 from time import time, sleep
 from driver.setup import setup_driver
 from utils.retry import (

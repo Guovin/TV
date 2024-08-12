@@ -9,7 +9,7 @@ from utils.channel import (
 )
 from utils.tools import get_pbar_remaining, get_soup
 from utils.config import get_config
-from proxy import get_proxy, get_proxy_next
+from updates.proxy import get_proxy, get_proxy_next
 from time import time, sleep
 from driver.setup import setup_driver
 from utils.retry import (
@@ -23,7 +23,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from requests_custom.utils import get_soup_requests, close_session
 import urllib.parse as urlparse
 from urllib.parse import parse_qs
-from subscribe import get_channels_by_subscribe_urls
+from updates.subscribe import get_channels_by_subscribe_urls
 from driver.utils import get_soup_driver
 import json
 from collections import defaultdict
