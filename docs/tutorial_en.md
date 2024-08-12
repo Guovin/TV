@@ -38,20 +38,20 @@ When you click to confirm and create in step one, you will be automatically redi
 
 Similar to editing the template, modify the running configuration
 
-### 1. Click on the config.py configuration file:
+### 1. Click on the config.ini configuration file:
 
-![config.py Entrance](./images/config-btn.png 'config.py Entrance')
+![config.ini Entrance](./images/config-btn.png 'config.ini Entrance')
 
 ### 2. Copy the default configuration file content:
 
-![Copy config.py](./images/copy-config.png 'Copy default template')
+![Copy config.ini](./images/copy-config.png 'Copy default template')
 
-### 3. Create a personal configuration file user_config.py:
+### 3. Create a personal configuration file user_config.ini:
 
-![Create user_config.py](./images/edit-user-config.png 'Create user_config.py')
+![Create user_config.ini](./images/edit-user-config.png 'Create user_config.ini')
 
 1. Create file
-2. Name the configuration file user_config.py
+2. Name the configuration file user_config.ini
 3. Paste the default template, modify source_file = "user_demo.txt"; final_file = "user_result.txt"
 4. Click Commit changes... to save.
 
@@ -102,10 +102,13 @@ docker pull guovern/tv-driver:latest
 docker run -d -p 8000:8000 guovern/tv-requests or driver
 
 Volume Mount Parameter (Optional):
--v host path/TV:/tv-requests or tv-driver
-
 This allows synchronization of files between the host machine and the container. Modifying templates, configurations, and retrieving updated result files can be directly operated in the host machine's folder.
-Note: Before running the container with this command, be sure to first clone this project to the host machine.
+
+config:
+-v <path>/config:/tv-requests/config or tv-driver/config
+
+result:
+-v <path>/output:/tv-requests/output or tv-driver/output
 
 3. Check the update results: Visit (domain:8000)
 ```

@@ -18,7 +18,7 @@ class TkinterUI:
     def __init__(self, root):
         self.root = root
         self.root.title("直播源接口更新工具")
-        self.version = "v1.3.4"
+        self.version = "v1.3.5"
         self.update_source = UpdateSource()
         self.update_running = False
         self.config_entrys = [
