@@ -19,7 +19,12 @@ async def get_channels_by_subscribe_urls(urls=None, multicast=False, callback=No
     """
     subscribe_results = {}
     pattern = r"^(.*?),(?!#genre#)(.*?)$"
-    subscribe_urls_len = len(urls if urls else config.subscribe_urls)
+    subscribe_urls = [
+        url
+        for url in config.get("Settings", "subscribe_urls").split(",")
+        if url.strip()
+    ]
+    subscribe_urls_len = len(urls if urls else subscribe_urls)
     pbar = tqdm_asyncio(total=subscribe_urls_len, desc="Processing subscribe")
     start_time = time()
     if callback:
@@ -84,7 +89,7 @@ async def get_channels_by_subscribe_urls(urls=None, multicast=False, callback=No
     with ThreadPoolExecutor(max_workers=100) as executor:
         futures = [
             executor.submit(process_subscribe_channels, subscribe_url)
-            for subscribe_url in (urls if urls else config.subscribe_urls)
+            for subscribe_url in (urls if urls else subscribe_urls)
         ]
         for future in futures:
             subscribe_results = merge_objects(subscribe_results, future.result())

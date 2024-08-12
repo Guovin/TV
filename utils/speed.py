@@ -160,10 +160,13 @@ async def sort_urls_by_speed_and_resolution(infoList, ffmpeg=False):
 
     default_response_time_weight = 0.5
     default_resolution_weight = 0.5
-    response_time_weight = getattr(
-        config, "response_time_weight", default_response_time_weight
+    response_time_weight = (
+        config.getfloat("Settings", "response_time_weight")
+        or default_response_time_weight
     )
-    resolution_weight = getattr(config, "resolution_weight", default_resolution_weight)
+    resolution_weight = (
+        config.getfloat("Settings", "resolution_weight") or default_resolution_weight
+    )
     # Check if weights are valid
     if not (
         0 <= response_time_weight <= 1

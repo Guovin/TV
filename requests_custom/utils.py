@@ -2,7 +2,6 @@ import requests
 import re
 from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
-from time import sleep
 
 headers = {
     "Accept": "*/*",

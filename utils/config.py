@@ -1,6 +1,8 @@
 from os import path
 import sys
-from importlib import util
+
+# from importlib import util
+import configparser
 
 
 def resource_path(relative_path, persistent=False):
@@ -19,29 +21,33 @@ def resource_path(relative_path, persistent=False):
             return total_path
 
 
-def load_external_config(config_path):
-    """
-    Load the external config file
-    """
-    config = None
-    if path.exists(config_path):
-        spec = util.spec_from_file_location("config", config_path)
-        config = util.module_from_spec(spec)
-        spec.loader.exec_module(config)
-    else:
-        import config
-    return config
+# def load_external_config(config_path):
+#     """
+#     Load the external config file
+#     """
+#     config = None
+#     if path.exists(config_path):
+#         spec = util.spec_from_file_location("config", config_path)
+#         config = util.module_from_spec(spec)
+#         spec.loader.exec_module(config)
+#     else:
+#         import config.config as config
+#     return config
 
 
 def get_config():
     """
     Get the config
     """
-    user_config_path = resource_path("user_config.py")
-    default_config_path = resource_path("config.py")
-    config = (
-        load_external_config(user_config_path)
-        if path.exists(user_config_path)
-        else load_external_config(default_config_path)
-    )
-    return config
+    config_parser = configparser.ConfigParser()
+    user_config_path = resource_path("config/user_config.ini")
+    default_config_path = resource_path("config/config.ini")
+
+    config_files = [user_config_path, default_config_path]
+    for config_file in config_files:
+        if path.exists(config_file):
+            with open(config_file, "r", encoding="utf-8") as f:
+                config_parser.read_file(f)
+            break
+
+    return config_parser

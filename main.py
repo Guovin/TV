@@ -30,7 +30,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def show_result():
-    user_final_file = getattr(config, "final_file", "result.txt")
+    user_final_file = config.get("Settings", "final_file")
     with open(user_final_file, "r", encoding="utf-8") as file:
         content = file.read()
     return render_template_string("<pre>{{ content }}</pre>", content=content)
@@ -51,19 +51,19 @@ class UpdateSource:
         self.start_time = None
 
     async def visit_page(self, channel_names=None):
-        if config.open_subscribe:
+        if config.getboolean("Settings", "open_subscribe"):
             subscribe_task = asyncio.create_task(
                 get_channels_by_subscribe_urls(callback=self.update_progress)
             )
             self.tasks.append(subscribe_task)
             self.subscribe_result = await subscribe_task
-        if config.open_multicast:
+        if config.getboolean("Settings", "open_multicast"):
             multicast_task = asyncio.create_task(
                 get_channels_by_multicast(channel_names, self.update_progress)
             )
             self.tasks.append(multicast_task)
             self.multicast_result = await multicast_task
-        if config.open_online_search:
+        if config.getboolean("Settings", "open_online_search"):
             online_search_task = asyncio.create_task(
                 get_channels_by_online_search(channel_names, self.update_progress)
             )
@@ -94,7 +94,7 @@ class UpdateSource:
                 self.multicast_result,
                 self.online_search_result,
             )
-            if config.open_sort:
+            if config.getboolean("Settings", "open_sort"):
                 is_ffmpeg = is_ffmpeg_installed()
                 if not is_ffmpeg:
                     print("FFmpeg is not installed, using requests for sorting.")
@@ -137,15 +137,15 @@ class UpdateSource:
                 lambda: self.pbar_update("写入结果"),
             )
             self.pbar.close()
-            user_final_file = getattr(config, "final_file", "result.txt")
-            update_file(user_final_file, "result_new.txt")
-            if config.open_sort:
-                user_log_file = (
+            user_final_file = config.get("Settings", "final_file")
+            update_file(user_final_file, "output/result_new.txt")
+            if config.getboolean("Settings", "open_sort"):
+                user_log_file = "output/" + (
                     "user_result.log"
-                    if os.path.exists("user_config.py")
+                    if os.path.exists("config/user_config.ini")
                     else "result.log"
                 )
-                update_file(user_log_file, "result_new.log")
+                update_file(user_log_file, "output/result_new.log")
             print(f"Update completed! Please check the {user_final_file} file!")
             if not os.environ.get("GITHUB_ACTIONS"):
                 print(f"You can access the result at {get_ip_address()}")
@@ -165,10 +165,10 @@ class UpdateSource:
 
         self.update_progress = callback or default_callback
         self.run_ui = True if callback else False
-        if config.open_update:
+        if config.getboolean("Settings", "open_update"):
             await self.main()
         if self.run_ui:
-            if not config.open_update:
+            if not config.getboolean("Settings", "open_update"):
                 print(f"You can access the result at {get_ip_address()}")
                 self.update_progress(
                     f"服务启动成功, 可访问以下链接:",
@@ -187,7 +187,7 @@ class UpdateSource:
 
 
 def scheduled_task():
-    if config.open_update:
+    if config.getboolean("Settings", "open_update"):
         update_source = UpdateSource()
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
