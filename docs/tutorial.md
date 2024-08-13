@@ -38,20 +38,20 @@
 
 跟编辑模板一样，修改运行配置
 
-### 1. 点击 config.py 配置文件：
+### 1. 点击 config.ini 配置文件：
 
-![config.py入口](./images/config-btn.png 'config.py入口')
+![config.ini入口](./images/config-btn.png 'config.ini入口')
 
 ### 2. 复制默认配置文件内容：
 
-![copy config.py](./images/copy-config.png '复制默认模板')
+![copy config.ini](./images/copy-config.png '复制默认模板')
 
-### 3. 新建个人配置文件 user_config.py：
+### 3. 新建个人配置文件 user_config.ini：
 
-![创建user_config.py](./images/edit-user-config.png '创建user_config.py')
+![创建user_config.ini](./images/edit-user-config.png '创建user_config.ini')
 
 1. 创建文件
-2. 配置文件命名为 user_config.py
+2. 配置文件命名为 user_config.ini
 3. 粘贴默认模板，修改 source_file = "user_demo.txt"；final_file = "user_result.txt"
 4. 点击 Commit changes...进行保存
 
@@ -102,10 +102,13 @@ docker pull guovern/tv-driver:latest
 docker run -d -p 8000:8000 guovern/tv-requests 或 tv-driver
 
 卷挂载参数（可选）：
--v 宿主机路径/TV:/tv-requests 或 tv-driver
-
 实现宿主机文件与容器文件同步，修改模板、配置、获取更新结果文件可直接在宿主机文件夹下操作
-注：使用此命令运行容器，请务必先clone本项目至宿主机
+
+配置文件：
+-v 宿主机路径/config:/tv-requests/config 或 tv-driver/config
+
+结果文件：
+-v 宿主机路径/output:/tv-requests/output 或 tv-driver/output
 
 3. 查看更新结果：访问（域名:8000）
 ```
