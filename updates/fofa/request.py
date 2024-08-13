@@ -1,4 +1,4 @@
-from utils.config import get_config
+from utils.config import config
 from tqdm.asyncio import tqdm_asyncio
 from time import time
 from requests import get
@@ -12,7 +12,6 @@ from utils.tools import merge_objects, get_pbar_remaining
 from updates.proxy import get_proxy, get_proxy_next
 from requests_custom.utils import get_source_requests, close_session
 
-config = get_config()
 timeout = 30
 
 

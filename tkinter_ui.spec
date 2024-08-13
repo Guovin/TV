@@ -5,7 +5,12 @@ a = Analysis(
     ['tkinter_ui.py'],
     pathex=[],
     binaries=[],
-    datas=[('demo.txt', '.')],
+    datas=[
+        ('config/config.ini', 'config'),
+        ('config/demo.txt', 'config'),
+        ('updates/multicast/multicast_map.json', 'updates/multicast'),
+        ('updates/multicast/multicast_region_result.json', 'updates/multicast')
+    ],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},

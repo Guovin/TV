@@ -1,4 +1,4 @@
-from utils.config import get_config, resource_path
+from utils.config import config, resource_path
 from utils.tools import check_url_by_patterns, get_total_urls_from_info_list
 from utils.speed import sort_urls_by_speed_and_resolution
 import os
@@ -8,8 +8,6 @@ from bs4 import NavigableString
 import logging
 from logging.handlers import RotatingFileHandler
 from opencc import OpenCC
-
-config = get_config()
 
 log_dir = "output"
 log_file = "result_new.log"

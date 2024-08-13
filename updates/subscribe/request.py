@@ -1,4 +1,4 @@
-from utils.config import get_config
+from utils.config import config
 from tqdm.asyncio import tqdm_asyncio
 from time import time
 from requests import Session, exceptions
@@ -9,7 +9,6 @@ from utils.tools import merge_objects, get_pbar_remaining
 from concurrent.futures import ThreadPoolExecutor
 from collections import defaultdict
 
-config = get_config()
 timeout = 30
 
 

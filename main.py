@@ -1,5 +1,5 @@
 import asyncio
-from utils.config import get_config
+from utils.config import config
 from utils.channel import (
     get_channel_items,
     append_data_to_info_data,
@@ -23,8 +23,6 @@ from time import time
 from flask import Flask, render_template_string
 import sys
 import shutil
-
-config = get_config()
 
 app = Flask(__name__)
 

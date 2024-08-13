@@ -3,11 +3,9 @@ from time import time
 import asyncio
 import re
 from urllib.parse import quote
-from utils.config import get_config
+from utils.config import config
 import subprocess
 
-
-config = get_config()
 timeout = 15
 
 

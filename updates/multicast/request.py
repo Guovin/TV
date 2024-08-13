@@ -8,7 +8,7 @@ from utils.channel import (
     get_channel_multicast_result,
 )
 from utils.tools import get_pbar_remaining, get_soup
-from utils.config import get_config
+from utils.config import config, resource_path
 from updates.proxy import get_proxy, get_proxy_next
 from time import time, sleep
 from driver.setup import setup_driver
@@ -27,8 +27,6 @@ from updates.subscribe import get_channels_by_subscribe_urls
 from driver.utils import get_soup_driver
 import json
 from collections import defaultdict
-
-config = get_config()
 
 
 async def use_accessible_url(callback):
@@ -88,7 +86,9 @@ def get_region_urls_from_IPTV_Multicast_source():
         region_url[name]["联通"] = unicom
         region_url[name]["移动"] = mobile
         region_url[name]["电信"] = telecom
-    with open("updates/multicast/multicast_map.json", "w", encoding="utf-8") as f:
+    with open(
+        resource_path("updates/multicast/multicast_map.json"), "w", encoding="utf-8"
+    ) as f:
         json.dump(region_url, f, ensure_ascii=False, indent=4)
 
 
@@ -98,7 +98,9 @@ def get_multicast_urls_info_from_region_list():
     """
     region_list = config.get("Settings", "region_list").split(",")
     urls_info = []
-    with open("updates/multicast/multicast_map.json", "r", encoding="utf-8") as f:
+    with open(
+        resource_path("updates/multicast/multicast_map.json"), "r", encoding="utf-8"
+    ) as f:
         region_url = json.load(f)
     if "all" in region_list:
         urls_info = [
@@ -126,7 +128,9 @@ async def get_multicast_region_result():
         urls=multicast_region_urls_info, multicast=True
     )
     with open(
-        "updates/multicast/multicast_region_result.json", "w", encoding="utf-8"
+        resource_path("updates/multicast/multicast_region_result.json"),
+        "w",
+        encoding="utf-8",
     ) as f:
         json.dump(multicast_result, f, ensure_ascii=False, indent=4)
 
@@ -148,7 +152,9 @@ async def get_channels_by_multicast(names, callback):
         proxy = await get_proxy(pageUrl, best=True, with_test=True)
     start_time = time()
     with open(
-        "updates/multicast/multicast_region_result.json", "r", encoding="utf-8"
+        resource_path("updates/multicast/multicast_region_result.json"),
+        "r",
+        encoding="utf-8",
     ) as f:
         multicast_region_result = json.load(f)
     name_region_type_result = get_channel_multicast_name_region_type_result(

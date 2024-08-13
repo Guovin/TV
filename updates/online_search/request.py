@@ -6,7 +6,7 @@ from utils.channel import (
     get_results_from_soup_requests,
 )
 from utils.tools import check_url_by_patterns, get_pbar_remaining, get_soup
-from utils.config import get_config
+from utils.config import config
 from updates.proxy import get_proxy, get_proxy_next
 from time import time, sleep
 from driver.setup import setup_driver
@@ -19,8 +19,6 @@ from selenium.webdriver.common.by import By
 from tqdm.asyncio import tqdm_asyncio
 from concurrent.futures import ThreadPoolExecutor
 from requests_custom.utils import get_soup_requests, close_session
-
-config = get_config()
 
 
 async def use_accessible_url(callback):
