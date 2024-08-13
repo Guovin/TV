@@ -3,12 +3,10 @@ from tqdm import tqdm
 from tqdm.asyncio import tqdm_asyncio
 from utils.speed import get_speed
 from concurrent.futures import ThreadPoolExecutor
-from utils.config import get_config
+from utils.config import config
 from driver.utils import get_soup_driver
 from requests_custom.utils import get_soup_requests, close_session
 from utils.retry import retry_func
-
-config = get_config()
 
 
 def get_proxy_list(page_count=1):

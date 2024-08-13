@@ -5,11 +5,9 @@ import urllib.parse
 import ipaddress
 from urllib.parse import urlparse
 import socket
-from utils.config import get_config, resource_path
+from utils.config import config, resource_path
 import re
 from bs4 import BeautifulSoup
-
-config = get_config()
 
 
 def get_pbar_remaining(pbar, start_time):

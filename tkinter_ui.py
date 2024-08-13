@@ -3,15 +3,13 @@ from tkinter import messagebox
 from tkinter import scrolledtext
 from tkinter import ttk
 from tkinter import filedialog
-from utils.config import get_config, resource_path
+from utils.config import config, resource_path
 from main import UpdateSource
 import os
 import asyncio
 import threading
 import webbrowser
 import json
-
-config = get_config()
 
 
 class TkinterUI:
@@ -196,11 +194,13 @@ class TkinterUI:
         for key, value in config_values.items():
             config.set("Settings", key, str(value))
         user_config_file = "config/" + (
-            "user_config.ini" if os.path.exists("user_config.ini") else "config.ini"
+            "user_config.ini"
+            if os.path.exists(resource_path("user_config.ini"))
+            else "config.ini"
         )
-        with open(
-            resource_path(user_config_file, persistent=True), "w", encoding="utf-8"
-        ) as configfile:
+        user_config_path = resource_path(user_config_file, persistent=True)
+        os.makedirs(os.path.dirname(user_config_path), exist_ok=True)
+        with open(user_config_path, "w", encoding="utf-8") as configfile:
             config.write(configfile)
         messagebox.showinfo("提示", "保存成功")
 
@@ -653,7 +653,9 @@ class TkinterUI:
 
         self.region_list_label = tk.Label(frame4_region_list, text="组播地区:", width=9)
         self.region_list_label.pack(side=tk.LEFT, padx=4, pady=8)
-        with open("updates/multicast/multicast_map.json", "r", encoding="utf-8") as f:
+        with open(
+            resource_path("updates/multicast/multicast_map.json"), "r", encoding="utf-8"
+        ) as f:
             regions_obj = json.load(f)
             regions = list(regions_obj.keys())
         region_selected_values = [
@@ -745,7 +747,7 @@ class MultiSelectCombobox(ttk.Combobox):
         self.update_values()
 
     def on_select(self, event):
-        selected_value = self.get()
+        selected_value = self.get().strip()
         if selected_value in self.selected_values:
             self.selected_values.remove(selected_value)
         else:
@@ -753,7 +755,7 @@ class MultiSelectCombobox(ttk.Combobox):
         self.update_values()
 
     def update_values(self):
-        display_text = ", ".join(self.selected_values)
+        display_text = ",".join(self.selected_values)
         self.set(display_text)
 
 

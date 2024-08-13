@@ -1,7 +1,5 @@
 from os import path
 import sys
-
-# from importlib import util
 import configparser
 
 
@@ -21,20 +19,6 @@ def resource_path(relative_path, persistent=False):
             return total_path
 
 
-# def load_external_config(config_path):
-#     """
-#     Load the external config file
-#     """
-#     config = None
-#     if path.exists(config_path):
-#         spec = util.spec_from_file_location("config", config_path)
-#         config = util.module_from_spec(spec)
-#         spec.loader.exec_module(config)
-#     else:
-#         import config.config as config
-#     return config
-
-
 def get_config():
     """
     Get the config
@@ -51,3 +35,6 @@ def get_config():
             break
 
     return config_parser
+
+
+config = get_config()

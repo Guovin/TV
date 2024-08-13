@@ -35,8 +35,7 @@ jobs:
         run: |
           echo "OPEN_DRIVER=$(python -c '
           try:
-            from utils.config import get_config
-            config = get_config()
+            from utils.config import config
             open_driver = config.getboolean("Settings", "open_driver")
           except:
             open_driver = False
@@ -74,8 +73,7 @@ jobs:
           git diff
           final_file=$(python -c '
           try: 
-            from utils.config import get_config
-            config = get_config()
+            from utils.config import config
             final_file = config.get("Settings", "final_file")
           except: 
             final_file = "output/result.txt"
