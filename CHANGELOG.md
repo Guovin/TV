@@ -2,13 +2,13 @@
 
 ## v1.3.5
 
-### 2024/8/12
+### 2024/8/13
 
-- 新增支持地区组播 ip 更新，调整默认以此模式运行，基本实现高清流畅播放（#225）
-- 新增支持使用 FFmpeg 进行测速排序、获取分辨率信息
-- 接口源增加分辨率信息，用于源切换时显示
-- 调整配置文件与结果文件路径（config、output 目录），方便 docker 卷挂载（#226）
-- 修改配置文件类型（config.ini）
+- 新增支持地区组播 ip 更新，调整默认以此模式运行，基本实现高清流畅播放（#225）（Added support for updating multicast IP for new regions and adjusted the default to run in this mode, basically achieving high-definition smooth playback (#225)）
+- 新增支持使用 FFmpeg 进行测速排序、获取分辨率信息（Added support for using FFmpeg for speed testing and sorting, and obtaining resolution information）
+- 接口源增加分辨率信息，用于源切换时显示（Added resolution information to the interface source for display during source switching）
+- 调整配置文件与结果文件路径（config、output 目录），方便 docker 卷挂载（#226）（Adjusted the paths for configuration and result files (config, output directories) to facilitate Docker volume mounting (#226)）
+- 修改配置文件类型（config.ini）（Modified the configuration file type (config.ini)）
 
 ## v1.3.4
 
