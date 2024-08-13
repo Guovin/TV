@@ -59,10 +59,10 @@ pipenv run ui
 
 ### Method 3: Docker Update
 
-- requests: Lightweight, low performance requirements, fast update speed, stability uncertain (Recommend using this version for the subscription source)
-- driver: Higher performance requirements, slower update speed, high stability, high success rate (Online search, multicast source use this version)
+- requests: Lightweight, low performance requirements, fast update speed, stability uncertain (Recommend using this version for the multicast source and the subscription source)
+- driver: Higher performance requirements, slower update speed, high stability, high success rate (Online search use this version)
 
-It's recommended to try each one and choose the version that suits you. If you can get results with requests for online searches and multicast sources, prioritize choosing the version that uses requests.
+It's recommended to try each one and choose the version that suits you. If you can get results with requests for online searches, prioritize choosing the version that uses requests.
 
 ```bash
 1. Pull the image:
@@ -76,10 +76,13 @@ docker pull guovern/tv-driver:latest
 docker run -d -p 8000:8000 guovern/tv-requests or driver
 
 Volume Mount Parameter (Optional):
--v host path/TV:/tv-requests or tv-driver
-
 This allows synchronization of files between the host machine and the container. Modifying templates, configurations, and retrieving updated result files can be directly operated in the host machine's folder.
-Note: Before running the container with this command, be sure to first clone this project to the host machine.
+
+config:
+-v <path>/config:/tv-requests/config or tv-driver/config
+
+result:
+-v <path>/output:/tv-requests/output or tv-driver/output
 
 3. Check the update results: Visit (domain:8000)
 ```

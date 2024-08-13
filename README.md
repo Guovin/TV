@@ -59,10 +59,10 @@ pipenv run ui
 
 ### 方式三：Docker 更新
 
-- requests：轻量级，性能要求低，更新速度快，稳定性不确定（推荐订阅源使用此版本）
-- driver：性能要求较高，更新速度较慢，稳定性、成功率高（在线搜索、组播源使用此版本）
+- requests：轻量级，性能要求低，更新速度快，稳定性不确定（推荐组播源、订阅源使用此版本）
+- driver：性能要求较高，更新速度较慢，稳定性、成功率高（推荐在线搜索使用此版本）
 
-建议都试用一次，选择自己合适的版本，在线搜索和组播源使用 requests 能拿到结果的话，优先选择 requests 版本。
+建议都试用一次，选择自己合适的版本，在线搜索使用 requests 能拿到结果的话，优先选择 requests 版本。
 
 ```bash
 1. 拉取镜像：
@@ -76,10 +76,13 @@ docker pull guovern/tv-driver:latest
 docker run -d -p 8000:8000 guovern/tv-requests 或 tv-driver
 
 卷挂载参数（可选）：
--v 宿主机路径/TV:/tv-requests 或 tv-driver
-
 实现宿主机文件与容器文件同步，修改模板、配置、获取更新结果文件可直接在宿主机文件夹下操作
-注：使用此命令运行容器，请务必先clone本项目至宿主机
+
+配置文件：
+-v 宿主机路径/config:/tv-requests/config 或 tv-driver/config
+
+结果文件：
+-v 宿主机路径/output:/tv-requests/output 或 tv-driver/output
 
 3. 查看更新结果：访问（域名:8000）
 ```
