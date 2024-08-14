@@ -51,11 +51,13 @@ jobs:
       - name: Get changelog
         id: get_changelog
         run: |
-          $changelog = Get-Content CHANGELOG.md -Raw | Select-String -Pattern "## v${{ env.version }}" -Context 0,100 | ForEach-Object { $_.Line }
-          $changelog = $changelog -join "`n" | Select-String -Pattern "###" -Context 0,100 | ForEach-Object { $_.Line }
-          $changelog = $changelog -join "`n" | Select-String -Pattern "## v" -NotMatch | ForEach-Object { $_.Line }
-          $changelog = $changelog -join "`n" | Select-String -Pattern "###" -NotMatch | ForEach-Object { $_.Line }
-          echo "changelog=$(echo $changelog | jq -R -s .)" >> $env:GITHUB_ENV
+          $version = "${{ env.version }}"
+          $changelog = (Get-Content CHANGELOG.md) -join "`n"
+          $changelog = $changelog -replace "(?s).*?## v$version", ""
+          $changelog = $changelog -replace "(?s)## v.*", ""
+          $changelog = $changelog -replace "(?s).*?###", "###"
+          $changelog = $changelog.TrimEnd("`n")
+          $changelog | jq -Rs '.' | ForEach-Object { echo "changelog=$_"; echo "changelog=$_" >> $env:GITHUB_ENV }
         shell: pwsh
 
       - name: Create Release
