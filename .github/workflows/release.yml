@@ -29,6 +29,9 @@ jobs:
       - name: Build the application
         run: pipenv run pyinstaller tkinter_ui.spec
 
+      - name: List dist directory contents
+        run: dir dist
+
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
