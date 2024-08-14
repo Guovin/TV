@@ -41,19 +41,19 @@ jobs:
             open_driver = False
           print(open_driver)')" >> $GITHUB_ENV
       - name: Install Selenium
-        if: env.OPEN_DRIVER == 'True'
+        if: env.OPEN_DRIVER == 'True' || env.OPEN_DRIVER == 'true'
         run: |
           sudo pip3 install selenium
       - name: Set up Chrome
-        if: env.OPEN_DRIVER == 'True'
+        if: env.OPEN_DRIVER == 'True' || env.OPEN_DRIVER == 'true'
         uses: browser-actions/setup-chrome@latest
         with:
           chrome-version: stable
       - name: Download chrome driver
-        if: env.OPEN_DRIVER == 'True'
+        if: env.OPEN_DRIVER == 'True' || env.OPEN_DRIVER == 'true'
         uses: nanasess/setup-chromedriver@master
       - name: Launch chrome driver
-        if: env.OPEN_DRIVER == 'True'
+        if: env.OPEN_DRIVER == 'True' || env.OPEN_DRIVER == 'true'
         run: |
           export DISPLAY=:99
           chromedriver --url-base=/wd/hub &

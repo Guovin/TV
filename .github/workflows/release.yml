@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -15,7 +15,6 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.8'
-          update-environment: true
           cache: 'pipenv'
 
       - name: Install pipenv
@@ -34,21 +33,19 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: update-tool
-          path: /home/runner/work/TV/TV/dist/update-tool
-
-      - name: Install jq
-        run: sudo apt-get install jq
+          path: dist/update-tool
 
       - name: Get version from version.json
         id: get_info
         run: |
-          echo "version=$(node -p "require('./version.json').version")" >> $GITHUB_ENV
+          echo "version=$(python -c 'import json; print(json.load(open(\"version.json\"))[\"version\"])')" >> $GITHUB_ENV
 
       - name: Get changelog
         id: get_changelog
         run: |
           changelog=$(sed -n '/## v'${{ env.version }}'/,/^## v/p' CHANGELOG.md | sed '/^## v'${{ env.version }}'/d' | sed -n '/###/,/^## v/p' | head -n -1)
-          echo "changelog=$(echo "$changelog" | jq -R -s .)" >> $GITHUB_ENV
+          changelog_json=$(python -c "import json, sys; print(json.dumps(sys.stdin.read()))" <<< "$changelog")
+          echo "changelog=$changelog_json" >> $GITHUB_ENV
 
       - name: Create Release
         id: create_release
@@ -68,6 +65,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: /home/runner/work/TV/TV/dist/update-tool
+          asset_path: dist/update-tool
           asset_name: update-tool.exe
           asset_content_type: application/octet-stream
