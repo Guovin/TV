@@ -38,8 +38,9 @@ jobs:
       - name: Get version from version.json
         id: get_info
         run: |
-          version=$(python -c 'import json; print(json.load(open("version.json"))["version"])')
-          echo "version=$version" >> $GITHUB_ENV
+          $version = (Get-Content version.json | ConvertFrom-Json).version
+          echo "version=$version" >> $env:GITHUB_ENV
+        shell: pwsh
 
       - name: Get changelog
         id: get_changelog
