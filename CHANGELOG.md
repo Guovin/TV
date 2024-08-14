@@ -2,7 +2,7 @@
 
 ## v1.3.5
 
-### 2024/8/13
+### 2024/8/14
 
 - 新增支持地区组播 ip 更新，调整默认以此模式运行，基本实现高清流畅播放（#225）（Added support for updating multicast IP for new regions and adjusted the default to run in this mode, basically achieving high-definition smooth playback (#225)）
 - 新增支持使用 FFmpeg 进行测速排序、获取分辨率信息（Added support for using FFmpeg for speed testing and sorting, and obtaining resolution information）
