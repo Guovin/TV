@@ -12,6 +12,17 @@ RUN pip install -i https://mirrors.aliyun.com/pypi/simple pipenv
 
 RUN pipenv install
 
+RUN echo "deb https://mirrors.ustc.edu.cn/debian/ bookworm main contrib non-free non-free-firmware\n \
+  deb-src https://mirrors.ustc.edu.cn/debian/ bookworm main contrib non-free non-free-firmware\n \
+  deb https://mirrors.ustc.edu.cn/debian/ bookworm-updates main contrib non-free non-free-firmware\n \
+  deb-src https://mirrors.ustc.edu.cn/debian/ bookworm-updates main contrib non-free non-free-firmware\n \
+  deb-src https://mirrors.ustc.edu.cn/debian/ bookworm-updates main contrib non-free non-free-firmware\n \
+  deb https://mirrors.ustc.edu.cn/debian/ bookworm-backports main contrib non-free non-free-firmware\n \
+  deb-src https://mirrors.ustc.edu.cn/debian/ bookworm-backports main contrib non-free non-free-firmware\n \
+  deb https://mirrors.ustc.edu.cn/debian-security/ bookworm-security main contrib non-free non-free-firmware\n \
+  deb-src https://mirrors.ustc.edu.cn/debian-security/ bookworm-security main contrib non-free non-free-firmware\n" \
+  > /etc/apt/sources.list
+
 RUN apt-get update && apt-get install -y --no-install-recommends \
   cron \
   wget \
