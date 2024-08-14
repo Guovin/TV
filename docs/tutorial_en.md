@@ -52,7 +52,7 @@ Similar to editing the template, modify the running configuration
 
 1. Create file
 2. Name the configuration file user_config.ini
-3. Paste the default template, modify source_file = "user_demo.txt"; final_file = "user_result.txt"
+3. Paste the default template, modify source_file = "config/user_demo.txt"; final_file = "output/user_result.txt"
 4. Click Commit changes... to save.
 
 Adjust the configuration as needed. Below is the default configuration explanation:
