@@ -36,7 +36,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: update-tool
-          path: dist/update-tool
+          path: dist
 
       - name: Get version from version.json
         id: get_info
@@ -76,6 +76,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: dist/update-tool
+          asset_path: dist
           asset_name: update-tool.exe
           asset_content_type: application/octet-stream
