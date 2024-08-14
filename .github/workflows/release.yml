@@ -42,12 +42,18 @@ jobs:
           echo "version=$version" >> $env:GITHUB_ENV
         shell: pwsh
 
+      - name: Install jq
+        run: choco install jq
+
       - name: Get changelog
         id: get_changelog
         run: |
-          changelog=$(sed -n '/## v'${{ env.version }}'/,/^## v/p' CHANGELOG.md | sed '/^## v'${{ env.version }}'/d' | sed -n '/###/,/^## v/p' | head -n -1)
-          changelog_json=$(python -c "import json, sys; print(json.dumps(sys.stdin.read()))" <<< "$changelog")
-          echo "changelog=$changelog_json" >> $GITHUB_ENV
+          $changelog = Get-Content CHANGELOG.md -Raw | Select-String -Pattern "## v${{ env.version }}" -Context 0,100 | ForEach-Object { $_.Line }
+          $changelog = $changelog -join "`n" | Select-String -Pattern "###" -Context 0,100 | ForEach-Object { $_.Line }
+          $changelog = $changelog -join "`n" | Select-String -Pattern "## v" -NotMatch | ForEach-Object { $_.Line }
+          $changelog = $changelog -join "`n" | Select-String -Pattern "###" -NotMatch | ForEach-Object { $_.Line }
+          echo "changelog=$(echo $changelog | jq -R -s .)" >> $env:GITHUB_ENV
+        shell: pwsh
 
       - name: Create Release
         id: create_release
