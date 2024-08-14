@@ -12,14 +12,26 @@ RUN pip install -i https://mirrors.aliyun.com/pypi/simple pipenv
 
 RUN pipenv install
 
-RUN sed -i "s@deb.debian.org@mirrors.aliyun.com@g" /etc/apt/sources.list \
-  && sed -i "s@security.debian.org@mirrors.aliyun.com@g" /etc/apt/sources.list
+RUN apt-get update && apt-get install -y --no-install-recommends \
+  cron \
+  wget \
+  xz-utils
 
-RUN apt-get update && apt-get install -y cron
+RUN wget -q https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-i686-static.tar.xz && \
+  tar -xf ffmpeg-release-i686-static.tar.xz && \
+  mv ffmpeg-*-static/ffmpeg /usr/local/bin/ && \
+  mv ffmpeg-*-static/ffprobe /usr/local/bin/ && \
+  rm -rf ffmpeg-*-static*
 
 ARG INSTALL_CHROMIUM=false
 
-RUN if [ "$INSTALL_CHROMIUM" = "true" ]; then apt-get install -y chromium chromium-driver cron; fi
+RUN if [ "$INSTALL_CHROMIUM" = "true" ]; then \
+  apt-get install -y --no-install-recommends \
+  chromium \
+  chromium-driver; \
+  fi
+
+RUN  apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN (crontab -l ; echo "0 22 * * * cd $APP_WORKDIR && /usr/local/bin/pipenv run python main.py scheduled_task 2>&1 | tee -a /var/log/tv.log"; echo "0 10 * * * cd $APP_WORKDIR && /usr/local/bin/pipenv run python main.py scheduled_task 2>&1 | tee -a /var/log/tv.log") | crontab -
 
