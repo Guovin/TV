@@ -52,7 +52,7 @@
 
 1. 创建文件
 2. 配置文件命名为 user_config.ini
-3. 粘贴默认模板，修改 source_file = "user_demo.txt"；final_file = "user_result.txt"
+3. 粘贴默认模板，修改 source_file = "config/user_demo.txt"；final_file = "output/user_result.txt"
 4. 点击 Commit changes...进行保存
 
 按照您的需要适当调整配置，以下是默认配置说明：
