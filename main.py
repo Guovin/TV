@@ -201,10 +201,6 @@ def scheduled_task():
 
 
 if __name__ == "__main__":
-    # Run scheduled_task
     scheduled_task()
-
-    # If not run with 'scheduled_task' argument and not in GitHub Actions, start Flask server
-    if len(sys.argv) <= 1 or sys.argv[1] != "scheduled_task":
-        if not os.environ.get("GITHUB_ACTIONS"):
-            app.run(host="0.0.0.0", port=8000)
+    if not os.environ.get("GITHUB_ACTIONS"):
+        app.run(host="0.0.0.0", port=8000)
