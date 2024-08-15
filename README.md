@@ -84,6 +84,8 @@ docker run -d -p 8000:8000 guovern/tv-requests 或 tv-driver
 结果文件：
 -v 宿主机路径/output:/tv-requests/output 或 tv-driver/output
 
+例：docker run -v /etc/docker/config:/tv-requests/config -v /etc/docker/output:/tv-requests/output -d -p 8000:8000 guovern/tv-requests
+
 3. 查看更新结果：访问（域名:8000）
 ```
 

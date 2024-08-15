@@ -84,6 +84,8 @@ config:
 result:
 -v <path>/output:/tv-requests/output or tv-driver/output
 
+For example: docker run -v /etc/docker/config:/tv-requests/config -v /etc/docker/output:/tv-requests/output -d -p 8000:8000 guovern/tv-requests
+
 3. Check the update results: Visit (domain:8000)
 ```
 
