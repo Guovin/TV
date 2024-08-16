@@ -292,7 +292,7 @@ async def get_channels_by_multicast(names, callback):
                 driver.quit()
             pbar.update()
             callback(
-                f"正在进行组播更新, 剩余{region_type_list_len - pbar.n}个地区组播源待查询, 预计剩余时间: {get_pbar_remaining(pbar, start_time)}",
+                f"正在进行组播更新, 剩余{region_type_list_len - pbar.n}个地区组播源待查询, 预计剩余时间: {get_pbar_remaining(n=pbar.n, total=pbar.total, start_time=start_time)}",
                 int((pbar.n / region_type_list_len) * 100),
             )
             return {"region": region, "type": type, "data": info_list}

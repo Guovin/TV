@@ -10,17 +10,38 @@ import re
 from bs4 import BeautifulSoup
 
 
-def get_pbar_remaining(pbar, start_time):
+def format_interval(t):
+    """
+    Formats a number of seconds as a clock time, [H:]MM:SS
+
+    Parameters
+    ----------
+    t  : int or float
+        Number of seconds.
+    Returns
+    -------
+    out  : str
+        [H:]MM:SS
+    """
+    mins, s = divmod(int(t), 60)
+    h, m = divmod(mins, 60)
+    if h:
+        return "{0:d}:{1:02d}:{2:02d}".format(h, m, s)
+    else:
+        return "{0:02d}:{1:02d}".format(m, s)
+
+
+def get_pbar_remaining(n=0, total=0, start_time=None):
     """
     Get the remaining time of the progress bar
     """
     try:
         elapsed = time() - start_time
-        completed_tasks = pbar.n
+        completed_tasks = n
         if completed_tasks > 0:
             avg_time_per_task = elapsed / completed_tasks
-            remaining_tasks = pbar.total - completed_tasks
-            remaining_time = pbar.format_interval(avg_time_per_task * remaining_tasks)
+            remaining_tasks = total - completed_tasks
+            remaining_time = format_interval(avg_time_per_task * remaining_tasks)
         else:
             remaining_time = "未知"
         return remaining_time

@@ -208,7 +208,7 @@ async def get_channels_by_online_search(names, callback):
                 driver.quit()
             pbar.update()
             callback(
-                f"正在线上查询更新, 剩余{names_len - pbar.n}个频道待查询, 预计剩余时间: {get_pbar_remaining(pbar, start_time)}",
+                f"正在线上查询更新, 剩余{names_len - pbar.n}个频道待查询, 预计剩余时间: {get_pbar_remaining(n=pbar.n, total=pbar.total, start_time=start_time)}",
                 int((pbar.n / names_len) * 100),
             )
             return {"name": format_channel_name(name), "data": info_list}

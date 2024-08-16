@@ -83,7 +83,7 @@ async def get_channels_by_fofa(callback):
             pbar.update()
             remain = fofa_urls_len - pbar.n
             callback(
-                f"正在获取组播源更新, 剩余{remain}个地区待获取, 预计剩余时间: {get_pbar_remaining(pbar, start_time)}",
+                f"正在获取组播源更新, 剩余{remain}个地区待获取, 预计剩余时间: {get_pbar_remaining(n=pbar.n, total=pbar.total, start_time=start_time)}",
                 int((pbar.n / fofa_urls_len) * 100),
             )
             return results
