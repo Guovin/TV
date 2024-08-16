@@ -123,6 +123,7 @@ class UpdateSource:
                     0,
                 )
                 self.start_time = time()
+                self.pbar = tqdm_asyncio(total=len(self.tasks), desc="Sorting")
                 sort_results = await tqdm_asyncio.gather(*self.tasks, desc="Sorting")
                 self.channel_data = {}
                 for result in sort_results:
