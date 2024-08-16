@@ -48,6 +48,7 @@ class UpdateSource:
         self.pbar = None
         self.total = 0
         self.start_time = None
+        self.sort_n = 0
 
     async def visit_page(self, channel_names=None):
         if config.getboolean("Settings", "open_subscribe"):
@@ -69,12 +70,17 @@ class UpdateSource:
             self.tasks.append(online_search_task)
             self.online_search_result = await online_search_task
 
-    def pbar_update(self, name=""):
-        self.pbar.update()
+    def pbar_update(self, name="", n=0):
+        if not n:
+            self.pbar.update()
         self.update_progress(
-            f"正在进行{name}, 剩余{self.pbar.total - self.pbar.n}个接口, 预计剩余时间: {get_pbar_remaining(self.pbar, self.start_time)}",
-            int((self.pbar.n / self.total) * 100),
+            f"正在进行{name}, 剩余{self.total - (n or self.pbar.n)}个频道, 预计剩余时间: {get_pbar_remaining(n=(n or self.pbar.n), total=self.total, start_time=self.start_time)}",
+            int(((n or self.pbar.n) / self.total) * 100),
         )
+
+    def sort_pbar_update(self):
+        self.sort_n += 1
+        self.pbar_update(name="测速", n=self.sort_n)
 
     async def main(self):
         try:
@@ -106,19 +112,19 @@ class UpdateSource:
                             name,
                             info_list,
                             is_ffmpeg,
-                            lambda: self.pbar_update("测速排序"),
+                            lambda: self.sort_pbar_update(),
                         )
                     )
                     for cate, channel_obj in self.channel_data.items()
                     for name, info_list in channel_obj.items()
                 ]
-                self.pbar = tqdm_asyncio(total=len(self.tasks), desc="Sorting")
                 self.update_progress(
                     f"正在测速排序, 共{len(self.tasks)}个频道",
-                    int((self.pbar.n / len(self.tasks)) * 100),
+                    0,
                 )
                 self.start_time = time()
-                sort_results = await tqdm_asyncio.gather(*self.tasks, disable=True)
+                self.pbar = tqdm_asyncio(total=len(self.tasks), desc="Sorting")
+                sort_results = await tqdm_asyncio.gather(*self.tasks, desc="Sorting")
                 self.channel_data = {}
                 for result in sort_results:
                     if result:
@@ -133,7 +139,7 @@ class UpdateSource:
             write_channel_to_file(
                 self.channel_items.items(),
                 self.channel_data,
-                lambda: self.pbar_update("写入结果"),
+                lambda: self.pbar_update(name="写入结果"),
             )
             self.pbar.close()
             user_final_file = config.get("Settings", "final_file")
@@ -201,6 +207,7 @@ def scheduled_task():
 
 
 if __name__ == "__main__":
-    scheduled_task()
+    if len(sys.argv) == 1 or (len(sys.argv) > 1 and sys.argv[1] == "scheduled_task"):
+        scheduled_task()
     if not os.environ.get("GITHUB_ACTIONS"):
         app.run(host="0.0.0.0", port=8000)
