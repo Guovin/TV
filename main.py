@@ -118,7 +118,7 @@ class UpdateSource:
                     int((self.pbar.n / len(self.tasks)) * 100),
                 )
                 self.start_time = time()
-                sort_results = await tqdm_asyncio.gather(*self.tasks, disable=True)
+                sort_results = await tqdm_asyncio.gather(*self.tasks, desc="Sorting")
                 self.channel_data = {}
                 for result in sort_results:
                     if result:
@@ -201,6 +201,7 @@ def scheduled_task():
 
 
 if __name__ == "__main__":
-    scheduled_task()
+    if len(sys.argv) == 1 or (len(sys.argv) > 1 and sys.argv[1] == "scheduled_task"):
+        scheduled_task()
     if not os.environ.get("GITHUB_ACTIONS"):
         app.run(host="0.0.0.0", port=8000)
