@@ -24,7 +24,7 @@ logging.basicConfig(
 )
 
 
-def get_channel_data_from_file(channels, file):
+def get_channel_data_from_file(channels, file, from_result=False):
     """
     Get the channel data from the file
     """
@@ -37,6 +37,8 @@ def get_channel_data_from_file(channels, file):
             # This is a new channel, create a new key in the dictionary.
             current_category = line.split(",")[0]
         else:
+            if from_result and channels.get(current_category) is None:
+                continue
             # This is a url, add it to the list of urls for the current channel.
             match = re.search(pattern, line)
             if match is not None:
@@ -63,7 +65,7 @@ def get_channel_items():
         resource_path(user_final_file)
     ):
         with open(resource_path(user_final_file), "r", encoding="utf-8") as file:
-            channels = get_channel_data_from_file(channels, file)
+            channels = get_channel_data_from_file(channels, file, from_result=True)
 
     return channels
 
