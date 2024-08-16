@@ -80,7 +80,7 @@ async def get_channels_by_subscribe_urls(urls=None, multicast=False, callback=No
             remain = subscribe_urls_len - pbar.n
             if callback:
                 callback(
-                    f"正在获取订阅源更新, 剩余{remain}个订阅源待获取, 预计剩余时间: {get_pbar_remaining(pbar, start_time)}",
+                    f"正在获取订阅源更新, 剩余{remain}个订阅源待获取, 预计剩余时间: {get_pbar_remaining(n=pbar.n, total=pbar.total, start_time=start_time)}",
                     int((pbar.n / subscribe_urls_len) * 100),
                 )
             return channels
