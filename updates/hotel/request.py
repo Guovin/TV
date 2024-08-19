@@ -6,7 +6,7 @@ from utils.channel import (
     format_channel_name,
 )
 from utils.tools import get_pbar_remaining, get_soup
-from utils.config import config, resource_path
+from utils.config import config
 from updates.proxy import get_proxy, get_proxy_next
 from time import time, sleep
 from driver.setup import setup_driver

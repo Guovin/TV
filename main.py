@@ -16,6 +16,7 @@ from utils.speed import is_ffmpeg_installed
 from updates.subscribe import get_channels_by_subscribe_urls
 from updates.multicast import get_channels_by_multicast
 from updates.hotel import get_channels_by_hotel
+from updates.fofa import get_channels_by_fofa
 from updates.online_search import get_channels_by_online_search
 import os
 from tqdm import tqdm
@@ -45,6 +46,7 @@ class UpdateSource:
         self.subscribe_result = {}
         self.multicast_result = {}
         self.hotel_result = {}
+        self.fofa_result = {}
         self.online_search_result = {}
         self.channel_data = {}
         self.pbar = None
@@ -53,30 +55,25 @@ class UpdateSource:
         self.sort_n = 0
 
     async def visit_page(self, channel_names=None):
-        if config.getboolean("Settings", "open_subscribe"):
-            subscribe_task = asyncio.create_task(
-                get_channels_by_subscribe_urls(callback=self.update_progress)
-            )
-            self.tasks.append(subscribe_task)
-            self.subscribe_result = await subscribe_task
-        if config.getboolean("Settings", "open_multicast"):
-            multicast_task = asyncio.create_task(
-                get_channels_by_multicast(channel_names, self.update_progress)
-            )
-            self.tasks.append(multicast_task)
-            self.multicast_result = await multicast_task
-        if config.getboolean("Settings", "open_hotel"):
-            hotel_task = asyncio.create_task(
-                get_channels_by_hotel(channel_names, self.update_progress)
-            )
-            self.tasks.append(hotel_task)
-            self.hotel_result = await hotel_task
-        if config.getboolean("Settings", "open_online_search"):
-            online_search_task = asyncio.create_task(
-                get_channels_by_online_search(channel_names, self.update_progress)
-            )
-            self.tasks.append(online_search_task)
-            self.online_search_result = await online_search_task
+        tasks_config = [
+            ("open_subscribe", get_channels_by_subscribe_urls, "subscribe_result"),
+            ("open_multicast", get_channels_by_multicast, "multicast_result"),
+            ("open_hotel", get_channels_by_hotel, "hotel_result"),
+            ("open_fofa", get_channels_by_fofa, "fofa_result"),
+            (
+                "open_online_search",
+                get_channels_by_online_search,
+                "online_search_result",
+            ),
+        ]
+
+        for setting, task_func, result_attr in tasks_config:
+            if config.getboolean("Settings", setting):
+                task = asyncio.create_task(
+                    task_func(channel_names, self.update_progress)
+                )
+                self.tasks.append(task)
+                setattr(self, result_attr, await task)
 
     def pbar_update(self, name="", n=0):
         if not n:
@@ -106,6 +103,7 @@ class UpdateSource:
                 self.subscribe_result,
                 self.multicast_result,
                 self.hotel_result,
+                self.fofa_result,
                 self.online_search_result,
             )
             if config.getboolean("Settings", "open_sort"):
