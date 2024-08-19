@@ -45,10 +45,8 @@ RUN if [ "$INSTALL_CHROMIUM" = "true" ]; then \
 RUN  apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN (crontab -l ; \
-  echo "0 22 * * * cd $APP_WORKDIR && /usr/local/bin/pipenv run python main.py scheduled_task"; \
-  echo "0 10 * * * cd $APP_WORKDIR && /usr/local/bin/pipenv run python main.py scheduled_task") | crontab -
-
-CMD ["cron", "-f"]
+  echo "0 22 * * * cd $APP_WORKDIR && /usr/local/bin/pipenv run python main.py scheduled_task 2>&1 | tee -a /var/log/tv.log"; \
+  echo "0 10 * * * cd $APP_WORKDIR && /usr/local/bin/pipenv run python main.py scheduled_task 2>&1 | tee -a /var/log/tv.log") | crontab -
 
 EXPOSE 8000
 

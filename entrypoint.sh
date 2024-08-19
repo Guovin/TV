@@ -8,4 +8,8 @@ for file in /tv_config/*; do
   fi
 done
 
-pipenv run python $APP_WORKDIR/main.py
+pipenv run python $APP_WORKDIR/main.py 2>&1 | tee -a /var/log/tv.log
+
+cron
+
+tail -f /var/log/tv.log
