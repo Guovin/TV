@@ -15,6 +15,7 @@ from utils.tools import (
 from utils.speed import is_ffmpeg_installed
 from updates.subscribe import get_channels_by_subscribe_urls
 from updates.multicast import get_channels_by_multicast
+from updates.hotel import get_channels_by_hotel
 from updates.online_search import get_channels_by_online_search
 import os
 from tqdm import tqdm
@@ -43,6 +44,7 @@ class UpdateSource:
         self.channel_items = get_channel_items()
         self.subscribe_result = {}
         self.multicast_result = {}
+        self.hotel_result = {}
         self.online_search_result = {}
         self.channel_data = {}
         self.pbar = None
@@ -63,6 +65,12 @@ class UpdateSource:
             )
             self.tasks.append(multicast_task)
             self.multicast_result = await multicast_task
+        if config.getboolean("Settings", "open_hotel"):
+            hotel_task = asyncio.create_task(
+                get_channels_by_hotel(channel_names, self.update_progress)
+            )
+            self.tasks.append(hotel_task)
+            self.hotel_result = await hotel_task
         if config.getboolean("Settings", "open_online_search"):
             online_search_task = asyncio.create_task(
                 get_channels_by_online_search(channel_names, self.update_progress)
@@ -97,6 +105,7 @@ class UpdateSource:
                 self.channel_data,
                 self.subscribe_result,
                 self.multicast_result,
+                self.hotel_result,
                 self.online_search_result,
             )
             if config.getboolean("Settings", "open_sort"):
