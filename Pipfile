@@ -22,6 +22,7 @@ aiohttp = "*"
 flask = "*"
 opencc-python-reimplemented = "*"
 fake-useragent = "*"
+gunicorn = "*"
 
 [requires]
 python_version = "3.8"

@@ -8,8 +8,8 @@ for file in /tv_config/*; do
   fi
 done
 
-pipenv run python $APP_WORKDIR/main.py 2>&1 | tee -a /var/log/tv.log
+service cron start
 
-cron
+pipenv run python $APP_WORKDIR/main.py
 
-tail -f /var/log/tv.log
+gunicorn -w 4 -b 0.0.0.0:8000 main:app
