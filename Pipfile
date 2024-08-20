@@ -5,7 +5,7 @@ verify_ssl = true
 
 [scripts]
 build = "python main.py"
-ui = "python tkinter_ui.py"
+ui = "python tkinter_ui/tkinter_ui.py"
 
 [dev-packages]
 

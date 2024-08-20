@@ -74,14 +74,14 @@ async def get_channels_by_hotel(names, callback):
     proxy = None
     open_proxy = config.getboolean("Settings", "open_proxy")
     open_driver = config.getboolean("Settings", "open_driver")
-    default_page_num = 5
+    page_num = config.getint("Settings", "hotel_page_num")
     region_list = config.get("Settings", "hotel_region_list").split(",")
     if open_proxy:
         proxy = await get_proxy(pageUrl, best=True, with_test=True)
     start_time = time()
 
     def process_region_by_hotel(region):
-        nonlocal proxy, open_driver, default_page_num
+        nonlocal proxy, open_driver, page_num
         name = f"{region}"
         info_list = []
         try:
@@ -121,9 +121,8 @@ async def get_channels_by_hotel(names, callback):
                         code = parse_qs(parsed_url.query).get("code", [None])[0]
                         if code:
                             break
-            pageNum = default_page_num
             # retry_limit = 3
-            for page in range(1, pageNum + 1):
+            for page in range(1, page_num + 1):
                 # retries = 0
                 # if not open_driver and page == 1:
                 #     retries = 2

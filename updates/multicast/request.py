@@ -147,7 +147,7 @@ async def get_channels_by_multicast(names, callback):
     proxy = None
     open_proxy = config.getboolean("Settings", "open_proxy")
     open_driver = config.getboolean("Settings", "open_driver")
-    default_page_num = config.getint("Settings", "default_page_num")
+    page_num = config.getint("Settings", "multicast_page_num")
     if open_proxy:
         proxy = await get_proxy(pageUrl, best=True, with_test=True)
     start_time = time()
@@ -163,7 +163,7 @@ async def get_channels_by_multicast(names, callback):
     region_type_list = get_channel_multicast_region_type_list(name_region_type_result)
 
     def process_channel_by_multicast(region, type):
-        nonlocal proxy, open_driver, default_page_num
+        nonlocal proxy, open_driver, page_num
         name = f"{region}{type}"
         info_list = []
         try:
@@ -205,9 +205,8 @@ async def get_channels_by_multicast(names, callback):
                         code = parse_qs(parsed_url.query).get("code", [None])[0]
                         if code:
                             break
-            pageNum = default_page_num
             # retry_limit = 3
-            for page in range(1, pageNum + 1):
+            for page in range(1, page_num + 1):
                 # retries = 0
                 # if not open_driver and page == 1:
                 #     retries = 2

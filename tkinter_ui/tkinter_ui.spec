@@ -1,15 +1,19 @@
 # -*- mode: python ; coding: utf-8 -*-
 
-
 a = Analysis(
     ['tkinter_ui.py'],
     pathex=[],
     binaries=[],
     datas=[
-        ('config/config.ini', 'config'),
-        ('config/demo.txt', 'config'),
-        ('updates/multicast/multicast_map.json', 'updates/multicast'),
-        ('updates/multicast/multicast_region_result.json', 'updates/multicast')
+        ('../config/config.ini', 'config'),
+        ('../config/demo.txt', 'config'),
+        ('../updates/multicast/multicast_map.json', 'updates/multicast'),
+        ('../updates/multicast/multicast_region_result.json', 'updates/multicast'),
+        ('default.py', '.'),
+        ('multicast.py', '.'),
+        ('hotel.py', '.'),
+        ('subscribe.py', '.'),
+        ('online_search.py', '.'),
     ],
     hiddenimports=[],
     hookspath=[],
