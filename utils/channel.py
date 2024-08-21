@@ -1,4 +1,4 @@
-from utils.config import config, resource_path
+from utils.config import config, resource_path, save_config
 from utils.tools import check_url_by_patterns, get_total_urls_from_info_list
 from utils.speed import sort_urls_by_speed_and_resolution
 import os
@@ -24,7 +24,7 @@ logging.basicConfig(
 )
 
 
-def get_channel_data_from_file(channels, file, from_result=False):
+def get_channel_data_from_file(channels=None, file=None, names=None, from_result=False):
     """
     Get the channel data from the file
     """
@@ -43,6 +43,8 @@ def get_channel_data_from_file(channels, file, from_result=False):
             match = re.search(pattern, line)
             if match is not None:
                 name = match.group(1).strip()
+                if name not in names:
+                    continue
                 url = match.group(2).strip()
                 if url and url not in channels[current_category][name]:
                     channels[current_category][name].append(url)
@@ -56,17 +58,36 @@ def get_channel_items():
     user_source_file = config.get("Settings", "source_file")
     user_final_file = config.get("Settings", "final_file")
     channels = defaultdict(lambda: defaultdict(list))
+    source_channel_names = config.get("Settings", "source_channels").split(",")
 
     if os.path.exists(resource_path(user_source_file)):
         with open(resource_path(user_source_file), "r", encoding="utf-8") as file:
-            channels = get_channel_data_from_file(channels, file)
+            channels = get_channel_data_from_file(
+                channels=channels, file=file, names=source_channel_names
+            )
 
     if config.getboolean("Settings", "open_use_old_result") and os.path.exists(
         resource_path(user_final_file)
     ):
         with open(resource_path(user_final_file), "r", encoding="utf-8") as file:
-            channels = get_channel_data_from_file(channels, file, from_result=True)
+            channels = get_channel_data_from_file(
+                channels=channels,
+                file=file,
+                names=source_channel_names,
+                from_result=True,
+            )
 
+    channel_names = [
+        name for channel_obj in channels.values() for name in channel_obj.keys()
+    ]
+    for source_name in source_channel_names:
+        if source_name not in channel_names:
+            channels["自定义频道"][source_name] = []
+    total_channel_names = ",".join(
+        [name for channel_obj in channels.values() for name in channel_obj.keys()]
+    )
+    config.set("Settings", "source_channels", total_channel_names)
+    save_config()
     return channels
 
 

@@ -42,7 +42,7 @@ class UpdateSource:
     def __init__(self):
         self.run_ui = False
         self.tasks = []
-        self.channel_items = get_channel_items()
+        self.channel_items = {}
         self.subscribe_result = {}
         self.multicast_result = {}
         self.hotel_tonkiang_result = {}
@@ -93,6 +93,7 @@ class UpdateSource:
 
     async def main(self):
         try:
+            self.channel_items = get_channel_items()
             channel_names = [
                 name
                 for channel_obj in self.channel_items.values()
