@@ -96,7 +96,7 @@ def get_multicast_urls_info_from_region_list():
     """
     Get the multicast urls info from region
     """
-    region_list = config.get("Settings", "region_list").split(",")
+    region_list = config.get("Settings", "multicast_region_list").split(",")
     urls_info = []
     with open(
         resource_path("updates/multicast/multicast_map.json"), "r", encoding="utf-8"

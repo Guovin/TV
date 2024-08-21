@@ -210,7 +210,7 @@ def get_channel_multicast_region_type_list(result):
     """
     Get the channel multicast region type list from result
     """
-    config_region_list = set(config.get("Settings", "region_list").split(","))
+    config_region_list = set(config.get("Settings", "multicast_region_list").split(","))
     region_type_list = {
         (region, type)
         for region_type in result.values()
