@@ -29,6 +29,39 @@ class HotelUI:
         )
         self.open_hotel_checkbutton.pack(side=tk.LEFT, padx=4, pady=8)
 
+        frame_hotel_mode = tk.Frame(root)
+        frame_hotel_mode.pack(fill=tk.X)
+
+        self.open_hotel_mode_label = tk.Label(
+            frame_hotel_mode, text="工作模式:", width=9
+        )
+        self.open_hotel_mode_label.pack(side=tk.LEFT, padx=4, pady=8)
+        self.open_hotel_tonkiang_var = tk.BooleanVar(
+            value=config.getboolean("Settings", "open_hotel_tonkiang")
+        )
+        self.open_hotel_tonkiang_checkbutton = ttk.Checkbutton(
+            frame_hotel_mode,
+            variable=self.open_hotel_tonkiang_var,
+            onvalue=True,
+            offvalue=False,
+            command=self.update_open_hotel_tonkiang,
+            text="Tonkiang",
+        )
+        self.open_hotel_tonkiang_checkbutton.pack(side=tk.LEFT, padx=4, pady=8)
+
+        self.open_hotel_fofa_var = tk.BooleanVar(
+            value=config.getboolean("Settings", "open_hotel_fofa")
+        )
+        self.open_hotel_fofa_checkbutton = ttk.Checkbutton(
+            frame_hotel_mode,
+            variable=self.open_hotel_fofa_var,
+            onvalue=True,
+            offvalue=False,
+            command=self.update_open_hotel_fofa,
+            text="FOFA",
+        )
+        self.open_hotel_fofa_checkbutton.pack(side=tk.LEFT, padx=4, pady=8)
+
         frame_hotel_region_list = tk.Frame(root)
         frame_hotel_region_list.pack(fill=tk.X)
 
@@ -66,6 +99,14 @@ class HotelUI:
     def update_open_hotel(self):
         config.set("Settings", "open_hotel", str(self.open_hotel_var.get()))
 
+    def update_open_hotel_tonkiang(self):
+        config.set(
+            "Settings", "open_hotel_tonkiang", str(self.open_hotel_tonkiang_var.get())
+        )
+
+    def update_open_hotel_fofa(self):
+        config.set("Settings", "open_hotel_fofa", str(self.open_hotel_fofa_var.get()))
+
     def update_region_list(self, event):
         config.set(
             "Settings",
@@ -79,6 +120,8 @@ class HotelUI:
     def change_entry_state(self, state):
         for entry in [
             "open_hotel_checkbutton",
+            "open_hotel_tonkiang_checkbutton",
+            "open_hotel_fofa_checkbutton",
             "region_list_combo",
             "page_num_entry",
         ]:

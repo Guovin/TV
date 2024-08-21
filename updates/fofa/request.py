@@ -19,7 +19,7 @@ def get_fofa_urls_from_region_list():
     """
     Get the FOFA url from region
     """
-    region_list = config.get("Settings", "fofa_region_list").split(",")
+    region_list = config.get("Settings", "hotel_region_list").split(",")
     urls = []
     region_url = getattr(fofa_map, "region_url")
     if "all" in region_list:

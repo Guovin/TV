@@ -45,8 +45,8 @@ class UpdateSource:
         self.channel_items = get_channel_items()
         self.subscribe_result = {}
         self.multicast_result = {}
-        self.hotel_result = {}
-        self.fofa_result = {}
+        self.hotel_tonkiang_result = {}
+        self.hotel_fofa_result = {}
         self.online_search_result = {}
         self.channel_data = {}
         self.pbar = None
@@ -58,8 +58,8 @@ class UpdateSource:
         tasks_config = [
             ("open_subscribe", get_channels_by_subscribe_urls, "subscribe_result"),
             ("open_multicast", get_channels_by_multicast, "multicast_result"),
-            ("open_hotel", get_channels_by_hotel, "hotel_result"),
-            ("open_fofa", get_channels_by_fofa, "fofa_result"),
+            ("open_hotel_tonkiang", get_channels_by_hotel, "hotel_tonkiang_result"),
+            ("open_hotel_fofa", get_channels_by_fofa, "hotel_fofa_result"),
             (
                 "open_online_search",
                 get_channels_by_online_search,
@@ -68,6 +68,10 @@ class UpdateSource:
         ]
 
         for setting, task_func, result_attr in tasks_config:
+            if (
+                setting == "open_hotel_tonkiang" or setting == "open_hotel_fofa"
+            ) and config.getboolean("Settings", "open_hotel") == False:
+                continue
             if config.getboolean("Settings", setting):
                 task = asyncio.create_task(
                     task_func(channel_names, self.update_progress)
@@ -102,8 +106,8 @@ class UpdateSource:
                 self.channel_data,
                 self.subscribe_result,
                 self.multicast_result,
-                self.hotel_result,
-                self.fofa_result,
+                self.hotel_tonkiang_result,
+                self.hotel_fofa_result,
                 self.online_search_result,
             )
             if config.getboolean("Settings", "open_sort"):

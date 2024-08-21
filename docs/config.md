@@ -23,5 +23,7 @@
 | multicast_region_list  | 广东                                                                                                                | 组播源地区列表，[更多地区](../updates/multicast/multicast_map.json)，all 表示所有地区 |
 | multicast_page_num     | 5                                                                                                                   | 组播地区获取分页数量                                                                  |
 | open_hotel             | False                                                                                                               | 开启酒店源功能                                                                        |
+| open_hotel_tonkiang    | True                                                                                                                | 开启 Tonkiang 酒店源工作模式                                                          |
+| open_hotel_fofa        | True                                                                                                                | 开启 FOFA 酒店源工作模式                                                              |
 | hotel_region_list      | 广东                                                                                                                | 酒店源地区列表，[更多地区](../updates/fofa/fofa_map.py)，all 表示所有地区             |
 | hotel_page_num         | 5                                                                                                                   | 酒店地区获取分页数量                                                                  |

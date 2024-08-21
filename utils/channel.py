@@ -476,8 +476,8 @@ def append_all_method_data(
     data,
     subscribe_result=None,
     multicast_result=None,
-    hotel_result=None,
-    fofa_result=None,
+    hotel_tonkiang_result=None,
+    hotel_fofa_result=None,
     online_search_result=None,
 ):
     """
@@ -488,8 +488,8 @@ def append_all_method_data(
             for method, result in [
                 ("subscribe", subscribe_result),
                 ("multicast", multicast_result),
-                ("hotel", hotel_result),
-                ("fofa", fofa_result),
+                ("hotel_tonkiang", hotel_tonkiang_result),
+                ("hotel_fofa", hotel_fofa_result),
                 ("online_search", online_search_result),
             ]:
                 if config.getboolean("Settings", f"open_{method}"):
@@ -527,8 +527,8 @@ def append_all_method_data_keep_all(
     data,
     subscribe_result=None,
     multicast_result=None,
-    hotel_result=None,
-    fofa_result=None,
+    hotel_tonkiang_result=None,
+    hotel_fofa_result=None,
     online_search_result=None,
 ):
     """
@@ -538,8 +538,8 @@ def append_all_method_data_keep_all(
         for result_name, result in [
             ("subscribe", subscribe_result),
             ("multicast", multicast_result),
-            ("hotel", hotel_result),
-            ("fofa", fofa_result),
+            ("hotel_tonkiang", hotel_tonkiang_result),
+            ("hotel_fofa", hotel_fofa_result),
             ("online_search", online_search_result),
         ]:
             if result and config.getboolean("Settings", f"open_{result_name}"):
