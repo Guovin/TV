@@ -74,6 +74,24 @@ class DefaultUI:
         )
         self.source_file_button.pack(side=tk.LEFT, padx=4, pady=0)
 
+        frame_default_source_channels = tk.Frame(root)
+        frame_default_source_channels.pack(fill=tk.X)
+
+        self.source_channels_label = tk.Label(
+            frame_default_source_channels, text="频道名称:", width=8
+        )
+        self.source_channels_label.pack(side=tk.LEFT, padx=4, pady=8)
+        self.source_channels_text = scrolledtext.ScrolledText(
+            frame_default_source_channels, height=5
+        )
+        self.source_channels_text.pack(
+            side=tk.LEFT, padx=4, pady=8, expand=True, fill=tk.BOTH
+        )
+        self.source_channels_text.insert(
+            tk.END, config.get("Settings", "source_channels")
+        )
+        self.source_channels_text.bind("<KeyRelease>", self.update_source_channels)
+
         frame_default_final_file = tk.Frame(root)
         frame_default_final_file.pack(fill=tk.X)
 
@@ -241,7 +259,7 @@ class DefaultUI:
         )
         self.domain_blacklist_label.pack(side=tk.LEFT, padx=4, pady=8)
         self.domain_blacklist_text = scrolledtext.ScrolledText(
-            frame_default_domain_blacklist, height=5
+            frame_default_domain_blacklist, height=2
         )
         self.domain_blacklist_text.pack(
             side=tk.LEFT, padx=4, pady=8, expand=True, fill=tk.BOTH
@@ -259,7 +277,7 @@ class DefaultUI:
         )
         self.url_keywords_blacklist_label.pack(side=tk.LEFT, padx=4, pady=8)
         self.url_keywords_blacklist_text = scrolledtext.ScrolledText(
-            frame_default_url_keywords_blacklist, height=5
+            frame_default_url_keywords_blacklist, height=2
         )
         self.url_keywords_blacklist_text.pack(
             side=tk.LEFT, padx=4, pady=8, expand=True, fill=tk.BOTH
@@ -287,6 +305,13 @@ class DefaultUI:
             self.source_file_entry.delete(0, tk.END)
             self.source_file_entry.insert(0, filepath)
             config.set("Settings", "source_file", filepath)
+
+    def update_source_channels(self, event):
+        config.set(
+            "Settings",
+            "source_channels",
+            self.source_channels_text.get(1.0, tk.END),
+        )
 
     def select_final_file(self):
         filepath = filedialog.askopenfilename(
@@ -352,6 +377,7 @@ class DefaultUI:
             "open_proxy_checkbutton",
             "source_file_entry",
             "source_file_button",
+            "source_channels_text",
             "final_file_entry",
             "final_file_button",
             "open_keep_all_checkbutton",

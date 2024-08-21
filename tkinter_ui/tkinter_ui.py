@@ -5,7 +5,7 @@ sys.path.append(os.path.dirname(sys.path[0]))
 import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk
-from utils.config import config, resource_path
+from utils.config import config, resource_path, save_config
 from main import UpdateSource
 import asyncio
 import threading
@@ -32,31 +32,6 @@ class TkinterUI:
         self.online_search_ui = OnlineSearchUI()
         self.update_source = UpdateSource()
         self.update_running = False
-        self.config_entrys = [
-            "open_update_checkbutton",
-            "open_use_old_result_checkbutton",
-            "open_driver_checkbutton",
-            "open_proxy_checkbutton",
-            "source_file_entry",
-            "source_file_button",
-            "final_file_entry",
-            "final_file_button",
-            "open_subscribe_checkbutton",
-            "open_multicast_checkbutton",
-            "open_online_search_checkbutton",
-            "open_keep_all_checkbutton",
-            "open_sort_checkbutton",
-            "page_num_entry",
-            "urls_limit_entry",
-            "response_time_weight_entry",
-            "resolution_weight_entry",
-            "ipv_type_combo",
-            "recent_days_entry",
-            "domain_blacklist_text",
-            "url_keywords_blacklist_text",
-            "subscribe_urls_text",
-            "region_list_combo",
-        ]
         self.result_url = None
 
     def view_result_link_callback(self, event):
@@ -67,6 +42,7 @@ class TkinterUI:
             "open_update": self.default_ui.open_update_var.get(),
             "open_use_old_result": self.default_ui.open_use_old_result_var.get(),
             "source_file": self.default_ui.source_file_entry.get(),
+            "source_channels": self.default_ui.source_channels_text.get(1.0, tk.END),
             "final_file": self.default_ui.final_file_entry.get(),
             "urls_limit": self.default_ui.urls_limit_entry.get(),
             "open_driver": self.default_ui.open_driver_var.get(),
@@ -83,34 +59,35 @@ class TkinterUI:
             "open_subscribe": self.subscribe_ui.open_subscribe_var.get(),
             "subscribe_urls": self.subscribe_ui.subscribe_urls_text.get(1.0, tk.END),
             "open_multicast": self.multicast_ui.open_multicast_var.get(),
-            "region_list": self.multicast_ui.region_list_combo.get(),
+            "multicast_region_list": self.multicast_ui.region_list_combo.get(),
+            "multicast_page_num": self.multicast_ui.page_num_entry.get(),
+            "open_hotel": self.hotel_ui.open_hotel_var.get(),
+            "open_hotel_tonkiang": self.hotel_ui.open_hotel_tonkiang_var.get(),
+            "open_hotel_fofa": self.hotel_ui.open_hotel_fofa_var.get(),
+            "hotel_region_list": self.hotel_ui.region_list_combo.get(),
+            "hotel_page_num": self.hotel_ui.page_num_entry.get(),
             "open_online_search": self.online_search_ui.open_online_search_var.get(),
-            "page_num": self.online_search_ui.page_num_entry.get(),
+            "online_search_page_num": self.online_search_ui.page_num_entry.get(),
             "recent_days": self.online_search_ui.recent_days_entry.get(),
         }
 
         for key, value in config_values.items():
             config.set("Settings", key, str(value))
-        user_config_file = "config/" + (
-            "user_config.ini"
-            if os.path.exists(resource_path("user_config.ini"))
-            else "config.ini"
-        )
-        user_config_path = resource_path(user_config_file, persistent=True)
-        os.makedirs(os.path.dirname(user_config_path), exist_ok=True)
-        with open(user_config_path, "w", encoding="utf-8") as configfile:
-            config.write(configfile)
+        save_config()
         messagebox.showinfo("提示", "保存成功")
+
+    def change_state(self, state):
+        self.default_ui.change_entry_state(state=state)
+        self.multicast_ui.change_entry_state(state=state)
+        self.hotel_ui.change_entry_state(state=state)
+        self.subscribe_ui.change_entry_state(state=state)
+        self.online_search_ui.change_entry_state(state=state)
 
     async def run_update(self):
         self.update_running = not self.update_running
         if self.update_running:
             self.run_button.config(text="取消更新", state="normal")
-            self.default_ui.change_entry_state(state="disabled")
-            self.multicast_ui.change_entry_state(state="disabled")
-            self.hotel_ui.change_entry_state(state="disabled")
-            self.subscribe_ui.change_entry_state(state="disabled")
-            self.online_search_ui.change_entry_state(state="disabled")
+            self.change_state("disabled")
             self.progress_bar["value"] = 0
             self.progress_label.pack()
             self.view_result_link.pack()
@@ -120,11 +97,7 @@ class TkinterUI:
             self.stop()
             self.update_source.stop()
             self.run_button.config(text="开始更新", state="normal")
-            self.default_ui.change_entry_state(state="normal")
-            self.multicast_ui.change_entry_state(state="normal")
-            self.hotel_ui.change_entry_state(state="normal")
-            self.subscribe_ui.change_entry_state(state="normal")
-            self.online_search_ui.change_entry_state(state="normal")
+            self.change_state("normal")
             self.progress_bar.pack_forget()
             self.view_result_link.pack_forget()
             self.progress_label.pack_forget()
@@ -149,8 +122,7 @@ class TkinterUI:
         if finished:
             self.run_button.config(text="开始更新", state="normal")
             self.update_running = False
-            for entry in self.config_entrys:
-                getattr(self, entry).config(state="normal")
+            self.change_state("normal")
             if url:
                 self.view_result_link.config(text=url)
                 self.result_url = url
@@ -246,7 +218,7 @@ if __name__ == "__main__":
     screen_width = root.winfo_screenwidth()
     screen_height = root.winfo_screenheight()
     width = 550
-    height = 700
+    height = 750
     x = (screen_width / 2) - (width / 2)
     y = (screen_height / 2) - (height / 2)
     root.geometry("%dx%d+%d+%d" % (width, height, x, y))
