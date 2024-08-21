@@ -70,19 +70,13 @@ async def get_channels_by_online_search(names, callback):
     proxy = None
     open_proxy = config.getboolean("Settings", "open_proxy")
     open_driver = config.getboolean("Settings", "open_driver")
-    favorite_list = [
-        favorite
-        for favorite in config.get("Settings", "favorite_list").split(",")
-        if favorite.strip()
-    ]
-    favorite_page_num = config.getint("Settings", "favorite_page_num")
-    default_page_num = config.getint("Settings", "default_page_num")
+    page_num = config.getint("Settings", "online_search_page_num")
     if open_proxy:
         proxy = await get_proxy(pageUrl, best=True, with_test=True)
     start_time = time()
 
     def process_channel_by_online_search(name):
-        nonlocal proxy, open_proxy, open_driver, favorite_list, favorite_page_num, default_page_num
+        nonlocal proxy, open_proxy, open_driver, page_num
         info_list = []
         try:
             if open_driver:
@@ -114,9 +108,8 @@ async def get_channels_by_online_search(names, callback):
                 if not page_soup:
                     print(f"{name}:Request fail.")
                     return
-            pageNum = favorite_page_num if name in favorite_list else default_page_num
             retry_limit = 3
-            for page in range(1, pageNum + 1):
+            for page in range(1, page_num + 1):
                 retries = 0
                 if not open_driver and page == 1:
                     retries = 2

@@ -210,7 +210,7 @@ def get_channel_multicast_region_type_list(result):
     """
     Get the channel multicast region type list from result
     """
-    config_region_list = set(config.get("Settings", "region_list").split(","))
+    config_region_list = set(config.get("Settings", "multicast_region_list").split(","))
     region_type_list = {
         (region, type)
         for region_type in result.values()
@@ -266,7 +266,7 @@ def get_results_from_soup(soup, name):
     return results
 
 
-def get_results_from_multicast_soup(soup):
+def get_results_from_multicast_soup(soup, hotel=False):
     """
     Get the results from the multicast soup
     """
@@ -295,6 +295,8 @@ def get_results_from_multicast_soup(soup):
                 info_text = info_element.get_text(strip=True)
                 if "上线" in info_text and " " in info_text:
                     date, region, type = get_multicast_channel_info(info_text)
+                    if hotel and "酒店" not in region:
+                        continue
                     results.append(
                         {
                             "url": url,
@@ -331,7 +333,7 @@ def get_results_from_soup_requests(soup, name):
     return results
 
 
-def get_results_from_multicast_soup_requests(soup):
+def get_results_from_multicast_soup_requests(soup, hotel=False):
     """
     Get the results from the multicast soup by requests
     """
@@ -362,6 +364,8 @@ def get_results_from_multicast_soup_requests(soup):
                 date, region, type = get_multicast_channel_info(text)
 
         if url and valid:
+            if hotel and "酒店" not in region:
+                continue
             results.append({"url": url, "date": date, "region": region, "type": type})
 
     return results
@@ -468,7 +472,13 @@ def append_total_data(*args, **kwargs):
 
 
 def append_all_method_data(
-    items, data, subscribe_result=None, multicast_result=None, online_search_result=None
+    items,
+    data,
+    subscribe_result=None,
+    multicast_result=None,
+    hotel_tonkiang_result=None,
+    hotel_fofa_result=None,
+    online_search_result=None,
 ):
     """
     Append all method data to total info data
@@ -478,6 +488,8 @@ def append_all_method_data(
             for method, result in [
                 ("subscribe", subscribe_result),
                 ("multicast", multicast_result),
+                ("hotel_tonkiang", hotel_tonkiang_result),
+                ("hotel_fofa", hotel_fofa_result),
                 ("online_search", online_search_result),
             ]:
                 if config.getboolean("Settings", f"open_{method}"):
@@ -511,7 +523,13 @@ def append_all_method_data(
 
 
 def append_all_method_data_keep_all(
-    items, data, subscribe_result=None, multicast_result=None, online_search_result=None
+    items,
+    data,
+    subscribe_result=None,
+    multicast_result=None,
+    hotel_tonkiang_result=None,
+    hotel_fofa_result=None,
+    online_search_result=None,
 ):
     """
     Append all method data to total info data, keep all channel name and urls
@@ -520,6 +538,8 @@ def append_all_method_data_keep_all(
         for result_name, result in [
             ("subscribe", subscribe_result),
             ("multicast", multicast_result),
+            ("hotel_tonkiang", hotel_tonkiang_result),
+            ("hotel_fofa", hotel_fofa_result),
             ("online_search", online_search_result),
         ]:
             if result and config.getboolean("Settings", f"open_{result_name}"):
