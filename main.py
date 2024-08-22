@@ -1,5 +1,5 @@
 import asyncio
-from utils.config import config
+from utils.config import config, copy_config
 from utils.channel import (
     get_channel_items,
     append_data_to_info_data,
@@ -94,6 +94,8 @@ class UpdateSource:
     async def main(self):
         try:
             self.channel_items = get_channel_items()
+            if self.run_ui:
+                copy_config()
             channel_names = [
                 name
                 for channel_obj in self.channel_items.values()

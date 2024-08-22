@@ -24,7 +24,9 @@ logging.basicConfig(
 )
 
 
-def get_channel_data_from_file(channels=None, file=None, names=None, from_result=False):
+def get_channel_data_from_file(
+    channels=None, file=None, names=None, from_result=False, change_source_path=False
+):
     """
     Get the channel data from the file
     """
@@ -43,7 +45,7 @@ def get_channel_data_from_file(channels=None, file=None, names=None, from_result
             match = re.search(pattern, line)
             if match is not None:
                 name = match.group(1).strip()
-                if name not in names:
+                if not change_source_path and name not in names:
                     continue
                 url = match.group(2).strip()
                 if url and url not in channels[current_category][name]:
@@ -51,7 +53,7 @@ def get_channel_data_from_file(channels=None, file=None, names=None, from_result
     return channels
 
 
-def get_channel_items():
+def get_channel_items(change_source_path=False):
     """
     Get the channel items from the source file
     """
@@ -63,7 +65,10 @@ def get_channel_items():
     if os.path.exists(resource_path(user_source_file)):
         with open(resource_path(user_source_file), "r", encoding="utf-8") as file:
             channels = get_channel_data_from_file(
-                channels=channels, file=file, names=source_channel_names
+                channels=channels,
+                file=file,
+                names=source_channel_names,
+                change_source_path=change_source_path,
             )
 
     if config.getboolean("Settings", "open_use_old_result") and os.path.exists(
@@ -75,14 +80,16 @@ def get_channel_items():
                 file=file,
                 names=source_channel_names,
                 from_result=True,
+                change_source_path=change_source_path,
             )
 
     channel_names = [
         name for channel_obj in channels.values() for name in channel_obj.keys()
     ]
-    for source_name in source_channel_names:
-        if source_name not in channel_names:
-            channels["自定义频道"][source_name] = []
+    if not change_source_path:
+        for source_name in source_channel_names:
+            if source_name not in channel_names:
+                channels["自定义频道"][source_name] = []
     total_channel_names = ",".join(
         [name for channel_obj in channels.values() for name in channel_obj.keys()]
     )
@@ -514,6 +521,10 @@ def append_all_method_data(
                 ("online_search", online_search_result),
             ]:
                 if config.getboolean("Settings", f"open_{method}"):
+                    if (
+                        method == "hotel_tonkiang" or method == "hotel_fofa"
+                    ) and config.getboolean("Settings", f"open_hotel") == False:
+                        continue
                     data = append_data_to_info_data(
                         data,
                         cate,
@@ -556,17 +567,21 @@ def append_all_method_data_keep_all(
     Append all method data to total info data, keep all channel name and urls
     """
     for cate, channel_obj in items:
-        for result_name, result in [
+        for method, result in [
             ("subscribe", subscribe_result),
             ("multicast", multicast_result),
             ("hotel_tonkiang", hotel_tonkiang_result),
             ("hotel_fofa", hotel_fofa_result),
             ("online_search", online_search_result),
         ]:
-            if result and config.getboolean("Settings", f"open_{result_name}"):
+            if result and config.getboolean("Settings", f"open_{method}"):
+                if (
+                    method == "hotel_tonkiang" or method == "hotel_fofa"
+                ) and config.getboolean("Settings", f"open_hotel") == False:
+                    continue
                 for name, urls in result.items():
                     data = append_data_to_info_data(data, cate, name, urls)
-                    print(name, f"{result_name.capitalize()} num:", len(urls))
+                    print(name, f"{method.capitalize()} num:", len(urls))
                     if config.getboolean("Settings", "open_use_old_result"):
                         old_urls = channel_obj.get(name, [])
                         data = append_data_to_info_data(

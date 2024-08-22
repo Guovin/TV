@@ -1,6 +1,7 @@
 import os
 import sys
 import configparser
+import shutil
 
 
 def resource_path(relative_path, persistent=False):
@@ -50,6 +51,26 @@ def save_config():
         else "config.ini"
     )
     user_config_path = resource_path(user_config_file, persistent=True)
-    os.makedirs(os.path.dirname(user_config_path), exist_ok=True)
+    if not os.path.exists(user_config_path):
+        os.makedirs(os.path.dirname(user_config_path), exist_ok=True)
     with open(user_config_path, "w", encoding="utf-8") as configfile:
         config.write(configfile)
+
+
+def copy_config():
+    user_source_file = resource_path(config.get("Settings", "source_file"))
+    user_config_path = resource_path("config/user_config.ini")
+    default_config_path = resource_path("config/config.ini")
+    user_config_file = (
+        user_config_path if os.path.exists(user_config_path) else default_config_path
+    )
+    dest_folder = os.path.join(os.getcwd(), "config")
+    files_to_copy = [user_source_file, user_config_file]
+    try:
+        for src_file in files_to_copy:
+            dest_path = os.path.join(dest_folder, os.path.basename(src_file))
+            if os.path.abspath(src_file) == os.path.abspath(dest_path):
+                continue
+            shutil.copy(src_file, dest_folder)
+    except Exception as e:
+        print(f"Failed to copy files: {str(e)}")
