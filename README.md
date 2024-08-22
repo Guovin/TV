@@ -112,4 +112,4 @@ Fork 本项目并开启工作流更新
 
 ## 赞赏
 
-![image](./docs/images/appreciate.jpg)
+![image](./static/images/appreciate.jpg)

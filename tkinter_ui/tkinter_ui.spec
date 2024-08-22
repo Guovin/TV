@@ -1,7 +1,7 @@
 # -*- mode: python ; coding: utf-8 -*-
 
 a = Analysis(
-    ['tkinter_ui.py', 'default.py', 'multicast.py', 'hotel.py', 'subscribe.py', 'online_search.py'],
+    ['tkinter_ui.py', 'about.py', 'default.py', 'multicast.py', 'hotel.py', 'subscribe.py', 'online_search.py'],
     pathex=[],
     binaries=[],
     datas=[
@@ -9,6 +9,9 @@ a = Analysis(
         ('../config/demo.txt', 'config'),
         ('../updates/multicast/multicast_map.json', 'updates/multicast'),
         ('../updates/multicast/multicast_region_result.json', 'updates/multicast'),
+        ('../static/images/favicon.ico', 'static/images'),
+        ('../static/images/appreciate.jpg', 'static/images'),
+        ('about.py', '.'),
         ('default.py', '.'),
         ('multicast.py', '.'),
         ('hotel.py', '.'),
@@ -46,4 +49,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
+    icon='../static/images/favicon.ico'
 )

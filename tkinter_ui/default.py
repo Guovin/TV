@@ -4,6 +4,7 @@ from tkinter import ttk
 from tkinter import scrolledtext
 from tkinter import filedialog
 import os
+from utils.channel import get_channel_items
 
 
 class DefaultUI:
@@ -67,7 +68,7 @@ class DefaultUI:
         frame_default_source_file_select = tk.Frame(root)
         frame_default_source_file_select.pack(fill=tk.X)
 
-        self.source_file_button = tk.Button(
+        self.source_file_button = tk.ttk.Button(
             frame_default_source_file_select,
             text="选择文件",
             command=self.select_source_file,
@@ -106,7 +107,7 @@ class DefaultUI:
         frame_default_final_file_select = tk.Frame(root)
         frame_default_final_file_select.pack(fill=tk.X)
 
-        self.final_file_button = tk.Button(
+        self.final_file_button = tk.ttk.Button(
             frame_default_final_file_select,
             text="选择文件",
             command=self.select_final_file,
@@ -305,6 +306,11 @@ class DefaultUI:
             self.source_file_entry.delete(0, tk.END)
             self.source_file_entry.insert(0, filepath)
             config.set("Settings", "source_file", filepath)
+            get_channel_items(change_source_path=True)
+            self.source_channels_text.delete(1.0, tk.END)
+            self.source_channels_text.insert(
+                tk.END, config.get("Settings", "source_channels")
+            )
 
     def update_source_channels(self, event):
         config.set(
