@@ -27,7 +27,7 @@ jobs:
         run: pipenv install pyinstaller
 
       - name: Build the application
-        run: pipenv run pyinstaller tkinter_ui.spec
+        run: pipenv run pyinstaller tkinter_ui/tkinter_ui.spec
 
       - name: List dist directory contents
         run: dir dist
