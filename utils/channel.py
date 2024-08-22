@@ -1,4 +1,4 @@
-from utils.config import config, resource_path
+from utils.config import config, resource_path, save_config
 from utils.tools import check_url_by_patterns, get_total_urls_from_info_list
 from utils.speed import sort_urls_by_speed_and_resolution
 import os
@@ -24,7 +24,9 @@ logging.basicConfig(
 )
 
 
-def get_channel_data_from_file(channels, file, from_result=False):
+def get_channel_data_from_file(
+    channels=None, file=None, names=None, from_result=False, change_source_path=False
+):
     """
     Get the channel data from the file
     """
@@ -43,30 +45,56 @@ def get_channel_data_from_file(channels, file, from_result=False):
             match = re.search(pattern, line)
             if match is not None:
                 name = match.group(1).strip()
+                if not change_source_path and name not in names:
+                    continue
                 url = match.group(2).strip()
                 if url and url not in channels[current_category][name]:
                     channels[current_category][name].append(url)
     return channels
 
 
-def get_channel_items():
+def get_channel_items(change_source_path=False):
     """
     Get the channel items from the source file
     """
     user_source_file = config.get("Settings", "source_file")
     user_final_file = config.get("Settings", "final_file")
     channels = defaultdict(lambda: defaultdict(list))
+    source_channel_names = config.get("Settings", "source_channels").split(",")
 
     if os.path.exists(resource_path(user_source_file)):
         with open(resource_path(user_source_file), "r", encoding="utf-8") as file:
-            channels = get_channel_data_from_file(channels, file)
+            channels = get_channel_data_from_file(
+                channels=channels,
+                file=file,
+                names=source_channel_names,
+                change_source_path=change_source_path,
+            )
 
     if config.getboolean("Settings", "open_use_old_result") and os.path.exists(
         resource_path(user_final_file)
     ):
         with open(resource_path(user_final_file), "r", encoding="utf-8") as file:
-            channels = get_channel_data_from_file(channels, file, from_result=True)
+            channels = get_channel_data_from_file(
+                channels=channels,
+                file=file,
+                names=source_channel_names,
+                from_result=True,
+                change_source_path=change_source_path,
+            )
 
+    channel_names = [
+        name for channel_obj in channels.values() for name in channel_obj.keys()
+    ]
+    if not change_source_path:
+        for source_name in source_channel_names:
+            if source_name not in channel_names:
+                channels["自定义频道"][source_name] = []
+    total_channel_names = ",".join(
+        [name for channel_obj in channels.values() for name in channel_obj.keys()]
+    )
+    config.set("Settings", "source_channels", total_channel_names)
+    save_config()
     return channels
 
 
@@ -210,7 +238,7 @@ def get_channel_multicast_region_type_list(result):
     """
     Get the channel multicast region type list from result
     """
-    config_region_list = set(config.get("Settings", "region_list").split(","))
+    config_region_list = set(config.get("Settings", "multicast_region_list").split(","))
     region_type_list = {
         (region, type)
         for region_type in result.values()
@@ -266,7 +294,7 @@ def get_results_from_soup(soup, name):
     return results
 
 
-def get_results_from_multicast_soup(soup):
+def get_results_from_multicast_soup(soup, hotel=False):
     """
     Get the results from the multicast soup
     """
@@ -295,6 +323,8 @@ def get_results_from_multicast_soup(soup):
                 info_text = info_element.get_text(strip=True)
                 if "上线" in info_text and " " in info_text:
                     date, region, type = get_multicast_channel_info(info_text)
+                    if hotel and "酒店" not in region:
+                        continue
                     results.append(
                         {
                             "url": url,
@@ -331,7 +361,7 @@ def get_results_from_soup_requests(soup, name):
     return results
 
 
-def get_results_from_multicast_soup_requests(soup):
+def get_results_from_multicast_soup_requests(soup, hotel=False):
     """
     Get the results from the multicast soup by requests
     """
@@ -362,6 +392,8 @@ def get_results_from_multicast_soup_requests(soup):
                 date, region, type = get_multicast_channel_info(text)
 
         if url and valid:
+            if hotel and "酒店" not in region:
+                continue
             results.append({"url": url, "date": date, "region": region, "type": type})
 
     return results
@@ -468,7 +500,13 @@ def append_total_data(*args, **kwargs):
 
 
 def append_all_method_data(
-    items, data, subscribe_result=None, multicast_result=None, online_search_result=None
+    items,
+    data,
+    subscribe_result=None,
+    multicast_result=None,
+    hotel_tonkiang_result=None,
+    hotel_fofa_result=None,
+    online_search_result=None,
 ):
     """
     Append all method data to total info data
@@ -478,9 +516,15 @@ def append_all_method_data(
             for method, result in [
                 ("subscribe", subscribe_result),
                 ("multicast", multicast_result),
+                ("hotel_tonkiang", hotel_tonkiang_result),
+                ("hotel_fofa", hotel_fofa_result),
                 ("online_search", online_search_result),
             ]:
                 if config.getboolean("Settings", f"open_{method}"):
+                    if (
+                        method == "hotel_tonkiang" or method == "hotel_fofa"
+                    ) and config.getboolean("Settings", f"open_hotel") == False:
+                        continue
                     data = append_data_to_info_data(
                         data,
                         cate,
@@ -511,21 +555,33 @@ def append_all_method_data(
 
 
 def append_all_method_data_keep_all(
-    items, data, subscribe_result=None, multicast_result=None, online_search_result=None
+    items,
+    data,
+    subscribe_result=None,
+    multicast_result=None,
+    hotel_tonkiang_result=None,
+    hotel_fofa_result=None,
+    online_search_result=None,
 ):
     """
     Append all method data to total info data, keep all channel name and urls
     """
     for cate, channel_obj in items:
-        for result_name, result in [
+        for method, result in [
             ("subscribe", subscribe_result),
             ("multicast", multicast_result),
+            ("hotel_tonkiang", hotel_tonkiang_result),
+            ("hotel_fofa", hotel_fofa_result),
             ("online_search", online_search_result),
         ]:
-            if result and config.getboolean("Settings", f"open_{result_name}"):
+            if result and config.getboolean("Settings", f"open_{method}"):
+                if (
+                    method == "hotel_tonkiang" or method == "hotel_fofa"
+                ) and config.getboolean("Settings", f"open_hotel") == False:
+                    continue
                 for name, urls in result.items():
                     data = append_data_to_info_data(data, cate, name, urls)
-                    print(name, f"{result_name.capitalize()} num:", len(urls))
+                    print(name, f"{method.capitalize()} num:", len(urls))
                     if config.getboolean("Settings", "open_use_old_result"):
                         old_urls = channel_obj.get(name, [])
                         data = append_data_to_info_data(

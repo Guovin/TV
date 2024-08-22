@@ -1,5 +1,16 @@
 # 更新日志（Changelog）
 
+## v1.3.6
+
+### 2024/8/22
+
+- 新增酒店源更新，支持 Tonkiang、FOFA 两种工作模式（Added hotel source updates, supporting Tonkiang and FOFA working modes）
+- 重构 UI 界面软件，新增帮助-关于、获取频道名称编辑、酒店源相关配置、软件图标（Refactored UI interface software, added Help-About, channel name editing, hotel source related configuration, and software icon）
+- 移除关注频道相关配置（Removed configuration related to followed channels）
+- 修复 Docker 定时任务未执行问题（Fixed issue with Docker scheduled tasks not executing）
+- 修复使用历史结果时频道数据异常问题（Fixed issue with channel data anomalies when using historical results）
+- 优化 UI 界面软件运行生成配置目录，方便查看与修改（Optimized UI interface software to generate configuration directory for easier viewing and modification）
+
 ## v1.3.5
 
 ### 2024/8/14

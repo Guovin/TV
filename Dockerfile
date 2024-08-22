@@ -48,8 +48,6 @@ RUN (crontab -l ; \
   echo "0 22 * * * cd $APP_WORKDIR && /usr/local/bin/pipenv run python main.py scheduled_task"; \
   echo "0 10 * * * cd $APP_WORKDIR && /usr/local/bin/pipenv run python main.py scheduled_task") | crontab -
 
-CMD ["cron", "-f"]
-
 EXPOSE 8000
 
 COPY entrypoint.sh /tv_entrypoint.sh
