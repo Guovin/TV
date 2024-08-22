@@ -34,7 +34,23 @@ def show_result():
     user_final_file = config.get("Settings", "final_file")
     with open(user_final_file, "r", encoding="utf-8") as file:
         content = file.read()
-    return render_template_string("<pre>{{ content }}</pre>", content=content)
+    return render_template_string(
+        "<head><link rel='icon' href='{{ url_for('static', filename='images/favicon.ico') }}' type='image/x-icon'></head><pre>{{ content }}</pre>",
+        content=content,
+    )
+
+
+@app.route("/log")
+def show_log():
+    user_log_file = "output/" + (
+        "user_result.log" if os.path.exists("config/user_config.ini") else "result.log"
+    )
+    with open(user_log_file, "r", encoding="utf-8") as file:
+        content = file.read()
+    return render_template_string(
+        "<head><link rel='icon' href='{{ url_for('static', filename='images/favicon.ico') }}' type='image/x-icon'></head><pre>{{ content }}</pre>",
+        content=content,
+    )
 
 
 class UpdateSource:
@@ -173,8 +189,6 @@ class UpdateSource:
                 )
                 update_file(user_log_file, "output/result_new.log")
             print(f"Update completed! Please check the {user_final_file} file!")
-            if not os.environ.get("GITHUB_ACTIONS"):
-                print(f"You can access the result at {get_ip_address()}")
             if self.run_ui:
                 self.update_progress(
                     f"更新完成, 请检查{user_final_file}文件, 可访问以下链接:",
@@ -193,16 +207,14 @@ class UpdateSource:
         self.run_ui = True if callback else False
         if config.getboolean("Settings", "open_update"):
             await self.main()
-        if self.run_ui:
-            if not config.getboolean("Settings", "open_update"):
-                print(f"You can access the result at {get_ip_address()}")
-                self.update_progress(
-                    f"服务启动成功, 可访问以下链接:",
-                    100,
-                    True,
-                    url=f"{get_ip_address()}",
-                )
-            app.run(host="0.0.0.0", port=8000)
+        if self.run_ui and config.getboolean("Settings", "open_update") == False:
+            self.update_progress(
+                f"服务启动成功, 可访问以下链接:",
+                100,
+                True,
+                url=f"{get_ip_address()}",
+            )
+            run_app()
 
     def stop(self):
         for task in self.tasks:
@@ -220,8 +232,13 @@ def scheduled_task():
         loop.run_until_complete(update_source.start())
 
 
+def run_app():
+    if not os.environ.get("GITHUB_ACTIONS"):
+        print(f"You can access the result at {get_ip_address()}")
+        app.run(host="0.0.0.0", port=8000)
+
+
 if __name__ == "__main__":
     if len(sys.argv) == 1 or (len(sys.argv) > 1 and sys.argv[1] == "scheduled_task"):
         scheduled_task()
-    if not os.environ.get("GITHUB_ACTIONS"):
-        app.run(host="0.0.0.0", port=8000)
+    run_app()

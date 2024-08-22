@@ -4,12 +4,12 @@ import os
 sys.path.append(os.path.dirname(sys.path[0]))
 import tkinter as tk
 from tkinter import messagebox
-from tkinter import ttk
 from utils.config import config, resource_path, save_config
 from main import UpdateSource
 import asyncio
 import threading
 import webbrowser
+from about import AboutUI
 from default import DefaultUI
 from multicast import MulticastUI
 from hotel import HotelUI
@@ -25,6 +25,7 @@ class TkinterUI:
         self.root = root
         self.root.title(info.get("name", ""))
         self.version = info.get("version", "")
+        self.about_ui = AboutUI()
         self.default_ui = DefaultUI()
         self.multicast_ui = MulticastUI()
         self.hotel_ui = HotelUI()
@@ -129,14 +130,23 @@ class TkinterUI:
 
     def init_UI(self):
 
-        notebook = ttk.Notebook(self.root)
-        notebook.pack(expand=True, fill="both", padx=10, pady=0)
+        menu_bar = tk.Menu(self.root)
+        help_menu = tk.Menu(menu_bar, tearoff=0)
+        help_menu.add_command(
+            label="关于",
+            command=lambda: self.about_ui.init_ui(root=self.root, version=self.version),
+        )
+        menu_bar.add_cascade(label="帮助", menu=help_menu)
+        self.root.config(menu=menu_bar)
 
-        frame_default = ttk.Frame(notebook, width=500, height=500)
-        frame_multicast = ttk.Frame(notebook, width=500, height=500)
-        frame_hotel = ttk.Frame(notebook, width=500, height=500)
-        frame_subscribe = ttk.Frame(notebook, width=500, height=500)
-        frame_online_search = ttk.Frame(notebook, width=500, height=500)
+        notebook = tk.ttk.Notebook(self.root)
+        notebook.pack(fill="both", padx=10, pady=5)
+
+        frame_default = tk.ttk.Frame(notebook)
+        frame_multicast = tk.ttk.Frame(notebook)
+        frame_hotel = tk.ttk.Frame(notebook)
+        frame_subscribe = tk.ttk.Frame(notebook)
+        frame_online_search = tk.ttk.Frame(notebook)
 
         notebook.add(frame_default, text="通用设置")
         notebook.add(frame_multicast, text="组播源")
@@ -157,45 +167,20 @@ class TkinterUI:
         root_operate_column2 = tk.Frame(root_operate)
         root_operate_column2.pack(side=tk.RIGHT, fill=tk.Y)
 
-        self.save_button = tk.Button(
+        self.save_button = tk.ttk.Button(
             root_operate_column1, text="保存设置", command=self.save_config
         )
         self.save_button.pack(side=tk.LEFT, padx=4, pady=8)
 
-        self.run_button = tk.Button(
+        self.run_button = tk.ttk.Button(
             root_operate_column2, text="开始更新", command=self.on_run_update
         )
         self.run_button.pack(side=tk.LEFT, padx=4, pady=8)
 
-        version_frame = tk.Frame(self.root)
-        version_frame.pack(side=tk.BOTTOM, fill=tk.X)
-
-        self.version_label = tk.Label(
-            version_frame, text=self.version, fg="gray", anchor="se"
-        )
-        self.version_label.pack(side=tk.RIGHT, padx=5, pady=5)
-
-        self.author_label = tk.Label(
-            version_frame,
-            text="by Govin",
-            fg="gray",
-            anchor="se",
-        )
-        self.author_label.pack(side=tk.LEFT, padx=5, pady=5)
-
-        self.project_link = tk.Label(
-            version_frame, text="访问项目主页", fg="blue", cursor="hand2"
-        )
-        self.project_link.pack(side=tk.LEFT, padx=5, pady=5)
-        self.project_link.bind(
-            "<Button-1>",
-            lambda e: webbrowser.open_new_tab("https://github.com/Guovin/TV"),
-        )
-
         root_progress = tk.Frame(self.root)
         root_progress.pack(fill=tk.X)
 
-        self.progress_bar = ttk.Progressbar(
+        self.progress_bar = tk.ttk.Progressbar(
             root_progress, length=300, mode="determinate"
         )
         self.progress_bar.pack_forget()
@@ -211,15 +196,24 @@ class TkinterUI:
         self.view_result_link.pack_forget()
 
 
-if __name__ == "__main__":
-    root = tk.Tk()
-    tkinter_ui = TkinterUI(root)
-    tkinter_ui.init_UI()
+def get_root_location(root):
     screen_width = root.winfo_screenwidth()
     screen_height = root.winfo_screenheight()
     width = 550
     height = 750
     x = (screen_width / 2) - (width / 2)
     y = (screen_height / 2) - (height / 2)
-    root.geometry("%dx%d+%d+%d" % (width, height, x, y))
+    return (width, height, x, y)
+
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    tkinter_ui = TkinterUI(root)
+    tkinter_ui.init_UI()
+    screen_width = root.winfo_screenwidth()
+    screen_height = root.winfo_screenheight()
+    root.geometry("%dx%d+%d+%d" % get_root_location(root))
+    icon = tk.PhotoImage(file="static/images/logo.png")
+    root.iconphoto(True, icon)
+    root.iconbitmap("static/images/favicon.ico")
     root.mainloop()
