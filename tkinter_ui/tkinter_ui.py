@@ -213,7 +213,5 @@ if __name__ == "__main__":
     screen_width = root.winfo_screenwidth()
     screen_height = root.winfo_screenheight()
     root.geometry("%dx%d+%d+%d" % get_root_location(root))
-    icon = tk.PhotoImage(file="static/images/logo.png")
-    root.iconphoto(True, icon)
-    root.iconbitmap("static/images/favicon.ico")
+    root.iconbitmap(resource_path("static/images/favicon.ico"))
     root.mainloop()

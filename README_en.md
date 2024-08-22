@@ -112,4 +112,4 @@ If you don't want to bother, and my configuration just meets your needs, you can
 
 ## Appreciate
 
-![image](./docs/images/appreciate.jpg)
+![image](./static/images/appreciate.jpg)

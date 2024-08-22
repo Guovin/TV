@@ -1,6 +1,7 @@
 import tkinter as tk
 from PIL import Image, ImageTk
 import webbrowser
+from utils.config import resource_path
 
 
 class AboutUI:
@@ -60,14 +61,14 @@ class AboutUI:
         )
         disclaimer_label.pack()
 
-        image = Image.open("docs/images/appreciate.jpg")
+        image = Image.open(resource_path("static/images/appreciate.jpg"))
         resized_image = image.resize((250, 250))
         photo = ImageTk.PhotoImage(resized_image)
         image_label = tk.Label(about_window, image=photo)
         image_label.image = photo
         image_label.pack()
 
-        appreciate_label = tk.Label(about_window, text="欢迎赞助")
+        appreciate_label = tk.Label(about_window, text="您的赞助是我更新的动力")
         appreciate_label.pack()
 
         confirm_button = tk.ttk.Button(
