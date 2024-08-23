@@ -1,4 +1,7 @@
-# 电视频道菜单自定义与直播源接口更新工具
+<div align="center">
+  <img src="./static/images/logo.png" alt="logo"/>
+  <h1 align="center">电视直播源更新工具</h1>
+</div>
 
 自定义频道菜单，根据模板文件的直播源接口，自动获取并更新最新的直播源接口，校验并生成可用的频道接口文件
 
