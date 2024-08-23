@@ -1,4 +1,7 @@
-# Television channel menu customization and live source interface update tool
+<div align="center">
+  <img src="./static/images/logo.png" alt="logo"/>
+  <h1 align="center">Live TV source update tool</h1>
+</div>
 
 Customize channel menus and automatically obtain and update the latest live source interfaces based on template files, verify, and generate usable channel interface files.
 
