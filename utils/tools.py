@@ -8,6 +8,7 @@ import socket
 from utils.config import config, resource_path
 import re
 from bs4 import BeautifulSoup
+from flask import render_template_string, send_file
 
 
 def format_interval(t):
@@ -236,3 +237,51 @@ def get_ip_address():
     finally:
         s.close()
     return f"http://{IP}:8000"
+
+
+def convert_to_m3u():
+    """
+    Convert result txt to m3u format
+    """
+    user_final_file = config.get("Settings", "final_file")
+    if os.path.exists(resource_path(user_final_file)):
+        with open(resource_path(user_final_file), "r", encoding="utf-8") as file:
+            m3u_output = '#EXTM3U x-tvg-url="https://live.fanmingming.com/e.xml"\n'
+            current_group = None
+            for line in file:
+                trimmed_line = line.strip()
+                if trimmed_line != "":
+                    if "#genre#" in trimmed_line:
+                        current_group = trimmed_line.replace(",#genre#", "").strip()
+                    else:
+                        original_channel_name, channel_link = map(
+                            str.strip, trimmed_line.split(",")
+                        )
+                        processed_channel_name = re.sub(
+                            r"(CCTV|CETV)-(\d+).*", r"\1\2", original_channel_name
+                        )
+                        m3u_output += f'#EXTINF:-1 tvg-name="{processed_channel_name}" tvg-logo="https://live.fanmingming.com/tv/{processed_channel_name}.png"'
+                        if current_group:
+                            m3u_output += f' group-title="{current_group}"'
+                        m3u_output += f",{original_channel_name}\n{channel_link}\n"
+            m3u_file_path = os.path.splitext(resource_path(user_final_file))[0] + ".m3u"
+            with open(m3u_file_path, "w", encoding="utf-8") as m3u_file:
+                m3u_file.write(m3u_output)
+            print(f"result m3u file generated at: {m3u_file_path}")
+
+
+def get_result_file_content(show_result=False):
+    """
+    Get the content of the result file
+    """
+    user_final_file = config.get("Settings", "final_file")
+    if config.getboolean("Settings", "open_m3u_result"):
+        user_final_file = os.path.splitext(resource_path(user_final_file))[0] + ".m3u"
+        if show_result == False:
+            return send_file(user_final_file, as_attachment=True)
+    with open(user_final_file, "r", encoding="utf-8") as file:
+        content = file.read()
+    return render_template_string(
+        "<head><link rel='icon' href='{{ url_for('static', filename='images/favicon.ico') }}' type='image/x-icon'></head><pre>{{ content }}</pre>",
+        content=content,
+    )

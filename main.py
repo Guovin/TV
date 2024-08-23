@@ -1,5 +1,5 @@
 import asyncio
-from utils.config import config, copy_config
+from utils.config import config, copy_config, resource_path
 from utils.channel import (
     get_channel_items,
     append_data_to_info_data,
@@ -11,6 +11,8 @@ from utils.tools import (
     update_file,
     get_pbar_remaining,
     get_ip_address,
+    convert_to_m3u,
+    get_result_file_content,
 )
 from utils.speed import is_ffmpeg_installed
 from updates.subscribe import get_channels_by_subscribe_urls
@@ -30,14 +32,13 @@ app = Flask(__name__)
 
 
 @app.route("/")
+def show_index():
+    return get_result_file_content()
+
+
+@app.route("/result")
 def show_result():
-    user_final_file = config.get("Settings", "final_file")
-    with open(user_final_file, "r", encoding="utf-8") as file:
-        content = file.read()
-    return render_template_string(
-        "<head><link rel='icon' href='{{ url_for('static', filename='images/favicon.ico') }}' type='image/x-icon'></head><pre>{{ content }}</pre>",
-        content=content,
-    )
+    return get_result_file_content(show_result=True)
 
 
 @app.route("/log")
@@ -188,6 +189,7 @@ class UpdateSource:
                     else "result.log"
                 )
                 update_file(user_log_file, "output/result_new.log")
+            convert_to_m3u()
             print(f"Update completed! Please check the {user_final_file} file!")
             if self.run_ui:
                 self.update_progress(
