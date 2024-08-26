@@ -56,20 +56,21 @@ class DefaultUI:
 
         frame_default_source_file = tk.Frame(root)
         frame_default_source_file.pack(fill=tk.X)
+        frame_default_source_file_column1 = tk.Frame(frame_default_source_file)
+        frame_default_source_file_column1.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        frame_default_source_file_column2 = tk.Frame(frame_default_source_file)
+        frame_default_source_file_column2.pack(side=tk.RIGHT, fill=tk.Y)
 
         self.source_file_label = tk.Label(
-            frame_default_source_file, text="模板文件:", width=8
+            frame_default_source_file_column1, text="模板文件:", width=8
         )
-        self.source_file_entry = tk.Entry(frame_default_source_file)
+        self.source_file_entry = tk.Entry(frame_default_source_file_column1)
         self.source_file_label.pack(side=tk.LEFT, padx=4, pady=8)
         self.source_file_entry.pack(fill=tk.X, padx=4, expand=True)
         self.source_file_entry.insert(0, config.get("Settings", "source_file"))
 
-        frame_default_source_file_select = tk.Frame(root)
-        frame_default_source_file_select.pack(fill=tk.X)
-
         self.source_file_button = tk.ttk.Button(
-            frame_default_source_file_select,
+            frame_default_source_file_column2,
             text="选择文件",
             command=self.select_source_file,
         )
@@ -95,20 +96,21 @@ class DefaultUI:
 
         frame_default_final_file = tk.Frame(root)
         frame_default_final_file.pack(fill=tk.X)
+        frame_default_final_file_column1 = tk.Frame(frame_default_final_file)
+        frame_default_final_file_column1.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        frame_default_final_file_column2 = tk.Frame(frame_default_final_file)
+        frame_default_final_file_column2.pack(side=tk.RIGHT, fill=tk.Y)
 
         self.final_file_label = tk.Label(
-            frame_default_final_file, text="结果文件:", width=8
+            frame_default_final_file_column1, text="结果文件:", width=8
         )
-        self.final_file_entry = tk.Entry(frame_default_final_file)
+        self.final_file_entry = tk.Entry(frame_default_final_file_column1)
         self.final_file_label.pack(side=tk.LEFT, padx=4, pady=8)
         self.final_file_entry.pack(fill=tk.X, padx=4, expand=True)
         self.final_file_entry.insert(0, config.get("Settings", "final_file"))
 
-        frame_default_final_file_select = tk.Frame(root)
-        frame_default_final_file_select.pack(fill=tk.X)
-
         self.final_file_button = tk.ttk.Button(
-            frame_default_final_file_select,
+            frame_default_final_file_column2,
             text="选择文件",
             command=self.select_final_file,
         )
@@ -220,6 +222,47 @@ class DefaultUI:
             command=self.update_open_sort,
         )
         self.open_sort_checkbutton.pack(side=tk.LEFT, padx=4, pady=8)
+
+        frame_default_sort_mode = tk.Frame(root)
+        frame_default_sort_mode.pack(fill=tk.X)
+        frame_default_sort_mode_column1 = tk.Frame(frame_default_sort_mode)
+        frame_default_sort_mode_column1.pack(side=tk.LEFT, fill=tk.Y)
+        frame_default_sort_mode_column2 = tk.Frame(frame_default_sort_mode)
+        frame_default_sort_mode_column2.pack(side=tk.RIGHT, fill=tk.Y)
+
+        self.open_ffmpeg_label = tk.Label(
+            frame_default_sort_mode_column1, text="FFmpeg测速:", width=12
+        )
+        self.open_ffmpeg_label.pack(side=tk.LEFT, padx=4, pady=8)
+        self.open_ffmpeg_var = tk.BooleanVar(
+            value=config.getboolean("Settings", "open_ffmpeg")
+        )
+        self.open_ffmpeg_checkbutton = ttk.Checkbutton(
+            frame_default_sort_mode_column1,
+            variable=self.open_ffmpeg_var,
+            onvalue=True,
+            offvalue=False,
+            command=self.update_open_ffmpeg,
+            text="(需要手动安装)",
+        )
+        self.open_ffmpeg_checkbutton.pack(side=tk.LEFT, padx=4, pady=8)
+
+        self.open_m3u_result_label = tk.Label(
+            frame_default_sort_mode_column2, text="M3U转换:", width=12
+        )
+        self.open_m3u_result_label.pack(side=tk.LEFT, padx=4, pady=8)
+        self.open_m3u_result_var = tk.BooleanVar(
+            value=config.getboolean("Settings", "open_m3u_result")
+        )
+        self.open_m3u_result_checkbutton = ttk.Checkbutton(
+            frame_default_sort_mode_column2,
+            variable=self.open_m3u_result_var,
+            onvalue=True,
+            offvalue=False,
+            command=self.update_open_m3u_result,
+            text="(支持频道图标)",
+        )
+        self.open_m3u_result_checkbutton.pack(side=tk.LEFT, padx=4, pady=8)
 
         frame_default_sort_params = tk.Frame(root)
         frame_default_sort_params.pack(fill=tk.X)
@@ -340,6 +383,12 @@ class DefaultUI:
     def update_open_sort(self):
         config.set("Settings", "open_sort", str(self.open_sort_var.get()))
 
+    def update_open_ffmpeg(self):
+        config.set("Settings", "open_ffmpeg", str(self.open_ffmpeg_var.get()))
+
+    def update_open_m3u_result(self):
+        config.set("Settings", "open_m3u_result", str(self.open_m3u_result_var.get()))
+
     def update_urls_limit(self, event):
         config.set("Settings", "urls_limit", self.urls_limit_entry.get())
 
@@ -388,6 +437,8 @@ class DefaultUI:
             "final_file_button",
             "open_keep_all_checkbutton",
             "open_sort_checkbutton",
+            "open_ffmpeg_checkbutton",
+            "open_m3u_result_checkbutton",
             "urls_limit_entry",
             "response_time_weight_entry",
             "resolution_weight_entry",

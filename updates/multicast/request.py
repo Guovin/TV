@@ -102,7 +102,7 @@ def get_multicast_urls_info_from_region_list():
         resource_path("updates/multicast/multicast_map.json"), "r", encoding="utf-8"
     ) as f:
         region_url = json.load(f)
-    if "all" in region_list:
+    if "all" in region_list or "全部" in region_list:
         urls_info = [
             {"region": region, "type": type, "url": url}
             for region, value in region_url.items()
