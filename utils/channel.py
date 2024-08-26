@@ -1,6 +1,6 @@
 from utils.config import config, resource_path, save_config
 from utils.tools import check_url_by_patterns, get_total_urls_from_info_list
-from utils.speed import sort_urls_by_speed_and_resolution
+from utils.speed import sort_urls_by_speed_and_resolution, is_ffmpeg_installed
 import os
 from collections import defaultdict
 import re
@@ -8,6 +8,8 @@ from bs4 import NavigableString
 import logging
 from logging.handlers import RotatingFileHandler
 from opencc import OpenCC
+import asyncio
+from tqdm.asyncio import tqdm_asyncio
 
 log_dir = "output"
 log_file = "result_new.log"
@@ -302,24 +304,17 @@ def get_results_from_multicast_soup(soup, hotel=False):
     for element in soup.descendants:
         if isinstance(element, NavigableString):
             text = element.strip()
+            if "失效" in text:
+                continue
             url = get_channel_url(text)
             if url and not any(item["url"] == url for item in results):
                 url_element = soup.find(lambda tag: tag.get_text(strip=True) == url)
                 if not url_element:
                     continue
-
-                valid_element = url_element.find_next_sibling()
-                if not valid_element:
-                    continue
-
-                valid_text = valid_element.get_text(strip=True)
-                if "失效" in valid_text:
-                    continue
-
-                info_element = valid_element.find_next_sibling().find_next_sibling()
+                parent_element = url_element.find_parent()
+                info_element = parent_element.find_all(recursive=False)[-1]
                 if not info_element:
                     continue
-
                 info_text = info_element.get_text(strip=True)
                 if "上线" in info_text and " " in info_text:
                     date, region, type = get_multicast_channel_info(info_text)
@@ -525,16 +520,17 @@ def append_all_method_data(
                         method == "hotel_tonkiang" or method == "hotel_fofa"
                     ) and config.getboolean("Settings", f"open_hotel") == False:
                         continue
+                    name_results = get_channel_results_by_name(name, result)
                     data = append_data_to_info_data(
                         data,
                         cate,
                         name,
-                        get_channel_results_by_name(name, result),
+                        name_results,
                     )
                     print(
                         name,
                         f"{method.capitalize()} num:",
-                        len(get_channel_results_by_name(name, result)),
+                        len(name_results),
                     )
             total_channel_data_len = len(data.get(cate, {}).get(name, []))
             if total_channel_data_len == 0 or config.getboolean(
@@ -546,6 +542,7 @@ def append_all_method_data(
                     name,
                     [(url, None, None) for url in old_urls],
                 )
+                print(name, "using old num:", len(old_urls))
             print(
                 name,
                 "total num:",
@@ -590,7 +587,7 @@ def append_all_method_data_keep_all(
                             name,
                             [(url, None, None) for url in old_urls],
                         )
-
+                        print(name, "using old num:", len(old_urls))
     return data
 
 
@@ -623,6 +620,43 @@ async def sort_channel_list(semaphore, cate, name, info_list, is_ffmpeg, callbac
         finally:
             callback()
             return {"cate": cate, "name": name, "data": data}
+
+
+async def process_sort_channel_list(channel_data, callback):
+    """
+    Processs the sort channel list
+    """
+    open_ffmpeg = config.getboolean("Settings", "open_ffmpeg")
+    ffmpeg_installed = is_ffmpeg_installed()
+    if open_ffmpeg and not ffmpeg_installed:
+        print("FFmpeg is not installed, using requests for sorting.")
+    is_ffmpeg = open_ffmpeg and ffmpeg_installed
+    semaphore = asyncio.Semaphore(1 if is_ffmpeg else 100)
+    tasks = [
+        asyncio.create_task(
+            sort_channel_list(
+                semaphore,
+                cate,
+                name,
+                info_list,
+                is_ffmpeg,
+                lambda: callback(),
+            )
+        )
+        for cate, channel_obj in channel_data.items()
+        for name, info_list in channel_obj.items()
+    ]
+    sort_results = await tqdm_asyncio.gather(*tasks, desc="Sorting")
+    channel_data = {}
+    for result in sort_results:
+        if result:
+            cate = result.get("cate")
+            name = result.get("name")
+            data = result.get("data")
+            channel_data = append_data_to_info_data(
+                channel_data, cate, name, data, False
+            )
+    return channel_data
 
 
 def write_channel_to_file(items, data, callback):

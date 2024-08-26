@@ -2,17 +2,17 @@ import asyncio
 from utils.config import config, copy_config
 from utils.channel import (
     get_channel_items,
-    append_data_to_info_data,
     append_total_data,
-    sort_channel_list,
+    process_sort_channel_list,
     write_channel_to_file,
 )
 from utils.tools import (
     update_file,
     get_pbar_remaining,
     get_ip_address,
+    convert_to_m3u,
+    get_result_file_content,
 )
-from utils.speed import is_ffmpeg_installed
 from updates.subscribe import get_channels_by_subscribe_urls
 from updates.multicast import get_channels_by_multicast
 from updates.hotel import get_channels_by_hotel
@@ -25,19 +25,19 @@ from time import time
 from flask import Flask, render_template_string
 import sys
 import shutil
+from collections import defaultdict
 
 app = Flask(__name__)
 
 
 @app.route("/")
+def show_index():
+    return get_result_file_content()
+
+
+@app.route("/result")
 def show_result():
-    user_final_file = config.get("Settings", "final_file")
-    with open(user_final_file, "r", encoding="utf-8") as file:
-        content = file.read()
-    return render_template_string(
-        "<head><link rel='icon' href='{{ url_for('static', filename='images/favicon.ico') }}' type='image/x-icon'></head><pre>{{ content }}</pre>",
-        content=content,
-    )
+    return get_result_file_content(show_result=True)
 
 
 @app.route("/log")
@@ -89,9 +89,17 @@ class UpdateSource:
             ) and config.getboolean("Settings", "open_hotel") == False:
                 continue
             if config.getboolean("Settings", setting):
-                task = asyncio.create_task(
-                    task_func(channel_names, self.update_progress)
-                )
+                if setting == "open_subscribe":
+                    subscribe_urls = config.get("Settings", "subscribe_urls").split(",")
+                    task = asyncio.create_task(
+                        task_func(urls=subscribe_urls, callback=self.update_progress)
+                    )
+                elif setting == "open_hotel_tonkiang" or setting == "open_hotel_fofa":
+                    task = asyncio.create_task(task_func(self.update_progress))
+                else:
+                    task = asyncio.create_task(
+                        task_func(channel_names, self.update_progress)
+                    )
                 self.tasks.append(task)
                 setattr(self, result_attr, await task)
 
@@ -120,8 +128,9 @@ class UpdateSource:
             self.total = len(channel_names)
             await self.visit_page(channel_names)
             self.tasks = []
+            channel_items_obj_items = self.channel_items.items()
             self.channel_data = append_total_data(
-                self.channel_items.items(),
+                channel_items_obj_items,
                 self.channel_data,
                 self.subscribe_result,
                 self.multicast_result,
@@ -130,44 +139,52 @@ class UpdateSource:
                 self.online_search_result,
             )
             if config.getboolean("Settings", "open_sort"):
-                is_ffmpeg = is_ffmpeg_installed()
-                if not is_ffmpeg:
-                    print("FFmpeg is not installed, using requests for sorting.")
-                semaphore = asyncio.Semaphore(1 if is_ffmpeg else 100)
-                self.tasks = [
-                    asyncio.create_task(
-                        sort_channel_list(
-                            semaphore,
-                            cate,
-                            name,
-                            info_list,
-                            is_ffmpeg,
-                            lambda: self.sort_pbar_update(),
-                        )
-                    )
-                    for cate, channel_obj in self.channel_data.items()
-                    for name, info_list in channel_obj.items()
-                ]
                 self.update_progress(
-                    f"正在测速排序, 共{len(self.tasks)}个频道",
+                    f"正在测速排序, 共{self.total}个频道",
                     0,
                 )
                 self.start_time = time()
-                self.pbar = tqdm_asyncio(total=len(self.tasks), desc="Sorting")
-                sort_results = await tqdm_asyncio.gather(*self.tasks, desc="Sorting")
-                self.channel_data = {}
-                for result in sort_results:
-                    if result:
-                        cate = result.get("cate")
-                        name = result.get("name")
-                        data = result.get("data")
-                        self.channel_data = append_data_to_info_data(
-                            self.channel_data, cate, name, data, False
-                        )
+                self.pbar = tqdm_asyncio(total=self.total, desc="Sorting")
+                self.channel_data = await process_sort_channel_list(
+                    self.channel_data, self.sort_pbar_update
+                )
+            no_result_cate_names = [
+                (cate, name)
+                for cate, channel_obj in self.channel_data.items()
+                for name, info_list in channel_obj.items()
+                if not info_list
+            ]
+            no_result_names = [name for (_, name) in no_result_cate_names]
+            if no_result_names:
+                print(
+                    f"No result found for {', '.join(no_result_names)}, try a supplementary online search..."
+                )
+                sup_results = await get_channels_by_online_search(
+                    no_result_names, self.update_progress
+                )
+                sup_channel_items = defaultdict(lambda: defaultdict(list))
+                for cate, name in no_result_cate_names:
+                    data = sup_results.get(name)
+                    if data:
+                        sup_channel_items[cate][name] = data
+                self.total = len(
+                    [name for obj in sup_channel_items.values() for name in obj.keys()]
+                )
+                if config.getboolean("Settings", "open_sort"):
+                    self.update_progress(
+                        f"正在对补充频道测速排序, 共{self.total}个频道",
+                        0,
+                    )
+                    self.start_time = time()
+                    self.pbar = tqdm_asyncio(total=self.total, desc="Sorting")
+                    self.channel_data = await process_sort_channel_list(
+                        self.channel_data,
+                        self.sort_pbar_update,
+                    )
             self.pbar = tqdm(total=self.total, desc="Writing")
             self.start_time = time()
             write_channel_to_file(
-                self.channel_items.items(),
+                channel_items_obj_items,
                 self.channel_data,
                 lambda: self.pbar_update(name="写入结果"),
             )
@@ -188,6 +205,7 @@ class UpdateSource:
                     else "result.log"
                 )
                 update_file(user_log_file, "output/result_new.log")
+            convert_to_m3u()
             print(f"Update completed! Please check the {user_final_file} file!")
             if self.run_ui:
                 self.update_progress(

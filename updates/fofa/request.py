@@ -22,7 +22,7 @@ def get_fofa_urls_from_region_list():
     region_list = config.get("Settings", "hotel_region_list").split(",")
     urls = []
     region_url = getattr(fofa_map, "region_url")
-    if "all" in region_list:
+    if "all" in region_list or "全部" in region_list:
         urls = [url for url in region_url.values() if url]
     else:
         for region in region_list:
@@ -31,7 +31,7 @@ def get_fofa_urls_from_region_list():
     return urls
 
 
-async def get_channels_by_fofa(names, callback):
+async def get_channels_by_fofa(callback):
     """
     Get the channel by FOFA
     """
@@ -95,13 +95,10 @@ async def get_channels_by_fofa(names, callback):
         ]
         for future in futures:
             fofa_results = merge_objects(fofa_results, future.result())
-    channels = {}
-    for name in names:
-        channels[name] = fofa_results.get(format_channel_name(name), [])
     if not open_driver:
         close_session()
     pbar.close()
-    return channels
+    return fofa_results
 
 
 def process_fofa_json_url(url):

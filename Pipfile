@@ -23,6 +23,7 @@ flask = "*"
 opencc-python-reimplemented = "*"
 fake-useragent = "*"
 gunicorn = "*"
+pillow = "*"
 
 [requires]
 python_version = "3.8"
