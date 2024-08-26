@@ -3,7 +3,6 @@ from utils.speed import get_speed
 from utils.channel import (
     get_results_from_multicast_soup,
     get_results_from_multicast_soup_requests,
-    format_channel_name,
 )
 from utils.tools import get_pbar_remaining, get_soup
 from utils.config import config
@@ -23,6 +22,7 @@ import urllib.parse as urlparse
 from urllib.parse import parse_qs
 from updates.subscribe import get_channels_by_subscribe_urls
 from collections import defaultdict
+import updates.fofa.fofa_map as fofa_map
 
 
 async def use_accessible_url(callback):
@@ -62,7 +62,7 @@ def search_submit(driver, name):
     driver.execute_script("arguments[0].click();", submit_button)
 
 
-async def get_channels_by_hotel(names, callback):
+async def get_channels_by_hotel(callback):
     """
     Get the channels by multicase
     """
@@ -76,6 +76,9 @@ async def get_channels_by_hotel(names, callback):
     open_driver = config.getboolean("Settings", "open_driver")
     page_num = config.getint("Settings", "hotel_page_num")
     region_list = config.get("Settings", "hotel_region_list").split(",")
+    if "all" in region_list or "全部" in region_list:
+        fofa_region_name_list = list(getattr(fofa_map, "region_url").keys())
+        region_list = fofa_region_name_list
     if open_proxy:
         proxy = await get_proxy(pageUrl, best=True, with_test=True)
     start_time = time()
@@ -240,9 +243,7 @@ async def get_channels_by_hotel(names, callback):
         for result in search_region_result.values()
         for url, _, _ in result
     ]
-    region_urls_data = await get_channels_by_subscribe_urls(urls, retry=False)
-    for name in names:
-        channels[name] = region_urls_data.get(format_channel_name(name), [])
+    channels = await get_channels_by_subscribe_urls(urls, retry=False)
     if not open_driver:
         close_session()
     pbar.close()
