@@ -1,5 +1,18 @@
 # 更新日志（Changelog）
 
+## v1.3.7
+
+### 2024/8/26
+
+- 新增支持 M3U 结果格式转换，支持显示频道图标(open_m3u_result)（Added support for M3U result format conversion, including channel icon display (open_m3u_result)）
+- 新增对于无结果的频道进行额外补充查询（Added additional queries for channels with no results）
+- 增加控制使用 FFmpeg 开关(open_ffmpeg)（Added a switch to control the use of FFmpeg (open_ffmpeg)）
+- 调整默认配置以酒店源模式运行（Adjusted default configuration to run in hotel source mode）
+- 调整测速方法逻辑（Adjusted the logic of the speed test method）
+- 修复酒店源 CCTV 类等频道结果匹配异常（Fixed abnormal matching of results for hotel source CCTV channels）
+- 修复组播源、酒店源 driver 运行问题（Fixed issues with multicast source and hotel source driver operation）
+- 修复订阅源更新异常（Fixed subscription source update anomalies）
+
 ## v1.3.6
 
 ### 2024/8/22
