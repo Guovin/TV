@@ -89,11 +89,26 @@ jobs:
           except: 
             final_file = "output/result.txt"
           print(final_file)')
+          final_m3u_file=$(python -c '
+          try: 
+            from utils.config import config
+            import os
+            final_file = config.get("Settings", "final_file")
+            final_m3u_file = os.path.splitext(user_final_file)[0] + ".m3u"
+          except: 
+            final_m3u_file = "output/result.m3u"
+          print(final_m3u_file)')
           if [[ -f "$final_file" ]]; then
             git add -f "$final_file"
           fi
           if [[ -f "result.txt" ]]; then
             git add -f "result.txt"
+          fi
+          if [[ -f "$final_m3u_file" ]]; then
+            git add -f "$final_m3u_file"
+          fi
+          if [[ -f "result.m3u" ]]; then
+            git add -f "result.m3u"
           fi
           if [[ -f "output/user_result.log" ]]; then
             git add -f "output/user_result.log"
