@@ -145,6 +145,7 @@ class UpdateSource:
                 )
                 self.start_time = time()
                 self.pbar = tqdm_asyncio(total=self.total, desc="Sorting")
+                self.sort_n = 0
                 self.channel_data = await process_sort_channel_list(
                     self.channel_data, self.sort_pbar_update
                 )
@@ -170,17 +171,19 @@ class UpdateSource:
                 self.total = len(
                     [name for obj in sup_channel_items.values() for name in obj.keys()]
                 )
-                if config.getboolean("Settings", "open_sort"):
+                if self.total > 0 and config.getboolean("Settings", "open_sort"):
                     self.update_progress(
                         f"正在对补充频道测速排序, 共{self.total}个频道",
                         0,
                     )
                     self.start_time = time()
                     self.pbar = tqdm_asyncio(total=self.total, desc="Sorting")
+                    self.sort_n = 0
                     self.channel_data = await process_sort_channel_list(
                         self.channel_data,
                         self.sort_pbar_update,
                     )
+            self.total = len(channel_names)
             self.pbar = tqdm(total=self.total, desc="Writing")
             self.start_time = time()
             write_channel_to_file(
