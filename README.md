@@ -105,7 +105,7 @@ Fork 本项目并开启工作流更新
 - 接口源：
 
 ```bash
-  https://ghproxy.net/raw.githubusercontent.com/Guovin/TV/gd/result.m3u
+  https://ghproxy.net/raw.githubusercontent.com/Guovin/TV/gd/output/result.m3u
 ```
 
 - 数据源：
