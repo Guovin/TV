@@ -12,6 +12,7 @@ from utils.tools import (
     get_ip_address,
     convert_to_m3u,
     get_result_file_content,
+    merge_objects,
 )
 from updates.subscribe import get_channels_by_subscribe_urls
 from updates.multicast import get_channels_by_multicast
@@ -147,7 +148,7 @@ class UpdateSource:
                 self.pbar = tqdm_asyncio(total=self.total, desc="Sorting")
                 self.sort_n = 0
                 self.channel_data = await process_sort_channel_list(
-                    self.channel_data, self.sort_pbar_update
+                    data=self.channel_data, callback=self.sort_pbar_update
                 )
             no_result_cate_names = [
                 (cate, name)
@@ -179,9 +180,12 @@ class UpdateSource:
                     self.start_time = time()
                     self.pbar = tqdm_asyncio(total=self.total, desc="Sorting")
                     self.sort_n = 0
-                    self.channel_data = await process_sort_channel_list(
-                        self.channel_data,
-                        self.sort_pbar_update,
+                    sup_channel_items = await process_sort_channel_list(
+                        data=sup_channel_items,
+                        callback=self.sort_pbar_update,
+                    )
+                    self.channel_data = merge_objects(
+                        self.channel_data, sup_channel_items
                     )
             self.total = len(channel_names)
             self.pbar = tqdm(total=self.total, desc="Writing")

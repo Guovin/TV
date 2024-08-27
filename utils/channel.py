@@ -622,7 +622,7 @@ async def sort_channel_list(semaphore, cate, name, info_list, is_ffmpeg, callbac
             return {"cate": cate, "name": name, "data": data}
 
 
-async def process_sort_channel_list(channel_data, callback):
+async def process_sort_channel_list(data=None, callback=None):
     """
     Processs the sort channel list
     """
@@ -640,7 +640,7 @@ async def process_sort_channel_list(channel_data, callback):
                 name,
                 info_list,
                 is_ffmpeg,
-                lambda: callback(),
+                lambda: callback() if callback else None,
             )
         )
         for cate, channel_obj in channel_data.items()
@@ -652,9 +652,9 @@ async def process_sort_channel_list(channel_data, callback):
         if result:
             cate = result.get("cate")
             name = result.get("name")
-            data = result.get("data")
+            result_data = result.get("data")
             channel_data = append_data_to_info_data(
-                channel_data, cate, name, data, False
+                channel_data, cate, name, result_data, False
             )
     return channel_data
 
