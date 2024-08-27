@@ -40,6 +40,16 @@ jobs:
           except:
             open_driver = False
           print(open_driver)')" >> $GITHUB_ENV
+      - name: Check open_ffmpeg config
+        id: check_ffmpeg
+        run: |
+          echo "OPEN_FFMPEG=$(python -c '
+          try:
+            from utils.config import config
+            open_ffmpeg = config.getboolean("Settings", "open_ffmpeg")
+          except:
+            open_ffmpeg = False
+          print(open_ffmpeg)')" >> $GITHUB_ENV
       - name: Install Selenium
         if: env.OPEN_DRIVER == 'True' || env.OPEN_DRIVER == 'true'
         run: |
@@ -59,6 +69,7 @@ jobs:
           chromedriver --url-base=/wd/hub &
           sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 & # optional
       - name: Install FFmpeg
+        if: env.OPEN_FFMPEG == 'True' || env.OPEN_FFMPEG == 'true'
         run: sudo apt-get update && sudo apt-get install -y ffmpeg
       - name: Install pipenv
         run: pip3 install --user pipenv
