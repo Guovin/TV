@@ -591,7 +591,9 @@ def append_all_method_data_keep_all(
     return data
 
 
-async def sort_channel_list(semaphore, cate, name, info_list, is_ffmpeg, callback):
+async def sort_channel_list(
+    semaphore=None, cate=None, name=None, info_list=None, ffmpeg=False, callback=None
+):
     """
     Sort the channel list
     """
@@ -600,7 +602,7 @@ async def sort_channel_list(semaphore, cate, name, info_list, is_ffmpeg, callbac
         try:
             if info_list:
                 sorted_data = await sort_urls_by_speed_and_resolution(
-                    info_list, is_ffmpeg
+                    data=info_list, ffmpeg=ffmpeg
                 )
                 if sorted_data:
                     for (
@@ -618,11 +620,12 @@ async def sort_channel_list(semaphore, cate, name, info_list, is_ffmpeg, callbac
         except Exception as e:
             logging.error(f"Error: {e}")
         finally:
-            callback()
+            if callback:
+                callback()
             return {"cate": cate, "name": name, "data": data}
 
 
-async def process_sort_channel_list(channel_data, callback):
+async def process_sort_channel_list(data=None, callback=None):
     """
     Processs the sort channel list
     """
@@ -635,31 +638,29 @@ async def process_sort_channel_list(channel_data, callback):
     tasks = [
         asyncio.create_task(
             sort_channel_list(
-                semaphore,
-                cate,
-                name,
-                info_list,
-                is_ffmpeg,
-                lambda: callback(),
+                semaphore=semaphore,
+                cate=cate,
+                name=name,
+                info_list=info_list,
+                ffmpeg=is_ffmpeg,
+                callback=callback,
             )
         )
-        for cate, channel_obj in channel_data.items()
+        for cate, channel_obj in data.items()
         for name, info_list in channel_obj.items()
     ]
     sort_results = await tqdm_asyncio.gather(*tasks, desc="Sorting")
-    channel_data = {}
+    data = {}
     for result in sort_results:
         if result:
             cate = result.get("cate")
             name = result.get("name")
-            data = result.get("data")
-            channel_data = append_data_to_info_data(
-                channel_data, cate, name, data, False
-            )
-    return channel_data
+            result_data = result.get("data")
+            data = append_data_to_info_data(data, cate, name, result_data, False)
+    return data
 
 
-def write_channel_to_file(items, data, callback):
+def write_channel_to_file(items=None, data=None, callback=None):
     """
     Write channel to file
     """
@@ -671,7 +672,8 @@ def write_channel_to_file(items, data, callback):
                 print("write:", cate, name, "num:", len(channel_urls))
                 update_channel_urls_txt(cate, name, channel_urls)
             finally:
-                callback()
+                if callback:
+                    callback()
     for handler in logging.root.handlers[:]:
         handler.close()
         logging.root.removeHandler(handler)

@@ -129,23 +129,19 @@ async def get_info_with_speed(url_info):
         return float("inf")
 
 
-async def sort_urls_by_speed_and_resolution(infoList, ffmpeg=False):
+async def sort_urls_by_speed_and_resolution(data=None, ffmpeg=False):
     """
     Sort by speed and resolution
     """
     if ffmpeg:
         response = await asyncio.gather(
-            *(get_info_with_speed(url_info) for url_info in infoList)
+            *(get_info_with_speed(url_info) for url_info in data)
         )
         valid_response = [res for res in response if res != float("inf")]
     else:
-        response_times = await asyncio.gather(
-            *(get_speed(url) for url, _, _ in infoList)
-        )
+        response_times = await asyncio.gather(*(get_speed(url) for url, _, _ in data))
         valid_response = [
-            (info, rt)
-            for info, rt in zip(infoList, response_times)
-            if rt != float("inf")
+            (info, rt) for info, rt in zip(data, response_times) if rt != float("inf")
         ]
 
     def extract_resolution(resolution_str):
