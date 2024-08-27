@@ -8,7 +8,7 @@
 - 新增对于无结果的频道进行额外补充查询（Added additional queries for channels with no results）
 - 增加控制使用 FFmpeg 开关(open_ffmpeg)（Added a switch to control the use of FFmpeg (open_ffmpeg)）
 - 调整默认配置以酒店源模式运行（Adjusted default configuration to run in hotel source mode）
-- 调整测速方法逻辑（Adjusted the logic of the speed test method）
+- 优化测速方法（Optimize Speed Test Method）
 - 修复酒店源 CCTV 类等频道结果匹配异常（Fixed abnormal matching of results for hotel source CCTV channels）
 - 修复组播源、酒店源 driver 运行问题（Fixed issues with multicast source and hotel source driver operation）
 - 修复订阅源更新异常（Fixed subscription source update anomalies）
