@@ -125,7 +125,7 @@ async def get_multicast_region_result():
     """
     multicast_region_urls_info = get_multicast_urls_info_from_region_list()
     multicast_result = await get_channels_by_subscribe_urls(
-        urls=multicast_region_urls_info, multicast=True
+        multicast_region_urls_info, multicast=True
     )
     with open(
         resource_path("updates/multicast/multicast_region_result.json"),

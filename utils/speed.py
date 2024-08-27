@@ -129,7 +129,7 @@ async def get_info_with_speed(url_info):
         return float("inf")
 
 
-async def sort_urls_by_speed_and_resolution(data=None, ffmpeg=False):
+async def sort_urls_by_speed_and_resolution(data, ffmpeg=False):
     """
     Sort by speed and resolution
     """

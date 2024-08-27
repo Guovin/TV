@@ -13,7 +13,7 @@ timeout = 30
 
 
 async def get_channels_by_subscribe_urls(
-    urls=None, multicast=False, retry=True, error_print=True, callback=None
+    urls, multicast=False, retry=True, error_print=True, callback=None
 ):
     """
     Get the channels by subscribe urls

@@ -592,7 +592,7 @@ def append_all_method_data_keep_all(
 
 
 async def sort_channel_list(
-    semaphore=None, cate=None, name=None, info_list=None, ffmpeg=False, callback=None
+    semaphore, cate, name, info_list, ffmpeg=False, callback=None
 ):
     """
     Sort the channel list
@@ -602,7 +602,7 @@ async def sort_channel_list(
         try:
             if info_list:
                 sorted_data = await sort_urls_by_speed_and_resolution(
-                    data=info_list, ffmpeg=ffmpeg
+                    info_list, ffmpeg=ffmpeg
                 )
                 if sorted_data:
                     for (
@@ -625,7 +625,7 @@ async def sort_channel_list(
             return {"cate": cate, "name": name, "data": data}
 
 
-async def process_sort_channel_list(data=None, callback=None):
+async def process_sort_channel_list(data, callback=None):
     """
     Processs the sort channel list
     """
@@ -638,10 +638,10 @@ async def process_sort_channel_list(data=None, callback=None):
     tasks = [
         asyncio.create_task(
             sort_channel_list(
-                semaphore=semaphore,
-                cate=cate,
-                name=name,
-                info_list=info_list,
+                semaphore,
+                cate,
+                name,
+                info_list,
                 ffmpeg=is_ffmpeg,
                 callback=callback,
             )
@@ -660,7 +660,7 @@ async def process_sort_channel_list(data=None, callback=None):
     return data
 
 
-def write_channel_to_file(items=None, data=None, callback=None):
+def write_channel_to_file(items, data, callback=None):
     """
     Write channel to file
     """

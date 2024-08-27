@@ -93,7 +93,7 @@ class UpdateSource:
                 if setting == "open_subscribe":
                     subscribe_urls = config.get("Settings", "subscribe_urls").split(",")
                     task = asyncio.create_task(
-                        task_func(urls=subscribe_urls, callback=self.update_progress)
+                        task_func(subscribe_urls, callback=self.update_progress)
                     )
                 elif setting == "open_hotel_tonkiang" or setting == "open_hotel_fofa":
                     task = asyncio.create_task(task_func(self.update_progress))
@@ -148,7 +148,7 @@ class UpdateSource:
                 self.pbar = tqdm_asyncio(total=self.total, desc="Sorting")
                 self.sort_n = 0
                 self.channel_data = await process_sort_channel_list(
-                    data=self.channel_data, callback=self.sort_pbar_update
+                    self.channel_data, callback=self.sort_pbar_update
                 )
             no_result_cate_names = [
                 (cate, name)
@@ -181,7 +181,7 @@ class UpdateSource:
                     self.pbar = tqdm_asyncio(total=self.total, desc="Sorting")
                     self.sort_n = 0
                     sup_channel_items = await process_sort_channel_list(
-                        data=sup_channel_items,
+                        sup_channel_items,
                         callback=self.sort_pbar_update,
                     )
                     self.channel_data = merge_objects(
@@ -191,8 +191,8 @@ class UpdateSource:
             self.pbar = tqdm(total=self.total, desc="Writing")
             self.start_time = time()
             write_channel_to_file(
-                items=channel_items_obj_items,
-                data=self.channel_data,
+                channel_items_obj_items,
+                self.channel_data,
                 callback=lambda: self.pbar_update(name="写入结果"),
             )
             self.pbar.close()
