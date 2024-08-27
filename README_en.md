@@ -102,8 +102,17 @@ Fork this project and enable workflow updates
 
 If you don't want to bother, and my configuration just meets your needs, you can use the following links:
 
-- Interface source: https://ghproxy.net/raw.githubusercontent.com/Guovin/TV/gd/result.txt
-- Data source: https://ghproxy.net/raw.githubusercontent.com/Guovin/TV/gd/source.json
+- Interface source:
+
+```bash
+  https://ghproxy.net/raw.githubusercontent.com/Guovin/TV/gd/result.m3u
+```
+
+- Data source:
+
+```bash
+  https://ghproxy.net/raw.githubusercontent.com/Guovin/TV/gd/source.json
+```
 
 ## Changelog
 

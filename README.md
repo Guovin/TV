@@ -102,8 +102,17 @@ Fork 本项目并开启工作流更新
 
 如果您不想折腾，刚好我的配置符合您的需求，可以使用以下链接：
 
-- 接口源：https://ghproxy.net/raw.githubusercontent.com/Guovin/TV/gd/result.txt
-- 数据源：https://ghproxy.net/raw.githubusercontent.com/Guovin/TV/gd/source.json
+- 接口源：
+
+```bash
+  https://ghproxy.net/raw.githubusercontent.com/Guovin/TV/gd/result.m3u
+```
+
+- 数据源：
+
+```bash
+  https://ghproxy.net/raw.githubusercontent.com/Guovin/TV/gd/source.json
+```
 
 ## 更新日志
 
