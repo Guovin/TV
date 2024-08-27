@@ -105,7 +105,7 @@ If you don't want to bother, and my configuration just meets your needs, you can
 - Interface source:
 
 ```bash
-  https://ghproxy.net/raw.githubusercontent.com/Guovin/TV/gd/result.m3u
+  https://ghproxy.net/raw.githubusercontent.com/Guovin/TV/gd/output/result.m3u
 ```
 
 - Data source:
