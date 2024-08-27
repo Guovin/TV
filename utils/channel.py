@@ -643,20 +643,18 @@ async def process_sort_channel_list(data=None, callback=None):
                 lambda: callback() if callback else None,
             )
         )
-        for cate, channel_obj in channel_data.items()
+        for cate, channel_obj in data.items()
         for name, info_list in channel_obj.items()
     ]
     sort_results = await tqdm_asyncio.gather(*tasks, desc="Sorting")
-    channel_data = {}
+    data = {}
     for result in sort_results:
         if result:
             cate = result.get("cate")
             name = result.get("name")
             result_data = result.get("data")
-            channel_data = append_data_to_info_data(
-                channel_data, cate, name, result_data, False
-            )
-    return channel_data
+            data = append_data_to_info_data(data, cate, name, result_data, False)
+    return data
 
 
 def write_channel_to_file(items, data, callback):
