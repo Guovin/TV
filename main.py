@@ -191,9 +191,9 @@ class UpdateSource:
             self.pbar = tqdm(total=self.total, desc="Writing")
             self.start_time = time()
             write_channel_to_file(
-                channel_items_obj_items,
-                self.channel_data,
-                lambda: self.pbar_update(name="写入结果"),
+                items=channel_items_obj_items,
+                data=self.channel_data,
+                callback=lambda: self.pbar_update(name="写入结果"),
             )
             self.pbar.close()
             user_final_file = config.get("Settings", "final_file")
