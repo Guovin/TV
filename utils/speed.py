@@ -20,8 +20,8 @@ async def get_speed(url, timeout=timeout, proxy=None):
         end = None
         try:
             async with session.get(url, timeout=timeout, proxy=proxy) as response:
-                resStatus = response.status
-                if resStatus == 200:
+                content = await response.read()
+                if content:
                     end = time()
                 else:
                     return float("inf")
