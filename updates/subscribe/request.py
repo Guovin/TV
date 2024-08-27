@@ -13,7 +13,7 @@ timeout = 30
 
 
 async def get_channels_by_subscribe_urls(
-    urls=None, multicast=False, retry=True, callback=None
+    urls=None, multicast=False, retry=True, error_print=True, callback=None
 ):
     """
     Get the channels by subscribe urls
@@ -81,7 +81,8 @@ async def get_channels_by_subscribe_urls(
                             else:
                                 channels[name] = [value]
         except Exception as e:
-            print(f"Error on {subscribe_url}: {e}")
+            if error_print:
+                print(f"Error on {subscribe_url}: {e}")
         finally:
             pbar.update()
             remain = subscribe_urls_len - pbar.n

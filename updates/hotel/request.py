@@ -243,7 +243,9 @@ async def get_channels_by_hotel(callback):
         for result in search_region_result.values()
         for url, _, _ in result
     ]
-    channels = await get_channels_by_subscribe_urls(urls, retry=False)
+    channels = await get_channels_by_subscribe_urls(
+        urls, retry=False, error_print=False
+    )
     if not open_driver:
         close_session()
     pbar.close()
