@@ -2,7 +2,7 @@
 
 ## v1.3.7
 
-### 2024/8/26
+### 2024/8/27
 
 - 新增支持 M3U 结果格式转换，支持显示频道图标(open_m3u_result)（Added support for M3U result format conversion, including channel icon display (open_m3u_result)）
 - 新增对于无结果的频道进行额外补充查询（Added additional queries for channels with no results）
