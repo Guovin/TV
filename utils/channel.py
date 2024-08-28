@@ -497,10 +497,10 @@ def append_total_data(*args, **kwargs):
 def append_all_method_data(
     items,
     data,
-    subscribe_result=None,
+    hotel_fofa_result=None,
     multicast_result=None,
     hotel_tonkiang_result=None,
-    hotel_fofa_result=None,
+    subscribe_result=None,
     online_search_result=None,
 ):
     """
@@ -509,10 +509,10 @@ def append_all_method_data(
     for cate, channel_obj in items:
         for name, old_urls in channel_obj.items():
             for method, result in [
-                ("subscribe", subscribe_result),
+                ("hotel_fofa", hotel_fofa_result),
                 ("multicast", multicast_result),
                 ("hotel_tonkiang", hotel_tonkiang_result),
-                ("hotel_fofa", hotel_fofa_result),
+                ("subscribe", subscribe_result),
                 ("online_search", online_search_result),
             ]:
                 if config.getboolean("Settings", f"open_{method}"):
@@ -554,10 +554,10 @@ def append_all_method_data(
 def append_all_method_data_keep_all(
     items,
     data,
-    subscribe_result=None,
+    hotel_fofa_result=None,
     multicast_result=None,
     hotel_tonkiang_result=None,
-    hotel_fofa_result=None,
+    subscribe_result=None,
     online_search_result=None,
 ):
     """
@@ -565,10 +565,10 @@ def append_all_method_data_keep_all(
     """
     for cate, channel_obj in items:
         for method, result in [
-            ("subscribe", subscribe_result),
+            ("hotel_fofa", hotel_fofa_result),
             ("multicast", multicast_result),
             ("hotel_tonkiang", hotel_tonkiang_result),
-            ("hotel_fofa", hotel_fofa_result),
+            ("subscribe", subscribe_result),
             ("online_search", online_search_result),
         ]:
             if result and config.getboolean("Settings", f"open_{method}"):
@@ -592,7 +592,7 @@ def append_all_method_data_keep_all(
 
 
 async def sort_channel_list(
-    semaphore, cate, name, info_list, ffmpeg=False, callback=None
+    cate, name, info_list, semaphore, ffmpeg=False, callback=None
 ):
     """
     Sort the channel list
@@ -634,14 +634,14 @@ async def process_sort_channel_list(data, callback=None):
     if open_ffmpeg and not ffmpeg_installed:
         print("FFmpeg is not installed, using requests for sorting.")
     is_ffmpeg = open_ffmpeg and ffmpeg_installed
-    semaphore = asyncio.Semaphore(1 if is_ffmpeg else 100)
+    semaphore = asyncio.Semaphore(3)
     tasks = [
         asyncio.create_task(
             sort_channel_list(
-                semaphore,
                 cate,
                 name,
                 info_list,
+                semaphore,
                 ffmpeg=is_ffmpeg,
                 callback=callback,
             )

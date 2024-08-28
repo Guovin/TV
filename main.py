@@ -60,10 +60,10 @@ class UpdateSource:
         self.run_ui = False
         self.tasks = []
         self.channel_items = {}
-        self.subscribe_result = {}
-        self.multicast_result = {}
-        self.hotel_tonkiang_result = {}
         self.hotel_fofa_result = {}
+        self.hotel_tonkiang_result = {}
+        self.multicast_result = {}
+        self.subscribe_result = {}
         self.online_search_result = {}
         self.channel_data = {}
         self.pbar = None
@@ -73,10 +73,10 @@ class UpdateSource:
 
     async def visit_page(self, channel_names=None):
         tasks_config = [
-            ("open_subscribe", get_channels_by_subscribe_urls, "subscribe_result"),
+            ("open_hotel_fofa", get_channels_by_fofa, "hotel_fofa_result"),
             ("open_multicast", get_channels_by_multicast, "multicast_result"),
             ("open_hotel_tonkiang", get_channels_by_hotel, "hotel_tonkiang_result"),
-            ("open_hotel_fofa", get_channels_by_fofa, "hotel_fofa_result"),
+            ("open_subscribe", get_channels_by_subscribe_urls, "subscribe_result"),
             (
                 "open_online_search",
                 get_channels_by_online_search,
@@ -133,10 +133,10 @@ class UpdateSource:
             self.channel_data = append_total_data(
                 channel_items_obj_items,
                 self.channel_data,
-                self.subscribe_result,
+                self.hotel_fofa_result,
                 self.multicast_result,
                 self.hotel_tonkiang_result,
-                self.hotel_fofa_result,
+                self.subscribe_result,
                 self.online_search_result,
             )
             if config.getboolean("Settings", "open_sort"):
@@ -161,7 +161,7 @@ class UpdateSource:
                 print(
                     f"No result found for {', '.join(no_result_names)}, try a supplementary online search..."
                 )
-                sup_results = await get_channels_by_online_search(
+                sup_results = await get_channels_by_multicast(
                     no_result_names, self.update_progress
                 )
                 sup_channel_items = defaultdict(lambda: defaultdict(list))
