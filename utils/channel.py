@@ -106,6 +106,8 @@ def format_channel_name(name):
     """
     if config.getboolean("Settings", "open_keep_all"):
         return name
+    cc = OpenCC("t2s")
+    name = cc.convert(name)
     sub_pattern = (
         r"-|_|\((.*?)\)|\[(.*?)\]| |频道|标清|高清|HD|hd|超清|超高|超高清|中央|央视|台"
     )
@@ -150,10 +152,9 @@ def channel_name_is_equal(name1, name2):
     """
     if config.getboolean("Settings", "open_keep_all"):
         return True
-    cc = OpenCC("t2s")
-    name1_converted = cc.convert(format_channel_name(name1))
-    name2_converted = cc.convert(format_channel_name(name2))
-    return name1_converted == name2_converted
+    name1_format = format_channel_name(name1)
+    name2_format = format_channel_name(name2)
+    return name1_format == name2_format
 
 
 def get_channel_results_by_name(name, data):
@@ -161,12 +162,10 @@ def get_channel_results_by_name(name, data):
     Get channel results from data by name
     """
     format_name = format_channel_name(name)
-    cc1 = OpenCC("s2t")
-    converted1 = cc1.convert(format_name)
-    cc2 = OpenCC("t2s")
-    converted2 = cc2.convert(format_name)
-    result1 = data.get(converted1, [])
-    result2 = data.get(converted2, [])
+    cc = OpenCC("s2t")
+    name_s2t = cc.convert(format_name)
+    result1 = data.get(format_name, [])
+    result2 = data.get(name_s2t, [])
     results = list(dict.fromkeys(result1 + result2))
     return results
 
