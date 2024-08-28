@@ -112,7 +112,7 @@ async def check_stream_speed(url_info):
         return float("inf")
 
 
-async def get_speed_by_info(url_info, ffmpeg, semaphore):
+async def get_speed_by_info(url_info, ffmpeg, semaphore, callback=None):
     """
     Get the info with speed
     """
@@ -134,15 +134,21 @@ async def get_speed_by_info(url_info, ffmpeg, semaphore):
                 )
         except Exception:
             return float("inf")
+        finally:
+            if callback:
+                callback()
 
 
-async def sort_urls_by_speed_and_resolution(data, ffmpeg=False):
+async def sort_urls_by_speed_and_resolution(data, ffmpeg=False, callback=None):
     """
     Sort by speed and resolution
     """
     semaphore = asyncio.Semaphore(10)
     response = await asyncio.gather(
-        *(get_speed_by_info(url_info, ffmpeg, semaphore) for url_info in data)
+        *(
+            get_speed_by_info(url_info, ffmpeg, semaphore, callback=callback)
+            for url_info in data
+        )
     )
     valid_response = [res for res in response if res != float("inf")]
 

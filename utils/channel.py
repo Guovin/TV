@@ -393,7 +393,7 @@ def get_results_from_multicast_soup_requests(soup, hotel=False):
     return results
 
 
-def update_channel_urls_txt(cate, name, urls):
+def update_channel_urls_txt(cate, name, urls, callback=None):
     """
     Update the category and channel urls to the final file
     """
@@ -412,6 +412,8 @@ def update_channel_urls_txt(cate, name, urls):
         for url in urls:
             if url is not None:
                 f.write(name + "," + url + "\n")
+                if callback:
+                    callback()
 
 
 def get_channel_url(text):
@@ -601,7 +603,7 @@ async def sort_channel_list(
         try:
             if info_list:
                 sorted_data = await sort_urls_by_speed_and_resolution(
-                    info_list, ffmpeg=ffmpeg
+                    info_list, ffmpeg=ffmpeg, callback=callback
                 )
                 if sorted_data:
                     for (
@@ -619,8 +621,6 @@ async def sort_channel_list(
         except Exception as e:
             logging.error(f"Error: {e}")
         finally:
-            if callback:
-                callback()
             return {"cate": cate, "name": name, "data": data}
 
 
@@ -666,13 +666,9 @@ def write_channel_to_file(items, data, callback=None):
     for cate, channel_obj in items:
         for name in channel_obj.keys():
             info_list = data.get(cate, {}).get(name, [])
-            try:
-                channel_urls = get_total_urls_from_info_list(info_list)
-                print("write:", cate, name, "num:", len(channel_urls))
-                update_channel_urls_txt(cate, name, channel_urls)
-            finally:
-                if callback:
-                    callback()
+            channel_urls = get_total_urls_from_info_list(info_list)
+            print("write:", cate, name, "num:", len(channel_urls))
+            update_channel_urls_txt(cate, name, channel_urls, callback=callback)
     for handler in logging.root.handlers[:]:
         handler.close()
         logging.root.removeHandler(handler)

@@ -108,7 +108,7 @@ class UpdateSource:
         if not n:
             self.pbar.update()
         self.update_progress(
-            f"正在进行{name}, 剩余{self.total - (n or self.pbar.n)}个频道, 预计剩余时间: {get_pbar_remaining(n=(n or self.pbar.n), total=self.total, start_time=self.start_time)}",
+            f"正在进行{name}, 剩余{self.total - (n or self.pbar.n)}个接口, 预计剩余时间: {get_pbar_remaining(n=(n or self.pbar.n), total=self.total, start_time=self.start_time)}",
             int(((n or self.pbar.n) / self.total) * 100),
         )
 
@@ -126,7 +126,6 @@ class UpdateSource:
                 for channel_obj in self.channel_items.values()
                 for name in channel_obj.keys()
             ]
-            self.total = len(channel_names)
             await self.visit_page(channel_names)
             self.tasks = []
             channel_items_obj_items = self.channel_items.items()
@@ -139,9 +138,16 @@ class UpdateSource:
                 self.subscribe_result,
                 self.online_search_result,
             )
+            channel_urls = [
+                url
+                for channel_obj in self.channel_data.values()
+                for url_list in channel_obj.values()
+                for url in url_list
+            ]
+            self.total = len(channel_urls)
             if config.getboolean("Settings", "open_sort"):
                 self.update_progress(
-                    f"正在测速排序, 共{self.total}个频道",
+                    f"正在测速排序, 共{self.total}个接口",
                     0,
                 )
                 self.start_time = time()
@@ -154,12 +160,12 @@ class UpdateSource:
                 (cate, name)
                 for cate, channel_obj in self.channel_data.items()
                 for name, info_list in channel_obj.items()
-                if not info_list
+                if len(info_list) < 3
             ]
             no_result_names = [name for (_, name) in no_result_cate_names]
             if no_result_names:
                 print(
-                    f"No result found for {', '.join(no_result_names)}, try a supplementary online search..."
+                    f"Not enough url found for {', '.join(no_result_names)}, try a supplementary multicast search..."
                 )
                 sup_results = await get_channels_by_multicast(
                     no_result_names, self.update_progress
@@ -170,11 +176,16 @@ class UpdateSource:
                     if data:
                         sup_channel_items[cate][name] = data
                 self.total = len(
-                    [name for obj in sup_channel_items.values() for name in obj.keys()]
+                    [
+                        url
+                        for obj in sup_channel_items.values()
+                        for url_list in obj.values()
+                        for url in url_list
+                    ]
                 )
                 if self.total > 0 and config.getboolean("Settings", "open_sort"):
                     self.update_progress(
-                        f"正在对补充频道测速排序, 共{self.total}个频道",
+                        f"正在对补充频道测速排序, 共{len([name for obj in sup_channel_items.values() for name in obj.keys()])}个频道, 含{self.total}个接口",
                         0,
                     )
                     self.start_time = time()
@@ -187,7 +198,7 @@ class UpdateSource:
                     self.channel_data = merge_objects(
                         self.channel_data, sup_channel_items
                     )
-            self.total = len(channel_names)
+            self.total = len(channel_urls)
             self.pbar = tqdm(total=self.total, desc="Writing")
             self.start_time = time()
             write_channel_to_file(
