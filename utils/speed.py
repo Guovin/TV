@@ -43,7 +43,7 @@ def is_ffmpeg_installed():
         return False
 
 
-async def ffmpeg_url(url, timeout=timeout):
+async def ffmpeg_url(url):
     """
     Get url info by ffmpeg
     """
@@ -97,7 +97,7 @@ async def check_stream_speed(url_info):
     """
     try:
         url = url_info[0]
-        video_info = await ffmpeg_url(url, timeout=timeout)
+        video_info = await ffmpeg_url(url)
         if video_info is None:
             return float("inf")
         frame, resolution = get_video_info(video_info)
@@ -112,37 +112,45 @@ async def check_stream_speed(url_info):
         return float("inf")
 
 
-async def get_info_with_speed(url_info):
+async def get_speed_by_info(url_info, ffmpeg, semaphore, callback=None):
     """
     Get the info with speed
     """
-    url, _, _ = url_info
-    url_info = list(url_info)
-    if "$" in url:
-        url = url.split("$")[0]
-    url = quote(url, safe=":/?&=$[]")
-    url_info[0] = url
-    try:
-        speed = await check_stream_speed(url_info)
-        return speed
-    except Exception:
-        return float("inf")
+    async with semaphore:
+        url, _, _ = url_info
+        url_info = list(url_info)
+        if "$" in url:
+            url = url.split("$")[0]
+        url = quote(url, safe=":/?&=$[]")
+        url_info[0] = url
+        try:
+            if ".m3u8" not in url and ffmpeg:
+                speed = await check_stream_speed(url_info)
+                return speed
+            else:
+                speed = await get_speed(url)
+                return (
+                    (tuple(url_info), speed) if speed != float("inf") else float("inf")
+                )
+        except Exception:
+            return float("inf")
+        finally:
+            if callback:
+                callback()
 
 
-async def sort_urls_by_speed_and_resolution(data=None, ffmpeg=False):
+async def sort_urls_by_speed_and_resolution(data, ffmpeg=False, callback=None):
     """
     Sort by speed and resolution
     """
-    if ffmpeg:
-        response = await asyncio.gather(
-            *(get_info_with_speed(url_info) for url_info in data)
+    semaphore = asyncio.Semaphore(10)
+    response = await asyncio.gather(
+        *(
+            get_speed_by_info(url_info, ffmpeg, semaphore, callback=callback)
+            for url_info in data
         )
-        valid_response = [res for res in response if res != float("inf")]
-    else:
-        response_times = await asyncio.gather(*(get_speed(url) for url, _, _ in data))
-        valid_response = [
-            (info, rt) for info, rt in zip(data, response_times) if rt != float("inf")
-        ]
+    )
+    valid_response = [res for res in response if res != float("inf")]
 
     def extract_resolution(resolution_str):
         numbers = re.findall(r"\d+x\d+", resolution_str)
