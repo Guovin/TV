@@ -106,6 +106,8 @@ def format_channel_name(name):
     """
     if config.getboolean("Settings", "open_keep_all"):
         return name
+    cc = OpenCC("t2s")
+    name = cc.convert(name)
     sub_pattern = (
         r"-|_|\((.*?)\)|\[(.*?)\]| |频道|标清|高清|HD|hd|超清|超高|超高清|中央|央视|台"
     )
@@ -150,10 +152,9 @@ def channel_name_is_equal(name1, name2):
     """
     if config.getboolean("Settings", "open_keep_all"):
         return True
-    cc = OpenCC("t2s")
-    name1_converted = cc.convert(format_channel_name(name1))
-    name2_converted = cc.convert(format_channel_name(name2))
-    return name1_converted == name2_converted
+    name1_format = format_channel_name(name1)
+    name2_format = format_channel_name(name2)
+    return name1_format == name2_format
 
 
 def get_channel_results_by_name(name, data):
@@ -161,12 +162,10 @@ def get_channel_results_by_name(name, data):
     Get channel results from data by name
     """
     format_name = format_channel_name(name)
-    cc1 = OpenCC("s2t")
-    converted1 = cc1.convert(format_name)
-    cc2 = OpenCC("t2s")
-    converted2 = cc2.convert(format_name)
-    result1 = data.get(converted1, [])
-    result2 = data.get(converted2, [])
+    cc = OpenCC("s2t")
+    name_s2t = cc.convert(format_name)
+    result1 = data.get(format_name, [])
+    result2 = data.get(name_s2t, [])
     results = list(dict.fromkeys(result1 + result2))
     return results
 
@@ -394,7 +393,7 @@ def get_results_from_multicast_soup_requests(soup, hotel=False):
     return results
 
 
-def update_channel_urls_txt(cate, name, urls):
+def update_channel_urls_txt(cate, name, urls, callback=None):
     """
     Update the category and channel urls to the final file
     """
@@ -413,6 +412,8 @@ def update_channel_urls_txt(cate, name, urls):
         for url in urls:
             if url is not None:
                 f.write(name + "," + url + "\n")
+                if callback:
+                    callback()
 
 
 def get_channel_url(text):
@@ -497,10 +498,10 @@ def append_total_data(*args, **kwargs):
 def append_all_method_data(
     items,
     data,
-    subscribe_result=None,
+    hotel_fofa_result=None,
     multicast_result=None,
     hotel_tonkiang_result=None,
-    hotel_fofa_result=None,
+    subscribe_result=None,
     online_search_result=None,
 ):
     """
@@ -509,10 +510,10 @@ def append_all_method_data(
     for cate, channel_obj in items:
         for name, old_urls in channel_obj.items():
             for method, result in [
-                ("subscribe", subscribe_result),
+                ("hotel_fofa", hotel_fofa_result),
                 ("multicast", multicast_result),
                 ("hotel_tonkiang", hotel_tonkiang_result),
-                ("hotel_fofa", hotel_fofa_result),
+                ("subscribe", subscribe_result),
                 ("online_search", online_search_result),
             ]:
                 if config.getboolean("Settings", f"open_{method}"):
@@ -554,10 +555,10 @@ def append_all_method_data(
 def append_all_method_data_keep_all(
     items,
     data,
-    subscribe_result=None,
+    hotel_fofa_result=None,
     multicast_result=None,
     hotel_tonkiang_result=None,
-    hotel_fofa_result=None,
+    subscribe_result=None,
     online_search_result=None,
 ):
     """
@@ -565,10 +566,10 @@ def append_all_method_data_keep_all(
     """
     for cate, channel_obj in items:
         for method, result in [
-            ("subscribe", subscribe_result),
+            ("hotel_fofa", hotel_fofa_result),
             ("multicast", multicast_result),
             ("hotel_tonkiang", hotel_tonkiang_result),
-            ("hotel_fofa", hotel_fofa_result),
+            ("subscribe", subscribe_result),
             ("online_search", online_search_result),
         ]:
             if result and config.getboolean("Settings", f"open_{method}"):
@@ -592,7 +593,7 @@ def append_all_method_data_keep_all(
 
 
 async def sort_channel_list(
-    semaphore=None, cate=None, name=None, info_list=None, ffmpeg=False, callback=None
+    cate, name, info_list, semaphore, ffmpeg=False, callback=None
 ):
     """
     Sort the channel list
@@ -602,7 +603,7 @@ async def sort_channel_list(
         try:
             if info_list:
                 sorted_data = await sort_urls_by_speed_and_resolution(
-                    data=info_list, ffmpeg=ffmpeg
+                    info_list, ffmpeg=ffmpeg, callback=callback
                 )
                 if sorted_data:
                     for (
@@ -620,12 +621,10 @@ async def sort_channel_list(
         except Exception as e:
             logging.error(f"Error: {e}")
         finally:
-            if callback:
-                callback()
             return {"cate": cate, "name": name, "data": data}
 
 
-async def process_sort_channel_list(data=None, callback=None):
+async def process_sort_channel_list(data, callback=None):
     """
     Processs the sort channel list
     """
@@ -634,14 +633,14 @@ async def process_sort_channel_list(data=None, callback=None):
     if open_ffmpeg and not ffmpeg_installed:
         print("FFmpeg is not installed, using requests for sorting.")
     is_ffmpeg = open_ffmpeg and ffmpeg_installed
-    semaphore = asyncio.Semaphore(1 if is_ffmpeg else 100)
+    semaphore = asyncio.Semaphore(3)
     tasks = [
         asyncio.create_task(
             sort_channel_list(
-                semaphore=semaphore,
-                cate=cate,
-                name=name,
-                info_list=info_list,
+                cate,
+                name,
+                info_list,
+                semaphore,
                 ffmpeg=is_ffmpeg,
                 callback=callback,
             )
@@ -660,20 +659,16 @@ async def process_sort_channel_list(data=None, callback=None):
     return data
 
 
-def write_channel_to_file(items=None, data=None, callback=None):
+def write_channel_to_file(items, data, callback=None):
     """
     Write channel to file
     """
     for cate, channel_obj in items:
         for name in channel_obj.keys():
             info_list = data.get(cate, {}).get(name, [])
-            try:
-                channel_urls = get_total_urls_from_info_list(info_list)
-                print("write:", cate, name, "num:", len(channel_urls))
-                update_channel_urls_txt(cate, name, channel_urls)
-            finally:
-                if callback:
-                    callback()
+            channel_urls = get_total_urls_from_info_list(info_list)
+            print("write:", cate, name, "num:", len(channel_urls))
+            update_channel_urls_txt(cate, name, channel_urls, callback=callback)
     for handler in logging.root.handlers[:]:
         handler.close()
         logging.root.removeHandler(handler)
