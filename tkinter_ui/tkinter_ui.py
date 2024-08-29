@@ -43,7 +43,6 @@ class TkinterUI:
             "open_update": self.default_ui.open_update_var.get(),
             "open_use_old_result": self.default_ui.open_use_old_result_var.get(),
             "source_file": self.default_ui.source_file_entry.get(),
-            "source_channels": self.default_ui.source_channels_text.get(1.0, tk.END),
             "final_file": self.default_ui.final_file_entry.get(),
             "urls_limit": self.default_ui.urls_limit_entry.get(),
             "open_driver": self.default_ui.open_driver_var.get(),
@@ -200,7 +199,7 @@ def get_root_location(root):
     screen_width = root.winfo_screenwidth()
     screen_height = root.winfo_screenheight()
     width = 550
-    height = 750
+    height = 650
     x = (screen_width / 2) - (width / 2)
     y = (screen_height / 2) - (height / 2)
     return (width, height, x, y)
