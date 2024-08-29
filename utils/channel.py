@@ -9,7 +9,6 @@ import logging
 from logging.handlers import RotatingFileHandler
 from opencc import OpenCC
 import asyncio
-from tqdm.asyncio import tqdm_asyncio
 
 log_dir = "output"
 log_file = "result_new.log"
@@ -26,14 +25,12 @@ logging.basicConfig(
 )
 
 
-def get_channel_data_from_file(
-    channels=None, file=None, names=None, from_result=False, change_source_path=False
-):
+def get_channel_data_from_file(channels=None, file=None, from_result=False):
     """
     Get the channel data from the file
     """
     current_category = ""
-    pattern = r"^(.*?),(?!#genre#)(.*?)$"
+    pattern = r"^(.*?)(,(?!#genre#)(.*?))?$"
 
     for line in file:
         line = line.strip()
@@ -45,58 +42,36 @@ def get_channel_data_from_file(
                 continue
             # This is a url, add it to the list of urls for the current channel.
             match = re.search(pattern, line)
-            if match is not None:
+            if match is not None and match.group(1):
                 name = match.group(1).strip()
-                if not change_source_path and name not in names:
-                    continue
-                url = match.group(2).strip()
-                if url and url not in channels[current_category][name]:
-                    channels[current_category][name].append(url)
+                if name not in channels[current_category]:
+                    channels[current_category][name] = []
+                if match.group(3):
+                    url = match.group(3).strip()
+                    if url and url not in channels[current_category][name]:
+                        channels[current_category][name].append(url)
     return channels
 
 
-def get_channel_items(change_source_path=False):
+def get_channel_items():
     """
     Get the channel items from the source file
     """
     user_source_file = config.get("Settings", "source_file")
     user_final_file = config.get("Settings", "final_file")
     channels = defaultdict(lambda: defaultdict(list))
-    source_channel_names = config.get("Settings", "source_channels").split(",")
 
     if os.path.exists(resource_path(user_source_file)):
         with open(resource_path(user_source_file), "r", encoding="utf-8") as file:
-            channels = get_channel_data_from_file(
-                channels=channels,
-                file=file,
-                names=source_channel_names,
-                change_source_path=change_source_path,
-            )
+            channels = get_channel_data_from_file(channels=channels, file=file)
 
     if config.getboolean("Settings", "open_use_old_result") and os.path.exists(
         resource_path(user_final_file)
     ):
         with open(resource_path(user_final_file), "r", encoding="utf-8") as file:
             channels = get_channel_data_from_file(
-                channels=channels,
-                file=file,
-                names=source_channel_names,
-                from_result=True,
-                change_source_path=change_source_path,
+                channels=channels, file=file, from_result=True
             )
-
-    channel_names = [
-        name for channel_obj in channels.values() for name in channel_obj.keys()
-    ]
-    if not change_source_path:
-        for source_name in source_channel_names:
-            if source_name not in channel_names:
-                channels["自定义频道"][source_name] = []
-    total_channel_names = ",".join(
-        [name for channel_obj in channels.values() for name in channel_obj.keys()]
-    )
-    config.set("Settings", "source_channels", total_channel_names)
-    save_config()
     return channels
 
 
@@ -648,7 +623,7 @@ async def process_sort_channel_list(data, callback=None):
         for cate, channel_obj in data.items()
         for name, info_list in channel_obj.items()
     ]
-    sort_results = await tqdm_asyncio.gather(*tasks, desc="Sorting")
+    sort_results = await asyncio.gather(*tasks)
     data = {}
     for result in sort_results:
         if result:

@@ -1,5 +1,15 @@
 # 更新日志（Changelog）
 
+## v1.3.8
+
+### 2024/8/29
+
+- 更新组播地区 IP 缓存数据（Update multicast area IP cache data）
+- 移除 source_channels 配置项（Remove source_channels configuration item）
+- 优化模板频道名称匹配（Optimize template channel name matching）
+- 优化进度条，显示接口处理进度（Optimize the progress bar to display the interface processing progress）
+- UI 软件增加部分图标（Add some icons to the UI software）
+
 ## v1.3.7
 
 ### 2024/8/27
