@@ -69,7 +69,6 @@ class UpdateSource:
         self.pbar = None
         self.total = 0
         self.start_time = None
-        self.sort_n = 0
 
     async def visit_page(self, channel_names=None):
         tasks_config = [
@@ -104,17 +103,22 @@ class UpdateSource:
                 self.tasks.append(task)
                 setattr(self, result_attr, await task)
 
-    def pbar_update(self, name="", n=0):
-        if not n:
-            self.pbar.update()
+    def pbar_update(self, name=""):
+        self.pbar.update()
         self.update_progress(
-            f"正在进行{name}, 剩余{self.total - (n or self.pbar.n)}个接口, 预计剩余时间: {get_pbar_remaining(n=(n or self.pbar.n), total=self.total, start_time=self.start_time)}",
-            int(((n or self.pbar.n) / self.total) * 100),
+            f"正在进行{name}, 剩余{self.total - self.pbar.n}个接口, 预计剩余时间: {get_pbar_remaining(n=self.pbar.n, total=self.total, start_time=self.start_time)}",
+            int((self.pbar.n) / self.total) * 100,
         )
 
-    def sort_pbar_update(self):
-        self.sort_n += 1
-        self.pbar_update(name="测速", n=self.sort_n)
+    def get_urls_len(self):
+        return len(
+            [
+                url
+                for channel_obj in self.channel_data.values()
+                for url_list in channel_obj.values()
+                for url in url_list
+            ]
+        )
 
     async def main(self):
         try:
@@ -138,13 +142,8 @@ class UpdateSource:
                 self.subscribe_result,
                 self.online_search_result,
             )
-            channel_urls = [
-                url
-                for channel_obj in self.channel_data.values()
-                for url_list in channel_obj.values()
-                for url in url_list
-            ]
-            self.total = len(channel_urls)
+            self.total = self.get_urls_len()
+            sort_callback = lambda: self.pbar_update(name="测速")
             if config.getboolean("Settings", "open_sort"):
                 self.update_progress(
                     f"正在测速排序, 共{self.total}个接口",
@@ -152,9 +151,9 @@ class UpdateSource:
                 )
                 self.start_time = time()
                 self.pbar = tqdm_asyncio(total=self.total, desc="Sorting")
-                self.sort_n = 0
                 self.channel_data = await process_sort_channel_list(
-                    self.channel_data, callback=self.sort_pbar_update
+                    self.channel_data,
+                    callback=sort_callback,
                 )
             no_result_cate_names = [
                 (cate, name)
@@ -190,15 +189,14 @@ class UpdateSource:
                     )
                     self.start_time = time()
                     self.pbar = tqdm_asyncio(total=self.total, desc="Sorting")
-                    self.sort_n = 0
                     sup_channel_items = await process_sort_channel_list(
                         sup_channel_items,
-                        callback=self.sort_pbar_update,
+                        callback=sort_callback,
                     )
                     self.channel_data = merge_objects(
                         self.channel_data, sup_channel_items
                     )
-            self.total = len(channel_urls)
+            self.total = self.get_urls_len()
             self.pbar = tqdm(total=self.total, desc="Writing")
             self.start_time = time()
             write_channel_to_file(
@@ -262,9 +260,9 @@ class UpdateSource:
 
 def scheduled_task():
     if config.getboolean("Settings", "open_update"):
-        update_source = UpdateSource()
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
+        update_source = UpdateSource()
         loop.run_until_complete(update_source.start())
 
 

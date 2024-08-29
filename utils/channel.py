@@ -9,7 +9,6 @@ import logging
 from logging.handlers import RotatingFileHandler
 from opencc import OpenCC
 import asyncio
-from tqdm.asyncio import tqdm_asyncio
 
 log_dir = "output"
 log_file = "result_new.log"
@@ -648,7 +647,7 @@ async def process_sort_channel_list(data, callback=None):
         for cate, channel_obj in data.items()
         for name, info_list in channel_obj.items()
     ]
-    sort_results = await tqdm_asyncio.gather(*tasks, desc="Sorting")
+    sort_results = await asyncio.gather(*tasks)
     data = {}
     for result in sort_results:
         if result:
