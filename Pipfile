@@ -6,6 +6,7 @@ verify_ssl = true
 [scripts]
 build = "python main.py"
 ui = "python tkinter_ui/tkinter_ui.py"
+multicast_tmp = "python updates/multicast/update_tmp.py"
 
 [dev-packages]
 
