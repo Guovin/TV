@@ -71,8 +71,9 @@ async def get_channels_by_subscribe_urls(
                         value = url if multicast else (url, None, resolution)
                         name = format_channel_name(key)
                         if name in channels:
-                            if multicast and value not in channels[name][region][type]:
-                                channels[name][region][type].append(value)
+                            if multicast:
+                                if value not in channels[name][region][type]:
+                                    channels[name][region][type].append(value)
                             elif value not in channels[name]:
                                 channels[name].append(value)
                         else:

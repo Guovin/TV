@@ -85,3 +85,4 @@ class AboutUI:
         about_window.geometry(
             f"{about_window_width}x{about_window_height}+{pos_x}+{pos_y}"
         )
+        about_window.iconbitmap(resource_path("static/images/favicon.ico"))

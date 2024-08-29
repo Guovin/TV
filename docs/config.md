@@ -5,7 +5,6 @@
 | open_driver            | False                                                                                                               | 开启浏览器运行，若更新无数据可开启此模式，较消耗性能                                    |
 | open_proxy             | True                                                                                                                | 开启代理，自动获取免费可用代理，若更新无数据可开启此模式                                |
 | source_file            | config/demo.txt                                                                                                     | 模板文件路径                                                                            |
-| source_channels        |                                                                                                                     | 获取更新的频道名称                                                                      |
 | final_file             | output/result.txt                                                                                                   | 生成结果文件路径                                                                        |
 | open_online_search     | False                                                                                                               | 开启线上检索源功能                                                                      |
 | online_search_page_num | 5                                                                                                                   | 在线检索频道获取分页数量                                                                |
