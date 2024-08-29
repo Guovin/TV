@@ -30,7 +30,7 @@ def get_channel_data_from_file(channels=None, file=None, from_result=False):
     Get the channel data from the file
     """
     current_category = ""
-    pattern = r"^(.*?),(?!#genre#)(.*?)$"
+    pattern = r"^(.*?)(,(?!#genre#)(.*?))?$"
 
     for line in file:
         line = line.strip()
@@ -42,11 +42,14 @@ def get_channel_data_from_file(channels=None, file=None, from_result=False):
                 continue
             # This is a url, add it to the list of urls for the current channel.
             match = re.search(pattern, line)
-            if match is not None:
+            if match is not None and match.group(1):
                 name = match.group(1).strip()
-                url = match.group(2).strip()
-                if url and url not in channels[current_category][name]:
-                    channels[current_category][name].append(url)
+                if name not in channels[current_category]:
+                    channels[current_category][name] = []
+                if match.group(3):
+                    url = match.group(3).strip()
+                    if url and url not in channels[current_category][name]:
+                        channels[current_category][name].append(url)
     return channels
 
 
