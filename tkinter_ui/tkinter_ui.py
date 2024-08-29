@@ -4,6 +4,7 @@ import os
 sys.path.append(os.path.dirname(sys.path[0]))
 import tkinter as tk
 from tkinter import messagebox
+from PIL import Image, ImageTk
 from utils.config import config, resource_path, save_config
 from main import UpdateSource
 import asyncio
@@ -142,16 +143,54 @@ class TkinterUI:
         notebook.pack(fill="both", padx=10, pady=5)
 
         frame_default = tk.ttk.Frame(notebook)
-        frame_multicast = tk.ttk.Frame(notebook)
         frame_hotel = tk.ttk.Frame(notebook)
+        frame_multicast = tk.ttk.Frame(notebook)
         frame_subscribe = tk.ttk.Frame(notebook)
         frame_online_search = tk.ttk.Frame(notebook)
 
-        notebook.add(frame_default, text="通用设置")
-        notebook.add(frame_multicast, text="组播源")
-        notebook.add(frame_hotel, text="酒店源")
-        notebook.add(frame_subscribe, text="订阅源")
-        notebook.add(frame_online_search, text="在线搜索")
+        settings_icon_source = Image.open(
+            resource_path("static/images/settings_icon.png")
+        ).resize((16, 16))
+        settings_icon = ImageTk.PhotoImage(settings_icon_source)
+        hotel_icon_source = Image.open(
+            resource_path("static/images/hotel_icon.png")
+        ).resize((16, 16))
+        hotel_icon = ImageTk.PhotoImage(hotel_icon_source)
+        multicast_icon_source = Image.open(
+            resource_path("static/images/multicast_icon.png")
+        ).resize((16, 16))
+        multicast_icon = ImageTk.PhotoImage(multicast_icon_source)
+        subscribe_icon_source = Image.open(
+            resource_path("static/images/subscribe_icon.png")
+        ).resize((16, 16))
+        subscribe_icon = ImageTk.PhotoImage(subscribe_icon_source)
+        online_search_icon_source = Image.open(
+            resource_path("static/images/online_search_icon.png")
+        ).resize((16, 16))
+        online_search_icon = ImageTk.PhotoImage(online_search_icon_source)
+
+        notebook.add(
+            frame_default, text="通用设置", image=settings_icon, compound=tk.LEFT
+        )
+        notebook.add(frame_hotel, text="酒店源", image=hotel_icon, compound=tk.LEFT)
+        notebook.add(
+            frame_multicast, text="组播源", image=multicast_icon, compound=tk.LEFT
+        )
+        notebook.add(
+            frame_subscribe, text="订阅源", image=subscribe_icon, compound=tk.LEFT
+        )
+        notebook.add(
+            frame_online_search,
+            text="在线搜索",
+            image=online_search_icon,
+            compound=tk.LEFT,
+        )
+
+        notebook.settings_icon = settings_icon
+        notebook.hotel_icon = hotel_icon
+        notebook.multicast_icon = multicast_icon
+        notebook.subscribe_icon = subscribe_icon
+        notebook.online_search_icon = online_search_icon
 
         self.default_ui.init_ui(frame_default)
         self.multicast_ui.init_ui(frame_multicast)
