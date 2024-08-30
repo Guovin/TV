@@ -23,7 +23,7 @@ def get_fofa_urls_from_region_list():
     urls = []
     region_url = getattr(fofa_map, "region_url")
     # if "all" in region_list or "全部" in region_list:
-    urls = [url for url in region_url.values() if url]
+    urls = [url for url_list in region_url.values() for url in url_list if url]
     # else:
     #     for region in region_list:
     #         if region in region_url:
