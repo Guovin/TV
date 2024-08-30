@@ -1,5 +1,13 @@
 # 更新日志（Changelog）
 
+## v1.3.9
+
+### 2024/8/30
+
+- 酒店源新增 ZoomEye 数据源，开启 FOFA 配置即可使用（Added ZoomEye data source to hotel sources, can be used by enabling FOFA configuration）
+- 酒店源、组播源地区选项增加“全部”选项（Added "all" option to the region selection for hotel sources and multicast sources）
+- 调整默认运行配置：关闭订阅源更新、Tonkiang 酒店源更新（Adjusted default runtime configuration: disabled subscription source updates and Tonkiang hotel source updates）
+
 ## v1.3.8
 
 ### 2024/8/29
