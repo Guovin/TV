@@ -41,7 +41,7 @@ class MulticastUI:
             resource_path("updates/multicast/multicast_map.json"), "r", encoding="utf-8"
         ) as f:
             regions_obj = json.load(f)
-            regions = list(regions_obj.keys())
+            regions = ["全部"] + list(regions_obj.keys())
         region_selected_values = [
             value
             for value in config.get("Settings", "multicast_region_list").split(",")
