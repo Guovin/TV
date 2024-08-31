@@ -219,7 +219,9 @@ def get_channel_multicast_region_type_list(result):
         (region, type)
         for region_type in result.values()
         for region, types in region_type.items()
-        if "all" in config_region_list or region in config_region_list
+        if "all" in config_region_list
+        or "全部" in config_region_list
+        or region in config_region_list
         for type in types
     }
     return list(region_type_list)
