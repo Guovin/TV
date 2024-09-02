@@ -186,17 +186,6 @@ def get_channel_multicast_region_ip_list(result, channel_region, channel_type):
     ]
 
 
-def get_channel_multicast_total_url_list(url, ip_list):
-    """
-    Get the channel multicast total url list by url and ip list
-    """
-    total_url_list = []
-    for ip in ip_list:
-        total_url = f"http://{url}/rtp/{ip}"
-        total_url_list.append(total_url)
-    return total_url_list
-
-
 def get_channel_multicast_name_region_type_result(result, names):
     """
     Get the multicast name and region and type result by names from result
@@ -234,15 +223,14 @@ def get_channel_multicast_result(result, search_result):
     info_result = {}
     for name, result_obj in result.items():
         info_list = [
-            (total_url, date, resolution)
+            (f"http://{url}/rtp/{ip}${result_region}_{result_type}", date, resolution)
             for result_region, result_types in result_obj.items()
             if result_region in search_result
             for result_type, result_type_urls in result_types.items()
             if result_type in search_result[result_region]
             for ip in get_multicast_ip_list(result_type_urls) or []
             for url, date, resolution in search_result[result_region][result_type]
-            for total_url in get_channel_multicast_total_url_list(url, [ip])
-            if check_url_by_patterns(total_url)
+            if check_url_by_patterns(f"http://{url}/rtp/{ip}")
         ]
         info_result[name] = info_list
     return info_result

@@ -5,7 +5,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../.
 
 from updates.subscribe import get_channels_by_subscribe_urls
 from driver.utils import get_soup_driver
-from utils.config import config, resource_path
+from utils.config import resource_path
 import json
 import asyncio
 from requests import Session
@@ -41,27 +41,17 @@ def get_multicast_urls_info_from_region_list():
     """
     Get the multicast urls info from region
     """
-    region_list = config.get("Settings", "multicast_region_list").split(",")
     urls_info = []
     with open(
         resource_path("updates/multicast/multicast_map.json"), "r", encoding="utf-8"
     ) as f:
         region_url = json.load(f)
-    if "all" in region_list or "全部" in region_list:
         urls_info = [
             {"region": region, "type": type, "url": url}
             for region, value in region_url.items()
             for type, url in value.items()
         ]
-    else:
-        for region in region_list:
-            if region in region_url:
-                region_data = [
-                    {"region": region, "type": type, "url": url}
-                    for type, url in region_url[region].items()
-                ]
-                urls_info.append(region_data)
-    return urls_info
+        return urls_info
 
 
 async def get_multicast_region_result():
