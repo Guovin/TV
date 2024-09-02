@@ -94,7 +94,7 @@ jobs:
             from utils.config import config
             import os
             final_file = config.get("Settings", "final_file")
-            final_m3u_file = os.path.splitext(user_final_file)[0] + ".m3u"
+            final_m3u_file = os.path.splitext(final_file)[0] + ".m3u"
           except: 
             final_m3u_file = "output/result.m3u"
           print(final_m3u_file)')
