@@ -8,6 +8,7 @@ from driver.utils import get_soup_driver
 from utils.config import config, resource_path
 import json
 import asyncio
+from requests import Session
 
 
 def get_region_urls_from_IPTV_Multicast_source():
@@ -79,6 +80,28 @@ async def get_multicast_region_result():
         json.dump(multicast_result, f, ensure_ascii=False, indent=4)
 
 
+def get_multicast_region_type_result_txt():
+    """
+    Get multicast region type result txt
+    """
+    with open(
+        resource_path("updates/multicast/multicast_map.json"), "r", encoding="utf-8"
+    ) as f:
+        region_url = json.load(f)
+        session = Session()
+        for region, value in region_url.items():
+            for type, url in value.items():
+                response = session.get(url)
+                content = response.text
+                with open(
+                    resource_path(f"updates/multicast/rtp/{region}_{type}.txt"),
+                    "w",
+                    encoding="utf-8",
+                ) as f:
+                    f.write(content)
+
+
 if __name__ == "__main__":
     get_region_urls_from_IPTV_Multicast_source()
     asyncio.run(get_multicast_region_result())
+    get_multicast_region_type_result_txt()
