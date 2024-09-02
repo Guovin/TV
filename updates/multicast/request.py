@@ -243,12 +243,13 @@ async def get_channels_by_multicast(names, callback):
             data = result.get("data")
 
             if data:
-                region_type_results = search_region_type_result[region][type]
                 for item in data:
                     url = item.get("url")
                     date = item.get("date")
                     if url:
-                        region_type_results.append((url, date, None))
+                        search_region_type_result[region][type].append(
+                            (url, date, None)
+                        )
     channels = get_channel_multicast_result(
         name_region_type_result, search_region_type_result
     )
