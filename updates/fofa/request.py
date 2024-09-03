@@ -122,7 +122,7 @@ def process_fofa_json_url(url):
                             item_name = format_channel_name(item.get("name"))
                             item_url = item.get("url").strip()
                             if item_name and item_url:
-                                total_url = url + item_url
+                                total_url = f"{url}{item_url}$cache:{url}"
                                 if item_name not in channels:
                                     channels[item_name] = [(total_url, None, None)]
                                 else:

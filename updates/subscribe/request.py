@@ -13,7 +13,7 @@ timeout = 30
 
 
 async def get_channels_by_subscribe_urls(
-    urls, multicast=False, retry=True, error_print=True, callback=None
+    urls, multicast=False, retry=True, error_print=True, with_cache=False, callback=None
 ):
     """
     Get the channels by subscribe urls
@@ -68,6 +68,8 @@ async def get_channels_by_subscribe_urls(
                             else None
                         )
                         url = matcher.group(2).strip()
+                        if with_cache:
+                            url = f"{url}$cache:{subscribe_url}"
                         value = url if multicast else (url, None, resolution)
                         name = format_channel_name(key)
                         if name in channels:
