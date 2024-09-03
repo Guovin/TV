@@ -3,11 +3,11 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 
-max_retries = 3
-timeout = 15
+max_retries = 2
+timeout = 10
 
 
-def retry_func(func, retries=max_retries + 1, name=""):
+def retry_func(func, retries=max_retries, name=""):
     """
     Retry the function
     """

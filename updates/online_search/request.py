@@ -8,11 +8,11 @@ from utils.channel import (
 from utils.tools import check_url_by_patterns, get_pbar_remaining, get_soup
 from utils.config import config
 from updates.proxy import get_proxy, get_proxy_next
-from time import time, sleep
+from time import time
 from driver.setup import setup_driver
+from driver.utils import search_submit
 from utils.retry import (
     retry_func,
-    locate_element_with_retry,
     find_clickable_element_with_retry,
 )
 from selenium.webdriver.common.by import By
@@ -40,25 +40,7 @@ async def use_accessible_url(callback):
         return baseUrl2
 
 
-def search_submit(driver, name):
-    """
-    Input key word and submit with driver
-    """
-    search_box = locate_element_with_retry(driver, (By.XPATH, '//input[@type="text"]'))
-    if not search_box:
-        return
-    search_box.clear()
-    search_box.send_keys(name)
-    submit_button = find_clickable_element_with_retry(
-        driver, (By.XPATH, '//input[@type="submit"]')
-    )
-    if not submit_button:
-        return
-    sleep(1)
-    driver.execute_script("arguments[0].click();", submit_button)
-
-
-async def get_channels_by_online_search(names, callback):
+async def get_channels_by_online_search(names, callback=None):
     """
     Get the channels by online search
     """
@@ -126,7 +108,6 @@ async def get_channels_by_online_search(names, callback):
                                 )
                                 if not page_link:
                                     break
-                                sleep(1)
                                 driver.execute_script(
                                     "arguments[0].click();", page_link
                                 )
@@ -136,11 +117,13 @@ async def get_channels_by_online_search(names, callback):
                                     lambda: get_soup_requests(request_url, proxy=proxy),
                                     name=f"online search:{name}, page:{page}",
                                 )
-                        sleep(1)
                         soup = (
                             get_soup(driver.page_source) if open_driver else page_soup
                         )
                         if soup:
+                            if "About 0 results" in soup.text:
+                                retries += 1
+                                continue
                             results = (
                                 get_results_from_soup(soup, name)
                                 if open_driver
@@ -181,7 +164,7 @@ async def get_channels_by_online_search(names, callback):
                             break
                         else:
                             print(
-                                f"{name}:No results found, refreshing page and retrying..."
+                                f"{name}:No page soup found, refreshing page and retrying..."
                             )
                             if open_driver:
                                 driver.refresh()
@@ -200,15 +183,17 @@ async def get_channels_by_online_search(names, callback):
                 driver.close()
                 driver.quit()
             pbar.update()
-            callback(
-                f"正在线上查询更新, 剩余{names_len - pbar.n}个频道待查询, 预计剩余时间: {get_pbar_remaining(n=pbar.n, total=pbar.total, start_time=start_time)}",
-                int((pbar.n / names_len) * 100),
-            )
+            if callback:
+                callback(
+                    f"正在线上查询更新, 剩余{names_len - pbar.n}个频道待查询, 预计剩余时间: {get_pbar_remaining(n=pbar.n, total=pbar.total, start_time=start_time)}",
+                    int((pbar.n / names_len) * 100),
+                )
             return {"name": format_channel_name(name), "data": info_list}
 
     names_len = len(names)
     pbar = tqdm_asyncio(total=names_len, desc="Online search")
-    callback(f"正在线上查询更新, 共{names_len}个频道", 0)
+    if callback:
+        callback(f"正在线上查询更新, 共{names_len}个频道", 0)
     with ThreadPoolExecutor(max_workers=3) as executor:
         futures = [
             executor.submit(process_channel_by_online_search, name) for name in names
