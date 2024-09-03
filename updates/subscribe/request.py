@@ -9,11 +9,17 @@ from utils.tools import merge_objects, get_pbar_remaining
 from concurrent.futures import ThreadPoolExecutor
 from collections import defaultdict
 
-timeout = 30
+timeout = 10
 
 
 async def get_channels_by_subscribe_urls(
-    urls, multicast=False, retry=True, error_print=True, with_cache=False, callback=None
+    urls,
+    multicast=False,
+    hotel=False,
+    retry=True,
+    error_print=True,
+    with_cache=False,
+    callback=None,
 ):
     """
     Get the channels by subscribe urls
@@ -26,10 +32,17 @@ async def get_channels_by_subscribe_urls(
         if url.strip()
     ]
     subscribe_urls_len = len(urls if urls else subscribe_urls)
-    pbar = tqdm_asyncio(total=subscribe_urls_len, desc="Processing subscribe")
+    pbar = tqdm_asyncio(
+        total=subscribe_urls_len,
+        desc=f"Processing subscribe {'for multicast' if multicast else ''}",
+    )
     start_time = time()
+    mode_name = "组播" if multicast else "酒店" if hotel else "订阅"
     if callback:
-        callback(f"正在获取订阅源更新, 共{subscribe_urls_len}个订阅源", 0)
+        callback(
+            f"正在获取{mode_name}源更新, 共{subscribe_urls_len}个{mode_name}源",
+            0,
+        )
     session = Session()
 
     def process_subscribe_channels(subscribe_info):
@@ -91,7 +104,7 @@ async def get_channels_by_subscribe_urls(
             remain = subscribe_urls_len - pbar.n
             if callback:
                 callback(
-                    f"正在获取订阅源更新, 剩余{remain}个订阅源待获取, 预计剩余时间: {get_pbar_remaining(n=pbar.n, total=pbar.total, start_time=start_time)}",
+                    f"正在获取{mode_name}源更新, 剩余{remain}个{mode_name}源待获取, 预计剩余时间: {get_pbar_remaining(n=pbar.n, total=pbar.total, start_time=start_time)}",
                     int((pbar.n / subscribe_urls_len) * 100),
                 )
             return channels

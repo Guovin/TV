@@ -1,4 +1,4 @@
-from utils.config import config, resource_path, save_config
+from utils.config import config, resource_path
 from utils.tools import check_url_by_patterns, get_total_urls_from_info_list
 from utils.speed import sort_urls_by_speed_and_resolution, is_ffmpeg_installed
 import os
@@ -9,6 +9,7 @@ import logging
 from logging.handlers import RotatingFileHandler
 from opencc import OpenCC
 import asyncio
+import base64
 
 log_dir = "output"
 log_file = "result_new.log"
@@ -209,6 +210,7 @@ def get_channel_multicast_region_type_list(result):
         for region_type in result.values()
         for region, types in region_type.items()
         if "all" in config_region_list
+        or "ALL" in config_region_list
         or "全部" in config_region_list
         or region in config_region_list
         for type in types
@@ -641,3 +643,48 @@ def write_channel_to_file(items, data, callback=None):
     for handler in logging.root.handlers[:]:
         handler.close()
         logging.root.removeHandler(handler)
+
+
+def get_multicast_fofa_search_org(region, type):
+    """
+    Get the fofa search organization for multicast
+    """
+    org = None
+    if region == "北京" and type == "联通":
+        org = "China Unicom Beijing Province Network"
+    elif type == "联通":
+        org = "CHINA UNICOM China169 Backbone"
+    elif type == "电信":
+        org = "Chinanet"
+    elif type == "移动":
+        org == "China Mobile communications corporation"
+    return org
+
+
+def get_multicast_fofa_search_urls():
+    """
+    Get the fofa search urls for multicast
+    """
+    config_region_list = config.get("Settings", "multicast_region_list").split(",")
+    rtp_file_names = []
+    for filename in os.listdir(resource_path("updates/multicast/rtp")):
+        if filename.endswith(".txt") and "_" in filename:
+            filename = filename.replace(".txt", "")
+            rtp_file_names.append(filename)
+    region_type_list = [
+        (parts[0], parts[1])
+        for name in rtp_file_names
+        if (parts := name.split("_"))[0] in config_region_list
+        or "all" in config_region_list
+        or "ALL" in config_region_list
+        or "全部" in config_region_list
+    ]
+    search_urls = []
+    for region, type in region_type_list:
+        search_url = "https://fofa.info/result?qbase64="
+        search_txt = f'"udpxy" && country="CN" && region="{region}" && org="{get_multicast_fofa_search_org(region,type)}"'
+        bytes_string = search_txt.encode("utf-8")
+        search_txt = base64.b64encode(bytes_string).decode("utf-8")
+        search_url += search_txt
+        search_urls.append((search_url, region, type))
+    return search_urls
