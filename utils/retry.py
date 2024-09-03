@@ -7,7 +7,7 @@ max_retries = 2
 timeout = 10
 
 
-def retry_func(func, retries=max_retries + 1, name=""):
+def retry_func(func, retries=max_retries, name=""):
     """
     Retry the function
     """
