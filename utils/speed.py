@@ -123,15 +123,16 @@ async def get_speed_by_info(url_info, ffmpeg, semaphore, callback=None):
         url, _, _ = url_info
         url_info = list(url_info)
         url_split = None
+        cache_key = None
         if "$" in url:
             url_split = url.split("$")
             url = url_split[0]
         url = quote(url, safe=":/?&=$[]")
         url_info[0] = url
-        if url_split and url_split[1] and "_" in url_split[1]:
-            region_type = url_split[1]
-            if speed_cache.get(region_type):
-                return (tuple(url_info), speed_cache[region_type])
+        if url_split and url_split[1] and "cache:" in url_split[1]:
+            cache_key = url_split[1]
+            if speed_cache.get(cache_key):
+                return (tuple(url_info), speed_cache[cache_key])
         try:
             if ".m3u8" not in url and ffmpeg:
                 speed = await check_stream_speed(url_info)
@@ -143,8 +144,8 @@ async def get_speed_by_info(url_info, ffmpeg, semaphore, callback=None):
                     if url_speed != float("inf")
                     else float("inf")
                 )
-            if region_type and speed_cache.get(region_type) is None:
-                speed_cache[region_type] = url_speed
+            if cache_key and speed_cache.get(cache_key) is None:
+                speed_cache[cache_key] = url_speed
             return speed
         except Exception:
             return float("inf")

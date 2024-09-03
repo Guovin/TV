@@ -244,7 +244,7 @@ async def get_channels_by_hotel(callback):
         for url, _, _ in result
     ]
     channels = await get_channels_by_subscribe_urls(
-        urls, retry=False, error_print=False
+        urls, retry=False, error_print=False, with_cache=True
     )
     if not open_driver:
         close_session()

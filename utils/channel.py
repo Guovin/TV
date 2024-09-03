@@ -223,7 +223,11 @@ def get_channel_multicast_result(result, search_result):
     info_result = {}
     for name, result_obj in result.items():
         info_list = [
-            (f"http://{url}/rtp/{ip}${result_region}_{result_type}", date, resolution)
+            (
+                f"http://{url}/rtp/{ip}$cache:{result_region}_{result_type}",
+                date,
+                resolution,
+            )
             for result_region, result_types in result_obj.items()
             if result_region in search_result
             for result_type, result_type_urls in result_types.items()
