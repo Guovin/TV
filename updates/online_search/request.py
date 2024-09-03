@@ -8,7 +8,7 @@ from utils.channel import (
 from utils.tools import check_url_by_patterns, get_pbar_remaining, get_soup
 from utils.config import config
 from updates.proxy import get_proxy, get_proxy_next
-from time import time, sleep
+from time import time
 from driver.setup import setup_driver
 from utils.retry import (
     retry_func,
@@ -54,7 +54,6 @@ def search_submit(driver, name):
     )
     if not submit_button:
         return
-    sleep(1)
     driver.execute_script("arguments[0].click();", submit_button)
 
 
@@ -126,7 +125,6 @@ async def get_channels_by_online_search(names, callback):
                                 )
                                 if not page_link:
                                     break
-                                sleep(1)
                                 driver.execute_script(
                                     "arguments[0].click();", page_link
                                 )
@@ -136,7 +134,6 @@ async def get_channels_by_online_search(names, callback):
                                     lambda: get_soup_requests(request_url, proxy=proxy),
                                     name=f"online search:{name}, page:{page}",
                                 )
-                        sleep(1)
                         soup = (
                             get_soup(driver.page_source) if open_driver else page_soup
                         )

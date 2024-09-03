@@ -10,7 +10,7 @@ from utils.channel import (
 from utils.tools import get_pbar_remaining, get_soup
 from utils.config import config, resource_path
 from updates.proxy import get_proxy, get_proxy_next
-from time import time, sleep
+from time import time
 from driver.setup import setup_driver
 from utils.retry import (
     retry_func,
@@ -60,7 +60,6 @@ def search_submit(driver, name):
     )
     if not submit_button:
         return
-    sleep(1)
     driver.execute_script("arguments[0].click();", submit_button)
 
 
@@ -151,9 +150,7 @@ async def get_channels_by_multicast(names, callback):
                                 ),
                             )
                             if not page_link:
-                                # break
-                                continue
-                            sleep(1)
+                                break
                             driver.execute_script("arguments[0].click();", page_link)
                         else:
                             request_url = (
@@ -163,7 +160,6 @@ async def get_channels_by_multicast(names, callback):
                                 lambda: get_soup_requests(request_url, proxy=proxy),
                                 name=f"multicast search:{name}, page:{page}",
                             )
-                    sleep(1)
                     soup = get_soup(driver.page_source) if open_driver else page_soup
                     if soup:
                         results = (

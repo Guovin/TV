@@ -3,7 +3,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 
-max_retries = 3
+max_retries = 2
 timeout = 10
 
 
