@@ -121,6 +121,9 @@ async def get_channels_by_online_search(names, callback):
                             get_soup(driver.page_source) if open_driver else page_soup
                         )
                         if soup:
+                            if "About 0 results" in soup.text:
+                                retries += 1
+                                continue
                             results = (
                                 get_results_from_soup(soup, name)
                                 if open_driver
@@ -161,7 +164,7 @@ async def get_channels_by_online_search(names, callback):
                             break
                         else:
                             print(
-                                f"{name}:No results found, refreshing page and retrying..."
+                                f"{name}:No page soup found, refreshing page and retrying..."
                             )
                             if open_driver:
                                 driver.refresh()

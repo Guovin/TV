@@ -94,12 +94,7 @@ async def get_channels_by_multicast(names, callback):
                         code = parse_qs(parsed_url.query).get("code", [None])[0]
                         if code:
                             break
-            # retry_limit = 3
             for page in range(1, page_num + 1):
-                # retries = 0
-                # if not open_driver and page == 1:
-                #     retries = 2
-                # while retries < retry_limit:
                 try:
                     if page > 1:
                         if open_driver:
@@ -123,6 +118,8 @@ async def get_channels_by_multicast(names, callback):
                             )
                     soup = get_soup(driver.page_source) if open_driver else page_soup
                     if soup:
+                        if "About 0 results" in soup.text:
+                            break
                         results = (
                             get_results_from_multicast_soup(soup)
                             if open_driver
@@ -131,43 +128,14 @@ async def get_channels_by_multicast(names, callback):
                         print(name, "page:", page, "results num:", len(results))
                         if len(results) == 0:
                             print(f"{name}:No results found")
-                            # if open_driver:
-                            #     driver.refresh()
-                            # retries += 1
-                            # continue
-                        # elif len(results) <= 3:
-                        #     if open_driver:
-                        #         next_page_link = find_clickable_element_with_retry(
-                        #             driver,
-                        #             (
-                        #                 By.XPATH,
-                        #                 f'//a[contains(@href, "={page+1}") and contains(@href, "{name}")]',
-                        #             ),
-                        #             retries=1,
-                        #         )
-                        #         if next_page_link:
-                        #             if open_proxy:
-                        #                 proxy = get_proxy_next()
-                        #             driver.close()
-                        #             driver.quit()
-                        #             driver = setup_driver(proxy)
-                        #             search_submit(driver, name)
-                        #     retries += 1
-                        #     continue
                         info_list = info_list + results
-                        # break
                     else:
-                        print(f"{name}:No results found")
-                        # if open_driver:
-                        #     driver.refresh()
-                        # retries += 1
-                        # continue
+                        print(f"{name}:No page soup found")
+                        if page != page_num and open_driver:
+                            driver.refresh()
                 except Exception as e:
                     print(f"{name}:Error on page {page}: {e}")
-                    # break
                     continue
-            # if retries == retry_limit:
-            #     print(f"{name}:Reached retry limit, moving to next page")
         except Exception as e:
             print(f"{name}:Error on search: {e}")
             pass
