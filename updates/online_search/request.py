@@ -40,7 +40,7 @@ async def use_accessible_url(callback):
         return baseUrl2
 
 
-async def get_channels_by_online_search(names, callback):
+async def get_channels_by_online_search(names, callback=None):
     """
     Get the channels by online search
     """
@@ -183,15 +183,17 @@ async def get_channels_by_online_search(names, callback):
                 driver.close()
                 driver.quit()
             pbar.update()
-            callback(
-                f"正在线上查询更新, 剩余{names_len - pbar.n}个频道待查询, 预计剩余时间: {get_pbar_remaining(n=pbar.n, total=pbar.total, start_time=start_time)}",
-                int((pbar.n / names_len) * 100),
-            )
+            if callback:
+                callback(
+                    f"正在线上查询更新, 剩余{names_len - pbar.n}个频道待查询, 预计剩余时间: {get_pbar_remaining(n=pbar.n, total=pbar.total, start_time=start_time)}",
+                    int((pbar.n / names_len) * 100),
+                )
             return {"name": format_channel_name(name), "data": info_list}
 
     names_len = len(names)
     pbar = tqdm_asyncio(total=names_len, desc="Online search")
-    callback(f"正在线上查询更新, 共{names_len}个频道", 0)
+    if callback:
+        callback(f"正在线上查询更新, 共{names_len}个频道", 0)
     with ThreadPoolExecutor(max_workers=3) as executor:
         futures = [
             executor.submit(process_channel_by_online_search, name) for name in names

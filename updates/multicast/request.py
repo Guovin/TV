@@ -1,15 +1,15 @@
-from asyncio import create_task, gather
-from utils.speed import get_speed
 from utils.channel import (
     get_results_from_multicast_soup,
     get_results_from_multicast_soup_requests,
     get_channel_multicast_name_region_type_result,
     get_channel_multicast_region_type_list,
     get_channel_multicast_result,
+    get_multicast_fofa_search_urls,
 )
 from utils.tools import get_pbar_remaining, get_soup
 from utils.config import config, resource_path
 from updates.proxy import get_proxy, get_proxy_next
+from updates.fofa import get_channels_by_fofa
 from time import time
 from driver.setup import setup_driver
 from driver.utils import search_submit
@@ -27,13 +27,15 @@ import json
 from collections import defaultdict
 
 
-async def get_channels_by_multicast(names, callback):
+async def get_channels_by_multicast(names, callback=None):
     """
     Get the channels by multicase
     """
     channels = {}
     pageUrl = "http://tonkiang.us/hoteliptv.php"
     proxy = None
+    open_multicast_tonkiang = config.getboolean("Settings", "open_multicast_tonkiang")
+    open_multicast_fofa = config.getboolean("Settings", "open_multicast_fofa")
     open_proxy = config.getboolean("Settings", "open_proxy")
     open_driver = config.getboolean("Settings", "open_driver")
     page_num = config.getint("Settings", "multicast_page_num")
@@ -50,6 +52,12 @@ async def get_channels_by_multicast(names, callback):
         multicast_region_result, names
     )
     region_type_list = get_channel_multicast_region_type_list(name_region_type_result)
+    search_region_type_result = defaultdict(lambda: defaultdict(list))
+    if open_multicast_fofa:
+        fofa_search_urls = get_multicast_fofa_search_urls()
+        search_region_type_result = await get_channels_by_fofa(
+            fofa_search_urls, multicast=True
+        )
 
     def process_channel_by_multicast(region, type):
         nonlocal proxy, open_driver, page_num
@@ -144,41 +152,47 @@ async def get_channels_by_multicast(names, callback):
                 driver.close()
                 driver.quit()
             pbar.update()
-            callback(
-                f"正在进行组播更新, 剩余{region_type_list_len - pbar.n}个地区组播源待查询, 预计剩余时间: {get_pbar_remaining(n=pbar.n, total=pbar.total, start_time=start_time)}",
-                int((pbar.n / region_type_list_len) * 100),
-            )
+            if callback:
+                callback(
+                    f"正在进行Tonkiang组播更新, 剩余{region_type_list_len - pbar.n}个地区待查询, 预计剩余时间: {get_pbar_remaining(n=pbar.n, total=pbar.total, start_time=start_time)}",
+                    int((pbar.n / region_type_list_len) * 100),
+                )
             return {"region": region, "type": type, "data": info_list}
 
-    region_type_list_len = len(region_type_list)
-    pbar = tqdm_asyncio(total=region_type_list_len, desc="Multicast search")
-    callback(
-        f"正在进行组播更新, {len(names)}个频道, 共{region_type_list_len}个地区组播源", 0
-    )
-    search_region_type_result = defaultdict(lambda: defaultdict(list))
-    with ThreadPoolExecutor(max_workers=3) as executor:
-        futures = {
-            executor.submit(process_channel_by_multicast, region, type): (region, type)
-            for region, type in region_type_list
-        }
+    if open_multicast_tonkiang:
+        region_type_list_len = len(region_type_list)
+        pbar = tqdm_asyncio(total=region_type_list_len, desc="Multicast search")
+        if callback:
+            callback(
+                f"正在进行Tonkiang组播更新, {len(names)}个频道, 共{region_type_list_len}个地区",
+                0,
+            )
+        with ThreadPoolExecutor(max_workers=3) as executor:
+            futures = {
+                executor.submit(process_channel_by_multicast, region, type): (
+                    region,
+                    type,
+                )
+                for region, type in region_type_list
+            }
 
-        for future in as_completed(futures):
-            region, type = futures[future]
-            result = future.result()
-            data = result.get("data")
+            for future in as_completed(futures):
+                region, type = futures[future]
+                result = future.result()
+                data = result.get("data")
 
-            if data:
-                for item in data:
-                    url = item.get("url")
-                    date = item.get("date")
-                    if url:
-                        search_region_type_result[region][type].append(
-                            (url, date, None)
-                        )
+                if data:
+                    for item in data:
+                        url = item.get("url")
+                        date = item.get("date")
+                        if url:
+                            search_region_type_result[region][type].append(
+                                (url, date, None)
+                            )
+        pbar.close()
     channels = get_channel_multicast_result(
         name_region_type_result, search_region_type_result
     )
     if not open_driver:
         close_session()
-    pbar.close()
     return channels

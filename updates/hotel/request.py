@@ -25,7 +25,7 @@ from collections import defaultdict
 import updates.fofa.fofa_map as fofa_map
 
 
-async def get_channels_by_hotel(callback):
+async def get_channels_by_hotel(callback=None):
     """
     Get the channels by multicase
     """
@@ -36,7 +36,7 @@ async def get_channels_by_hotel(callback):
     open_driver = config.getboolean("Settings", "open_driver")
     page_num = config.getint("Settings", "hotel_page_num")
     region_list = config.get("Settings", "hotel_region_list").split(",")
-    if "all" in region_list or "全部" in region_list:
+    if "all" in region_list or "ALL" in region_list or "全部" in region_list:
         fofa_region_name_list = list(getattr(fofa_map, "region_url").keys())
         region_list = fofa_region_name_list
     if open_proxy:
@@ -51,7 +51,10 @@ async def get_channels_by_hotel(callback):
             if open_driver:
                 driver = setup_driver(proxy)
                 try:
-                    retry_func(lambda: driver.get(pageUrl), name=f"hotel search:{name}")
+                    retry_func(
+                        lambda: driver.get(pageUrl),
+                        name=f"Tonkiang hotel search:{name}",
+                    )
                 except Exception as e:
                     if open_proxy:
                         proxy = get_proxy_next()
@@ -67,7 +70,7 @@ async def get_channels_by_hotel(callback):
                 try:
                     page_soup = retry_func(
                         lambda: get_soup_requests(pageUrl, data=post_form, proxy=proxy),
-                        name=f"hotel search:{name}",
+                        name=f"Tonkiang hotel search:{name}",
                     )
                 except Exception as e:
                     if open_proxy:
@@ -141,15 +144,17 @@ async def get_channels_by_hotel(callback):
                 driver.close()
                 driver.quit()
             pbar.update()
-            callback(
-                f"正在进行酒店源更新, 剩余{region_list_len - pbar.n}个地区待查询, 预计剩余时间: {get_pbar_remaining(n=pbar.n, total=pbar.total, start_time=start_time)}",
-                int((pbar.n / region_list_len) * 100),
-            )
+            if callback:
+                callback(
+                    f"正在进行Tonkiang酒店源更新, 剩余{region_list_len - pbar.n}个地区待查询, 预计剩余时间: {get_pbar_remaining(n=pbar.n, total=pbar.total, start_time=start_time)}",
+                    int((pbar.n / region_list_len) * 100),
+                )
             return {"region": region, "type": type, "data": info_list}
 
     region_list_len = len(region_list)
-    pbar = tqdm_asyncio(total=region_list_len, desc="Hotel search")
-    callback(f"正在进行酒店源更新, 共{region_list_len}个地区", 0)
+    pbar = tqdm_asyncio(total=region_list_len, desc="Tonkiang hotel search")
+    if callback:
+        callback(f"正在进行Tonkiang酒店源更新, 共{region_list_len}个地区", 0)
     search_region_result = defaultdict(list)
     with ThreadPoolExecutor(max_workers=3) as executor:
         futures = {
@@ -174,7 +179,7 @@ async def get_channels_by_hotel(callback):
         for url, _, _ in result
     ]
     channels = await get_channels_by_subscribe_urls(
-        urls, retry=False, error_print=False, with_cache=True
+        urls, hotel=True, retry=False, error_print=False, with_cache=True
     )
     if not open_driver:
         close_session()
