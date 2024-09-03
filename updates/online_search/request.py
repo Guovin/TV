@@ -10,9 +10,9 @@ from utils.config import config
 from updates.proxy import get_proxy, get_proxy_next
 from time import time
 from driver.setup import setup_driver
+from driver.utils import search_submit
 from utils.retry import (
     retry_func,
-    locate_element_with_retry,
     find_clickable_element_with_retry,
 )
 from selenium.webdriver.common.by import By
@@ -38,23 +38,6 @@ async def use_accessible_url(callback):
         return baseUrl1
     else:
         return baseUrl2
-
-
-def search_submit(driver, name):
-    """
-    Input key word and submit with driver
-    """
-    search_box = locate_element_with_retry(driver, (By.XPATH, '//input[@type="text"]'))
-    if not search_box:
-        return
-    search_box.clear()
-    search_box.send_keys(name)
-    submit_button = find_clickable_element_with_retry(
-        driver, (By.XPATH, '//input[@type="submit"]')
-    )
-    if not submit_button:
-        return
-    driver.execute_script("arguments[0].click();", submit_button)
 
 
 async def get_channels_by_online_search(names, callback):

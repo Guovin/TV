@@ -9,9 +9,9 @@ from utils.config import config
 from updates.proxy import get_proxy, get_proxy_next
 from time import time
 from driver.setup import setup_driver
+from driver.utils import search_submit
 from utils.retry import (
     retry_func,
-    locate_element_with_retry,
     find_clickable_element_with_retry,
 )
 from selenium.webdriver.common.by import By
@@ -25,51 +25,12 @@ from collections import defaultdict
 import updates.fofa.fofa_map as fofa_map
 
 
-async def use_accessible_url(callback):
-    """
-    Check if the url is accessible
-    """
-    callback(f"正在获取最优的酒店源检索节点", 0)
-    baseUrl1 = "https://www.foodieguide.com/iptvsearch/hoteliptv.php"
-    baseUrl2 = "http://tonkiang.us/hoteliptv.php"
-    task1 = create_task(get_speed(baseUrl1, timeout=30))
-    task2 = create_task(get_speed(baseUrl2, timeout=30))
-    task_results = await gather(task1, task2)
-    callback(f"获取酒店源检索节点完成", 100)
-    if task_results[0] == float("inf") and task_results[1] == float("inf"):
-        return None
-    if task_results[0] < task_results[1]:
-        return baseUrl1
-    else:
-        return baseUrl2
-
-
-def search_submit(driver, name):
-    """
-    Input key word and submit with driver
-    """
-    search_box = locate_element_with_retry(driver, (By.XPATH, '//input[@type="text"]'))
-    if not search_box:
-        return
-    search_box.clear()
-    search_box.send_keys(name)
-    submit_button = find_clickable_element_with_retry(
-        driver, (By.XPATH, '//input[@type="submit"]')
-    )
-    if not submit_button:
-        return
-    driver.execute_script("arguments[0].click();", submit_button)
-
-
 async def get_channels_by_hotel(callback):
     """
     Get the channels by multicase
     """
     channels = {}
-    # pageUrl = await use_accessible_url(callback)
     pageUrl = "http://tonkiang.us/hoteliptv.php"
-    # if not pageUrl:
-    #     return channels
     proxy = None
     open_proxy = config.getboolean("Settings", "open_proxy")
     open_driver = config.getboolean("Settings", "open_driver")
