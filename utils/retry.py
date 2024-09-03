@@ -4,7 +4,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 
 max_retries = 3
-timeout = 15
+timeout = 10
 
 
 def retry_func(func, retries=max_retries + 1, name=""):

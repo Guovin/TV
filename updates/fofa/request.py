@@ -12,7 +12,7 @@ from utils.tools import merge_objects, get_pbar_remaining
 from updates.proxy import get_proxy, get_proxy_next
 from requests_custom.utils import get_source_requests, close_session
 
-timeout = 30
+timeout = 10
 
 
 def get_fofa_urls_from_region_list():

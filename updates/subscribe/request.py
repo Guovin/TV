@@ -9,7 +9,7 @@ from utils.tools import merge_objects, get_pbar_remaining
 from concurrent.futures import ThreadPoolExecutor
 from collections import defaultdict
 
-timeout = 30
+timeout = 10
 
 
 async def get_channels_by_subscribe_urls(
