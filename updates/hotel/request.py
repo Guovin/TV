@@ -7,11 +7,11 @@ from utils.channel import (
 from utils.tools import get_pbar_remaining, get_soup
 from utils.config import config
 from updates.proxy import get_proxy, get_proxy_next
-from time import time, sleep
+from time import time
 from driver.setup import setup_driver
+from driver.utils import search_submit
 from utils.retry import (
     retry_func,
-    locate_element_with_retry,
     find_clickable_element_with_retry,
 )
 from selenium.webdriver.common.by import By
@@ -25,58 +25,18 @@ from collections import defaultdict
 import updates.fofa.fofa_map as fofa_map
 
 
-async def use_accessible_url(callback):
-    """
-    Check if the url is accessible
-    """
-    callback(f"正在获取最优的酒店源检索节点", 0)
-    baseUrl1 = "https://www.foodieguide.com/iptvsearch/hoteliptv.php"
-    baseUrl2 = "http://tonkiang.us/hoteliptv.php"
-    task1 = create_task(get_speed(baseUrl1, timeout=30))
-    task2 = create_task(get_speed(baseUrl2, timeout=30))
-    task_results = await gather(task1, task2)
-    callback(f"获取酒店源检索节点完成", 100)
-    if task_results[0] == float("inf") and task_results[1] == float("inf"):
-        return None
-    if task_results[0] < task_results[1]:
-        return baseUrl1
-    else:
-        return baseUrl2
-
-
-def search_submit(driver, name):
-    """
-    Input key word and submit with driver
-    """
-    search_box = locate_element_with_retry(driver, (By.XPATH, '//input[@type="text"]'))
-    if not search_box:
-        return
-    search_box.clear()
-    search_box.send_keys(name)
-    submit_button = find_clickable_element_with_retry(
-        driver, (By.XPATH, '//input[@type="submit"]')
-    )
-    if not submit_button:
-        return
-    sleep(1)
-    driver.execute_script("arguments[0].click();", submit_button)
-
-
-async def get_channels_by_hotel(callback):
+async def get_channels_by_hotel(callback=None):
     """
     Get the channels by multicase
     """
     channels = {}
-    # pageUrl = await use_accessible_url(callback)
     pageUrl = "http://tonkiang.us/hoteliptv.php"
-    # if not pageUrl:
-    #     return channels
     proxy = None
     open_proxy = config.getboolean("Settings", "open_proxy")
     open_driver = config.getboolean("Settings", "open_driver")
     page_num = config.getint("Settings", "hotel_page_num")
     region_list = config.get("Settings", "hotel_region_list").split(",")
-    if "all" in region_list or "全部" in region_list:
+    if "all" in region_list or "ALL" in region_list or "全部" in region_list:
         fofa_region_name_list = list(getattr(fofa_map, "region_url").keys())
         region_list = fofa_region_name_list
     if open_proxy:
@@ -91,7 +51,10 @@ async def get_channels_by_hotel(callback):
             if open_driver:
                 driver = setup_driver(proxy)
                 try:
-                    retry_func(lambda: driver.get(pageUrl), name=f"hotel search:{name}")
+                    retry_func(
+                        lambda: driver.get(pageUrl),
+                        name=f"Tonkiang hotel search:{name}",
+                    )
                 except Exception as e:
                     if open_proxy:
                         proxy = get_proxy_next()
@@ -107,7 +70,7 @@ async def get_channels_by_hotel(callback):
                 try:
                     page_soup = retry_func(
                         lambda: get_soup_requests(pageUrl, data=post_form, proxy=proxy),
-                        name=f"hotel search:{name}",
+                        name=f"Tonkiang hotel search:{name}",
                     )
                 except Exception as e:
                     if open_proxy:
@@ -141,9 +104,7 @@ async def get_channels_by_hotel(callback):
                                 ),
                             )
                             if not page_link:
-                                # break
-                                continue
-                            sleep(1)
+                                break
                             driver.execute_script("arguments[0].click();", page_link)
                         else:
                             request_url = (
@@ -153,9 +114,10 @@ async def get_channels_by_hotel(callback):
                                 lambda: get_soup_requests(request_url, proxy=proxy),
                                 name=f"hotel search:{name}, page:{page}",
                             )
-                    sleep(1)
                     soup = get_soup(driver.page_source) if open_driver else page_soup
                     if soup:
+                        if "About 0 results" in soup.text:
+                            break
                         results = (
                             get_results_from_multicast_soup(soup, hotel=True)
                             if open_driver
@@ -166,43 +128,14 @@ async def get_channels_by_hotel(callback):
                         print(name, "page:", page, "results num:", len(results))
                         if len(results) == 0:
                             print(f"{name}:No results found")
-                            # if open_driver:
-                            #     driver.refresh()
-                            # retries += 1
-                            # continue
-                        # elif len(results) <= 3:
-                        #     if open_driver:
-                        #         next_page_link = find_clickable_element_with_retry(
-                        #             driver,
-                        #             (
-                        #                 By.XPATH,
-                        #                 f'//a[contains(@href, "={page+1}") and contains(@href, "{name}")]',
-                        #             ),
-                        #             retries=1,
-                        #         )
-                        #         if next_page_link:
-                        #             if open_proxy:
-                        #                 proxy = get_proxy_next()
-                        #             driver.close()
-                        #             driver.quit()
-                        #             driver = setup_driver(proxy)
-                        #             search_submit(driver, name)
-                        #     retries += 1
-                        #     continue
                         info_list = info_list + results
-                        # break
                     else:
-                        print(f"{name}:No results found")
-                        # if open_driver:
-                        #     driver.refresh()
-                        # retries += 1
-                        # continue
+                        print(f"{name}:No page soup found")
+                        if page != page_num and open_driver:
+                            driver.refresh()
                 except Exception as e:
                     print(f"{name}:Error on page {page}: {e}")
-                    # break
                     continue
-            # if retries == retry_limit:
-            #     print(f"{name}:Reached retry limit, moving to next page")
         except Exception as e:
             print(f"{name}:Error on search: {e}")
             pass
@@ -211,15 +144,17 @@ async def get_channels_by_hotel(callback):
                 driver.close()
                 driver.quit()
             pbar.update()
-            callback(
-                f"正在进行酒店源更新, 剩余{region_list_len - pbar.n}个地区待查询, 预计剩余时间: {get_pbar_remaining(n=pbar.n, total=pbar.total, start_time=start_time)}",
-                int((pbar.n / region_list_len) * 100),
-            )
+            if callback:
+                callback(
+                    f"正在进行Tonkiang酒店源更新, 剩余{region_list_len - pbar.n}个地区待查询, 预计剩余时间: {get_pbar_remaining(n=pbar.n, total=pbar.total, start_time=start_time)}",
+                    int((pbar.n / region_list_len) * 100),
+                )
             return {"region": region, "type": type, "data": info_list}
 
     region_list_len = len(region_list)
-    pbar = tqdm_asyncio(total=region_list_len, desc="Hotel search")
-    callback(f"正在进行酒店源更新, 共{region_list_len}个地区", 0)
+    pbar = tqdm_asyncio(total=region_list_len, desc="Tonkiang hotel search")
+    if callback:
+        callback(f"正在进行Tonkiang酒店源更新, 共{region_list_len}个地区", 0)
     search_region_result = defaultdict(list)
     with ThreadPoolExecutor(max_workers=3) as executor:
         futures = {
@@ -244,7 +179,7 @@ async def get_channels_by_hotel(callback):
         for url, _, _ in result
     ]
     channels = await get_channels_by_subscribe_urls(
-        urls, retry=False, error_print=False, with_cache=True
+        urls, hotel=True, retry=False, error_print=False, with_cache=True
     )
     if not open_driver:
         close_session()

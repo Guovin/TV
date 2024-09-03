@@ -1,20 +1,20 @@
-from asyncio import create_task, gather
-from utils.speed import get_speed
 from utils.channel import (
     get_results_from_multicast_soup,
     get_results_from_multicast_soup_requests,
     get_channel_multicast_name_region_type_result,
     get_channel_multicast_region_type_list,
     get_channel_multicast_result,
+    get_multicast_fofa_search_urls,
 )
 from utils.tools import get_pbar_remaining, get_soup
 from utils.config import config, resource_path
 from updates.proxy import get_proxy, get_proxy_next
-from time import time, sleep
+from updates.fofa import get_channels_by_fofa
+from time import time
 from driver.setup import setup_driver
+from driver.utils import search_submit
 from utils.retry import (
     retry_func,
-    locate_element_with_retry,
     find_clickable_element_with_retry,
 )
 from selenium.webdriver.common.by import By
@@ -27,53 +27,15 @@ import json
 from collections import defaultdict
 
 
-async def use_accessible_url(callback):
-    """
-    Check if the url is accessible
-    """
-    callback(f"正在获取最优的组播源检索节点", 0)
-    baseUrl1 = "https://www.foodieguide.com/iptvsearch/hoteliptv.php"
-    baseUrl2 = "http://tonkiang.us/hoteliptv.php"
-    task1 = create_task(get_speed(baseUrl1, timeout=30))
-    task2 = create_task(get_speed(baseUrl2, timeout=30))
-    task_results = await gather(task1, task2)
-    callback(f"获取组播源检索节点完成", 100)
-    if task_results[0] == float("inf") and task_results[1] == float("inf"):
-        return None
-    if task_results[0] < task_results[1]:
-        return baseUrl1
-    else:
-        return baseUrl2
-
-
-def search_submit(driver, name):
-    """
-    Input key word and submit with driver
-    """
-    search_box = locate_element_with_retry(driver, (By.XPATH, '//input[@type="text"]'))
-    if not search_box:
-        return
-    search_box.clear()
-    search_box.send_keys(name)
-    submit_button = find_clickable_element_with_retry(
-        driver, (By.XPATH, '//input[@type="submit"]')
-    )
-    if not submit_button:
-        return
-    sleep(1)
-    driver.execute_script("arguments[0].click();", submit_button)
-
-
-async def get_channels_by_multicast(names, callback):
+async def get_channels_by_multicast(names, callback=None):
     """
     Get the channels by multicase
     """
     channels = {}
-    # pageUrl = await use_accessible_url(callback)
     pageUrl = "http://tonkiang.us/hoteliptv.php"
-    # if not pageUrl:
-    #     return channels
     proxy = None
+    open_multicast_tonkiang = config.getboolean("Settings", "open_multicast_tonkiang")
+    open_multicast_fofa = config.getboolean("Settings", "open_multicast_fofa")
     open_proxy = config.getboolean("Settings", "open_proxy")
     open_driver = config.getboolean("Settings", "open_driver")
     page_num = config.getint("Settings", "multicast_page_num")
@@ -90,6 +52,12 @@ async def get_channels_by_multicast(names, callback):
         multicast_region_result, names
     )
     region_type_list = get_channel_multicast_region_type_list(name_region_type_result)
+    search_region_type_result = defaultdict(lambda: defaultdict(list))
+    if open_multicast_fofa:
+        fofa_search_urls = get_multicast_fofa_search_urls()
+        search_region_type_result = await get_channels_by_fofa(
+            fofa_search_urls, multicast=True
+        )
 
     def process_channel_by_multicast(region, type):
         nonlocal proxy, open_driver, page_num
@@ -134,12 +102,7 @@ async def get_channels_by_multicast(names, callback):
                         code = parse_qs(parsed_url.query).get("code", [None])[0]
                         if code:
                             break
-            # retry_limit = 3
             for page in range(1, page_num + 1):
-                # retries = 0
-                # if not open_driver and page == 1:
-                #     retries = 2
-                # while retries < retry_limit:
                 try:
                     if page > 1:
                         if open_driver:
@@ -151,9 +114,7 @@ async def get_channels_by_multicast(names, callback):
                                 ),
                             )
                             if not page_link:
-                                # break
-                                continue
-                            sleep(1)
+                                break
                             driver.execute_script("arguments[0].click();", page_link)
                         else:
                             request_url = (
@@ -163,9 +124,10 @@ async def get_channels_by_multicast(names, callback):
                                 lambda: get_soup_requests(request_url, proxy=proxy),
                                 name=f"multicast search:{name}, page:{page}",
                             )
-                    sleep(1)
                     soup = get_soup(driver.page_source) if open_driver else page_soup
                     if soup:
+                        if "About 0 results" in soup.text:
+                            break
                         results = (
                             get_results_from_multicast_soup(soup)
                             if open_driver
@@ -174,43 +136,14 @@ async def get_channels_by_multicast(names, callback):
                         print(name, "page:", page, "results num:", len(results))
                         if len(results) == 0:
                             print(f"{name}:No results found")
-                            # if open_driver:
-                            #     driver.refresh()
-                            # retries += 1
-                            # continue
-                        # elif len(results) <= 3:
-                        #     if open_driver:
-                        #         next_page_link = find_clickable_element_with_retry(
-                        #             driver,
-                        #             (
-                        #                 By.XPATH,
-                        #                 f'//a[contains(@href, "={page+1}") and contains(@href, "{name}")]',
-                        #             ),
-                        #             retries=1,
-                        #         )
-                        #         if next_page_link:
-                        #             if open_proxy:
-                        #                 proxy = get_proxy_next()
-                        #             driver.close()
-                        #             driver.quit()
-                        #             driver = setup_driver(proxy)
-                        #             search_submit(driver, name)
-                        #     retries += 1
-                        #     continue
                         info_list = info_list + results
-                        # break
                     else:
-                        print(f"{name}:No results found")
-                        # if open_driver:
-                        #     driver.refresh()
-                        # retries += 1
-                        # continue
+                        print(f"{name}:No page soup found")
+                        if page != page_num and open_driver:
+                            driver.refresh()
                 except Exception as e:
                     print(f"{name}:Error on page {page}: {e}")
-                    # break
                     continue
-            # if retries == retry_limit:
-            #     print(f"{name}:Reached retry limit, moving to next page")
         except Exception as e:
             print(f"{name}:Error on search: {e}")
             pass
@@ -219,41 +152,47 @@ async def get_channels_by_multicast(names, callback):
                 driver.close()
                 driver.quit()
             pbar.update()
-            callback(
-                f"正在进行组播更新, 剩余{region_type_list_len - pbar.n}个地区组播源待查询, 预计剩余时间: {get_pbar_remaining(n=pbar.n, total=pbar.total, start_time=start_time)}",
-                int((pbar.n / region_type_list_len) * 100),
-            )
+            if callback:
+                callback(
+                    f"正在进行Tonkiang组播更新, 剩余{region_type_list_len - pbar.n}个地区待查询, 预计剩余时间: {get_pbar_remaining(n=pbar.n, total=pbar.total, start_time=start_time)}",
+                    int((pbar.n / region_type_list_len) * 100),
+                )
             return {"region": region, "type": type, "data": info_list}
 
-    region_type_list_len = len(region_type_list)
-    pbar = tqdm_asyncio(total=region_type_list_len, desc="Multicast search")
-    callback(
-        f"正在进行组播更新, {len(names)}个频道, 共{region_type_list_len}个地区组播源", 0
-    )
-    search_region_type_result = defaultdict(lambda: defaultdict(list))
-    with ThreadPoolExecutor(max_workers=3) as executor:
-        futures = {
-            executor.submit(process_channel_by_multicast, region, type): (region, type)
-            for region, type in region_type_list
-        }
+    if open_multicast_tonkiang:
+        region_type_list_len = len(region_type_list)
+        pbar = tqdm_asyncio(total=region_type_list_len, desc="Multicast search")
+        if callback:
+            callback(
+                f"正在进行Tonkiang组播更新, {len(names)}个频道, 共{region_type_list_len}个地区",
+                0,
+            )
+        with ThreadPoolExecutor(max_workers=3) as executor:
+            futures = {
+                executor.submit(process_channel_by_multicast, region, type): (
+                    region,
+                    type,
+                )
+                for region, type in region_type_list
+            }
 
-        for future in as_completed(futures):
-            region, type = futures[future]
-            result = future.result()
-            data = result.get("data")
+            for future in as_completed(futures):
+                region, type = futures[future]
+                result = future.result()
+                data = result.get("data")
 
-            if data:
-                for item in data:
-                    url = item.get("url")
-                    date = item.get("date")
-                    if url:
-                        search_region_type_result[region][type].append(
-                            (url, date, None)
-                        )
+                if data:
+                    for item in data:
+                        url = item.get("url")
+                        date = item.get("date")
+                        if url:
+                            search_region_type_result[region][type].append(
+                                (url, date, None)
+                            )
+        pbar.close()
     channels = get_channel_multicast_result(
         name_region_type_result, search_region_type_result
     )
     if not open_driver:
         close_session()
-    pbar.close()
     return channels

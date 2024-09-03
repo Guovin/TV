@@ -95,10 +95,10 @@ class UpdateSource:
                         task_func(subscribe_urls, callback=self.update_progress)
                     )
                 elif setting == "open_hotel_tonkiang" or setting == "open_hotel_fofa":
-                    task = asyncio.create_task(task_func(self.update_progress))
+                    task = asyncio.create_task(task_func(callback=self.update_progress))
                 else:
                     task = asyncio.create_task(
-                        task_func(channel_names, self.update_progress)
+                        task_func(channel_names, callback=self.update_progress)
                     )
                 self.tasks.append(task)
                 setattr(self, result_attr, await task)
@@ -155,48 +155,48 @@ class UpdateSource:
                     self.channel_data,
                     callback=sort_callback,
                 )
-            no_result_cate_names = [
-                (cate, name)
-                for cate, channel_obj in self.channel_data.items()
-                for name, info_list in channel_obj.items()
-                if len(info_list) < 3
-            ]
-            no_result_names = [name for (_, name) in no_result_cate_names]
-            if no_result_names:
-                print(
-                    f"Not enough url found for {', '.join(no_result_names)}, try a supplementary multicast search..."
-                )
-                sup_results = await get_channels_by_multicast(
-                    no_result_names, self.update_progress
-                )
-                sup_channel_items = defaultdict(lambda: defaultdict(list))
-                for cate, name in no_result_cate_names:
-                    data = sup_results.get(name)
-                    if data:
-                        sup_channel_items[cate][name] = data
-                self.total = len(
-                    [
-                        url
-                        for obj in sup_channel_items.values()
-                        for url_list in obj.values()
-                        for url in url_list
-                    ]
-                )
-                if self.total > 0 and config.getboolean("Settings", "open_sort"):
-                    self.update_progress(
-                        f"正在对补充频道测速排序, 共{len([name for obj in sup_channel_items.values() for name in obj.keys()])}个频道, 含{self.total}个接口",
-                        0,
-                    )
-                    self.start_time = time()
-                    self.pbar = tqdm_asyncio(total=self.total, desc="Sorting")
-                    sup_channel_items = await process_sort_channel_list(
-                        sup_channel_items,
-                        callback=sort_callback,
-                    )
-                    self.channel_data = merge_objects(
-                        self.channel_data, sup_channel_items
-                    )
-            self.total = self.get_urls_len()
+            # no_result_cate_names = [
+            #     (cate, name)
+            #     for cate, channel_obj in self.channel_data.items()
+            #     for name, info_list in channel_obj.items()
+            #     if len(info_list) < 3
+            # ]
+            # no_result_names = [name for (_, name) in no_result_cate_names]
+            # if no_result_names:
+            #     print(
+            #         f"Not enough url found for {', '.join(no_result_names)}, try a supplementary multicast search..."
+            #     )
+            #     sup_results = await get_channels_by_multicast(
+            #         no_result_names, self.update_progress
+            #     )
+            #     sup_channel_items = defaultdict(lambda: defaultdict(list))
+            #     for cate, name in no_result_cate_names:
+            #         data = sup_results.get(name)
+            #         if data:
+            #             sup_channel_items[cate][name] = data
+            #     self.total = len(
+            #         [
+            #             url
+            #             for obj in sup_channel_items.values()
+            #             for url_list in obj.values()
+            #             for url in url_list
+            #         ]
+            #     )
+            #     if self.total > 0 and config.getboolean("Settings", "open_sort"):
+            #         self.update_progress(
+            #             f"正在对补充频道测速排序, 共{len([name for obj in sup_channel_items.values() for name in obj.keys()])}个频道, 含{self.total}个接口",
+            #             0,
+            #         )
+            #         self.start_time = time()
+            #         self.pbar = tqdm_asyncio(total=self.total, desc="Sorting")
+            #         sup_channel_items = await process_sort_channel_list(
+            #             sup_channel_items,
+            #             callback=sort_callback,
+            #         )
+            #         self.channel_data = merge_objects(
+            #             self.channel_data, sup_channel_items
+            #         )
+            # self.total = self.get_urls_len()
             self.pbar = tqdm(total=self.total, desc="Writing")
             self.start_time = time()
             write_channel_to_file(
