@@ -23,7 +23,6 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from requests_custom.utils import get_soup_requests, close_session
 import urllib.parse as urlparse
 from urllib.parse import parse_qs
-import json
 from collections import defaultdict
 from .update_tmp import get_multicast_region_result_by_rtp_txt
 
