@@ -12,7 +12,6 @@ from utils.tools import (
     get_ip_address,
     convert_to_m3u,
     get_result_file_content,
-    merge_objects,
 )
 from updates.subscribe import get_channels_by_subscribe_urls
 from updates.multicast import get_channels_by_multicast
@@ -26,7 +25,8 @@ from time import time
 from flask import Flask, render_template_string
 import sys
 import shutil
-from collections import defaultdict
+
+# from collections import defaultdict
 
 app = Flask(__name__)
 
@@ -111,14 +111,19 @@ class UpdateSource:
         )
 
     def get_urls_len(self):
-        return len(
-            [
-                url
-                for channel_obj in self.channel_data.values()
-                for url_list in channel_obj.values()
-                for url in url_list
-            ]
+        def process_cache_url(url):
+            if "$cache:" in url:
+                cache_part = url.split("$cache:", 1)[1]
+                return cache_part.split("?")[0]
+            return url
+
+        processed_urls = set(
+            process_cache_url(url_info[0])
+            for channel_obj in self.channel_data.values()
+            for url_info_list in channel_obj.values()
+            for url_info in url_info_list
         )
+        return len(processed_urls)
 
     async def main(self):
         try:
