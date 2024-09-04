@@ -111,14 +111,19 @@ class UpdateSource:
         )
 
     def get_urls_len(self):
-        return len(
-            [
-                url
-                for channel_obj in self.channel_data.values()
-                for url_list in channel_obj.values()
-                for url in url_list
-            ]
+        def process_cache_url(url):
+            if "$cache:" in url:
+                cache_part = url.split("$cache:", 1)[1]
+                return cache_part.split("?")[0]
+            return url
+
+        processed_urls = set(
+            process_cache_url(url_info[0])
+            for channel_obj in self.channel_data.values()
+            for url_info_list in channel_obj.values()
+            for url_info in url_info_list
         )
+        return len(processed_urls)
 
     async def main(self):
         try:

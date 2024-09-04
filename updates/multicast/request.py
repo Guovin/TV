@@ -7,7 +7,7 @@ from utils.channel import (
     get_multicast_fofa_search_urls,
 )
 from utils.tools import get_pbar_remaining, get_soup
-from utils.config import config, resource_path
+from utils.config import config
 from updates.proxy import get_proxy, get_proxy_next
 from updates.fofa import get_channels_by_fofa
 from time import time
@@ -42,13 +42,7 @@ async def get_channels_by_multicast(names, callback=None):
     page_num = config.getint("Settings", "multicast_page_num")
     if open_proxy:
         proxy = await get_proxy(pageUrl, best=True, with_test=True)
-    get_multicast_region_result_by_rtp_txt(callback=callback)
-    with open(
-        resource_path("updates/multicast/multicast_region_result.json"),
-        "r",
-        encoding="utf-8",
-    ) as f:
-        multicast_region_result = json.load(f)
+    multicast_region_result = get_multicast_region_result_by_rtp_txt(callback=callback)
     name_region_type_result = get_channel_multicast_name_region_type_result(
         multicast_region_result, names
     )

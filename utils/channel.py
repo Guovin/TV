@@ -106,7 +106,7 @@ def get_channel_name_matches(query=None, choices=None, threshold=80):
     query = format_channel_name(query)
     matches = process.extract(query, choices, limit=len(choices))
     threshold = 100 if "cctv" in query else threshold
-    filtered_matches = [match for match in matches if match[1] >= threshold]
+    filtered_matches = [match[0] for match in matches if match[1] >= threshold]
     return filtered_matches
 
 
@@ -133,7 +133,7 @@ def get_channel_results_by_name(name, data):
         get_channel_name_matches(name, data_keys)
         + get_channel_name_matches(name_s2t, data_keys)
     )
-    result = [item for name_match in name_matches_set for item in data[name_match[0]]]
+    result = [item for name_match in name_matches_set for item in data[name_match]]
     return result
 
 
@@ -186,10 +186,9 @@ def get_channel_multicast_name_region_type_result(result, names):
     for name in names:
         matches = get_channel_name_matches(name, result.keys())
         for match in matches:
-            match_name = match[0]
-            data = result.get(match_name)
-            if data and match_name not in name_region_type_result:
-                name_region_type_result[match_name] = data
+            data = result.get(match)
+            if data and match not in name_region_type_result:
+                name_region_type_result[match] = data
     return name_region_type_result
 
 

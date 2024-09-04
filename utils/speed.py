@@ -125,7 +125,7 @@ async def get_speed_by_info(url_info, ffmpeg, semaphore, callback=None):
         url_split = None
         cache_key = None
         if "$" in url:
-            url_split = url.split("$")
+            url_split = url.split("$", 1)
             url = url_split[0]
         url = quote(url, safe=":/?&=$[]")
         url_info[0] = url
