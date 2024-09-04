@@ -25,6 +25,7 @@ import urllib.parse as urlparse
 from urllib.parse import parse_qs
 import json
 from collections import defaultdict
+from .update_tmp import get_multicast_region_result_by_rtp_txt
 
 
 async def get_channels_by_multicast(names, callback=None):
@@ -41,7 +42,7 @@ async def get_channels_by_multicast(names, callback=None):
     page_num = config.getint("Settings", "multicast_page_num")
     if open_proxy:
         proxy = await get_proxy(pageUrl, best=True, with_test=True)
-    start_time = time()
+    get_multicast_region_result_by_rtp_txt(callback=callback)
     with open(
         resource_path("updates/multicast/multicast_region_result.json"),
         "r",
@@ -60,7 +61,7 @@ async def get_channels_by_multicast(names, callback=None):
         )
 
     def process_channel_by_multicast(region, type):
-        nonlocal proxy, open_driver, page_num
+        nonlocal proxy, open_driver, page_num, start_time
         name = f"{region}{type}"
         info_list = []
         try:
@@ -167,6 +168,7 @@ async def get_channels_by_multicast(names, callback=None):
                 f"正在进行Tonkiang组播更新, {len(names)}个频道, 共{region_type_list_len}个地区",
                 0,
             )
+        start_time = time()
         with ThreadPoolExecutor(max_workers=3) as executor:
             futures = {
                 executor.submit(process_channel_by_multicast, region, type): (

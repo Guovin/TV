@@ -12,7 +12,6 @@ from utils.tools import (
     get_ip_address,
     convert_to_m3u,
     get_result_file_content,
-    merge_objects,
 )
 from updates.subscribe import get_channels_by_subscribe_urls
 from updates.multicast import get_channels_by_multicast
@@ -26,7 +25,8 @@ from time import time
 from flask import Flask, render_template_string
 import sys
 import shutil
-from collections import defaultdict
+
+# from collections import defaultdict
 
 app = Flask(__name__)
 

@@ -10,6 +10,7 @@ from logging.handlers import RotatingFileHandler
 from opencc import OpenCC
 import asyncio
 import base64
+from rapidfuzz import process
 
 log_dir = "output"
 log_file = "result_new.log"
@@ -82,51 +83,31 @@ def format_channel_name(name):
     """
     if config.getboolean("Settings", "open_keep_all"):
         return name
+    if "cctv" in name.lower():
+        name = re.sub(r"[\u4e00-\u9fa5]", "", name)
     cc = OpenCC("t2s")
     name = cc.convert(name)
-
-    sub_pattern = (
-        r"-|_|\((.*?)\)|\[(.*?)\]| |频道|标清|高清|HD|hd|超清|超高|超高清|中央|央视|台"
-    )
+    sub_pattern = r"-|_|\((.*?)\)|\（(.*?)\）|\[(.*?)\]| |频道|普清|标清|高清|HD|hd|超清|超高|超高清|中央|央视|台"
     name = re.sub(sub_pattern, "", name)
-
     replace_dict = {
         "plus": "+",
         "PLUS": "+",
         "＋": "+",
-        "CCTV1综合": "CCTV1",
-        "CCTV2财经": "CCTV2",
-        "CCTV3综艺": "CCTV3",
-        "CCTV4国际": "CCTV4",
-        "CCTV4中文国际": "CCTV4",
-        "CCTV4欧洲": "CCTV4",
-        "CCTV5体育": "CCTV5",
-        "CCTV5+体育赛视": "CCTV5+",
-        "CCTV5+体育赛事": "CCTV5+",
-        "CCTV5+体育": "CCTV5+",
-        "CCTV6电影": "CCTV6",
-        "CCTV7军事": "CCTV7",
-        "CCTV7军农": "CCTV7",
-        "CCTV7农业": "CCTV7",
-        "CCTV7国防军事": "CCTV7",
-        "CCTV8电视剧": "CCTV8",
-        "CCTV9记录": "CCTV9",
-        "CCTV9纪录": "CCTV9",
-        "CCTV10科教": "CCTV10",
-        "CCTV11戏曲": "CCTV11",
-        "CCTV12社会与法": "CCTV12",
-        "CCTV13新闻": "CCTV13",
-        "CCTV新闻": "CCTV13",
-        "CCTV14少儿": "CCTV14",
-        "CCTV15音乐": "CCTV15",
-        "CCTV16奥林匹克": "CCTV16",
-        "CCTV17农业农村": "CCTV17",
-        "CCTV17农业": "CCTV17",
     }
     for old, new in replace_dict.items():
         name = name.replace(old, new)
-
     return name.lower()
+
+
+def get_channel_name_matches(query=None, choices=None, threshold=80):
+    """
+    Get channel name matches with rapidfuzz
+    """
+    query = format_channel_name(query)
+    matches = process.extract(query, choices, limit=len(choices))
+    threshold = 100 if "cctv" in query else threshold
+    filtered_matches = [match for match in matches if match[1] >= threshold]
+    return filtered_matches
 
 
 def channel_name_is_equal(name1, name2):
@@ -137,20 +118,23 @@ def channel_name_is_equal(name1, name2):
         return True
     name1_format = format_channel_name(name1)
     name2_format = format_channel_name(name2)
-    return name1_format == name2_format
+    matches = get_channel_name_matches(name1_format, [name2_format])
+    return len(matches) > 0
 
 
 def get_channel_results_by_name(name, data):
     """
     Get channel results from data by name
     """
-    format_name = format_channel_name(name)
     cc = OpenCC("s2t")
-    name_s2t = cc.convert(format_name)
-    result1 = data.get(format_name, [])
-    result2 = data.get(name_s2t, [])
-    results = list(dict.fromkeys(result1 + result2))
-    return results
+    name_s2t = cc.convert(name)
+    data_keys = data.keys()
+    name_matches_set = set(
+        get_channel_name_matches(name, data_keys)
+        + get_channel_name_matches(name_s2t, data_keys)
+    )
+    result = [item for name_match in name_matches_set for item in data[name_match[0]]]
+    return result
 
 
 def get_element_child_text_list(element, child_name):
@@ -200,10 +184,11 @@ def get_channel_multicast_name_region_type_result(result, names):
     """
     name_region_type_result = {}
     for name in names:
-        format_name = format_channel_name(name)
-        data = result.get(format_name)
-        if data:
-            name_region_type_result[format_name] = data
+        matches = get_channel_name_matches(name, result.keys())
+        for match in matches:
+            data = result.get(match)
+            if data and match not in name_region_type_result:
+                name_region_type_result[match] = data
     return name_region_type_result
 
 
