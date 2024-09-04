@@ -186,9 +186,10 @@ def get_channel_multicast_name_region_type_result(result, names):
     for name in names:
         matches = get_channel_name_matches(name, result.keys())
         for match in matches:
-            data = result.get(match)
-            if data and match not in name_region_type_result:
-                name_region_type_result[match] = data
+            match_name = match[0]
+            data = result.get(match_name)
+            if data and match_name not in name_region_type_result:
+                name_region_type_result[match_name] = data
     return name_region_type_result
 
 
