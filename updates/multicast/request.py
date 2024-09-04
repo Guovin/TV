@@ -7,7 +7,7 @@ from utils.channel import (
     get_multicast_fofa_search_urls,
 )
 from utils.tools import get_pbar_remaining, get_soup
-from utils.config import config, resource_path
+from utils.config import config
 from updates.proxy import get_proxy, get_proxy_next
 from updates.fofa import get_channels_by_fofa
 from time import time
@@ -23,8 +23,8 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from requests_custom.utils import get_soup_requests, close_session
 import urllib.parse as urlparse
 from urllib.parse import parse_qs
-import json
 from collections import defaultdict
+from .update_tmp import get_multicast_region_result_by_rtp_txt
 
 
 async def get_channels_by_multicast(names, callback=None):
@@ -41,13 +41,7 @@ async def get_channels_by_multicast(names, callback=None):
     page_num = config.getint("Settings", "multicast_page_num")
     if open_proxy:
         proxy = await get_proxy(pageUrl, best=True, with_test=True)
-    start_time = time()
-    with open(
-        resource_path("updates/multicast/multicast_region_result.json"),
-        "r",
-        encoding="utf-8",
-    ) as f:
-        multicast_region_result = json.load(f)
+    multicast_region_result = get_multicast_region_result_by_rtp_txt(callback=callback)
     name_region_type_result = get_channel_multicast_name_region_type_result(
         multicast_region_result, names
     )
@@ -60,7 +54,7 @@ async def get_channels_by_multicast(names, callback=None):
         )
 
     def process_channel_by_multicast(region, type):
-        nonlocal proxy, open_driver, page_num
+        nonlocal proxy, open_driver, page_num, start_time
         name = f"{region}{type}"
         info_list = []
         try:
@@ -167,6 +161,7 @@ async def get_channels_by_multicast(names, callback=None):
                 f"正在进行Tonkiang组播更新, {len(names)}个频道, 共{region_type_list_len}个地区",
                 0,
             )
+        start_time = time()
         with ThreadPoolExecutor(max_workers=3) as executor:
             futures = {
                 executor.submit(process_channel_by_multicast, region, type): (

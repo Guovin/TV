@@ -125,12 +125,12 @@ async def get_speed_by_info(url_info, ffmpeg, semaphore, callback=None):
         url_split = None
         cache_key = None
         if "$" in url:
-            url_split = url.split("$")
+            url_split = url.split("$", 1)
             url = url_split[0]
         url = quote(url, safe=":/?&=$[]")
         url_info[0] = url
         if url_split and url_split[1] and "cache:" in url_split[1]:
-            cache_key = url_split[1]
+            cache_key = url_split[1].replace("cache:", "")
             if speed_cache.get(cache_key):
                 return (tuple(url_info), speed_cache[cache_key])
         try:

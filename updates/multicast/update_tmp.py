@@ -5,10 +5,17 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../.
 
 from updates.subscribe import get_channels_by_subscribe_urls
 from driver.utils import get_soup_driver
-from utils.config import resource_path
+from utils.config import resource_path, config
+from utils.channel import format_channel_name
+from utils.tools import get_pbar_remaining
 import json
-import asyncio
+
+# import asyncio
 from requests import Session
+from collections import defaultdict
+import re
+from time import time
+from tqdm import tqdm
 
 
 def get_region_urls_from_IPTV_Multicast_source():
@@ -91,7 +98,66 @@ def get_multicast_region_type_result_txt():
                     f.write(content)
 
 
+def get_multicast_region_result_by_rtp_txt(callback=None):
+    """
+    Get multicast region result by rtp txt
+    """
+    rtp_path = resource_path("updates/multicast/rtp")
+    config_region_list = set(config.get("Settings", "multicast_region_list").split(","))
+    rtp_file_list = [
+        filename.rsplit(".", 1)[0]
+        for filename in os.listdir(rtp_path)
+        if filename.endswith(".txt")
+        and "_" in filename
+        and (
+            filename.rsplit(".", 1)[0].split("_", 1)[0] in config_region_list
+            or config_region_list & {"all", "ALL", "全部"}
+        )
+    ]
+
+    total_files = len(rtp_file_list)
+    if callback:
+        callback(f"正在加载本地组播数据, 共{total_files}个文件", 0)
+
+    pbar = tqdm(total=total_files, desc="Loading local multicast rtp files")
+    multicast_result = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))
+    pattern = re.compile(r"^(.*?),(?!#genre#)(.*?)$")
+    start_time = time()
+
+    for filename in rtp_file_list:
+        region, type = filename.split("_", 1)
+        with open(
+            os.path.join(rtp_path, f"{filename}.txt"), "r", encoding="utf-8"
+        ) as f:
+            for line in f:
+                matcher = pattern.match(line)
+                if matcher:
+                    channel_name = format_channel_name(matcher.group(1).strip())
+                    url = matcher.group(2).strip()
+                    if url not in multicast_result[channel_name][region][type]:
+                        multicast_result[channel_name][region][type].append(url)
+        pbar.update()
+        if callback:
+            remaining_files = total_files - pbar.n
+            estimated_time = get_pbar_remaining(pbar.n, total_files, start_time)
+            callback(
+                f"正在加载{region}_{type}的组播数据, 剩余{remaining_files}个文件, 预计剩余时间: {estimated_time}",
+                int((pbar.n / total_files) * 100),
+            )
+
+    with open(
+        resource_path("updates/multicast/multicast_region_result.json"),
+        "w",
+        encoding="utf-8",
+    ) as f:
+        json.dump(multicast_result, f, ensure_ascii=False, indent=4)
+
+    pbar.close()
+    return multicast_result
+
+
 if __name__ == "__main__":
     get_region_urls_from_IPTV_Multicast_source()
-    asyncio.run(get_multicast_region_result())
+    # asyncio.run(get_multicast_region_result())
     get_multicast_region_type_result_txt()
+    # get_multicast_region_result_by_rtp_txt()
