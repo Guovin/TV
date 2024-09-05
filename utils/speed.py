@@ -127,10 +127,10 @@ async def get_speed_by_info(url_info, ffmpeg, semaphore, callback=None):
             url, cache_info = url.split("$", 1)
             if "cache:" in cache_info:
                 cache_key = cache_info.replace("cache:", "")
-                if cache_key in speed_cache:
-                    return tuple(url_info), speed_cache[cache_key]
         url = quote(url, safe=":/?&=$[]")
         url_info[0] = url
+        if cache_key in speed_cache:
+            return (tuple(url_info), speed_cache[cache_key])
         try:
             if ".m3u8" not in url and ffmpeg:
                 speed = await check_stream_speed(url_info)
