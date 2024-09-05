@@ -146,7 +146,7 @@ async def get_channels_by_hotel(callback=None):
             pbar.update()
             if callback:
                 callback(
-                    f"正在进行Tonkiang酒店源更新, 剩余{region_list_len - pbar.n}个地区待查询, 预计剩余时间: {get_pbar_remaining(n=pbar.n, total=pbar.total, start_time=start_time)}",
+                    f"正在获取Tonkiang酒店源, 剩余{region_list_len - pbar.n}个地区待查询, 预计剩余时间: {get_pbar_remaining(n=pbar.n, total=pbar.total, start_time=start_time)}",
                     int((pbar.n / region_list_len) * 100),
                 )
             return {"region": region, "type": type, "data": info_list}
@@ -154,7 +154,7 @@ async def get_channels_by_hotel(callback=None):
     region_list_len = len(region_list)
     pbar = tqdm_asyncio(total=region_list_len, desc="Tonkiang hotel search")
     if callback:
-        callback(f"正在进行Tonkiang酒店源更新, 共{region_list_len}个地区", 0)
+        callback(f"正在获取Tonkiang酒店源, 共{region_list_len}个地区", 0)
     search_region_result = defaultdict(list)
     with ThreadPoolExecutor(max_workers=3) as executor:
         futures = {
