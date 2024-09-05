@@ -3,6 +3,7 @@ from tkinter import ttk
 from utils.config import config, resource_path
 import json
 from select_combobox import SelectCombobox
+import os
 
 
 class MulticastUI:
@@ -30,6 +31,42 @@ class MulticastUI:
         )
         self.open_multicast_checkbutton.pack(side=tk.LEFT, padx=4, pady=8)
 
+        frame_multicast_mode = tk.Frame(root)
+        frame_multicast_mode.pack(fill=tk.X)
+
+        self.open_multicast_mode_label = tk.Label(
+            frame_multicast_mode, text="工作模式:", width=9
+        )
+        self.open_multicast_mode_label.pack(side=tk.LEFT, padx=4, pady=8)
+        self.open_multicast_tonkiang_var = tk.BooleanVar(
+            value=config.getboolean("Settings", "open_multicast_tonkiang")
+        )
+        self.open_multicast_tonkiang_checkbutton = ttk.Checkbutton(
+            frame_multicast_mode,
+            variable=self.open_multicast_tonkiang_var,
+            onvalue=True,
+            offvalue=False,
+            command=self.update_open_multicast_tonkiang,
+            text="Tonkiang",
+        )
+        self.open_multicast_tonkiang_checkbutton.pack(side=tk.LEFT, padx=4, pady=8)
+
+        self.open_multicast_fofa_var = tk.BooleanVar(
+            value=config.getboolean("Settings", "open_multicast_fofa")
+        )
+        self.open_multicast_fofa_checkbutton = ttk.Checkbutton(
+            frame_multicast_mode,
+            variable=self.open_multicast_fofa_var,
+            onvalue=True,
+            offvalue=False,
+            command=self.update_open_multicast_fofa,
+            text="FOFA",
+        )
+        self.open_multicast_fofa_checkbutton.pack(side=tk.LEFT, padx=4, pady=8)
+
+        frame_multicast_region_list = tk.Frame(root)
+        frame_multicast_region_list.pack(fill=tk.X)
+
         frame_multicast_region_list = tk.Frame(root)
         frame_multicast_region_list.pack(fill=tk.X)
 
@@ -37,11 +74,17 @@ class MulticastUI:
             frame_multicast_region_list, text="组播地区:", width=9
         )
         self.region_list_label.pack(side=tk.LEFT, padx=4, pady=8)
-        with open(
-            resource_path("updates/multicast/multicast_map.json"), "r", encoding="utf-8"
-        ) as f:
-            regions_obj = json.load(f)
-            regions = ["全部"] + list(regions_obj.keys())
+        rtp_path = resource_path("config/rtp")
+        regions = list(
+            {"全部"}.union(
+                filename.rsplit(".", 1)[0].split("_", 1)[0]
+                for filename in os.listdir(rtp_path)
+                if filename.endswith(".txt") and "_" in filename
+            )
+        )
+        if "全部" in regions:
+            regions.remove("全部")
+        regions.insert(0, "全部")
         region_selected_values = [
             value
             for value in config.get("Settings", "multicast_region_list").split(",")
@@ -52,11 +95,11 @@ class MulticastUI:
             values=regions,
             selected_values=region_selected_values,
             height=10,
+            command=self.update_region_list,
         )
         self.region_list_combo.pack(
             side=tk.LEFT, padx=4, pady=8, expand=True, fill=tk.BOTH
         )
-        self.region_list_combo.bind("<KeyRelease>", self.update_region_list)
 
         frame_multicast_page_num = tk.Frame(root)
         frame_multicast_page_num.pack(fill=tk.X)
@@ -73,6 +116,18 @@ class MulticastUI:
     def update_open_multicast(self):
         config.set("Settings", "open_multicast", str(self.open_multicast_var.get()))
 
+    def update_open_multicast_tonkiang(self):
+        config.set(
+            "Settings",
+            "open_multicast_tonkiang",
+            str(self.open_multicast_tonkiang_var.get()),
+        )
+
+    def update_open_multicast_fofa(self):
+        config.set(
+            "Settings", "open_multicast_fofa", str(self.open_multicast_fofa_var.get())
+        )
+
     def update_region_list(self, event):
         config.set(
             "Settings",
@@ -86,6 +141,8 @@ class MulticastUI:
     def change_entry_state(self, state):
         for entry in [
             "open_multicast_checkbutton",
+            "open_multicast_tonkiang_checkbutton",
+            "open_multicast_fofa_checkbutton",
             "region_list_combo",
             "page_num_entry",
         ]:

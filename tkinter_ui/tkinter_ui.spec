@@ -7,6 +7,7 @@ a = Analysis(
     datas=[
         ('../config/config.ini', 'config'),
         ('../config/demo.txt', 'config'),
+        ('../config/rtp', 'config/rtp'),
         ('../updates/multicast/multicast_map.json', 'updates/multicast'),
         ('../updates/multicast/multicast_region_result.json', 'updates/multicast'),
         ('../static/images/favicon.ico', 'static/images'),

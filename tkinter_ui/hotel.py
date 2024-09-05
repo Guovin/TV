@@ -80,11 +80,11 @@ class HotelUI:
             values=regions,
             selected_values=region_selected_values,
             height=10,
+            command=self.update_region_list,
         )
         self.region_list_combo.pack(
             side=tk.LEFT, padx=4, pady=8, expand=True, fill=tk.BOTH
         )
-        self.region_list_combo.bind("<KeyRelease>", self.update_region_list)
 
         frame_hotel_page_num = tk.Frame(root)
         frame_hotel_page_num.pack(fill=tk.X)

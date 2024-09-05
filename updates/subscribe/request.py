@@ -40,7 +40,7 @@ async def get_channels_by_subscribe_urls(
     mode_name = "组播" if multicast else "酒店" if hotel else "订阅"
     if callback:
         callback(
-            f"正在获取{mode_name}源更新, 共{subscribe_urls_len}个{mode_name}源",
+            f"正在获取{mode_name}源, 共{subscribe_urls_len}个{mode_name}源",
             0,
         )
     session = Session()
@@ -104,7 +104,7 @@ async def get_channels_by_subscribe_urls(
             remain = subscribe_urls_len - pbar.n
             if callback:
                 callback(
-                    f"正在获取{mode_name}源更新, 剩余{remain}个{mode_name}源待获取, 预计剩余时间: {get_pbar_remaining(n=pbar.n, total=pbar.total, start_time=start_time)}",
+                    f"正在获取{mode_name}源, 剩余{remain}个{mode_name}源待获取, 预计剩余时间: {get_pbar_remaining(n=pbar.n, total=pbar.total, start_time=start_time)}",
                     int((pbar.n / subscribe_urls_len) * 100),
                 )
             return channels
