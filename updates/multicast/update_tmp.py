@@ -91,7 +91,7 @@ def get_multicast_region_type_result_txt():
                 response = session.get(url)
                 content = response.text
                 with open(
-                    resource_path(f"updates/multicast/rtp/{region}_{type}.txt"),
+                    resource_path(f"config/rtp/{region}_{type}.txt"),
                     "w",
                     encoding="utf-8",
                 ) as f:
@@ -102,7 +102,7 @@ def get_multicast_region_result_by_rtp_txt(callback=None):
     """
     Get multicast region result by rtp txt
     """
-    rtp_path = resource_path("updates/multicast/rtp")
+    rtp_path = resource_path("config/rtp")
     config_region_list = set(config.get("Settings", "multicast_region_list").split(","))
     rtp_file_list = [
         filename.rsplit(".", 1)[0]
