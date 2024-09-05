@@ -67,10 +67,36 @@ def copy_config():
     dest_folder = os.path.join(os.getcwd(), "config")
     files_to_copy = [user_source_file, user_config_file]
     try:
+        if os.path.exists(dest_folder):
+            if not os.path.isdir(dest_folder):
+                os.remove(dest_folder)
+                os.makedirs(dest_folder, exist_ok=True)
+        else:
+            os.makedirs(dest_folder, exist_ok=True)
         for src_file in files_to_copy:
             dest_path = os.path.join(dest_folder, os.path.basename(src_file))
-            if os.path.abspath(src_file) == os.path.abspath(dest_path):
+            if os.path.abspath(src_file) == os.path.abspath(
+                dest_path
+            ) or os.path.exists(dest_path):
                 continue
             shutil.copy(src_file, dest_folder)
+        src_rtp_dir = resource_path("config/rtp")
+        dest_rtp_dir = os.path.join(dest_folder, "rtp")
+        if os.path.exists(src_rtp_dir):
+            if not os.path.exists(dest_rtp_dir):
+                os.makedirs(dest_rtp_dir, exist_ok=True)
+
+            for root, _, files in os.walk(src_rtp_dir):
+                for file in files:
+                    src_file_path = os.path.join(root, file)
+                    relative_path = os.path.relpath(src_file_path, src_rtp_dir)
+                    dest_file_path = os.path.join(dest_rtp_dir, relative_path)
+
+                    dest_file_dir = os.path.dirname(dest_file_path)
+                    if not os.path.exists(dest_file_dir):
+                        os.makedirs(dest_file_dir, exist_ok=True)
+
+                    if not os.path.exists(dest_file_path):
+                        shutil.copy(src_file_path, dest_file_path)
     except Exception as e:
         print(f"Failed to copy files: {str(e)}")

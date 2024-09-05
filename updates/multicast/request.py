@@ -50,7 +50,7 @@ async def get_channels_by_multicast(names, callback=None):
     if open_multicast_fofa:
         fofa_search_urls = get_multicast_fofa_search_urls()
         search_region_type_result = await get_channels_by_fofa(
-            fofa_search_urls, multicast=True
+            fofa_search_urls, multicast=True, callback=callback
         )
 
     def process_channel_by_multicast(region, type):

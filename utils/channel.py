@@ -15,16 +15,35 @@ from rapidfuzz import process
 log_dir = "output"
 log_file = "result_new.log"
 log_path = os.path.join(log_dir, log_file)
+handler = None
 
-if not os.path.exists(log_dir):
-    os.makedirs(log_dir)
 
-handler = RotatingFileHandler(log_path, encoding="utf-8")
-logging.basicConfig(
-    handlers=[handler],
-    format="%(message)s",
-    level=logging.INFO,
-)
+def setup_logging():
+    """
+    Setup logging
+    """
+    global handler
+    if not os.path.exists(log_dir):
+        os.makedirs(log_dir)
+    handler = RotatingFileHandler(log_path, encoding="utf-8")
+    logging.basicConfig(
+        handlers=[handler],
+        format="%(message)s",
+        level=logging.INFO,
+    )
+
+
+def cleanup_logging():
+    """
+    Cleanup logging
+    """
+    global handler
+    if handler:
+        for handler in logging.root.handlers[:]:
+            handler.close()
+            logging.root.removeHandler(handler)
+    if os.path.exists(log_path):
+        os.remove(log_path)
 
 
 def get_channel_data_from_file(channels=None, file=None, from_result=False):
@@ -632,9 +651,6 @@ def write_channel_to_file(items, data, callback=None):
             channel_urls = get_total_urls_from_info_list(info_list)
             print("write:", cate, name, "num:", len(channel_urls))
             update_channel_urls_txt(cate, name, channel_urls, callback=callback)
-    for handler in logging.root.handlers[:]:
-        handler.close()
-        logging.root.removeHandler(handler)
 
 
 def get_multicast_fofa_search_org(region, type):
@@ -659,7 +675,7 @@ def get_multicast_fofa_search_urls():
     """
     config_region_list = config.get("Settings", "multicast_region_list").split(",")
     rtp_file_names = []
-    for filename in os.listdir(resource_path("updates/multicast/rtp")):
+    for filename in os.listdir(resource_path("config/rtp")):
         if filename.endswith(".txt") and "_" in filename:
             filename = filename.replace(".txt", "")
             rtp_file_names.append(filename)
