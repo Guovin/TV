@@ -5,6 +5,8 @@ from utils.channel import (
     append_total_data,
     process_sort_channel_list,
     write_channel_to_file,
+    setup_logging,
+    cleanup_logging,
 )
 from utils.tools import (
     update_file,
@@ -25,8 +27,11 @@ from time import time
 from flask import Flask, render_template_string
 import sys
 import shutil
+import atexit
 
 app = Flask(__name__)
+
+atexit.register(cleanup_logging)
 
 
 @app.route("/")
@@ -194,6 +199,8 @@ class UpdateSource:
                 )
         except asyncio.exceptions.CancelledError:
             print("Update cancelled!")
+        finally:
+            cleanup_logging()
 
     async def start(self, callback=None):
         def default_callback(self, *args, **kwargs):
@@ -202,6 +209,7 @@ class UpdateSource:
         self.update_progress = callback or default_callback
         self.run_ui = True if callback else False
         if config.getboolean("Settings", "open_update"):
+            setup_logging()
             await self.main()
         if self.run_ui and config.getboolean("Settings", "open_update") == False:
             self.update_progress(
