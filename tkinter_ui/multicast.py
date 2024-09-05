@@ -141,6 +141,8 @@ class MulticastUI:
     def change_entry_state(self, state):
         for entry in [
             "open_multicast_checkbutton",
+            "open_multicast_tonkiang_checkbutton",
+            "open_multicast_fofa_checkbutton",
             "region_list_combo",
             "page_num_entry",
         ]:
