@@ -1,5 +1,5 @@
 import asyncio
-from utils.config import config, copy_config
+from utils.config import config
 from utils.channel import (
     get_channel_items,
     append_total_data,
@@ -107,11 +107,12 @@ class UpdateSource:
                 setattr(self, result_attr, await task)
 
     def pbar_update(self, name=""):
-        self.pbar.update()
-        self.update_progress(
-            f"正在进行{name}, 剩余{self.total - self.pbar.n}个接口, 预计剩余时间: {get_pbar_remaining(n=self.pbar.n, total=self.total, start_time=self.start_time)}",
-            int((self.pbar.n) / self.total) * 100,
-        )
+        if self.pbar.n < self.total:
+            self.pbar.update()
+            self.update_progress(
+                f"正在进行{name}, 剩余{self.total - self.pbar.n}个接口, 预计剩余时间: {get_pbar_remaining(n=self.pbar.n, total=self.total, start_time=self.start_time)}",
+                int((self.pbar.n / self.total) * 100),
+            )
 
     def get_urls_len(self, filter=False):
         def process_cache_url(url):
@@ -131,8 +132,6 @@ class UpdateSource:
     async def main(self):
         try:
             self.channel_items = get_channel_items()
-            if self.run_ui:
-                copy_config()
             channel_names = [
                 name
                 for channel_obj in self.channel_items.values()
@@ -187,16 +186,22 @@ class UpdateSource:
                     if os.path.exists("config/user_config.ini")
                     else "result.log"
                 )
-                update_file(user_log_file, "output/result_new.log")
+                update_file(user_log_file, "output/result_new.log", copy=True)
             convert_to_m3u()
             print(f"Update completed! Please check the {user_final_file} file!")
             if self.run_ui:
+                tip = (
+                    "服务启动成功, 可访问以下链接:"
+                    if config.getboolean("Settings", "open_update") == False
+                    else f"更新完成, 请检查{user_final_file}文件, 可访问以下链接:"
+                )
                 self.update_progress(
-                    f"更新完成, 请检查{user_final_file}文件, 可访问以下链接:",
+                    tip,
                     100,
                     True,
                     url=f"{get_ip_address()}",
                 )
+                run_app()
         except asyncio.exceptions.CancelledError:
             print("Update cancelled!")
         finally:
@@ -211,14 +216,6 @@ class UpdateSource:
         if config.getboolean("Settings", "open_update"):
             setup_logging()
             await self.main()
-        if self.run_ui and config.getboolean("Settings", "open_update") == False:
-            self.update_progress(
-                f"服务启动成功, 可访问以下链接:",
-                100,
-                True,
-                url=f"{get_ip_address()}",
-            )
-            run_app()
 
     def stop(self):
         for task in self.tasks:

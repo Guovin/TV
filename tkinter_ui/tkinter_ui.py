@@ -5,7 +5,7 @@ sys.path.append(os.path.dirname(sys.path[0]))
 import tkinter as tk
 from tkinter import messagebox
 from PIL import Image, ImageTk
-from utils.config import config, resource_path, save_config
+from utils.config import config, resource_path, save_config, copy_config
 from main import UpdateSource
 import asyncio
 import threading
@@ -254,4 +254,5 @@ if __name__ == "__main__":
     screen_height = root.winfo_screenheight()
     root.geometry("%dx%d+%d+%d" % get_root_location(root))
     root.iconbitmap(resource_path("static/images/favicon.ico"))
+    root.after(0, copy_config)
     root.mainloop()

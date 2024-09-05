@@ -117,7 +117,7 @@ def get_multicast_region_result_by_rtp_txt(callback=None):
 
     total_files = len(rtp_file_list)
     if callback:
-        callback(f"正在加载本地组播数据, 共{total_files}个文件", 0)
+        callback(f"正在读取本地组播数据, 共{total_files}个文件", 0)
 
     pbar = tqdm(total=total_files, desc="Loading local multicast rtp files")
     multicast_result = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))
@@ -141,7 +141,7 @@ def get_multicast_region_result_by_rtp_txt(callback=None):
             remaining_files = total_files - pbar.n
             estimated_time = get_pbar_remaining(pbar.n, total_files, start_time)
             callback(
-                f"正在加载{region}_{type}的组播数据, 剩余{remaining_files}个文件, 预计剩余时间: {estimated_time}",
+                f"正在读取{region}_{type}的组播数据, 剩余{remaining_files}个文件, 预计剩余时间: {estimated_time}",
                 int((pbar.n / total_files) * 100),
             )
 
