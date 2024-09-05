@@ -178,8 +178,9 @@ async def get_channels_by_hotel(callback=None):
         for result in search_region_result.values()
         for url, _, _ in result
     ]
+    open_sort = config.getboolean("Settings", "open_sort")
     channels = await get_channels_by_subscribe_urls(
-        urls, hotel=True, retry=False, error_print=False, with_cache=True
+        urls, hotel=True, retry=False, error_print=False, with_cache=open_sort
     )
     if not open_driver:
         close_session()

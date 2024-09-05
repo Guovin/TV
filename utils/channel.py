@@ -234,10 +234,15 @@ def get_channel_multicast_result(result, search_result):
     Get the channel multicast info result by result and search result
     """
     info_result = {}
+    open_sort = config.getboolean("Settings", "open_sort")
     for name, result_obj in result.items():
         info_list = [
             (
-                f"http://{url}/rtp/{ip}$cache:{result_region}_{result_type}",
+                (
+                    f"http://{url}/rtp/{ip}$cache:{result_region}_{result_type}"
+                    if open_sort
+                    else f"http://{url}/rtp/{ip}"
+                ),
                 date,
                 resolution,
             )
