@@ -1,5 +1,29 @@
 # 更新日志（Changelog）
 
+## v1.4.0
+
+### 2024/9/5
+
+- 注意：本次更新涉及配置变更，请以最新 config/config.ini 为准，工作流使用 user_config.ini 或 docker 挂载的用户请及时更新配置文件
+- 新增组播源运行模式：FOFA、Tonkiang
+- 新增支持组播源自定义维护频道 IP，目录位于 config/rtp，文件按“地区\_运营商”命名
+- 优化测速方法，大幅提升组播源、酒店源的测速速度
+- 优化频道名称匹配方法，支持模糊匹配，提高命中率
+- 优化地区输入选择框
+- 修复 driver 模式请求问题
+- 修复组播地区选择全部时无法运行问题
+- 修复工作流使用 user_config 时无法生成 m3u 结果问题
+
+- Warning: This update involves configuration changes. Please refer to the latest config/config.ini. Users using user_config.ini or Docker-mounted configurations should update their configuration files promptly.
+- Added multicast source operation modes: FOFA, Tonkiang.
+- Added support for custom-maintained multicast source channel IPs, located in config/rtp, with files named by "region_operator".
+- Optimized speed test method, significantly improving the speed test of multicast sources and hotel sources.
+- Optimized channel name matching method to support fuzzy matching, increasing hit rate.
+- Optimized region input selection box.
+- Fixed an issue with driver mode requests.
+- Fixed an issue where multicast would not run when all regions were selected.
+- Fixed an issue where workflows using user_config could not generate m3u results.
+
 ## v1.3.9
 
 ### 2024/8/30

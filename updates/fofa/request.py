@@ -20,15 +20,15 @@ def get_fofa_urls_from_region_list():
     """
     Get the FOFA url from region
     """
-    # region_list = config.get("Settings", "hotel_region_list").split(",")
+    region_list = config.get("Settings", "hotel_region_list").split(",")
     urls = []
     region_url = getattr(fofa_map, "region_url")
-    # if "all" in region_list or "ALL" in region_list or "全部" in region_list:
-    urls = [url for url_list in region_url.values() for url in url_list if url]
-    # else:
-    #     for region in region_list:
-    #         if region in region_url:
-    #             urls.append(region_url[region])
+    if "all" in region_list or "ALL" in region_list or "全部" in region_list:
+        urls = [url for url_list in region_url.values() for url in url_list if url]
+    else:
+        for region in region_list:
+            if region in region_url:
+                urls.append(region_url[region])
     return urls
 
 
@@ -44,21 +44,22 @@ async def get_channels_by_fofa(urls=None, multicast=False, callback=None):
     )
     start_time = time()
     fofa_results = {}
-    mode_name = {"组播" if multicast else "酒店"}
+    mode_name = "组播" if multicast else "酒店"
     if callback:
         callback(
-            f"正在获取Fofa{mode_name}源更新, 共{fofa_urls_len}个查询地址",
+            f"正在获取Fofa{mode_name}源, 共{fofa_urls_len}个查询地址",
             0,
         )
     proxy = None
     open_proxy = config.getboolean("Settings", "open_proxy")
     open_driver = config.getboolean("Settings", "open_driver")
+    open_sort = config.getboolean("Settings", "open_sort")
     if open_proxy:
         test_url = fofa_urls[0][0] if multicast else fofa_urls[0]
         proxy = await get_proxy(test_url, best=True, with_test=True)
 
     def process_fofa_channels(fofa_info):
-        nonlocal proxy, fofa_urls_len, open_driver
+        nonlocal proxy, fofa_urls_len, open_driver, open_sort
         fofa_url = fofa_info[0] if multicast else fofa_info
         results = defaultdict(lambda: defaultdict(list))
         try:
@@ -88,7 +89,8 @@ async def get_channels_by_fofa(urls=None, multicast=False, callback=None):
             else:
                 with ThreadPoolExecutor(max_workers=100) as executor:
                     futures = [
-                        executor.submit(process_fofa_json_url, url) for url in urls
+                        executor.submit(process_fofa_json_url, url, open_sort)
+                        for url in urls
                     ]
                     for future in futures:
                         results = merge_objects(results, future.result())
@@ -102,7 +104,7 @@ async def get_channels_by_fofa(urls=None, multicast=False, callback=None):
             remain = fofa_urls_len - pbar.n
             if callback:
                 callback(
-                    f"正在获取Fofa{mode_name}源更新, 剩余{remain}个查询地址待获取, 预计剩余时间: {get_pbar_remaining(n=pbar.n, total=pbar.total, start_time=start_time)}",
+                    f"正在获取Fofa{mode_name}源, 剩余{remain}个查询地址待获取, 预计剩余时间: {get_pbar_remaining(n=pbar.n, total=pbar.total, start_time=start_time)}",
                     int((pbar.n / fofa_urls_len) * 100),
                 )
             return results
@@ -120,7 +122,7 @@ async def get_channels_by_fofa(urls=None, multicast=False, callback=None):
     return fofa_results
 
 
-def process_fofa_json_url(url):
+def process_fofa_json_url(url, open_sort):
     """
     Process the FOFA json url
     """
@@ -141,7 +143,11 @@ def process_fofa_json_url(url):
                             item_name = format_channel_name(item.get("name"))
                             item_url = item.get("url").strip()
                             if item_name and item_url:
-                                total_url = f"{url}{item_url}$cache:{url}"
+                                total_url = (
+                                    f"{url}{item_url}$cache:{url}"
+                                    if open_sort
+                                    else f"{url}{item_url}"
+                                )
                                 if item_name not in channels:
                                     channels[item_name] = [(total_url, None, None)]
                                 else:

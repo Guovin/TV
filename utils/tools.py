@@ -9,6 +9,7 @@ from utils.config import config, resource_path
 import re
 from bs4 import BeautifulSoup
 from flask import render_template_string, send_file
+import shutil
 
 
 def format_interval(t):
@@ -50,14 +51,17 @@ def get_pbar_remaining(n=0, total=0, start_time=None):
         print(f"Error: {e}")
 
 
-def update_file(final_file, old_file):
+def update_file(final_file, old_file, copy=False):
     """
     Update the file
     """
     old_file_path = resource_path(old_file, persistent=True)
     final_file_path = resource_path(final_file, persistent=True)
     if os.path.exists(old_file_path):
-        os.replace(old_file_path, final_file_path)
+        if copy:
+            shutil.copyfile(old_file_path, final_file_path)
+        else:
+            os.replace(old_file_path, final_file_path)
 
 
 def filter_by_date(data):
