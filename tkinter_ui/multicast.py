@@ -86,7 +86,7 @@ class MulticastUI:
             regions.remove("全部")
         regions.insert(0, "全部")
         region_selected_values = [
-            value
+            value.strip()
             for value in config.get("Settings", "multicast_region_list").split(",")
             if value.strip()
         ]

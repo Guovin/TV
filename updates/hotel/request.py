@@ -35,7 +35,11 @@ async def get_channels_by_hotel(callback=None):
     open_proxy = config.getboolean("Settings", "open_proxy")
     open_driver = config.getboolean("Settings", "open_driver")
     page_num = config.getint("Settings", "hotel_page_num")
-    region_list = config.get("Settings", "hotel_region_list").split(",")
+    region_list = [
+        region.strip()
+        for region in config.get("Settings", "hotel_region_list").split(",")
+        if region.strip()
+    ]
     if "all" in region_list or "ALL" in region_list or "全部" in region_list:
         fofa_region_name_list = list(getattr(fofa_map, "region_url").keys())
         region_list = fofa_region_name_list

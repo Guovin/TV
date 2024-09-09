@@ -27,7 +27,7 @@ async def get_channels_by_subscribe_urls(
     subscribe_results = {}
     pattern = r"^(.*?),(?!#genre#)(.*?)$"
     subscribe_urls = [
-        url
+        url.strip()
         for url in config.get("Settings", "subscribe_urls").split(",")
         if url.strip()
     ]

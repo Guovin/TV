@@ -199,7 +199,11 @@ def get_channel_multicast_region_type_list(result):
     """
     Get the channel multicast region type list from result
     """
-    config_region_list = set(config.get("Settings", "multicast_region_list").split(","))
+    config_region_list = set(
+        region.strip()
+        for region in config.get("Settings", "multicast_region_list").split(",")
+        if region.strip()
+    )
     region_type_list = {
         (region, type)
         for region_type in result.values()
@@ -662,7 +666,11 @@ def get_multicast_fofa_search_urls():
     """
     Get the fofa search urls for multicast
     """
-    config_region_list = config.get("Settings", "multicast_region_list").split(",")
+    config_region_list = [
+        region.strip()
+        for region in config.get("Settings", "multicast_region_list").split(",")
+        if region.strip()
+    ]
     rtp_file_names = []
     for filename in os.listdir(resource_path("config/rtp")):
         if filename.endswith(".txt") and "_" in filename:
