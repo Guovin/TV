@@ -25,7 +25,6 @@ opencc-python-reimplemented = "*"
 fake-useragent = "*"
 gunicorn = "*"
 pillow = "*"
-rapidfuzz = "*"
 
 [requires]
 python_version = "3.8"

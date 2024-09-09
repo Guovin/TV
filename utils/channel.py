@@ -10,7 +10,6 @@ from logging.handlers import RotatingFileHandler
 from opencc import OpenCC
 import asyncio
 import base64
-from rapidfuzz import process
 
 log_dir = "output"
 log_file = "result_new.log"
@@ -118,17 +117,6 @@ def format_channel_name(name):
     return name.lower()
 
 
-def get_channel_name_matches(query=None, choices=None, threshold=80):
-    """
-    Get channel name matches with rapidfuzz
-    """
-    query = format_channel_name(query)
-    matches = process.extract(query, choices, limit=len(choices))
-    threshold = 100 if "cctv" in query else threshold
-    filtered_matches = [match[0] for match in matches if match[1] >= threshold]
-    return filtered_matches
-
-
 def channel_name_is_equal(name1, name2):
     """
     Check if the channel name is equal
@@ -137,23 +125,20 @@ def channel_name_is_equal(name1, name2):
         return True
     name1_format = format_channel_name(name1)
     name2_format = format_channel_name(name2)
-    matches = get_channel_name_matches(name1_format, [name2_format])
-    return len(matches) > 0
+    return name1_format == name2_format
 
 
 def get_channel_results_by_name(name, data):
     """
     Get channel results from data by name
     """
+    format_name = format_channel_name(name)
     cc = OpenCC("s2t")
-    name_s2t = cc.convert(name)
-    data_keys = data.keys()
-    name_matches_set = set(
-        get_channel_name_matches(name, data_keys)
-        + get_channel_name_matches(name_s2t, data_keys)
-    )
-    result = [item for name_match in name_matches_set for item in data[name_match]]
-    return result
+    name_s2t = cc.convert(format_name)
+    result1 = data.get(format_name, [])
+    result2 = data.get(name_s2t, [])
+    results = list(dict.fromkeys(result1 + result2))
+    return results
 
 
 def get_element_child_text_list(element, child_name):
@@ -203,11 +188,10 @@ def get_channel_multicast_name_region_type_result(result, names):
     """
     name_region_type_result = {}
     for name in names:
-        matches = get_channel_name_matches(name, result.keys())
-        for match in matches:
-            data = result.get(match)
-            if data and match not in name_region_type_result:
-                name_region_type_result[match] = data
+        format_name = format_channel_name(name)
+        data = result.get(format_name)
+        if data:
+            name_region_type_result[format_name] = data
     return name_region_type_result
 
 
