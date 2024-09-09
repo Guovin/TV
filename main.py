@@ -93,7 +93,11 @@ class UpdateSource:
                 continue
             if config.getboolean("Settings", setting):
                 if setting == "open_subscribe":
-                    subscribe_urls = config.get("Settings", "subscribe_urls").split(",")
+                    subscribe_urls = [
+                        url.strip()
+                        for url in config.get("Settings", "subscribe_urls").split(",")
+                        if url.strip()
+                    ]
                     task = asyncio.create_task(
                         task_func(subscribe_urls, callback=self.update_progress)
                     )

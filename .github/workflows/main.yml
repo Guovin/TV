@@ -115,6 +115,12 @@ jobs:
           elif [[ -f "output/result.log" ]]; then
             git add -f "output/result.log"
           fi
+          if [[ -f "updates/fofa/fofa_hotel_region_result.pkl" ]]; then
+            git add -f "updates/fofa/fofa_hotel_region_result.pkl"
+          fi
+          if [[ -f "updates/fofa/fofa_multicast_region_result.pkl" ]]; then
+            git add -f "updates/fofa/fofa_multicast_region_result.pkl"
+          fi
           if ! git diff --staged --quiet; then
             git commit -m "Github Action Auto Updated"
             git push --force

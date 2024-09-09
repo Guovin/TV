@@ -1,8 +1,8 @@
-from utils.config import config
+from utils.config import config, resource_path
 from tqdm.asyncio import tqdm_asyncio
 from time import time
 from requests import get
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ThreadPoolExecutor, as_completed
 import updates.fofa.fofa_map as fofa_map
 from driver.setup import setup_driver
 import re
@@ -12,6 +12,8 @@ from utils.tools import merge_objects, get_pbar_remaining
 from updates.proxy import get_proxy, get_proxy_next
 from requests_custom.utils import get_source_requests, close_session
 from collections import defaultdict
+import pickle
+import threading
 
 timeout = 10
 
@@ -20,7 +22,11 @@ def get_fofa_urls_from_region_list():
     """
     Get the FOFA url from region
     """
-    region_list = config.get("Settings", "hotel_region_list").split(",")
+    region_list = [
+        region.strip()
+        for region in config.get("Settings", "hotel_region_list").split(",")
+        if region.strip()
+    ]
     urls = []
     region_url = getattr(fofa_map, "region_url")
     if "all" in region_list or "ALL" in region_list or "全部" in region_list:
@@ -30,6 +36,30 @@ def get_fofa_urls_from_region_list():
             if region in region_url:
                 urls.append(region_url[region])
     return urls
+
+
+def update_fofa_region_result_tmp(result, multicast=False):
+    """
+    Update fofa region result tmp
+    """
+    with open(
+        resource_path(
+            f"updates/fofa/fofa_{'multicast' if multicast else 'hotel'}_region_result.pkl"
+        ),
+        "wb",
+    ) as file:
+        pickle.dump(result, file)
+
+
+def get_fofa_region_result_tmp(multicast: False):
+    with open(
+        resource_path(
+            f"updates/fofa/fofa_{'multicast' if multicast else 'hotel'}_region_result.pkl"
+        ),
+        "rb",
+    ) as file:
+        result = pickle.load(file)
+        return result
 
 
 async def get_channels_by_fofa(urls=None, multicast=False, callback=None):
@@ -57,9 +87,12 @@ async def get_channels_by_fofa(urls=None, multicast=False, callback=None):
     if open_proxy:
         test_url = fofa_urls[0][0] if multicast else fofa_urls[0]
         proxy = await get_proxy(test_url, best=True, with_test=True)
+    cancel_event = threading.Event()
 
     def process_fofa_channels(fofa_info):
-        nonlocal proxy, fofa_urls_len, open_driver, open_sort
+        nonlocal proxy, fofa_urls_len, open_driver, open_sort, cancel_event
+        if cancel_event.is_set():
+            return {}
         fofa_url = fofa_info[0] if multicast else fofa_info
         results = defaultdict(lambda: defaultdict(list))
         try:
@@ -79,6 +112,9 @@ async def get_channels_by_fofa(urls=None, multicast=False, callback=None):
                 page_source = retry_func(
                     lambda: get_source_requests(fofa_url), name=fofa_url
                 )
+            if "资源访问每天限制" in page_source:
+                cancel_event.set()
+                raise ValueError("Limited access to fofa page")
             fofa_source = re.sub(r"<!--.*?-->", "", page_source, flags=re.DOTALL)
             urls = set(re.findall(r"https?://[\w\.-]+:\d+", fofa_source))
             if multicast:
@@ -94,6 +130,9 @@ async def get_channels_by_fofa(urls=None, multicast=False, callback=None):
                     ]
                     for future in futures:
                         results = merge_objects(results, future.result())
+            return results
+        except ValueError as e:
+            raise e
         except Exception as e:
             print(e)
         finally:
@@ -107,15 +146,32 @@ async def get_channels_by_fofa(urls=None, multicast=False, callback=None):
                     f"正在获取Fofa{mode_name}源, 剩余{remain}个查询地址待获取, 预计剩余时间: {get_pbar_remaining(n=pbar.n, total=pbar.total, start_time=start_time)}",
                     int((pbar.n / fofa_urls_len) * 100),
                 )
-            return results
 
     max_workers = 3 if open_driver else 10
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         futures = [
             executor.submit(process_fofa_channels, fofa_url) for fofa_url in fofa_urls
         ]
-        for future in futures:
-            fofa_results = merge_objects(fofa_results, future.result())
+        try:
+            for future in as_completed(futures):
+                fofa_results = merge_objects(fofa_results, future.result())
+        except ValueError as e:
+            if "Limited access to fofa page" in str(e):
+                for future in futures:
+                    future.cancel()
+                fofa_results = {}
+    if fofa_results:
+        update_fofa_region_result_tmp(fofa_results, multicast=multicast)
+    else:
+        fofa_results = get_fofa_region_result_tmp(multicast=multicast)
+        print(fofa_results)
+        pbar.n = fofa_urls_len
+        pbar.update(0)
+        if callback:
+            callback(
+                f"正在获取Fofa{mode_name}源",
+                100,
+            )
     if not open_driver:
         close_session()
     pbar.close()
