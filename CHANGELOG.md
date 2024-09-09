@@ -1,5 +1,19 @@
 # 更新日志（Changelog）
 
+## v1.4.1
+
+### 2024/9/9
+
+- 新增 FOFA 缓存，解决访问限制问题
+- 修复 CCTV-5+等频道 M3U 转换问题（#301）
+- 优化频道匹配问题
+- 优化地区选择空格情况
+
+- Added FOFA cache to address access restrictions
+- Fixed M3U conversion issues for channels like CCTV-5+ (#301)
+- Optimized channel matching issues
+- Improved handling of spaces in region selection
+
 ## v1.4.0
 
 ### 2024/9/5
