@@ -24,7 +24,7 @@ class SelectCombobox(ttk.Combobox):
 
     def on_text_change(self, event):
         text_value = self.get().strip()
-        value_list = [value.strip() for value in text_value.split(",")]
+        value_list = [value.strip() for value in text_value.split(",") if value.strip()]
         self.selected_values = [
             value for value in self.selected_values if value in value_list
         ]

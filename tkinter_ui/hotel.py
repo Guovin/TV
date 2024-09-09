@@ -71,7 +71,7 @@ class HotelUI:
         self.region_list_label.pack(side=tk.LEFT, padx=4, pady=8)
         regions = ["全部"] + list(getattr(fofa_map, "region_url").keys())
         region_selected_values = [
-            value
+            value.strip()
             for value in config.get("Settings", "hotel_region_list").split(",")
             if value.strip()
         ]
