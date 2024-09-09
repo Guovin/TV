@@ -262,7 +262,10 @@ def convert_to_m3u():
                             str.strip, trimmed_line.split(",")
                         )
                         processed_channel_name = re.sub(
-                            r"(CCTV|CETV)-(\d+).*", r"\1\2", original_channel_name
+                            r"(CCTV|CETV)-(\d+)(\+.*)?",
+                            lambda m: f"{m.group(1)}{m.group(2)}"
+                            + ("+" if m.group(3) else ""),
+                            original_channel_name,
                         )
                         m3u_output += f'#EXTINF:-1 tvg-name="{processed_channel_name}" tvg-logo="https://live.fanmingming.com/tv/{processed_channel_name}.png"'
                         if current_group:
