@@ -156,7 +156,9 @@ async def get_channels_by_fofa(urls=None, multicast=False, callback=None):
         ]
         try:
             for future in as_completed(futures):
-                fofa_results = merge_objects(fofa_results, future.result())
+                result = future.result()
+                if result:
+                    fofa_results = merge_objects(fofa_results, result)
         except ValueError as e:
             if "Limited access to fofa page" in str(e):
                 for future in futures:
