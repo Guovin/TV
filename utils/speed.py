@@ -163,7 +163,11 @@ async def sort_urls_by_speed_and_resolution(data, ffmpeg=False, callback=None):
             for url_info in data
         )
     )
-    valid_response = [res for res in response if res != float("inf")]
+    valid_response = [
+        res
+        for res in response
+        if (isinstance(res, tuple) and res[1] != float("inf")) or (res != float("inf"))
+    ]
 
     def extract_resolution(resolution_str):
         numbers = re.findall(r"\d+x\d+", resolution_str)
