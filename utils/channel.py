@@ -101,8 +101,6 @@ def format_channel_name(name):
     """
     if config.getboolean("Settings", "open_keep_all"):
         return name
-    if "cctv" in name.lower():
-        name = re.sub(r"[\u4e00-\u9fa5]", "", name)
     cc = OpenCC("t2s")
     name = cc.convert(name)
     sub_pattern = r"-|_|\((.*?)\)|\（(.*?)\）|\[(.*?)\]| |频道|普清|标清|高清|HD|hd|超清|超高|超高清|中央|央视|台"
@@ -111,6 +109,34 @@ def format_channel_name(name):
         "plus": "+",
         "PLUS": "+",
         "＋": "+",
+        "CCTV1综合": "CCTV1",
+        "CCTV2财经": "CCTV2",
+        "CCTV3综艺": "CCTV3",
+        "CCTV4国际": "CCTV4",
+        "CCTV4中文国际": "CCTV4",
+        "CCTV4欧洲": "CCTV4",
+        "CCTV5体育": "CCTV5",
+        "CCTV5+体育赛视": "CCTV5+",
+        "CCTV5+体育赛事": "CCTV5+",
+        "CCTV5+体育": "CCTV5+",
+        "CCTV6电影": "CCTV6",
+        "CCTV7军事": "CCTV7",
+        "CCTV7军农": "CCTV7",
+        "CCTV7农业": "CCTV7",
+        "CCTV7国防军事": "CCTV7",
+        "CCTV8电视剧": "CCTV8",
+        "CCTV9记录": "CCTV9",
+        "CCTV9纪录": "CCTV9",
+        "CCTV10科教": "CCTV10",
+        "CCTV11戏曲": "CCTV11",
+        "CCTV12社会与法": "CCTV12",
+        "CCTV13新闻": "CCTV13",
+        "CCTV新闻": "CCTV13",
+        "CCTV14少儿": "CCTV14",
+        "CCTV15音乐": "CCTV15",
+        "CCTV16奥林匹克": "CCTV16",
+        "CCTV17农业农村": "CCTV17",
+        "CCTV17农业": "CCTV17",
     }
     for old, new in replace_dict.items():
         name = name.replace(old, new)
