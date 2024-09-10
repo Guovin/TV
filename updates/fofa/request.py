@@ -42,13 +42,15 @@ def update_fofa_region_result_tmp(result, multicast=False):
     """
     Update fofa region result tmp
     """
+    tmp_result = get_fofa_region_result_tmp(multicast=multicast)
+    total_result = merge_objects(tmp_result, result)
     with open(
         resource_path(
             f"updates/fofa/fofa_{'multicast' if multicast else 'hotel'}_region_result.pkl"
         ),
         "wb",
     ) as file:
-        pickle.dump(result, file)
+        pickle.dump(total_result, file)
 
 
 def get_fofa_region_result_tmp(multicast: False):
@@ -159,12 +161,10 @@ async def get_channels_by_fofa(urls=None, multicast=False, callback=None):
             if "Limited access to fofa page" in str(e):
                 for future in futures:
                     future.cancel()
-                fofa_results = {}
     if fofa_results:
         update_fofa_region_result_tmp(fofa_results, multicast=multicast)
     else:
         fofa_results = get_fofa_region_result_tmp(multicast=multicast)
-        print(fofa_results)
         pbar.n = fofa_urls_len
         pbar.update(0)
         if callback:
