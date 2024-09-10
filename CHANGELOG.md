@@ -1,5 +1,23 @@
 # 更新日志（Changelog）
 
+## v1.4.2
+
+### 2024/9/10
+
+- 新增内蒙古、甘肃、海南、云南地区
+- 更新 FOFA 酒店、组播缓存
+- 更新组播 RTP 文件
+- 优化测速过滤无效接口
+- 增加接口域名黑名单，避免频道花屏情况
+- 修复 FOFA requests 模式请求失败导致程序中止问题
+
+- Added Inner Mongolia, Gansu, Hainan, and Yunnan regions
+- Updated FOFA hotels and multicast cache
+- Updated multicast RTP files
+- Optimize speed test to filter out invalid interfaces
+- Add interface domain name blacklist to avoid channel screen distortion
+- Fix issue where FOFA requests mode failure leads to program termination
+
 ## v1.4.1
 
 ### 2024/9/9
