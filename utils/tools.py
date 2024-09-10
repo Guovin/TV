@@ -213,9 +213,10 @@ def merge_objects(*objects):
                 elif isinstance(dict1[key], set):
                     dict1[key].update(value)
                 elif isinstance(dict1[key], list):
-                    dict1[key].extend(value)
-                    dict1[key] = list(set(dict1[key]))  # Remove duplicates
-                else:
+                    if value:
+                        dict1[key].extend(value)
+                        dict1[key] = list(set(dict1[key]))
+                elif value:
                     dict1[key] = {dict1[key], value}
             else:
                 dict1[key] = value
