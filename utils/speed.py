@@ -130,7 +130,8 @@ async def get_speed_by_info(url_info, ffmpeg, semaphore, callback=None):
         url = quote(url, safe=":/?&=$[]")
         url_info[0] = url
         if cache_key in speed_cache:
-            return (tuple(url_info), speed_cache[cache_key])
+            speed = speed_cache[cache_key]
+            return (tuple(url_info), speed) if speed != float("inf") else float("inf")
         try:
             if ".m3u8" not in url and ffmpeg:
                 speed = await check_stream_speed(url_info)
@@ -163,11 +164,7 @@ async def sort_urls_by_speed_and_resolution(data, ffmpeg=False, callback=None):
             for url_info in data
         )
     )
-    valid_response = [
-        res
-        for res in response
-        if (isinstance(res, tuple) and res[1] != float("inf")) or (res != float("inf"))
-    ]
+    valid_response = [res for res in response if res != float("inf")]
 
     def extract_resolution(resolution_str):
         numbers = re.findall(r"\d+x\d+", resolution_str)
