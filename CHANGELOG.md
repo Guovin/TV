@@ -1,5 +1,19 @@
 # 更新日志（Changelog）
 
+## v1.4.2
+
+### 2024/9/10
+
+- 更新 FOFA 酒店、组播缓存
+- 优化测速过滤无效接口
+- 增加接口域名黑名单，避免频道花屏情况
+- 修复 FOFA requests 模式请求失败导致程序中止问题
+
+- Update FOFA hotel and multicast cache
+- Optimize speed test to filter out invalid interfaces
+- Add interface domain name blacklist to avoid channel screen distortion
+- Fix issue where FOFA requests mode failure leads to program termination
+
 ## v1.4.1
 
 ### 2024/9/9
