@@ -12,48 +12,51 @@
 
 ### 2. Fork 创建个人仓库：
 
-![Fork详情](./images/fork-detail.png 'Fork详情')
-
 1. 个人仓库命名，可按您喜欢的名字随意命名（最终直播源结果链接取决于该名称），这里以默认 TV 为例
 2. 确认信息无误后，点击确认创建
+
+![Fork详情](./images/fork-detail.png 'Fork详情')
 
 ## 步骤二：修改模板
 
 当您在步骤一中点击确认创建，成功后会自动跳转到您的个人仓库。这个时候您的个人仓库就创建完成了，可以定制个人的直播源频道菜单了！
 
-### 1. 点击 demo.txt 模板文件：
+### 1. 点击 config 文件夹内 demo.txt 模板文件：
+
+![config文件夹入口](./images/config-folder.png 'config文件夹入口')
 
 ![demo.txt入口](./images/demo-btn.png 'demo.txt入口')
+您可以复制并参考默认模板的格式进行后续操作。
 
-### 2. 创建个人模板 user_demo.txt：
-
-![创建user_demo.txt](./images/edit-user-demo.png '创建user_demo.txt')
+### 2. config 文件夹内创建个人模板 user_demo.txt：
 
 1. 创建文件
 2. 模板文件命名为 user_demo.txt
-3. 模板文件需要按照（频道分类,#genre#），（频道名称,频道接口）进行编写，注意是英文逗号。频道总数上限为 200 个，超出部分将无法更新。
+3. 模板文件需要按照（频道分类,#genre#），（频道名称,频道接口）进行编写，注意是英文逗号。
 4. 点击 Commit changes...进行保存
+
+![创建user_demo.txt](./images/edit-user-demo.png '创建user_demo.txt')
 
 ## 步骤三：修改配置
 
 跟编辑模板一样，修改运行配置
 
-### 1. 点击 config.ini 配置文件：
+### 1. 点击 config 文件夹内的 config.ini 配置文件：
 
 ![config.ini入口](./images/config-btn.png 'config.ini入口')
 
 ### 2. 复制默认配置文件内容：
 
-![copy config.ini](./images/copy-config.png '复制默认模板')
+![copy config.ini](./images/copy-config.png '复制默认配置')
 
-### 3. 新建个人配置文件 user_config.ini：
-
-![创建user_config.ini](./images/edit-user-config.png '创建user_config.ini')
+### 3. config 文件夹内新建个人配置文件 user_config.ini：
 
 1. 创建文件
 2. 配置文件命名为 user_config.ini
-3. 粘贴默认模板，修改 source_file = "config/user_demo.txt"；final_file = "output/user_result.txt"
+3. 粘贴默认配置
 4. 点击 Commit changes...进行保存
+
+![创建user_config.ini](./images/edit-user-config.png '创建user_config.ini')
 
 按照您的需要适当调整配置，以下是默认配置说明：
 [配置参数](./docs/config.md)
@@ -122,8 +125,8 @@ docker run -d -p 8000:8000 guovern/tv-requests 或 tv-driver
 ### 上传更新文件至仓库（可选）
 
 如果您没有自己的域名地址，接口更新完成后，将 user_result.txt 上传至个人仓库，即可使用
+https://mirror.ghproxy.com/raw.githubusercontent.com/您的github用户名/仓库名称（对应上述Fork创建时的TV）/master/output/user_result.txt
 ![用户名与仓库名称](./images/rep-info.png '用户名与仓库名称')
-https://mirror.ghproxy.com/raw.githubusercontent.com/您的github用户名/仓库名称（对应上述Fork创建时的TV）/master/user_result.txt
 
 ## 步骤五：更新源代码
 
@@ -141,8 +144,15 @@ https://mirror.ghproxy.com/raw.githubusercontent.com/您的github用户名/仓�
 
 ### 3. Sync fork
 
+#### 正常更新：
+
 回到您的仓库首页，如果项目有更新内容，点击 Sync fork，Update branch 确认即可更新最新代码
 ![Sync-fork](./images/sync-fork.png 'Sync fork')
+
+#### 没有 Update branch 按钮，更新冲突：
+
+这是因为某些文件与主仓库的默认文件冲突了，点击 Discard commits 即可更新最新代码
+![冲突解决](./images/conflict.png '冲突解决')
 
 ## 以下内容请谨慎使用，如果您有大量的频道需要更新，请使用本地更新，勿使用自动更新，配置不当可能导致账户或工作流封禁！
 
@@ -166,45 +176,53 @@ https://mirror.ghproxy.com/raw.githubusercontent.com/您的github用户名/仓�
 
 #### （1）启用 update schedule：
 
-![开启Workflows更新](./images/workflows-btn.png '开启Workflows更新')
-
 1. 点击 Workflows 分类下的 update schedule
 2. 由于 Fork 的仓库工作流是默认关闭的，点击 Enable workflow 按钮确认开启
 
+![开启Workflows更新](./images/workflows-btn.png '开启Workflows更新')
+
 #### （2）根据分支运行 Workflow：
 
-![运行Workflow](./images/workflows-run.png '运行Workflow')
 这个时候就可以运行更新工作流了
 
 1. 点击 Run workflow
 2. 这里可以切换您要运行的仓库分支，由于 Fork 默认拉取的是 master 分支，如果您修改的模板和配置也在 master 分支，这里选择 master 就好了，点击 Run workflow 确认运行
 
+![运行Workflow](./images/workflows-run.png '运行Workflow')
+
 #### （3）Workflow 运行中：
 
-![Workflow运行中](./images/workflow-running.png 'Workflow运行中')
 稍等片刻，就可以看到您的第一条更新工作流已经在运行了！
+![Workflow运行中](./images/workflow-running.png 'Workflow运行中')
 （注意：由于运行时间取决于您的模板频道数量以及页数等配置，也很大程度取决于当前网络状况，请耐心等待，默认模板与配置一般需要 25 分钟左右。）
 
 #### （4）Workflow 取消运行：
 
-![取消运行Workflow](./images/workflow-cancel.png '取消运行Workflow')
 如果您觉得这次的更新不太合适，需要修改模板或配置再运行，可以点击 Cancel run 取消本次运行
+![取消运行Workflow](./images/workflow-cancel.png '取消运行Workflow')
 
 #### （5）Workflow 运行成功：
 
+如果一切正常，稍等片刻后就可以看到该条工作流已经执行成功（绿色勾图标）
 ![Workflow执行成功](./images/workflow-success.png 'Workflow执行成功')
-如果一切正常，稍等片刻后就可以看到该条工作流已经执行成功（绿色勾图标）。此时您可以访问代理文件链接，查看最新结果有没有同步即可：
+此时您可以访问代理文件链接，查看最新结果有没有同步即可：
+https://mirror.ghproxy.com/raw.githubusercontent.com/您的github用户名/仓库名称（对应上述Fork创建时的TV）/master/output/user_result.txt
 ![用户名与仓库名称](./images/rep-info.png '用户名与仓库名称')
-https://mirror.ghproxy.com/raw.githubusercontent.com/您的github用户名/仓库名称（对应上述Fork创建时的TV）/master/user_result.txt
 
 如果访问该链接能正常返回更新后的接口内容，说明您的直播源接口链接已经大功告成了！将该链接复制粘贴到 TVBox 等软件配置栏中即可使用~
 
-- 注意：除了首次执行工作流需要您手动触发，后续执行（默认北京时间每日 6:00）将自动触发。如果您修改了模板或配置文件想立刻执行更新，可手动触发（2）中的 Run workflow 即可。
+- 注意：除了首次执行工作流需要您手动触发，后续执行（默认北京时间每日 6:00 和 18:00）将自动触发。如果您修改了模板或配置文件想立刻执行更新，可手动触发（2）中的 Run workflow 即可。
 
 ## 步骤七：修改工作流更新频率
 
+如果您想修改更新频率（默认北京时间每日 6:00 和 18:00），可修改 on:schedule:- cron 字段：
 ![.github/workflows/main.yml](./images/schedule-cron.png '.github/workflows/main.yml')
-如果您想修改更新频率（默认北京时间每日 6:00），可修改 on:schedule:- cron 字段。
+如果您想 每 2 天执行更新可以这样修改：
+
+```bash
+- cron: '0 22 */2 * *'
+- cron: '0 10 */2 * *'
+```
 
 ### 1. 强烈不建议修改，因为短时间内的接口内容并无差异，过高的更新频率与高耗时运行的工作流都有可能被判定为资源滥用，导致仓库与账户被封禁的风险。
 
