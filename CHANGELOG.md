@@ -1,5 +1,13 @@
 # 更新日志（Changelog）
 
+## 1.4.3
+
+### 2024/9/11
+
+- 修正 RTP 文件：贵州电信文件错误，第一财经、东方财经等频道命名，地址错误
+
+- Fixed RTP files: Corrected errors in Guizhou Telecom files, including naming and address errors for channels such as First Financial and Oriental Financial
+
 ## v1.4.2
 
 ### 2024/9/10
