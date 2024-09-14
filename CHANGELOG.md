@@ -1,6 +1,22 @@
 # 更新日志（Changelog）
 
-## 1.4.3
+## v1.4.4
+
+### 2024/9/14
+
+- 修复组播接口测速可能出现结果频道分类空的问题
+- 修复使用历史更新结果时可能出现模板不存在的频道问题
+- 更新 FOFA 组播、酒店缓存
+- 更新默认模板(demo.txt)内容
+- 更新使用教程
+
+- Fix the issue where multicast interface speed test may result in an empty channel category
+- Fix the issue where channels may appear missing when updating results with history
+- Update FOFA multicast and hotel cache
+- Update default template (demo.txt) content
+- Update user guide
+
+## v1.4.3
 
 ### 2024/9/11
 
