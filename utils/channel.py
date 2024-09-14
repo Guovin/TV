@@ -65,6 +65,8 @@ def get_channel_data_from_file(channels=None, file=None, from_result=False):
             if match is not None and match.group(1):
                 name = match.group(1).strip()
                 if name not in channels[current_category]:
+                    if from_result:
+                        continue
                     channels[current_category][name] = []
                 if match.group(3):
                     url = match.group(3).strip()
@@ -253,7 +255,7 @@ def get_channel_multicast_result(result, search_result):
         info_list = [
             (
                 (
-                    f"http://{url}/rtp/{ip}$cache:{result_region}_{result_type}"
+                    f"http://{url}/rtp/{ip}$cache:{url}"
                     if open_sort
                     else f"http://{url}/rtp/{ip}"
                 ),
