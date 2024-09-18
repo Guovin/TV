@@ -1,5 +1,9 @@
 from utils.config import config, resource_path
-from utils.tools import check_url_by_patterns, get_total_urls_from_info_list
+from utils.tools import (
+    check_url_by_patterns,
+    get_total_urls_from_info_list,
+    check_ipv6_support,
+)
 from utils.speed import sort_urls_by_speed_and_resolution, is_ffmpeg_installed
 import os
 from collections import defaultdict
@@ -105,7 +109,7 @@ def format_channel_name(name):
         return name
     cc = OpenCC("t2s")
     name = cc.convert(name)
-    sub_pattern = r"-|_|\((.*?)\)|\（(.*?)\）|\[(.*?)\]| |频道|普清|标清|高清|HD|hd|超清|超高|超高清|中央|央视|台"
+    sub_pattern = r"-|_|\((.*?)\)|\（(.*?)\）|\[(.*?)\]| |｜|频道|普清|标清|高清|HD|hd|超清|超高|超高清|中央|央视|台"
     name = re.sub(sub_pattern, "", name)
     replace_dict = {
         "plus": "+",
@@ -596,7 +600,7 @@ def append_all_method_data_keep_all(
 
 
 async def sort_channel_list(
-    cate, name, info_list, semaphore, ffmpeg=False, callback=None
+    cate, name, info_list, semaphore, ffmpeg=False, ipv6_proxy=None, callback=None
 ):
     """
     Sort the channel list
@@ -606,7 +610,7 @@ async def sort_channel_list(
         try:
             if info_list:
                 sorted_data = await sort_urls_by_speed_and_resolution(
-                    info_list, ffmpeg=ffmpeg, callback=callback
+                    info_list, ffmpeg=ffmpeg, ipv6_proxy=ipv6_proxy, callback=callback
                 )
                 if sorted_data:
                     for (
@@ -632,6 +636,13 @@ async def process_sort_channel_list(data, callback=None):
     Processs the sort channel list
     """
     open_ffmpeg = config.getboolean("Settings", "open_ffmpeg")
+    ipv_type = config.get("Settings", "ipv_type").lower()
+    open_ipv6 = "ipv6" in ipv_type or "all" in ipv_type
+    ipv6_proxy = None
+    if open_ipv6:
+        ipv6_proxy = (
+            None if check_ipv6_support() else "http://www.ipv6proxy.net/go.php?u="
+        )
     ffmpeg_installed = is_ffmpeg_installed()
     if open_ffmpeg and not ffmpeg_installed:
         print("FFmpeg is not installed, using requests for sorting.")
@@ -645,6 +656,7 @@ async def process_sort_channel_list(data, callback=None):
                 info_list,
                 semaphore,
                 ffmpeg=is_ffmpeg,
+                ipv6_proxy=ipv6_proxy,
                 callback=callback,
             )
         )
