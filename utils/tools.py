@@ -141,6 +141,22 @@ def is_ipv6(url):
         return False
 
 
+def check_ipv6_support():
+    """
+    Check if the system supports ipv6 and if the network can access an IPv6 address
+    """
+    try:
+        test_socket = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
+        test_socket.settimeout(2)
+        test_socket.connect(("2001:4860:4860::8888", 80))
+        test_socket.close()
+        print("Your network supports IPv6")
+        return True
+    except (socket.timeout, OSError):
+        print("Your network does not support IPv6, using proxy")
+        return False
+
+
 def check_url_ipv_type(url):
     """
     Check if the url is compatible with the ipv type in the config
