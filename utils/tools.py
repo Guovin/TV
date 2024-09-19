@@ -150,9 +150,10 @@ def check_ipv6_support():
         test_socket.settimeout(2)
         test_socket.connect(("2001:4860:4860::8888", 80))
         test_socket.close()
-        print("IPv6 support detected and network can access an IPv6 address")
+        print("Your network supports IPv6")
         return True
     except (socket.timeout, OSError):
+        print("Your network does not support IPv6, using proxy")
         return False
 
 

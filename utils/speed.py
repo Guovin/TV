@@ -14,7 +14,6 @@ async def get_speed(url, timeout=timeout, proxy=None):
     """
     Get the speed of the url
     """
-    print(url)
     async with ClientSession(
         connector=TCPConnector(verify_ssl=False), trust_env=True
     ) as session:
@@ -145,6 +144,8 @@ async def get_speed_by_info(
                 if ipv6_proxy and url_is_ipv6:
                     url = ipv6_proxy + url
                 url_speed = await get_speed(url)
+                if url_is_ipv6:
+                    url_info[0] = url_info[0] + "$IPv6"
                 speed = (
                     (tuple(url_info), url_speed)
                     if url_speed != float("inf")
