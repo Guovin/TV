@@ -637,7 +637,7 @@ async def process_sort_channel_list(data, callback=None):
     """
     open_ffmpeg = config.getboolean("Settings", "open_ffmpeg")
     ipv_type = config.get("Settings", "ipv_type").lower()
-    open_ipv6 = "ipv6" in ipv_type or "all" in ipv_type
+    open_ipv6 = "ipv6" in ipv_type or "all" in ipv_type or "全部" in ipv_type
     ipv6_proxy = None
     if open_ipv6:
         ipv6_proxy = (
