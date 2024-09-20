@@ -5,8 +5,10 @@
 ### 2024/9/20
 
 - 优化 IPv6 测试是否支持(#328)
+- 优化 404 类接口测速(#329)
 
 - Optimize IPv6 test support (#328)
+- Optimize 404 class interface speed test (#329)
 
 ## v1.4.5
 
