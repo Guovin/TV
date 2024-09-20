@@ -21,6 +21,8 @@ async def get_speed(url, timeout=timeout, proxy=None):
         end = None
         try:
             async with session.get(url, timeout=timeout, proxy=proxy) as response:
+                if response.status == 404:
+                    return float("inf")
                 content = await response.read()
                 if content:
                     end = time()
