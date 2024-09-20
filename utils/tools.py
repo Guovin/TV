@@ -10,6 +10,7 @@ import re
 from bs4 import BeautifulSoup
 from flask import render_template_string, send_file
 import shutil
+import requests
 
 
 def format_interval(t):
@@ -143,18 +144,19 @@ def is_ipv6(url):
 
 def check_ipv6_support():
     """
-    Check if the system supports ipv6 and if the network can access an IPv6 address
+    Check if the system network supports ipv6
     """
+    url = "https://ipv6.tokyo.test-ipv6.com/ip/?callback=?&testdomain=test-ipv6.com&testname=test_aaaa"
     try:
-        test_socket = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
-        test_socket.settimeout(2)
-        test_socket.connect(("2001:4860:4860::8888", 80))
-        test_socket.close()
-        print("Your network supports IPv6")
-        return True
-    except (socket.timeout, OSError):
-        print("Your network does not support IPv6, using proxy")
-        return False
+        print("Checking if your network supports IPv6...")
+        response = requests.get(url, timeout=15)
+        if response.status_code == 200:
+            print("Your network supports IPv6")
+            return True
+    except Exception:
+        pass
+    print("Your network does not support IPv6, using proxy instead")
+    return False
 
 
 def check_url_ipv_type(url):
