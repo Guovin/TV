@@ -60,6 +60,7 @@ async def get_channels_by_online_search(names, callback=None):
     def process_channel_by_online_search(name):
         nonlocal proxy, open_proxy, open_driver, page_num
         info_list = []
+        driver = None
         try:
             if open_driver:
                 driver = setup_driver(proxy)
@@ -179,7 +180,7 @@ async def get_channels_by_online_search(names, callback=None):
             print(f"{name}:Error on search: {e}")
             pass
         finally:
-            if open_driver:
+            if driver:
                 driver.close()
                 driver.quit()
             pbar.update()
