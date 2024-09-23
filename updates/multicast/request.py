@@ -57,6 +57,7 @@ async def get_channels_by_multicast(names, callback=None):
         nonlocal proxy, open_driver, page_num, start_time
         name = f"{region}{type}"
         info_list = []
+        driver = None
         try:
             if open_driver:
                 driver = setup_driver(proxy)
@@ -142,7 +143,7 @@ async def get_channels_by_multicast(names, callback=None):
             print(f"{name}:Error on search: {e}")
             pass
         finally:
-            if open_driver:
+            if driver:
                 driver.close()
                 driver.quit()
             pbar.update()

@@ -51,6 +51,7 @@ async def get_channels_by_hotel(callback=None):
         nonlocal proxy, open_driver, page_num
         name = f"{region}"
         info_list = []
+        driver = None
         try:
             if open_driver:
                 driver = setup_driver(proxy)
@@ -144,7 +145,7 @@ async def get_channels_by_hotel(callback=None):
             print(f"{name}:Error on search: {e}")
             pass
         finally:
-            if open_driver:
+            if driver:
                 driver.close()
                 driver.quit()
             pbar.update()
