@@ -14,6 +14,7 @@ from logging.handlers import RotatingFileHandler
 from opencc import OpenCC
 import asyncio
 import base64
+import pickle
 
 log_dir = "output"
 log_file = "result_new.log"
@@ -49,7 +50,7 @@ def cleanup_logging():
         os.remove(log_path)
 
 
-def get_channel_data_from_file(channels=None, file=None, from_result=False):
+def get_channel_data_from_file(channels=None, file=None, use_old=False):
     """
     Get the channel data from the file
     """
@@ -62,17 +63,13 @@ def get_channel_data_from_file(channels=None, file=None, from_result=False):
             # This is a new channel, create a new key in the dictionary.
             current_category = line.split(",")[0]
         else:
-            if from_result and channels.get(current_category) is None:
-                continue
             # This is a url, add it to the list of urls for the current channel.
             match = re.search(pattern, line)
             if match is not None and match.group(1):
                 name = match.group(1).strip()
                 if name not in channels[current_category]:
-                    if from_result:
-                        continue
                     channels[current_category][name] = []
-                if match.group(3):
+                if use_old and match.group(3):
                     url = match.group(3).strip()
                     if url and url not in channels[current_category][name]:
                         channels[current_category][name].append(url)
@@ -84,20 +81,28 @@ def get_channel_items():
     Get the channel items from the source file
     """
     user_source_file = config.get("Settings", "source_file")
-    user_final_file = config.get("Settings", "final_file")
     channels = defaultdict(lambda: defaultdict(list))
+    open_use_old_result = config.getboolean("Settings", "open_use_old_result")
 
     if os.path.exists(resource_path(user_source_file)):
         with open(resource_path(user_source_file), "r", encoding="utf-8") as file:
-            channels = get_channel_data_from_file(channels=channels, file=file)
-
-    if config.getboolean("Settings", "open_use_old_result") and os.path.exists(
-        resource_path(user_final_file)
-    ):
-        with open(resource_path(user_final_file), "r", encoding="utf-8") as file:
             channels = get_channel_data_from_file(
-                channels=channels, file=file, from_result=True
+                channels=channels, file=file, use_old=open_use_old_result
             )
+
+    if open_use_old_result and os.path.exists(resource_path("output/result_cache.pkl")):
+        with open(resource_path("output/result_cache.pkl"), "rb") as file:
+            old_result = pickle.load(file)
+            for cate, data in channels.items():
+                if cate in old_result:
+                    for name, urls in data.items():
+                        if name in old_result[cate]:
+                            old_urls = [
+                                url
+                                for info in old_result[cate][name]
+                                for url, _, _ in info
+                            ]
+                            channels[cate][name] = set(urls + old_urls)
     return channels
 
 
@@ -733,3 +738,26 @@ def get_multicast_fofa_search_urls():
         search_url += search_txt
         search_urls.append((search_url, region, type))
     return search_urls
+
+
+def get_channel_data_with_cache_compare(data, new_data):
+    """
+    Get channel data with cache compare new data
+    """
+
+    def match_url(url, sort_urls):
+        url = url.split("$", 1)[0]
+        return url in sort_urls
+
+    for cate, obj in new_data.items():
+        for name, url_info in obj.items():
+            if url_info and cate in data and name in data[cate]:
+                new_urls = {new_url for new_url, _, _ in url_info}
+                data[cate][name] = [
+                    url
+                    for info in data[cate][name]
+                    for url, _, _ in info
+                    if match_url(url, new_urls)
+                ]
+
+    return data
