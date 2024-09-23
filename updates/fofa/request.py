@@ -97,6 +97,7 @@ async def get_channels_by_fofa(urls=None, multicast=False, callback=None):
             return {}
         fofa_url = fofa_info[0] if multicast else fofa_info
         results = defaultdict(lambda: defaultdict(list))
+        driver = None
         try:
             if open_driver:
                 driver = setup_driver(proxy)
@@ -138,7 +139,7 @@ async def get_channels_by_fofa(urls=None, multicast=False, callback=None):
         except Exception as e:
             print(e)
         finally:
-            if open_driver:
+            if driver:
                 driver.close()
                 driver.quit()
             pbar.update()
