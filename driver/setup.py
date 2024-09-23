@@ -18,6 +18,7 @@ def setup_driver(proxy=None):
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--disable-extensions")
+    options.add_argument("--window-position=-10000,-10000")
     if proxy:
         options.add_argument("--proxy-server=%s" % proxy)
     driver = webdriver.Chrome(options=options)
