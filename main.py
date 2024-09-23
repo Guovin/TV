@@ -1,5 +1,5 @@
 import asyncio
-from utils.config import config
+from utils.config import config, resource_path
 from utils.channel import (
     get_channel_items,
     append_total_data,
@@ -7,6 +7,7 @@ from utils.channel import (
     write_channel_to_file,
     setup_logging,
     cleanup_logging,
+    get_channel_data_with_cache_compare,
 )
 from utils.tools import (
     update_file,
@@ -28,6 +29,7 @@ from flask import Flask, render_template_string
 import sys
 import shutil
 import atexit
+import pickle
 
 app = Flask(__name__)
 
@@ -153,9 +155,11 @@ class UpdateSource:
                 self.subscribe_result,
                 self.online_search_result,
             )
+            channel_data_with_cache = self.channel_data
             self.total = self.get_urls_len(filter=True)
             sort_callback = lambda: self.pbar_update(name="测速")
-            if config.getboolean("Settings", "open_sort"):
+            open_sort = config.getboolean("Settings", "open_sort")
+            if open_sort:
                 self.update_progress(
                     f"正在测速排序, 共{self.total}个接口",
                     0,
@@ -184,7 +188,14 @@ class UpdateSource:
                     else "result.txt"
                 )
                 shutil.copy(user_final_file, result_file)
-            if config.getboolean("Settings", "open_sort"):
+            if config.getboolean("Settings", "open_use_old_result"):
+                if open_sort:
+                    channel_data_with_cache = get_channel_data_with_cache_compare(
+                        channel_data_with_cache, self.channel_data
+                    )
+                with open(resource_path("output/result_cache.pkl"), "wb") as file:
+                    pickle.dump(channel_data_with_cache, file)
+            if open_sort:
                 user_log_file = "output/" + (
                     "user_result.log"
                     if os.path.exists("config/user_config.ini")

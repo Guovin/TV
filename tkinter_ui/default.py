@@ -4,7 +4,6 @@ from tkinter import ttk
 from tkinter import scrolledtext
 from tkinter import filedialog
 import os
-from utils.channel import get_channel_items
 
 
 class DefaultUI:
