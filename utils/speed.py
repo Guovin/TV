@@ -159,7 +159,7 @@ async def get_speed_by_info(
         except Exception:
             return float("inf")
         finally:
-            if callback and (cache_key is None or cache_key not in speed_cache):
+            if callback:
                 callback()
 
 

@@ -112,6 +112,7 @@ jobs:
           fi
           if [[ -f "output/result_cache.pkl" ]]; then
             git add -f "output/result_cache.pkl"
+          fi
           if [[ -f "output/user_result.log" ]]; then
             git add -f "output/user_result.log"
           elif [[ -f "output/result.log" ]]; then
