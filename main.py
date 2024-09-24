@@ -7,7 +7,7 @@ from utils.channel import (
     write_channel_to_file,
     setup_logging,
     cleanup_logging,
-    get_channel_data_with_cache_compare,
+    get_channel_data_cache_with_compare,
 )
 from utils.tools import (
     update_file,
@@ -155,7 +155,7 @@ class UpdateSource:
                 self.subscribe_result,
                 self.online_search_result,
             )
-            channel_data_with_cache = self.channel_data
+            channel_data_cache = self.channel_data
             self.total = self.get_urls_len(filter=True)
             sort_callback = lambda: self.pbar_update(name="测速")
             open_sort = config.getboolean("Settings", "open_sort")
@@ -190,11 +190,11 @@ class UpdateSource:
                 shutil.copy(user_final_file, result_file)
             if config.getboolean("Settings", "open_use_old_result"):
                 if open_sort:
-                    channel_data_with_cache = get_channel_data_with_cache_compare(
-                        channel_data_with_cache, self.channel_data
+                    channel_data_cache = get_channel_data_cache_with_compare(
+                        channel_data_cache, self.channel_data
                     )
                 with open(resource_path("output/result_cache.pkl"), "wb") as file:
-                    pickle.dump(channel_data_with_cache, file)
+                    pickle.dump(channel_data_cache, file)
             if open_sort:
                 user_log_file = "output/" + (
                     "user_result.log"

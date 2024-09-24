@@ -50,29 +50,28 @@ def cleanup_logging():
         os.remove(log_path)
 
 
-def get_channel_data_from_file(channels=None, file=None, use_old=False):
+def get_channel_data_from_file(channels, file, use_old):
     """
     Get the channel data from the file
     """
     current_category = ""
-    pattern = r"^(.*?)(,(?!#genre#)(.*?))?$"
+    pattern = re.compile(r"^(.*?)(,(?!#genre#)(.*?))?$")
 
     for line in file:
         line = line.strip()
         if "#genre#" in line:
-            # This is a new channel, create a new key in the dictionary.
             current_category = line.split(",")[0]
         else:
-            # This is a url, add it to the list of urls for the current channel.
-            match = re.search(pattern, line)
+            match = pattern.search(line)
             if match is not None and match.group(1):
                 name = match.group(1).strip()
-                if name not in channels[current_category]:
-                    channels[current_category][name] = []
+                category_dict = channels[current_category]
+                if name not in category_dict:
+                    category_dict[name] = []
                 if use_old and match.group(3):
-                    url = match.group(3).strip()
-                    if url and url not in channels[current_category][name]:
-                        channels[current_category][name].append(url)
+                    info = (match.group(3).strip(), None, None)
+                    if info[0] and info not in category_dict[name]:
+                        category_dict[name].append(info)
     return channels
 
 
@@ -86,23 +85,20 @@ def get_channel_items():
 
     if os.path.exists(resource_path(user_source_file)):
         with open(resource_path(user_source_file), "r", encoding="utf-8") as file:
-            channels = get_channel_data_from_file(
-                channels=channels, file=file, use_old=open_use_old_result
-            )
+            channels = get_channel_data_from_file(channels, file, open_use_old_result)
 
-    if open_use_old_result and os.path.exists(resource_path("output/result_cache.pkl")):
-        with open(resource_path("output/result_cache.pkl"), "rb") as file:
-            old_result = pickle.load(file)
-            for cate, data in channels.items():
-                if cate in old_result:
-                    for name, urls in data.items():
-                        if name in old_result[cate]:
-                            old_urls = [
-                                url
-                                for info in old_result[cate][name]
-                                for url, _, _ in info
-                            ]
-                            channels[cate][name] = set(urls + old_urls)
+    if open_use_old_result:
+        result_cache_path = resource_path("output/result_cache.pkl")
+        if os.path.exists(result_cache_path):
+            with open(resource_path("output/result_cache.pkl"), "rb") as file:
+                old_result = pickle.load(file)
+                for cate, data in channels.items():
+                    if cate in old_result:
+                        for name, info_list in data.items():
+                            if name in old_result[cate]:
+                                for info in old_result[cate][name]:
+                                    if info not in info_list:
+                                        channels[cate][name].append(info)
     return channels
 
 
@@ -520,7 +516,7 @@ def append_all_method_data(
     Append all method data to total info data
     """
     for cate, channel_obj in items:
-        for name, old_urls in channel_obj.items():
+        for name, old_info_list in channel_obj.items():
             for method, result in [
                 ("hotel_fofa", hotel_fofa_result),
                 ("multicast", multicast_result),
@@ -553,9 +549,9 @@ def append_all_method_data(
                     data,
                     cate,
                     name,
-                    [(url, None, None) for url in old_urls],
+                    old_info_list,
                 )
-                print(name, "using old num:", len(old_urls))
+                print(name, "using old num:", len(old_info_list))
             print(
                 name,
                 "total num:",
@@ -593,14 +589,14 @@ def append_all_method_data_keep_all(
                     data = append_data_to_info_data(data, cate, name, urls)
                     print(name, f"{method.capitalize()} num:", len(urls))
                     if config.getboolean("Settings", "open_use_old_result"):
-                        old_urls = channel_obj.get(name, [])
+                        old_info_list = channel_obj.get(name, [])
                         data = append_data_to_info_data(
                             data,
                             cate,
                             name,
-                            [(url, None, None) for url in old_urls],
+                            old_info_list,
                         )
-                        print(name, "using old num:", len(old_urls))
+                        print(name, "using old num:", len(old_info_list))
     return data
 
 
@@ -740,7 +736,7 @@ def get_multicast_fofa_search_urls():
     return search_urls
 
 
-def get_channel_data_with_cache_compare(data, new_data):
+def get_channel_data_cache_with_compare(data, new_data):
     """
     Get channel data with cache compare new data
     """
@@ -754,10 +750,6 @@ def get_channel_data_with_cache_compare(data, new_data):
             if url_info and cate in data and name in data[cate]:
                 new_urls = {new_url for new_url, _, _ in url_info}
                 data[cate][name] = [
-                    url
-                    for info in data[cate][name]
-                    for url, _, _ in info
-                    if match_url(url, new_urls)
+                    info for info in data[cate][name] if match_url(info[0], new_urls)
                 ]
-
     return data
