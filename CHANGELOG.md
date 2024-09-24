@@ -2,13 +2,17 @@
 
 ## v1.4.7
 
-### 2024/09/23
+### 2024/09/24
 
 - 修复部分设备本地运行软件 driver 问题(#335)
 - 修复 driver 模式下新版谷歌浏览器白屏问题
+- 优化对历史结果的测速
+- 优化测速进度条显示
 
 - Fix some issues with local software driver operation on certain devices (#335)
 - Fix the white screen issue with the new version of Google Chrome in driver mode
+- Optimize the speed measurement of historical results
+- Optimize speed test progress bar display
 
 ## v1.4.6
 
