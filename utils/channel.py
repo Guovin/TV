@@ -3,8 +3,14 @@ from utils.tools import (
     check_url_by_patterns,
     get_total_urls_from_info_list,
     check_ipv6_support,
+    process_nested_dict,
 )
-from utils.speed import sort_urls_by_speed_and_resolution, is_ffmpeg_installed
+from utils.speed import (
+    sort_urls_by_speed_and_resolution,
+    is_ffmpeg_installed,
+    format_url,
+    speed_cache,
+)
 import os
 from collections import defaultdict
 import re
@@ -622,10 +628,7 @@ async def sort_channel_list(
                         logging.info(
                             f"Name: {name}, URL: {url}, Date: {date}, Resolution: {resolution}, Response Time: {response_time} ms"
                         )
-                    data = [
-                        (url, date, resolution)
-                        for (url, date, resolution), _ in sorted_data
-                    ]
+                        data.append((url, date, resolution))
         except Exception as e:
             logging.error(f"Error: {e}")
         finally:
@@ -649,6 +652,7 @@ async def process_sort_channel_list(data, callback=None):
         print("FFmpeg is not installed, using requests for sorting.")
     is_ffmpeg = open_ffmpeg and ffmpeg_installed
     semaphore = asyncio.Semaphore(3)
+    need_sort_data = process_nested_dict(data, seen=set(), flag="$cache:")
     tasks = [
         asyncio.create_task(
             sort_channel_list(
@@ -661,18 +665,48 @@ async def process_sort_channel_list(data, callback=None):
                 callback=callback,
             )
         )
-        for cate, channel_obj in data.items()
+        for cate, channel_obj in need_sort_data.items()
         for name, info_list in channel_obj.items()
     ]
     sort_results = await asyncio.gather(*tasks)
-    data = {}
+    sort_data = {}
     for result in sort_results:
         if result:
-            cate = result.get("cate")
-            name = result.get("name")
-            result_data = result.get("data")
-            data = append_data_to_info_data(data, cate, name, result_data, False)
-    return data
+            cate, name, result_data = result["cate"], result["name"], result["data"]
+            sort_data = append_data_to_info_data(
+                sort_data, cate, name, result_data, False
+            )
+    print(speed_cache)
+    for cate, obj in data.items():
+        for name, info_list in obj.items():
+            sort_info_list = sort_data.get(cate, {}).get(name, [])
+            sort_urls = [
+                sort_url[0].split("$")[0]
+                for sort_url in sort_info_list
+                if sort_url and sort_url[0]
+            ]
+            for url, date, resolution in info_list:
+                url_rsplit = url.rsplit("$cache:", 1)
+                if len(url_rsplit) == 2:
+                    url, cache_key = url_rsplit
+                    if url not in sort_urls and cache_key in speed_cache:
+                        cache = speed_cache[cache_key]
+                        if cache:
+                            response_time, resolution = cache
+                            if response_time and response_time != float("inf"):
+                                if resolution:
+                                    url = format_url(url, resolution)
+                                sort_data = append_data_to_info_data(
+                                    sort_data,
+                                    cate,
+                                    name,
+                                    [(url, date, resolution)],
+                                    False,
+                                )
+                                logging.info(
+                                    f"Name: {name}, URL: {url}, Date: {date}, Resolution: {resolution}, Response Time: {response_time} ms"
+                                )
+    return sort_data
 
 
 def write_channel_to_file(items, data, callback=None):

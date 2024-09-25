@@ -15,6 +15,7 @@ from utils.tools import (
     get_ip_address,
     convert_to_m3u,
     get_result_file_content,
+    process_nested_dict,
 )
 from updates.subscribe import get_channels_by_subscribe_urls
 from updates.multicast import get_channels_by_multicast
@@ -121,15 +122,14 @@ class UpdateSource:
             )
 
     def get_urls_len(self, filter=False):
-        def process_cache_url(url):
-            if filter and "$cache:" in url:
-                cache_part = url.split("$cache:", 1)[1]
-                return cache_part.split("?")[0]
-            return url
-
+        data = (
+            process_nested_dict(self.channel_data, seen=set(), flag="$cache:")
+            if filter
+            else self.channel_data
+        )
         processed_urls = set(
-            process_cache_url(url_info[0])
-            for channel_obj in self.channel_data.values()
+            url_info[0]
+            for channel_obj in data.values()
             for url_info_list in channel_obj.values()
             for url_info in url_info_list
         )

@@ -2,7 +2,6 @@ from aiohttp import ClientSession, TCPConnector
 from time import time
 import asyncio
 import re
-from urllib.parse import quote
 from utils.config import config
 from utils.tools import is_ipv6
 import subprocess
@@ -107,12 +106,21 @@ async def check_stream_speed(url_info):
         if frame is None or frame == float("inf"):
             return float("inf")
         if resolution:
-            url_info[0] = url_info[0] + f"${resolution}"
+            url_info[0] = format_url(url, resolution)
         url_info[2] = resolution
         return (tuple(url_info), frame)
     except Exception as e:
         print(e)
         return float("inf")
+
+
+def format_url(url, info):
+    """
+    Format the url
+    """
+    separator = "|" if "$" in url else "$"
+    url += f"{separator}{info}"
+    return url
 
 
 speed_cache = {}
@@ -125,36 +133,38 @@ async def get_speed_by_info(
     Get the info with speed
     """
     async with semaphore:
-        url, _, _ = url_info
+        url, _, resolution = url_info
         url_info = list(url_info)
         cache_key = None
         if "$" in url:
-            url, cache_info = url.split("$", 1)
+            url, cache_info = url.rsplit("$", 1)
             if "cache:" in cache_info:
                 cache_key = cache_info.replace("cache:", "")
-        url = quote(url, safe=":/?&=$[]")
+        url_is_ipv6 = is_ipv6(url)
+        if url_is_ipv6:
+            url = format_url(url, "IPv6")
         url_info[0] = url
         if cache_key in speed_cache:
-            speed = speed_cache[cache_key]
+            speed = speed_cache[cache_key][0]
+            url_info[2] = speed_cache[cache_key][1]
             return (tuple(url_info), speed) if speed != float("inf") else float("inf")
         try:
-            url_is_ipv6 = is_ipv6(url)
             if ".m3u8" not in url and ffmpeg and not url_is_ipv6:
                 speed = await check_stream_speed(url_info)
                 url_speed = speed[1] if speed != float("inf") else float("inf")
+                resolution = speed[0][2] if speed != float("inf") else None
             else:
                 if ipv6_proxy and url_is_ipv6:
                     url = ipv6_proxy + url
                 url_speed = await get_speed(url)
-                if url_is_ipv6:
-                    url_info[0] = url_info[0] + "$IPv6"
                 speed = (
                     (tuple(url_info), url_speed)
                     if url_speed != float("inf")
                     else float("inf")
                 )
             if cache_key and cache_key not in speed_cache:
-                speed_cache[cache_key] = url_speed
+                print(f"Caching {cache_key} with speed {url_speed}")
+                speed_cache[cache_key] = (url_speed, resolution)
             return speed
         except Exception:
             return float("inf")
