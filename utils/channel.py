@@ -21,6 +21,7 @@ from opencc import OpenCC
 import asyncio
 import base64
 import pickle
+import copy
 
 log_dir = "output"
 log_file = "result_new.log"
@@ -485,18 +486,16 @@ def init_info_data(data, cate, name):
         data[cate] = {}
     if data[cate].get(name) is None:
         data[cate][name] = []
-    return data
 
 
 def append_data_to_info_data(info_data, cate, name, data, check=True):
     """
     Append channel data to total info data
     """
-    info_data = init_info_data(info_data, cate, name)
+    init_info_data(info_data, cate, name)
     for url, date, resolution in data:
         if (url and not check) or (url and check and check_url_by_patterns(url)):
             info_data[cate][name].append((url, date, resolution))
-    return info_data
 
 
 def append_total_data(*args, **kwargs):
@@ -504,9 +503,9 @@ def append_total_data(*args, **kwargs):
     Append total channel data
     """
     if config.getboolean("Settings", "open_keep_all"):
-        return append_all_method_data_keep_all(*args, **kwargs)
+        append_all_method_data_keep_all(*args, **kwargs)
     else:
-        return append_all_method_data(*args, **kwargs)
+        append_all_method_data(*args, **kwargs)
 
 
 def append_all_method_data(
@@ -536,7 +535,7 @@ def append_all_method_data(
                     ) and config.getboolean("Settings", f"open_hotel") == False:
                         continue
                     name_results = get_channel_results_by_name(name, result)
-                    data = append_data_to_info_data(
+                    append_data_to_info_data(
                         data,
                         cate,
                         name,
@@ -551,7 +550,7 @@ def append_all_method_data(
             if total_channel_data_len == 0 or config.getboolean(
                 "Settings", "open_use_old_result"
             ):
-                data = append_data_to_info_data(
+                append_data_to_info_data(
                     data,
                     cate,
                     name,
@@ -563,7 +562,6 @@ def append_all_method_data(
                 "total num:",
                 len(data.get(cate, {}).get(name, [])),
             )
-    return data
 
 
 def append_all_method_data_keep_all(
@@ -592,18 +590,17 @@ def append_all_method_data_keep_all(
                 ) and config.getboolean("Settings", f"open_hotel") == False:
                     continue
                 for name, urls in result.items():
-                    data = append_data_to_info_data(data, cate, name, urls)
+                    append_data_to_info_data(data, cate, name, urls)
                     print(name, f"{method.capitalize()} num:", len(urls))
                     if config.getboolean("Settings", "open_use_old_result"):
                         old_info_list = channel_obj.get(name, [])
-                        data = append_data_to_info_data(
+                        append_data_to_info_data(
                             data,
                             cate,
                             name,
                             old_info_list,
                         )
                         print(name, "using old num:", len(old_info_list))
-    return data
 
 
 async def sort_channel_list(
@@ -642,17 +639,18 @@ async def process_sort_channel_list(data, callback=None):
     open_ffmpeg = config.getboolean("Settings", "open_ffmpeg")
     ipv_type = config.get("Settings", "ipv_type").lower()
     open_ipv6 = "ipv6" in ipv_type or "all" in ipv_type or "全部" in ipv_type
-    ipv6_proxy = None
-    if open_ipv6:
-        ipv6_proxy = (
-            None if check_ipv6_support() else "http://www.ipv6proxy.net/go.php?u="
-        )
+    ipv6_proxy = (
+        None
+        if not open_ipv6 or check_ipv6_support()
+        else "http://www.ipv6proxy.net/go.php?u="
+    )
     ffmpeg_installed = is_ffmpeg_installed()
     if open_ffmpeg and not ffmpeg_installed:
         print("FFmpeg is not installed, using requests for sorting.")
     is_ffmpeg = open_ffmpeg and ffmpeg_installed
     semaphore = asyncio.Semaphore(3)
-    need_sort_data = process_nested_dict(data, seen=set(), flag="$cache:")
+    need_sort_data = copy.deepcopy(data)
+    process_nested_dict(need_sort_data, seen=set(), flag="$cache:")
     tasks = [
         asyncio.create_task(
             sort_channel_list(
@@ -673,39 +671,40 @@ async def process_sort_channel_list(data, callback=None):
     for result in sort_results:
         if result:
             cate, name, result_data = result["cate"], result["name"], result["data"]
-            sort_data = append_data_to_info_data(
-                sort_data, cate, name, result_data, False
-            )
-    print(speed_cache)
+            append_data_to_info_data(sort_data, cate, name, result_data, False)
     for cate, obj in data.items():
         for name, info_list in obj.items():
             sort_info_list = sort_data.get(cate, {}).get(name, [])
-            sort_urls = [
+            sort_urls = {
                 sort_url[0].split("$")[0]
                 for sort_url in sort_info_list
                 if sort_url and sort_url[0]
-            ]
+            }
             for url, date, resolution in info_list:
                 url_rsplit = url.rsplit("$cache:", 1)
-                if len(url_rsplit) == 2:
-                    url, cache_key = url_rsplit
-                    if url not in sort_urls and cache_key in speed_cache:
-                        cache = speed_cache[cache_key]
-                        if cache:
-                            response_time, resolution = cache
-                            if response_time and response_time != float("inf"):
-                                if resolution:
-                                    url = format_url(url, resolution)
-                                sort_data = append_data_to_info_data(
-                                    sort_data,
-                                    cate,
-                                    name,
-                                    [(url, date, resolution)],
-                                    False,
-                                )
-                                logging.info(
-                                    f"Name: {name}, URL: {url}, Date: {date}, Resolution: {resolution}, Response Time: {response_time} ms"
-                                )
+                if len(url_rsplit) != 2:
+                    continue
+                url, cache_key = url_rsplit
+                if url in sort_urls or cache_key not in speed_cache:
+                    continue
+                cache = speed_cache[cache_key]
+                if not cache:
+                    continue
+                response_time, resolution = cache
+                if response_time and response_time != float("inf"):
+                    if resolution:
+                        url = format_url(url, resolution)
+                    print((url, date, resolution))
+                    append_data_to_info_data(
+                        sort_data,
+                        cate,
+                        name,
+                        [(url, date, resolution)],
+                        False,
+                    )
+                    logging.info(
+                        f"Name: {name}, URL: {url}, Date: {date}, Resolution: {resolution}, Response Time: {response_time} ms"
+                    )
     return sort_data
 
 
@@ -786,4 +785,3 @@ def get_channel_data_cache_with_compare(data, new_data):
                 data[cate][name] = [
                     info for info in data[cate][name] if match_url(info[0], new_urls)
                 ]
-    return data

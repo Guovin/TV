@@ -163,7 +163,6 @@ async def get_speed_by_info(
                     else float("inf")
                 )
             if cache_key and cache_key not in speed_cache:
-                print(f"Caching {cache_key} with speed {url_speed}")
                 speed_cache[cache_key] = (url_speed, resolution)
             return speed
         except Exception:

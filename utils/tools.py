@@ -336,4 +336,3 @@ def process_nested_dict(data, seen, flag=None):
             process_nested_dict(value, seen, flag)
         elif isinstance(value, list):
             data[key] = remove_duplicates_from_tuple_list(value, seen, flag)
-    return data
