@@ -6,12 +6,14 @@
 
 - 修复部分设备本地运行软件 driver 问题(#335)
 - 修复 driver 模式下新版谷歌浏览器白屏问题
-- 优化对历史结果的测速
+- 增加历史结果缓存(result_cache.pkl)，用于测速优化
+- 重构测速方法，提升测速效率
 - 优化测速进度条显示
 
 - Fix some issues with local software driver operation on certain devices (#335)
 - Fix the white screen issue with the new version of Google Chrome in driver mode
-- Optimize the speed measurement of historical results
+- Add historical result cache (result_cache.pkl) for performance optimization
+- Refactor speed test methods to improve efficiency
 - Optimize speed test progress bar display
 
 ## v1.4.6
