@@ -9,7 +9,6 @@ a = Analysis(
         ('../config/demo.txt', 'config'),
         ('../config/rtp', 'config/rtp'),
         ('../updates/multicast/multicast_map.json', 'updates/multicast'),
-        ('../updates/multicast/multicast_region_result.json', 'updates/multicast'),
         ('../updates/fofa/fofa_hotel_region_result.pkl', 'updates/fofa'),
         ('../updates/fofa/fofa_multicast_region_result.pkl', 'updates/fofa'),
         ('../static/images/favicon.ico', 'static/images'),
