@@ -694,7 +694,6 @@ async def process_sort_channel_list(data, callback=None):
                 if response_time and response_time != float("inf"):
                     if resolution:
                         url = format_url(url, resolution)
-                    print((url, date, resolution))
                     append_data_to_info_data(
                         sort_data,
                         cate,
