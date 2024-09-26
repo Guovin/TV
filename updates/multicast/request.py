@@ -6,7 +6,7 @@ from utils.channel import (
     get_channel_multicast_result,
     get_multicast_fofa_search_urls,
 )
-from utils.tools import get_pbar_remaining, get_soup
+from utils.tools import get_pbar_remaining, get_soup, merge_objects
 from utils.config import config
 from updates.proxy import get_proxy, get_proxy_next
 from updates.fofa import get_channels_by_fofa
@@ -49,9 +49,10 @@ async def get_channels_by_multicast(names, callback=None):
     search_region_type_result = defaultdict(lambda: defaultdict(list))
     if open_multicast_fofa:
         fofa_search_urls = get_multicast_fofa_search_urls()
-        search_region_type_result = await get_channels_by_fofa(
+        fofa_result = await get_channels_by_fofa(
             fofa_search_urls, multicast=True, callback=callback
         )
+        merge_objects(search_region_type_result, fofa_result)
 
     def process_channel_by_multicast(region, type):
         nonlocal proxy, open_driver, page_num, start_time
