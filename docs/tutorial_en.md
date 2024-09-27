@@ -131,7 +131,7 @@ Since this project will continue to iterate and improve, if you want to get the 
 
 ### 1. Star
 
-Click on the star button at the homepage of my repository to favorite this project (Your star is the motivation for me to keep updating).
+Click on the star button at the homepage of my repository (https://github.com/Guovin/TV) to favorite this project (Your star is the motivation for me to keep updating).
 ![Star](./images/star.png 'Star')
 
 ### 2. Watch
