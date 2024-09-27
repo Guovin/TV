@@ -8,11 +8,13 @@
 - 订阅源增加默认订阅地址
 - 优化订阅源、在线搜索测速效率
 - 增加汕头频道组播
+- 调整默认接口数量为 30
 
 - Add some channels to the default template: Migu Live, CCTV Pay Channels, Movie Channel, Hong Kong and Macau Channels, Local Channels, etc
 - Add default subscription addresses to the subscription source
 - Optimize the efficiency of subscription source and online search speed tests
 - Add Shantou channel multicast
+- Adjust the default number of interfaces to 30
 
 ## v1.4.7
 
