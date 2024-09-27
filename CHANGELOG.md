@@ -1,5 +1,19 @@
 # 更新日志（Changelog）
 
+## v1.4.8
+
+### 2024/09/27
+
+- 默认模板增加部分频道：咪咕直播、央视付费频道、电影频道、港澳台、地方频道等
+- 订阅源增加默认订阅地址
+- 优化订阅源、在线搜索测速效率
+- 增加汕头频道组播
+
+- Add some channels to the default template: Migu Live, CCTV Pay Channels, Movie Channel, Hong Kong and Macau Channels, Local Channels, etc
+- Add default subscription addresses to the subscription source
+- Optimize the efficiency of subscription source and online search speed tests
+- Add Shantou channel multicast
+
 ## v1.4.7
 
 ### 2024/09/26
