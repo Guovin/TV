@@ -336,3 +336,37 @@ def process_nested_dict(data, seen, flag=None):
             process_nested_dict(value, seen, flag)
         elif isinstance(value, list):
             data[key] = remove_duplicates_from_tuple_list(value, seen, flag)
+
+
+ip_pattern = re.compile(
+    r"""
+    (
+        (\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})       # IPv4
+        |([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})            # Domain
+        |(\[([0-9a-fA-F:]+)\])                     # IPv6
+    )
+    (?::(\d+))?                                    # Port
+    """,
+    re.VERBOSE,
+)
+
+
+def get_ip(url):
+    """
+    Get the IP address with flags
+    """
+    matcher = ip_pattern.search(url)
+    if matcher:
+        return matcher.group(1)
+    return None
+
+
+def format_url_with_cache(url):
+    """
+    Format the URL with cache
+    """
+    ip = get_ip(url)
+    if ip:
+        return f"{url}$cache:{ip}"
+    else:
+        return url
