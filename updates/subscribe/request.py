@@ -5,7 +5,7 @@ from requests import Session, exceptions
 from utils.retry import retry_func
 import re
 from utils.channel import format_channel_name
-from utils.tools import merge_objects, get_pbar_remaining
+from utils.tools import merge_objects, get_pbar_remaining, format_url_with_cache
 from concurrent.futures import ThreadPoolExecutor
 from collections import defaultdict
 
@@ -83,6 +83,8 @@ async def get_channels_by_subscribe_urls(
                         url = matcher.group(2).strip()
                         if with_cache:
                             url = f"{url}$cache:{subscribe_url}"
+                        else:
+                            url = format_url_with_cache(url)
                         value = url if multicast else (url, None, resolution)
                         name = format_channel_name(key)
                         if name in channels:

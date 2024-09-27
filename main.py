@@ -192,7 +192,9 @@ class UpdateSource:
                     get_channel_data_cache_with_compare(
                         channel_data_cache, self.channel_data
                     )
-                with open(resource_path("output/result_cache.pkl"), "wb") as file:
+                with open(
+                    resource_path("output/result_cache.pkl", persistent=True), "wb"
+                ) as file:
                     pickle.dump(channel_data_cache, file)
             if open_sort:
                 user_log_file = "output/" + (

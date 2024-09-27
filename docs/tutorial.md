@@ -134,7 +134,7 @@ https://mirror.ghproxy.com/raw.githubusercontent.com/您的github用户名/仓�
 
 ### 1. Star
 
-在我的仓库首页点击收藏该项目（您的 Star 是我持续更新的动力）
+在我的仓库首页(https://github.com/Guovin/TV)点击收藏该项目（您的 Star 是我持续更新的动力）
 ![Star](./images/star.png 'Star')
 
 ### 2. Watch
