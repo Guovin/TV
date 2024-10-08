@@ -17,7 +17,33 @@
 
 ![Fork详情](./images/fork-detail.png 'Fork详情')
 
-## 步骤二：修改模板
+## 步骤二：更新源代码
+
+由于本项目将持续迭代优化，如果您想获取最新的更新内容，可进行如下操作
+
+### 1. Star
+
+打开 https://github.com/Guovin/TV ，点击 Star 收藏该项目（您的 Star 是我持续更新的动力）
+![Star](./images/star.png 'Star')
+
+### 2. Watch
+
+关注该项目，后续更新日志将以 releases 发布，届时您将收到邮件通知
+![Watch-activity](./images/watch-activity.png 'Watch All Activity')
+
+### 3. Sync fork
+
+#### 正常更新：
+
+回到您 Fork 后的仓库首页，如果项目有更新内容，点击 Sync fork，Update branch 确认即可更新最新代码
+![Sync-fork](./images/sync-fork.png 'Sync fork')
+
+#### 没有 Update branch 按钮，更新冲突：
+
+这是因为某些文件与主仓库的默认文件冲突了，点击 Discard commits 即可更新最新代码
+![冲突解决](./images/conflict.png '冲突解决')
+
+## 步骤三：修改模板
 
 当您在步骤一中点击确认创建，成功后会自动跳转到您的个人仓库。这个时候您的个人仓库就创建完成了，可以定制个人的直播源频道菜单了！
 
@@ -37,7 +63,7 @@
 
 ![创建user_demo.txt](./images/edit-user-demo.png '创建user_demo.txt')
 
-## 步骤三：修改配置
+## 步骤四：修改配置
 
 跟编辑模板一样，修改运行配置
 
@@ -54,109 +80,21 @@
 1. 创建文件
 2. 配置文件命名为 user_config.ini
 3. 粘贴默认配置
-4. 点击 Commit changes...进行保存
+4. 修改模板和结果文件配置：
+   - source_file = config/user_demo.txt
+   - final_file = output/user_result.txt
+5. 点击 Commit changes...进行保存
 
 ![创建user_config.ini](./images/edit-user-config.png '创建user_config.ini')
 
 按照您的需要适当调整配置，以下是默认配置说明：
 [配置参数](./docs/config.md)
 
-## 步骤四：运行更新
+## 步骤五：运行更新
 
-### 方式一：命令行更新
+### 方式一：工作流更新
 
-```python
-1. 安装 Python
-请至官方下载并安装 Python，安装时请选择将 Python 添加到系统环境变量 Path 中
-
-2. 运行更新
-项目目录下打开终端 CMD 依次运行以下命令：
-pip3 install pipenv
-pipenv install
-pipenv run build
-```
-
-### 方式二：界面软件更新
-
-1. 下载[更新工具软件](https://github.com/Guovin/TV/releases)，打开软件，点击更新，即可完成更新
-
-2. 或者在项目目录下运行以下命令，即可打开界面软件：
-
-```python
-pipenv run ui
-```
-
-![更新工具软件](./images/ui.png '更新工具软件')
-
-### 方式三：Docker 更新
-
-- requests：轻量级，性能要求低，更新速度快，稳定性不确定（只使用订阅源推荐此版本）
-- driver：性能要求较高，更新速度较慢，稳定性、成功率高（使用在线搜索、组播源使用此版本）
-
-```bash
-1. 拉取镜像：
-requests：
-docker pull guovern/tv-requests:latest
-
-driver：
-docker pull guovern/tv-driver:latest
-
-2. 运行容器：
-docker run -d -p 8000:8000 guovern/tv-requests 或 tv-driver
-
-卷挂载参数（可选）：
-实现宿主机文件与容器文件同步，修改模板、配置、获取更新结果文件可直接在宿主机文件夹下操作
-
-配置文件：
--v 宿主机路径/config:/tv-requests/config 或 tv-driver/config
-
-结果文件：
--v 宿主机路径/output:/tv-requests/output 或 tv-driver/output
-
-3. 查看更新结果：访问（域名:8000）
-```
-
-#### 注：方式一至三更新完成后的结果文件链接：http://本地 ip:8000 或 http://localhost:8000
-
-### 方式四：工作流更新
-
-请见步骤六
-
-### 上传更新文件至仓库（可选）
-
-如果您没有自己的域名地址，接口更新完成后，将 user_result.txt 上传至个人仓库，即可使用
-https://mirror.ghproxy.com/raw.githubusercontent.com/您的github用户名/仓库名称（对应上述Fork创建时的TV）/master/output/user_result.txt
-![用户名与仓库名称](./images/rep-info.png '用户名与仓库名称')
-
-## 步骤五：更新源代码
-
-由于本项目将持续迭代优化，如果您想获取最新的更新内容，可进行如下操作
-
-### 1. Star
-
-在我的仓库首页(https://github.com/Guovin/TV)点击收藏该项目（您的 Star 是我持续更新的动力）
-![Star](./images/star.png 'Star')
-
-### 2. Watch
-
-关注该项目，后续更新日志将以 releases 发布，届时您将收到邮件通知
-![Watch-activity](./images/watch-activity.png 'Watch All Activity')
-
-### 3. Sync fork
-
-#### 正常更新：
-
-回到您的仓库首页，如果项目有更新内容，点击 Sync fork，Update branch 确认即可更新最新代码
-![Sync-fork](./images/sync-fork.png 'Sync fork')
-
-#### 没有 Update branch 按钮，更新冲突：
-
-这是因为某些文件与主仓库的默认文件冲突了，点击 Discard commits 即可更新最新代码
-![冲突解决](./images/conflict.png '冲突解决')
-
-## 以下内容请谨慎使用，如果您有大量的频道需要更新，请使用本地更新，勿使用自动更新，配置不当可能导致账户或工作流封禁！
-
-## 步骤六：开启工作流自动更新
+#### 注意： 请谨慎使用工作流更新，如果您有大量的频道需要更新，请使用本地更新，勿使用自动更新，配置不当可能导致账户或工作流封禁！
 
 如果您的模板和配置修改没有问题的话，这时就可以配置 Actions 来实现自动更新啦
 
@@ -213,7 +151,7 @@ https://mirror.ghproxy.com/raw.githubusercontent.com/您的github用户名/仓�
 
 - 注意：除了首次执行工作流需要您手动触发，后续执行（默认北京时间每日 6:00 和 18:00）将自动触发。如果您修改了模板或配置文件想立刻执行更新，可手动触发（2）中的 Run workflow 即可。
 
-## 步骤七：修改工作流更新频率
+### 4.修改工作流更新频率（可选）
 
 如果您想修改更新频率（默认北京时间每日 6:00 和 18:00），可修改 on:schedule:- cron 字段：
 ![.github/workflows/main.yml](./images/schedule-cron.png '.github/workflows/main.yml')
@@ -224,6 +162,67 @@ https://mirror.ghproxy.com/raw.githubusercontent.com/您的github用户名/仓�
 - cron: '0 10 */2 * *'
 ```
 
-### 1. 强烈不建议修改，因为短时间内的接口内容并无差异，过高的更新频率与高耗时运行的工作流都有可能被判定为资源滥用，导致仓库与账户被封禁的风险。
+#### 1. 强烈不建议修改，因为短时间内的接口内容并无差异，过高的更新频率与高耗时运行的工作流都有可能被判定为资源滥用，导致仓库与账户被封禁的风险。
 
-### 2. 请留意您的工作流运行时长，若发现执行时间过长，需要适当删减模板中频道数量、修改配置中的分页数量和接口数量，以达到合规的运行要求。
+#### 2. 请留意您的工作流运行时长，若发现执行时间过长，需要适当删减模板中频道数量、修改配置中的分页数量和接口数量，以达到合规的运行要求。
+
+### 方式二：命令行更新
+
+```python
+1. 安装 Python
+请至官方下载并安装 Python，安装时请选择将 Python 添加到系统环境变量 Path 中
+
+2. 运行更新
+项目目录下打开终端 CMD 依次运行以下命令：
+pip3 install pipenv
+pipenv install
+pipenv run build
+```
+
+### 方式三：界面软件更新
+
+1. 下载[更新工具软件](https://github.com/Guovin/TV/releases)，打开软件，点击更新，即可完成更新
+
+2. 或者在项目目录下运行以下命令，即可打开界面软件：
+
+```python
+pipenv run ui
+```
+
+![更新工具软件](./images/ui.png '更新工具软件')
+
+### 方式四：Docker 更新
+
+- requests：轻量级，性能要求低，更新速度快，稳定性不确定（推荐订阅源使用此版本）
+- driver：性能要求较高，更新速度较慢，稳定性、成功率高；修改配置 open_driver = False 可切换到 request 版本（推荐酒店源、组播源、在线搜索使用此版本）
+
+```bash
+1. 拉取镜像：
+requests：
+docker pull guovern/tv-requests:latest
+
+driver：
+docker pull guovern/tv-driver:latest
+
+2. 运行容器：
+docker run -d -p 8000:8000 guovern/tv-requests 或 tv-driver
+
+卷挂载参数（可选）：
+实现宿主机文件与容器文件同步，修改模板、配置、获取更新结果文件可直接在宿主机文件夹下操作
+
+配置文件：
+-v 宿主机路径/config:/tv-requests/config 或 tv-driver/config
+
+结果文件：
+-v 宿主机路径/output:/tv-requests/output 或 tv-driver/output
+
+3. 查看更新结果：访问（域名:8000）
+```
+
+#### 注：方式一至三更新完成后的结果文件链接：http://本地 ip:8000 或 http://localhost:8000
+
+### 上传更新文件至仓库（可选）
+
+如果您没有自己的域名地址，接口更新完成后，将 user_result.txt 上传至个人仓库，即可使用
+https://mirror.ghproxy.com/raw.githubusercontent.com/您的github用户名/仓库名称（对应上述Fork创建时的TV）/master/output/user_result.txt
+![用户名与仓库名称](./images/rep-info.png '用户名与仓库名称')

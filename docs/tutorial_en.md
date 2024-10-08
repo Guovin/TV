@@ -12,12 +12,38 @@ Copy the source code of this repository to your personal account repository
 
 ### 2. Fork to create a personal repository:
 
-![Fork Details](./images/fork-detail.png 'Fork Details')
-
 1. Name your personal repository, you can name it whatever you like (the final live source result link depends on this name), here we use default TV as an example.
 2. After confirming the information is correct, click to confirm and create.
 
-## Step 2: Modify the Template
+![Fork Details](./images/fork-detail.png 'Fork Details')
+
+## Step 2: Update the Source Code
+
+Since this project will continue to iterate and improve, if you want to get the latest updates, you can do the following:
+
+### 1. Star
+
+Go to https://github.com/Guovin/TV, click on Star to bookmark this project (Your Star is my motivation to keep updating).
+![Star](./images/star.png 'Star')
+
+### 2. Watch
+
+Follow this project to be notified by email about the latest updates and release logs through releases.
+![Watch-activity](./images/watch-activity.png 'Watch All Activity')
+
+### 3. Sync fork
+
+#### Normal update:
+
+Go back to the homepage of your repository after forking. If there are updates to the project, click on "Sync fork" and then "Update branch" to confirm and update to the latest code.
+![Sync-fork](./images/sync-fork.png 'Sync fork')
+
+#### No Update branch button, update conflict:
+
+This is because some files conflict with the default files in the main repository. Click "Discard commits" to update to the latest code.
+![Conflict Resolution](./images/conflict.png 'Conflict Resolution')
+
+## Step 3: Modify the Template
 
 When you click to confirm and create in step one, you will be automatically redirected to your personal repository. At this point, your personal repository is created, and you can customize your personal live source channel menu!
 
@@ -34,7 +60,7 @@ When you click to confirm and create in step one, you will be automatically redi
 
 ![Create user_demo.txt](./images/edit-user-demo.png 'Create user_demo.txt')
 
-## Step 3: Modify the Configuration
+## Step 4: Modify the Configuration
 
 Similar to editing the template, modify the running configuration
 
@@ -51,109 +77,21 @@ Similar to editing the template, modify the running configuration
 1. Create file
 2. Name the configuration file user_config.ini
 3. Paste the default template
-4. Click Commit changes... to save
+4. Modify the template and result file configuration:
+   - source_file = config/user_demo.txt
+   - final_file = output/user_result.txt
+5. Click Commit changes... to save
 
 ![Create user_config.ini](./images/edit-user-config.png 'Create user_config.ini')
 
 Adjust the configuration as needed. Below is the default configuration explanation:
 [Config parameter](./docs/config_en.md)
 
-## Step 4: Run Updates
+## Step 5: Run Updates
 
-### Method 1: Command Line Update
+## Method 1: Workflow update
 
-```python
-1. Install Python
-Please download and install Python from the official site. During installation, choose to add Python to the system's environment variables Path.
-
-2. Run Update
-Open a CMD terminal in the project directory and run the following commands in sequence:
-pip3 install pipenv
-pipenv install
-pipenv run build
-```
-
-### Method 2: GUI Software Update
-
-1. Download the update tool software, open the software, click update to complete the update.
-
-2. Alternatively, run the following command in the project directory to open the GUI software:
-
-```python
-pipenv run ui
-```
-
-![Update tool software](./images/ui.png 'Update tool software')
-
-### Method 3: Docker Update
-
-- requests: Lightweight, low performance requirements, fast update speed, stability uncertain (recommend this version only for subscription sources)
-- driver: Higher performance requirements, slower update speed, high stability, high success rate (use this version for online search, multicast sources)
-
-```bash
-1. Pull the image:
-For requests version:
-docker pull guovern/tv-requests:latest
-
-For driver version:
-docker pull guovern/tv-driver:latest
-
-2. Run the container:
-docker run -d -p 8000:8000 guovern/tv-requests or driver
-
-Volume Mount Parameter (Optional):
-This allows synchronization of files between the host machine and the container. Modifying templates, configurations, and retrieving updated result files can be directly operated in the host machine's folder.
-
-config:
--v <path>/config:/tv-requests/config or tv-driver/config
-
-result:
--v <path>/output:/tv-requests/output or tv-driver/output
-
-3. Check the update results: Visit (domain:8000)
-```
-
-#### Note: Link to the result file after updates of methods one to three: http://local ip:8000 or http://localhost:8000
-
-### Method 4: Workflow Update
-
-Please see step six
-
-### 3. Update the File to the Repository(optional)
-
-If you do not have your own domain address, after the interface update is completed, upload user_result.txt to your personal repository to use it.
-https://mirror.ghproxy.com/raw.githubusercontent.com/your github username/repository name (corresponding to the TV created when forking)/master/output/user_result.txt
-![Username and Repository Name](./images/rep-info.png 'Username and Repository Name')
-
-## Step 5: Update the Source Code
-
-Since this project will continue to iterate and improve, if you want to get the latest updates, you can do the following:
-
-### 1. Star
-
-Click on the star button at the homepage of my repository (https://github.com/Guovin/TV) to favorite this project (Your star is the motivation for me to keep updating).
-![Star](./images/star.png 'Star')
-
-### 2. Watch
-
-Follow this project to be notified by email about the latest updates and release logs through releases.
-![Watch-activity](./images/watch-activity.png 'Watch All Activity')
-
-### 3. Sync fork
-
-#### Normal update:
-
-Return to the homepage of your repository. If there are updates to the project, click on "Sync fork" and then "Update branch" to confirm and update to the latest code.
-![Sync-fork](./images/sync-fork.png 'Sync fork')
-
-#### No Update branch button, update conflict:
-
-This is because some files conflict with the default files in the main repository. Click "Discard commits" to update to the latest code.
-![Conflict Resolution](./images/conflict.png 'Conflict Resolution')
-
-## Please use the following content with caution. If you have a large number of channels that need to be updated, please use local updates instead of automatic updates. Improper configuration may lead to your account or workflow being banned!
-
-## Step 6: Enable workflow auto-update
+#### Warning: Please use the following content with caution. If you have a large number of channels that need to be updated, please use local updates instead of automatic updates. Improper configuration may lead to your account or workflow being banned!
 
 If your template and configuration modifications are correct, you can configure Actions to achieve automatic updates
 
@@ -210,7 +148,7 @@ If you can access this link and it returns the updated interface content, then y
 
 - Note: Except for the first execution of the workflow, which requires you to manually trigger it, subsequent executions (default: daily at 6:00 am and 18:00 pm Beijing time) will be automatically triggered. If you have modified the template or configuration files and want to execute the update immediately, you can manually trigger (2) Run workflow.
 
-## Step 7: Modify Workflow Update Frequency
+### 4.Modify Workflow Update Frequency(optional)
 
 If you want to modify the update frequency (default: daily at 6:00 am and 18:00 pm Beijing time), you can modify the on:schedule:- cron field.
 ![.github/workflows/main.yml](./images/schedule-cron.png '.github/workflows/main.yml')
@@ -221,6 +159,67 @@ If you want to perform updates every 2 days, you can modify it like this:
 - cron: '0 10 */2 * *'
 ```
 
-### 1. It is strongly discouraged to make modifications, as there is no difference in the content of the interface in a short period of time. Both too frequent updates and high-consumption running workflows may be judged as resource abuse, leading to the risk of the repository and account being banned.
+#### 1. It is strongly discouraged to make modifications, as there is no difference in the content of the interface in a short period of time. Both too frequent updates and high-consumption running workflows may be judged as resource abuse, leading to the risk of the repository and account being banned.
 
-### 2. Please pay attention to the runtime of your workflow. If you find that the execution time is too long, you need to appropriately reduce the number of channels in the template, modify the number of pages and interfaces in the configuration, in order to meet the compliant operation requirements.
+#### 2. Please pay attention to the runtime of your workflow. If you find that the execution time is too long, you need to appropriately reduce the number of channels in the template, modify the number of pages and interfaces in the configuration, in order to meet the compliant operation requirements.
+
+### Method 2: Command Line Update
+
+```python
+1. Install Python
+Please download and install Python from the official site. During installation, choose to add Python to the system's environment variables Path.
+
+2. Run Update
+Open a CMD terminal in the project directory and run the following commands in sequence:
+pip3 install pipenv
+pipenv install
+pipenv run build
+```
+
+### Method 3: GUI Software Update
+
+1. Download the update tool software, open the software, click update to complete the update.
+
+2. Alternatively, run the following command in the project directory to open the GUI software:
+
+```python
+pipenv run ui
+```
+
+![Update tool software](./images/ui.png 'Update tool software')
+
+### Method 4: Docker Update
+
+- requests: Lightweight, low performance requirements, fast update speed, stability uncertain (recommend this version for subscription sources)
+- driver: Higher performance requirements, slower update speed, high stability and success rate. Set open_driver = False to switch to the request version (recommended for hotel sources, multicast sources, and online searches)
+
+```bash
+1. Pull the image:
+For requests version:
+docker pull guovern/tv-requests:latest
+
+For driver version:
+docker pull guovern/tv-driver:latest
+
+2. Run the container:
+docker run -d -p 8000:8000 guovern/tv-requests or driver
+
+Volume Mount Parameter (Optional):
+This allows synchronization of files between the host machine and the container. Modifying templates, configurations, and retrieving updated result files can be directly operated in the host machine's folder.
+
+config:
+-v <path>/config:/tv-requests/config or tv-driver/config
+
+result:
+-v <path>/output:/tv-requests/output or tv-driver/output
+
+3. Check the update results: Visit (domain:8000)
+```
+
+#### Note: Link to the result file after updates of methods one to three: http://local ip:8000 or http://localhost:8000
+
+### Update the File to the Repository(optional)
+
+If you do not have your own domain address, after the interface update is completed, upload user_result.txt to your personal repository to use it.
+https://mirror.ghproxy.com/raw.githubusercontent.com/your github username/repository name (corresponding to the TV created when forking)/master/output/user_result.txt
+![Username and Repository Name](./images/rep-info.png 'Username and Repository Name')
