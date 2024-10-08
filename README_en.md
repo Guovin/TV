@@ -80,7 +80,7 @@
 
 ### Method 1: Workflow Update
 
-Fork this project and initiate workflow updates, detailed steps are available at [More Detailed Tutorial](./docs/tutorial_en.md)
+Fork this project and initiate workflow updates, detailed steps are available at [Detailed Tutorial](./docs/tutorial_en.md)
 
 ### Method 2: Command Line Update
 
