@@ -104,10 +104,10 @@ pipenv run ui
 
 ### Method 4: Docker Update
 
-- requests: Lightweight, low performance requirements, fast update speed, stability uncertain (Recommend using this version for the multicast source and the subscription source)
-- driver: Higher performance requirements, slower update speed, high stability, high success rate (Online search use this version)
+- requests: Lightweight, low performance requirements, fast update speed, stability uncertain (recommend using this version for the subscription source)
+- driver: Higher performance requirements, slower update speed, high stability and success rate. Set open_driver = False to switch to the request version (recommended for hotel sources, multicast sources, and online searches)
 
-It's recommended to try each one and choose the version that suits you. If you can get results with requests for online searches, prioritize choosing the version that uses requests.
+It's recommended to try each one and choose the version that suits you.
 
 ```bash
 1. Pull the image:
