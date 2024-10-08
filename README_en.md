@@ -78,7 +78,11 @@
 
 ## Quick Start
 
-### Method 1: Command Line Update
+### Method 1: Workflow Update
+
+Fork this project and initiate workflow updates, detailed steps are available at [More Detailed Tutorial](./docs/tutorial_en.md)
+
+### Method 2: Command Line Update
 
 ```python
 pip3 install pipenv
@@ -86,7 +90,7 @@ pipenv install
 pipenv run build
 ```
 
-### Method 2: GUI Software Update
+### Method 3: GUI Software Update
 
 1. Download [Update tool software](https://github.com/Guovin/TV/releases), open the software, click update to complete the update
 
@@ -98,7 +102,7 @@ pipenv run ui
 
 ![Update tool software](./docs/images/ui.png 'Update tool software')
 
-### Method 3: Docker Update
+### Method 4: Docker Update
 
 - requests: Lightweight, low performance requirements, fast update speed, stability uncertain (Recommend using this version for the multicast source and the subscription source)
 - driver: Higher performance requirements, slower update speed, high stability, high success rate (Online search use this version)
@@ -131,12 +135,6 @@ For example: docker run -v /etc/docker/config:/tv-requests/config -v /etc/docker
 ```
 
 #### Note: Link to the result file after updates of methods one to three: http://local ip:8000 or http://localhost:8000
-
-### Method 4: Workflow Update
-
-Fork this project and enable workflow updates
-
-[More detailed tutorial](./docs/tutorial_en.md)
 
 ## Changelog
 

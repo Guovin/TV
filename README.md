@@ -78,7 +78,11 @@
 
 ## 快速上手
 
-### 方式一：命令行更新
+### 方式一：工作流更新
+
+Fork 本项目并开启工作流更新，具体步骤请见[更多详细教程](./docs/tutorial.md)
+
+### 方式二：命令行更新
 
 ```python
 pip3 install pipenv
@@ -86,7 +90,7 @@ pipenv install
 pipenv run build
 ```
 
-### 方式二：界面软件更新
+### 方式三：界面软件更新
 
 1. 下载[更新工具软件](https://github.com/Guovin/TV/releases)，打开软件，点击更新，即可完成更新
 
@@ -98,7 +102,7 @@ pipenv run ui
 
 ![更新工具软件](./docs/images/ui.png '更新工具软件')
 
-### 方式三：Docker 更新
+### 方式四：Docker 更新
 
 - requests：轻量级，性能要求低，更新速度快，稳定性不确定（推荐组播源、订阅源使用此版本）
 - driver：性能要求较高，更新速度较慢，稳定性、成功率高（推荐在线搜索使用此版本）
@@ -131,12 +135,6 @@ docker run -d -p 8000:8000 guovern/tv-requests 或 tv-driver
 ```
 
 #### 注：方式一至三更新完成后的结果文件链接：http://本地 ip:8000 或 http://localhost:8000
-
-### 方式四：工作流更新
-
-Fork 本项目并开启工作流更新
-
-[更多详细教程](./docs/tutorial.md)
 
 ## 更新日志
 
