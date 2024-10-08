@@ -24,7 +24,7 @@
   Hong Kong · Macao · Taiwan Channel：翡翠台，明珠台，凤凰中文，凤凰资讯，凤凰香港，凤凰卫视，TVBS亚洲，香港卫视，纬来体育，纬来育乐，J2，Viutv，三立台湾，无线新闻，三立新闻，东森综合，东森超视，东森电影，Now剧集，Now华剧，靖天资讯，星卫娱乐，卫视卡式
   </div>
   <div>
-  🎬Movie Channel：CHC家庭影院，CHC动作电影，CHC高清电影，淘剧场，淘娱乐，淘电影，NewTV惊悚悬疑，NewTV动作电影，黑莓电影，纬来电影，靖天映画，靖天戏剧，星卫娱乐，艾尔达娱乐，精选频道1，经典电影，IPTV经典电影，天映经典，无线星河，星空卫视，私人影院，东森电影，龙祥电影，东森洋片，东森超视
+  🎬Movie Channel：CHC家庭影院，CHC动作电影，CHC高清电影，淘剧场，淘娱乐，淘电影，NewTV惊悚悬疑，NewTV动作电影，黑莓电影，纬来电影，靖天映画，靖天戏剧，星卫娱乐，艾尔达娱乐，经典电影，IPTV经典电影，天映经典，无线星河，星空卫视，私人影院，东森电影，龙祥电影，东森洋片，东森超视
   </div>
   <div>Migu Live Streaming：咪咕直播1-45</div>
 </details>
@@ -78,7 +78,11 @@
 
 ## Quick Start
 
-### Method 1: Command Line Update
+### Method 1: Workflow Update
+
+Fork this project and initiate workflow updates, detailed steps are available at [More Detailed Tutorial](./docs/tutorial_en.md)
+
+### Method 2: Command Line Update
 
 ```python
 pip3 install pipenv
@@ -86,7 +90,7 @@ pipenv install
 pipenv run build
 ```
 
-### Method 2: GUI Software Update
+### Method 3: GUI Software Update
 
 1. Download [Update tool software](https://github.com/Guovin/TV/releases), open the software, click update to complete the update
 
@@ -98,7 +102,7 @@ pipenv run ui
 
 ![Update tool software](./docs/images/ui.png 'Update tool software')
 
-### Method 3: Docker Update
+### Method 4: Docker Update
 
 - requests: Lightweight, low performance requirements, fast update speed, stability uncertain (Recommend using this version for the multicast source and the subscription source)
 - driver: Higher performance requirements, slower update speed, high stability, high success rate (Online search use this version)
@@ -131,12 +135,6 @@ For example: docker run -v /etc/docker/config:/tv-requests/config -v /etc/docker
 ```
 
 #### Note: Link to the result file after updates of methods one to three: http://local ip:8000 or http://localhost:8000
-
-### Method 4: Workflow Update
-
-Fork this project and enable workflow updates
-
-[More detailed tutorial](./docs/tutorial_en.md)
 
 ## Changelog
 

@@ -155,10 +155,10 @@ class UpdateSource:
                 self.online_search_result,
             )
             channel_data_cache = copy.deepcopy(self.channel_data)
-            self.total = self.get_urls_len(filter=True)
-            sort_callback = lambda: self.pbar_update(name="测速")
             open_sort = config.getboolean("Settings", "open_sort")
             if open_sort:
+                self.total = self.get_urls_len(filter=True)
+                sort_callback = lambda: self.pbar_update(name="测速")
                 self.update_progress(
                     f"正在测速排序, 共{self.total}个接口",
                     0,
