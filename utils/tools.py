@@ -110,11 +110,31 @@ def get_soup(source):
     return soup
 
 
+def get_resolution_value(resolution_str):
+    """
+    Get resolution value from string
+    """
+    numbers = re.findall(r"\d+x\d+", resolution_str)
+    if numbers:
+        width, height = map(int, numbers[0].split("x"))
+        return width * height
+    else:
+        return 0
+
+
 def get_total_urls_from_info_list(infoList):
     """
     Get the total urls from info list
     """
-    total_urls = [url for url, _, _ in infoList]
+    open_filter_resolution = config.getboolean("Settings", "open_filter_resolution")
+    min_resolution = get_resolution_value(config.get("Settings", "min_resolution"))
+    total_urls = []
+    for url, _, resolution in infoList:
+        if open_filter_resolution and resolution:
+            resolution_value = get_resolution_value(resolution)
+            if resolution_value < min_resolution:
+                continue
+        total_urls.append(url)
     return list(dict.fromkeys(total_urls))[: config.getint("Settings", "urls_limit")]
 
 
