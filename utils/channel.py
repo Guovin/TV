@@ -772,15 +772,18 @@ def get_channel_data_cache_with_compare(data, new_data):
     """
     Get channel data with cache compare new data
     """
-
-    def match_url(url, sort_urls):
-        url = url.split("$", 1)[0]
-        return url in sort_urls
-
     for cate, obj in new_data.items():
         for name, url_info in obj.items():
             if url_info and cate in data and name in data[cate]:
-                new_urls = {new_url for new_url, _, _ in url_info}
-                data[cate][name] = [
-                    info for info in data[cate][name] if match_url(info[0], new_urls)
-                ]
+                new_urls = {
+                    new_url.split("$", 1)[0]: new_resolution
+                    for new_url, _, new_resolution in url_info
+                }
+                updated_data = []
+                for info in data[cate][name]:
+                    url, date, resolution = info
+                    base_url = url.split("$", 1)[0]
+                    if base_url in new_urls:
+                        resolution = new_urls[base_url]
+                        updated_data.append((url, date, resolution))
+                data[cate][name] = updated_data
