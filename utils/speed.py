@@ -3,7 +3,7 @@ from time import time
 import asyncio
 import re
 from utils.config import config
-from utils.tools import is_ipv6
+from utils.tools import is_ipv6, get_resolution_value
 import subprocess
 
 timeout = 15
@@ -188,15 +188,6 @@ async def sort_urls_by_speed_and_resolution(
         )
     )
     valid_response = [res for res in response if res != float("inf")]
-
-    def extract_resolution(resolution_str):
-        numbers = re.findall(r"\d+x\d+", resolution_str)
-        if numbers:
-            width, height = map(int, numbers[0].split("x"))
-            return width * height
-        else:
-            return 0
-
     default_response_time_weight = 0.5
     default_resolution_weight = 0.5
     response_time_weight = (
@@ -217,7 +208,7 @@ async def sort_urls_by_speed_and_resolution(
 
     def combined_key(item):
         (_, _, resolution), response_time = item
-        resolution_value = extract_resolution(resolution) if resolution else 0
+        resolution_value = get_resolution_value(resolution) if resolution else 0
         return (
             -(response_time_weight * response_time)
             + resolution_weight * resolution_value
