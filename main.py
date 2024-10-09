@@ -207,9 +207,9 @@ class UpdateSource:
             print(f"Update completed! Please check the {user_final_file} file!")
             if self.run_ui:
                 tip = (
-                    "服务启动成功, 可访问以下链接:"
+                    "服务启动成功, 可使用以下链接观看直播:"
                     if config.getboolean("Settings", "open_update") == False
-                    else f"更新完成, 请检查{user_final_file}文件, 可访问以下链接:"
+                    else f"更新完成, 请检查{user_final_file}文件, 可使用以下链接观看直播:"
                 )
                 self.update_progress(
                     tip,
@@ -251,7 +251,10 @@ def scheduled_task():
 
 def run_app():
     if not os.environ.get("GITHUB_ACTIONS"):
-        print(f"You can access the result at {get_ip_address()}")
+        ip_address = get_ip_address()
+        print(f"You can use this url to watch the live stream: {ip_address}")
+        print(f"Result detail: {ip_address}/result")
+        print(f"Log detail: {ip_address}/log")
         app.run(host="0.0.0.0", port=8000)
 
 
