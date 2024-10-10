@@ -106,7 +106,7 @@ async def check_stream_speed(url_info):
         if frame is None or frame == float("inf"):
             return float("inf")
         if resolution:
-            url_info[0] = format_url(url, resolution)
+            url_info[0] = add_info_url(url, resolution)
         url_info[2] = resolution
         return (tuple(url_info), frame)
     except Exception as e:
@@ -114,7 +114,7 @@ async def check_stream_speed(url_info):
         return float("inf")
 
 
-def format_url(url, info):
+def add_info_url(url, info):
     """
     Format the url
     """
@@ -142,7 +142,7 @@ async def get_speed_by_info(
                 cache_key = cache_info.replace("cache:", "")
         url_is_ipv6 = is_ipv6(url)
         if url_is_ipv6:
-            url = format_url(url, "IPv6")
+            url = add_info_url(url, "IPv6")
         url_info[0] = url
         if cache_key in speed_cache:
             speed = speed_cache[cache_key][0]

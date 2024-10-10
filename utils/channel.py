@@ -8,7 +8,7 @@ from utils.tools import (
 from utils.speed import (
     sort_urls_by_speed_and_resolution,
     is_ffmpeg_installed,
-    format_url,
+    add_info_url,
     speed_cache,
 )
 import os
@@ -693,7 +693,7 @@ async def process_sort_channel_list(data, callback=None):
                 response_time, resolution = cache
                 if response_time and response_time != float("inf"):
                     if resolution:
-                        url = format_url(url, resolution)
+                        url = add_info_url(url, resolution)
                     append_data_to_info_data(
                         sort_data,
                         cate,
@@ -787,3 +787,16 @@ def get_channel_data_cache_with_compare(data, new_data):
                         resolution = new_urls[base_url]
                         updated_data.append((url, date, resolution))
                 data[cate][name] = updated_data
+
+
+def format_channel_url_info(data):
+    """
+    Format channel url info, remove cache, add resolution to url
+    """
+    for obj in data.values():
+        for url_info in obj.values():
+            for i, (url, date, resolution) in enumerate(url_info):
+                url = url.split("$", 1)[0]
+                if resolution:
+                    url = add_info_url(url, resolution)
+                url_info[i] = (url, date, resolution)

@@ -8,6 +8,7 @@ from utils.channel import (
     setup_logging,
     cleanup_logging,
     get_channel_data_cache_with_compare,
+    format_channel_url_info,
 )
 from utils.tools import (
     update_file,
@@ -169,6 +170,8 @@ class UpdateSource:
                     self.channel_data,
                     callback=sort_callback,
                 )
+            else:
+                format_channel_url_info(self.channel_data)
             self.total = self.get_urls_len()
             self.pbar = tqdm(total=self.total, desc="Writing")
             self.start_time = time()
