@@ -553,7 +553,7 @@ def append_all_method_data(
                     name,
                     old_info_list,
                 )
-                print("using old:", len(old_info_list), end=", ")
+                print("old:", len(old_info_list), end=", ")
             print(
                 "total:",
                 len(data.get(cate, {}).get(name, [])),
@@ -597,7 +597,7 @@ def append_all_method_data_keep_all(
                             name,
                             old_info_list,
                         )
-                        print(name, "using old:", len(old_info_list), end=", ")
+                        print(name, "old:", len(old_info_list), end=", ")
                     print(
                         "total:",
                         len(data.get(cate, {}).get(name, [])),
