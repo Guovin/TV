@@ -5,6 +5,7 @@ from utils.tools import (
     check_ipv6_support,
     process_nested_dict,
     get_resolution_value,
+    format_interval,
 )
 from utils.speed import (
     sort_urls_by_speed_and_resolution,
@@ -23,6 +24,8 @@ import asyncio
 import base64
 import pickle
 import copy
+import datetime
+from time import time
 
 log_dir = "output"
 log_file = "result_new.log"
@@ -733,6 +736,10 @@ def write_channel_to_file(items, data, callback=None):
     """
     Write channel to file
     """
+    open_update_time = config.getboolean("Settings", "open_update_time")
+    if open_update_time:
+        update_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        update_channel_urls_txt("更新时间", f"{update_time}", ["url"])
     for cate, channel_obj in items:
         print(f"\n{cate}:", end=" ")
         channel_obj_keys = channel_obj.keys()
