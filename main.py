@@ -8,6 +8,7 @@ from utils.channel import (
     setup_logging,
     cleanup_logging,
     get_channel_data_cache_with_compare,
+    format_channel_url_info,
 )
 from utils.tools import (
     update_file,
@@ -16,6 +17,7 @@ from utils.tools import (
     convert_to_m3u,
     get_result_file_content,
     process_nested_dict,
+    format_interval,
 )
 from updates.subscribe import get_channels_by_subscribe_urls
 from updates.multicast import get_channels_by_multicast
@@ -136,6 +138,7 @@ class UpdateSource:
 
     async def main(self):
         try:
+            main_start_time = time()
             self.channel_items = get_channel_items()
             channel_names = [
                 name
@@ -169,6 +172,8 @@ class UpdateSource:
                     self.channel_data,
                     callback=sort_callback,
                 )
+            else:
+                format_channel_url_info(self.channel_data)
             self.total = self.get_urls_len()
             self.pbar = tqdm(total=self.total, desc="Writing")
             self.start_time = time()
@@ -204,12 +209,15 @@ class UpdateSource:
                 )
                 update_file(user_log_file, "output/result_new.log", copy=True)
             convert_to_m3u()
-            print(f"Update completed! Please check the {user_final_file} file!")
+            total_time = format_interval(time() - main_start_time)
+            print(
+                f"Update completed! Total time spent: {total_time}. Please check the {user_final_file} file!"
+            )
             if self.run_ui:
                 tip = (
                     "服务启动成功, 可使用以下链接观看直播:"
                     if config.getboolean("Settings", "open_update") == False
-                    else f"更新完成, 请检查{user_final_file}文件, 可使用以下链接观看直播:"
+                    else f"更新完成, 耗时: {total_time}, 请检查{user_final_file}文件, 可使用以下链接观看直播:"
                 )
                 self.update_progress(
                     tip,

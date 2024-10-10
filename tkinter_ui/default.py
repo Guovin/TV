@@ -251,6 +251,43 @@ class DefaultUI:
         )
         self.open_m3u_result_checkbutton.pack(side=tk.LEFT, padx=4, pady=8)
 
+        frame_default_resolution_params = tk.Frame(root)
+        frame_default_resolution_params.pack(fill=tk.X)
+        frame_default_resolution_params_column1 = tk.Frame(
+            frame_default_resolution_params
+        )
+        frame_default_resolution_params_column1.pack(side=tk.LEFT, fill=tk.Y)
+        frame_default_resolution_params_column2 = tk.Frame(
+            frame_default_resolution_params
+        )
+        frame_default_resolution_params_column2.pack(side=tk.RIGHT, fill=tk.Y)
+
+        self.open_filter_resolution_label = tk.Label(
+            frame_default_resolution_params_column1, text="分辨率过滤:", width=12
+        )
+        self.open_filter_resolution_label.pack(side=tk.LEFT, padx=4, pady=8)
+        self.open_filter_resolution_var = tk.BooleanVar(
+            value=config.getboolean("Settings", "open_filter_resolution")
+        )
+        self.open_filter_resolution_checkbutton = ttk.Checkbutton(
+            frame_default_resolution_params_column1,
+            variable=self.open_filter_resolution_var,
+            onvalue=True,
+            offvalue=False,
+            command=self.update_open_filter_resolution,
+            text="(低于最小分辨率将被过滤)",
+        )
+        self.open_filter_resolution_checkbutton.pack(side=tk.LEFT, padx=4, pady=8)
+
+        self.min_resolution_label = tk.Label(
+            frame_default_resolution_params_column2, text="最小分辨率:", width=12
+        )
+        self.min_resolution_label.pack(side=tk.LEFT, padx=4, pady=8)
+        self.min_resolution_entry = tk.Entry(frame_default_resolution_params_column2)
+        self.min_resolution_entry.pack(side=tk.LEFT, padx=4, pady=8)
+        self.min_resolution_entry.insert(0, config.get("Settings", "min_resolution"))
+        self.min_resolution_entry.bind("<KeyRelease>", self.update_min_resolution)
+
         frame_default_sort_params = tk.Frame(root)
         frame_default_sort_params.pack(fill=tk.X)
         frame_default_sort_params_column1 = tk.Frame(frame_default_sort_params)
@@ -262,25 +299,54 @@ class DefaultUI:
             frame_default_sort_params_column1, text="响应时间权重:", width=12
         )
         self.response_time_weight_label.pack(side=tk.LEFT, padx=4, pady=8)
-        self.response_time_weight_entry = tk.Entry(frame_default_sort_params_column1)
-        self.response_time_weight_entry.pack(side=tk.LEFT, padx=4, pady=8)
-        self.response_time_weight_entry.insert(
-            0, config.getfloat("Settings", "response_time_weight")
+        self.response_time_weight_scale = tk.Scale(
+            frame_default_sort_params_column1,
+            from_=0,
+            to=1,
+            orient=tk.HORIZONTAL,
+            resolution=0.1,
+            command=self.update_response_time_weight,
         )
-        self.response_time_weight_entry.bind(
-            "<KeyRelease>", self.update_response_time_weight
+        self.response_time_weight_scale.pack(side=tk.LEFT, padx=4, pady=8)
+        self.response_time_weight_scale.set(
+            config.getfloat("Settings", "response_time_weight")
         )
 
         self.resolution_weight_label = tk.Label(
             frame_default_sort_params_column2, text="分辨率权重:", width=12
         )
         self.resolution_weight_label.pack(side=tk.LEFT, padx=4, pady=8)
-        self.resolution_weight_entry = tk.Entry(frame_default_sort_params_column2)
-        self.resolution_weight_entry.pack(side=tk.LEFT, padx=4, pady=8)
-        self.resolution_weight_entry.insert(
-            0, config.getfloat("Settings", "resolution_weight")
+        self.resolution_weight_scale = tk.Scale(
+            frame_default_sort_params_column2,
+            from_=0,
+            to=1,
+            orient=tk.HORIZONTAL,
+            resolution=0.1,
+            command=self.update_resolution_weight,
         )
-        self.resolution_weight_entry.bind("<KeyRelease>", self.update_resolution_weight)
+        self.resolution_weight_scale.pack(side=tk.LEFT, padx=4, pady=8)
+        self.resolution_weight_scale.set(
+            config.getfloat("Settings", "resolution_weight")
+        )
+
+        frame_default_open_update_time = tk.Frame(root)
+        frame_default_open_update_time.pack(fill=tk.X)
+        self.open_update_time_label = tk.Label(
+            frame_default_open_update_time, text="显示更新时间:", width=12
+        )
+        self.open_update_time_label.pack(side=tk.LEFT, padx=4, pady=8)
+        self.open_update_time_var = tk.BooleanVar(
+            value=config.getboolean("Settings", "open_update_time")
+        )
+        self.open_update_time_checkbutton = ttk.Checkbutton(
+            frame_default_open_update_time,
+            variable=self.open_update_time_var,
+            onvalue=True,
+            offvalue=False,
+            command=self.update_open_update_time,
+            text="(显示于结果文件首行, 作为首个频道分类显示)",
+        )
+        self.open_update_time_checkbutton.pack(side=tk.LEFT, padx=4, pady=8)
 
         frame_default_domain_blacklist = tk.Frame(root)
         frame_default_domain_blacklist.pack(fill=tk.X)
@@ -364,16 +430,35 @@ class DefaultUI:
     def update_open_m3u_result(self):
         config.set("Settings", "open_m3u_result", str(self.open_m3u_result_var.get()))
 
+    def update_open_filter_resolution(self):
+        config.set(
+            "Settings",
+            "open_filter_resolution",
+            str(self.open_filter_resolution_var.get()),
+        )
+
+    def update_min_resolution(self, event):
+        config.set("Settings", "min_resolution", self.min_resolution_entry.get())
+
     def update_urls_limit(self, event):
         config.set("Settings", "urls_limit", self.urls_limit_entry.get())
 
     def update_response_time_weight(self, event):
-        config.set(
-            "Settings", "response_time_weight", self.response_time_weight_entry.get()
-        )
+        weight1 = self.response_time_weight_scale.get()
+        weight2 = 1 - weight1
+        self.resolution_weight_scale.set(weight2)
+        config.set("Settings", "response_time_weight", str(weight1))
+        config.set("Settings", "resolution_weight", str(weight2))
 
     def update_resolution_weight(self, event):
-        config.set("Settings", "resolution_weight", self.resolution_weight_entry.get())
+        weight1 = self.resolution_weight_scale.get()
+        weight2 = 1 - weight1
+        self.response_time_weight_scale.set(weight2)
+        config.set("Settings", "resolution_weight", str(weight1))
+        config.set("Settings", "response_time_weight", str(weight2))
+
+    def update_open_update_time(self):
+        config.set("Settings", "open_update_time", str(self.open_update_time_var.get()))
 
     def update_ipv_type(self, event):
         config.set("Settings", "ipv_type", self.ipv_type_combo.get())
@@ -413,9 +498,12 @@ class DefaultUI:
             "open_sort_checkbutton",
             "open_ffmpeg_checkbutton",
             "open_m3u_result_checkbutton",
+            "open_filter_resolution_checkbutton",
+            "min_resolution_entry",
             "urls_limit_entry",
-            "response_time_weight_entry",
-            "resolution_weight_entry",
+            "response_time_weight_scale",
+            "resolution_weight_scale",
+            "open_update_time_checkbutton",
             "ipv_type_combo",
             "domain_blacklist_text",
             "url_keywords_blacklist_text",

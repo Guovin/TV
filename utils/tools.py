@@ -114,9 +114,10 @@ def get_resolution_value(resolution_str):
     """
     Get resolution value from string
     """
-    numbers = re.findall(r"\d+x\d+", resolution_str)
-    if numbers:
-        width, height = map(int, numbers[0].split("x"))
+    pattern = r"(\d+)[xX*](\d+)"
+    match = re.search(pattern, resolution_str)
+    if match:
+        width, height = map(int, match.groups())
         return width * height
     else:
         return 0
@@ -169,7 +170,7 @@ def check_ipv6_support():
     url = "https://ipv6.tokyo.test-ipv6.com/ip/?callback=?&testdomain=test-ipv6.com&testname=test_aaaa"
     try:
         print("Checking if your network supports IPv6...")
-        response = requests.get(url, timeout=15)
+        response = requests.get(url, timeout=10)
         if response.status_code == 200:
             print("Your network supports IPv6")
             return True
@@ -314,7 +315,7 @@ def convert_to_m3u():
             m3u_file_path = os.path.splitext(resource_path(user_final_file))[0] + ".m3u"
             with open(m3u_file_path, "w", encoding="utf-8") as m3u_file:
                 m3u_file.write(m3u_output)
-            print(f"result m3u file generated at: {m3u_file_path}")
+            print(f"Result m3u file generated at: {m3u_file_path}")
 
 
 def get_result_file_content(show_result=False):
