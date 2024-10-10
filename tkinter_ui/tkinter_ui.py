@@ -50,8 +50,10 @@ class TkinterUI:
             "open_proxy": self.default_ui.open_proxy_var.get(),
             "open_keep_all": self.default_ui.open_keep_all_var.get(),
             "open_sort": self.default_ui.open_sort_var.get(),
-            "response_time_weight": self.default_ui.response_time_weight_entry.get(),
-            "resolution_weight": self.default_ui.resolution_weight_entry.get(),
+            "open_filter_resolution": self.default_ui.open_filter_resolution_var.get(),
+            "min_resolution": self.default_ui.min_resolution_entry.get(),
+            "response_time_weight": self.default_ui.response_time_weight_scale.get(),
+            "resolution_weight": self.default_ui.resolution_weight_scale.get(),
             "ipv_type": self.default_ui.ipv_type_combo.get(),
             "domain_blacklist": self.default_ui.domain_blacklist_text.get(1.0, tk.END),
             "url_keywords_blacklist": self.default_ui.url_keywords_blacklist_text.get(
@@ -72,6 +74,7 @@ class TkinterUI:
             "open_online_search": self.online_search_ui.open_online_search_var.get(),
             "online_search_page_num": self.online_search_ui.page_num_entry.get(),
             "recent_days": self.online_search_ui.recent_days_entry.get(),
+            "open_update_time": self.default_ui.open_update_time_var.get(),
         }
 
         for key, value in config_values.items():
@@ -240,7 +243,7 @@ def get_root_location(root):
     screen_width = root.winfo_screenwidth()
     screen_height = root.winfo_screenheight()
     width = 550
-    height = 650
+    height = 720
     x = (screen_width / 2) - (width / 2)
     y = (screen_height / 2) - (height / 2)
     return (width, height, x, y)
