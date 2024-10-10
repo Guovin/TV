@@ -169,7 +169,7 @@ def check_ipv6_support():
     url = "https://ipv6.tokyo.test-ipv6.com/ip/?callback=?&testdomain=test-ipv6.com&testname=test_aaaa"
     try:
         print("Checking if your network supports IPv6...")
-        response = requests.get(url, timeout=15)
+        response = requests.get(url, timeout=10)
         if response.status_code == 200:
             print("Your network supports IPv6")
             return True

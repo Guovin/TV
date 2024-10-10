@@ -649,7 +649,7 @@ async def process_sort_channel_list(data, callback=None):
     if open_ffmpeg and not ffmpeg_installed:
         print("FFmpeg is not installed, using requests for sorting.")
     is_ffmpeg = open_ffmpeg and ffmpeg_installed
-    semaphore = asyncio.Semaphore(3)
+    semaphore = asyncio.Semaphore(5)
     need_sort_data = copy.deepcopy(data)
     process_nested_dict(need_sort_data, seen=set(), flag="$cache:")
     tasks = [

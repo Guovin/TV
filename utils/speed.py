@@ -6,7 +6,7 @@ from utils.config import config
 from utils.tools import is_ipv6, get_resolution_value
 import subprocess
 
-timeout = 15
+timeout = 5
 
 
 async def get_speed(url, timeout=timeout, proxy=None):
@@ -56,7 +56,7 @@ async def ffmpeg_url(url):
         proc = await asyncio.create_subprocess_exec(
             *args, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
         )
-        out, err = await asyncio.wait_for(proc.communicate(), timeout=timeout + 15)
+        out, err = await asyncio.wait_for(proc.communicate(), timeout=timeout + 2)
         if out:
             res = out.decode("utf-8")
         if err:
@@ -149,13 +149,15 @@ async def get_speed_by_info(
             url_info[2] = speed_cache[cache_key][1]
             return (tuple(url_info), speed) if speed != float("inf") else float("inf")
         try:
-            if ".m3u8" not in url and ffmpeg and not url_is_ipv6:
+            if ipv6_proxy and url_is_ipv6:
+                url = ipv6_proxy + url
+            if ffmpeg:
                 speed = await check_stream_speed(url_info)
                 url_speed = speed[1] if speed != float("inf") else float("inf")
+                if url_speed == float("inf"):
+                    url_speed = await get_speed(url)
                 resolution = speed[0][2] if speed != float("inf") else None
             else:
-                if ipv6_proxy and url_is_ipv6:
-                    url = ipv6_proxy + url
                 url_speed = await get_speed(url)
                 speed = (
                     (tuple(url_info), url_speed)
@@ -178,7 +180,7 @@ async def sort_urls_by_speed_and_resolution(
     """
     Sort by speed and resolution
     """
-    semaphore = asyncio.Semaphore(10)
+    semaphore = asyncio.Semaphore(20)
     response = await asyncio.gather(
         *(
             get_speed_by_info(
