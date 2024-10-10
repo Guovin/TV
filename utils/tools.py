@@ -114,9 +114,10 @@ def get_resolution_value(resolution_str):
     """
     Get resolution value from string
     """
-    numbers = re.findall(r"\d+x\d+", resolution_str)
-    if numbers:
-        width, height = map(int, numbers[0].split("x"))
+    pattern = r"(\d+)[xX*](\d+)"
+    match = re.search(pattern, resolution_str)
+    if match:
+        width, height = map(int, match.groups())
         return width * height
     else:
         return 0
