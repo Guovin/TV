@@ -4,6 +4,7 @@ from utils.tools import (
     get_total_urls_from_info_list,
     check_ipv6_support,
     process_nested_dict,
+    get_resolution_value,
 )
 from utils.speed import (
     sort_urls_by_speed_and_resolution,
@@ -605,7 +606,15 @@ def append_all_method_data_keep_all(
 
 
 async def sort_channel_list(
-    cate, name, info_list, semaphore, ffmpeg=False, ipv6_proxy=None, callback=None
+    cate,
+    name,
+    info_list,
+    semaphore,
+    ffmpeg=False,
+    ipv6_proxy=None,
+    filter_resolution=False,
+    min_resolution=None,
+    callback=None,
 ):
     """
     Sort the channel list
@@ -623,6 +632,10 @@ async def sort_channel_list(
                         date,
                         resolution,
                     ), response_time in sorted_data:
+                        if resolution and filter_resolution:
+                            resolution_value = get_resolution_value(resolution)
+                            if resolution_value < min_resolution:
+                                continue
                         logging.info(
                             f"Name: {name}, URL: {url}, Date: {date}, Resolution: {resolution}, Response Time: {response_time} ms"
                         )
@@ -639,6 +652,8 @@ async def process_sort_channel_list(data, callback=None):
     """
     open_ffmpeg = config.getboolean("Settings", "open_ffmpeg")
     ipv_type = config.get("Settings", "ipv_type").lower()
+    open_filter_resolution = config.getboolean("Settings", "open_filter_resolution")
+    min_resolution = get_resolution_value(config.get("Settings", "min_resolution"))
     open_ipv6 = "ipv6" in ipv_type or "all" in ipv_type or "全部" in ipv_type
     ipv6_proxy = (
         None
@@ -661,6 +676,8 @@ async def process_sort_channel_list(data, callback=None):
                 semaphore,
                 ffmpeg=is_ffmpeg,
                 ipv6_proxy=ipv6_proxy,
+                filter_resolution=open_filter_resolution,
+                min_resolution=min_resolution,
                 callback=callback,
             )
         )
@@ -695,6 +712,10 @@ async def process_sort_channel_list(data, callback=None):
                 if response_time and response_time != float("inf"):
                     if resolution:
                         url = add_info_url(url, resolution)
+                        if open_filter_resolution:
+                            resolution_value = get_resolution_value(resolution)
+                            if resolution_value < min_resolution:
+                                continue
                     append_data_to_info_data(
                         sort_data,
                         cate,
