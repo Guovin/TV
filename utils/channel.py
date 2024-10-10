@@ -522,6 +522,7 @@ def append_all_method_data(
     """
     for cate, channel_obj in items:
         for name, old_info_list in channel_obj.items():
+            print(f"{name}:", end=" ")
             for method, result in [
                 ("hotel_fofa", hotel_fofa_result),
                 ("multicast", multicast_result),
@@ -541,11 +542,7 @@ def append_all_method_data(
                         name,
                         name_results,
                     )
-                    print(
-                        name,
-                        f"{method.capitalize()} num:",
-                        len(name_results),
-                    )
+                    print(f"{method.capitalize()}:", len(name_results), end=", ")
             total_channel_data_len = len(data.get(cate, {}).get(name, []))
             if total_channel_data_len == 0 or config.getboolean(
                 "Settings", "open_use_old_result"
@@ -556,10 +553,9 @@ def append_all_method_data(
                     name,
                     old_info_list,
                 )
-                print(name, "using old num:", len(old_info_list))
+                print("using old:", len(old_info_list), end=", ")
             print(
-                name,
-                "total num:",
+                "total:",
                 len(data.get(cate, {}).get(name, [])),
             )
 
@@ -590,8 +586,9 @@ def append_all_method_data_keep_all(
                 ) and config.getboolean("Settings", f"open_hotel") == False:
                     continue
                 for name, urls in result.items():
+                    print(f"{name}:", end=" ")
                     append_data_to_info_data(data, cate, name, urls)
-                    print(name, f"{method.capitalize()} num:", len(urls))
+                    print(name, f"{method.capitalize()}:", len(urls), end=", ")
                     if config.getboolean("Settings", "open_use_old_result"):
                         old_info_list = channel_obj.get(name, [])
                         append_data_to_info_data(
@@ -600,7 +597,11 @@ def append_all_method_data_keep_all(
                             name,
                             old_info_list,
                         )
-                        print(name, "using old num:", len(old_info_list))
+                        print(name, "using old:", len(old_info_list), end=", ")
+                    print(
+                        "total:",
+                        len(data.get(cate, {}).get(name, [])),
+                    )
 
 
 async def sort_channel_list(
@@ -712,11 +713,16 @@ def write_channel_to_file(items, data, callback=None):
     Write channel to file
     """
     for cate, channel_obj in items:
-        for name in channel_obj.keys():
+        print(f"\n{cate}:", end=" ")
+        channel_obj_keys = channel_obj.keys()
+        names_len = len(list(channel_obj_keys))
+        for i, name in enumerate(channel_obj_keys):
             info_list = data.get(cate, {}).get(name, [])
             channel_urls = get_total_urls_from_info_list(info_list)
-            print("write:", cate, name, "num:", len(channel_urls))
+            end_char = ", " if i < names_len - 1 else ""
+            print(f"{name}:", len(channel_urls), end=end_char)
             update_channel_urls_txt(cate, name, channel_urls, callback=callback)
+        print()
 
 
 def get_multicast_fofa_search_org(region, type):
