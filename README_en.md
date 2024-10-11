@@ -100,7 +100,7 @@ pipenv run build
 pipenv run ui
 ```
 
-![Update tool software](./docs/images/ui.png 'Update tool software')
+<img src="./docs/images/ui.png" alt="Update tool software" title="Update tool software" style="height:600px" />
 
 ### Method 4: Docker Update
 
@@ -146,4 +146,5 @@ For example: docker run -v /etc/docker/config:/tv-requests/config -v /etc/docker
 
 ## Appreciate
 
-![image](./static/images/appreciate.jpg)
+<div>If you find it helpful, please give a tip, your support is my motivation to update~</div>
+<img src="./static/images/appreciate.jpg" alt="appreciate code" title="appreciate code" style="height:350px" />
