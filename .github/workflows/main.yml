@@ -50,10 +50,6 @@ jobs:
           except:
             open_ffmpeg = False
           print(open_ffmpeg)')" >> $GITHUB_ENV
-      - name: Install Selenium
-        if: env.OPEN_DRIVER == 'True' || env.OPEN_DRIVER == 'true'
-        run: |
-          sudo pip3 install selenium
       - name: Set up Chrome
         if: env.OPEN_DRIVER == 'True' || env.OPEN_DRIVER == 'true'
         uses: browser-actions/setup-chrome@latest
@@ -62,22 +58,8 @@ jobs:
       - name: Download chrome driver
         if: env.OPEN_DRIVER == 'True' || env.OPEN_DRIVER == 'true'
         uses: nanasess/setup-chromedriver@master
-      - name: Launch chrome driver
-        if: env.OPEN_DRIVER == 'True' || env.OPEN_DRIVER == 'true'
-        run: |
-          export DISPLAY=:99
-          chromedriver --url-base=/wd/hub &
-          sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 & # optional
-      - name: Cache FFmpeg
-        id: cache-ffmpeg
-        uses: actions/cache@v2
-        with:
-          path: /usr/local/bin/ffmpeg
-          key: ${{ runner.os }}-ffmpeg-${{ hashFiles('path/to/ffmpeg/version/file') }}
-          restore-keys: |
-            ${{ runner.os }}-ffmpeg-
       - name: Install FFmpeg if not cached
-        if: steps.cache-ffmpeg.outputs.cache-hit != 'true' && (env.OPEN_FFMPEG == 'True' || env.OPEN_FFMPEG == 'true')
+        if: env.OPEN_FFMPEG == 'True' || env.OPEN_FFMPEG == 'true'
         run: sudo apt-get update && sudo apt-get install -y ffmpeg
       - name: Install pipenv
         run: pip3 install --user pipenv
