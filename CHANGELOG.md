@@ -4,6 +4,7 @@
 
 ### 2024/10/11
 
+- 注意：本次更新涉及配置变更，请以最新 config/config.ini 为准，工作流使用 user_config.ini 或 docker 挂载的用户请及时更新配置文件
 - 新增支持 docker arm64 镜像（#369）
 - 新增分辨率过滤功能（相关配置：open_filter_resolution，min_resolution）
 - 新增显示更新时间（相关配置：open_update_time）
@@ -12,6 +13,7 @@
 - 移除央视台球部分错误组播地址
 - 更新使用教程
 
+- Warning: This update involves configuration changes. Please refer to the latest config.ini. Users of workflow using user_config.ini or Docker mounted configurations should update their configuration files promptly
 - Add support for Docker ARM64 images (#369)
 - Add resolution filtering feature (related configurations: open_filter_resolution, min_resolution)
 - Add display of update time (related configuration: open_update_time)
