@@ -50,10 +50,6 @@ jobs:
           except:
             open_ffmpeg = False
           print(open_ffmpeg)')" >> $GITHUB_ENV
-      - name: Install Selenium
-        if: env.OPEN_DRIVER == 'True' || env.OPEN_DRIVER == 'true'
-        run: |
-          sudo pip3 install selenium
       - name: Set up Chrome
         if: env.OPEN_DRIVER == 'True' || env.OPEN_DRIVER == 'true'
         uses: browser-actions/setup-chrome@latest
@@ -62,12 +58,6 @@ jobs:
       - name: Download chrome driver
         if: env.OPEN_DRIVER == 'True' || env.OPEN_DRIVER == 'true'
         uses: nanasess/setup-chromedriver@master
-      - name: Launch chrome driver
-        if: env.OPEN_DRIVER == 'True' || env.OPEN_DRIVER == 'true'
-        run: |
-          export DISPLAY=:99
-          chromedriver --url-base=/wd/hub &
-          sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 & # optional
       - name: Install FFmpeg
         if: env.OPEN_FFMPEG == 'True' || env.OPEN_FFMPEG == 'true'
         run: sudo apt-get update && sudo apt-get install -y ffmpeg
