@@ -58,7 +58,7 @@ jobs:
       - name: Download chrome driver
         if: env.OPEN_DRIVER == 'True' || env.OPEN_DRIVER == 'true'
         uses: nanasess/setup-chromedriver@master
-      - name: Install FFmpeg if not cached
+      - name: Install FFmpeg
         if: env.OPEN_FFMPEG == 'True' || env.OPEN_FFMPEG == 'true'
         run: sudo apt-get update && sudo apt-get install -y ffmpeg
       - name: Install pipenv
