@@ -9,6 +9,7 @@
 - 新增分辨率过滤功能（相关配置：open_filter_resolution，min_resolution）
 - 新增显示更新时间（相关配置：open_update_time）
 - 优化测速效率（#359）
+- 优化权重值选择交互
 - 调整默认模板，增加默认订阅源
 - 移除央视台球部分错误组播地址
 - 更新使用教程
@@ -18,6 +19,7 @@
 - Add resolution filtering feature (related configurations: open_filter_resolution, min_resolution)
 - Add display of update time (related configuration: open_update_time)
 - Optimize speed testing efficiency (#359)
+- Optimize weight value selection interaction
 - Adjust the default template and add default subscription sources
 - Remove the incorrect multicast addresses for the CCTV Snooker section
 - Update usage guide
