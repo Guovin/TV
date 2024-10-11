@@ -45,7 +45,7 @@ def is_ffmpeg_installed():
         return False
 
 
-async def ffmpeg_url(url):
+async def ffmpeg_url(url, timeout=timeout):
     """
     Get url info by ffmpeg
     """

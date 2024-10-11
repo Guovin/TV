@@ -15,10 +15,11 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.8'
+          update-environment: true
           cache: 'pipenv'
 
       - name: Install pipenv
-        run: pip install pipenv
+        run: pip3 install --user pipenv
 
       - name: Install dependencies with pipenv
         run: pipenv --python 3.8 && pipenv install
