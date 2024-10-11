@@ -738,7 +738,10 @@ def write_channel_to_file(items, data, callback=None):
     """
     open_update_time = config.getboolean("Settings", "open_update_time")
     if open_update_time:
-        update_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        now = datetime.datetime.now()
+        if os.environ.get("GITHUB_ACTIONS"):
+            now += datetime.timedelta(hours=8)
+        update_time = now.strftime("%Y-%m-%d %H:%M:%S")
         update_channel_urls_txt("更新时间", f"{update_time}", ["url"])
     for cate, channel_obj in items:
         print(f"\n{cate}:", end=" ")
