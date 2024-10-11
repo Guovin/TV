@@ -68,8 +68,16 @@ jobs:
           export DISPLAY=:99
           chromedriver --url-base=/wd/hub &
           sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 & # optional
-      - name: Install FFmpeg
-        if: env.OPEN_FFMPEG == 'True' || env.OPEN_FFMPEG == 'true'
+      - name: Cache FFmpeg
+        id: cache-ffmpeg
+        uses: actions/cache@v2
+        with:
+          path: /usr/local/bin/ffmpeg
+          key: ${{ runner.os }}-ffmpeg-${{ hashFiles('path/to/ffmpeg/version/file') }}
+          restore-keys: |
+            ${{ runner.os }}-ffmpeg-
+      - name: Install FFmpeg if not cached
+        if: steps.cache-ffmpeg.outputs.cache-hit != 'true' && (env.OPEN_FFMPEG == 'True' || env.OPEN_FFMPEG == 'true')
         run: sudo apt-get update && sudo apt-get install -y ffmpeg
       - name: Install pipenv
         run: pip3 install --user pipenv
