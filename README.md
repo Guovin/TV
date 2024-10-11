@@ -100,7 +100,7 @@ pipenv run build
 pipenv run ui
 ```
 
-![更新工具软件](./docs/images/ui.png '更新工具软件')
+<img src="./docs/images/ui.png" alt="更新工具软件" title="更新工具软件" style="height:600px" />
 
 ### 方式四：Docker 更新
 
@@ -146,4 +146,5 @@ docker run -d -p 8000:8000 guovern/tv-requests 或 tv-driver
 
 ## 赞赏
 
-![image](./static/images/appreciate.jpg)
+<div>如果对您有帮助，请赞赏，您的赞赏是我更新的动力~</div>
+<img src="./static/images/appreciate.jpg" alt="赞赏码" title="赞赏码" style="height:350px" />
