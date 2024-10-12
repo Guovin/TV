@@ -51,11 +51,11 @@
 
 ## Features
 
-- Custom templates for creating desired channel categories and order
+- Customize the template to generate the channel you want
 - Supports multiple source acquisition methods: multicast source, hotel source, subscription source, online search
 - Interface speed testing and verification, with priority on response time and resolution, filtering out ineffective interfaces
 - Scheduled execution at 6:00 AM and 18:00 PM Beijing time daily
-- Supports various execution methods: workflows, command line, GUI software, Docker
+- Supports various execution methods: workflows, command line, GUI software, Docker(amd64/arm64)
 - For more features, see [Config parameter](./docs/config_en.md)
 
 ## Latest results：
