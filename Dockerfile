@@ -25,14 +25,8 @@ RUN echo "deb https://mirrors.tuna.tsinghua.edu.cn/debian/ bookworm main contrib
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
   cron \
-  xz-utils
-
-COPY tmp/ffmpeg-release-i686-static.tar.xz /tmp/
-
-RUN tar -xf /tmp/ffmpeg-release-i686-static.tar.xz -C /tmp/ \
-  && cp /tmp/ffmpeg-*/ffmpeg /usr/local/bin/ \
-  && cp /tmp/ffmpeg-*/ffprobe /usr/local/bin/ \
-  && rm -rf /tmp/ffmpeg-*
+  xz-utils \
+  ffmpeg
 
 ARG INSTALL_CHROMIUM=false
 
