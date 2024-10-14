@@ -121,7 +121,7 @@ def format_channel_name(name):
         return name
     cc = OpenCC("t2s")
     name = cc.convert(name)
-    sub_pattern = r"-|_|\((.*?)\)|\（(.*?)\）|\[(.*?)\]| |｜|频道|普清|标清|高清|HD|hd|超清|超高|超高清|中央|央视|台"
+    sub_pattern = r"-|_|\((.*?)\)|\（(.*?)\）|\[(.*?)\]|\「(.*?)\」| |｜|频道|普清|标清|高清|HD|hd|超清|超高|超高清|中央|央视|台"
     name = re.sub(sub_pattern, "", name)
     replace_dict = {
         "plus": "+",
