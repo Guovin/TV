@@ -1,6 +1,6 @@
 <div align="center">
   <img src="./static/images/logo.png" alt="logo"/>
-  <h1 align="center">电视直播源更新工具</h1>
+  <h1 align="center">IPTV电视直播源更新工具</h1>
 </div>
 
 <div align="center">自定义频道菜单，根据模板频道，自动获取并更新最新的直播源接口，测速校验后生成可用的接口文件</div>
