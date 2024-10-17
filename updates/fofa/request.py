@@ -15,7 +15,7 @@ from collections import defaultdict
 import pickle
 import threading
 
-timeout = 10
+timeout = config.getint("Settings", "request_timeout") or 10
 
 
 def get_fofa_urls_from_region_list():

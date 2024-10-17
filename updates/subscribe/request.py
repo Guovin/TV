@@ -9,7 +9,7 @@ from utils.tools import merge_objects, get_pbar_remaining, format_url_with_cache
 from concurrent.futures import ThreadPoolExecutor
 from collections import defaultdict
 
-timeout = 10
+timeout = config.getint("Settings", "request_timeout") or 10
 
 
 async def get_channels_by_subscribe_urls(

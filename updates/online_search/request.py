@@ -25,6 +25,8 @@ from tqdm.asyncio import tqdm_asyncio
 from concurrent.futures import ThreadPoolExecutor
 from requests_custom.utils import get_soup_requests, close_session
 
+timeout = config.getint("Settings", "request_timeout") or 10
+
 
 async def use_accessible_url(callback):
     """
@@ -33,8 +35,8 @@ async def use_accessible_url(callback):
     callback(f"正在获取最优的在线检索节点", 0)
     baseUrl1 = "https://www.foodieguide.com/iptvsearch/"
     baseUrl2 = "http://tonkiang.us/"
-    task1 = create_task(get_speed(baseUrl1, timeout=30))
-    task2 = create_task(get_speed(baseUrl2, timeout=30))
+    task1 = create_task(get_speed(baseUrl1, timeout=timeout))
+    task2 = create_task(get_speed(baseUrl2, timeout=timeout))
     task_results = await gather(task1, task2)
     callback(f"获取在线检索节点完成", 100)
     if task_results[0] == float("inf") and task_results[1] == float("inf"):

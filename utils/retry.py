@@ -2,9 +2,10 @@ from time import sleep
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
+from utils.config import config
 
 max_retries = 2
-timeout = 10
+timeout = config.getint("Settings", "request_timeout") or 10
 
 
 def retry_func(func, retries=max_retries, name=""):

@@ -6,7 +6,7 @@ from utils.config import config
 from utils.tools import is_ipv6, get_resolution_value
 import subprocess
 
-timeout = 5
+timeout = config.getint("Settings", "sort_timeout") or 5
 
 
 async def get_speed(url, timeout=timeout, proxy=None):
