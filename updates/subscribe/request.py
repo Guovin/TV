@@ -3,13 +3,12 @@ from tqdm.asyncio import tqdm_asyncio
 from time import time
 from requests import Session, exceptions
 from utils.retry import retry_func
-import re
-from utils.channel import format_channel_name
+from utils.channel import get_name_url, format_channel_name
 from utils.tools import merge_objects, get_pbar_remaining, format_url_with_cache
 from concurrent.futures import ThreadPoolExecutor
 from collections import defaultdict
 
-timeout = 10
+timeout = config.getint("Settings", "request_timeout") or 10
 
 
 async def get_channels_by_subscribe_urls(
@@ -69,24 +68,16 @@ async def get_channels_by_subscribe_urls(
             if response:
                 response.encoding = "utf-8"
                 content = response.text
-                lines = content.split("\n")
-                for line in lines:
-                    matcher = re.match(pattern, line)
-                    if matcher is not None:
-                        key = matcher.group(1).strip()
-                        resolution_match = re.search(r"_(\((.*?)\))", key)
-                        resolution = (
-                            resolution_match.group(2)
-                            if resolution_match is not None
-                            else None
+                data = get_name_url(content)
+                for item in data:
+                    name = item["name"]
+                    url = item["url"]
+                    if name and url:
+                        url = format_url_with_cache(
+                            url, cache=subscribe_url if with_cache else None
                         )
-                        url = matcher.group(2).strip()
-                        if with_cache:
-                            url = f"{url}$cache:{subscribe_url}"
-                        else:
-                            url = format_url_with_cache(url)
-                        value = url if multicast else (url, None, resolution)
-                        name = format_channel_name(key)
+                        value = url if multicast else (url, None, None)
+                        name = format_channel_name(name)
                         if name in channels:
                             if multicast:
                                 if value not in channels[name][region][type]:

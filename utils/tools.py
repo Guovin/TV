@@ -382,12 +382,11 @@ def get_ip(url):
     return None
 
 
-def format_url_with_cache(url):
+def format_url_with_cache(url, cache=None):
     """
     Format the URL with cache
     """
-    ip = get_ip(url)
-    if ip:
-        return f"{url}$cache:{ip}"
-    else:
-        return url
+    if not cache:
+        cache = get_ip(url) or ""
+
+    return f"{url}$cache:{cache}"

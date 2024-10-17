@@ -1,6 +1,6 @@
 <div align="center">
   <img src="./static/images/logo.png" alt="logo"/>
-  <h1 align="center">Live TV source update tool</h1>
+  <h1 align="center">IPTV live TV source update tool</h1>
 </div>
 
 <div align="justify">Customize the channel menu, automatically obtain and update the latest live source interfaces based on the template channels, and generate available interface files after speed test verification.</div>
