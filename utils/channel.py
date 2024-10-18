@@ -105,9 +105,11 @@ def get_channel_items():
     """
     Get the channel items from the source file
     """
-    user_source_file = config.get("Settings", "source_file")
+    user_source_file = config.get("Settings", "source_file", fallback="config/demo.txt")
     channels = defaultdict(lambda: defaultdict(list))
-    open_use_old_result = config.getboolean("Settings", "open_use_old_result")
+    open_use_old_result = config.getboolean(
+        "Settings", "open_use_old_result", fallback=True
+    )
 
     if os.path.exists(resource_path(user_source_file)):
         with open(resource_path(user_source_file), "r", encoding="utf-8") as file:
@@ -132,7 +134,7 @@ def format_channel_name(name):
     """
     Format the channel name with sub and replace and lower
     """
-    if config.getboolean("Settings", "open_keep_all"):
+    if config.getboolean("Settings", "open_keep_all", fallback=False):
         return name
     cc = OpenCC("t2s")
     name = cc.convert(name)
@@ -180,7 +182,7 @@ def channel_name_is_equal(name1, name2):
     """
     Check if the channel name is equal
     """
-    if config.getboolean("Settings", "open_keep_all"):
+    if config.getboolean("Settings", "open_keep_all", fallback=False):
         return True
     name1_format = format_channel_name(name1)
     name2_format = format_channel_name(name2)
@@ -260,7 +262,9 @@ def get_channel_multicast_region_type_list(result):
     """
     config_region_list = set(
         region.strip()
-        for region in config.get("Settings", "multicast_region_list").split(",")
+        for region in config.get(
+            "Settings", "multicast_region_list", fallback="全部"
+        ).split(",")
         if region.strip()
     )
     region_type_list = {
@@ -281,7 +285,7 @@ def get_channel_multicast_result(result, search_result):
     Get the channel multicast info result by result and search result
     """
     info_result = {}
-    open_sort = config.getboolean("Settings", "open_sort")
+    open_sort = config.getboolean("Settings", "open_sort", fallback=True)
     for name, result_obj in result.items():
         info_list = [
             (
@@ -521,7 +525,7 @@ def append_total_data(*args, **kwargs):
     """
     Append total channel data
     """
-    if config.getboolean("Settings", "open_keep_all"):
+    if config.getboolean("Settings", "open_keep_all", fallback=False):
         append_all_method_data_keep_all(*args, **kwargs)
     else:
         append_all_method_data(*args, **kwargs)
@@ -549,10 +553,12 @@ def append_all_method_data(
                 ("subscribe", subscribe_result),
                 ("online_search", online_search_result),
             ]:
-                if config.getboolean("Settings", f"open_{method}"):
+                if config.getboolean("Settings", f"open_{method}", fallback=None):
                     if (
                         method == "hotel_tonkiang" or method == "hotel_fofa"
-                    ) and config.getboolean("Settings", f"open_hotel") == False:
+                    ) and config.getboolean(
+                        "Settings", f"open_hotel", fallback=True
+                    ) == False:
                         continue
                     name_results = get_channel_results_by_name(name, result)
                     append_data_to_info_data(
@@ -564,7 +570,7 @@ def append_all_method_data(
                     print(f"{method.capitalize()}:", len(name_results), end=", ")
             total_channel_data_len = len(data.get(cate, {}).get(name, []))
             if total_channel_data_len == 0 or config.getboolean(
-                "Settings", "open_use_old_result"
+                "Settings", "open_use_old_result", fallback=True
             ):
                 append_data_to_info_data(
                     data,
@@ -599,16 +605,22 @@ def append_all_method_data_keep_all(
             ("subscribe", subscribe_result),
             ("online_search", online_search_result),
         ]:
-            if result and config.getboolean("Settings", f"open_{method}"):
+            if result and config.getboolean(
+                "Settings", f"open_{method}", fallback=None
+            ):
                 if (
                     method == "hotel_tonkiang" or method == "hotel_fofa"
-                ) and config.getboolean("Settings", f"open_hotel") == False:
+                ) and config.getboolean(
+                    "Settings", f"open_hotel", fallback=True
+                ) == False:
                     continue
                 for name, urls in result.items():
                     print(f"{name}:", end=" ")
                     append_data_to_info_data(data, cate, name, urls)
                     print(name, f"{method.capitalize()}:", len(urls), end=", ")
-                    if config.getboolean("Settings", "open_use_old_result"):
+                    if config.getboolean(
+                        "Settings", "open_use_old_result", fallback=True
+                    ):
                         old_info_list = channel_obj.get(name, [])
                         append_data_to_info_data(
                             data,
@@ -668,10 +680,14 @@ async def process_sort_channel_list(data, callback=None):
     """
     Processs the sort channel list
     """
-    open_ffmpeg = config.getboolean("Settings", "open_ffmpeg")
-    ipv_type = config.get("Settings", "ipv_type").lower()
-    open_filter_resolution = config.getboolean("Settings", "open_filter_resolution")
-    min_resolution = get_resolution_value(config.get("Settings", "min_resolution"))
+    open_ffmpeg = config.getboolean("Settings", "open_ffmpeg", fallback=True)
+    ipv_type = config.get("Settings", "ipv_type", fallback="全部").lower()
+    open_filter_resolution = config.getboolean(
+        "Settings", "open_filter_resolution", fallback=True
+    )
+    min_resolution = get_resolution_value(
+        config.get("Settings", "min_resolution", fallback="1920x1080")
+    )
     open_ipv6 = "ipv6" in ipv_type or "all" in ipv_type or "全部" in ipv_type
     ipv6_proxy = (
         None
@@ -752,7 +768,7 @@ def write_channel_to_file(items, data, callback=None):
     """
     Write channel to file
     """
-    open_update_time = config.getboolean("Settings", "open_update_time")
+    open_update_time = config.getboolean("Settings", "open_update_time", fallback=True)
     if open_update_time:
         now = datetime.datetime.now()
         if os.environ.get("GITHUB_ACTIONS"):
@@ -794,7 +810,7 @@ def get_multicast_fofa_search_urls():
     """
     config_region_list = [
         region.strip()
-        for region in config.get("Settings", "multicast_region_list").split(",")
+        for region in config.get("Settings", "multicast_region_list", fallback="全部").split(",")
         if region.strip()
     ]
     rtp_file_names = []

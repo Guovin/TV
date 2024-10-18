@@ -17,7 +17,7 @@ class SubscribeUI:
         )
         self.open_subscribe_label.pack(side=tk.LEFT, padx=4, pady=8)
         self.open_subscribe_var = tk.BooleanVar(
-            value=config.getboolean("Settings", "open_subscribe")
+            value=config.getboolean("Settings", "open_subscribe", fallback=True)
         )
         self.open_subscribe_checkbutton = ttk.Checkbutton(
             frame_subscribe_open_subscribe,
@@ -42,7 +42,7 @@ class SubscribeUI:
             side=tk.LEFT, padx=4, pady=8, expand=True, fill=tk.BOTH
         )
         self.subscribe_urls_text.insert(
-            tk.END, config.get("Settings", "subscribe_urls")
+            tk.END, config.get("Settings", "subscribe_urls", fallback="")
         )
         self.subscribe_urls_text.bind("<KeyRelease>", self.update_subscribe_urls)
 

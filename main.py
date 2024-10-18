@@ -95,13 +95,15 @@ class UpdateSource:
         for setting, task_func, result_attr in tasks_config:
             if (
                 setting == "open_hotel_tonkiang" or setting == "open_hotel_fofa"
-            ) and config.getboolean("Settings", "open_hotel") == False:
+            ) and config.getboolean("Settings", "open_hotel", fallback=True) == False:
                 continue
-            if config.getboolean("Settings", setting):
+            if config.getboolean("Settings", setting, fallback=True):
                 if setting == "open_subscribe":
                     subscribe_urls = [
                         url.strip()
-                        for url in config.get("Settings", "subscribe_urls").split(",")
+                        for url in config.get(
+                            "Settings", "subscribe_urls", fallback=""
+                        ).split(",")
                         if url.strip()
                     ]
                     task = asyncio.create_task(
@@ -159,7 +161,7 @@ class UpdateSource:
             )
             urls_total = self.get_urls_len()
             channel_data_cache = copy.deepcopy(self.channel_data)
-            open_sort = config.getboolean("Settings", "open_sort")
+            open_sort = config.getboolean("Settings", "open_sort", fallback=True)
             if open_sort:
                 self.total = self.get_urls_len(filter=True)
                 print(f"Total urls: {urls_total}, need to sort: {self.total}")
@@ -185,7 +187,9 @@ class UpdateSource:
                 callback=lambda: self.pbar_update(name="写入结果"),
             )
             self.pbar.close()
-            user_final_file = config.get("Settings", "final_file")
+            user_final_file = config.get(
+                "Settings", "final_file", fallback="output/result.txt"
+            )
             update_file(user_final_file, "output/result_new.txt")
             if os.path.exists(user_final_file):
                 result_file = (
@@ -194,7 +198,7 @@ class UpdateSource:
                     else "result.txt"
                 )
                 shutil.copy(user_final_file, result_file)
-            if config.getboolean("Settings", "open_use_old_result"):
+            if config.getboolean("Settings", "open_use_old_result", fallback=True):
                 if open_sort:
                     get_channel_data_cache_with_compare(
                         channel_data_cache, self.channel_data
@@ -218,7 +222,8 @@ class UpdateSource:
             if self.run_ui:
                 tip = (
                     "服务启动成功, 可使用以下链接观看直播:"
-                    if config.getboolean("Settings", "open_update") == False
+                    if config.getboolean("Settings", "open_update", fallback=True)
+                    == False
                     else f"更新完成, 耗时: {total_time}, 请检查{user_final_file}文件, 可使用以下链接观看直播:"
                 )
                 self.update_progress(
@@ -239,7 +244,7 @@ class UpdateSource:
 
         self.update_progress = callback or default_callback
         self.run_ui = True if callback else False
-        if config.getboolean("Settings", "open_update"):
+        if config.getboolean("Settings", "open_update", fallback=True):
             setup_logging()
             await self.main()
 
@@ -252,7 +257,7 @@ class UpdateSource:
 
 
 def scheduled_task():
-    if config.getboolean("Settings", "open_update"):
+    if config.getboolean("Settings", "open_update", fallback=True):
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
         update_source = UpdateSource()
