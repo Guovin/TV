@@ -20,7 +20,7 @@ def get_proxy_list(page_count=1):
     ]
     proxy_list = []
     urls = []
-    open_driver = config.getboolean("Settings", "open_driver")
+    open_driver = config.getboolean("Settings", "open_driver", fallback=True)
     for page_index in range(1, page_count + 1):
         for pattern in url_pattern:
             url = pattern.format(page_index)

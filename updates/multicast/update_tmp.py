@@ -105,7 +105,9 @@ def get_multicast_region_result_by_rtp_txt(callback=None):
     rtp_path = resource_path("config/rtp")
     config_region_list = set(
         region.strip()
-        for region in config.get("Settings", "multicast_region_list").split(",")
+        for region in config.get(
+            "Settings", "multicast_region_list", fallback="全部"
+        ).split(",")
         if region.strip()
     )
     rtp_file_list = [

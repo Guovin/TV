@@ -34,11 +34,15 @@ async def get_channels_by_multicast(names, callback=None):
     channels = {}
     pageUrl = "http://tonkiang.us/hoteliptv.php"
     proxy = None
-    open_multicast_tonkiang = config.getboolean("Settings", "open_multicast_tonkiang")
-    open_multicast_fofa = config.getboolean("Settings", "open_multicast_fofa")
-    open_proxy = config.getboolean("Settings", "open_proxy")
-    open_driver = config.getboolean("Settings", "open_driver")
-    page_num = config.getint("Settings", "multicast_page_num")
+    open_multicast_tonkiang = config.getboolean(
+        "Settings", "open_multicast_tonkiang", fallback=True
+    )
+    open_multicast_fofa = config.getboolean(
+        "Settings", "open_multicast_fofa", fallback=True
+    )
+    open_proxy = config.getboolean("Settings", "open_proxy", fallback=False)
+    open_driver = config.getboolean("Settings", "open_driver", fallback=True)
+    page_num = config.getint("Settings", "multicast_page_num", fallback=3)
     if open_proxy:
         proxy = await get_proxy(pageUrl, best=True, with_test=True)
     multicast_region_result = get_multicast_region_result_by_rtp_txt(callback=callback)

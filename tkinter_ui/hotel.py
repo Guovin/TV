@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
-from utils.config import config, resource_path
+from utils.config import config
 from select_combobox import SelectCombobox
 import updates.fofa.fofa_map as fofa_map
 
@@ -18,7 +18,7 @@ class HotelUI:
         )
         self.open_hotel_label.pack(side=tk.LEFT, padx=4, pady=8)
         self.open_hotel_var = tk.BooleanVar(
-            value=config.getboolean("Settings", "open_hotel")
+            value=config.getboolean("Settings", "open_hotel", fallback=True)
         )
         self.open_hotel_checkbutton = ttk.Checkbutton(
             frame_hotel_open_hotel,
@@ -37,7 +37,7 @@ class HotelUI:
         )
         self.open_hotel_mode_label.pack(side=tk.LEFT, padx=4, pady=8)
         self.open_hotel_tonkiang_var = tk.BooleanVar(
-            value=config.getboolean("Settings", "open_hotel_tonkiang")
+            value=config.getboolean("Settings", "open_hotel_tonkiang", fallback=False)
         )
         self.open_hotel_tonkiang_checkbutton = ttk.Checkbutton(
             frame_hotel_mode,
@@ -50,7 +50,7 @@ class HotelUI:
         self.open_hotel_tonkiang_checkbutton.pack(side=tk.LEFT, padx=4, pady=8)
 
         self.open_hotel_fofa_var = tk.BooleanVar(
-            value=config.getboolean("Settings", "open_hotel_fofa")
+            value=config.getboolean("Settings", "open_hotel_fofa", fallback=True)
         )
         self.open_hotel_fofa_checkbutton = ttk.Checkbutton(
             frame_hotel_mode,
@@ -72,7 +72,9 @@ class HotelUI:
         regions = ["全部"] + list(getattr(fofa_map, "region_url").keys())
         region_selected_values = [
             value.strip()
-            for value in config.get("Settings", "hotel_region_list").split(",")
+            for value in config.get(
+                "Settings", "hotel_region_list", fallback="全部"
+            ).split(",")
             if value.strip()
         ]
         self.region_list_combo = SelectCombobox(
@@ -93,7 +95,9 @@ class HotelUI:
         self.page_num_label.pack(side=tk.LEFT, padx=4, pady=8)
         self.page_num_entry = tk.Entry(frame_hotel_page_num)
         self.page_num_entry.pack(side=tk.LEFT, padx=4, pady=8)
-        self.page_num_entry.insert(0, config.getint("Settings", "hotel_page_num"))
+        self.page_num_entry.insert(
+            0, config.getint("Settings", "hotel_page_num", fallback=3)
+        )
         self.page_num_entry.bind("<KeyRelease>", self.update_page_num)
 
     def update_open_hotel(self):

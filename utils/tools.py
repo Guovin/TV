@@ -70,14 +70,14 @@ def filter_by_date(data):
     Filter by date and limit
     """
     default_recent_days = 30
-    use_recent_days = config.getint("Settings", "recent_days")
+    use_recent_days = config.getint("Settings", "recent_days", fallback=30)
     if not isinstance(use_recent_days, int) or use_recent_days <= 0:
         use_recent_days = default_recent_days
     start_date = datetime.datetime.now() - datetime.timedelta(days=use_recent_days)
     recent_data = []
     unrecent_data = []
-    for (url, date, resolution), response_time in data:
-        item = ((url, date, resolution), response_time)
+    for (url, date, resolution, origin), response_time in data:
+        item = ((url, date, resolution, origin), response_time)
         if date:
             date = datetime.datetime.strptime(date, "%m-%d-%Y")
             if date >= start_date:
@@ -87,12 +87,11 @@ def filter_by_date(data):
         else:
             unrecent_data.append(item)
     recent_data_len = len(recent_data)
+    urls_limit = config.getint("Settings", "urls_limit", fallback=30)
     if recent_data_len == 0:
         recent_data = unrecent_data
-    elif recent_data_len < config.getint("Settings", "urls_limit"):
-        recent_data.extend(
-            unrecent_data[: config.getint("Settings", "urls_limit") - len(recent_data)]
-        )
+    elif recent_data_len < urls_limit:
+        recent_data.extend(unrecent_data[: urls_limit - len(recent_data)])
     return recent_data
 
 
@@ -127,16 +126,82 @@ def get_total_urls_from_info_list(infoList):
     """
     Get the total urls from info list
     """
-    open_filter_resolution = config.getboolean("Settings", "open_filter_resolution")
-    min_resolution = get_resolution_value(config.get("Settings", "min_resolution"))
-    total_urls = []
-    for url, _, resolution in infoList:
+    open_filter_resolution = config.getboolean(
+        "Settings", "open_filter_resolution", fallback=True
+    )
+    ipv_type_prefer = (
+        config.get("Settings", "ipv_type_prefer", fallback="ipv4")
+        .split(",", 1)[0]
+        .lower()
+    )
+    origin_type_prefer = [
+        origin.lower()
+        for origin in config.get(
+            "Settings",
+            "origin_type_prefer",
+            fallback="hotel,multicast,subscribe,online_search",
+        ).split(",")
+    ]
+
+    source_limits = {
+        "hotel": config.getint("Settings", "hotel_num", fallback=10),
+        "multicast": config.getint("Settings", "multicast_num", fallback=10),
+        "subscribe": config.getint("Settings", "subscribe_num", fallback=10),
+        "online_search": config.getint("Settings", "online_search_num", fallback=10),
+    }
+    ipv_limits = {
+        "ipv4": config.getint("Settings", "ipv4_num", fallback=15),
+        "ipv6": config.getint("Settings", "ipv6_num", fallback=15),
+    }
+
+    min_resolution = get_resolution_value(
+        config.get("Settings", "min_resolution", fallback="1920x1080")
+    )
+
+    categorized_urls = {
+        origin: {"ipv4": [], "ipv6": []} for origin in origin_type_prefer
+    }
+
+    for url, _, resolution, origin in infoList:
         if open_filter_resolution and resolution:
             resolution_value = get_resolution_value(resolution)
             if resolution_value < min_resolution:
                 continue
-        total_urls.append(url)
-    return list(dict.fromkeys(total_urls))[: config.getint("Settings", "urls_limit")]
+
+        if origin.lower() not in origin_type_prefer:
+            continue
+
+        if (
+            ipv_type_prefer == "ipv4"
+            and len(categorized_urls[origin]["ipv4"]) < ipv_limits["ipv4"]
+        ):
+            categorized_urls[origin]["ipv4"].append(url)
+        elif (
+            ipv_type_prefer == "ipv6"
+            and len(categorized_urls[origin]["ipv6"]) < ipv_limits["ipv6"]
+            and "IPv6" in url
+        ):
+            categorized_urls[origin]["ipv6"].append(url)
+
+    total_urls = []
+    for origin in origin_type_prefer:
+        for ipv_type in ["ipv4", "ipv6"]:
+            total_urls.extend(
+                categorized_urls[origin][ipv_type][: source_limits[origin]]
+            )
+
+    urls_limit = config.getint("Settings", "urls_limit", fallback=30)
+    if len(total_urls) < urls_limit:
+        for origin in origin_type_prefer:
+            for ipv_type in ["ipv4", "ipv6"]:
+                extra_urls = categorized_urls[origin][ipv_type][source_limits[origin] :]
+                total_urls.extend(extra_urls)
+                if len(total_urls) >= urls_limit:
+                    break
+            if len(total_urls) >= urls_limit:
+                break
+
+    return list(dict.fromkeys(total_urls))[:urls_limit]
 
 
 def get_total_urls_from_sorted_data(data):
@@ -144,11 +209,12 @@ def get_total_urls_from_sorted_data(data):
     Get the total urls with filter by date and depulicate from sorted data
     """
     total_urls = []
-    if len(data) > config.getint("Settings", "urls_limit"):
-        total_urls = [url for (url, _, _), _ in filter_by_date(data)]
+    urls_limit = config.getint("Settings", "urls_limit", fallback=30)
+    if len(data) > urls_limit:
+        total_urls = [url for (url, _, _, _), _ in filter_by_date(data)]
     else:
-        total_urls = [url for (url, _, _), _ in data]
-    return list(dict.fromkeys(total_urls))[: config.getint("Settings", "urls_limit")]
+        total_urls = [url for (url, _, _, _), _ in data]
+    return list(dict.fromkeys(total_urls))[:urls_limit]
 
 
 def is_ipv6(url):
@@ -184,7 +250,7 @@ def check_url_ipv_type(url):
     """
     Check if the url is compatible with the ipv type in the config
     """
-    ipv_type = config.get("Settings", "ipv_type")
+    ipv_type = config.get("Settings", "ipv_type", fallback="全部")
     if ipv_type == "ipv4":
         return not is_ipv6(url)
     elif ipv_type == "ipv6":
@@ -199,7 +265,7 @@ def check_by_domain_blacklist(url):
     """
     domain_blacklist = [
         (parsed_domain.netloc if parsed_domain.scheme else stripped_domain)
-        for domain in config.get("Settings", "domain_blacklist").split(",")
+        for domain in config.get("Settings", "domain_blacklist", fallback="").split(",")
         if (stripped_domain := domain.strip())
         and (parsed_domain := urlparse(stripped_domain))
     ]
@@ -212,7 +278,9 @@ def check_by_url_keywords_blacklist(url):
     """
     url_keywords_blacklist = [
         keyword.strip()
-        for keyword in config.get("Settings", "url_keywords_blacklist").split(",")
+        for keyword in config.get(
+            "Settings", "url_keywords_blacklist", fallback=""
+        ).split(",")
         if keyword.strip()
     ]
     return not any(keyword in url for keyword in url_keywords_blacklist)
@@ -288,7 +356,7 @@ def convert_to_m3u():
     """
     Convert result txt to m3u format
     """
-    user_final_file = config.get("Settings", "final_file")
+    user_final_file = config.get("Settings", "final_file", fallback="output/result.txt")
     if os.path.exists(resource_path(user_final_file)):
         with open(resource_path(user_final_file), "r", encoding="utf-8") as file:
             m3u_output = '#EXTM3U x-tvg-url="https://live.fanmingming.com/e.xml"\n'
@@ -299,9 +367,10 @@ def convert_to_m3u():
                     if "#genre#" in trimmed_line:
                         current_group = trimmed_line.replace(",#genre#", "").strip()
                     else:
-                        original_channel_name, channel_link = map(
-                            str.strip, trimmed_line.split(",")
-                        )
+                        parts = list(map(str.strip, trimmed_line.split(",", 1)))
+                        if len(parts) != 2:
+                            continue
+                        original_channel_name, channel_link = parts
                         processed_channel_name = re.sub(
                             r"(CCTV|CETV)-(\d+)(\+.*)?",
                             lambda m: f"{m.group(1)}{m.group(2)}"
@@ -322,8 +391,8 @@ def get_result_file_content(show_result=False):
     """
     Get the content of the result file
     """
-    user_final_file = config.get("Settings", "final_file")
-    if config.getboolean("Settings", "open_m3u_result"):
+    user_final_file = config.get("Settings", "final_file", fallback="output/result.txt")
+    if config.getboolean("Settings", "open_m3u_result", fallback=True):
         user_final_file = os.path.splitext(resource_path(user_final_file))[0] + ".m3u"
         if show_result == False:
             return send_file(user_final_file, as_attachment=True)

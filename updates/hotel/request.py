@@ -32,12 +32,14 @@ async def get_channels_by_hotel(callback=None):
     channels = {}
     pageUrl = "http://tonkiang.us/hoteliptv.php"
     proxy = None
-    open_proxy = config.getboolean("Settings", "open_proxy")
-    open_driver = config.getboolean("Settings", "open_driver")
-    page_num = config.getint("Settings", "hotel_page_num")
+    open_proxy = config.getboolean("Settings", "open_proxy", fallback=False)
+    open_driver = config.getboolean("Settings", "open_driver", fallback=True)
+    page_num = config.getint("Settings", "hotel_page_num", fallback=3)
     region_list = [
         region.strip()
-        for region in config.get("Settings", "hotel_region_list").split(",")
+        for region in config.get(
+            "Settings", "hotel_region_list", fallback="全部"
+        ).split(",")
         if region.strip()
     ]
     if "all" in region_list or "ALL" in region_list or "全部" in region_list:
@@ -183,7 +185,7 @@ async def get_channels_by_hotel(callback=None):
         for result in search_region_result.values()
         for url, _, _ in result
     ]
-    open_sort = config.getboolean("Settings", "open_sort")
+    open_sort = config.getboolean("Settings", "open_sort", fallback=True)
     channels = await get_channels_by_subscribe_urls(
         urls, hotel=True, retry=False, error_print=False, with_cache=open_sort
     )

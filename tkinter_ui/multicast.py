@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
 from utils.config import config, resource_path
-import json
 from select_combobox import SelectCombobox
 import os
 
@@ -20,7 +19,7 @@ class MulticastUI:
         )
         self.open_multicast_label.pack(side=tk.LEFT, padx=4, pady=8)
         self.open_multicast_var = tk.BooleanVar(
-            value=config.getboolean("Settings", "open_multicast")
+            value=config.getboolean("Settings", "open_multicast", fallback=True)
         )
         self.open_multicast_checkbutton = ttk.Checkbutton(
             frame_multicast_multicast,
@@ -39,7 +38,9 @@ class MulticastUI:
         )
         self.open_multicast_mode_label.pack(side=tk.LEFT, padx=4, pady=8)
         self.open_multicast_tonkiang_var = tk.BooleanVar(
-            value=config.getboolean("Settings", "open_multicast_tonkiang")
+            value=config.getboolean(
+                "Settings", "open_multicast_tonkiang", fallback=True
+            )
         )
         self.open_multicast_tonkiang_checkbutton = ttk.Checkbutton(
             frame_multicast_mode,
@@ -52,7 +53,7 @@ class MulticastUI:
         self.open_multicast_tonkiang_checkbutton.pack(side=tk.LEFT, padx=4, pady=8)
 
         self.open_multicast_fofa_var = tk.BooleanVar(
-            value=config.getboolean("Settings", "open_multicast_fofa")
+            value=config.getboolean("Settings", "open_multicast_fofa", fallback=True)
         )
         self.open_multicast_fofa_checkbutton = ttk.Checkbutton(
             frame_multicast_mode,
@@ -87,7 +88,9 @@ class MulticastUI:
         regions.insert(0, "全部")
         region_selected_values = [
             value.strip()
-            for value in config.get("Settings", "multicast_region_list").split(",")
+            for value in config.get(
+                "Settings", "multicast_region_list", fallback="全部"
+            ).split(",")
             if value.strip()
         ]
         self.region_list_combo = SelectCombobox(
@@ -110,7 +113,9 @@ class MulticastUI:
         self.page_num_label.pack(side=tk.LEFT, padx=4, pady=8)
         self.page_num_entry = tk.Entry(frame_multicast_page_num)
         self.page_num_entry.pack(side=tk.LEFT, padx=4, pady=8)
-        self.page_num_entry.insert(0, config.getint("Settings", "multicast_page_num"))
+        self.page_num_entry.insert(
+            0, config.getint("Settings", "multicast_page_num", fallback=3)
+        )
         self.page_num_entry.bind("<KeyRelease>", self.update_page_num)
 
     def update_open_multicast(self):
