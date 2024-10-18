@@ -43,7 +43,7 @@ exe = EXE(
     a.binaries,
     a.datas,
     [],
-    name='update-tool',
+    name='iptv-update-tool',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
