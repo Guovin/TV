@@ -455,7 +455,7 @@ def get_channel_url(text):
     Get the url from text
     """
     url = None
-    urlRegex = r"((http|https)://)?((([0-9]{1,3}\.){3}[0-9]{1,3})|([a-zA-Z0-9-]+\.[a-zA-Z]{2,}))(:[0-9]+)?(/[a-zA-Z0-9-._~:/?#[\]@!$&'()*+,;=%]*)?"
+    urlRegex = r"\b((https?):\/\/)?(([\w-]+\.)+[\w-]+)(:[0-9]{1,5})?(\/[^\s]*)?\b"
     url_search = re.search(
         urlRegex,
         text,
