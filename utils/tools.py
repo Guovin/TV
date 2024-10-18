@@ -168,7 +168,7 @@ def get_total_urls_from_info_list(infoList):
             if resolution_value < min_resolution:
                 continue
 
-        if origin.lower() not in origin_type_prefer:
+        if not origin or origin.lower() not in origin_type_prefer:
             continue
 
         if (
@@ -367,10 +367,12 @@ def convert_to_m3u():
                     if "#genre#" in trimmed_line:
                         current_group = trimmed_line.replace(",#genre#", "").strip()
                     else:
-                        parts = list(map(str.strip, trimmed_line.split(",", 1)))
-                        if len(parts) != 2:
+                        try:
+                            original_channel_name, channel_link = map(
+                                str.strip, trimmed_line.split(",", 1)
+                            )
+                        except:
                             continue
-                        original_channel_name, channel_link = parts
                         processed_channel_name = re.sub(
                             r"(CCTV|CETV)-(\d+)(\+.*)?",
                             lambda m: f"{m.group(1)}{m.group(2)}"

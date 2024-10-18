@@ -516,15 +516,12 @@ def append_data_to_info_data(info_data, cate, name, data, origin=None, check=Tru
     Append channel data to total info data
     """
     init_info_data(info_data, cate, name)
-    for item in data:
-        if len(item) == 4:
-            url, date, resolution, origin = item
-        elif len(item) == 3:
-            url, date, resolution = item
-        else:
-            continue
-        if (url and not check) or (url and check and check_url_by_patterns(url)):
-            info_data[cate][name].append((url, date, resolution, origin))
+    try:
+        for url, date, resolution, origin in data:
+            if (url and not check) or (url and check and check_url_by_patterns(url)):
+                info_data[cate][name].append((url, date, resolution, origin))
+    except:
+        pass
 
 
 def append_total_data(*args, **kwargs):
