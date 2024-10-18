@@ -220,19 +220,25 @@ class UpdateSource:
                 f"Update completed! Total time spent: {total_time}. Please check the {user_final_file} file!"
             )
             if self.run_ui:
+                open_service = config.getboolean(
+                    "Settings", "open_service", fallback=True
+                )
+                service_tip = ", 可使用以下链接观看直播:" if open_service else ""
                 tip = (
-                    "服务启动成功, 可使用以下链接观看直播:"
-                    if config.getboolean("Settings", "open_update", fallback=True)
+                    f"服务启动成功{service_tip}"
+                    if open_service
+                    and config.getboolean("Settings", "open_update", fallback=True)
                     == False
-                    else f"更新完成, 耗时: {total_time}, 请检查{user_final_file}文件, 可使用以下链接观看直播:"
+                    else f"更新完成, 耗时: {total_time}, 请检查{user_final_file}文件{service_tip}"
                 )
                 self.update_progress(
                     tip,
                     100,
                     True,
-                    url=f"{get_ip_address()}",
+                    url=f"{get_ip_address()}" if open_service else None,
                 )
-                run_app()
+                if open_service:
+                    run_service()
         except asyncio.exceptions.CancelledError:
             print("Update cancelled!")
         finally:
@@ -264,7 +270,7 @@ def scheduled_task():
         loop.run_until_complete(update_source.start())
 
 
-def run_app():
+def run_service():
     if not os.environ.get("GITHUB_ACTIONS"):
         ip_address = get_ip_address()
         print(f"You can use this url to watch the live stream: {ip_address}")
@@ -276,4 +282,5 @@ def run_app():
 if __name__ == "__main__":
     if len(sys.argv) == 1 or (len(sys.argv) > 1 and sys.argv[1] == "scheduled_task"):
         scheduled_task()
-    run_app()
+    if config.getboolean("Settings", "open_service", fallback=True):
+        run_service()
