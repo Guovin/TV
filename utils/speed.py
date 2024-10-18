@@ -133,7 +133,7 @@ async def get_speed_by_info(
     Get the info with speed
     """
     async with semaphore:
-        url, _, resolution = url_info
+        url, _, resolution, _ = url_info
         url_info = list(url_info)
         cache_key = None
         if "$" in url:

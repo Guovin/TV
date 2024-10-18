@@ -76,8 +76,8 @@ def filter_by_date(data):
     start_date = datetime.datetime.now() - datetime.timedelta(days=use_recent_days)
     recent_data = []
     unrecent_data = []
-    for (url, date, resolution), response_time in data:
-        item = ((url, date, resolution), response_time)
+    for (url, date, resolution, origin), response_time in data:
+        item = ((url, date, resolution, origin), response_time)
         if date:
             date = datetime.datetime.strptime(date, "%m-%d-%Y")
             if date >= start_date:
@@ -129,19 +129,79 @@ def get_total_urls_from_info_list(infoList):
     open_filter_resolution = config.getboolean(
         "Settings", "open_filter_resolution", fallback=True
     )
+    ipv_type_prefer = (
+        config.get("Settings", "ipv_type_prefer", fallback="ipv4")
+        .split(",", 1)[0]
+        .lower()
+    )
+    origin_type_prefer = [
+        origin.lower()
+        for origin in config.get(
+            "Settings",
+            "origin_type_prefer",
+            fallback="hotel,multicast,subscribe,online_search",
+        ).split(",")
+    ]
+
+    source_limits = {
+        "hotel": config.getint("Settings", "hotel_num", fallback=10),
+        "multicast": config.getint("Settings", "multicast_num", fallback=10),
+        "subscribe": config.getint("Settings", "subscribe_num", fallback=10),
+        "online_search": config.getint("Settings", "online_search_num", fallback=10),
+    }
+    ipv_limits = {
+        "ipv4": config.getint("Settings", "ipv4_num", fallback=15),
+        "ipv6": config.getint("Settings", "ipv6_num", fallback=15),
+    }
+
     min_resolution = get_resolution_value(
         config.get("Settings", "min_resolution", fallback="1920x1080")
     )
-    total_urls = []
-    for url, _, resolution in infoList:
+
+    categorized_urls = {
+        origin: {"ipv4": [], "ipv6": []} for origin in origin_type_prefer
+    }
+
+    for url, _, resolution, origin in infoList:
         if open_filter_resolution and resolution:
             resolution_value = get_resolution_value(resolution)
             if resolution_value < min_resolution:
                 continue
-        total_urls.append(url)
-    return list(dict.fromkeys(total_urls))[
-        : config.getint("Settings", "urls_limit", fallback=30)
-    ]
+
+        if origin.lower() not in origin_type_prefer:
+            continue
+
+        if (
+            ipv_type_prefer == "ipv4"
+            and len(categorized_urls[origin]["ipv4"]) < ipv_limits["ipv4"]
+        ):
+            categorized_urls[origin]["ipv4"].append(url)
+        elif (
+            ipv_type_prefer == "ipv6"
+            and len(categorized_urls[origin]["ipv6"]) < ipv_limits["ipv6"]
+            and "IPv6" in url
+        ):
+            categorized_urls[origin]["ipv6"].append(url)
+
+    total_urls = []
+    for origin in origin_type_prefer:
+        for ipv_type in ["ipv4", "ipv6"]:
+            total_urls.extend(
+                categorized_urls[origin][ipv_type][: source_limits[origin]]
+            )
+
+    urls_limit = config.getint("Settings", "urls_limit", fallback=30)
+    if len(total_urls) < urls_limit:
+        for origin in origin_type_prefer:
+            for ipv_type in ["ipv4", "ipv6"]:
+                extra_urls = categorized_urls[origin][ipv_type][source_limits[origin] :]
+                total_urls.extend(extra_urls)
+                if len(total_urls) >= urls_limit:
+                    break
+            if len(total_urls) >= urls_limit:
+                break
+
+    return list(dict.fromkeys(total_urls))[:urls_limit]
 
 
 def get_total_urls_from_sorted_data(data):
@@ -151,9 +211,9 @@ def get_total_urls_from_sorted_data(data):
     total_urls = []
     urls_limit = config.getint("Settings", "urls_limit", fallback=30)
     if len(data) > urls_limit:
-        total_urls = [url for (url, _, _), _ in filter_by_date(data)]
+        total_urls = [url for (url, _, _, _), _ in filter_by_date(data)]
     else:
-        total_urls = [url for (url, _, _), _ in data]
+        total_urls = [url for (url, _, _, _), _ in data]
     return list(dict.fromkeys(total_urls))[:urls_limit]
 
 
@@ -307,9 +367,10 @@ def convert_to_m3u():
                     if "#genre#" in trimmed_line:
                         current_group = trimmed_line.replace(",#genre#", "").strip()
                     else:
-                        original_channel_name, channel_link = map(
-                            str.strip, trimmed_line.split(",")
-                        )
+                        parts = list(map(str.strip, trimmed_line.split(",", 1)))
+                        if len(parts) != 2:
+                            continue
+                        original_channel_name, channel_link = parts
                         processed_channel_name = re.sub(
                             r"(CCTV|CETV)-(\d+)(\+.*)?",
                             lambda m: f"{m.group(1)}{m.group(2)}"

@@ -95,7 +95,7 @@ def get_channel_data_from_file(channels, file, use_old):
                 if name not in category_dict:
                     category_dict[name] = []
                 if use_old and match.group(3):
-                    info = (match.group(3).strip(), None, None)
+                    info = (match.group(3).strip(), None, None, None)
                     if info[0] and info not in category_dict[name]:
                         category_dict[name].append(info)
     return channels
@@ -511,14 +511,20 @@ def init_info_data(data, cate, name):
         data[cate][name] = []
 
 
-def append_data_to_info_data(info_data, cate, name, data, check=True):
+def append_data_to_info_data(info_data, cate, name, data, origin=None, check=True):
     """
     Append channel data to total info data
     """
     init_info_data(info_data, cate, name)
-    for url, date, resolution in data:
+    for item in data:
+        if len(item) == 4:
+            url, date, resolution, origin = item
+        elif len(item) == 3:
+            url, date, resolution = item
+        else:
+            continue
         if (url and not check) or (url and check and check_url_by_patterns(url)):
-            info_data[cate][name].append((url, date, resolution))
+            info_data[cate][name].append((url, date, resolution, origin))
 
 
 def append_total_data(*args, **kwargs):
@@ -561,11 +567,13 @@ def append_all_method_data(
                     ) == False:
                         continue
                     name_results = get_channel_results_by_name(name, result)
+                    origin_method = (
+                        "hotel"
+                        if method == "hotel_tonkiang" or method == "hotel_fofa"
+                        else method
+                    )
                     append_data_to_info_data(
-                        data,
-                        cate,
-                        name,
-                        name_results,
+                        data, cate, name, name_results, origin=origin_method
                     )
                     print(f"{method.capitalize()}:", len(name_results), end=", ")
             total_channel_data_len = len(data.get(cate, {}).get(name, []))
@@ -614,9 +622,16 @@ def append_all_method_data_keep_all(
                     "Settings", f"open_hotel", fallback=True
                 ) == False:
                     continue
+                origin_method = (
+                    "hotel"
+                    if method == "hotel_tonkiang" or method == "hotel_fofa"
+                    else method
+                )
                 for name, urls in result.items():
                     print(f"{name}:", end=" ")
-                    append_data_to_info_data(data, cate, name, urls)
+                    append_data_to_info_data(
+                        data, cate, name, urls, origin=origin_method
+                    )
                     print(name, f"{method.capitalize()}:", len(urls), end=", ")
                     if config.getboolean(
                         "Settings", "open_use_old_result", fallback=True
@@ -657,11 +672,7 @@ async def sort_channel_list(
                     info_list, ffmpeg=ffmpeg, ipv6_proxy=ipv6_proxy, callback=callback
                 )
                 if sorted_data:
-                    for (
-                        url,
-                        date,
-                        resolution,
-                    ), response_time in sorted_data:
+                    for (url, date, resolution, origin), response_time in sorted_data:
                         if resolution and filter_resolution:
                             resolution_value = get_resolution_value(resolution)
                             if resolution_value < min_resolution:
@@ -669,7 +680,7 @@ async def sort_channel_list(
                         logging.info(
                             f"Name: {name}, URL: {url}, Date: {date}, Resolution: {resolution}, Response Time: {response_time} ms"
                         )
-                        data.append((url, date, resolution))
+                        data.append((url, date, resolution, origin))
         except Exception as e:
             logging.error(f"Error: {e}")
         finally:
@@ -732,7 +743,7 @@ async def process_sort_channel_list(data, callback=None):
                 for sort_url in sort_info_list
                 if sort_url and sort_url[0]
             }
-            for url, date, resolution in info_list:
+            for url, date, resolution, origin in info_list:
                 url_rsplit = url.rsplit("$cache:", 1)
                 if len(url_rsplit) != 2:
                     continue
@@ -755,7 +766,7 @@ async def process_sort_channel_list(data, callback=None):
                         sort_data,
                         cate,
                         name,
-                        [(url, date, resolution)],
+                        [(url, date, resolution, origin)],
                         False,
                     )
                     logging.info(
@@ -810,7 +821,9 @@ def get_multicast_fofa_search_urls():
     """
     config_region_list = [
         region.strip()
-        for region in config.get("Settings", "multicast_region_list", fallback="全部").split(",")
+        for region in config.get(
+            "Settings", "multicast_region_list", fallback="全部"
+        ).split(",")
         if region.strip()
     ]
     rtp_file_names = []
@@ -846,15 +859,15 @@ def get_channel_data_cache_with_compare(data, new_data):
             if url_info and cate in data and name in data[cate]:
                 new_urls = {
                     new_url.split("$", 1)[0]: new_resolution
-                    for new_url, _, new_resolution in url_info
+                    for new_url, _, new_resolution, _ in url_info
                 }
                 updated_data = []
                 for info in data[cate][name]:
-                    url, date, resolution = info
+                    url, date, resolution, origin = info
                     base_url = url.split("$", 1)[0]
                     if base_url in new_urls:
                         resolution = new_urls[base_url]
-                        updated_data.append((url, date, resolution))
+                        updated_data.append((url, date, resolution, origin))
                 data[cate][name] = updated_data
 
 
@@ -864,8 +877,8 @@ def format_channel_url_info(data):
     """
     for obj in data.values():
         for url_info in obj.values():
-            for i, (url, date, resolution) in enumerate(url_info):
+            for i, (url, date, resolution, origin) in enumerate(url_info):
                 url = url.split("$", 1)[0]
                 if resolution:
                     url = add_info_url(url, resolution)
-                url_info[i] = (url, date, resolution)
+                url_info[i] = (url, date, resolution, origin)

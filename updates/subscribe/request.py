@@ -24,7 +24,6 @@ async def get_channels_by_subscribe_urls(
     Get the channels by subscribe urls
     """
     subscribe_results = {}
-    pattern = r"^(.*?),(?!#genre#)(.*?)$"
     subscribe_urls = [
         url.strip()
         for url in config.get("Settings", "subscribe_urls", fallback="").split(",")
