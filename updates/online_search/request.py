@@ -25,7 +25,7 @@ from tqdm.asyncio import tqdm_asyncio
 from concurrent.futures import ThreadPoolExecutor
 from requests_custom.utils import get_soup_requests, close_session
 
-timeout = config.getint("Settings", "request_timeout") or 10
+timeout = config.getint("Settings", "request_timeout", fallback=10)
 
 
 async def use_accessible_url(callback):
@@ -57,9 +57,9 @@ async def get_channels_by_online_search(names, callback=None):
     if not pageUrl:
         return channels
     proxy = None
-    open_proxy = config.getboolean("Settings", "open_proxy")
-    open_driver = config.getboolean("Settings", "open_driver")
-    page_num = config.getint("Settings", "online_search_page_num")
+    open_proxy = config.getboolean("Settings", "open_proxy", fallback=False)
+    open_driver = config.getboolean("Settings", "open_driver", fallback=True)
+    page_num = config.getint("Settings", "online_search_page_num", fallback=3)
     if open_proxy:
         proxy = await get_proxy(pageUrl, best=True, with_test=True)
     start_time = time()

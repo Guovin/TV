@@ -8,7 +8,7 @@ from utils.tools import merge_objects, get_pbar_remaining, format_url_with_cache
 from concurrent.futures import ThreadPoolExecutor
 from collections import defaultdict
 
-timeout = config.getint("Settings", "request_timeout") or 10
+timeout = config.getint("Settings", "request_timeout", fallback=10)
 
 
 async def get_channels_by_subscribe_urls(
@@ -24,10 +24,9 @@ async def get_channels_by_subscribe_urls(
     Get the channels by subscribe urls
     """
     subscribe_results = {}
-    pattern = r"^(.*?),(?!#genre#)(.*?)$"
     subscribe_urls = [
         url.strip()
-        for url in config.get("Settings", "subscribe_urls").split(",")
+        for url in config.get("Settings", "subscribe_urls", fallback="").split(",")
         if url.strip()
     ]
     subscribe_urls_len = len(urls if urls else subscribe_urls)

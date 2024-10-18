@@ -95,7 +95,7 @@ def get_channel_data_from_file(channels, file, use_old):
                 if name not in category_dict:
                     category_dict[name] = []
                 if use_old and match.group(3):
-                    info = (match.group(3).strip(), None, None)
+                    info = (match.group(3).strip(), None, None, None)
                     if info[0] and info not in category_dict[name]:
                         category_dict[name].append(info)
     return channels
@@ -105,9 +105,11 @@ def get_channel_items():
     """
     Get the channel items from the source file
     """
-    user_source_file = config.get("Settings", "source_file")
+    user_source_file = config.get("Settings", "source_file", fallback="config/demo.txt")
     channels = defaultdict(lambda: defaultdict(list))
-    open_use_old_result = config.getboolean("Settings", "open_use_old_result")
+    open_use_old_result = config.getboolean(
+        "Settings", "open_use_old_result", fallback=True
+    )
 
     if os.path.exists(resource_path(user_source_file)):
         with open(resource_path(user_source_file), "r", encoding="utf-8") as file:
@@ -132,7 +134,7 @@ def format_channel_name(name):
     """
     Format the channel name with sub and replace and lower
     """
-    if config.getboolean("Settings", "open_keep_all"):
+    if config.getboolean("Settings", "open_keep_all", fallback=False):
         return name
     cc = OpenCC("t2s")
     name = cc.convert(name)
@@ -180,7 +182,7 @@ def channel_name_is_equal(name1, name2):
     """
     Check if the channel name is equal
     """
-    if config.getboolean("Settings", "open_keep_all"):
+    if config.getboolean("Settings", "open_keep_all", fallback=False):
         return True
     name1_format = format_channel_name(name1)
     name2_format = format_channel_name(name2)
@@ -260,7 +262,9 @@ def get_channel_multicast_region_type_list(result):
     """
     config_region_list = set(
         region.strip()
-        for region in config.get("Settings", "multicast_region_list").split(",")
+        for region in config.get(
+            "Settings", "multicast_region_list", fallback="全部"
+        ).split(",")
         if region.strip()
     )
     region_type_list = {
@@ -281,7 +285,7 @@ def get_channel_multicast_result(result, search_result):
     Get the channel multicast info result by result and search result
     """
     info_result = {}
-    open_sort = config.getboolean("Settings", "open_sort")
+    open_sort = config.getboolean("Settings", "open_sort", fallback=True)
     for name, result_obj in result.items():
         info_list = [
             (
@@ -455,7 +459,7 @@ def get_channel_url(text):
     Get the url from text
     """
     url = None
-    urlRegex = r"((http|https)://)?((([0-9]{1,3}\.){3}[0-9]{1,3})|([a-zA-Z0-9-]+\.[a-zA-Z]{2,}))(:[0-9]+)?(/[a-zA-Z0-9-._~:/?#[\]@!$&'()*+,;=%]*)?"
+    urlRegex = r"\b((https?):\/\/)?(([\w-]+\.)+[\w-]+)(:[0-9]{1,5})?(\/[^\s]*)?\b"
     url_search = re.search(
         urlRegex,
         text,
@@ -507,21 +511,27 @@ def init_info_data(data, cate, name):
         data[cate][name] = []
 
 
-def append_data_to_info_data(info_data, cate, name, data, check=True):
+def append_data_to_info_data(info_data, cate, name, data, origin=None, check=True):
     """
     Append channel data to total info data
     """
     init_info_data(info_data, cate, name)
-    for url, date, resolution in data:
+    for item in data:
+        if len(item) == 4:
+            url, date, resolution, origin = item
+        elif len(item) == 3:
+            url, date, resolution = item
+        else:
+            continue
         if (url and not check) or (url and check and check_url_by_patterns(url)):
-            info_data[cate][name].append((url, date, resolution))
+            info_data[cate][name].append((url, date, resolution, origin))
 
 
 def append_total_data(*args, **kwargs):
     """
     Append total channel data
     """
-    if config.getboolean("Settings", "open_keep_all"):
+    if config.getboolean("Settings", "open_keep_all", fallback=False):
         append_all_method_data_keep_all(*args, **kwargs)
     else:
         append_all_method_data(*args, **kwargs)
@@ -549,22 +559,26 @@ def append_all_method_data(
                 ("subscribe", subscribe_result),
                 ("online_search", online_search_result),
             ]:
-                if config.getboolean("Settings", f"open_{method}"):
+                if config.getboolean("Settings", f"open_{method}", fallback=None):
                     if (
                         method == "hotel_tonkiang" or method == "hotel_fofa"
-                    ) and config.getboolean("Settings", f"open_hotel") == False:
+                    ) and config.getboolean(
+                        "Settings", f"open_hotel", fallback=True
+                    ) == False:
                         continue
                     name_results = get_channel_results_by_name(name, result)
+                    origin_method = (
+                        "hotel"
+                        if method == "hotel_tonkiang" or method == "hotel_fofa"
+                        else method
+                    )
                     append_data_to_info_data(
-                        data,
-                        cate,
-                        name,
-                        name_results,
+                        data, cate, name, name_results, origin=origin_method
                     )
                     print(f"{method.capitalize()}:", len(name_results), end=", ")
             total_channel_data_len = len(data.get(cate, {}).get(name, []))
             if total_channel_data_len == 0 or config.getboolean(
-                "Settings", "open_use_old_result"
+                "Settings", "open_use_old_result", fallback=True
             ):
                 append_data_to_info_data(
                     data,
@@ -599,16 +613,29 @@ def append_all_method_data_keep_all(
             ("subscribe", subscribe_result),
             ("online_search", online_search_result),
         ]:
-            if result and config.getboolean("Settings", f"open_{method}"):
+            if result and config.getboolean(
+                "Settings", f"open_{method}", fallback=None
+            ):
                 if (
                     method == "hotel_tonkiang" or method == "hotel_fofa"
-                ) and config.getboolean("Settings", f"open_hotel") == False:
+                ) and config.getboolean(
+                    "Settings", f"open_hotel", fallback=True
+                ) == False:
                     continue
+                origin_method = (
+                    "hotel"
+                    if method == "hotel_tonkiang" or method == "hotel_fofa"
+                    else method
+                )
                 for name, urls in result.items():
                     print(f"{name}:", end=" ")
-                    append_data_to_info_data(data, cate, name, urls)
+                    append_data_to_info_data(
+                        data, cate, name, urls, origin=origin_method
+                    )
                     print(name, f"{method.capitalize()}:", len(urls), end=", ")
-                    if config.getboolean("Settings", "open_use_old_result"):
+                    if config.getboolean(
+                        "Settings", "open_use_old_result", fallback=True
+                    ):
                         old_info_list = channel_obj.get(name, [])
                         append_data_to_info_data(
                             data,
@@ -645,11 +672,7 @@ async def sort_channel_list(
                     info_list, ffmpeg=ffmpeg, ipv6_proxy=ipv6_proxy, callback=callback
                 )
                 if sorted_data:
-                    for (
-                        url,
-                        date,
-                        resolution,
-                    ), response_time in sorted_data:
+                    for (url, date, resolution, origin), response_time in sorted_data:
                         if resolution and filter_resolution:
                             resolution_value = get_resolution_value(resolution)
                             if resolution_value < min_resolution:
@@ -657,7 +680,7 @@ async def sort_channel_list(
                         logging.info(
                             f"Name: {name}, URL: {url}, Date: {date}, Resolution: {resolution}, Response Time: {response_time} ms"
                         )
-                        data.append((url, date, resolution))
+                        data.append((url, date, resolution, origin))
         except Exception as e:
             logging.error(f"Error: {e}")
         finally:
@@ -668,10 +691,14 @@ async def process_sort_channel_list(data, callback=None):
     """
     Processs the sort channel list
     """
-    open_ffmpeg = config.getboolean("Settings", "open_ffmpeg")
-    ipv_type = config.get("Settings", "ipv_type").lower()
-    open_filter_resolution = config.getboolean("Settings", "open_filter_resolution")
-    min_resolution = get_resolution_value(config.get("Settings", "min_resolution"))
+    open_ffmpeg = config.getboolean("Settings", "open_ffmpeg", fallback=True)
+    ipv_type = config.get("Settings", "ipv_type", fallback="全部").lower()
+    open_filter_resolution = config.getboolean(
+        "Settings", "open_filter_resolution", fallback=True
+    )
+    min_resolution = get_resolution_value(
+        config.get("Settings", "min_resolution", fallback="1920x1080")
+    )
     open_ipv6 = "ipv6" in ipv_type or "all" in ipv_type or "全部" in ipv_type
     ipv6_proxy = (
         None
@@ -716,7 +743,7 @@ async def process_sort_channel_list(data, callback=None):
                 for sort_url in sort_info_list
                 if sort_url and sort_url[0]
             }
-            for url, date, resolution in info_list:
+            for url, date, resolution, origin in info_list:
                 url_rsplit = url.rsplit("$cache:", 1)
                 if len(url_rsplit) != 2:
                     continue
@@ -739,7 +766,7 @@ async def process_sort_channel_list(data, callback=None):
                         sort_data,
                         cate,
                         name,
-                        [(url, date, resolution)],
+                        [(url, date, resolution, origin)],
                         False,
                     )
                     logging.info(
@@ -752,7 +779,7 @@ def write_channel_to_file(items, data, callback=None):
     """
     Write channel to file
     """
-    open_update_time = config.getboolean("Settings", "open_update_time")
+    open_update_time = config.getboolean("Settings", "open_update_time", fallback=True)
     if open_update_time:
         now = datetime.datetime.now()
         if os.environ.get("GITHUB_ACTIONS"):
@@ -794,7 +821,9 @@ def get_multicast_fofa_search_urls():
     """
     config_region_list = [
         region.strip()
-        for region in config.get("Settings", "multicast_region_list").split(",")
+        for region in config.get(
+            "Settings", "multicast_region_list", fallback="全部"
+        ).split(",")
         if region.strip()
     ]
     rtp_file_names = []
@@ -830,15 +859,15 @@ def get_channel_data_cache_with_compare(data, new_data):
             if url_info and cate in data and name in data[cate]:
                 new_urls = {
                     new_url.split("$", 1)[0]: new_resolution
-                    for new_url, _, new_resolution in url_info
+                    for new_url, _, new_resolution, _ in url_info
                 }
                 updated_data = []
                 for info in data[cate][name]:
-                    url, date, resolution = info
+                    url, date, resolution, origin = info
                     base_url = url.split("$", 1)[0]
                     if base_url in new_urls:
                         resolution = new_urls[base_url]
-                        updated_data.append((url, date, resolution))
+                        updated_data.append((url, date, resolution, origin))
                 data[cate][name] = updated_data
 
 
@@ -848,8 +877,8 @@ def format_channel_url_info(data):
     """
     for obj in data.values():
         for url_info in obj.values():
-            for i, (url, date, resolution) in enumerate(url_info):
+            for i, (url, date, resolution, origin) in enumerate(url_info):
                 url = url.split("$", 1)[0]
                 if resolution:
                     url = add_info_url(url, resolution)
-                url_info[i] = (url, date, resolution)
+                url_info[i] = (url, date, resolution, origin)

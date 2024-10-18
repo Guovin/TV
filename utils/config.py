@@ -58,7 +58,9 @@ def save_config():
 
 
 def copy_config():
-    user_source_file = resource_path(config.get("Settings", "source_file"))
+    user_source_file = resource_path(
+        config.get("Settings", "source_file", fallback="config/demo.txt")
+    )
     user_config_path = resource_path("config/user_config.ini")
     default_config_path = resource_path("config/config.ini")
     user_config_file = (

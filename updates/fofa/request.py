@@ -15,7 +15,7 @@ from collections import defaultdict
 import pickle
 import threading
 
-timeout = config.getint("Settings", "request_timeout") or 10
+timeout = config.getint("Settings", "request_timeout", fallback=10)
 
 
 def get_fofa_urls_from_region_list():
@@ -24,7 +24,9 @@ def get_fofa_urls_from_region_list():
     """
     region_list = [
         region.strip()
-        for region in config.get("Settings", "hotel_region_list").split(",")
+        for region in config.get(
+            "Settings", "hotel_region_list", fallback="全部"
+        ).split(",")
         if region.strip()
     ]
     urls = []
@@ -83,9 +85,9 @@ async def get_channels_by_fofa(urls=None, multicast=False, callback=None):
             0,
         )
     proxy = None
-    open_proxy = config.getboolean("Settings", "open_proxy")
-    open_driver = config.getboolean("Settings", "open_driver")
-    open_sort = config.getboolean("Settings", "open_sort")
+    open_proxy = config.getboolean("Settings", "open_proxy", fallback=False)
+    open_driver = config.getboolean("Settings", "open_driver", fallback=True)
+    open_sort = config.getboolean("Settings", "open_sort", fallback=True)
     if open_proxy:
         test_url = fofa_urls[0][0] if multicast else fofa_urls[0]
         proxy = await get_proxy(test_url, best=True, with_test=True)

@@ -17,7 +17,7 @@ class OnlineSearchUI:
         )
         self.open_online_search_label.pack(side=tk.LEFT, padx=4, pady=8)
         self.open_online_search_var = tk.BooleanVar(
-            value=config.getboolean("Settings", "open_online_search")
+            value=config.getboolean("Settings", "open_online_search", fallback=False)
         )
         self.open_online_search_checkbutton = ttk.Checkbutton(
             frame_online_search_open_online_search,
@@ -38,7 +38,7 @@ class OnlineSearchUI:
         self.page_num_entry = tk.Entry(frame_online_search_page_num)
         self.page_num_entry.pack(side=tk.LEFT, padx=4, pady=8)
         self.page_num_entry.insert(
-            0, config.getint("Settings", "online_search_page_num")
+            0, config.getint("Settings", "online_search_page_num", fallback=3)
         )
         self.page_num_entry.bind("<KeyRelease>", self.update_page_num)
 
@@ -51,7 +51,9 @@ class OnlineSearchUI:
         self.recent_days_label.pack(side=tk.LEFT, padx=4, pady=8)
         self.recent_days_entry = tk.Entry(frame_online_search_recent_days)
         self.recent_days_entry.pack(side=tk.LEFT, padx=4, pady=8)
-        self.recent_days_entry.insert(30, config.getint("Settings", "recent_days"))
+        self.recent_days_entry.insert(
+            30, config.getint("Settings", "recent_days", fallback=30)
+        )
         self.recent_days_entry.bind("<KeyRelease>", self.update_recent_days)
 
     def update_open_online_search(self):
