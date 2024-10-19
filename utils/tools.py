@@ -129,13 +129,14 @@ def get_total_urls_from_info_list(infoList):
     open_filter_resolution = config.getboolean(
         "Settings", "open_filter_resolution", fallback=True
     )
-    ipv_type_prefer = (
-        config.get("Settings", "ipv_type_prefer", fallback="ipv4")
-        .split(",", 1)[0]
-        .lower()
-    )
+    ipv_type_prefer = [
+        type.strip().lower()
+        for type in config.get("Settings", "ipv_type_prefer", fallback="ipv4").split(
+            ","
+        )
+    ]
     origin_type_prefer = [
-        origin.lower()
+        origin.strip().lower()
         for origin in config.get(
             "Settings",
             "origin_type_prefer",
@@ -148,10 +149,6 @@ def get_total_urls_from_info_list(infoList):
         "multicast": config.getint("Settings", "multicast_num", fallback=10),
         "subscribe": config.getint("Settings", "subscribe_num", fallback=10),
         "online_search": config.getint("Settings", "online_search_num", fallback=10),
-    }
-    ipv_limits = {
-        "ipv4": config.getint("Settings", "ipv4_num", fallback=15),
-        "ipv6": config.getint("Settings", "ipv6_num", fallback=15),
     }
 
     min_resolution = get_resolution_value(
@@ -171,29 +168,23 @@ def get_total_urls_from_info_list(infoList):
         if not origin or origin.lower() not in origin_type_prefer:
             continue
 
-        if (
-            ipv_type_prefer == "ipv4"
-            and len(categorized_urls[origin]["ipv4"]) < ipv_limits["ipv4"]
-        ):
-            categorized_urls[origin]["ipv4"].append(url)
-        elif (
-            ipv_type_prefer == "ipv6"
-            and len(categorized_urls[origin]["ipv6"]) < ipv_limits["ipv6"]
-            and "IPv6" in url
-        ):
+        if ipv_type_prefer == "ipv6" and "IPv6" in url:
             categorized_urls[origin]["ipv6"].append(url)
+        else:
+            categorized_urls[origin]["ipv4"].append(url)
 
     total_urls = []
     for origin in origin_type_prefer:
-        for ipv_type in ["ipv4", "ipv6"]:
+        for ipv_type in ipv_type_prefer:
             total_urls.extend(
                 categorized_urls[origin][ipv_type][: source_limits[origin]]
             )
 
     urls_limit = config.getint("Settings", "urls_limit", fallback=30)
+    ipv_type_total = list(dict.fromkeys(ipv_type_prefer + ["ipv4", "ipv6"]))
     if len(total_urls) < urls_limit:
         for origin in origin_type_prefer:
-            for ipv_type in ["ipv4", "ipv6"]:
+            for ipv_type in ipv_type_total:
                 extra_urls = categorized_urls[origin][ipv_type][source_limits[origin] :]
                 total_urls.extend(extra_urls)
                 if len(total_urls) >= urls_limit:
