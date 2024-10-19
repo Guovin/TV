@@ -518,8 +518,8 @@ def append_data_to_info_data(info_data, cate, name, data, origin=None, check=Tru
     init_info_data(info_data, cate, name)
     for item in data:
         try:
-            url, date, resolution = item
-            origin = origin or item[3] if len(item) == 4 else None
+            url, date, resolution, *rest = item
+            origin = origin or (rest[0] if rest else None)
             if (url and not check) or (url and check and check_url_by_patterns(url)):
                 info_data[cate][name].append((url, date, resolution, origin))
         except:
@@ -733,7 +733,7 @@ async def process_sort_channel_list(data, callback=None):
     for result in sort_results:
         if result:
             cate, name, result_data = result["cate"], result["name"], result["data"]
-            append_data_to_info_data(sort_data, cate, name, result_data, False)
+            append_data_to_info_data(sort_data, cate, name, result_data, check=False)
     for cate, obj in data.items():
         for name, info_list in obj.items():
             sort_info_list = sort_data.get(cate, {}).get(name, [])
@@ -766,7 +766,7 @@ async def process_sort_channel_list(data, callback=None):
                         cate,
                         name,
                         [(url, date, resolution, origin)],
-                        False,
+                        check=False,
                     )
                     logging.info(
                         f"Name: {name}, URL: {url}, Date: {date}, Resolution: {resolution}, Response Time: {response_time} ms"
