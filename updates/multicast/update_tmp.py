@@ -6,7 +6,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../.
 from updates.subscribe import get_channels_by_subscribe_urls
 from driver.utils import get_soup_driver
 from utils.config import resource_path, config
-from utils.channel import format_channel_name
+from utils.channel import format_channel_name, get_name_url
 from utils.tools import get_pbar_remaining
 import json
 
@@ -127,7 +127,6 @@ def get_multicast_region_result_by_rtp_txt(callback=None):
 
     pbar = tqdm(total=total_files, desc="Loading local multicast rtp files")
     multicast_result = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))
-    pattern = re.compile(r"^(.*?),(?!#genre#)(.*?)$")
     start_time = time()
 
     for filename in rtp_file_list:
@@ -136,10 +135,10 @@ def get_multicast_region_result_by_rtp_txt(callback=None):
             os.path.join(rtp_path, f"{filename}.txt"), "r", encoding="utf-8"
         ) as f:
             for line in f:
-                matcher = pattern.match(line)
-                if matcher:
-                    channel_name = format_channel_name(matcher.group(1).strip())
-                    url = matcher.group(2).strip()
+                name_url = get_name_url(line, rtp=True)
+                if name_url and name_url[0]:
+                    channel_name = format_channel_name(name_url[0]["name"])
+                    url = name_url[0]["url"]
                     if url not in multicast_result[channel_name][region][type]:
                         multicast_result[channel_name][region][type].append(url)
         pbar.update()
