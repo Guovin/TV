@@ -30,6 +30,11 @@ log_file = "result_new.log"
 log_path = os.path.join(log_dir, log_file)
 handler = None
 
+url_regex = r"\b((https?):\/\/)?(([\w-]+\.)+[\w-]+)(:[0-9]{1,5})?(\/[^\s]*)?\b"
+rtp_regex = r"^(.*?),(rtp://.*)?$"
+txt_regex = r"^(.*?)(?:,)?((?!#genre#)" + url_regex + r")?$"
+m3u_regex = r"^#EXTINF:-1.*?,(.*?)\n" + url_regex + r"$"
+
 
 def setup_logging():
     """
@@ -59,19 +64,16 @@ def cleanup_logging():
         os.remove(log_path)
 
 
-txt_pattern = r"^(.*?),(?!#genre#)(.*?)$"
-m3u_pattern = r"^#EXTINF:-1.*?,(.*?)\n(.*?)$"
-
-
-def get_name_url(content):
+def get_name_url(content, m3u=False, rtp=False, check_url=True):
     """
     Get channel name and url from content
     """
-    matches = re.findall(
-        m3u_pattern if "#EXTM3U" in content else txt_pattern, content, re.MULTILINE
-    )
+    regex = m3u_regex if m3u else rtp_regex if rtp else txt_regex
+    matches = re.findall(regex, content, re.MULTILINE)
     channels = [
-        {"name": match[0].strip(), "url": match[1].strip()} for match in matches
+        {"name": match[0].strip(), "url": match[1].strip()}
+        for match in matches
+        if (check_url and match[1].strip()) or not check_url
     ]
     return channels
 
@@ -81,21 +83,21 @@ def get_channel_data_from_file(channels, file, use_old):
     Get the channel data from the file
     """
     current_category = ""
-    pattern = re.compile(r"^(.*?)(,(?!#genre#)(.*?))?$")
 
     for line in file:
         line = line.strip()
         if "#genre#" in line:
             current_category = line.split(",")[0]
         else:
-            match = pattern.search(line)
-            if match is not None and match.group(1):
-                name = match.group(1).strip()
+            name_url = get_name_url(line, check_url=False)
+            if name_url and name_url[0]:
+                name = name_url[0]["name"]
+                url = name_url[0]["url"]
                 category_dict = channels[current_category]
                 if name not in category_dict:
                     category_dict[name] = []
-                if use_old and match.group(3):
-                    info = (match.group(3).strip(), None, None, None)
+                if use_old and url:
+                    info = (url, None, None, None)
                     if info[0] and info not in category_dict[name]:
                         category_dict[name].append(info)
     return channels
@@ -459,9 +461,8 @@ def get_channel_url(text):
     Get the url from text
     """
     url = None
-    urlRegex = r"\b((https?):\/\/)?(([\w-]+\.)+[\w-]+)(:[0-9]{1,5})?(\/[^\s]*)?\b"
     url_search = re.search(
-        urlRegex,
+        url_regex,
         text,
     )
     if url_search:
