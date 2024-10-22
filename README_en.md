@@ -174,7 +174,7 @@ For example: docker run -v /etc/docker/config:/tv-requests/config -v /etc/docker
 
 ## Appreciate
 
-<div>Please buy me a drink~~</div>
+<div>Please buy me a cup of coffee☕️~</div>
 
 | Alipay                                | Wechat                                    |
 | ------------------------------------- | ----------------------------------------- |
