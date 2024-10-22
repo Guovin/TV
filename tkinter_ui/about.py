@@ -68,7 +68,7 @@ class AboutUI:
         image_label.image = photo
         image_label.pack()
 
-        appreciate_label = tk.Label(about_window, text="请我喝杯饮料☕️吧~")
+        appreciate_label = tk.Label(about_window, text="请我喝杯咖啡☕️吧~")
         appreciate_label.pack()
 
         confirm_button = tk.ttk.Button(
