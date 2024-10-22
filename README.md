@@ -170,5 +170,12 @@ docker run -d -p 8000:8000 guovern/tv-requests 或 tv-driver
 
 ## 赞赏
 
-<div>如果对您有帮助，请赞赏，您的赞赏是我更新的动力~</div>
-<img src="./static/images/appreciate.jpg" alt="赞赏码" title="赞赏码" style="height:350px" />
+<div>请我喝杯饮料☕️吧~</div>
+
+| 支付宝                                    | 微信                                        |
+| ----------------------------------------- | ------------------------------------------- |
+| ![支付宝扫码](./static/images/alipay.jpg) | ![微信扫码](./static/images/appreciate.jpg) |
+
+## 免责声明
+
+本项目仅供学习交流用途，接口数据均来源于网络，如有侵权，请联系删除

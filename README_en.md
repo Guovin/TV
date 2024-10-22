@@ -170,5 +170,12 @@ For example: docker run -v /etc/docker/config:/tv-requests/config -v /etc/docker
 
 ## Appreciate
 
-<div>If you find it helpful, please give a tip, your support is my motivation to update~</div>
-<img src="./static/images/appreciate.jpg" alt="appreciate code" title="appreciate code" style="height:350px" />
+<div>Please buy me a drink~~</div>
+
+| Alipay                                | Wechat                                    |
+| ------------------------------------- | ----------------------------------------- |
+| ![Alipay](./static/images/alipay.jpg) | ![Wechat](./static/images/appreciate.jpg) |
+
+## Disclaimer
+
+This project is for learning and communication purposes only. All interface data comes from the internet. If there is any infringement, please contact us for removal.
