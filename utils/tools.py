@@ -192,7 +192,13 @@ def get_total_urls_from_info_list(infoList):
             if len(total_urls) >= urls_limit:
                 break
 
-    return list(dict.fromkeys(total_urls))[:urls_limit]
+    total_urls = list(dict.fromkeys(total_urls))[:urls_limit]
+
+    open_url_info = config.getboolean("Settings", "open_url_info", fallback=True)
+    if not open_url_info:
+        return [url.split("$", 1)[0] for url in total_urls]
+    else:
+        return total_urls
 
 
 def get_total_urls_from_sorted_data(data):
