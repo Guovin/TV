@@ -4,7 +4,7 @@
 </div>
 
 <div align="justify">Customize the channel menu, automatically obtain and update the latest live source interfaces based on the template channels, and generate available interface files after speed test verification.</div>
-<div align="justify">Default results include: 📺CCTV Channel, 💰CCTV Pay Channel, 📡Satellite TV Channel, 🏠Guangdong Channel, 🌊Hong Kong · Macao · Taiwan Channel, 🎬Movie Channel, 🎥Migu Live Streaming.</div>
+<div align="justify">Default results include: 📺CCTV Channel, 💰CCTV Pay Channel, 📡Satellite TV Channel, 🏠Guangdong Channel, 🌊Hong Kong · Macao · Taiwan Channel, 🎬Movie Channel, 🎥Migu Live Streaming, 🏀Sports Channel, 🪁Animation channel, 🎮Game channel, 🎵Music channel, 🏛Classic Theater.</div>
 
 <details>
   <summary>Specific channel</summary>
@@ -50,6 +50,9 @@
   <br>
   <div>
   🎵Music channel: CCTV-15, 风云音乐, 音乐现场, 音乐之声, 潮流音乐, 天津音乐, 音乐广播, 音乐调频广播
+  </div>
+  <div>
+  🏛Classic Theater: 笑傲江湖, 天龙八部, 鹿鼎记, 仙剑奇侠传, 西游记, 三国演义, 水浒传, 新白娘子传奇, 天龙八部, 济公游记, 封神榜, 闯关东, 上海滩, 射雕英雄传
   </div>
 </details>
 <br>
