@@ -168,12 +168,18 @@ def get_total_urls_from_info_list(infoList):
         if not origin or origin.lower() not in origin_type_prefer:
             continue
 
-        if ipv_type_prefer == "ipv6" and "IPv6" in url:
+        if (
+            ("ipv6" in ipv_type_prefer)
+            or "随机" in ipv_type_prefer
+            or "random" in ipv_type_prefer
+        ) and "IPv6" in url:
             categorized_urls[origin]["ipv6"].append(url)
         else:
             categorized_urls[origin]["ipv4"].append(url)
 
     total_urls = []
+    if "随机" in ipv_type_prefer or "random" in ipv_type_prefer:
+        ipv_type_prefer = ["ipv4", "ipv6"]
     for origin in origin_type_prefer:
         for ipv_type in ipv_type_prefer:
             total_urls.extend(

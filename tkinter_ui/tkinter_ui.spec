@@ -1,7 +1,7 @@
 # -*- mode: python ; coding: utf-8 -*-
 
 a = Analysis(
-    ['tkinter_ui.py', 'about.py', 'default.py', 'multicast.py', 'hotel.py', 'subscribe.py', 'online_search.py'],
+    ['tkinter_ui.py', 'about.py', 'default.py', 'prefer.py', 'multicast.py', 'hotel.py', 'subscribe.py', 'online_search.py'],
     pathex=[],
     binaries=[],
     datas=[
@@ -20,6 +20,7 @@ a = Analysis(
         ('../static/images/online_search_icon.png', 'static/images'),
         ('about.py', '.'),
         ('default.py', '.'),
+        ('prefer.py', '.'),
         ('multicast.py', '.'),
         ('hotel.py', '.'),
         ('subscribe.py', '.'),

@@ -166,8 +166,8 @@ class DefaultUI:
         self.ipv_type_label.pack(side=tk.LEFT, padx=4, pady=8)
         self.ipv_type_combo = ttk.Combobox(frame_default_channel_column2)
         self.ipv_type_combo.pack(side=tk.LEFT, padx=4, pady=8)
-        self.ipv_type_combo["values"] = ("ipv4", "ipv6", "全部")
-        ipv_type = config.get("Settings", "ipv_type", fallback="全部")
+        self.ipv_type_combo["values"] = ("IPv4", "IPv6", "全部")
+        ipv_type = config.get("Settings", "ipv_type", fallback="全部").lower()
         if ipv_type == "ipv4":
             self.ipv_type_combo.current(0)
         elif ipv_type == "ipv6":
@@ -181,7 +181,9 @@ class DefaultUI:
         frame_default_sort_column1 = tk.Frame(frame_default_sort)
         frame_default_sort_column1.pack(side=tk.LEFT, fill=tk.Y)
         frame_default_sort_column2 = tk.Frame(frame_default_sort)
-        frame_default_sort_column2.pack(side=tk.RIGHT, fill=tk.Y)
+        frame_default_sort_column2.pack(side=tk.LEFT, fill=tk.Y)
+        frame_default_sort_column3 = tk.Frame(frame_default_sort)
+        frame_default_sort_column3.pack(side=tk.RIGHT, fill=tk.Y)
 
         self.open_keep_all_label = tk.Label(
             frame_default_sort_column1, text="保留模式:", width=12
@@ -196,12 +198,12 @@ class DefaultUI:
             onvalue=True,
             offvalue=False,
             command=self.update_open_keep_all,
-            text="(保留所有检索结果，建议手动维护时开启)",
+            text="(非严格匹配)",
         )
         self.open_keep_all_checkbutton.pack(side=tk.LEFT, padx=4, pady=8)
 
         self.open_sort_label = tk.Label(
-            frame_default_sort_column2, text="开启测速排序:", width=12
+            frame_default_sort_column2, text="测速排序:", width=12
         )
         self.open_sort_label.pack(side=tk.LEFT, padx=4, pady=8)
         self.open_sort_var = tk.BooleanVar(
@@ -215,6 +217,17 @@ class DefaultUI:
             command=self.update_open_sort,
         )
         self.open_sort_checkbutton.pack(side=tk.LEFT, padx=4, pady=8)
+
+        self.sort_timeout_label = tk.Label(
+            frame_default_sort_column3, text="测速超时:", width=12
+        )
+        self.sort_timeout_label.pack(side=tk.LEFT, padx=4, pady=8)
+        self.sort_timeout_entry = tk.Entry(frame_default_sort_column3)
+        self.sort_timeout_entry.pack(side=tk.LEFT, padx=4, pady=8)
+        self.sort_timeout_entry.insert(
+            0, config.getint("Settings", "sort_timeout", fallback=5)
+        )
+        self.sort_timeout_entry.bind("<KeyRelease>", self.update_sort_timeout)
 
         frame_default_sort_mode = tk.Frame(root)
         frame_default_sort_mode.pack(fill=tk.X)
@@ -337,24 +350,50 @@ class DefaultUI:
             config.getfloat("Settings", "resolution_weight", fallback=0.5)
         )
 
-        frame_default_open_update_time = tk.Frame(root)
-        frame_default_open_update_time.pack(fill=tk.X)
+        frame_default_open_update_info = tk.Frame(root)
+        frame_default_open_update_info.pack(fill=tk.X)
+        frame_default_open_update_info_column1 = tk.Frame(
+            frame_default_open_update_info
+        )
+        frame_default_open_update_info_column1.pack(side=tk.LEFT, fill=tk.Y)
+        frame_default_open_update_info_column2 = tk.Frame(
+            frame_default_open_update_info
+        )
+        frame_default_open_update_info_column2.pack(side=tk.RIGHT, fill=tk.Y)
+
         self.open_update_time_label = tk.Label(
-            frame_default_open_update_time, text="显示更新时间:", width=12
+            frame_default_open_update_info_column1, text="显示更新时间:", width=12
         )
         self.open_update_time_label.pack(side=tk.LEFT, padx=4, pady=8)
         self.open_update_time_var = tk.BooleanVar(
             value=config.getboolean("Settings", "open_update_time", fallback=True)
         )
         self.open_update_time_checkbutton = ttk.Checkbutton(
-            frame_default_open_update_time,
+            frame_default_open_update_info_column1,
             variable=self.open_update_time_var,
             onvalue=True,
             offvalue=False,
             command=self.update_open_update_time,
-            text="(显示于结果文件首行, 作为首个频道分类显示)",
+            text="(结果顶部显示)",
         )
         self.open_update_time_checkbutton.pack(side=tk.LEFT, padx=4, pady=8)
+
+        self.open_url_info_label = tk.Label(
+            frame_default_open_update_info_column2, text="显示接口信息:", width=12
+        )
+        self.open_url_info_label.pack(side=tk.LEFT, padx=4, pady=8)
+        self.open_url_info_var = tk.BooleanVar(
+            value=config.getboolean("Settings", "open_url_info", fallback=True)
+        )
+        self.open_url_info_checkbutton = ttk.Checkbutton(
+            frame_default_open_update_info_column2,
+            variable=self.open_url_info_var,
+            onvalue=True,
+            offvalue=False,
+            command=self.update_open_url_info,
+            text="(需要播放器支持)",
+        )
+        self.open_url_info_checkbutton.pack(side=tk.LEFT, padx=4, pady=8)
 
         frame_default_domain_blacklist = tk.Frame(root)
         frame_default_domain_blacklist.pack(fill=tk.X)
@@ -432,6 +471,9 @@ class DefaultUI:
     def update_open_sort(self):
         config.set("Settings", "open_sort", str(self.open_sort_var.get()))
 
+    def update_sort_timeout(self):
+        config.set("Settings", "sort_timeout", self.sort_timeout_entry.get())
+
     def update_open_ffmpeg(self):
         config.set("Settings", "open_ffmpeg", str(self.open_ffmpeg_var.get()))
 
@@ -467,6 +509,9 @@ class DefaultUI:
 
     def update_open_update_time(self):
         config.set("Settings", "open_update_time", str(self.open_update_time_var.get()))
+
+    def update_open_url_info(self):
+        config.set("Settings", "open_url_info", str(self.open_url_info_var.get()))
 
     def update_ipv_type(self, event):
         config.set("Settings", "ipv_type", self.ipv_type_combo.get())
@@ -504,6 +549,7 @@ class DefaultUI:
             "final_file_button",
             "open_keep_all_checkbutton",
             "open_sort_checkbutton",
+            "sort_timeout_entry",
             "open_ffmpeg_checkbutton",
             "open_m3u_result_checkbutton",
             "open_filter_resolution_checkbutton",
@@ -512,6 +558,7 @@ class DefaultUI:
             "response_time_weight_scale",
             "resolution_weight_scale",
             "open_update_time_checkbutton",
+            "open_url_info_checkbutton",
             "ipv_type_combo",
             "domain_blacklist_text",
             "url_keywords_blacklist_text",
