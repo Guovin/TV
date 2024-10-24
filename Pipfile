@@ -12,8 +12,6 @@ multicast_tmp = "python updates/multicast/update_tmp.py"
 
 [packages]
 requests = "*"
-feedparser = "*"
-pytz = "*"
 selenium = "*"
 bs4 = "*"
 tqdm = "*"
