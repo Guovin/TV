@@ -135,6 +135,10 @@ def get_total_urls_from_info_list(infoList):
             ","
         )
     ]
+    ipv_limit = {
+        "ipv4": config.getint("Settings", "ipv4_num", fallback=15),
+        "ipv6": config.getint("Settings", "ipv6_num", fallback=15),
+    }
     origin_type_prefer = [
         origin.strip().lower()
         for origin in config.get(
@@ -178,23 +182,32 @@ def get_total_urls_from_info_list(infoList):
             categorized_urls[origin]["ipv4"].append(url)
 
     total_urls = []
+    ipv_num = {
+        "ipv4": 0,
+        "ipv6": 0,
+    }
     if "随机" in ipv_type_prefer or "random" in ipv_type_prefer:
         ipv_type_prefer = ["ipv4", "ipv6"]
     for origin in origin_type_prefer:
         for ipv_type in ipv_type_prefer:
-            total_urls.extend(
-                categorized_urls[origin][ipv_type][: source_limits[origin]]
-            )
+            if ipv_num[ipv_type] < ipv_limit[ipv_type]:
+                urls = categorized_urls[origin][ipv_type][: source_limits[origin]]
+                total_urls.extend(urls)
+                ipv_num[ipv_type] += len(urls)
 
     urls_limit = config.getint("Settings", "urls_limit", fallback=30)
     ipv_type_total = list(dict.fromkeys(ipv_type_prefer + ["ipv4", "ipv6"]))
     if len(total_urls) < urls_limit:
         for origin in origin_type_prefer:
             for ipv_type in ipv_type_total:
-                extra_urls = categorized_urls[origin][ipv_type][source_limits[origin] :]
-                total_urls.extend(extra_urls)
-                if len(total_urls) >= urls_limit:
-                    break
+                if ipv_num[ipv_type] < ipv_limit[ipv_type]:
+                    extra_urls = categorized_urls[origin][ipv_type][
+                        source_limits[origin] :
+                    ]
+                    total_urls.extend(extra_urls)
+                    ipv_num[ipv_type] += len(extra_urls)
+                    if len(total_urls) >= urls_limit:
+                        break
             if len(total_urls) >= urls_limit:
                 break
 
