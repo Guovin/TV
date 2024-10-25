@@ -16,6 +16,7 @@
 - ✨ 新增 🏛 经典剧场
 - 🪄 优化 Docker ARM64 FFmpeg 支持（部分 ARM 设备无法运行 driver 镜像建议使用 requests 镜像）
 - 🪄 优化组播获取非数值域名 ip 地址（#410）
+- 🪄 优化使用旧配置文件时可能出现的新参数不存在报错问题，使用默认值
 - 🐛 修复对于非规范 txt 文本转换 m3u 报错问题（#422）
 - 🐛 修复 IPv6 接口获取失败问题（#452）
 
@@ -32,6 +33,7 @@
 - ✨ Added 🏛 Classic Theater
 - 🪄 Optimized Docker ARM64 FFmpeg support (it is recommended to use the requests image for some ARM devices that cannot run the driver image)
 - 🪄 Optimized obtaining non-numeric domain IP addresses for multicast (#410)
+- 🪄 Optimize the issue of non-existent new parameters when using old configuration files, use default values
 - 🐛 Fixed issues with converting non-standard txt files to m3u format (#422)
 - 🐛 Fixed issues with failing to obtain IPv6 interface information (#452)
 </details>
