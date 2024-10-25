@@ -1,5 +1,41 @@
 # 更新日志（Changelog）
 
+## v1.5.0
+
+### 2024/10/23
+
+- ✨🛠 新增结果偏好设置：
+
+  1. 接口来源优先级（origin_type_prefer）与数量设置（hotel_num, multicast_num, subscribe_num, online_search_num）
+  2. IPv 类型优先级（ipv_type_prefer）与数量设置（ipv4_num, ipv6_num）
+
+- ✨🛠 新增控制接口测速超时时间（sort_timeout）（#388）
+- ✨🛠 新增控制是否开启页面服务（open_service）（青龙等平台可使用该配置实现任务执行完成后停止运行）
+- ✨🛠 新增控制是否显示接口相关信息（open_url_info）（#431）
+- ✨ 新增支持 m3u 地址订阅源（#389）
+- ✨ 新增 🏛 经典剧场
+- 🪄 优化 Docker ARM64 FFmpeg 支持（部分 ARM 设备无法运行 driver 镜像建议使用 requests 镜像）
+- 🪄 优化组播获取非数值域名 ip 地址（#410）
+- 🐛 修复对于非规范 txt 文本转换 m3u 报错问题（#422）
+- 🐛 修复 IPv6 接口获取失败问题（#452）
+
+<details>
+  <summary>English</summary>
+
+- ✨🛠 Added result preference settings:
+  1. Source priority (origin_type_prefer) and quantity settings (hotel_num, multicast_num, subscribe_num, online_search_num)
+  2. IPv type priority (ipv_type_prefer) and quantity settings (ipv4_num, ipv6_num)
+- ✨🛠 Added control for API speed test timeout (sort_timeout) (#388)
+- ✨🛠 Added control to enable or disable page service (open_service) (this configuration can be used on platforms like QingLong to stop running after task completion)
+- ✨🛠 Added control to show or hide API related information (open_url_info) (#431)
+- ✨ Added support for m3u address subscription sources (#389)
+- ✨ Added 🏛 Classic Theater
+- 🪄 Optimized Docker ARM64 FFmpeg support (it is recommended to use the requests image for some ARM devices that cannot run the driver image)
+- 🪄 Optimized obtaining non-numeric domain IP addresses for multicast (#410)
+- 🐛 Fixed issues with converting non-standard txt files to m3u format (#422)
+- 🐛 Fixed issues with failing to obtain IPv6 interface information (#452)
+</details>
+
 ## v1.4.9
 
 ### 2024/10/11
