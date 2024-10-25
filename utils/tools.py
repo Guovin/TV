@@ -266,7 +266,7 @@ def check_url_ipv_type(url):
     """
     Check if the url is compatible with the ipv type in the config
     """
-    ipv_type = config.get("Settings", "ipv_type", fallback="全部")
+    ipv_type = config.get("Settings", "ipv_type", fallback="全部").lower()
     if ipv_type == "ipv4":
         return not is_ipv6(url)
     elif ipv_type == "ipv6":
