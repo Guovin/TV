@@ -2,7 +2,6 @@ from utils.config import config, resource_path
 from utils.tools import (
     check_url_by_patterns,
     get_total_urls_from_info_list,
-    check_ipv6_support,
     process_nested_dict,
     get_resolution_value,
 )
@@ -30,7 +29,7 @@ log_file = "result_new.log"
 log_path = os.path.join(log_dir, log_file)
 handler = None
 
-url_regex = r"\b((https?):\/\/)?(([\w-]+\.)+[\w-]+)(:[0-9]{1,5})?(\/[^\s]*)?\b"
+url_regex = r"\b((https?):\/\/)?(\[[0-9a-fA-F:]+\]|([\w-]+\.)+[\w-]+)(:[0-9]{1,5})?(\/[^\s]*)?\b"
 rtp_regex = r"^(.*?),(rtp://.*)?$"
 txt_regex = r"^(.*?)(?:,)?((?!#genre#)" + url_regex + r")?$"
 m3u_regex = r"^#EXTINF:-1.*?,(.*?)\n" + url_regex + r"$"
@@ -140,7 +139,7 @@ def format_channel_name(name):
         return name
     cc = OpenCC("t2s")
     name = cc.convert(name)
-    sub_pattern = r"-|_|\((.*?)\)|\（(.*?)\）|\[(.*?)\]|\「(.*?)\」| |｜|频道|普清|标清|高清|HD|hd|超清|超高|超高清|中央|央视|台"
+    sub_pattern = r"-|_|\((.*?)\)|\（(.*?)\）|\[(.*?)\]|\「(.*?)\」| |｜|频道|普清|标清|高清|HD|hd|超清|超高|超高清|中央|央视|台|电信|联通|移动"
     name = re.sub(sub_pattern, "", name)
     replace_dict = {
         "plus": "+",
@@ -687,7 +686,7 @@ async def sort_channel_list(
             return {"cate": cate, "name": name, "data": data}
 
 
-async def process_sort_channel_list(data, callback=None):
+async def process_sort_channel_list(data, ipv6=False, callback=None):
     """
     Processs the sort channel list
     """
@@ -700,11 +699,7 @@ async def process_sort_channel_list(data, callback=None):
         config.get("Settings", "min_resolution", fallback="1920x1080")
     )
     open_ipv6 = "ipv6" in ipv_type or "all" in ipv_type or "全部" in ipv_type
-    ipv6_proxy = (
-        None
-        if not open_ipv6 or check_ipv6_support()
-        else "http://www.ipv6proxy.net/go.php?u="
-    )
+    ipv6_proxy = None if not open_ipv6 or ipv6 else "http://www.ipv6proxy.net/go.php?u="
     ffmpeg_installed = is_ffmpeg_installed()
     if open_ffmpeg and not ffmpeg_installed:
         print("FFmpeg is not installed, using requests for sorting.")
@@ -775,7 +770,7 @@ async def process_sort_channel_list(data, callback=None):
     return sort_data
 
 
-def write_channel_to_file(items, data, callback=None):
+def write_channel_to_file(items, data, ipv6=False, callback=None):
     """
     Write channel to file
     """
@@ -792,7 +787,7 @@ def write_channel_to_file(items, data, callback=None):
         names_len = len(list(channel_obj_keys))
         for i, name in enumerate(channel_obj_keys):
             info_list = data.get(cate, {}).get(name, [])
-            channel_urls = get_total_urls_from_info_list(info_list)
+            channel_urls = get_total_urls_from_info_list(info_list, ipv6=ipv6)
             end_char = ", " if i < names_len - 1 else ""
             print(f"{name}:", len(channel_urls), end=end_char)
             update_channel_urls_txt(cate, name, channel_urls, callback=callback)

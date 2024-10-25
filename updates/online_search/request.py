@@ -32,13 +32,13 @@ async def use_accessible_url(callback):
     """
     Check if the url is accessible
     """
-    callback(f"正在获取最优的在线检索节点", 0)
+    callback(f"正在获取最优的关键字搜索节点", 0)
     baseUrl1 = "https://www.foodieguide.com/iptvsearch/"
     baseUrl2 = "http://tonkiang.us/"
     task1 = create_task(get_speed(baseUrl1, timeout=timeout))
     task2 = create_task(get_speed(baseUrl2, timeout=timeout))
     task_results = await gather(task1, task2)
-    callback(f"获取在线检索节点完成", 100)
+    callback(f"获取关键字搜索节点完成", 100)
     if task_results[0] == float("inf") and task_results[1] == float("inf"):
         return None
     if task_results[0] < task_results[1]:

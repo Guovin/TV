@@ -12,6 +12,7 @@ import threading
 import webbrowser
 from about import AboutUI
 from default import DefaultUI
+from prefer import PreferUI
 from multicast import MulticastUI
 from hotel import HotelUI
 from subscribe import SubscribeUI
@@ -28,6 +29,7 @@ class TkinterUI:
         self.version = info.get("version", "")
         self.about_ui = AboutUI()
         self.default_ui = DefaultUI()
+        self.prefer_ui = PreferUI()
         self.multicast_ui = MulticastUI()
         self.hotel_ui = HotelUI()
         self.subscribe_ui = SubscribeUI()
@@ -84,6 +86,7 @@ class TkinterUI:
 
     def change_state(self, state):
         self.default_ui.change_entry_state(state=state)
+        self.prefer_ui.change_entry_state(state=state)
         self.multicast_ui.change_entry_state(state=state)
         self.hotel_ui.change_entry_state(state=state)
         self.subscribe_ui.change_entry_state(state=state)
@@ -148,6 +151,7 @@ class TkinterUI:
         notebook.pack(fill="both", padx=10, pady=5)
 
         frame_default = tk.ttk.Frame(notebook)
+        frame_prefer = tk.ttk.Frame(notebook)
         frame_hotel = tk.ttk.Frame(notebook)
         frame_multicast = tk.ttk.Frame(notebook)
         frame_subscribe = tk.ttk.Frame(notebook)
@@ -157,6 +161,10 @@ class TkinterUI:
             resource_path("static/images/settings_icon.png")
         ).resize((16, 16))
         settings_icon = ImageTk.PhotoImage(settings_icon_source)
+        prefer_icon_source = Image.open(
+            resource_path("static/images/prefer_icon.png")
+        ).resize((16, 16))
+        prefer_icon = ImageTk.PhotoImage(prefer_icon_source)
         hotel_icon_source = Image.open(
             resource_path("static/images/hotel_icon.png")
         ).resize((16, 16))
@@ -177,6 +185,7 @@ class TkinterUI:
         notebook.add(
             frame_default, text="通用设置", image=settings_icon, compound=tk.LEFT
         )
+        notebook.add(frame_prefer, text="偏好设置", image=prefer_icon, compound=tk.LEFT)
         notebook.add(frame_hotel, text="酒店源", image=hotel_icon, compound=tk.LEFT)
         notebook.add(
             frame_multicast, text="组播源", image=multicast_icon, compound=tk.LEFT
@@ -186,18 +195,20 @@ class TkinterUI:
         )
         notebook.add(
             frame_online_search,
-            text="在线搜索",
+            text="关键字搜索",
             image=online_search_icon,
             compound=tk.LEFT,
         )
 
         notebook.settings_icon = settings_icon
+        notebook.prefer_icon = prefer_icon
         notebook.hotel_icon = hotel_icon
         notebook.multicast_icon = multicast_icon
         notebook.subscribe_icon = subscribe_icon
         notebook.online_search_icon = online_search_icon
 
         self.default_ui.init_ui(frame_default)
+        self.prefer_ui.init_ui(frame_prefer)
         self.multicast_ui.init_ui(frame_multicast)
         self.hotel_ui.init_ui(frame_hotel)
         self.subscribe_ui.init_ui(frame_subscribe)
