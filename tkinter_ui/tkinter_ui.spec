@@ -12,7 +12,7 @@ a = Analysis(
         ('../updates/fofa/fofa_hotel_region_result.pkl', 'updates/fofa'),
         ('../updates/fofa/fofa_multicast_region_result.pkl', 'updates/fofa'),
         ('../static/images/favicon.ico', 'static/images'),
-        ('../static/images/appreciate.jpg', 'static/images'),
+        ('../static/images/alipay.jpg', 'static/images'),
         ('../static/images/settings_icon.png', 'static/images'),
         ('../static/images/prefer_icon.png', 'static/images'),
         ('../static/images/hotel_icon.png', 'static/images'),
