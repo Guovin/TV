@@ -262,17 +262,20 @@ def check_ipv6_support():
     return False
 
 
+ipv_type = config.get("Settings", "ipv_type", fallback="全部").lower()
+
+
 def check_url_ipv_type(url):
     """
     Check if the url is compatible with the ipv type in the config
     """
-    ipv_type = config.get("Settings", "ipv_type", fallback="全部").lower()
-    if ipv_type == "ipv4":
-        return not is_ipv6(url)
-    elif ipv_type == "ipv6":
-        return is_ipv6(url)
-    else:
-        return True
+    ipv6 = is_ipv6(url)
+    return (
+        (ipv_type == "ipv4" and not ipv6)
+        or (ipv_type == "ipv6" and ipv6)
+        or ipv_type == "全部"
+        or ipv_type == "all"
+    )
 
 
 def check_by_domain_blacklist(url):
