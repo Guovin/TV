@@ -38,7 +38,7 @@ class PreferUI:
         self.prefer_ipv_type_label.pack(side=tk.LEFT, padx=4, pady=8)
         self.prefer_ipv_type_combo = ttk.Combobox(frame_prefer_ipv_type)
         self.prefer_ipv_type_combo.pack(side=tk.LEFT, padx=4, pady=8)
-        self.prefer_ipv_type_combo["values"] = ("IPv4", "IPv6", "随机")
+        self.prefer_ipv_type_combo["values"] = ("IPv4", "IPv6", "自动")
         ipv_type_prefer = config.get(
             "Settings", "ipv_type_prefer", fallback="IPv4"
         ).lower()

@@ -122,7 +122,7 @@ def get_resolution_value(resolution_str):
         return 0
 
 
-def get_total_urls_from_info_list(infoList):
+def get_total_urls_from_info_list(infoList, ipv6=False):
     """
     Get the total urls from info list
     """
@@ -174,7 +174,7 @@ def get_total_urls_from_info_list(infoList):
 
         if (
             ("ipv6" in ipv_type_prefer)
-            or "随机" in ipv_type_prefer
+            or "自动" in ipv_type_prefer
             or "random" in ipv_type_prefer
         ) and "IPv6" in url:
             categorized_urls[origin]["ipv6"].append(url)
@@ -186,8 +186,8 @@ def get_total_urls_from_info_list(infoList):
         "ipv4": 0,
         "ipv6": 0,
     }
-    if "随机" in ipv_type_prefer or "random" in ipv_type_prefer:
-        ipv_type_prefer = ["ipv4", "ipv6"]
+    if "自动" in ipv_type_prefer or "auto" in ipv_type_prefer:
+        ipv_type_prefer = ["ipv6", "ipv4"] if ipv6 else ["ipv4", "ipv6"]
     for origin in origin_type_prefer:
         for ipv_type in ipv_type_prefer:
             if ipv_num[ipv_type] < ipv_limit[ipv_type]:
@@ -258,7 +258,7 @@ def check_ipv6_support():
             return True
     except Exception:
         pass
-    print("Your network does not support IPv6, using proxy instead")
+    print("Your network does not support IPv6")
     return False
 
 
