@@ -134,7 +134,7 @@ class ConfigOption:
             "酒店源": "hotel",
             "组播源": "multicast",
             "订阅源": "subscribe",
-            "在线搜索": "online_search",
+            "关键字搜索": "online_search",
         }
         combo_box_values_name = list(self.origin_type_prefer_obj.keys())
         self.combo_box["values"] = combo_box_values_name

@@ -179,11 +179,11 @@ pipenv install
 pipenv run build
 ```
 
-### 方式三：界面软件更新
+### 方式三：GUI 软件更新
 
 1. 下载[更新工具软件](https://github.com/Guovin/TV/releases)，打开软件，点击更新，即可完成更新
 
-2. 或者在项目目录下运行以下命令，即可打开界面软件：
+2. 或者在项目目录下运行以下命令，即可打开 GUI 软件：
 
 ```python
 pipenv run ui
@@ -194,7 +194,7 @@ pipenv run ui
 ### 方式四：Docker 更新
 
 - requests：轻量级，性能要求低，更新速度快，稳定性不确定（推荐订阅源使用此版本）
-- driver：性能要求较高，更新速度较慢，稳定性、成功率高；修改配置 open_driver = False 可切换到 request 版本（推荐酒店源、组播源、在线搜索使用此版本）
+- driver：性能要求较高，更新速度较慢，稳定性、成功率高；修改配置 open_driver = False 可切换到 request 版本（推荐酒店源、组播源、关键字搜索使用此版本）
 
 ```bash
 1. 拉取镜像：
