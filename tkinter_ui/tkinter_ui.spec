@@ -14,6 +14,7 @@ a = Analysis(
         ('../static/images/favicon.ico', 'static/images'),
         ('../static/images/appreciate.jpg', 'static/images'),
         ('../static/images/settings_icon.png', 'static/images'),
+        ('../static/images/prefer_icon.png', 'static/images'),
         ('../static/images/hotel_icon.png', 'static/images'),
         ('../static/images/multicast_icon.png', 'static/images'),
         ('../static/images/subscribe_icon.png', 'static/images'),
