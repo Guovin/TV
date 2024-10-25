@@ -1,4 +1,4 @@
-name: 'update schedule'
+name: 'Update schedule'
 
 on:
   schedule:

@@ -13,7 +13,7 @@ class OnlineSearchUI:
         frame_online_search_open_online_search.pack(fill=tk.X)
 
         self.open_online_search_label = tk.Label(
-            frame_online_search_open_online_search, text="开启在线搜索:", width=13
+            frame_online_search_open_online_search, text="开启关键字搜索:", width=13
         )
         self.open_online_search_label.pack(side=tk.LEFT, padx=4, pady=8)
         self.open_online_search_var = tk.BooleanVar(

@@ -122,7 +122,7 @@ def get_resolution_value(resolution_str):
         return 0
 
 
-def get_total_urls_from_info_list(infoList):
+def get_total_urls_from_info_list(infoList, ipv6=False):
     """
     Get the total urls from info list
     """
@@ -135,6 +135,10 @@ def get_total_urls_from_info_list(infoList):
             ","
         )
     ]
+    ipv_limit = {
+        "ipv4": config.getint("Settings", "ipv4_num", fallback=15),
+        "ipv6": config.getint("Settings", "ipv6_num", fallback=15),
+    }
     origin_type_prefer = [
         origin.strip().lower()
         for origin in config.get(
@@ -170,7 +174,7 @@ def get_total_urls_from_info_list(infoList):
 
         if (
             ("ipv6" in ipv_type_prefer)
-            or "随机" in ipv_type_prefer
+            or "自动" in ipv_type_prefer
             or "random" in ipv_type_prefer
         ) and "IPv6" in url:
             categorized_urls[origin]["ipv6"].append(url)
@@ -178,23 +182,32 @@ def get_total_urls_from_info_list(infoList):
             categorized_urls[origin]["ipv4"].append(url)
 
     total_urls = []
-    if "随机" in ipv_type_prefer or "random" in ipv_type_prefer:
-        ipv_type_prefer = ["ipv4", "ipv6"]
+    ipv_num = {
+        "ipv4": 0,
+        "ipv6": 0,
+    }
+    if "自动" in ipv_type_prefer or "auto" in ipv_type_prefer:
+        ipv_type_prefer = ["ipv6", "ipv4"] if ipv6 else ["ipv4", "ipv6"]
     for origin in origin_type_prefer:
         for ipv_type in ipv_type_prefer:
-            total_urls.extend(
-                categorized_urls[origin][ipv_type][: source_limits[origin]]
-            )
+            if ipv_num[ipv_type] < ipv_limit[ipv_type]:
+                urls = categorized_urls[origin][ipv_type][: source_limits[origin]]
+                total_urls.extend(urls)
+                ipv_num[ipv_type] += len(urls)
 
     urls_limit = config.getint("Settings", "urls_limit", fallback=30)
     ipv_type_total = list(dict.fromkeys(ipv_type_prefer + ["ipv4", "ipv6"]))
     if len(total_urls) < urls_limit:
         for origin in origin_type_prefer:
             for ipv_type in ipv_type_total:
-                extra_urls = categorized_urls[origin][ipv_type][source_limits[origin] :]
-                total_urls.extend(extra_urls)
-                if len(total_urls) >= urls_limit:
-                    break
+                if ipv_num[ipv_type] < ipv_limit[ipv_type]:
+                    extra_urls = categorized_urls[origin][ipv_type][
+                        source_limits[origin] :
+                    ]
+                    total_urls.extend(extra_urls)
+                    ipv_num[ipv_type] += len(extra_urls)
+                    if len(total_urls) >= urls_limit:
+                        break
             if len(total_urls) >= urls_limit:
                 break
 
@@ -245,21 +258,24 @@ def check_ipv6_support():
             return True
     except Exception:
         pass
-    print("Your network does not support IPv6, using proxy instead")
+    print("Your network does not support IPv6")
     return False
+
+
+ipv_type = config.get("Settings", "ipv_type", fallback="全部").lower()
 
 
 def check_url_ipv_type(url):
     """
     Check if the url is compatible with the ipv type in the config
     """
-    ipv_type = config.get("Settings", "ipv_type", fallback="全部")
-    if ipv_type == "ipv4":
-        return not is_ipv6(url)
-    elif ipv_type == "ipv6":
-        return is_ipv6(url)
-    else:
-        return True
+    ipv6 = is_ipv6(url)
+    return (
+        (ipv_type == "ipv4" and not ipv6)
+        or (ipv_type == "ipv6" and ipv6)
+        or ipv_type == "全部"
+        or ipv_type == "all"
+    )
 
 
 def check_by_domain_blacklist(url):

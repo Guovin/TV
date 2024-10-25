@@ -38,7 +38,7 @@ class PreferUI:
         self.prefer_ipv_type_label.pack(side=tk.LEFT, padx=4, pady=8)
         self.prefer_ipv_type_combo = ttk.Combobox(frame_prefer_ipv_type)
         self.prefer_ipv_type_combo.pack(side=tk.LEFT, padx=4, pady=8)
-        self.prefer_ipv_type_combo["values"] = ("IPv4", "IPv6", "随机")
+        self.prefer_ipv_type_combo["values"] = ("IPv4", "IPv6", "自动")
         ipv_type_prefer = config.get(
             "Settings", "ipv_type_prefer", fallback="IPv4"
         ).lower()
@@ -134,7 +134,7 @@ class ConfigOption:
             "酒店源": "hotel",
             "组播源": "multicast",
             "订阅源": "subscribe",
-            "在线搜索": "online_search",
+            "关键字搜索": "online_search",
         }
         combo_box_values_name = list(self.origin_type_prefer_obj.keys())
         self.combo_box["values"] = combo_box_values_name

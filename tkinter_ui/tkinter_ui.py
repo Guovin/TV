@@ -195,7 +195,7 @@ class TkinterUI:
         )
         notebook.add(
             frame_online_search,
-            text="在线搜索",
+            text="关键字搜索",
             image=online_search_icon,
             compound=tk.LEFT,
         )
