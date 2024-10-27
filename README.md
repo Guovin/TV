@@ -75,7 +75,7 @@
   </a>
 </p>
 
-[English](./README_en.md) | 中文
+[English](./README_en.md)| 中文 | [日本語](./README_ja.md) 
 
 ## 特点
 
