@@ -91,13 +91,13 @@
 - Interface source:
 
 ```bash
-  https://ghproxy.net/raw.githubusercontent.com/Guovin/TV/gd/output/result.m3u
+https://ghproxy.net/raw.githubusercontent.com/Guovin/TV/gd/output/result.m3u
 ```
 
 - Data source:
 
 ```bash
-  https://ghproxy.net/raw.githubusercontent.com/Guovin/TV/gd/source.json
+https://ghproxy.net/raw.githubusercontent.com/Guovin/TV/gd/source.json
 ```
 
 ## Config

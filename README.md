@@ -91,13 +91,13 @@
 - 接口源：
 
 ```bash
-  https://ghproxy.net/raw.githubusercontent.com/Guovin/TV/gd/output/result.m3u
+https://ghproxy.net/raw.githubusercontent.com/Guovin/TV/gd/output/result.m3u
 ```
 
 - 数据源：
 
 ```bash
-  https://ghproxy.net/raw.githubusercontent.com/Guovin/TV/gd/source.json
+https://ghproxy.net/raw.githubusercontent.com/Guovin/TV/gd/source.json
 ```
 
 ## 配置
