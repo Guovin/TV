@@ -201,9 +201,11 @@ def get_total_urls_from_info_list(infoList, ipv6=False):
         for origin in origin_type_prefer:
             for ipv_type in ipv_type_total:
                 if ipv_num[ipv_type] < ipv_limit[ipv_type]:
-                    extra_urls = categorized_urls[origin][ipv_type][
-                        source_limits[origin] :
-                    ]
+                    extra_urls = (
+                        categorized_urls[origin][ipv_type][source_limits[origin] :]
+                        if ipv_type in ipv_type_prefer
+                        else categorized_urls[origin][ipv_type][: source_limits[origin]]
+                    )
                     total_urls.extend(extra_urls)
                     ipv_num[ipv_type] += len(extra_urls)
                     if len(total_urls) >= urls_limit:
