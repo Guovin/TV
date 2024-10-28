@@ -118,7 +118,7 @@ async def get_channels_by_multicast(names, callback=None):
                             driver.execute_script("arguments[0].click();", page_link)
                         else:
                             request_url = (
-                                f"{pageUrl}?net={name}&page={page}&code={code}"
+                                f"{pageUrl}?isp={name}&page={page}&code={code}"
                             )
                             page_soup = retry_func(
                                 lambda: get_soup_requests(request_url, proxy=proxy),
