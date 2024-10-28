@@ -131,11 +131,14 @@ def get_channel_items():
     return channels
 
 
+open_keep_all = config.getboolean("Settings", "open_keep_all", fallback=False)
+
+
 def format_channel_name(name):
     """
     Format the channel name with sub and replace and lower
     """
-    if config.getboolean("Settings", "open_keep_all", fallback=False):
+    if open_keep_all:
         return name
     cc = OpenCC("t2s")
     name = cc.convert(name)
@@ -183,7 +186,7 @@ def channel_name_is_equal(name1, name2):
     """
     Check if the channel name is equal
     """
-    if config.getboolean("Settings", "open_keep_all", fallback=False):
+    if open_keep_all:
         return True
     name1_format = format_channel_name(name1)
     name2_format = format_channel_name(name2)
@@ -530,7 +533,7 @@ def append_total_data(*args, **kwargs):
     """
     Append total channel data
     """
-    if config.getboolean("Settings", "open_keep_all", fallback=False):
+    if open_keep_all:
         append_all_method_data_keep_all(*args, **kwargs)
     else:
         append_all_method_data(*args, **kwargs)
@@ -781,7 +784,12 @@ def write_channel_to_file(items, data, ipv6=False, callback=None):
             now += datetime.timedelta(hours=8)
         update_time = now.strftime("%Y-%m-%d %H:%M:%S")
         update_channel_urls_txt("更新时间", f"{update_time}", ["url"])
-    for cate, channel_obj in items:
+    result_items = (
+        data.items()
+        if config.getboolean("Settings", "open_keep_all", fallback=False)
+        else items
+    )
+    for cate, channel_obj in result_items:
         print(f"\n{cate}:", end=" ")
         channel_obj_keys = channel_obj.keys()
         names_len = len(list(channel_obj_keys))
