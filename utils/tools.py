@@ -172,6 +172,9 @@ def get_total_urls_from_info_list(infoList, ipv6=False):
         if not origin or origin.lower() not in origin_type_prefer:
             continue
 
+        if origin == "subscribe" and "/rtp/" in url:
+            origin = "multicast"
+            
         if (
             ("ipv6" in ipv_type_prefer)
             or "自动" in ipv_type_prefer
