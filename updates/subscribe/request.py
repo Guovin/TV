@@ -4,7 +4,12 @@ from time import time
 from requests import Session, exceptions
 from utils.retry import retry_func
 from utils.channel import get_name_url, format_channel_name
-from utils.tools import merge_objects, get_pbar_remaining, format_url_with_cache
+from utils.tools import (
+    merge_objects,
+    get_pbar_remaining,
+    format_url_with_cache,
+    add_url_info,
+)
 from concurrent.futures import ThreadPoolExecutor
 from collections import defaultdict
 
@@ -17,7 +22,6 @@ async def get_channels_by_subscribe_urls(
     hotel=False,
     retry=True,
     error_print=True,
-    with_cache=False,
     callback=None,
 ):
     """
@@ -44,9 +48,9 @@ async def get_channels_by_subscribe_urls(
     session = Session()
 
     def process_subscribe_channels(subscribe_info):
-        if multicast and isinstance(subscribe_info, dict):
+        if (multicast or hotel) and isinstance(subscribe_info, dict):
             region = subscribe_info.get("region")
-            type = subscribe_info.get("type")
+            type = subscribe_info.get("type", "")
             subscribe_url = subscribe_info.get("url")
         else:
             subscribe_url = subscribe_info
@@ -72,8 +76,15 @@ async def get_channels_by_subscribe_urls(
                     name = item["name"]
                     url = item["url"]
                     if name and url:
+                        if not multicast:
+                            info = (
+                                f"{region}酒店源"
+                                if hotel
+                                else "组播源" if "/rtp/" in url else "订阅源"
+                            )
+                            url = add_url_info(url, info)
                         url = format_url_with_cache(
-                            url, cache=subscribe_url if with_cache else None
+                            url, cache=subscribe_url if (multicast or hotel) else None
                         )
                         value = url if multicast else (url, None, None)
                         name = format_channel_name(name)
