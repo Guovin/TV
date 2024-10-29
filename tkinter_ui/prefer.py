@@ -13,7 +13,7 @@ class PreferUI:
             for item in config.get(
                 "Settings",
                 "origin_type_prefer",
-                fallback="hotel,multicast,subscribe,online_search",
+                fallback="subscribe,hotel,multicast,online_search",
             ).split(",")
         ]
         config_options = [
@@ -161,7 +161,7 @@ class ConfigOption:
             for item in config.get(
                 "Settings",
                 "origin_type_prefer",
-                fallback="hotel,multicast,subscribe,online_search",
+                fallback="subscribe,hotel,multicast,online_search",
             ).split(",")
         ]
         origin_type_prefer_list[self.combo_box_value] = self.origin_type_prefer_obj[

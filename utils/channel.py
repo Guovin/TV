@@ -4,11 +4,12 @@ from utils.tools import (
     get_total_urls_from_info_list,
     process_nested_dict,
     get_resolution_value,
+    add_url_info,
+    remove_cache_info,
 )
 from utils.speed import (
     sort_urls_by_speed_and_resolution,
     is_ffmpeg_installed,
-    add_info_url,
     speed_cache,
 )
 import os
@@ -294,9 +295,14 @@ def get_channel_multicast_result(result, search_result):
         info_list = [
             (
                 (
-                    f"http://{url}/rtp/{ip}$cache:{url}"
+                    add_url_info(
+                        f"http://{url}/rtp/{ip}",
+                        f"{result_region}{result_type}组播源|cache:{url}",
+                    )
                     if open_sort
-                    else f"http://{url}/rtp/{ip}"
+                    else add_url_info(
+                        f"http://{url}/rtp/{ip}", f"{result_region}{result_type}组播源"
+                    )
                 ),
                 date,
                 resolution,
@@ -468,7 +474,7 @@ def get_channel_url(text):
         text,
     )
     if url_search:
-        url = url_search.group().strip()
+        url = url_search.group()
     return url
 
 
@@ -709,7 +715,7 @@ async def process_sort_channel_list(data, ipv6=False, callback=None):
     is_ffmpeg = open_ffmpeg and ffmpeg_installed
     semaphore = asyncio.Semaphore(5)
     need_sort_data = copy.deepcopy(data)
-    process_nested_dict(need_sort_data, seen=set(), flag="$cache:")
+    process_nested_dict(need_sort_data, seen=set(), flag=r"cache:(.*)")
     tasks = [
         asyncio.create_task(
             sort_channel_list(
@@ -737,39 +743,41 @@ async def process_sort_channel_list(data, ipv6=False, callback=None):
         for name, info_list in obj.items():
             sort_info_list = sort_data.get(cate, {}).get(name, [])
             sort_urls = {
-                sort_url[0].split("$")[0]
+                remove_cache_info(sort_url[0])
                 for sort_url in sort_info_list
                 if sort_url and sort_url[0]
             }
             for url, date, resolution, origin in info_list:
-                url_rsplit = url.rsplit("$cache:", 1)
-                if len(url_rsplit) != 2:
-                    continue
-                url, cache_key = url_rsplit
-                url = url.split("$")[0]
-                if url in sort_urls or cache_key not in speed_cache:
-                    continue
-                cache = speed_cache[cache_key]
-                if not cache:
-                    continue
-                response_time, resolution = cache
-                if response_time and response_time != float("inf"):
-                    if resolution:
-                        url = add_info_url(url, resolution)
-                        if open_filter_resolution:
-                            resolution_value = get_resolution_value(resolution)
-                            if resolution_value < min_resolution:
-                                continue
-                    append_data_to_info_data(
-                        sort_data,
-                        cate,
-                        name,
-                        [(url, date, resolution, origin)],
-                        check=False,
-                    )
-                    logging.info(
-                        f"Name: {name}, URL: {url}, Date: {date}, Resolution: {resolution}, Response Time: {response_time} ms"
-                    )
+                if "$" in url:
+                    matcher = re.search(r"cache:(.*)", url)
+                    if matcher:
+                        cache_key = matcher.group(1)
+                        if not cache_key:
+                            continue
+                    url = remove_cache_info(url)
+                    if url in sort_urls or cache_key not in speed_cache:
+                        continue
+                    cache = speed_cache[cache_key]
+                    if not cache:
+                        continue
+                    response_time, resolution = cache
+                    if response_time and response_time != float("inf"):
+                        if resolution:
+                            if open_filter_resolution:
+                                resolution_value = get_resolution_value(resolution)
+                                if resolution_value < min_resolution:
+                                    continue
+                            url = add_url_info(url, resolution)
+                        append_data_to_info_data(
+                            sort_data,
+                            cate,
+                            name,
+                            [(url, date, resolution, origin)],
+                            check=False,
+                        )
+                        logging.info(
+                            f"Name: {name}, URL: {url}, Date: {date}, Resolution: {resolution}, Response Time: {response_time} ms"
+                        )
     return sort_data
 
 
@@ -881,7 +889,7 @@ def format_channel_url_info(data):
     for obj in data.values():
         for url_info in obj.values():
             for i, (url, date, resolution, origin) in enumerate(url_info):
-                url = url.split("$", 1)[0]
+                url = remove_cache_info(url)
                 if resolution:
-                    url = add_info_url(url, resolution)
+                    url = add_url_info(url, resolution)
                 url_info[i] = (url, date, resolution, origin)
