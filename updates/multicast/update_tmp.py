@@ -104,7 +104,7 @@ def get_multicast_region_result_by_rtp_txt(callback=None):
     Get multicast region result by rtp txt
     """
     rtp_path = resource_path("config/rtp")
-    config_region_list = constants.multicast_region_list
+    config_region_list = set(constants.multicast_region_list)
     rtp_file_list = [
         filename.rsplit(".", 1)[0]
         for filename in os.listdir(rtp_path)
