@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from utils.config import config, resource_path
+import utils.constants as constants
 from select_combobox import SelectCombobox
 import os
 
@@ -18,9 +19,7 @@ class MulticastUI:
             frame_multicast_multicast, text="开启组播源:", width=9
         )
         self.open_multicast_label.pack(side=tk.LEFT, padx=4, pady=8)
-        self.open_multicast_var = tk.BooleanVar(
-            value=config.getboolean("Settings", "open_multicast", fallback=True)
-        )
+        self.open_multicast_var = tk.BooleanVar(value=constants.open_multicast)
         self.open_multicast_checkbutton = ttk.Checkbutton(
             frame_multicast_multicast,
             variable=self.open_multicast_var,
@@ -38,9 +37,7 @@ class MulticastUI:
         )
         self.open_multicast_mode_label.pack(side=tk.LEFT, padx=4, pady=8)
         self.open_multicast_tonkiang_var = tk.BooleanVar(
-            value=config.getboolean(
-                "Settings", "open_multicast_tonkiang", fallback=True
-            )
+            value=constants.open_multicast_tonkiang
         )
         self.open_multicast_tonkiang_checkbutton = ttk.Checkbutton(
             frame_multicast_mode,
@@ -53,7 +50,7 @@ class MulticastUI:
         self.open_multicast_tonkiang_checkbutton.pack(side=tk.LEFT, padx=4, pady=8)
 
         self.open_multicast_fofa_var = tk.BooleanVar(
-            value=config.getboolean("Settings", "open_multicast_fofa", fallback=True)
+            value=constants.open_multicast_fofa
         )
         self.open_multicast_fofa_checkbutton = ttk.Checkbutton(
             frame_multicast_mode,
@@ -86,17 +83,10 @@ class MulticastUI:
         if "全部" in regions:
             regions.remove("全部")
         regions.insert(0, "全部")
-        region_selected_values = [
-            value.strip()
-            for value in config.get(
-                "Settings", "multicast_region_list", fallback="全部"
-            ).split(",")
-            if value.strip()
-        ]
         self.region_list_combo = SelectCombobox(
             frame_multicast_region_list,
             values=regions,
-            selected_values=region_selected_values,
+            selected_values=constants.multicast_region_list,
             height=10,
             command=self.update_region_list,
         )
@@ -113,9 +103,7 @@ class MulticastUI:
         self.page_num_label.pack(side=tk.LEFT, padx=4, pady=8)
         self.page_num_entry = tk.Entry(frame_multicast_page_num)
         self.page_num_entry.pack(side=tk.LEFT, padx=4, pady=8)
-        self.page_num_entry.insert(
-            0, config.getint("Settings", "multicast_page_num", fallback=3)
-        )
+        self.page_num_entry.insert(0, constants.multicast_page_num)
         self.page_num_entry.bind("<KeyRelease>", self.update_page_num)
 
     def update_open_multicast(self):
