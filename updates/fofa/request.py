@@ -1,4 +1,5 @@
-from utils.config import config, resource_path
+from utils.config import resource_path
+import utils.constants as constants
 from tqdm.asyncio import tqdm_asyncio
 from time import time
 from requests import get
@@ -15,22 +16,14 @@ from collections import defaultdict
 import pickle
 import threading
 
-timeout = config.getint("Settings", "request_timeout", fallback=10)
-
 
 def get_fofa_urls_from_region_list():
     """
     Get the FOFA url from region
     """
-    region_list = [
-        region.strip()
-        for region in config.get(
-            "Settings", "hotel_region_list", fallback="全部"
-        ).split(",")
-        if region.strip()
-    ]
     urls = []
     region_url = getattr(fofa_map, "region_url")
+    region_list = constants.hotel_region_list
     if "all" in region_list or "ALL" in region_list or "全部" in region_list:
         urls = [
             (url, region)
@@ -92,9 +85,9 @@ async def get_channels_by_fofa(urls=None, multicast=False, callback=None):
             0,
         )
     proxy = None
-    open_proxy = config.getboolean("Settings", "open_proxy", fallback=False)
-    open_driver = config.getboolean("Settings", "open_driver", fallback=True)
-    open_sort = config.getboolean("Settings", "open_sort", fallback=True)
+    open_proxy = constants.open_proxy
+    open_driver = constants.open_driver
+    open_sort = constants.open_sort
     if open_proxy:
         test_url = fofa_urls[0][0]
         proxy = await get_proxy(test_url, best=True, with_test=True)
@@ -203,7 +196,7 @@ def process_fofa_json_url(url, region, open_sort):
         #     lambda: get(final_url, timeout=timeout),
         #     name=final_url,
         # )
-        response = get(final_url, timeout=timeout)
+        response = get(final_url, timeout=constants.request_timeout)
         try:
             json_data = response.json()
             if json_data["code"] == 0:

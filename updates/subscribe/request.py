@@ -1,4 +1,4 @@
-from utils.config import config
+import utils.constants as constants
 from tqdm.asyncio import tqdm_asyncio
 from time import time
 from requests import Session, exceptions
@@ -13,8 +13,6 @@ from utils.tools import (
 from concurrent.futures import ThreadPoolExecutor
 from collections import defaultdict
 
-timeout = config.getint("Settings", "request_timeout", fallback=10)
-
 
 async def get_channels_by_subscribe_urls(
     urls,
@@ -28,12 +26,7 @@ async def get_channels_by_subscribe_urls(
     Get the channels by subscribe urls
     """
     subscribe_results = {}
-    subscribe_urls = [
-        url.strip()
-        for url in config.get("Settings", "subscribe_urls", fallback="").split(",")
-        if url.strip()
-    ]
-    subscribe_urls_len = len(urls if urls else subscribe_urls)
+    subscribe_urls_len = len(urls if urls else constants.subscribe_urls)
     pbar = tqdm_asyncio(
         total=subscribe_urls_len,
         desc=f"Processing subscribe {'for multicast' if multicast else ''}",
@@ -60,11 +53,13 @@ async def get_channels_by_subscribe_urls(
             try:
                 response = (
                     retry_func(
-                        lambda: session.get(subscribe_url, timeout=timeout),
+                        lambda: session.get(
+                            subscribe_url, timeout=constants.request_timeout
+                        ),
                         name=subscribe_url,
                     )
                     if retry
-                    else session.get(subscribe_url, timeout=timeout)
+                    else session.get(subscribe_url, timeout=constants.request_timeout)
                 )
             except exceptions.Timeout:
                 print(f"Timeout on subscribe: {subscribe_url}")
@@ -115,7 +110,7 @@ async def get_channels_by_subscribe_urls(
     with ThreadPoolExecutor(max_workers=100) as executor:
         futures = [
             executor.submit(process_subscribe_channels, subscribe_url)
-            for subscribe_url in (urls if urls else subscribe_urls)
+            for subscribe_url in (urls if urls else constants.subscribe_urls)
         ]
         for future in futures:
             subscribe_results = merge_objects(subscribe_results, future.result())

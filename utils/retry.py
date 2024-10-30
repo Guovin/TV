@@ -2,10 +2,9 @@ from time import sleep
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
-from utils.config import config
+import utils.constants as constants
 
 max_retries = 2
-timeout = config.getint("Settings", "request_timeout", fallback=10)
 
 
 def retry_func(func, retries=max_retries, name=""):
@@ -26,7 +25,9 @@ def retry_func(func, retries=max_retries, name=""):
     raise Exception(f"Failed to connect to the {name} reached the maximum retries.")
 
 
-def locate_element_with_retry(driver, locator, timeout=timeout, retries=max_retries):
+def locate_element_with_retry(
+    driver, locator, timeout=constants.request_timeout, retries=max_retries
+):
     """
     Locate the element with retry
     """
@@ -40,7 +41,7 @@ def locate_element_with_retry(driver, locator, timeout=timeout, retries=max_retr
 
 
 def find_clickable_element_with_retry(
-    driver, locator, timeout=timeout, retries=max_retries
+    driver, locator, timeout=constants.request_timeout, retries=max_retries
 ):
     """
     Find the clickable element with retry
