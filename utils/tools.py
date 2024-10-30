@@ -175,11 +175,16 @@ def get_total_urls_from_info_list(infoList, ipv6=False):
         if origin == "subscribe" and "/rtp/" in url:
             origin = "multicast"
 
+        url_is_ipv6 = is_ipv6(url)
+        if url_is_ipv6:
+            url += "|IPv6"
+            print(url)
+
         if (
             ("ipv6" in ipv_type_prefer)
             or "自动" in ipv_type_prefer
             or "random" in ipv_type_prefer
-        ) and "IPv6" in url:
+        ) and url_is_ipv6:
             categorized_urls[origin]["ipv6"].append(url)
         else:
             categorized_urls[origin]["ipv4"].append(url)
