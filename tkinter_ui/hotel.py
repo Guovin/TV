@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from utils.config import config
+import utils.constants as constants
 from select_combobox import SelectCombobox
 import updates.fofa.fofa_map as fofa_map
 
@@ -17,9 +18,7 @@ class HotelUI:
             frame_hotel_open_hotel, text="开启酒店源:", width=9
         )
         self.open_hotel_label.pack(side=tk.LEFT, padx=4, pady=8)
-        self.open_hotel_var = tk.BooleanVar(
-            value=config.getboolean("Settings", "open_hotel", fallback=True)
-        )
+        self.open_hotel_var = tk.BooleanVar(value=constants.open_hotel)
         self.open_hotel_checkbutton = ttk.Checkbutton(
             frame_hotel_open_hotel,
             variable=self.open_hotel_var,
@@ -37,7 +36,7 @@ class HotelUI:
         )
         self.open_hotel_mode_label.pack(side=tk.LEFT, padx=4, pady=8)
         self.open_hotel_tonkiang_var = tk.BooleanVar(
-            value=config.getboolean("Settings", "open_hotel_tonkiang", fallback=False)
+            value=constants.open_hotel_tonkiang
         )
         self.open_hotel_tonkiang_checkbutton = ttk.Checkbutton(
             frame_hotel_mode,
@@ -49,9 +48,7 @@ class HotelUI:
         )
         self.open_hotel_tonkiang_checkbutton.pack(side=tk.LEFT, padx=4, pady=8)
 
-        self.open_hotel_fofa_var = tk.BooleanVar(
-            value=config.getboolean("Settings", "open_hotel_fofa", fallback=True)
-        )
+        self.open_hotel_fofa_var = tk.BooleanVar(value=constants.open_hotel_fofa)
         self.open_hotel_fofa_checkbutton = ttk.Checkbutton(
             frame_hotel_mode,
             variable=self.open_hotel_fofa_var,
@@ -70,17 +67,10 @@ class HotelUI:
         )
         self.region_list_label.pack(side=tk.LEFT, padx=4, pady=8)
         regions = ["全部"] + list(getattr(fofa_map, "region_url").keys())
-        region_selected_values = [
-            value.strip()
-            for value in config.get(
-                "Settings", "hotel_region_list", fallback="全部"
-            ).split(",")
-            if value.strip()
-        ]
         self.region_list_combo = SelectCombobox(
             frame_hotel_region_list,
             values=regions,
-            selected_values=region_selected_values,
+            selected_values=constants.hotel_region_list,
             height=10,
             command=self.update_region_list,
         )
@@ -95,9 +85,7 @@ class HotelUI:
         self.page_num_label.pack(side=tk.LEFT, padx=4, pady=8)
         self.page_num_entry = tk.Entry(frame_hotel_page_num)
         self.page_num_entry.pack(side=tk.LEFT, padx=4, pady=8)
-        self.page_num_entry.insert(
-            0, config.getint("Settings", "hotel_page_num", fallback=3)
-        )
+        self.page_num_entry.insert(0, constants.hotel_page_num)
         self.page_num_entry.bind("<KeyRelease>", self.update_page_num)
 
     def update_open_hotel(self):

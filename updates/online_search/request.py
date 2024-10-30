@@ -11,7 +11,7 @@ from utils.tools import (
     get_soup,
     format_url_with_cache,
 )
-from utils.config import config
+import utils.constants as constants
 from updates.proxy import get_proxy, get_proxy_next
 from time import time
 from driver.setup import setup_driver
@@ -25,8 +25,6 @@ from tqdm.asyncio import tqdm_asyncio
 from concurrent.futures import ThreadPoolExecutor
 from requests_custom.utils import get_soup_requests, close_session
 
-timeout = config.getint("Settings", "request_timeout", fallback=10)
-
 
 async def use_accessible_url(callback):
     """
@@ -35,8 +33,8 @@ async def use_accessible_url(callback):
     callback(f"正在获取最优的关键字搜索节点", 0)
     baseUrl1 = "https://www.foodieguide.com/iptvsearch/"
     baseUrl2 = "http://tonkiang.us/"
-    task1 = create_task(get_speed(baseUrl1, timeout=timeout))
-    task2 = create_task(get_speed(baseUrl2, timeout=timeout))
+    task1 = create_task(get_speed(baseUrl1, timeout=constants.request_timeout))
+    task2 = create_task(get_speed(baseUrl2, timeout=constants.request_timeout))
     task_results = await gather(task1, task2)
     callback(f"获取关键字搜索节点完成", 100)
     if task_results[0] == float("inf") and task_results[1] == float("inf"):
@@ -57,9 +55,9 @@ async def get_channels_by_online_search(names, callback=None):
     if not pageUrl:
         return channels
     proxy = None
-    open_proxy = config.getboolean("Settings", "open_proxy", fallback=False)
-    open_driver = config.getboolean("Settings", "open_driver", fallback=True)
-    page_num = config.getint("Settings", "online_search_page_num", fallback=3)
+    open_proxy = constants.open_proxy
+    open_driver = constants.open_driver
+    page_num = constants.online_search_page_num
     if open_proxy:
         proxy = await get_proxy(pageUrl, best=True, with_test=True)
     start_time = time()
