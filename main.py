@@ -150,9 +150,9 @@ class UpdateSource:
             ]
             await self.visit_page(channel_names)
             self.tasks = []
-            channel_items_obj_items = self.channel_items.items()
             append_total_data(
-                channel_items_obj_items,
+                self.channel_items.items(),
+                channel_names,
                 self.channel_data,
                 self.hotel_fofa_result,
                 self.multicast_result,
@@ -185,7 +185,6 @@ class UpdateSource:
             self.pbar = tqdm(total=self.total, desc="Writing")
             self.start_time = time()
             write_channel_to_file(
-                channel_items_obj_items,
                 self.channel_data,
                 ipv6=ipv6_support,
                 callback=lambda: self.pbar_update(name="写入结果"),

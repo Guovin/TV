@@ -57,15 +57,10 @@ def cleanup_logging():
         os.remove(constants.log_path)
 
 
-def get_name_url(content, m3u=False, rtp=False, multiline=False, check_url=True):
+def get_name_url(content, pattern, multiline=False, check_url=True):
     """
     Get channel name and url from content
     """
-    pattern = (
-        constants.m3u_pattern
-        if m3u
-        else constants.rtp_pattern if rtp else constants.txt_pattern
-    )
     flag = re.MULTILINE if multiline else 0
     matches = re.findall(pattern, content, flag)
     channels = [
@@ -87,7 +82,9 @@ def get_channel_data_from_file(channels, file, use_old):
         if "#genre#" in line:
             current_category = line.partition(",")[0]
         else:
-            name_url = get_name_url(line, check_url=False)
+            name_url = get_name_url(
+                line, pattern=constants.demo_txt_pattern, check_url=False
+            )
             if name_url and name_url[0]:
                 name = name_url[0]["name"]
                 url = name_url[0]["url"]
@@ -488,18 +485,35 @@ def append_data_to_info_data(info_data, cate, name, data, origin=None, check=Tru
             continue
 
 
-def append_total_data(*args, **kwargs):
+def get_origin_method_name(method):
     """
-    Append total channel data
+    Get the origin method name
     """
-    if constants.open_keep_all:
-        append_all_method_data_keep_all(*args, **kwargs)
-    else:
-        append_all_method_data(*args, **kwargs)
+    if method in ["hotel_tonkiang", "hotel_fofa"] and not constants.open_hotel:
+        return None
+    return "hotel" if method.startswith("hotel_") else method
 
 
-def append_all_method_data(
+def append_old_data_to_info_data(info_data, cate, name, data):
+    """
+    Append old channel data to total info data
+    """
+    append_data_to_info_data(
+        info_data,
+        cate,
+        name,
+        data,
+    )
+    print(name, "old:", len(data), end=", ")
+    print(
+        "total:",
+        len(info_data.get(cate, {}).get(name, [])),
+    )
+
+
+def append_total_data(
     items,
+    names,
     data,
     hotel_fofa_result=None,
     multicast_result=None,
@@ -510,95 +524,48 @@ def append_all_method_data(
     """
     Append all method data to total info data
     """
+    total_result = [
+        ("hotel_fofa", hotel_fofa_result),
+        ("multicast", multicast_result),
+        ("hotel_tonkiang", hotel_tonkiang_result),
+        ("subscribe", subscribe_result),
+        ("online_search", online_search_result),
+    ]
     for cate, channel_obj in items:
         for name, old_info_list in channel_obj.items():
             print(f"{name}:", end=" ")
-            for method, result in [
-                ("hotel_fofa", hotel_fofa_result),
-                ("multicast", multicast_result),
-                ("hotel_tonkiang", hotel_tonkiang_result),
-                ("subscribe", subscribe_result),
-                ("online_search", online_search_result),
-            ]:
+            for method, result in total_result:
                 if constants.open_method[method]:
-                    if (
-                        method == "hotel_tonkiang" or method == "hotel_fofa"
-                    ) and constants.open_hotel == False:
+                    origin_method = get_origin_method_name(method)
+                    if not origin_method:
                         continue
                     name_results = get_channel_results_by_name(name, result)
-                    origin_method = (
-                        "hotel"
-                        if method == "hotel_tonkiang" or method == "hotel_fofa"
-                        else method
-                    )
                     append_data_to_info_data(
                         data, cate, name, name_results, origin=origin_method
                     )
                     print(f"{method.capitalize()}:", len(name_results), end=", ")
-            total_channel_data_len = len(data.get(cate, {}).get(name, []))
-            if total_channel_data_len == 0 or constants.open_use_old_result:
-                append_data_to_info_data(
-                    data,
-                    cate,
-                    name,
-                    old_info_list,
-                )
-                print("old:", len(old_info_list), end=", ")
-            print(
-                "total:",
-                len(data.get(cate, {}).get(name, [])),
-            )
-
-
-def append_all_method_data_keep_all(
-    items,
-    data,
-    hotel_fofa_result=None,
-    multicast_result=None,
-    hotel_tonkiang_result=None,
-    subscribe_result=None,
-    online_search_result=None,
-):
-    """
-    Append all method data to total info data, keep all channel name and urls
-    """
-    for cate, channel_obj in items:
-        for method, result in [
-            ("hotel_fofa", hotel_fofa_result),
-            ("multicast", multicast_result),
-            ("hotel_tonkiang", hotel_tonkiang_result),
-            ("subscribe", subscribe_result),
-            ("online_search", online_search_result),
-        ]:
-            if result and constants.open_method[method]:
-                if (
-                    method == "hotel_tonkiang" or method == "hotel_fofa"
-                ) and constants.open_hotel == False:
+            if constants.open_use_old_result:
+                append_old_data_to_info_data(data, cate, name, old_info_list)
+    if constants.open_keep_all:
+        extra_cate = "📥︎其它频道"
+        for method, result in total_result:
+            if constants.open_method[method]:
+                origin_method = get_origin_method_name(method)
+                if not origin_method:
                     continue
-                origin_method = (
-                    "hotel"
-                    if method == "hotel_tonkiang" or method == "hotel_fofa"
-                    else method
-                )
                 for name, urls in result.items():
+                    if name in names:
+                        continue
                     print(f"{name}:", end=" ")
                     append_data_to_info_data(
-                        data, cate, name, urls, origin=origin_method
+                        data, extra_cate, name, urls, origin=origin_method
                     )
                     print(name, f"{method.capitalize()}:", len(urls), end=", ")
                     if constants.open_use_old_result:
                         old_info_list = channel_obj.get(name, [])
-                        append_data_to_info_data(
-                            data,
-                            cate,
-                            name,
-                            old_info_list,
+                        append_old_data_to_info_data(
+                            data, extra_cate, name, old_info_list
                         )
-                        print(name, "old:", len(old_info_list), end=", ")
-                    print(
-                        "total:",
-                        len(data.get(cate, {}).get(name, [])),
-                    )
 
 
 async def sort_channel_list(
@@ -720,7 +687,7 @@ async def process_sort_channel_list(data, ipv6=False, callback=None):
     return sort_data
 
 
-def write_channel_to_file(items, data, ipv6=False, callback=None):
+def write_channel_to_file(data, ipv6=False, callback=None):
     """
     Write channel to file
     """
@@ -730,8 +697,7 @@ def write_channel_to_file(items, data, ipv6=False, callback=None):
             now += datetime.timedelta(hours=8)
         update_time = now.strftime("%Y-%m-%d %H:%M:%S")
         update_channel_urls_txt("更新时间", f"{update_time}", ["url"])
-    result_items = data.items() if constants.open_keep_all else items
-    for cate, channel_obj in result_items:
+    for cate, channel_obj in data.items():
         print(f"\n{cate}:", end=" ")
         channel_obj_keys = channel_obj.keys()
         names_len = len(list(channel_obj_keys))

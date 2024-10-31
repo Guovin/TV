@@ -130,7 +130,7 @@ def get_multicast_region_result_by_rtp_txt(callback=None):
             os.path.join(rtp_path, f"{filename}.txt"), "r", encoding="utf-8"
         ) as f:
             for line in f:
-                name_url = get_name_url(line, rtp=True)
+                name_url = get_name_url(line, pattern=constants.rtp_pattern)
                 if name_url and name_url[0]:
                     channel_name = format_channel_name(name_url[0]["name"])
                     url = name_url[0]["url"]
