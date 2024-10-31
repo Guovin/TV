@@ -106,11 +106,11 @@ https://ghproxy.net/raw.githubusercontent.com/Guovin/TV/gd/source.json
 
 ## Quick Start
 
-### Method 1: Workflow Update
+### Method 1: Workflow
 
 Fork this project and initiate workflow updates, detailed steps are available at [Detailed Tutorial](./docs/tutorial_en.md)
 
-### Method 2: Command Line Update
+### Method 2: Command Line
 
 ```python
 pip3 install pipenv
@@ -118,7 +118,7 @@ pipenv install
 pipenv run build
 ```
 
-### Method 3: GUI Software Update
+### Method 3: GUI Software
 
 1. Download [Update tool software](https://github.com/Guovin/TV/releases), open the software, click update to complete the update
 
@@ -130,7 +130,7 @@ pipenv run ui
 
 <img src="./docs/images/ui.png" alt="Update tool software" title="Update tool software" style="height:600px" />
 
-### Method 4: Docker Update
+### Method 4: Docker
 
 - requests: Lightweight, low performance requirements, fast update speed, stability uncertain (recommend using this version for the subscription source)
 - driver: Higher performance requirements, slower update speed, high stability and success rate. Set open_driver = False to switch to the request version (recommended for hotel sources, multicast sources, and online searches)
