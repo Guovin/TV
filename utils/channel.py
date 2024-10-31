@@ -32,9 +32,9 @@ log_path = os.path.join(log_dir, log_file)
 handler = None
 
 url_regex = r"\b((https?):\/\/)?(\[[0-9a-fA-F:]+\]|([\w-]+\.)+[\w-]+)(:[0-9]{1,5})?(\/[^\s]*)?\b"
-rtp_regex = r"^(.*?),(rtp://.*)?$"
-txt_regex = r"^(.*?)(?:,)?((?!#genre#)" + url_regex + r")?$"
-m3u_regex = r"^#EXTINF:-1.*?,(.*?)\n" + url_regex + r"$"
+rtp_regex = r"^([^,，]+)(?:[,，])?(rtp://.*)?$"
+txt_regex = r"^([^,，]+)(?:[,，])?(?!#genre#)" + r"(" + url_regex + r")\b"
+m3u_regex = r"^#EXTINF:-1.*?(?:，|,)(.*?)\n" + r"(" + url_regex + r")\b"
 
 
 def setup_logging():
