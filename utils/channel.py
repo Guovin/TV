@@ -407,11 +407,14 @@ def update_channel_urls_txt(cate, name, urls, callback=None):
     with open(filename, "a", encoding="utf-8") as f:
         if genre_line not in content:
             f.write(genre_line)
-        for url in urls:
-            if url is not None:
-                f.write(name + "," + url + "\n")
-                if callback:
-                    callback()
+        if urls:
+            for url in urls:
+                if url is not None:
+                    f.write(f"{name},{url}\n")
+                    if callback:
+                        callback()
+        else:
+            f.write(f"{name},url\n")
 
 
 def get_channel_url(text):
@@ -697,6 +700,7 @@ def write_channel_to_file(data, ipv6=False, callback=None):
             now += datetime.timedelta(hours=8)
         update_time = now.strftime("%Y-%m-%d %H:%M:%S")
         update_channel_urls_txt("更新时间", f"{update_time}", ["url"])
+    no_result_name = []
     for cate, channel_obj in data.items():
         print(f"\n{cate}:", end=" ")
         channel_obj_keys = channel_obj.keys()
@@ -706,7 +710,17 @@ def write_channel_to_file(data, ipv6=False, callback=None):
             channel_urls = get_total_urls_from_info_list(info_list, ipv6=ipv6)
             end_char = ", " if i < names_len - 1 else ""
             print(f"{name}:", len(channel_urls), end=end_char)
+            if not channel_urls:
+                no_result_name.append(name)
+                continue
             update_channel_urls_txt(cate, name, channel_urls, callback=callback)
+        print()
+    if no_result_name:
+        print("🈳No result channel name:")
+        for i, name in enumerate(no_result_name):
+            end_char = ", " if i < len(no_result_name) - 1 else ""
+            print(name, end=end_char)
+            update_channel_urls_txt("🈳无结果频道", name, [])
         print()
 
 
