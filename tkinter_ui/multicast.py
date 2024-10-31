@@ -75,7 +75,7 @@ class MulticastUI:
         rtp_path = resource_path("config/rtp")
         regions = list(
             {"全部"}.union(
-                filename.rsplit(".", 1)[0].split("_", 1)[0]
+                filename.rsplit(".", 1)[0].partition("_")[0]
                 for filename in os.listdir(rtp_path)
                 if filename.endswith(".txt") and "_" in filename
             )

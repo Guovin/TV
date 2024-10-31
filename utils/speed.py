@@ -3,14 +3,12 @@ from time import time
 import asyncio
 import re
 from utils.config import config
-from utils.constants import get_resolution_value
+import utils.constants as constants
 from utils.tools import is_ipv6, add_url_info, remove_cache_info
 import subprocess
 
-timeout = config.getint("Settings", "sort_timeout", fallback=5)
 
-
-async def get_speed(url, timeout=timeout, proxy=None):
+async def get_speed(url, timeout=constants.sort_timeout, proxy=None):
     """
     Get the speed of the url
     """
@@ -46,7 +44,7 @@ def is_ffmpeg_installed():
         return False
 
 
-async def ffmpeg_url(url, timeout=timeout):
+async def ffmpeg_url(url, timeout=constants.sort_timeout):
     """
     Get url info by ffmpeg
     """
@@ -130,7 +128,7 @@ async def get_speed_by_info(
         cache_key = None
         url_is_ipv6 = is_ipv6(url)
         if "$" in url:
-            url, cache_info = url.split("$", 1)
+            url, _, cache_info = url.partition("$")
             matcher = re.search(r"cache:(.*)", cache_info)
             if matcher:
                 cache_key = matcher.group(1)
@@ -195,7 +193,9 @@ async def sort_urls_by_speed_and_resolution(
 
     def combined_key(item):
         (_, _, resolution), response_time = item
-        resolution_value = get_resolution_value(resolution) if resolution else 0
+        resolution_value = (
+            constants.get_resolution_value(resolution) if resolution else 0
+        )
         return (
             -(response_time_weight * response_time)
             + resolution_weight * resolution_value
