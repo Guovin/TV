@@ -71,6 +71,7 @@ async def get_channels_by_subscribe_urls(
                     name = item["name"]
                     url = item["url"]
                     if name and url:
+                        url = url.partition("$")[0]
                         if not multicast:
                             info = (
                                 f"{region}酒店源"

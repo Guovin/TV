@@ -130,7 +130,7 @@ async def get_speed_by_info(
         cache_key = None
         url_is_ipv6 = is_ipv6(url)
         if "$" in url:
-            url, cache_info = url.split("$", 1)
+            url, _, cache_info = url.partition("$")
             matcher = re.search(r"cache:(.*)", cache_info)
             if matcher:
                 cache_key = matcher.group(1)

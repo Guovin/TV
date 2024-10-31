@@ -88,7 +88,7 @@ def get_channel_data_from_file(channels, file, use_old):
     for line in file:
         line = line.strip()
         if "#genre#" in line:
-            current_category = line.split(",")[0]
+            current_category = line.partition(",")[0]
         else:
             name_url = get_name_url(line, check_url=False)
             if name_url and name_url[0]:
@@ -810,7 +810,7 @@ def get_multicast_fofa_search_urls():
     region_type_list = [
         (parts[0], parts[1])
         for name in rtp_file_names
-        if (parts := name.split("_"))[0] in region_list
+        if (parts := name.partition("_"))[0] in region_list
         or "all" in region_list
         or "ALL" in region_list
         or "全部" in region_list
@@ -834,13 +834,13 @@ def get_channel_data_cache_with_compare(data, new_data):
         for name, url_info in obj.items():
             if url_info and cate in data and name in data[cate]:
                 new_urls = {
-                    new_url.split("$", 1)[0]: new_resolution
+                    new_url.partition("$")[0]: new_resolution
                     for new_url, _, new_resolution, _ in url_info
                 }
                 updated_data = []
                 for info in data[cate][name]:
                     url, date, resolution, origin = info
-                    base_url = url.split("$", 1)[0]
+                    base_url = url.partition("$")[0]
                     if base_url in new_urls:
                         resolution = new_urls[base_url]
                         updated_data.append((url, date, resolution, origin))

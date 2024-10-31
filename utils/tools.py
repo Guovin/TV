@@ -182,7 +182,7 @@ def get_total_urls_from_info_list(infoList, ipv6=False):
     total_urls = list(dict.fromkeys(total_urls))[:urls_limit]
 
     if not constants.open_url_info:
-        return [url.split("$", 1)[0] for url in total_urls]
+        return [url.partition("$")[0] for url in total_urls]
     else:
         return total_urls
 
@@ -342,8 +342,8 @@ def convert_to_m3u():
                         current_group = trimmed_line.replace(",#genre#", "").strip()
                     else:
                         try:
-                            original_channel_name, channel_link = map(
-                                str.strip, trimmed_line.split(",", 1)
+                            original_channel_name, _, channel_link = map(
+                                str.strip, trimmed_line.partition(",")
                             )
                         except:
                             continue

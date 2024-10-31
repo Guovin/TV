@@ -111,7 +111,7 @@ def get_multicast_region_result_by_rtp_txt(callback=None):
         if filename.endswith(".txt")
         and "_" in filename
         and (
-            filename.rsplit(".", 1)[0].split("_", 1)[0] in config_region_list
+            filename.rsplit(".", 1)[0].partition("_")[0] in config_region_list
             or config_region_list & {"all", "ALL", "全部"}
         )
     ]
@@ -125,7 +125,7 @@ def get_multicast_region_result_by_rtp_txt(callback=None):
     start_time = time()
 
     for filename in rtp_file_list:
-        region, type = filename.split("_", 1)
+        region, _, type = filename.partition("_")
         with open(
             os.path.join(rtp_path, f"{filename}.txt"), "r", encoding="utf-8"
         ) as f:
