@@ -66,7 +66,7 @@ async def get_channels_by_subscribe_urls(
             if response:
                 response.encoding = "utf-8"
                 content = response.text
-                data = get_name_url(content, m3u="#EXTM3U" in content)
+                data = get_name_url(content, m3u="#EXTM3U" in content, multiline=True)
                 for item in data:
                     name = item["name"]
                     url = item["url"]

@@ -26,15 +26,7 @@ import pickle
 import copy
 import datetime
 
-log_dir = "output"
-log_file = "result_new.log"
-log_path = os.path.join(log_dir, log_file)
 handler = None
-
-url_regex = r"\b((https?):\/\/)?(\[[0-9a-fA-F:]+\]|([\w-]+\.)+[\w-]+)(:[0-9]{1,5})?(\/[^\s]*)?\b"
-rtp_regex = r"^([^,，]+)(?:[,，])?(rtp://.*)?$"
-txt_regex = r"^([^,，]+)(?:[,，])?(?!#genre#)" + r"(" + url_regex + r")\b"
-m3u_regex = r"^#EXTINF:-1.*?(?:，|,)(.*?)\n" + r"(" + url_regex + r")\b"
 
 
 def setup_logging():
@@ -42,9 +34,9 @@ def setup_logging():
     Setup logging
     """
     global handler
-    if not os.path.exists(log_dir):
-        os.makedirs(log_dir)
-    handler = RotatingFileHandler(log_path, encoding="utf-8")
+    if not os.path.exists(constants.log_dir):
+        os.makedirs(constants.log_dir)
+    handler = RotatingFileHandler(constants.log_path, encoding="utf-8")
     logging.basicConfig(
         handlers=[handler],
         format="%(message)s",
@@ -61,16 +53,21 @@ def cleanup_logging():
         for handler in logging.root.handlers[:]:
             handler.close()
             logging.root.removeHandler(handler)
-    if os.path.exists(log_path):
-        os.remove(log_path)
+    if os.path.exists(constants.log_path):
+        os.remove(constants.log_path)
 
 
-def get_name_url(content, m3u=False, rtp=False, check_url=True):
+def get_name_url(content, m3u=False, rtp=False, multiline=False, check_url=True):
     """
     Get channel name and url from content
     """
-    regex = m3u_regex if m3u else rtp_regex if rtp else txt_regex
-    matches = re.findall(regex, content, re.MULTILINE)
+    pattern = (
+        constants.m3u_pattern
+        if m3u
+        else constants.rtp_pattern if rtp else constants.txt_pattern
+    )
+    flag = re.MULTILINE if multiline else 0
+    matches = re.findall(pattern, content, flag)
     channels = [
         {"name": match[0].strip(), "url": match[1].strip()}
         for match in matches
@@ -140,42 +137,8 @@ def format_channel_name(name):
         return name
     cc = OpenCC("t2s")
     name = cc.convert(name)
-    sub_pattern = r"-|_|\((.*?)\)|\（(.*?)\）|\[(.*?)\]|\「(.*?)\」| |｜|频道|普清|标清|高清|HD|hd|超清|超高|超高清|中央|央视|台|电信|联通|移动"
-    name = re.sub(sub_pattern, "", name)
-    replace_dict = {
-        "plus": "+",
-        "PLUS": "+",
-        "＋": "+",
-        "CCTV1综合": "CCTV1",
-        "CCTV2财经": "CCTV2",
-        "CCTV3综艺": "CCTV3",
-        "CCTV4国际": "CCTV4",
-        "CCTV4中文国际": "CCTV4",
-        "CCTV4欧洲": "CCTV4",
-        "CCTV5体育": "CCTV5",
-        "CCTV5+体育赛视": "CCTV5+",
-        "CCTV5+体育赛事": "CCTV5+",
-        "CCTV5+体育": "CCTV5+",
-        "CCTV6电影": "CCTV6",
-        "CCTV7军事": "CCTV7",
-        "CCTV7军农": "CCTV7",
-        "CCTV7农业": "CCTV7",
-        "CCTV7国防军事": "CCTV7",
-        "CCTV8电视剧": "CCTV8",
-        "CCTV9记录": "CCTV9",
-        "CCTV9纪录": "CCTV9",
-        "CCTV10科教": "CCTV10",
-        "CCTV11戏曲": "CCTV11",
-        "CCTV12社会与法": "CCTV12",
-        "CCTV13新闻": "CCTV13",
-        "CCTV新闻": "CCTV13",
-        "CCTV14少儿": "CCTV14",
-        "CCTV15音乐": "CCTV15",
-        "CCTV16奥林匹克": "CCTV16",
-        "CCTV17农业农村": "CCTV17",
-        "CCTV17农业": "CCTV17",
-    }
-    for old, new in replace_dict.items():
+    name = re.sub(constants.sub_pattern, "", name)
+    for old, new in constants.replace_dict.items():
         name = name.replace(old, new)
     return name.lower()
 
@@ -460,7 +423,7 @@ def get_channel_url(text):
     """
     url = None
     url_search = re.search(
-        url_regex,
+        constants.url_pattern,
         text,
     )
     if url_search:
