@@ -106,11 +106,11 @@ https://ghproxy.net/raw.githubusercontent.com/Guovin/TV/gd/source.json
 
 ## 快速上手
 
-### 方式一：工作流更新
+### 方式一：工作流
 
 Fork 本项目并开启工作流更新，具体步骤请见[详细教程](./docs/tutorial.md)
 
-### 方式二：命令行更新
+### 方式二：命令行
 
 ```python
 pip3 install pipenv
@@ -118,7 +118,7 @@ pipenv install
 pipenv run build
 ```
 
-### 方式三：GUI 软件更新
+### 方式三：GUI 软件
 
 1. 下载[更新工具软件](https://github.com/Guovin/TV/releases)，打开软件，点击更新，即可完成更新
 
@@ -130,7 +130,7 @@ pipenv run ui
 
 <img src="./docs/images/ui.png" alt="更新工具软件" title="更新工具软件" style="height:600px" />
 
-### 方式四：Docker 更新
+### 方式四：Docker
 
 - requests：轻量级，性能要求低，更新速度快，稳定性不确定（推荐订阅源使用此版本）
 - driver：性能要求较高，更新速度较慢，稳定性、成功率高；修改配置 open_driver = False 可切换到 request 版本（推荐酒店源、组播源、关键字搜索使用此版本）

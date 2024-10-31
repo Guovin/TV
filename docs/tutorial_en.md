@@ -89,7 +89,7 @@ Adjust the configuration as needed. Below is the default configuration explanati
 
 ## Step 5: Run Updates
 
-## Method 1: Workflow update
+## Method 1: Workflow
 
 #### Warning: Please use the following content with caution. If you have a large number of channels that need to be updated, please use local updates instead of automatic updates. Improper configuration may lead to your account or workflow being banned!
 
@@ -163,7 +163,7 @@ If you want to perform updates every 2 days, you can modify it like this:
 
 #### 2. Please pay attention to the runtime of your workflow. If you find that the execution time is too long, you need to appropriately reduce the number of channels in the template, modify the number of pages and interfaces in the configuration, in order to meet the compliant operation requirements.
 
-### Method 2: Command Line Update
+### Method 2: Command Line
 
 ```python
 1. Install Python
@@ -176,7 +176,7 @@ pipenv install
 pipenv run build
 ```
 
-### Method 3: GUI Software Update
+### Method 3: GUI Software
 
 1. Download the update tool software, open the software, click update to complete the update.
 
@@ -188,7 +188,7 @@ pipenv run ui
 
 ![Update tool software](./images/ui.png 'Update tool software')
 
-### Method 4: Docker Update
+### Method 4: Docker
 
 - requests: Lightweight, low performance requirements, fast update speed, stability uncertain (recommend this version for subscription sources)
 - driver: Higher performance requirements, slower update speed, high stability and success rate. Set open_driver = False to switch to the request version (recommended for hotel sources, multicast sources, and keyword search)
