@@ -547,7 +547,7 @@ def append_total_data(
             if constants.open_use_old_result:
                 append_old_data_to_info_data(data, cate, name, old_info_list)
     if constants.open_keep_all:
-        extra_cate = "📥︎其它频道"
+        extra_cate = "📥其它频道"
         for method, result in total_result:
             if constants.open_method[method]:
                 origin_method = get_origin_method_name(method)
