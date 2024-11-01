@@ -122,13 +122,20 @@ def get_total_urls_from_info_list(infoList, ipv6=False):
         origin: {"ipv4": [], "ipv6": []} for origin in origin_type_prefer
     }
 
+    total_urls = []
     for url, _, resolution, origin in infoList:
+        if origin == "important":
+            pure_url, _, info = url.partition("$")
+            new_info = info.partition("!")[2]
+            total_urls.append(f"{pure_url}${new_info}" if new_info else pure_url)
+            continue
+
         if constants.open_filter_resolution and resolution:
             resolution_value = get_resolution_value(resolution)
             if resolution_value < constants.min_resolution_value:
                 continue
 
-        if not origin or (origin.lower() not in origin_type_prefer):
+        if not origin or (origin not in origin_type_prefer):
             continue
 
         if origin == "subscribe" and "/rtp/" in url:
@@ -142,7 +149,7 @@ def get_total_urls_from_info_list(infoList, ipv6=False):
             categorized_urls[origin]["ipv6"].append(url)
         else:
             categorized_urls[origin]["ipv4"].append(url)
-    total_urls = []
+
     ipv_num = {
         "ipv4": 0,
         "ipv6": 0,
@@ -380,32 +387,37 @@ def get_result_file_content(show_result=False):
     )
 
 
-def remove_duplicates_from_tuple_list(tuple_list, seen, flag=None):
+def remove_duplicates_from_tuple_list(tuple_list, seen, flag=None, force_str=None):
     """
     Remove duplicates from tuple list
     """
     unique_list = []
     for item in tuple_list:
-        if flag:
-            matcher = re.search(flag, item[0])
-            part = matcher.group(1) if matcher else item[0]
-        else:
-            part = item[0]
+        item_first = item[0]
+        part = item_first
+        if force_str:
+            info = item_first.partition("$")[2]
+            if info and info.startswith(force_str):
+                continue
+        elif flag:
+            matcher = re.search(flag, item_first)
+            if matcher:
+                part = matcher.group(1)
         if part not in seen:
             seen.add(part)
             unique_list.append(item)
     return unique_list
 
 
-def process_nested_dict(data, seen, flag=None):
+def process_nested_dict(data, seen, flag=None, force_str=None):
     """
     Process nested dict
     """
     for key, value in data.items():
         if isinstance(value, dict):
-            process_nested_dict(value, seen, flag)
+            process_nested_dict(value, seen, flag, force_str)
         elif isinstance(value, list):
-            data[key] = remove_duplicates_from_tuple_list(value, seen, flag)
+            data[key] = remove_duplicates_from_tuple_list(value, seen, flag, force_str)
 
 
 url_domain_pattern = re.compile(

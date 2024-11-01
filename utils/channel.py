@@ -92,9 +92,13 @@ def get_channel_data_from_file(channels, file, use_old):
                 if name not in category_dict:
                     category_dict[name] = []
                 if use_old and url:
-                    info = (url, None, None, None)
-                    if info[0] and info not in category_dict[name]:
-                        category_dict[name].append(info)
+                    info = url.partition("$")[2]
+                    origin = None
+                    if info and info.startswith("!"):
+                        origin = "important"
+                    data = (url, None, None, origin)
+                    if data not in category_dict[name]:
+                        category_dict[name].append(data)
     return channels
 
 
@@ -119,10 +123,17 @@ def get_channel_items():
                 for cate, data in channels.items():
                     if cate in old_result:
                         for name, info_list in data.items():
+                            urls = [
+                                item[0].partition("$")[0]
+                                for item in info_list
+                                if item[0]
+                            ]
                             if name in old_result[cate]:
                                 for info in old_result[cate][name]:
-                                    if info not in info_list:
-                                        channels[cate][name].append(info)
+                                    if info:
+                                        pure_url = info[0].partition("$")[0]
+                                        if pure_url not in urls:
+                                            channels[cate][name].append(info)
     return channels
 
 
@@ -473,7 +484,9 @@ def init_info_data(data, cate, name):
         data[cate][name] = []
 
 
-def append_data_to_info_data(info_data, cate, name, data, origin=None, check=True):
+def append_data_to_info_data(
+    info_data, cate, name, data, origin=None, check=True, insert=False
+):
     """
     Append channel data to total info data
     """
@@ -482,13 +495,25 @@ def append_data_to_info_data(info_data, cate, name, data, origin=None, check=Tru
     for item in data:
         try:
             url, date, resolution, *rest = item
-            origin = origin or (rest[0] if rest else None)
+            url_origin = origin or (rest[0] if rest else None)
             if url:
                 pure_url = url.partition("$")[0]
-                if pure_url not in urls and (
-                    not check or (check and check_url_by_patterns(pure_url))
+                if pure_url in urls:
+                    continue
+                if (
+                    url_origin == "important"
+                    or (not check)
+                    or (check and check_url_by_patterns(pure_url))
                 ):
-                    info_data[cate][name].append((url, date, resolution, origin))
+                    if insert:
+                        info_data[cate][name].insert(
+                            0, (url, date, resolution, url_origin)
+                        )
+                    else:
+                        info_data[cate][name].append(
+                            (url, date, resolution, url_origin)
+                        )
+                    urls.append(pure_url)
         except:
             continue
 
@@ -504,7 +529,7 @@ def get_origin_method_name(method):
 
 def append_old_data_to_info_data(info_data, cate, name, data):
     """
-    Append old channel data to total info data
+    Append history channel data to total info data
     """
     append_data_to_info_data(
         info_data,
@@ -512,11 +537,7 @@ def append_old_data_to_info_data(info_data, cate, name, data):
         name,
         data,
     )
-    print(name, "old:", len(data), end=", ")
-    print(
-        "total:",
-        len(info_data.get(cate, {}).get(name, [])),
-    )
+    print("History:", len(data), end=", ")
 
 
 def append_total_data(
@@ -542,6 +563,8 @@ def append_total_data(
     for cate, channel_obj in items:
         for name, old_info_list in channel_obj.items():
             print(f"{name}:", end=" ")
+            if constants.open_use_old_result and old_info_list:
+                append_old_data_to_info_data(data, cate, name, old_info_list)
             for method, result in total_result:
                 if constants.open_method[method]:
                     origin_method = get_origin_method_name(method)
@@ -552,8 +575,10 @@ def append_total_data(
                         data, cate, name, name_results, origin=origin_method
                     )
                     print(f"{method.capitalize()}:", len(name_results), end=", ")
-            if constants.open_use_old_result:
-                append_old_data_to_info_data(data, cate, name, old_info_list)
+            print(
+                "total:",
+                len(data.get(cate, {}).get(name, [])),
+            )
     if constants.open_keep_all:
         extra_cate = "📥其它频道"
         for method, result in total_result:
@@ -565,15 +590,20 @@ def append_total_data(
                     if name in names:
                         continue
                     print(f"{name}:", end=" ")
+                    if constants.open_use_old_result:
+                        old_info_list = channel_obj.get(name, [])
+                        if old_info_list:
+                            append_old_data_to_info_data(
+                                data, extra_cate, name, old_info_list
+                            )
                     append_data_to_info_data(
                         data, extra_cate, name, urls, origin=origin_method
                     )
                     print(name, f"{method.capitalize()}:", len(urls), end=", ")
-                    if constants.open_use_old_result:
-                        old_info_list = channel_obj.get(name, [])
-                        append_old_data_to_info_data(
-                            data, extra_cate, name, old_info_list
-                        )
+                    print(
+                        "total:",
+                        len(data.get(cate, {}).get(name, [])),
+                    )
 
 
 async def sort_channel_list(
@@ -629,7 +659,7 @@ async def process_sort_channel_list(data, ipv6=False, callback=None):
     is_ffmpeg = constants.open_ffmpeg and ffmpeg_installed
     semaphore = asyncio.Semaphore(5)
     need_sort_data = copy.deepcopy(data)
-    process_nested_dict(need_sort_data, seen=set(), flag=r"cache:(.*)")
+    process_nested_dict(need_sort_data, seen=set(), flag=r"cache:(.*)", force_str="!")
     tasks = [
         asyncio.create_task(
             sort_channel_list(
@@ -663,7 +693,18 @@ async def process_sort_channel_list(data, ipv6=False, callback=None):
             }
             for url, date, resolution, origin in info_list:
                 if "$" in url:
-                    matcher = re.search(r"cache:(.*)", url)
+                    info = url.partition("$")[2]
+                    if info and info.startswith("!"):
+                        append_data_to_info_data(
+                            sort_data,
+                            cate,
+                            name,
+                            [(url, date, resolution, origin)],
+                            check=False,
+                            insert=True,
+                        )
+                        continue
+                    matcher = re.search(r"cache:(.*)", info)
                     if matcher:
                         cache_key = matcher.group(1)
                         if not cache_key:
