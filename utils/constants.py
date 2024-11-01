@@ -192,7 +192,7 @@ log_file = "result_new.log"
 
 log_path = os.path.join(log_dir, log_file)
 
-url_pattern = r"\b((https?):\/\/)?(\[[0-9a-fA-F:]+\]|([\w-]+\.)+[\w-]+)(:[0-9]{1,5})?(\/[^\s]*)?\b"
+url_pattern = r"((https?):\/\/)?(\[[0-9a-fA-F:]+\]|([\w-]+\.)+[\w-]+)(:[0-9]{1,5})?(\/[^\s]*)?(\$[^\s]+)?"
 
 rtp_pattern = r"^([^,，]+)(?:[,，])?(rtp://.*)$"
 

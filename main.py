@@ -130,7 +130,7 @@ class UpdateSource:
     def get_urls_len(self, filter=False):
         data = copy.deepcopy(self.channel_data)
         if filter:
-            process_nested_dict(data, seen=set(), flag=r"cache:(.*)")
+            process_nested_dict(data, seen=set(), flag=r"cache:(.*)", force_str="!")
         processed_urls = set(
             url_info[0]
             for channel_obj in data.values()
