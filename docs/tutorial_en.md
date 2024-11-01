@@ -55,7 +55,7 @@ When you click to confirm and create in step one, you will be automatically redi
 
 1. Create file
 2. Name the template file user_demo.txt
-3. The template file needs to be written in the format of (channel category, #genre#), (channel name, channel interface), note that it is an English comma.
+3. The template file needs to be written in the format of (channel category, #genre#), (channel name, channel interface), note that it is an English comma. If you need to set this interface as a whitelist (no speed testing, kept at the front of the results), simply add $! after the address. For example: http://xxx$!. Additional information can also be appended afterward, such as: http://xxx$! Whitelist interface.
 4. Click Commit changes... to save
 
 ![Create user_demo.txt](./images/edit-user-demo.png 'Create user_demo.txt')
