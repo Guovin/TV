@@ -160,11 +160,11 @@ class UpdateSource:
                 self.subscribe_result,
                 self.online_search_result,
             )
-            urls_total = self.get_urls_len()
             channel_data_cache = copy.deepcopy(self.channel_data)
             ipv6_support = check_ipv6_support()
             open_sort = config.getboolean("Settings", "open_sort", fallback=True)
             if open_sort:
+                urls_total = self.get_urls_len()
                 self.total = self.get_urls_len(filter=True)
                 print(f"Total urls: {urls_total}, need to sort: {self.total}")
                 sort_callback = lambda: self.pbar_update(name="测速")

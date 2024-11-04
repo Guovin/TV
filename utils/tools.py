@@ -399,7 +399,7 @@ def remove_duplicates_from_tuple_list(tuple_list, seen, flag=None, force_str=Non
             info = item_first.partition("$")[2]
             if info and info.startswith(force_str):
                 continue
-        elif flag:
+        if flag:
             matcher = re.search(flag, item_first)
             if matcher:
                 part = matcher.group(1)
