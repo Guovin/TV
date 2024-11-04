@@ -1,4 +1,3 @@
-from utils.config import resource_path
 import utils.constants as constants
 from tqdm.asyncio import tqdm_asyncio
 from time import time
@@ -9,7 +8,7 @@ from driver.setup import setup_driver
 import re
 from utils.retry import retry_func
 from utils.channel import format_channel_name
-from utils.tools import merge_objects, get_pbar_remaining, add_url_info
+from utils.tools import merge_objects, get_pbar_remaining, add_url_info, resource_path
 from updates.proxy import get_proxy, get_proxy_next
 from requests_custom.utils import get_source_requests, close_session
 from collections import defaultdict

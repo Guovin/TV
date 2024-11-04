@@ -5,7 +5,6 @@ import urllib.parse
 import ipaddress
 from urllib.parse import urlparse
 import socket
-from utils.config import resource_path
 from utils.constants import get_resolution_value
 import utils.constants as constants
 import re
@@ -13,6 +12,7 @@ from bs4 import BeautifulSoup
 from flask import render_template_string, send_file
 import shutil
 import requests
+import sys
 
 
 def format_interval(t):
@@ -458,3 +458,19 @@ def remove_cache_info(str):
     Remove the cache info from the string
     """
     return re.sub(r"cache:.*|\|cache:.*", "", str)
+
+
+def resource_path(relative_path, persistent=False):
+    """
+    Get the resource path
+    """
+    base_path = os.path.abspath(".")
+    total_path = os.path.join(base_path, relative_path)
+    if persistent or os.path.exists(total_path):
+        return total_path
+    else:
+        try:
+            base_path = sys._MEIPASS
+            return os.path.join(base_path, relative_path)
+        except Exception:
+            return total_path

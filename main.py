@@ -1,5 +1,4 @@
 import asyncio
-from utils.config import resource_path
 import utils.constants as constants
 from utils.channel import (
     get_channel_items,
@@ -20,6 +19,7 @@ from utils.tools import (
     process_nested_dict,
     format_interval,
     check_ipv6_support,
+    resource_path,
 )
 from updates.subscribe import get_channels_by_subscribe_urls
 from updates.multicast import get_channels_by_multicast

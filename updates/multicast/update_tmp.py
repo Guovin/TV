@@ -5,10 +5,9 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../.
 
 from updates.subscribe import get_channels_by_subscribe_urls
 from driver.utils import get_soup_driver
-from utils.config import resource_path
 import utils.constants as constants
 from utils.channel import format_channel_name, get_name_url
-from utils.tools import get_pbar_remaining
+from utils.tools import get_pbar_remaining, resource_path
 import json
 
 # import asyncio
