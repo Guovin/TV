@@ -5,14 +5,13 @@ import urllib.parse
 import ipaddress
 from urllib.parse import urlparse
 import socket
-from utils.config import resource_path
-from utils.constants import get_resolution_value
-import utils.constants as constants
+from utils.config import config
 import re
 from bs4 import BeautifulSoup
 from flask import render_template_string, send_file
 import shutil
 import requests
+import sys
 
 
 def format_interval(t):
@@ -72,7 +71,7 @@ def filter_by_date(data):
     Filter by date and limit
     """
     default_recent_days = 30
-    use_recent_days = constants.recent_days
+    use_recent_days = config.recent_days
     if not isinstance(use_recent_days, int) or use_recent_days <= 0:
         use_recent_days = default_recent_days
     start_date = datetime.datetime.now() - datetime.timedelta(days=use_recent_days)
@@ -91,8 +90,8 @@ def filter_by_date(data):
     recent_data_len = len(recent_data)
     if recent_data_len == 0:
         recent_data = unrecent_data
-    elif recent_data_len < constants.urls_limit:
-        recent_data.extend(unrecent_data[: constants.urls_limit - len(recent_data)])
+    elif recent_data_len < config.urls_limit:
+        recent_data.extend(unrecent_data[: config.urls_limit - len(recent_data)])
     return recent_data
 
 
@@ -110,14 +109,27 @@ def get_soup(source):
     return soup
 
 
+def get_resolution_value(resolution_str):
+    """
+    Get resolution value from string
+    """
+    pattern = r"(\d+)[xX*](\d+)"
+    match = re.search(pattern, resolution_str)
+    if match:
+        width, height = map(int, match.groups())
+        return width * height
+    else:
+        return 0
+
+
 def get_total_urls_from_info_list(infoList, ipv6=False):
     """
     Get the total urls from info list
     """
-    ipv_type_prefer = list(constants.ipv_type_prefer)
+    ipv_type_prefer = list(config.ipv_type_prefer)
     if "自动" in ipv_type_prefer or "auto" in ipv_type_prefer or not ipv_type_prefer:
         ipv_type_prefer = ["ipv6", "ipv4"] if ipv6 else ["ipv4", "ipv6"]
-    origin_type_prefer = constants.origin_type_prefer
+    origin_type_prefer = config.origin_type_prefer
     categorized_urls = {
         origin: {"ipv4": [], "ipv6": []} for origin in origin_type_prefer
     }
@@ -130,9 +142,9 @@ def get_total_urls_from_info_list(infoList, ipv6=False):
             total_urls.append(f"{pure_url}${new_info}" if new_info else pure_url)
             continue
 
-        if constants.open_filter_resolution and resolution:
+        if config.open_filter_resolution and resolution:
             resolution_value = get_resolution_value(resolution)
-            if resolution_value < constants.min_resolution_value:
+            if resolution_value < config.min_resolution_value:
                 continue
 
         if not origin or (origin not in origin_type_prefer):
@@ -154,17 +166,17 @@ def get_total_urls_from_info_list(infoList, ipv6=False):
         "ipv4": 0,
         "ipv6": 0,
     }
-    urls_limit = constants.urls_limit
+    urls_limit = config.urls_limit
     for origin in origin_type_prefer:
         if len(total_urls) >= urls_limit:
             break
         for ipv_type in ipv_type_prefer:
             if len(total_urls) >= urls_limit:
                 break
-            if ipv_num[ipv_type] < constants.ipv_limit[ipv_type]:
+            if ipv_num[ipv_type] < config.ipv_limit[ipv_type]:
                 limit = min(
-                    constants.source_limits[origin] - ipv_num[ipv_type],
-                    constants.ipv_limit[ipv_type] - ipv_num[ipv_type],
+                    config.source_limits[origin] - ipv_num[ipv_type],
+                    config.ipv_limit[ipv_type] - ipv_num[ipv_type],
                 )
                 urls = categorized_urls[origin][ipv_type][:limit]
                 total_urls.extend(urls)
@@ -181,14 +193,14 @@ def get_total_urls_from_info_list(infoList, ipv6=False):
                 if len(total_urls) >= urls_limit:
                     break
                 extra_urls = categorized_urls[origin][ipv_type][
-                    : constants.source_limits[origin]
+                    : config.source_limits[origin]
                 ]
                 total_urls.extend(extra_urls)
                 total_urls = list(dict.fromkeys(total_urls))[:urls_limit]
 
     total_urls = list(dict.fromkeys(total_urls))[:urls_limit]
 
-    if not constants.open_url_info:
+    if not config.open_url_info:
         return [url.partition("$")[0] for url in total_urls]
     else:
         return total_urls
@@ -199,11 +211,11 @@ def get_total_urls_from_sorted_data(data):
     Get the total urls with filter by date and depulicate from sorted data
     """
     total_urls = []
-    if len(data) > constants.urls_limit:
+    if len(data) > config.urls_limit:
         total_urls = [url for (url, _, _, _), _ in filter_by_date(data)]
     else:
         total_urls = [url for (url, _, _, _), _ in data]
-    return list(dict.fromkeys(total_urls))[: constants.urls_limit]
+    return list(dict.fromkeys(total_urls))[: config.urls_limit]
 
 
 def is_ipv6(url):
@@ -240,7 +252,7 @@ def check_url_ipv_type(url):
     Check if the url is compatible with the ipv type in the config
     """
     ipv6 = is_ipv6(url)
-    ipv_type = constants.ipv_type
+    ipv_type = config.ipv_type
     return (
         (ipv_type == "ipv4" and not ipv6)
         or (ipv_type == "ipv6" and ipv6)
@@ -255,7 +267,7 @@ def check_by_domain_blacklist(url):
     """
     domain_blacklist = {
         (urlparse(domain).netloc if urlparse(domain).scheme else domain)
-        for domain in constants.domain_blacklist
+        for domain in config.domain_blacklist
     }
     return urlparse(url).netloc not in domain_blacklist
 
@@ -264,7 +276,7 @@ def check_by_url_keywords_blacklist(url):
     """
     Check by URL blacklist keywords
     """
-    return not any(keyword in url for keyword in constants.url_keywords_blacklist)
+    return not any(keyword in url for keyword in config.url_keywords_blacklist)
 
 
 def check_url_by_patterns(url):
@@ -337,7 +349,7 @@ def convert_to_m3u():
     """
     Convert result txt to m3u format
     """
-    user_final_file = resource_path(constants.final_file)
+    user_final_file = resource_path(config.final_file)
     if os.path.exists(user_final_file):
         with open(user_final_file, "r", encoding="utf-8") as file:
             m3u_output = '#EXTM3U x-tvg-url="https://live.fanmingming.com/e.xml"\n'
@@ -367,15 +379,15 @@ def convert_to_m3u():
             m3u_file_path = os.path.splitext(user_final_file)[0] + ".m3u"
             with open(m3u_file_path, "w", encoding="utf-8") as m3u_file:
                 m3u_file.write(m3u_output)
-            print(f"Result m3u file generated at: {m3u_file_path}")
+            print(f"✅ Result m3u file generated at: {m3u_file_path}")
 
 
 def get_result_file_content(show_result=False):
     """
     Get the content of the result file
     """
-    user_final_file = resource_path(constants.final_file)
-    if constants.open_m3u_result:
+    user_final_file = resource_path(config.final_file)
+    if config.open_m3u_result:
         user_final_file = os.path.splitext(user_final_file)[0] + ".m3u"
         if show_result == False:
             return send_file(user_final_file, as_attachment=True)
@@ -399,7 +411,7 @@ def remove_duplicates_from_tuple_list(tuple_list, seen, flag=None, force_str=Non
             info = item_first.partition("$")[2]
             if info and info.startswith(force_str):
                 continue
-        elif flag:
+        if flag:
             matcher = re.search(flag, item_first)
             if matcher:
                 part = matcher.group(1)
@@ -458,3 +470,19 @@ def remove_cache_info(str):
     Remove the cache info from the string
     """
     return re.sub(r"cache:.*|\|cache:.*", "", str)
+
+
+def resource_path(relative_path, persistent=False):
+    """
+    Get the resource path
+    """
+    base_path = os.path.abspath(".")
+    total_path = os.path.join(base_path, relative_path)
+    if persistent or os.path.exists(total_path):
+        return total_path
+    else:
+        try:
+            base_path = sys._MEIPASS
+            return os.path.join(base_path, relative_path)
+        except Exception:
+            return total_path
