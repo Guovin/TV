@@ -1,7 +1,7 @@
 import tkinter as tk
 from PIL import Image, ImageTk
 import webbrowser
-from utils.config import resource_path
+from utils.tools import resource_path
 
 
 class AboutUI:

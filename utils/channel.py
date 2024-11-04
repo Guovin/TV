@@ -1,12 +1,13 @@
-from utils.config import config, resource_path
+from utils.config import config
 import utils.constants as constants
-from utils.constants import get_resolution_value
 from utils.tools import (
     check_url_by_patterns,
     get_total_urls_from_info_list,
     process_nested_dict,
     add_url_info,
     remove_cache_info,
+    resource_path,
+    get_resolution_value,
 )
 from utils.speed import (
     sort_urls_by_speed_and_resolution,
@@ -106,16 +107,16 @@ def get_channel_items():
     """
     Get the channel items from the source file
     """
-    user_source_file = resource_path(constants.source_file)
+    user_source_file = resource_path(config.source_file)
     channels = defaultdict(lambda: defaultdict(list))
 
     if os.path.exists(user_source_file):
         with open(user_source_file, "r", encoding="utf-8") as file:
             channels = get_channel_data_from_file(
-                channels, file, constants.open_use_old_result
+                channels, file, config.open_use_old_result
             )
 
-    if constants.open_use_old_result:
+    if config.open_use_old_result:
         result_cache_path = resource_path("output/result_cache.pkl")
         if os.path.exists(result_cache_path):
             with open(result_cache_path, "rb") as file:
@@ -141,7 +142,7 @@ def format_channel_name(name):
     """
     Format the channel name with sub and replace and lower
     """
-    if constants.open_keep_all:
+    if config.open_keep_all:
         return name
     cc = OpenCC("t2s")
     name = cc.convert(name)
@@ -155,7 +156,7 @@ def channel_name_is_equal(name1, name2):
     """
     Check if the channel name is equal
     """
-    if constants.open_keep_all:
+    if config.open_keep_all:
         return True
     name1_format = format_channel_name(name1)
     name2_format = format_channel_name(name2)
@@ -233,7 +234,7 @@ def get_channel_multicast_region_type_list(result):
     """
     Get the channel multicast region type list from result
     """
-    region_list = constants.multicast_region_list
+    region_list = config.multicast_region_list
     region_type_list = {
         (region, type)
         for region_type in result.values()
@@ -260,7 +261,7 @@ def get_channel_multicast_result(result, search_result):
                         f"http://{url}/rtp/{ip}",
                         f"{result_region}{result_type}组播源|cache:{url}",
                     )
-                    if constants.open_sort
+                    if config.open_sort
                     else add_url_info(
                         f"http://{url}/rtp/{ip}", f"{result_region}{result_type}组播源"
                     )
@@ -522,7 +523,7 @@ def get_origin_method_name(method):
     """
     Get the origin method name
     """
-    if method in ["hotel_tonkiang", "hotel_fofa"] and not constants.open_hotel:
+    if method in ["hotel_tonkiang", "hotel_fofa"] and not config.open_hotel:
         return None
     return "hotel" if method.startswith("hotel_") else method
 
@@ -563,10 +564,10 @@ def append_total_data(
     for cate, channel_obj in items:
         for name, old_info_list in channel_obj.items():
             print(f"{name}:", end=" ")
-            if constants.open_use_old_result and old_info_list:
+            if config.open_use_old_result and old_info_list:
                 append_old_data_to_info_data(data, cate, name, old_info_list)
             for method, result in total_result:
-                if constants.open_method[method]:
+                if config.open_method[method]:
                     origin_method = get_origin_method_name(method)
                     if not origin_method:
                         continue
@@ -579,10 +580,10 @@ def append_total_data(
                 "total:",
                 len(data.get(cate, {}).get(name, [])),
             )
-    if constants.open_keep_all:
+    if config.open_keep_all:
         extra_cate = "📥其它频道"
         for method, result in total_result:
-            if constants.open_method[method]:
+            if config.open_method[method]:
                 origin_method = get_origin_method_name(method)
                 if not origin_method:
                     continue
@@ -590,7 +591,7 @@ def append_total_data(
                     if name in names:
                         continue
                     print(f"{name}:", end=" ")
-                    if constants.open_use_old_result:
+                    if config.open_use_old_result:
                         old_info_list = channel_obj.get(name, [])
                         if old_info_list:
                             append_old_data_to_info_data(
@@ -648,15 +649,15 @@ async def process_sort_channel_list(data, ipv6=False, callback=None):
     Processs the sort channel list
     """
     open_ipv6 = (
-        "ipv6" in constants.ipv_type
-        or "all" in constants.ipv_type
-        or "全部" in constants.ipv_type
+        "ipv6" in config.ipv_type
+        or "all" in config.ipv_type
+        or "全部" in config.ipv_type
     )
     ipv6_proxy = None if not open_ipv6 or ipv6 else "http://www.ipv6proxy.net/go.php?u="
     ffmpeg_installed = is_ffmpeg_installed()
-    if constants.open_ffmpeg and not ffmpeg_installed:
+    if config.open_ffmpeg and not ffmpeg_installed:
         print("FFmpeg is not installed, using requests for sorting.")
-    is_ffmpeg = constants.open_ffmpeg and ffmpeg_installed
+    is_ffmpeg = config.open_ffmpeg and ffmpeg_installed
     semaphore = asyncio.Semaphore(5)
     need_sort_data = copy.deepcopy(data)
     process_nested_dict(need_sort_data, seen=set(), flag=r"cache:(.*)", force_str="!")
@@ -669,8 +670,8 @@ async def process_sort_channel_list(data, ipv6=False, callback=None):
                 semaphore,
                 ffmpeg=is_ffmpeg,
                 ipv6_proxy=ipv6_proxy,
-                filter_resolution=constants.open_filter_resolution,
-                min_resolution=constants.min_resolution_value,
+                filter_resolution=config.open_filter_resolution,
+                min_resolution=config.min_resolution_value,
                 callback=callback,
             )
         )
@@ -718,9 +719,9 @@ async def process_sort_channel_list(data, ipv6=False, callback=None):
                     response_time, resolution = cache
                     if response_time and response_time != float("inf"):
                         if resolution:
-                            if constants.open_filter_resolution:
+                            if config.open_filter_resolution:
                                 resolution_value = get_resolution_value(resolution)
-                                if resolution_value < constants.min_resolution_value:
+                                if resolution_value < config.min_resolution_value:
                                     continue
                             url = add_url_info(url, resolution)
                         append_data_to_info_data(
@@ -740,7 +741,7 @@ def write_channel_to_file(data, ipv6=False, callback=None):
     """
     Write channel to file
     """
-    if constants.open_update_time:
+    if config.open_update_time:
         now = datetime.datetime.now()
         if os.environ.get("GITHUB_ACTIONS"):
             now += datetime.timedelta(hours=8)
@@ -762,7 +763,7 @@ def write_channel_to_file(data, ipv6=False, callback=None):
             update_channel_urls_txt(cate, name, channel_urls, callback=callback)
         print()
     if no_result_name:
-        print("🈳No result channel name:")
+        print("\n🈳 No result channel name:")
         for i, name in enumerate(no_result_name):
             end_char = ", " if i < len(no_result_name) - 1 else ""
             print(name, end=end_char)
@@ -795,7 +796,7 @@ def get_multicast_fofa_search_urls():
         if filename.endswith(".txt") and "_" in filename:
             filename = filename.replace(".txt", "")
             rtp_file_names.append(filename)
-    region_list = constants.multicast_region_list
+    region_list = config.multicast_region_list
     region_type_list = [
         (parts[0], parts[1])
         for name in rtp_file_names

@@ -1,9 +1,9 @@
+from utils.config import config
 from utils.channel import (
     get_results_from_multicast_soup,
     get_results_from_multicast_soup_requests,
 )
 from utils.tools import get_pbar_remaining, get_soup
-import utils.constants as constants
 from updates.proxy import get_proxy, get_proxy_next
 from time import time
 from driver.setup import setup_driver
@@ -30,10 +30,10 @@ async def get_channels_by_hotel(callback=None):
     channels = {}
     pageUrl = "http://tonkiang.us/hoteliptv.php"
     proxy = None
-    open_proxy = constants.open_proxy
-    open_driver = constants.open_driver
-    page_num = constants.hotel_page_num
-    region_list = constants.hotel_region_list
+    open_proxy = config.open_proxy
+    open_driver = config.open_driver
+    page_num = config.hotel_page_num
+    region_list = config.hotel_region_list
     if "all" in region_list or "ALL" in region_list or "全部" in region_list:
         region_list = list(getattr(fofa_map, "region_url").keys())
     if open_proxy:

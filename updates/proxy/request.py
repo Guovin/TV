@@ -1,9 +1,9 @@
 from asyncio import Semaphore
 from tqdm import tqdm
 from tqdm.asyncio import tqdm_asyncio
+from utils.config import config
 from utils.speed import get_speed
 from concurrent.futures import ThreadPoolExecutor
-import utils.constants as constants
 from driver.utils import get_soup_driver
 from requests_custom.utils import get_soup_requests, close_session
 from utils.retry import retry_func
@@ -20,7 +20,7 @@ def get_proxy_list(page_count=1):
     ]
     proxy_list = []
     urls = []
-    open_driver = constants.open_driver
+    open_driver = config.open_driver
     for page_index in range(1, page_count + 1):
         for pattern in url_pattern:
             url = pattern.format(page_index)
