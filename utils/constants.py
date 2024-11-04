@@ -16,6 +16,8 @@ def get_resolution_value(resolution_str):
         return 0
 
 
+open_service = config.getboolean("Settings", "open_service", fallback=True)
+
 open_update = config.getboolean("Settings", "open_update", fallback=True)
 
 open_filter_resolution = config.getboolean(

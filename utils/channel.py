@@ -762,7 +762,7 @@ def write_channel_to_file(data, ipv6=False, callback=None):
             update_channel_urls_txt(cate, name, channel_urls, callback=callback)
         print()
     if no_result_name:
-        print("🈳No result channel name:")
+        print("\n🈳 No result channel name:")
         for i, name in enumerate(no_result_name):
             end_char = ", " if i < len(no_result_name) - 1 else ""
             print(name, end=end_char)
