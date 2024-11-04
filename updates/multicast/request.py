@@ -1,3 +1,4 @@
+from utils.config import config
 from utils.channel import (
     get_results_from_multicast_soup,
     get_results_from_multicast_soup_requests,
@@ -7,7 +8,6 @@ from utils.channel import (
     get_multicast_fofa_search_urls,
 )
 from utils.tools import get_pbar_remaining, get_soup, merge_objects
-import utils.constants as constants
 from updates.proxy import get_proxy, get_proxy_next
 from updates.fofa import get_channels_by_fofa
 from time import time
@@ -34,9 +34,9 @@ async def get_channels_by_multicast(names, callback=None):
     channels = {}
     pageUrl = "http://tonkiang.us/hoteliptv.php"
     proxy = None
-    open_proxy = constants.open_proxy
-    open_driver = constants.open_driver
-    page_num = constants.multicast_page_num
+    open_proxy = config.open_proxy
+    open_driver = config.open_driver
+    page_num = config.multicast_page_num
     if open_proxy:
         proxy = await get_proxy(pageUrl, best=True, with_test=True)
     multicast_region_result = get_multicast_region_result_by_rtp_txt(callback=callback)
@@ -45,7 +45,7 @@ async def get_channels_by_multicast(names, callback=None):
     )
     region_type_list = get_channel_multicast_region_type_list(name_region_type_result)
     search_region_type_result = defaultdict(lambda: defaultdict(list))
-    if constants.open_multicast_fofa:
+    if config.open_multicast_fofa:
         fofa_search_urls = get_multicast_fofa_search_urls()
         fofa_result = await get_channels_by_fofa(
             fofa_search_urls, multicast=True, callback=callback
@@ -153,7 +153,7 @@ async def get_channels_by_multicast(names, callback=None):
                 )
             return {"region": region, "type": type, "data": info_list}
 
-    if constants.open_multicast_tonkiang:
+    if config.open_multicast_tonkiang:
         region_type_list_len = len(region_type_list)
         pbar = tqdm_asyncio(total=region_type_list_len, desc="Multicast search")
         if callback:

@@ -5,7 +5,8 @@ sys.path.append(os.path.dirname(sys.path[0]))
 import tkinter as tk
 from tkinter import messagebox
 from PIL import Image, ImageTk
-from utils.config import config, resource_path, save_config, copy_config
+from utils.config import config
+from utils.tools import resource_path
 from main import UpdateSource
 import asyncio
 import threading
@@ -81,7 +82,7 @@ class TkinterUI:
 
         for key, value in config_values.items():
             config.set("Settings", key, str(value))
-        save_config()
+        config.save()
         messagebox.showinfo("提示", "保存成功")
 
     def change_state(self, state):
@@ -254,7 +255,7 @@ def get_root_location(root):
     screen_width = root.winfo_screenwidth()
     screen_height = root.winfo_screenheight()
     width = 550
-    height = 720
+    height = 750
     x = (screen_width / 2) - (width / 2)
     y = (screen_height / 2) - (height / 2)
     return (width, height, x, y)
@@ -268,5 +269,5 @@ if __name__ == "__main__":
     screen_height = root.winfo_screenheight()
     root.geometry("%dx%d+%d+%d" % get_root_location(root))
     root.iconbitmap(resource_path("static/images/favicon.ico"))
-    root.after(0, copy_config)
+    root.after(0, config.copy)
     root.mainloop()

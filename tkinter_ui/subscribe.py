@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
 from utils.config import config
-import utils.constants as constants
 from tkinter import scrolledtext
 
 
@@ -17,7 +16,7 @@ class SubscribeUI:
             frame_subscribe_open_subscribe, text="开启订阅源:", width=9
         )
         self.open_subscribe_label.pack(side=tk.LEFT, padx=4, pady=8)
-        self.open_subscribe_var = tk.BooleanVar(value=constants.open_subscribe)
+        self.open_subscribe_var = tk.BooleanVar(value=config.open_subscribe)
         self.open_subscribe_checkbutton = ttk.Checkbutton(
             frame_subscribe_open_subscribe,
             variable=self.open_subscribe_var,
@@ -40,7 +39,7 @@ class SubscribeUI:
         self.subscribe_urls_text.pack(
             side=tk.LEFT, padx=4, pady=8, expand=True, fill=tk.BOTH
         )
-        self.subscribe_urls_text.insert(tk.END, ",".join(constants.subscribe_urls))
+        self.subscribe_urls_text.insert(tk.END, ",".join(config.subscribe_urls))
         self.subscribe_urls_text.bind("<KeyRelease>", self.update_subscribe_urls)
 
     def update_open_subscribe(self):

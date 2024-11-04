@@ -1,6 +1,5 @@
 import tkinter as tk
 from utils.config import config
-import utils.constants as constants
 from tkinter import ttk
 from tkinter import scrolledtext
 from tkinter import filedialog
@@ -24,7 +23,7 @@ class DefaultUI:
             frame_default_open_update_column1, text="开启更新:", width=8
         )
         self.open_update_label.pack(side=tk.LEFT, padx=4, pady=8)
-        self.open_update_var = tk.BooleanVar(value=constants.open_update)
+        self.open_update_var = tk.BooleanVar(value=config.open_update)
         self.open_update_checkbutton = ttk.Checkbutton(
             frame_default_open_update_column1,
             variable=self.open_update_var,
@@ -39,9 +38,7 @@ class DefaultUI:
             frame_default_open_update_column2, text="使用历史结果:", width=12
         )
         self.open_use_old_result_label.pack(side=tk.LEFT, padx=4, pady=8)
-        self.open_use_old_result_var = tk.BooleanVar(
-            value=constants.open_use_old_result
-        )
+        self.open_use_old_result_var = tk.BooleanVar(value=config.open_use_old_result)
         self.open_use_old_result_checkbutton = ttk.Checkbutton(
             frame_default_open_update_column2,
             variable=self.open_use_old_result_var,
@@ -65,7 +62,7 @@ class DefaultUI:
         self.source_file_entry = tk.Entry(frame_default_source_file_column1)
         self.source_file_label.pack(side=tk.LEFT, padx=4, pady=8)
         self.source_file_entry.pack(fill=tk.X, padx=4, expand=True)
-        self.source_file_entry.insert(0, constants.source_file)
+        self.source_file_entry.insert(0, config.source_file)
 
         self.source_file_button = tk.ttk.Button(
             frame_default_source_file_column2,
@@ -87,7 +84,7 @@ class DefaultUI:
         self.final_file_entry = tk.Entry(frame_default_final_file_column1)
         self.final_file_label.pack(side=tk.LEFT, padx=4, pady=8)
         self.final_file_entry.pack(fill=tk.X, padx=4, expand=True)
-        self.final_file_entry.insert(0, constants.final_file)
+        self.final_file_entry.insert(0, config.final_file)
 
         self.final_file_button = tk.ttk.Button(
             frame_default_final_file_column2,
@@ -107,7 +104,7 @@ class DefaultUI:
             frame_default_mode_params_column1, text="浏览器模式:", width=12
         )
         self.open_driver_label.pack(side=tk.LEFT, padx=4, pady=8)
-        self.open_driver_var = tk.BooleanVar(value=constants.open_driver)
+        self.open_driver_var = tk.BooleanVar(value=config.open_driver)
         self.open_driver_checkbutton = ttk.Checkbutton(
             frame_default_mode_params_column1,
             variable=self.open_driver_var,
@@ -122,7 +119,7 @@ class DefaultUI:
             frame_default_mode_params_column2, text="开启代理:", width=12
         )
         self.open_proxy_label.pack(side=tk.LEFT, padx=4, pady=8)
-        self.open_proxy_var = tk.BooleanVar(value=constants.open_proxy)
+        self.open_proxy_var = tk.BooleanVar(value=config.open_proxy)
         self.open_proxy_checkbutton = ttk.Checkbutton(
             frame_default_mode_params_column2,
             variable=self.open_proxy_var,
@@ -146,7 +143,7 @@ class DefaultUI:
         self.urls_limit_label.pack(side=tk.LEFT, padx=4, pady=8)
         self.urls_limit_entry = tk.Entry(frame_default_channel_column1)
         self.urls_limit_entry.pack(side=tk.LEFT, padx=4, pady=8)
-        self.urls_limit_entry.insert(0, constants.urls_limit)
+        self.urls_limit_entry.insert(0, config.urls_limit)
         self.urls_limit_entry.bind("<KeyRelease>", self.update_urls_limit)
 
         self.ipv_type_label = tk.Label(
@@ -156,9 +153,9 @@ class DefaultUI:
         self.ipv_type_combo = ttk.Combobox(frame_default_channel_column2)
         self.ipv_type_combo.pack(side=tk.LEFT, padx=4, pady=8)
         self.ipv_type_combo["values"] = ("IPv4", "IPv6", "全部")
-        if constants.ipv_type == "ipv4":
+        if config.ipv_type == "ipv4":
             self.ipv_type_combo.current(0)
-        elif constants.ipv_type == "ipv6":
+        elif config.ipv_type == "ipv6":
             self.ipv_type_combo.current(1)
         else:
             self.ipv_type_combo.current(2)
@@ -177,7 +174,7 @@ class DefaultUI:
             frame_default_sort_column1, text="保留模式:", width=12
         )
         self.open_keep_all_label.pack(side=tk.LEFT, padx=4, pady=8)
-        self.open_keep_all_var = tk.BooleanVar(value=constants.open_keep_all)
+        self.open_keep_all_var = tk.BooleanVar(value=config.open_keep_all)
         self.open_keep_all_checkbutton = ttk.Checkbutton(
             frame_default_sort_column1,
             variable=self.open_keep_all_var,
@@ -192,7 +189,7 @@ class DefaultUI:
             frame_default_sort_column2, text="测速排序:", width=12
         )
         self.open_sort_label.pack(side=tk.LEFT, padx=4, pady=8)
-        self.open_sort_var = tk.BooleanVar(value=constants.open_sort)
+        self.open_sort_var = tk.BooleanVar(value=config.open_sort)
         self.open_sort_checkbutton = ttk.Checkbutton(
             frame_default_sort_column2,
             variable=self.open_sort_var,
@@ -208,7 +205,7 @@ class DefaultUI:
         self.sort_timeout_label.pack(side=tk.LEFT, padx=4, pady=8)
         self.sort_timeout_entry = tk.Entry(frame_default_sort_column3)
         self.sort_timeout_entry.pack(side=tk.LEFT, padx=4, pady=8)
-        self.sort_timeout_entry.insert(0, constants.sort_timeout)
+        self.sort_timeout_entry.insert(0, config.sort_timeout)
         self.sort_timeout_entry.bind("<KeyRelease>", self.update_sort_timeout)
 
         frame_default_sort_mode = tk.Frame(root)
@@ -222,7 +219,7 @@ class DefaultUI:
             frame_default_sort_mode_column1, text="FFmpeg测速:", width=12
         )
         self.open_ffmpeg_label.pack(side=tk.LEFT, padx=4, pady=8)
-        self.open_ffmpeg_var = tk.BooleanVar(value=constants.open_ffmpeg)
+        self.open_ffmpeg_var = tk.BooleanVar(value=config.open_ffmpeg)
         self.open_ffmpeg_checkbutton = ttk.Checkbutton(
             frame_default_sort_mode_column1,
             variable=self.open_ffmpeg_var,
@@ -237,7 +234,7 @@ class DefaultUI:
             frame_default_sort_mode_column2, text="M3U转换:", width=12
         )
         self.open_m3u_result_label.pack(side=tk.LEFT, padx=4, pady=8)
-        self.open_m3u_result_var = tk.BooleanVar(value=constants.open_m3u_result)
+        self.open_m3u_result_var = tk.BooleanVar(value=config.open_m3u_result)
         self.open_m3u_result_checkbutton = ttk.Checkbutton(
             frame_default_sort_mode_column2,
             variable=self.open_m3u_result_var,
@@ -264,7 +261,7 @@ class DefaultUI:
         )
         self.open_filter_resolution_label.pack(side=tk.LEFT, padx=4, pady=8)
         self.open_filter_resolution_var = tk.BooleanVar(
-            value=constants.open_filter_resolution
+            value=config.open_filter_resolution
         )
         self.open_filter_resolution_checkbutton = ttk.Checkbutton(
             frame_default_resolution_params_column1,
@@ -282,7 +279,7 @@ class DefaultUI:
         self.min_resolution_label.pack(side=tk.LEFT, padx=4, pady=8)
         self.min_resolution_entry = tk.Entry(frame_default_resolution_params_column2)
         self.min_resolution_entry.pack(side=tk.LEFT, padx=4, pady=8)
-        self.min_resolution_entry.insert(0, constants.min_resolution)
+        self.min_resolution_entry.insert(0, config.min_resolution)
         self.min_resolution_entry.bind("<KeyRelease>", self.update_min_resolution)
 
         frame_default_sort_params = tk.Frame(root)
@@ -305,7 +302,7 @@ class DefaultUI:
             command=self.update_response_time_weight,
         )
         self.response_time_weight_scale.pack(side=tk.LEFT, padx=4, pady=8)
-        self.response_time_weight_scale.set(constants.response_time_weight)
+        self.response_time_weight_scale.set(config.response_time_weight)
 
         self.resolution_weight_label = tk.Label(
             frame_default_sort_params_column2, text="分辨率权重:", width=12
@@ -320,7 +317,7 @@ class DefaultUI:
             command=self.update_resolution_weight,
         )
         self.resolution_weight_scale.pack(side=tk.LEFT, padx=4, pady=8)
-        self.resolution_weight_scale.set(constants.resolution_weight)
+        self.resolution_weight_scale.set(config.resolution_weight)
 
         frame_default_open_update_info = tk.Frame(root)
         frame_default_open_update_info.pack(fill=tk.X)
@@ -337,7 +334,7 @@ class DefaultUI:
             frame_default_open_update_info_column1, text="显示更新时间:", width=12
         )
         self.open_update_time_label.pack(side=tk.LEFT, padx=4, pady=8)
-        self.open_update_time_var = tk.BooleanVar(value=constants.open_update_time)
+        self.open_update_time_var = tk.BooleanVar(value=config.open_update_time)
         self.open_update_time_checkbutton = ttk.Checkbutton(
             frame_default_open_update_info_column1,
             variable=self.open_update_time_var,
@@ -352,7 +349,7 @@ class DefaultUI:
             frame_default_open_update_info_column2, text="显示接口信息:", width=12
         )
         self.open_url_info_label.pack(side=tk.LEFT, padx=4, pady=8)
-        self.open_url_info_var = tk.BooleanVar(value=constants.open_url_info)
+        self.open_url_info_var = tk.BooleanVar(value=config.open_url_info)
         self.open_url_info_checkbutton = ttk.Checkbutton(
             frame_default_open_update_info_column2,
             variable=self.open_url_info_var,
@@ -376,7 +373,7 @@ class DefaultUI:
         self.domain_blacklist_text.pack(
             side=tk.LEFT, padx=4, pady=8, expand=True, fill=tk.BOTH
         )
-        self.domain_blacklist_text.insert(tk.END, ",".join(constants.domain_blacklist))
+        self.domain_blacklist_text.insert(tk.END, ",".join(config.domain_blacklist))
         self.domain_blacklist_text.bind("<KeyRelease>", self.update_domain_blacklist)
 
         frame_default_url_keywords_blacklist = tk.Frame(root)
@@ -393,7 +390,7 @@ class DefaultUI:
             side=tk.LEFT, padx=4, pady=8, expand=True, fill=tk.BOTH
         )
         self.url_keywords_blacklist_text.insert(
-            tk.END, ",".join(constants.url_keywords_blacklist)
+            tk.END, ",".join(config.url_keywords_blacklist)
         )
         self.url_keywords_blacklist_text.bind(
             "<KeyRelease>", self.update_url_keywords_blacklist

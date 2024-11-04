@@ -1,5 +1,5 @@
 import asyncio
-import utils.constants as constants
+from utils.config import config
 from utils.channel import (
     get_channel_items,
     append_total_data,
@@ -96,16 +96,16 @@ class UpdateSource:
 
         for setting, task_func, result_attr in tasks_config:
             if (
-                setting == "open_hotel_tonkiang" or setting == "open_hotel_fofa"
-            ) and constants.open_hotel == False:
+                setting == "hotel_tonkiang" or setting == "hotel_fofa"
+            ) and config.open_hotel == False:
                 continue
-            if constants.open_method[setting]:
-                if setting == "open_subscribe":
-                    subscribe_urls = constants.subscribe_urls
+            if config.open_method[setting]:
+                if setting == "subscribe":
+                    subscribe_urls = config.subscribe_urls
                     task = asyncio.create_task(
                         task_func(subscribe_urls, callback=self.update_progress)
                     )
-                elif setting == "open_hotel_tonkiang" or setting == "open_hotel_fofa":
+                elif setting == "hotel_tonkiang" or setting == "hotel_fofa":
                     task = asyncio.create_task(task_func(callback=self.update_progress))
                 else:
                     task = asyncio.create_task(
@@ -136,7 +136,7 @@ class UpdateSource:
 
     async def main(self):
         try:
-            if constants.open_update:
+            if config.open_update:
                 setup_logging()
                 main_start_time = time()
                 self.channel_items = get_channel_items()
@@ -159,7 +159,7 @@ class UpdateSource:
                 )
                 channel_data_cache = copy.deepcopy(self.channel_data)
                 ipv6_support = check_ipv6_support()
-                open_sort = constants.open_sort
+                open_sort = config.open_sort
                 if open_sort:
                     urls_total = self.get_urls_len()
                     self.total = self.get_urls_len(filter=True)
@@ -187,7 +187,7 @@ class UpdateSource:
                     callback=lambda: self.pbar_update(name="写入结果"),
                 )
                 self.pbar.close()
-                user_final_file = constants.final_file
+                user_final_file = config.final_file
                 update_file(user_final_file, "output/result_new.txt")
                 if os.path.exists(user_final_file):
                     result_file = (
@@ -196,7 +196,7 @@ class UpdateSource:
                         else "result.txt"
                     )
                     shutil.copy(user_final_file, result_file)
-                if constants.open_use_old_result:
+                if config.open_use_old_result:
                     if open_sort:
                         get_channel_data_cache_with_compare(
                             channel_data_cache, self.channel_data
@@ -217,12 +217,12 @@ class UpdateSource:
                 print(
                     f"🥳 Update completed! Total time spent: {total_time}. Please check the {user_final_file} file!"
                 )
-            open_service = constants.open_service
+            open_service = config.open_service
             if self.run_ui:
                 service_tip = ", 可使用以下链接观看直播:" if open_service else ""
                 tip = (
                     f"✅ 服务启动成功{service_tip}"
-                    if open_service and constants.open_update == False
+                    if open_service and config.open_update == False
                     else f"🥳 更新完成, 耗时: {total_time}, 请检查{user_final_file}文件{service_tip}"
                 )
                 self.update_progress(
