@@ -32,7 +32,6 @@ from tqdm.asyncio import tqdm_asyncio
 from time import time
 from flask import Flask, render_template_string
 import sys
-import shutil
 import atexit
 import pickle
 import copy
