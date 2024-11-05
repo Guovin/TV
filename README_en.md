@@ -90,7 +90,7 @@
 - ✅ Supports various execution methods: workflows, command line, GUI software, Docker(amd64/arm64)
 - ✨ For more features, see [Config parameter](./docs/config_en.md)
 
-## ✨ Latest results：
+## ✨ Latest results
 
 - Interface source:
 
