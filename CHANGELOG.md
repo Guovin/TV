@@ -4,7 +4,10 @@
 
 ### 2024/11/5
 
-- ✨ 新增频道接口白名单：不参与测速，永远保留在结果最前面。使用：模板频道接口地址后添加$!即可实现（如：广东珠江,http://xxx.m3u$!），额外信息补充（如：广东珠江,http://xxx.m3u$!额外信息）（#470），更多接口白名单请至https://github.com/Guovin/TV/issues/514讨论
+- ✨ 新增频道接口白名单：不参与测速，永远保留在结果最前面（#470）
+  使用方法：
+  1. 模板频道接口地址后添加$!即可实现（如：广东珠江,http://xxx.m3u$! ）
+  2. 额外信息补充（如：广东珠江,http://xxx.m3u$!额外信息 ），更多接口白名单请至https://github.com/Guovin/TV/issues/514 讨论
 - ✨ 新增 🈳 无结果频道分类：无结果频道默认归类至该底部分类下（#473）
 - ✨ 接口地址增加来源类型说明
 - ✨ 默认模板增加广东民生（#481）、广州综合（#504）
@@ -20,18 +23,21 @@
 <details>
   <summary>English</summary>
 
-- ✨ 新增频道接口白名单：不参与测速，永远保留在结果最前面。使用：模板频道接口地址后添加$!即可实现（如：广东珠江,http://xxx.m3u$!），额外信息补充（如：广东珠江,http://xxx.m3u$!额外信息）（#470），更多接口白名单请至https://github.com/Guovin/TV/issues/514讨论
-- ✨ 新增 🈳 无结果频道分类：无结果频道默认归类至该底部分类下（#473）
-- ✨ 接口地址增加来源类型说明
-- ✨ 默认模板增加广东民生（#481）、广州综合（#504）
-- 🪄 优化偏好结果输出
-- 🪄 重构配置读取与增加全局常量
-- 🐛 修复部分接口匹配失败问题
-- 🐛 修复更新结果为空等问题（#464，#467）
-- 🐛 修复接口地址复制空格问题（#472 by:@haohaitao）
-- 🐛 修复结果日志 unpack error
-- 🐛 修复结果接口信息为空问题（#505）
-- 🗑️ 移除仓库根目录 txt 结果文件，请至 output 目录下查看结果文件
+- ✨ Added channel interface whitelist: Not participating in speed testing, always kept at the very front of the results. (#470)
+  Usage:
+  1. Add $! after the template channel interface address (e.g., Guangdong Pearl River, http://xxx.m3u$!).
+  2. Additional information can be appended (e.g., Guangdong Pearl River, http://xxx.m3u$! Additional Information) (#470). For more interface whitelists, please discuss at https://github.com/Guovin/TV/issues/514.
+- ✨ Added 🈳 No Results Channel Category: Channels without results are categorized under this bottom category by default (#473).
+- ✨ Interface addresses now include source type descriptions.
+- ✨ Default templates now include Guangdong People's Livelihood (#481) and Guangzhou Comprehensive (#504).
+- 🪄 Optimized preferred result output.
+- 🪄 Refactored configuration reading and added global constants.
+- 🐛 Fixed issues with partial interface matching failures.
+- 🐛 Fixed problems with empty update results, etc. (#464, #467).
+- 🐛 Fixed the issue of spaces being copied with the interface address (#472 by:@haohaitao).
+- 🐛 Fixed the unpack error in result logs.
+- 🐛 Fixed the issue of empty interface information in results (#505).
+- 🗑️ Removed txt result files from the repository root directory. Please check the result files in the output directory.
 </details>
 
 ## v1.5.0
