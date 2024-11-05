@@ -7,7 +7,6 @@ from utils.tools import (
     add_url_info,
     remove_cache_info,
     resource_path,
-    get_resolution_value,
 )
 from utils.speed import (
     sort_urls_by_speed_and_resolution,
