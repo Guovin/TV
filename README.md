@@ -70,8 +70,11 @@
   <a href="https://hub.docker.com/repository/docker/guovern/tv-requests">
     <img src="https://img.shields.io/docker/pulls/guovern/tv-requests?label=docker:requests" />
   </a>
-   <a href="https://hub.docker.com/repository/docker/guovern/tv-driver">
+  <a href="https://hub.docker.com/repository/docker/guovern/tv-driver">
     <img src="https://img.shields.io/docker/pulls/guovern/tv-driver?label=docker:driver" />
+  </a>
+  <a href="https://github.com/Guovin/TV/fork">
+    <img src="https://img.shields.io/github/forks/guovin/tv" />
   </a>
 </p>
 
