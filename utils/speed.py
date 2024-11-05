@@ -187,7 +187,7 @@ async def sort_urls_by_speed_and_resolution(
     valid_response = [res for res in response if res != float("inf")]
 
     def combined_key(item):
-        (_, _, resolution), response_time = item
+        (_, _, resolution, _), response_time = item
         resolution_value = get_resolution_value(resolution) if resolution else 0
         return (
             -(config.response_time_weight * response_time)
