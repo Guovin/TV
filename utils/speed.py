@@ -103,8 +103,6 @@ async def check_stream_speed(url_info):
         frame, resolution = get_video_info(video_info)
         if frame is None or frame == float("inf"):
             return float("inf")
-        if resolution:
-            url_info[0] = add_url_info(url, resolution)
         url_info[2] = resolution
         return (url_info, frame)
     except Exception as e:

@@ -171,7 +171,7 @@ Please download and install Python from the official site. During installation, 
 
 2. Run Update
 Open a CMD terminal in the project directory and run the following commands in sequence:
-pip3 install pipenv
+pip install pipenv
 pipenv install
 pipenv run build
 ```

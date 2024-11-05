@@ -28,7 +28,6 @@ def get_proxy_list(page_count=1):
     pbar = tqdm(total=len(urls), desc="Getting proxy list")
 
     def get_proxy(url):
-        nonlocal open_driver
         proxys = []
         try:
             if open_driver:
