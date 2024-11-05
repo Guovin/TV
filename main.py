@@ -189,13 +189,6 @@ class UpdateSource:
                 self.pbar.close()
                 user_final_file = config.final_file
                 update_file(user_final_file, "output/result_new.txt")
-                if os.path.exists(user_final_file):
-                    result_file = (
-                        "user_result.txt"
-                        if os.path.exists("config/user_config.ini")
-                        else "result.txt"
-                    )
-                    shutil.copy(user_final_file, result_file)
                 if config.open_use_old_result:
                     if open_sort:
                         get_channel_data_cache_with_compare(

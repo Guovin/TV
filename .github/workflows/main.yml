@@ -91,14 +91,8 @@ jobs:
           if [[ -f "$final_file" ]]; then
             git add -f "$final_file"
           fi
-          if [[ -f "result.txt" ]]; then
-            git add -f "result.txt"
-          fi
           if [[ -f "$final_m3u_file" ]]; then
             git add -f "$final_m3u_file"
-          fi
-          if [[ -f "result.m3u" ]]; then
-            git add -f "result.m3u"
           fi
           if [[ -f "output/result_cache.pkl" ]]; then
             git add -f "output/result_cache.pkl"
