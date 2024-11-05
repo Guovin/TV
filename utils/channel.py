@@ -497,6 +497,8 @@ def append_data_to_info_data(
         try:
             url, date, resolution, *rest = item
             url_origin = origin or (rest[0] if rest else None)
+            if not url_origin:
+                continue
             if url:
                 pure_url = url.partition("$")[0]
                 if pure_url in urls:
@@ -523,8 +525,6 @@ def get_origin_method_name(method):
     """
     Get the origin method name
     """
-    if method in ["hotel_tonkiang", "hotel_fofa"] and not config.open_hotel:
-        return None
     return "hotel" if method.startswith("hotel_") else method
 
 
