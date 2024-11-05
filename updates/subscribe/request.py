@@ -3,6 +3,7 @@ from tqdm.asyncio import tqdm_asyncio
 from time import time
 from requests import Session, exceptions
 from utils.config import config
+import utils.constants as constants
 from utils.retry import retry_func
 from utils.channel import get_name_url, format_channel_name
 from utils.tools import (
@@ -40,6 +41,9 @@ async def get_channels_by_subscribe_urls(
             0,
         )
     session = Session()
+    hotel_name = constants.origin_map["hotel"]
+    multicast_name = constants.origin_map["multicast"]
+    subscribe_name = constants.origin_map["subscribe"]
 
     def process_subscribe_channels(subscribe_info):
         if (multicast or hotel) and isinstance(subscribe_info, dict):
@@ -83,9 +87,13 @@ async def get_channels_by_subscribe_urls(
                         url = url.partition("$")[0]
                         if not multicast:
                             info = (
-                                f"{region}酒店源"
+                                f"{region}{hotel_name}"
                                 if hotel
-                                else "组播源" if "/rtp/" in url else "订阅源"
+                                else (
+                                    f"{multicast_name}"
+                                    if "/rtp/" in url
+                                    else f"{subscribe_name}"
+                                )
                             )
                             url = add_url_info(url, info)
                         url = format_url_with_cache(

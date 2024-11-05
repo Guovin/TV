@@ -6,6 +6,7 @@ import ipaddress
 from urllib.parse import urlparse
 import socket
 from utils.config import config
+import utils.constants as constants
 import re
 from bs4 import BeautifulSoup
 from flask import render_template_string, send_file
@@ -158,11 +159,16 @@ def get_total_urls_from_info_list(infoList, ipv6=False):
 
         pure_url, _, info = url.partition("$")
         if not info:
-            url = add_url_info(pure_url, origin)
+            origin_name = constants.origin_map[origin]
+            if origin_name:
+                url = add_url_info(pure_url, origin_name)
 
         url_is_ipv6 = is_ipv6(url)
         if url_is_ipv6:
             url = add_url_info(url, "IPv6")
+
+        if resolution:
+            url = add_url_info(url, resolution)
 
         if url_is_ipv6:
             categorized_urls[origin]["ipv6"].append(url)

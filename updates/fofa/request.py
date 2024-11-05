@@ -6,6 +6,7 @@ import updates.fofa.fofa_map as fofa_map
 from driver.setup import setup_driver
 import re
 from utils.config import config
+import utils.constants as constants
 from utils.retry import retry_func
 from utils.channel import format_channel_name
 from utils.tools import merge_objects, get_pbar_remaining, add_url_info, resource_path
@@ -91,9 +92,10 @@ async def get_channels_by_fofa(urls=None, multicast=False, callback=None):
         test_url = fofa_urls[0][0]
         proxy = await get_proxy(test_url, best=True, with_test=True)
     cancel_event = threading.Event()
+    hotel_name = constants.origin_map["hotel"]
 
     def process_fofa_channels(fofa_info):
-        nonlocal proxy, fofa_urls_len, open_driver, open_sort, cancel_event
+        nonlocal proxy
         if cancel_event.is_set():
             return {}
         fofa_url = fofa_info[0]
@@ -130,7 +132,11 @@ async def get_channels_by_fofa(urls=None, multicast=False, callback=None):
                 with ThreadPoolExecutor(max_workers=100) as executor:
                     futures = [
                         executor.submit(
-                            process_fofa_json_url, url, fofa_info[1], open_sort
+                            process_fofa_json_url,
+                            url,
+                            fofa_info[1],
+                            open_sort,
+                            hotel_name,
                         )
                         for url in urls
                     ]
@@ -184,7 +190,7 @@ async def get_channels_by_fofa(urls=None, multicast=False, callback=None):
     return fofa_results
 
 
-def process_fofa_json_url(url, region, open_sort):
+def process_fofa_json_url(url, region, open_sort, hotel_name="酒店源"):
     """
     Process the FOFA json url
     """
@@ -208,11 +214,11 @@ def process_fofa_json_url(url, region, open_sort):
                                 total_url = (
                                     add_url_info(
                                         f"{url}{item_url}",
-                                        f"{region}酒店源|cache:{url}",
+                                        f"{region}{hotel_name}|cache:{url}",
                                     )
                                     if open_sort
                                     else add_url_info(
-                                        f"{url}{item_url}", f"{region}酒店源"
+                                        f"{url}{item_url}", f"{region}{hotel_name}"
                                     )
                                 )
                                 if item_name not in channels:

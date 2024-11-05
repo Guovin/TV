@@ -253,17 +253,19 @@ def get_channel_multicast_result(result, search_result):
     Get the channel multicast info result by result and search result
     """
     info_result = {}
+    multicast_name = constants.origin_map["multicast"]
     for name, result_obj in result.items():
         info_list = [
             (
                 (
                     add_url_info(
                         f"http://{url}/rtp/{ip}",
-                        f"{result_region}{result_type}组播源|cache:{url}",
+                        f"{result_region}{result_type}{multicast_name}|cache:{url}",
                     )
                     if config.open_sort
                     else add_url_info(
-                        f"http://{url}/rtp/{ip}", f"{result_region}{result_type}组播源"
+                        f"http://{url}/rtp/{ip}",
+                        f"{result_region}{result_type}{multicast_name}",
                     )
                 ),
                 date,
@@ -614,8 +616,6 @@ async def sort_channel_list(
     semaphore,
     ffmpeg=False,
     ipv6_proxy=None,
-    filter_resolution=False,
-    min_resolution=None,
     callback=None,
 ):
     """
@@ -630,10 +630,6 @@ async def sort_channel_list(
                 )
                 if sorted_data:
                     for (url, date, resolution, origin), response_time in sorted_data:
-                        if resolution and filter_resolution:
-                            resolution_value = get_resolution_value(resolution)
-                            if resolution_value < min_resolution:
-                                continue
                         logging.info(
                             f"Name: {name}, URL: {url}, Date: {date}, Resolution: {resolution}, Response Time: {response_time} ms"
                         )
@@ -670,8 +666,6 @@ async def process_sort_channel_list(data, ipv6=False, callback=None):
                 semaphore,
                 ffmpeg=is_ffmpeg,
                 ipv6_proxy=ipv6_proxy,
-                filter_resolution=config.open_filter_resolution,
-                min_resolution=config.min_resolution_value,
                 callback=callback,
             )
         )
@@ -718,12 +712,6 @@ async def process_sort_channel_list(data, ipv6=False, callback=None):
                         continue
                     response_time, resolution = cache
                     if response_time and response_time != float("inf"):
-                        if resolution:
-                            if config.open_filter_resolution:
-                                resolution_value = get_resolution_value(resolution)
-                                if resolution_value < config.min_resolution_value:
-                                    continue
-                            url = add_url_info(url, resolution)
                         append_data_to_info_data(
                             sort_data,
                             cate,
@@ -845,6 +833,4 @@ def format_channel_url_info(data):
         for url_info in obj.values():
             for i, (url, date, resolution, origin) in enumerate(url_info):
                 url = remove_cache_info(url)
-                if resolution:
-                    url = add_url_info(url, resolution)
                 url_info[i] = (url, date, resolution, origin)
