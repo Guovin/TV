@@ -53,7 +53,7 @@ async def get_channels_by_multicast(names, callback=None):
         merge_objects(search_region_type_result, fofa_result)
 
     def process_channel_by_multicast(region, type):
-        nonlocal proxy, open_driver, page_num, start_time
+        nonlocal proxy
         name = f"{region}{type}"
         info_list = []
         driver = None

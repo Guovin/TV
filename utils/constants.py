@@ -51,3 +51,10 @@ replace_dict = {
     "CCTV17农业农村": "CCTV17",
     "CCTV17农业": "CCTV17",
 }
+
+origin_map = {
+    "hotel": "酒店源",
+    "multicast": "组播源",
+    "subscribe": "订阅源",
+    "online_search": "关键字源",
+}

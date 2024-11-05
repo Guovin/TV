@@ -41,7 +41,7 @@ async def get_channels_by_hotel(callback=None):
     start_time = time()
 
     def process_region_by_hotel(region):
-        nonlocal proxy, open_driver, page_num
+        nonlocal proxy
         name = f"{region}"
         info_list = []
         driver = None

@@ -1,5 +1,6 @@
 from asyncio import create_task, gather
 from utils.config import config
+import utils.constants as constants
 from utils.speed import get_speed
 from utils.channel import (
     format_channel_name,
@@ -11,6 +12,7 @@ from utils.tools import (
     get_pbar_remaining,
     get_soup,
     format_url_with_cache,
+    add_url_info,
 )
 from updates.proxy import get_proxy, get_proxy_next
 from time import time
@@ -61,9 +63,10 @@ async def get_channels_by_online_search(names, callback=None):
     if open_proxy:
         proxy = await get_proxy(pageUrl, best=True, with_test=True)
     start_time = time()
+    online_search_name = constants.origin_map["online_search"]
 
     def process_channel_by_online_search(name):
-        nonlocal proxy, open_proxy, open_driver, page_num
+        nonlocal proxy
         info_list = []
         driver = None
         try:
@@ -166,6 +169,7 @@ async def get_channels_by_online_search(names, callback=None):
                             for result in results:
                                 url, date, resolution = result
                                 if url and check_url_by_patterns(url):
+                                    url = add_url_info(url, online_search_name)
                                     url = format_url_with_cache(url)
                                     info_list.append((url, date, resolution))
                             break
