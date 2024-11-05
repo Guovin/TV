@@ -117,8 +117,14 @@ Fork 本项目并开启工作流更新，具体步骤请见[详细教程](./docs
 ### 方式二：命令行
 
 ```python
-pip3 install pipenv
+pip install pipenv
+```
+
+```python
 pipenv install
+```
+
+```python
 pipenv run build
 ```
 

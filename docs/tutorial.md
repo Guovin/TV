@@ -174,7 +174,7 @@ https://mirror.ghproxy.com/raw.githubusercontent.com/您的github用户名/仓�
 
 2. 运行更新
 项目目录下打开终端 CMD 依次运行以下命令：
-pip3 install pipenv
+pip install pipenv
 pipenv install
 pipenv run build
 ```

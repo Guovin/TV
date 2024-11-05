@@ -117,8 +117,14 @@ Fork this project and initiate workflow updates, detailed steps are available at
 ### Method 2: Command Line
 
 ```python
-pip3 install pipenv
+pip install pipenv
+```
+
+```python
 pipenv install
+```
+
+```python
 pipenv run build
 ```
 
