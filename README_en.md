@@ -94,6 +94,10 @@
 https://ghproxy.net/raw.githubusercontent.com/Guovin/TV/gd/output/result.m3u
 ```
 
+```bash
+https://ghproxy.net/raw.githubusercontent.com/Guovin/TV/gd/output/result.txt
+```
+
 - Data source:
 
 ```bash
