@@ -85,6 +85,7 @@
 - ✅ Customize the template to generate the channel you want
 - ✅ Supports multiple source acquisition methods: multicast source, hotel source, subscription source, keyword search
 - ✅ Interface speed testing and verification, with priority on response time and resolution, filtering out ineffective interfaces
+- ✅ Preferences: IPv6, priority and quantity of interface source sorting, and interface whitelist
 - ✅ Scheduled execution at 6:00 AM and 18:00 PM Beijing time daily
 - ✅ Supports various execution methods: workflows, command line, GUI software, Docker(amd64/arm64)
 - ✨ For more features, see [Config parameter](./docs/config_en.md)
