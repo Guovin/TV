@@ -116,7 +116,7 @@ async def get_channels_by_fofa(urls=None, multicast=False, callback=None):
                 page_source = retry_func(
                     lambda: get_source_requests(fofa_url), name=fofa_url
                 )
-            if "资源访问每天限制" in page_source:
+            if "禁止访问" in page_source or "资源访问每天限制" in page_source:
                 cancel_event.set()
                 raise ValueError("Limited access to fofa page")
             fofa_source = re.sub(r"<!--.*?-->", "", page_source, flags=re.DOTALL)
