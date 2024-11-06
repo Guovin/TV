@@ -70,23 +70,27 @@
   <a href="https://hub.docker.com/repository/docker/guovern/tv-requests">
     <img src="https://img.shields.io/docker/pulls/guovern/tv-requests?label=docker:requests" />
   </a>
-   <a href="https://hub.docker.com/repository/docker/guovern/tv-driver">
+  <a href="https://hub.docker.com/repository/docker/guovern/tv-driver">
     <img src="https://img.shields.io/docker/pulls/guovern/tv-driver?label=docker:driver" />
+  </a>
+  <a href="https://github.com/Guovin/TV/fork">
+    <img src="https://img.shields.io/github/forks/guovin/tv" />
   </a>
 </p>
 
 [English](./README_en.md) | 中文
 
-## 特点
+## ✅ 特点
 
-- 自定义模板，生成您想要的频道
-- 支持多种获取源方式：组播源、酒店源、订阅源、关键字搜索
-- 接口测速验效，响应时间、分辨率优先级，过滤无效接口
-- 定时执行，北京时间每日 6:00 与 18:00 执行更新
-- 支持多种运行方式：工作流、命令行、GUI 软件、Docker(amd64/arm64)
-- 更多功能请见[配置参数](./docs/config.md)
+- ✅ 自定义模板，生成您想要的频道
+- ✅ 支持多种获取源方式：组播源、酒店源、订阅源、关键字搜索
+- ✅ 接口测速验效，响应时间、分辨率优先级，过滤无效接口
+- ✅ 偏好设置：IPv6、接口来源排序优先级与数量配置、接口白名单
+- ✅ 定时执行，北京时间每日 6:00 与 18:00 执行更新
+- ✅ 支持多种运行方式：工作流、命令行、GUI 软件、Docker(amd64/arm64)
+- ✨ 更多功能请见[配置参数](./docs/config.md)
 
-## 最新结果：
+## ✨ 最新结果
 
 - 接口源：
 
@@ -104,11 +108,11 @@ https://ghproxy.net/raw.githubusercontent.com/Guovin/TV/gd/output/result.txt
 https://ghproxy.net/raw.githubusercontent.com/Guovin/TV/gd/source.json
 ```
 
-## 配置
+## ⚙️ 配置
 
 [配置参数](./docs/config.md)
 
-## 快速上手
+## 🪄 快速上手
 
 ### 方式一：工作流
 
@@ -174,15 +178,15 @@ docker run -d -p 8000:8000 guovern/tv-requests 或 tv-driver
 
 #### 注：方式一至三更新完成后的结果文件链接：http://本地 ip:8000 或 http://localhost:8000
 
-## 更新日志
+## 🗓️ 更新日志
 
 [更新日志](./CHANGELOG.md)
 
-## 许可证
+## 📄 许可证
 
 [MIT](./LICENSE) License &copy; 2024-PRESENT [Govin](https://github.com/guovin)
 
-## 赞赏
+## 💰️ 赞赏
 
 <div>请我喝杯咖啡☕️吧~</div>
 
@@ -190,6 +194,6 @@ docker run -d -p 8000:8000 guovern/tv-requests 或 tv-driver
 | ----------------------------------------- | ------------------------------------------- |
 | ![支付宝扫码](./static/images/alipay.jpg) | ![微信扫码](./static/images/appreciate.jpg) |
 
-## 免责声明
+## 📣 免责声明
 
 本项目仅供学习交流用途，接口数据均来源于网络，如有侵权，请联系删除
