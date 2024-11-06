@@ -10,3 +10,4 @@ version.json
 .git
 .github
 .gitignore
+.gitattributes
