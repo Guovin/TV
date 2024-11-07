@@ -4,7 +4,7 @@ CCTV-2
 CCTV-3   主打
 CCTV-4
 CCTV-5体育
-CCTV5+   CCTV5
+CCTV5+   CCTV5   CCTV5 CCTV5
 CCTV-6电影
 CCTV-7国防军事
 CCTV-8电视剧
@@ -54,7 +54,7 @@ CCTV-17
 
 💮️体育,#genre#
 CCTV5
-CCTV5+   CCTV5
+CCTV5+   CCTV5   CCTV5 CCTV5
 CCTV16
 广东体育
 北京体育休闲
@@ -88,7 +88,7 @@ J体育4
 可乐影院✔原,http://159.75.85.63:35455/douyu/20415
 小宇60帧✔原,http://159.75.85.63:35455/douyu/323876
 恐怖惊悚✔原,http://159.75.85.63:35455/douyu/96577
-電影劇場✔原,http://159.75.85.63:35455/douyu/7575350
+電影劇場✔原,http://159.75.85.63:35455/douyu/7575350电影剧场✔原,http://159.75.85.63:35455/douyu/7575350
 豆瓣高分✔原,http://159.75.85.63:35455/douyu/8770422
 花卷陪看✔原,http://159.75.85.63:35455/douyu/52787
 漫威剧情✔原,http://159.75.85.63:35455/douyu/6140589
@@ -110,7 +110,8 @@ J体育4
 晴彩影院四川,http://182.139.250.132:5033/HUAWEI/20000001000000050000000000000371/index.m3u8?playtype=1&usercode=cl@is
 淘电影台组播,http://home4.kmo.ink:8888/udp/239.3.1.250:8001
 豆瓣电影@代,http://diyp.112114.xyz/douyu/8770422
-峨眉电影电信,http://182.150.48.83:8888/newlive/live/hls/54/live.m3u8
+峨眉电影电信,http://182.150.48.83:8888/newlive/live/hls/54/live.m3u8峨眉电影电信,http://182.150.48.83:8888
+ewlive/live/hls/54/live.m3u8
 重温经典@代,http://1.62.64.80/0b926d37065dc656266be75dd9d25565.v.smtcdns.net/zycfcdn.gdwlcloud.com/PLTV/88888888/224/3221225563/index.m3u8
 重温经典@代,http://1.62.64.234/2d07c55520f72f74e7a4710c981d91e2.v.smtcdns.net/zycfcdn.gdwlcloud.com/PLTV/88888888/224/3221225563/index.m3u8 
 重温经典@代,http://222.218.158.229:8181/tsfile/live/1085_1.m3u8
@@ -298,13 +299,13 @@ CHC动作电影,https://epg.pw/stream/a9e49885cb3e631c34781283c45119db7bc5431c54
 超级电影@代,http://[2409:8087:1a01:df::7005]/ottrrs.hl.chinamobile.com/PLTV/88888888/224/3221225717/index.m3u8
 NEWTV動作電影,https://epg.pw/stream/cd45c9084dc87d55ffc777cf4b47a0f93d6ea1565e97185673f070207f7cdb25.m3u8
 NEWTV古裝劇場,https://epg.pw/stream/87b410a4d03daf80d3bc0114e5df6f63bc21382a23f1d1aab0772e9f838af38f.m3u8
-NEWTV家庭劇場,https://epg.pw/stream/879f1fe20cbbe59e7575563f6683a629d66e588b919d4aa4ea62ef6437097644.m3u8
+NEWTV家庭劇場,https://epg.pw/stream/879f1fe20cbbe59e7575563f6683a629d66e588b919d4aa4ea62ef6437097644.m3u8NEWTV家庭剧场,https://epg.pw/stream/879f1fe20cbbe59e7575563f6683a629d66e588b919d4aa4ea62ef6437097644.m3u8
 NEWTV家庭劇場,https://epg.pw/stream/e882c79e01115a0af0a1302d04509044ed5489359cb2991b85b1524487f5e52c.m3u8
 NEWTV家庭劇場,https://epg.pw/stream/127dbf75dbf02c0a8f350fd4cc2ebccd9503ba1f014f6c5575cc76999f9f11e1.m3u8
 NEWTV愛情喜劇,https://epg.pw/stream/a93310f76ba5b160fa55d4b9b5bf78c239981ce43ecdb44984a0492e26aaf425.m3u8
 NEWTV武搏世界,https://epg.pw/stream/887e39082c8926ee7dc1fae4acafc64ec70cae5cfd6417a406779562da53ddab.m3u8
 NEWTV海外劇場,https://epg.pw/stream/9b7166024df3941e461b10e7b0404889608f3b5d77ef5ede4f1a7e2cfc87d2eb.m3u8
-NEWTV海外劇場,https://epg.pw/stream/22ab238d18e70a22e401c0464ae86125ac7205109534a1f09708f447f01c19c3.m3u8
+NEWTV海外劇場,https://epg.pw/stream/22ab238d18e70a22e401c0464ae86125ac7205109534a1f09708f447f01c19c3.m3u8NEWTV海外剧场,https://epg.pw/stream/22ab238d18e70a22e401c0464ae86125ac7205109534a1f09708f447f01c19c3.m3u8
 NEWTV超級視劇,https://epg.pw/stream/acb38406cf2e7ffd20ca4b5ea16c5ddeceb6218cf5a274cf87188fd142b998ab.m3u8
 中国功夫频道,http://[2409:8087:1a0b:df::4001]/ottrrs.hl.chinamobile.com/PLTV/88888888/224/3221225681/index.m3u8
 NEWTV驚悚懸疑,https://epg.pw/stream/e58b03bfd507e0a80eabeca0e7c42e0204fcc777ae692448daa4b2f9ce4fe01e.m3u8
@@ -313,7 +314,7 @@ NEWTV驚悚懸疑,https://epg.pw/stream/fbdb46d2fa08a7877fbc43b5f401f84c7fe48703
 NewTV超級電影,https://epg.pw/stream/8b97f44358106b24174cb9f3d9354f29ce4011d518465dd5a8e7b76ec52c20d0.m3u8
 NewTV超級電影,https://epg.pw/stream/51a8268790d16215beebefee2ee05c185fbbddb69922da9b7f0b9985ebeb88a6.m3u8
 NEWTV軍旅劇場,https://epg.pw/stream/039ce88ed853e0843ddd582b05a4b05caad6c6c97ed78f541e5ce97cbd943ba9.m3u8
-NEWTV軍旅劇場,https://epg.pw/stream/3f9ffb76a28b1b05f59b3c6798b79349664beb96e85ae43c99bec1662d275c0f.m3u8
+NEWTV軍旅劇場,https://epg.pw/stream/3f9ffb76a28b1b05f59b3c6798b79349664beb96e85ae43c99bec1662d275c0f.m3u8NEWTV军旅剧场,https://epg.pw/stream/3f9ffb76a28b1b05f59b3c6798b79349664beb96e85ae43c99bec1662d275c0f.m3u8
 NEWTV軍旅劇場,https://epg.pw/stream/2b1bea73cc3becbf8dc2173cde8041691b01c997dc0bd1b53b088e96fc0c2f48.m3u8
 NEWTV精品大劇,https://epg.pw/stream/c169dc0eb342ab0d1d8b097853183954995fb6b84eaecad28b831d4098a999c5.m3u8
 NEWTV精品大劇,https://epg.pw/stream/9922d8260d1381e429492ef4d7fa78301d9c48c29a165c8b06f20396e5af929b.m3u8
@@ -562,7 +563,7 @@ NewTV惊悚悬疑
 NewTV金牌综艺
 
 💮️其他,#genre#
-Love Nature 4K
+Love Nature 4K   爱大自然4K
 苏州4K
 💮️河北,#genre#
 鹿泉二套
