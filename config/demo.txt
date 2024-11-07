@@ -1,22 +1,22 @@
 💮️央视,#genre#
-CCTV-01 
-CCTV-02 
-CCTV-03 
-CCTV-04 
-CCTV-05 
-CCTV05+
-CCTV-06 
-CCTV-07 
-CCTV-08 
-CCTV-09 
-CCTV-10 
-CCTV-11 
-CCTV-12 
-CCTV-13 
-CCTV-14 
-CCTV-15 
-CCTV-16 
-CCTV-17 
+CCTV-1综合
+CCTV-2.财经
+CCTV-3.综艺
+CCTV-4.中文国际
+CCTV-5体育
+CCTV5+体育赛事
+CCTV-6电影
+CCTV-7国防军事
+CCTV-8电视剧
+CCTV-9记录
+CCTV-10科教
+CCTV-11戏曲
+CCTV-12社会与法
+CCTV-13.新闻
+CCTV-14.少儿频道
+CCTV-15.音乐
+CCTV-16.奥林匹克
+CCTV-17.农业农村 
 
 💮️卫视,#genre#
 北京卫视
@@ -54,13 +54,13 @@ CCTV-17
 
 💮️体育,#genre#
 CCTV5
-CCTV5+
+CCTV5+   CCTV5
 CCTV16
 广东体育
 北京体育休闲
 咪咕体育
 五星体育
-NBA TV
+NBA TV   NBA的电视
 WWE摔跤
 UFC格斗
 迪拜体育
