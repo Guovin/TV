@@ -1,10 +1,10 @@
 💮️央视,#genre#
 CCTV-1综合
 CCTV-2
-CCTV-3   主打
+CCTV-3 
 CCTV-4
 CCTV-5体育
-CCTV5+   CCTV5   CCTV5 CCTV5
+CCTV5+ 
 CCTV-6电影
 CCTV-7国防军事
 CCTV-8电视剧
@@ -54,7 +54,7 @@ CCTV-17
 
 💮️体育,#genre#
 CCTV5
-CCTV5+   CCTV5   CCTV5 CCTV5
+CCTV5+   CCTV5   CCTV5 CCTV5CCTV5, CCTV5, CCTV5, CCTV5
 CCTV16
 广东体育
 北京体育休闲
