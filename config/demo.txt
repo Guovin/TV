@@ -1,10 +1,10 @@
 💮️央视,#genre#
 CCTV-1综合
-CCTV-2.财经
-CCTV-3.综艺
-CCTV-4.中文国际
+CCTV-2
+CCTV-3
+CCTV-4
 CCTV-5体育
-CCTV5+体育赛事
+CCTV5+
 CCTV-6电影
 CCTV-7国防军事
 CCTV-8电视剧
@@ -12,11 +12,11 @@ CCTV-9记录
 CCTV-10科教
 CCTV-11戏曲
 CCTV-12社会与法
-CCTV-13.新闻
-CCTV-14.少儿频道
-CCTV-15.音乐
-CCTV-16.奥林匹克
-CCTV-17.农业农村 
+CCTV-13
+CCTV-14
+CCTV-15
+CCTV-16
+CCTV-17
 
 💮️卫视,#genre#
 北京卫视
