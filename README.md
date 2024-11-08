@@ -187,7 +187,10 @@ docker run -v /etc/docker/config:/tv-driver/config -v /etc/docker/output:/tv-dri
 docker run -v /etc/docker/config:/tv-requests/config -v /etc/docker/output:/tv-requests/output -d -p 8000:8000 guovern/tv-requests
 ```
 
-3. 查看更新结果：访问（域名:8000）
+3. 更新结果：
+- 接口地址：ip:8000
+- 接口详情：ip:8000/result
+- 测速日志：ip:8000/log
 
 ## 🗓️ 更新日志
 
