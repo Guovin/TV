@@ -703,24 +703,24 @@ async def process_sort_channel_list(data, ipv6=False, callback=None):
                         cache_key = matcher.group(1)
                         if not cache_key:
                             continue
-                    url = remove_cache_info(url)
-                    if url in sort_urls or cache_key not in speed_cache:
-                        continue
-                    cache = speed_cache[cache_key]
-                    if not cache:
-                        continue
-                    response_time, resolution = cache
-                    if response_time and response_time != float("inf"):
-                        append_data_to_info_data(
-                            sort_data,
-                            cate,
-                            name,
-                            [(url, date, resolution, origin)],
-                            check=False,
-                        )
-                        logging.info(
-                            f"Name: {name}, URL: {url}, Date: {date}, Resolution: {resolution}, Response Time: {response_time} ms"
-                        )
+                        url = remove_cache_info(url)
+                        if url in sort_urls or cache_key not in speed_cache:
+                            continue
+                        cache = speed_cache[cache_key]
+                        if not cache:
+                            continue
+                        response_time, resolution = cache
+                        if response_time and response_time != float("inf"):
+                            append_data_to_info_data(
+                                sort_data,
+                                cate,
+                                name,
+                                [(url, date, resolution, origin)],
+                                check=False,
+                            )
+                            logging.info(
+                                f"Name: {name}, URL: {url}, Date: {date}, Resolution: {resolution}, Response Time: {response_time} ms"
+                            )
     return sort_data
 
 
