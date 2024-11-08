@@ -28,7 +28,7 @@ async def get_channels_by_hotel(callback=None):
     Get the channels by multicase
     """
     channels = {}
-    pageUrl = "http://tonkiang.us/hoteliptv.php"
+    pageUrl = "http://www.foodieguide.com/iptvsearch/hoteliptv.php"
     proxy = None
     open_proxy = config.open_proxy
     open_driver = config.open_driver
