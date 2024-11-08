@@ -33,7 +33,7 @@ async def use_accessible_url(callback):
     Check if the url is accessible
     """
     callback(f"正在获取最优的关键字搜索节点", 0)
-    baseUrl1 = "https://www.foodieguide.com/iptvsearch/"
+    baseUrl1 = "http://www.foodieguide.com/iptvsearch/"
     baseUrl2 = "http://tonkiang.us/"
     task1 = create_task(get_speed(baseUrl1, timeout=config.request_timeout))
     task2 = create_task(get_speed(baseUrl2, timeout=config.request_timeout))
@@ -53,7 +53,7 @@ async def get_channels_by_online_search(names, callback=None):
     """
     channels = {}
     # pageUrl = await use_accessible_url(callback)
-    pageUrl = "http://tonkiang.us/"
+    pageUrl = "http://www.foodieguide.com/iptvsearch/"
     if not pageUrl:
         return channels
     proxy = None
