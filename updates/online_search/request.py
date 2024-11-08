@@ -86,7 +86,7 @@ async def get_channels_by_online_search(names, callback=None):
                 search_submit(driver, name)
             else:
                 page_soup = None
-                request_url = f"{pageUrl}?channel={name}"
+                request_url = f"{pageUrl}?s={name}"
                 try:
                     page_soup = retry_func(
                         lambda: get_soup_requests(request_url, proxy=proxy),
@@ -121,7 +121,7 @@ async def get_channels_by_online_search(names, callback=None):
                                     "arguments[0].click();", page_link
                                 )
                             else:
-                                request_url = f"{pageUrl}?channel={name}&page={page}"
+                                request_url = f"{pageUrl}?s={name}&page={page}"
                                 page_soup = retry_func(
                                     lambda: get_soup_requests(request_url, proxy=proxy),
                                     name=f"online search:{name}, page:{page}",
