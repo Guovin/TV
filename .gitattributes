@@ -1,1 +1,2 @@
-* linguist-language=Python
+*.sh linguist-language=Python
+Dockerfile linguist-language=Python

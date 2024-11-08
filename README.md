@@ -90,7 +90,7 @@
 - ✅ 支持多种运行方式：工作流、命令行、GUI 软件、Docker(amd64/arm64)
 - ✨ 更多功能请见[配置参数](./docs/config.md)
 
-## ✨ 最新结果
+## 🔗 最新结果
 
 - 接口源：
 
@@ -112,7 +112,7 @@ https://ghproxy.net/raw.githubusercontent.com/Guovin/TV/gd/source.json
 
 [配置参数](./docs/config.md)
 
-## 🪄 快速上手
+## 🚀 快速上手
 
 ### 方式一：工作流
 
@@ -146,43 +146,54 @@ pipenv run ui
 
 ### 方式四：Docker
 
-- requests：轻量级，性能要求低，更新速度快，稳定性不确定（推荐订阅源使用此版本）
 - driver：性能要求较高，更新速度较慢，稳定性、成功率高；修改配置 open_driver = False 可切换到 request 版本（推荐酒店源、组播源、关键字搜索使用此版本）
+- requests：轻量级，性能要求低，更新速度快，稳定性不确定（推荐订阅源使用此版本）
 
-建议都试用一次，选择自己合适的版本。
+建议都试用一次，选择自己合适的版本
 
-```bash
 1. 拉取镜像：
-requests：
-docker pull guovern/tv-requests:latest
-
-driver：
+- driver：
+```bash
 docker pull guovern/tv-driver:latest
+```
+
+- requests：
+```bash
+docker pull guovern/tv-requests:latest
+```
 
 2. 运行容器：
-docker run -d -p 8000:8000 guovern/tv-requests 或 tv-driver
+- driver：
+```bash
+docker run -d -p 8000:8000 guovern/tv-driver
+```
+
+- requests：
+```bash
+docker run -d -p 8000:8000 guovern/tv-requests
+```
 
 卷挂载参数（可选）：
 实现宿主机文件与容器文件同步，修改模板、配置、获取更新结果文件可直接在宿主机文件夹下操作
 
-配置文件：
--v 宿主机路径/config:/tv-requests/config 或 tv-driver/config
-
-结果文件：
--v 宿主机路径/output:/tv-requests/output 或 tv-driver/output
-
-例：docker run -v /etc/docker/config:/tv-requests/config -v /etc/docker/output:/tv-requests/output -d -p 8000:8000 guovern/tv-requests
-
-3. 查看更新结果：访问（域名:8000）
+以宿主机路径/etc/docker为例：
+- driver：
+```bash
+docker run -v /etc/docker/config:/tv-driver/config -v /etc/docker/output:/tv-driver/output -d -p 8000:8000 guovern/tv-driver
 ```
 
-#### 注：方式一至三更新完成后的结果文件链接：http://本地 ip:8000 或 http://localhost:8000
+- requests：
+```bash
+docker run -v /etc/docker/config:/tv-requests/config -v /etc/docker/output:/tv-requests/output -d -p 8000:8000 guovern/tv-requests
+```
+
+3. 查看更新结果：访问（域名:8000）
 
 ## 🗓️ 更新日志
 
 [更新日志](./CHANGELOG.md)
 
-## 📄 许可证
+## ⚖️ 许可证
 
 [MIT](./LICENSE) License &copy; 2024-PRESENT [Govin](https://github.com/guovin)
 

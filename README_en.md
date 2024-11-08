@@ -90,7 +90,7 @@
 - ✅ Supports various execution methods: workflows, command line, GUI software, Docker(amd64/arm64)
 - ✨ For more features, see [Config parameter](./docs/config_en.md)
 
-## ✨ Latest results
+## 🔗 Latest results
 
 - Interface source:
 
@@ -112,7 +112,7 @@ https://ghproxy.net/raw.githubusercontent.com/Guovin/TV/gd/source.json
 
 [Config parameter](./docs/config_en.md)
 
-## 🪄 Quick Start
+## 🚀 Quick Start
 
 ### Method 1: Workflow
 
@@ -146,43 +146,55 @@ pipenv run ui
 
 ### Method 4: Docker
 
-- requests: Lightweight, low performance requirements, fast update speed, stability uncertain (recommend using this version for the subscription source)
 - driver: Higher performance requirements, slower update speed, high stability and success rate. Set open_driver = False to switch to the request version (recommended for hotel sources, multicast sources, and online searches)
+- requests: Lightweight, low performance requirements, fast update speed, stability uncertain (recommend using this version for the subscription source)
 
-It's recommended to try each one and choose the version that suits you.
+It's recommended to try each one and choose the version that suits you
 
-```bash
 1. Pull the image:
-For requests version:
-docker pull guovern/tv-requests:latest
-
-For driver version:
+- driver
+```bash
 docker pull guovern/tv-driver:latest
+```
+
+- requests
+```bash
+docker pull guovern/tv-requests:latest
+```
 
 2. Run the container:
-docker run -d -p 8000:8000 guovern/tv-requests or driver
+- driver
+```bash
+docker run -d -p 8000:8000 guovern/tv-driver
+```
+
+- requests
+```bash
+docker run -d -p 8000:8000 guovern/tv-requests
+```
 
 Volume Mount Parameter (Optional):
 This allows synchronization of files between the host machine and the container. Modifying templates, configurations, and retrieving updated result files can be directly operated in the host machine's folder.
 
-config:
--v <path>/config:/tv-requests/config or tv-driver/config
+Taking the host path /etc/docker as an example:
 
-result:
--v <path>/output:/tv-requests/output or tv-driver/output
-
-For example: docker run -v /etc/docker/config:/tv-requests/config -v /etc/docker/output:/tv-requests/output -d -p 8000:8000 guovern/tv-requests
-
-3. Check the update results: Visit (domain:8000)
+- driver：
+```bash
+docker run -v /etc/docker/config:/tv-driver/config -v /etc/docker/output:/tv-driver/output -d -p 8000:8000 guovern/tv-driver
 ```
 
-#### Note: Link to the result file after updates of methods one to three: http://local ip:8000 or http://localhost:8000
+- requests：
+```bash
+docker run -v /etc/docker/config:/tv-requests/config -v /etc/docker/output:/tv-requests/output -d -p 8000:8000 guovern/tv-requests
+````
+
+3. Check the update results: Visit (domain:8000)
 
 ## 🗓️ Changelog
 
 [Changelog](./CHANGELOG.md)
 
-## 📄 License
+## ⚖️ License
 
 [MIT](./LICENSE) License &copy; 2024-PRESENT [Govin](https://github.com/guovin)
 
