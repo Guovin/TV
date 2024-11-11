@@ -1,10 +1,10 @@
 import os
 
-log_dir = "output"
+output_dir = "output"
 
 log_file = "result_new.log"
 
-log_path = os.path.join(log_dir, log_file)
+log_path = os.path.join(output_dir, log_file)
 
 url_pattern = r"((https?):\/\/)?(\[[0-9a-fA-F:]+\]|([\w-]+\.)+[\w-]+)(:[0-9]{1,5})?(\/[^\s]*)?(\$[^\s]+)?"
 
@@ -58,3 +58,5 @@ origin_map = {
     "subscribe": "订阅源",
     "online_search": "关键字源",
 }
+
+ipv6_proxy = "http://www.ipv6proxy.net/go.php?u="

@@ -204,6 +204,7 @@ class UpdateSource:
                         else "result.log"
                     )
                     update_file(user_log_file, "output/result_new.log", copy=True)
+                    cleanup_logging()
                 convert_to_m3u()
                 total_time = format_interval(time() - main_start_time)
                 print(
@@ -227,8 +228,6 @@ class UpdateSource:
                 run_service()
         except asyncio.exceptions.CancelledError:
             print("Update cancelled!")
-        finally:
-            cleanup_logging()
 
     async def start(self, callback=None):
         def default_callback(self, *args, **kwargs):
