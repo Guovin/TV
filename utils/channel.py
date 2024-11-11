@@ -34,8 +34,8 @@ def setup_logging():
     Setup logging
     """
     global handler
-    if not os.path.exists(constants.log_dir):
-        os.makedirs(constants.log_dir)
+    if not os.path.exists(constants.output_dir):
+        os.makedirs(constants.output_dir)
     handler = RotatingFileHandler(constants.log_path, encoding="utf-8")
     logging.basicConfig(
         handlers=[handler],
@@ -643,12 +643,7 @@ async def process_sort_channel_list(data, ipv6=False, callback=None):
     """
     Processs the sort channel list
     """
-    open_ipv6 = (
-        "ipv6" in config.ipv_type
-        or "all" in config.ipv_type
-        or "全部" in config.ipv_type
-    )
-    ipv6_proxy = None if not open_ipv6 or ipv6 else "http://www.ipv6proxy.net/go.php?u="
+    ipv6_proxy = None if (not config.open_ipv6 or ipv6) else constants.ipv6_proxy
     ffmpeg_installed = is_ffmpeg_installed()
     if config.open_ffmpeg and not ffmpeg_installed:
         print("FFmpeg is not installed, using requests for sorting.")

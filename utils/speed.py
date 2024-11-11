@@ -142,8 +142,9 @@ async def get_speed_by_info(
                 return float("inf")
         try:
             if ipv6_proxy and url_is_ipv6:
-                url = ipv6_proxy + url
-            if ffmpeg:
+                url_speed = 0
+                speed = (url_info, url_speed)
+            elif ffmpeg:
                 speed = await check_stream_speed(url_info)
                 url_speed = speed[1] if speed != float("inf") else float("inf")
                 if url_speed == float("inf"):
@@ -160,7 +161,7 @@ async def get_speed_by_info(
                 speed[0][0] = add_url_info(speed[0][0], url_show_info)
             speed = (tuple(speed[0]), speed[1])
             return speed
-        except Exception:
+        except:
             return float("inf")
         finally:
             if callback:

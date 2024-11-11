@@ -61,6 +61,12 @@ class ConfigManager:
         return self.config.get("Settings", "ipv_type", fallback="全部").lower()
 
     @property
+    def open_ipv6(self):
+        return (
+            "ipv6" in self.ipv_type or "all" in self.ipv_type or "全部" in self.ipv_type
+        )
+
+    @property
     def ipv_type_prefer(self):
         return [
             type.strip().lower()
