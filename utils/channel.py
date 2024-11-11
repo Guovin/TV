@@ -34,8 +34,8 @@ def setup_logging():
     Setup logging
     """
     global handler
-    if not os.path.exists(constants.log_dir):
-        os.makedirs(constants.log_dir)
+    if not os.path.exists(constants.output_dir):
+        os.makedirs(constants.output_dir)
     handler = RotatingFileHandler(constants.log_path, encoding="utf-8")
     logging.basicConfig(
         handlers=[handler],
