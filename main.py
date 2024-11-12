@@ -71,7 +71,7 @@ class UpdateSource:
         self.tasks = []
         self.channel_items = {}
         self.hotel_fofa_result = {}
-        self.hotel_tonkiang_result = {}
+        self.hotel_foodie_result = {}
         self.multicast_result = {}
         self.subscribe_result = {}
         self.online_search_result = {}
@@ -84,7 +84,7 @@ class UpdateSource:
         tasks_config = [
             ("hotel_fofa", get_channels_by_fofa, "hotel_fofa_result"),
             ("multicast", get_channels_by_multicast, "multicast_result"),
-            ("hotel_tonkiang", get_channels_by_hotel, "hotel_tonkiang_result"),
+            ("hotel_foodie", get_channels_by_hotel, "hotel_foodie_result"),
             ("subscribe", get_channels_by_subscribe_urls, "subscribe_result"),
             (
                 "online_search",
@@ -95,7 +95,7 @@ class UpdateSource:
 
         for setting, task_func, result_attr in tasks_config:
             if (
-                setting == "hotel_tonkiang" or setting == "hotel_fofa"
+                setting == "hotel_foodie" or setting == "hotel_fofa"
             ) and config.open_hotel == False:
                 continue
             if config.open_method[setting]:
@@ -104,7 +104,7 @@ class UpdateSource:
                     task = asyncio.create_task(
                         task_func(subscribe_urls, callback=self.update_progress)
                     )
-                elif setting == "hotel_tonkiang" or setting == "hotel_fofa":
+                elif setting == "hotel_foodie" or setting == "hotel_fofa":
                     task = asyncio.create_task(task_func(callback=self.update_progress))
                 else:
                     task = asyncio.create_task(
@@ -152,7 +152,7 @@ class UpdateSource:
                     self.channel_data,
                     self.hotel_fofa_result,
                     self.multicast_result,
-                    self.hotel_tonkiang_result,
+                    self.hotel_foodie_result,
                     self.subscribe_result,
                     self.online_search_result,
                 )

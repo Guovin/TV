@@ -36,18 +36,18 @@ class MulticastUI:
             frame_multicast_mode, text="工作模式:", width=9
         )
         self.open_multicast_mode_label.pack(side=tk.LEFT, padx=4, pady=8)
-        self.open_multicast_tonkiang_var = tk.BooleanVar(
-            value=config.open_multicast_tonkiang
+        self.open_multicast_foodie_var = tk.BooleanVar(
+            value=config.open_multicast_foodie
         )
-        self.open_multicast_tonkiang_checkbutton = ttk.Checkbutton(
+        self.open_multicast_foodie_checkbutton = ttk.Checkbutton(
             frame_multicast_mode,
-            variable=self.open_multicast_tonkiang_var,
+            variable=self.open_multicast_foodie_var,
             onvalue=True,
             offvalue=False,
-            command=self.update_open_multicast_tonkiang,
-            text="Tonkiang",
+            command=self.update_open_multicast_foodie,
+            text="Foodie",
         )
-        self.open_multicast_tonkiang_checkbutton.pack(side=tk.LEFT, padx=4, pady=8)
+        self.open_multicast_foodie_checkbutton.pack(side=tk.LEFT, padx=4, pady=8)
 
         self.open_multicast_fofa_var = tk.BooleanVar(value=config.open_multicast_fofa)
         self.open_multicast_fofa_checkbutton = ttk.Checkbutton(
@@ -107,11 +107,11 @@ class MulticastUI:
     def update_open_multicast(self):
         config.set("Settings", "open_multicast", str(self.open_multicast_var.get()))
 
-    def update_open_multicast_tonkiang(self):
+    def update_open_multicast_foodie(self):
         config.set(
             "Settings",
-            "open_multicast_tonkiang",
-            str(self.open_multicast_tonkiang_var.get()),
+            "open_multicast_foodie",
+            str(self.open_multicast_foodie_var.get()),
         )
 
     def update_open_multicast_fofa(self):
@@ -132,7 +132,7 @@ class MulticastUI:
     def change_entry_state(self, state):
         for entry in [
             "open_multicast_checkbutton",
-            "open_multicast_tonkiang_checkbutton",
+            "open_multicast_foodie_checkbutton",
             "open_multicast_fofa_checkbutton",
             "region_list_combo",
             "page_num_entry",

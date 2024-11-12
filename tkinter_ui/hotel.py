@@ -34,16 +34,16 @@ class HotelUI:
             frame_hotel_mode, text="工作模式:", width=9
         )
         self.open_hotel_mode_label.pack(side=tk.LEFT, padx=4, pady=8)
-        self.open_hotel_tonkiang_var = tk.BooleanVar(value=config.open_hotel_tonkiang)
-        self.open_hotel_tonkiang_checkbutton = ttk.Checkbutton(
+        self.open_hotel_foodie_var = tk.BooleanVar(value=config.open_hotel_foodie)
+        self.open_hotel_foodie_checkbutton = ttk.Checkbutton(
             frame_hotel_mode,
-            variable=self.open_hotel_tonkiang_var,
+            variable=self.open_hotel_foodie_var,
             onvalue=True,
             offvalue=False,
-            command=self.update_open_hotel_tonkiang,
-            text="Tonkiang",
+            command=self.update_open_hotel_foodie,
+            text="Foodie",
         )
-        self.open_hotel_tonkiang_checkbutton.pack(side=tk.LEFT, padx=4, pady=8)
+        self.open_hotel_foodie_checkbutton.pack(side=tk.LEFT, padx=4, pady=8)
 
         self.open_hotel_fofa_var = tk.BooleanVar(value=config.open_hotel_fofa)
         self.open_hotel_fofa_checkbutton = ttk.Checkbutton(
@@ -88,9 +88,9 @@ class HotelUI:
     def update_open_hotel(self):
         config.set("Settings", "open_hotel", str(self.open_hotel_var.get()))
 
-    def update_open_hotel_tonkiang(self):
+    def update_open_hotel_foodie(self):
         config.set(
-            "Settings", "open_hotel_tonkiang", str(self.open_hotel_tonkiang_var.get())
+            "Settings", "open_hotel_foodie", str(self.open_hotel_foodie_var.get())
         )
 
     def update_open_hotel_fofa(self):
@@ -109,7 +109,7 @@ class HotelUI:
     def change_entry_state(self, state):
         for entry in [
             "open_hotel_checkbutton",
-            "open_hotel_tonkiang_checkbutton",
+            "open_hotel_foodie_checkbutton",
             "open_hotel_fofa_checkbutton",
             "region_list_combo",
             "page_num_entry",
