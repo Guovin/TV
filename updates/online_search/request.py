@@ -28,32 +28,12 @@ from concurrent.futures import ThreadPoolExecutor
 from requests_custom.utils import get_soup_requests, close_session
 
 
-async def use_accessible_url(callback):
-    """
-    Check if the url is accessible
-    """
-    callback(f"正在获取最优的关键字搜索节点", 0)
-    baseUrl1 = "http://www.foodieguide.com/iptvsearch/"
-    baseUrl2 = "http://tonkiang.us/"
-    task1 = create_task(get_speed(baseUrl1, timeout=config.request_timeout))
-    task2 = create_task(get_speed(baseUrl2, timeout=config.request_timeout))
-    task_results = await gather(task1, task2)
-    callback(f"获取关键字搜索节点完成", 100)
-    if task_results[0] == float("inf") and task_results[1] == float("inf"):
-        return None
-    if task_results[0] < task_results[1]:
-        return baseUrl1
-    else:
-        return baseUrl2
-
-
 async def get_channels_by_online_search(names, callback=None):
     """
     Get the channels by online search
     """
     channels = {}
-    # pageUrl = await use_accessible_url(callback)
-    pageUrl = "http://www.foodieguide.com/iptvsearch/"
+    pageUrl = constants.foodie_url
     if not pageUrl:
         return channels
     proxy = None

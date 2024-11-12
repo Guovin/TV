@@ -1,4 +1,5 @@
 from utils.config import config
+import utils.constants as constants
 from utils.channel import (
     get_results_from_multicast_soup,
     get_results_from_multicast_soup_requests,
@@ -32,7 +33,7 @@ async def get_channels_by_multicast(names, callback=None):
     Get the channels by multicase
     """
     channels = {}
-    pageUrl = "http://www.foodieguide.com/iptvsearch/hoteliptv.php"
+    pageUrl = constants.foodie_hotel_url
     proxy = None
     open_proxy = config.open_proxy
     open_driver = config.open_driver
@@ -148,17 +149,17 @@ async def get_channels_by_multicast(names, callback=None):
             pbar.update()
             if callback:
                 callback(
-                    f"正在进行Tonkiang组播更新, 剩余{region_type_list_len - pbar.n}个地区待查询, 预计剩余时间: {get_pbar_remaining(n=pbar.n, total=pbar.total, start_time=start_time)}",
+                    f"正在进行Foodie组播更新, 剩余{region_type_list_len - pbar.n}个地区待查询, 预计剩余时间: {get_pbar_remaining(n=pbar.n, total=pbar.total, start_time=start_time)}",
                     int((pbar.n / region_type_list_len) * 100),
                 )
             return {"region": region, "type": type, "data": info_list}
 
-    if config.open_multicast_tonkiang:
+    if config.open_multicast_foodie:
         region_type_list_len = len(region_type_list)
         pbar = tqdm_asyncio(total=region_type_list_len, desc="Multicast search")
         if callback:
             callback(
-                f"正在进行Tonkiang组播更新, {len(names)}个频道, 共{region_type_list_len}个地区",
+                f"正在进行Foodie组播更新, {len(names)}个频道, 共{region_type_list_len}个地区",
                 0,
             )
         start_time = time()

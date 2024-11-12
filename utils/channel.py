@@ -548,7 +548,7 @@ def append_total_data(
     data,
     hotel_fofa_result=None,
     multicast_result=None,
-    hotel_tonkiang_result=None,
+    hotel_foodie_result=None,
     subscribe_result=None,
     online_search_result=None,
 ):
@@ -558,7 +558,7 @@ def append_total_data(
     total_result = [
         ("hotel_fofa", hotel_fofa_result),
         ("multicast", multicast_result),
-        ("hotel_tonkiang", hotel_tonkiang_result),
+        ("hotel_foodie", hotel_foodie_result),
         ("subscribe", subscribe_result),
         ("online_search", online_search_result),
     ]
