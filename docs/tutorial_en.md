@@ -223,3 +223,27 @@ result:
 If you do not have your own domain address, after the interface update is completed, upload user_result.txt to your personal repository to use it.
 https://mirror.ghproxy.com/raw.githubusercontent.com/your github username/repository name (corresponding to the TV created when forking)/master/output/user_result.txt
 ![Username and Repository Name](./images/rep-info.png 'Username and Repository Name')
+
+### Configure Scheduled Updates for Docker Version
+
+The Docker version now supports configuring the update time or interval. You can customize the cron schedule by setting the `UPDATE_CRON` environment variable.
+
+#### 1. Set the `UPDATE_CRON` environment variable
+
+When running the Docker container, you can set the `UPDATE_CRON` environment variable using the `-e` parameter. For example:
+
+```bash
+docker run -d -p 8000:8000 -e UPDATE_CRON="0 6,18 * * *" guovern/tv-requests
+```
+
+The above command will update at 6:00 AM and 6:00 PM every day. You can modify the value of `UPDATE_CRON` as needed to set different update frequencies.
+
+#### 2. Modify the `config/config.ini` file
+
+You can also set the `update_cron` parameter in the `config/config.ini` file to specify the cron schedule. For example:
+
+```ini
+update_cron = 0 6,18 * * *
+```
+
+The above configuration will update at 6:00 AM and 6:00 PM every day. You can modify the value of `update_cron` as needed to set different update frequencies.

@@ -226,3 +226,27 @@ docker run -d -p 8000:8000 guovern/tv-requests 或 tv-driver
 如果您没有自己的域名地址，接口更新完成后，将 user_result.txt 上传至个人仓库，即可使用
 https://mirror.ghproxy.com/raw.githubusercontent.com/您的github用户名/仓库名称（对应上述Fork创建时的TV）/master/output/user_result.txt
 ![用户名与仓库名称](./images/rep-info.png '用户名与仓库名称')
+
+### 配置 Docker 版本的定时更新
+
+Docker 版本现在支持配置定时更新的时间或间隔。您可以通过设置 `UPDATE_CRON` 环境变量来自定义 cron 调度。
+
+#### 1. 设置 `UPDATE_CRON` 环境变量
+
+在运行 Docker 容器时，您可以通过 `-e` 参数设置 `UPDATE_CRON` 环境变量。例如：
+
+```bash
+docker run -d -p 8000:8000 -e UPDATE_CRON="0 6,18 * * *" guovern/tv-requests
+```
+
+上述命令将会在每天的 6:00 和 18:00 进行更新。您可以根据需要修改 `UPDATE_CRON` 的值来设置不同的更新频率。
+
+#### 2. 修改 `config/config.ini` 文件
+
+您还可以在 `config/config.ini` 文件中设置 `update_cron` 参数来指定 cron 调度。例如：
+
+```ini
+update_cron = 0 6,18 * * *
+```
+
+上述配置将会在每天的 6:00 和 18:00 进行更新。您可以根据需要修改 `update_cron` 的值来设置不同的更新频率。
