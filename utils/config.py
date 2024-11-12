@@ -196,8 +196,8 @@ class ConfigManager:
         return self.config.getboolean("Settings", f"open_hotel_fofa", fallback=True)
 
     @property
-    def open_hotel_tonkiang(self):
-        return self.config.getboolean("Settings", f"open_hotel_tonkiang", fallback=True)
+    def open_hotel_foodie(self):
+        return self.config.getboolean("Settings", f"open_hotel_foodie", fallback=True)
 
     @property
     def open_multicast(self):
@@ -208,9 +208,9 @@ class ConfigManager:
         return self.config.getboolean("Settings", f"open_multicast_fofa", fallback=True)
 
     @property
-    def open_multicast_tonkiang(self):
+    def open_multicast_foodie(self):
         return self.config.getboolean(
-            "Settings", f"open_multicast_tonkiang", fallback=True
+            "Settings", f"open_multicast_foodie", fallback=True
         )
 
     @property
@@ -225,9 +225,9 @@ class ConfigManager:
             "multicast": self.open_multicast,
             "online_search": self.open_online_search,
             "hotel_fofa": self.open_hotel_fofa,
-            "hotel_tonkiang": self.open_hotel_tonkiang,
+            "hotel_foodie": self.open_hotel_foodie,
             "multicast_fofa": self.open_multicast_fofa,
-            "multicast_tonkiang": self.open_multicast_tonkiang,
+            "multicast_foodie": self.open_multicast_foodie,
         }
 
     @property
