@@ -30,6 +30,7 @@ Name: CCTV-3, URL: http://[2409:8087:1a0a:df::404e]:80/wh7f454c46tw1306766403_-3
 Name: CCTV-3, URL: http://[2409:8087:2001:20:2800:0:df6e:eb18]:80/wh7f454c46tw1926180487_-439218358/ott.mobaibox.com/PLTV/3/224/3221228126/index.m3u8?$订阅源, Date: None, Resolution: None, Response Time: 0 ms
 Name: CCTV-3, URL: http://[2409:8087:2001:20:2800:0:df6e:eb10]:80/wh7f454c46tw3968745104_1595752942/ott.mobaibox.com/PLTV/3/224/3221227650/index.m3u8?icpid=3&RTS=1674379789&from=40&ocs=2_2409:8087:2001:20:2800:0:df6e:eb0c_80&popid=40&hms_devid=2110&prioritypopid=40&vqe=3$订阅源, Date: None, Resolution: None, Response Time: 0 ms
 Name: CCTV-3, URL: http://[2409:8087:1a01:df::4041]/TVOD/88888888/224/3221225799/main.m3u8$订阅源, Date: None, Resolution: None, Response Time: 0 ms
+Name: CCTV-3, URL: http://[2409:8087:1a01:df::4041]:80/TVOD/88888888/224/3221225799/main.m3u8$订阅源, Date: None, Resolution: None, Response Time: 0 ms
 Name: CCTV-4, URL: http://[2409:8087:2001:20:2800:0:df6e:eb1b]:80/wh7f454c46tw1530458601_-2138527565/ott.mobaibox.com/PLTV/3/224/3221225534/index.m3u8?$订阅源, Date: None, Resolution: None, Response Time: 0 ms
 Name: CCTV-4, URL: http://[2409:8087:1a0a:df::4032]:80/wh7f454c46tw1452344678_931674717/ottrrs.hl.chinamobile.com/PLTV/88888888/224/3221226428/index.m3u8?icpid=88888888&RTS=1713968281&from=4&hms_devid=1143&online=1713968281&vqe=3$订阅源, Date: None, Resolution: None, Response Time: 0 ms
 Name: CCTV-4, URL: http://[2409:8087:2001:20:2800:0:df6e:eb21]:80/PLTV/1/224/3221231032/1.m3u8$订阅源, Date: None, Resolution: None, Response Time: 0 ms
