@@ -287,6 +287,8 @@ def get_results_from_soup(soup, name):
     Get the results from the soup
     """
     results = []
+    if not soup.descendants:
+        return results
     for element in soup.descendants:
         if isinstance(element, NavigableString):
             text = element.get_text(strip=True)
@@ -311,6 +313,8 @@ def get_results_from_multicast_soup(soup, hotel=False):
     Get the results from the multicast soup
     """
     results = []
+    if not soup.descendants:
+        return results
     for element in soup.descendants:
         if isinstance(element, NavigableString):
             text = element.strip()
