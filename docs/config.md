@@ -45,3 +45,4 @@
 | subscribe_num          | 10                                      | 结果中偏好的订阅源接口数量                                                                                                                                                      |
 | online_search_num      | 10                                      | 结果中偏好的关键字搜索接口数量                                                                                                                                                  |
 | open_url_info          | True                                    | 开启显示接口说明信息，用于控制是否显示分辨率、接口协议类型等信息，为$符号后的内容，播放软件使用该信息对接口进行描述                                                             |
+| open_empty_category    | True                                    | 开启无结果频道分类，自动归类至底部                                                                                                                                              |
