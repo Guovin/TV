@@ -730,6 +730,7 @@ def write_channel_to_file(data, ipv6=False, callback=None):
         update_time = now.strftime("%Y-%m-%d %H:%M:%S")
         update_channel_urls_txt("更新时间", f"{update_time}", ["url"])
     no_result_name = []
+    open_empty_category = config.open_empty_category
     for cate, channel_obj in data.items():
         print(f"\n{cate}:", end=" ")
         channel_obj_keys = channel_obj.keys()
@@ -740,11 +741,12 @@ def write_channel_to_file(data, ipv6=False, callback=None):
             end_char = ", " if i < names_len - 1 else ""
             print(f"{name}:", len(channel_urls), end=end_char)
             if not channel_urls:
-                no_result_name.append(name)
+                if open_empty_category:
+                    no_result_name.append(name)
                 continue
             update_channel_urls_txt(cate, name, channel_urls, callback=callback)
         print()
-    if no_result_name:
+    if open_empty_category and no_result_name:
         print("\n🈳 No result channel name:")
         for i, name in enumerate(no_result_name):
             end_char = ", " if i < len(no_result_name) - 1 else ""

@@ -312,6 +312,10 @@ class ConfigManager:
     def resolution_weight(self):
         return self.config.getfloat("Settings", "resolution_weight", fallback=0.5)
 
+    @property
+    def open_empty_category(self):
+        return self.config.getboolean("Settings", "open_empty_category", fallback=True)
+
     def load(self):
         """
         Load the config
