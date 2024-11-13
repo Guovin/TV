@@ -341,24 +341,36 @@ class DefaultUI:
             onvalue=True,
             offvalue=False,
             command=self.update_open_update_time,
-            text="(结果顶部显示)",
         )
         self.open_update_time_checkbutton.pack(side=tk.LEFT, padx=4, pady=8)
 
         self.open_url_info_label = tk.Label(
-            frame_default_open_update_info_column2, text="显示接口信息:", width=12
+            frame_default_open_update_info_column1, text="显示接口信息:", width=12
         )
         self.open_url_info_label.pack(side=tk.LEFT, padx=4, pady=8)
         self.open_url_info_var = tk.BooleanVar(value=config.open_url_info)
         self.open_url_info_checkbutton = ttk.Checkbutton(
-            frame_default_open_update_info_column2,
+            frame_default_open_update_info_column1,
             variable=self.open_url_info_var,
             onvalue=True,
             offvalue=False,
             command=self.update_open_url_info,
-            text="(需要播放器支持)",
         )
         self.open_url_info_checkbutton.pack(side=tk.LEFT, padx=4, pady=8)
+
+        self.open_empty_category_label = tk.Label(
+            frame_default_open_update_info_column2, text="无结果频道分类:", width=12
+        )
+        self.open_empty_category_label.pack(side=tk.LEFT, padx=4, pady=8)
+        self.open_empty_category_var = tk.BooleanVar(value=config.open_empty_category)
+        self.open_empty_category_checkbutton = ttk.Checkbutton(
+            frame_default_open_update_info_column2,
+            variable=self.open_empty_category_var,
+            onvalue=True,
+            offvalue=False,
+            command=self.update_open_empty_category,
+        )
+        self.open_empty_category_checkbutton.pack(side=tk.LEFT, padx=4, pady=8)
 
         frame_default_domain_blacklist = tk.Frame(root)
         frame_default_domain_blacklist.pack(fill=tk.X)
@@ -476,6 +488,11 @@ class DefaultUI:
     def update_open_url_info(self):
         config.set("Settings", "open_url_info", str(self.open_url_info_var.get()))
 
+    def update_open_empty_category(self):
+        config.set(
+            "Settings", "update_open_empty_category", str(self.open_url_info_var.get())
+        )
+
     def update_ipv_type(self, event):
         config.set("Settings", "ipv_type", self.ipv_type_combo.get())
 
@@ -522,6 +539,7 @@ class DefaultUI:
             "resolution_weight_scale",
             "open_update_time_checkbutton",
             "open_url_info_checkbutton",
+            "open_empty_category_checkbutton",
             "ipv_type_combo",
             "domain_blacklist_text",
             "url_keywords_blacklist_text",
