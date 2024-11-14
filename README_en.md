@@ -21,7 +21,11 @@
   </div>
   <br>
   <div>
-  🏠Guangdong Channel: 广东珠江, 广东体育, 广东新闻, 广东民生, 广东卫视, 大湾区卫视, 广州综合, 广州影视, 广州竞赛, 江门综合, 江门侨乡生活, 佛山综合, 深圳卫视, 汕头综合, 汕头经济, 汕头文旅, 茂名综合, 茂名公共
+  ☘️Guangdong Channel: 广东珠江, 广东体育, 广东新闻, 广东民生, 广东卫视, 大湾区卫视, 广州综合, 广州影视, 广州竞赛, 江门综合, 江门侨乡生活, 佛山综合, 深圳卫视, 汕头综合, 汕头经济, 汕头文旅, 茂名综合, 茂名公共
+  </div>
+  <br>
+  <div>
+  ☘️Local channels in each province
   </div>
   <br>
   <div>
@@ -152,23 +156,29 @@ pipenv run ui
 It's recommended to try each one and choose the version that suits you
 
 1. Pull the image:
+
 - driver
+
 ```bash
 docker pull guovern/tv-driver:latest
 ```
 
 - requests
+
 ```bash
 docker pull guovern/tv-requests:latest
 ```
 
 2. Run the container:
+
 - driver
+
 ```bash
 docker run -d -p 8000:8000 guovern/tv-driver
 ```
 
 - requests
+
 ```bash
 docker run -d -p 8000:8000 guovern/tv-requests
 ```
@@ -179,14 +189,16 @@ This allows synchronization of files between the host machine and the container.
 Taking the host path /etc/docker as an example:
 
 - driver：
+
 ```bash
 docker run -v /etc/docker/config:/tv-driver/config -v /etc/docker/output:/tv-driver/output -d -p 8000:8000 guovern/tv-driver
 ```
 
 - requests：
+
 ```bash
 docker run -v /etc/docker/config:/tv-requests/config -v /etc/docker/output:/tv-requests/output -d -p 8000:8000 guovern/tv-requests
-````
+```
 
 3. Update results:
 - API address: ip:8000
