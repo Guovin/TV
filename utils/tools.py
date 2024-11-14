@@ -499,3 +499,20 @@ def resource_path(relative_path, persistent=False):
             return os.path.join(base_path, relative_path)
         except Exception:
             return total_path
+
+
+def write_content_into_txt(content, path=None, newline=True, callback=None):
+    """
+    Write content into txt file
+    """
+    if not path:
+        return
+
+    with open(path, "a", encoding="utf-8") as f:
+        if newline:
+            f.write(f"\n{content}")
+        else:
+            f.write(content)
+
+    if callback:
+        callback()

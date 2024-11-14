@@ -7,6 +7,7 @@ from utils.tools import (
     add_url_info,
     remove_cache_info,
     resource_path,
+    write_content_into_txt,
 )
 from utils.speed import (
     sort_urls_by_speed_and_resolution,
@@ -145,6 +146,8 @@ def format_channel_name(name):
         return name
     cc = OpenCC("t2s")
     name = cc.convert(name)
+    for region in constants.region_list:
+        name = name.replace(f"{region}｜", "")
     name = re.sub(constants.sub_pattern, "", name)
     for old, new in constants.replace_dict.items():
         name = name.replace(old, new)
@@ -167,11 +170,7 @@ def get_channel_results_by_name(name, data):
     Get channel results from data by name
     """
     format_name = format_channel_name(name)
-    cc = OpenCC("s2t")
-    name_s2t = cc.convert(format_name)
-    result1 = data.get(format_name, [])
-    result2 = data.get(name_s2t, [])
-    results = list(dict.fromkeys(result1 + result2))
+    results = data.get(format_name, [])
     return results
 
 
@@ -406,32 +405,6 @@ def get_results_from_multicast_soup_requests(soup, hotel=False):
             results.append({"url": url, "date": date, "region": region, "type": type})
 
     return results
-
-
-def update_channel_urls_txt(cate, name, urls, callback=None):
-    """
-    Update the category and channel urls to the final file
-    """
-    genre_line = cate + ",#genre#\n"
-    filename = "output/result_new.txt"
-
-    if not os.path.exists(filename):
-        open(filename, "w").close()
-
-    with open(filename, "r", encoding="utf-8") as f:
-        content = f.read()
-
-    with open(filename, "a", encoding="utf-8") as f:
-        if genre_line not in content:
-            f.write(genre_line)
-        if urls:
-            for url in urls:
-                if url is not None:
-                    f.write(f"{name},{url}\n")
-                    if callback:
-                        callback()
-        else:
-            f.write(f"{name},url\n")
 
 
 def get_channel_url(text):
@@ -727,16 +700,19 @@ def write_channel_to_file(data, ipv6=False, callback=None):
     """
     Write channel to file
     """
+    path = "output/result_new.txt"
     if config.open_update_time:
         now = datetime.datetime.now()
         if os.environ.get("GITHUB_ACTIONS"):
             now += datetime.timedelta(hours=8)
         update_time = now.strftime("%Y-%m-%d %H:%M:%S")
-        update_channel_urls_txt("更新时间", f"{update_time}", ["url"])
+        write_content_into_txt(f"更新时间,#genre#", path, newline=False)
+        write_content_into_txt(f"{update_time},url", path)
     no_result_name = []
     open_empty_category = config.open_empty_category
     for cate, channel_obj in data.items():
         print(f"\n{cate}:", end=" ")
+        write_content_into_txt(f"{cate},#genre#", path)
         channel_obj_keys = channel_obj.keys()
         names_len = len(list(channel_obj_keys))
         for i, name in enumerate(channel_obj_keys):
@@ -748,14 +724,17 @@ def write_channel_to_file(data, ipv6=False, callback=None):
                 if open_empty_category:
                     no_result_name.append(name)
                 continue
-            update_channel_urls_txt(cate, name, channel_urls, callback=callback)
+            for url in channel_urls:
+                write_content_into_txt(f"{name},{url}", path, callback=callback)
         print()
+        write_content_into_txt("", path)
     if open_empty_category and no_result_name:
         print("\n🈳 No result channel name:")
+        write_content_into_txt("🈳无结果频道,#genre#", path)
         for i, name in enumerate(no_result_name):
             end_char = ", " if i < len(no_result_name) - 1 else ""
             print(name, end=end_char)
-            update_channel_urls_txt("🈳无结果频道", name, [])
+            write_content_into_txt(f"{name},url", path)
         print()
 
 
