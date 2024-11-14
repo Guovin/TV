@@ -170,11 +170,7 @@ def get_channel_results_by_name(name, data):
     Get channel results from data by name
     """
     format_name = format_channel_name(name)
-    cc = OpenCC("s2t")
-    name_s2t = cc.convert(format_name)
-    result1 = data.get(format_name, [])
-    result2 = data.get(name_s2t, [])
-    results = list(dict.fromkeys(result1 + result2))
+    results = data.get(format_name, [])
     return results
 
 
