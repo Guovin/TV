@@ -224,8 +224,6 @@ class UpdateSource:
                     True,
                     url=f"{get_ip_address()}" if open_service else None,
                 )
-            if open_service:
-                run_service()
         except asyncio.exceptions.CancelledError:
             print("Update cancelled!")
 
@@ -253,14 +251,23 @@ def scheduled_task():
 
 
 def run_service():
-    if not os.environ.get("GITHUB_ACTIONS"):
-        ip_address = get_ip_address()
-        print(f"📄 Result detail: {ip_address}/result")
-        print(f"📄 Log detail: {ip_address}/log")
-        print(f"✅ You can use this url to watch IPTV 📺: {ip_address}")
-        app.run(host="0.0.0.0", port=8000)
+    try:
+        if not os.environ.get("GITHUB_ACTIONS"):
+            ip_address = get_ip_address()
+            print(f"📄 Result detail: {ip_address}/result")
+            print(f"📄 Log detail: {ip_address}/log")
+            print(f"✅ You can use this url to watch IPTV 📺: {ip_address}")
+            app.run(host="0.0.0.0", port=8000)
+    except Exception as e:
+        print(f"❌ Service start failed: {e}")
 
 
 if __name__ == "__main__":
-    if len(sys.argv) == 1 or (len(sys.argv) > 1 and sys.argv[1] == "scheduled_task"):
-        scheduled_task()
+    if len(sys.argv) == 1 and config.open_service:
+        loop = asyncio.new_event_loop()
+
+        async def run_service_async():
+            loop.run_in_executor(None, run_service)
+
+        asyncio.run(run_service_async())
+    scheduled_task()

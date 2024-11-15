@@ -400,12 +400,15 @@ def get_result_file_content(show_result=False):
     Get the content of the result file
     """
     user_final_file = resource_path(config.final_file)
-    if config.open_m3u_result:
-        user_final_file = os.path.splitext(user_final_file)[0] + ".m3u"
-        if show_result == False:
-            return send_file(user_final_file, as_attachment=True)
-    with open(user_final_file, "r", encoding="utf-8") as file:
-        content = file.read()
+    if os.path.exists(user_final_file):
+        if config.open_m3u_result:
+            user_final_file = os.path.splitext(user_final_file)[0] + ".m3u"
+            if show_result == False:
+                return send_file(user_final_file, as_attachment=True)
+        with open(user_final_file, "r", encoding="utf-8") as file:
+            content = file.read()
+    else:
+        content = "🔍️正在更新，请耐心等待更新完成..."
     return render_template_string(
         "<head><link rel='icon' href='{{ url_for('static', filename='images/favicon.ico') }}' type='image/x-icon'></head><pre>{{ content }}</pre>",
         content=content,
