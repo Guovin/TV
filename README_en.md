@@ -215,7 +215,7 @@ docker run -v /etc/docker/config:/tv-requests/config -v /etc/docker/output:/tv-r
 
 ## 💰️ Appreciate
 
-<div>Please buy me a cup of coffee☕️~</div>
+<div>Development and maintenance are not easy, please buy me a coffee ~</div>
 
 | Alipay                                | Wechat                                    |
 | ------------------------------------- | ----------------------------------------- |
