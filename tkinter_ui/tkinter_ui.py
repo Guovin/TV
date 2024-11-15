@@ -7,7 +7,7 @@ from tkinter import messagebox
 from PIL import Image, ImageTk
 from utils.config import config
 from utils.tools import resource_path
-from main import UpdateSource
+from main import UpdateSource, run_service
 import asyncio
 import threading
 import webbrowser
@@ -58,7 +58,6 @@ class TkinterUI:
             "response_time_weight": self.default_ui.response_time_weight_scale.get(),
             "resolution_weight": self.default_ui.resolution_weight_scale.get(),
             "ipv_type": self.default_ui.ipv_type_combo.get(),
-            "domain_blacklist": self.default_ui.domain_blacklist_text.get(1.0, tk.END),
             "url_keywords_blacklist": self.default_ui.url_keywords_blacklist_text.get(
                 1.0, tk.END
             ),
@@ -113,11 +112,17 @@ class TkinterUI:
             self.progress_label.pack_forget()
 
     def on_run_update(self):
+        loop = asyncio.new_event_loop()
+
+        async def run_service_async():
+            loop.run_in_executor(None, run_service)
+
         def run_loop():
-            loop = asyncio.new_event_loop()
             asyncio.set_event_loop(loop)
             loop.run_until_complete(self.run_update())
 
+        if config.open_service:
+            asyncio.run(run_service_async())
         self.thread = threading.Thread(target=run_loop, daemon=True)
         self.thread.start()
 

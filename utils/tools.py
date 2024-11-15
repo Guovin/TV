@@ -274,17 +274,6 @@ def check_url_ipv_type(url):
     )
 
 
-def check_by_domain_blacklist(url):
-    """
-    Check by domain blacklist
-    """
-    domain_blacklist = {
-        (urlparse(domain).netloc if urlparse(domain).scheme else domain)
-        for domain in config.domain_blacklist
-    }
-    return urlparse(url).netloc not in domain_blacklist
-
-
 def check_by_url_keywords_blacklist(url):
     """
     Check by URL blacklist keywords
@@ -296,11 +285,7 @@ def check_url_by_patterns(url):
     """
     Check the url by patterns
     """
-    return (
-        check_url_ipv_type(url)
-        and check_by_domain_blacklist(url)
-        and check_by_url_keywords_blacklist(url)
-    )
+    return check_url_ipv_type(url) and check_by_url_keywords_blacklist(url)
 
 
 def filter_urls_by_patterns(urls):
@@ -308,7 +293,6 @@ def filter_urls_by_patterns(urls):
     Filter urls by patterns
     """
     urls = [url for url in urls if check_url_ipv_type(url)]
-    urls = [url for url in urls if check_by_domain_blacklist(url)]
     urls = [url for url in urls if check_by_url_keywords_blacklist(url)]
     return urls
 
@@ -400,12 +384,15 @@ def get_result_file_content(show_result=False):
     Get the content of the result file
     """
     user_final_file = resource_path(config.final_file)
-    if config.open_m3u_result:
-        user_final_file = os.path.splitext(user_final_file)[0] + ".m3u"
-        if show_result == False:
-            return send_file(user_final_file, as_attachment=True)
-    with open(user_final_file, "r", encoding="utf-8") as file:
-        content = file.read()
+    if os.path.exists(user_final_file):
+        if config.open_m3u_result:
+            user_final_file = os.path.splitext(user_final_file)[0] + ".m3u"
+            if show_result == False:
+                return send_file(user_final_file, as_attachment=True)
+        with open(user_final_file, "r", encoding="utf-8") as file:
+            content = file.read()
+    else:
+        content = "🔍️正在更新，请耐心等待更新完成..."
     return render_template_string(
         "<head><link rel='icon' href='{{ url_for('static', filename='images/favicon.ico') }}' type='image/x-icon'></head><pre>{{ content }}</pre>",
         content=content,
