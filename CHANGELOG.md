@@ -1,5 +1,38 @@
 # 更新日志（Changelog）
 
+## v1.5.2
+
+### 2024/11/15
+
+- ✨ 新增各省份地方台
+- ✨ 新增控制显示无结果频道分类配置（open_empty_category）（#551）
+- ✨ 调整接口源（#526）
+- 🪄 优化频道数据插入速度
+- 🪄 优化 IPv6 测速逻辑，解决无结果问题
+- 🪄 优化页面服务启动与 docker 定时任务日志输出
+- 🪄 调整默认配置：接口数量 urls_limit=10 等数量配置，增加订阅源
+- 🐛 修复运行停止问题（#527）
+- 🐛 修复 Win7 GUI 启动问题（#536）
+- 🗑️ 移除部分无效订阅源
+- 🗑️ 移除域名黑名单配置（domain_blacklist），请使用接口关键字黑名单（url_keywords_blacklist）替代
+
+<details>
+  <summary>English</summary>
+
+- ✨ Added local channels for each province.
+- ✨ Added configuration to control the display of the No Results Channel Category (open_empty_category) (#551).
+- ✨ Adjusted interface sources (#526).
+- 🪄 Optimized the speed of channel data insertion.
+- 🪄 Optimized IPv6 speed test logic to resolve no results issues.
+- 🪄 Optimized page service startup and Docker scheduled task log output.
+- 🪄 Adjusted default configurations: number of interfaces urls_limit=10, etc., and added subscription sources.
+- 🐛 Fixed the issue of the program stopping (#527).
+- 🐛 Fixed the issue of Win7 GUI startup (#536).
+- 🗑️ Removed some invalid subscription sources.
+- 🗑️ Removed the domain blacklist configuration (domain_blacklist). Please use the interface keyword blacklist (url_keywords_blacklist) instead.
+
+</details>
+
 ## v1.5.1
 
 ### 2024/11/5
