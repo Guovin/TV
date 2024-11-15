@@ -274,17 +274,6 @@ def check_url_ipv_type(url):
     )
 
 
-def check_by_domain_blacklist(url):
-    """
-    Check by domain blacklist
-    """
-    domain_blacklist = {
-        (urlparse(domain).netloc if urlparse(domain).scheme else domain)
-        for domain in config.domain_blacklist
-    }
-    return urlparse(url).netloc not in domain_blacklist
-
-
 def check_by_url_keywords_blacklist(url):
     """
     Check by URL blacklist keywords
@@ -296,11 +285,7 @@ def check_url_by_patterns(url):
     """
     Check the url by patterns
     """
-    return (
-        check_url_ipv_type(url)
-        and check_by_domain_blacklist(url)
-        and check_by_url_keywords_blacklist(url)
-    )
+    return check_url_ipv_type(url) and check_by_url_keywords_blacklist(url)
 
 
 def filter_urls_by_patterns(urls):
@@ -308,7 +293,6 @@ def filter_urls_by_patterns(urls):
     Filter urls by patterns
     """
     urls = [url for url in urls if check_url_ipv_type(url)]
-    urls = [url for url in urls if check_by_domain_blacklist(url)]
     urls = [url for url in urls if check_by_url_keywords_blacklist(url)]
     return urls
 

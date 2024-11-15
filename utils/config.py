@@ -148,16 +148,6 @@ class ConfigManager:
         return self.config.getint("Settings", "recent_days", fallback=30)
 
     @property
-    def domain_blacklist(self):
-        return [
-            domain.strip()
-            for domain in self.config.get(
-                "Settings", "domain_blacklist", fallback=""
-            ).split(",")
-            if domain.strip()
-        ]
-
-    @property
     def url_keywords_blacklist(self):
         return [
             keyword.strip()

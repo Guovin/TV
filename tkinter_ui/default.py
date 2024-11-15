@@ -372,22 +372,6 @@ class DefaultUI:
         )
         self.open_empty_category_checkbutton.pack(side=tk.LEFT, padx=4, pady=8)
 
-        frame_default_domain_blacklist = tk.Frame(root)
-        frame_default_domain_blacklist.pack(fill=tk.X)
-
-        self.domain_blacklist_label = tk.Label(
-            frame_default_domain_blacklist, text="域名黑名单:", width=12
-        )
-        self.domain_blacklist_label.pack(side=tk.LEFT, padx=4, pady=8)
-        self.domain_blacklist_text = scrolledtext.ScrolledText(
-            frame_default_domain_blacklist, height=2
-        )
-        self.domain_blacklist_text.pack(
-            side=tk.LEFT, padx=4, pady=8, expand=True, fill=tk.BOTH
-        )
-        self.domain_blacklist_text.insert(tk.END, ",".join(config.domain_blacklist))
-        self.domain_blacklist_text.bind("<KeyRelease>", self.update_domain_blacklist)
-
         frame_default_url_keywords_blacklist = tk.Frame(root)
         frame_default_url_keywords_blacklist.pack(fill=tk.X)
 
@@ -503,13 +487,6 @@ class DefaultUI:
             self.url_keywords_blacklist_text.get(1.0, tk.END),
         )
 
-    def update_domain_blacklist(self, event):
-        config.set(
-            "Settings",
-            "domain_blacklist",
-            self.domain_blacklist_text.get(1.0, tk.END),
-        )
-
     def update_url_keywords_blacklist(self, event):
         config.set(
             "Settings",
@@ -541,7 +518,6 @@ class DefaultUI:
             "open_url_info_checkbutton",
             "open_empty_category_checkbutton",
             "ipv_type_combo",
-            "domain_blacklist_text",
             "url_keywords_blacklist_text",
         ]:
             getattr(self, entry).config(state=state)
