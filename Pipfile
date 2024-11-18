@@ -25,6 +25,7 @@ opencc-python-reimplemented = "*"
 fake-useragent = "*"
 gunicorn = "*"
 pillow = "*"
+yt-dlp = "*"
 
 [requires]
-python_version = "3.8"
+python_version = "3.13"

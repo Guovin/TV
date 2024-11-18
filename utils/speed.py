@@ -5,7 +5,26 @@ import re
 from utils.config import config
 from utils.tools import is_ipv6, add_url_info, remove_cache_info, get_resolution_value
 import subprocess
+import yt_dlp
 
+
+def get_speed_yt_dlp(url, timeout=5):
+    """
+    Get the speed of the url by yt_dlp
+    """
+    ydl_opts = {
+        "timeout": timeout,
+        "skip_download": True,
+        "quiet": True,
+        "no_warnings": True,
+    }
+    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+        try:
+            start = time()
+            info = ydl.extract_info(url, download=False)
+            return int(round((time() - start) * 1000)) if info else float("inf")
+        except:
+            return float("inf")
 
 async def get_speed(url, timeout=config.sort_timeout, proxy=None):
     """
@@ -113,72 +132,60 @@ async def check_stream_speed(url_info):
 speed_cache = {}
 
 
-async def get_speed_by_info(
-    url_info, ffmpeg, semaphore, ipv6_proxy=None, callback=None
-):
+def get_speed_by_info(url_info, ipv6_proxy=None, callback=None):
     """
     Get the info with speed
     """
-    async with semaphore:
-        url, _, resolution, _ = url_info
-        url_info = list(url_info)
-        cache_key = None
-        url_is_ipv6 = is_ipv6(url)
-        if "$" in url:
-            url, _, cache_info = url.partition("$")
-            matcher = re.search(r"cache:(.*)", cache_info)
-            if matcher:
-                cache_key = matcher.group(1)
-            url_show_info = remove_cache_info(cache_info)
-        url_info[0] = url
-        if cache_key in speed_cache:
-            speed = speed_cache[cache_key][0]
-            url_info[2] = speed_cache[cache_key][1]
-            if speed != float("inf"):
-                if url_show_info:
-                    url_info[0] = add_url_info(url, url_show_info)
-                return (tuple(url_info), speed)
-            else:
-                return float("inf")
-        try:
-            if ipv6_proxy and url_is_ipv6:
-                url_speed = 0
-                speed = (url_info, url_speed)
-            elif ffmpeg:
-                speed = await check_stream_speed(url_info)
-                url_speed = speed[1] if speed != float("inf") else float("inf")
-                if url_speed == float("inf"):
-                    url_speed = await get_speed(url)
-                resolution = speed[0][2] if speed != float("inf") else None
-            else:
-                url_speed = await get_speed(url)
-                speed = (
-                    (url_info, url_speed) if url_speed != float("inf") else float("inf")
-                )
-            if cache_key and cache_key not in speed_cache:
-                speed_cache[cache_key] = (url_speed, resolution)
+    url, _, resolution, _ = url_info
+    url_info = list(url_info)
+    cache_key = None
+    url_is_ipv6 = is_ipv6(url)
+    if "$" in url:
+        url, _, cache_info = url.partition("$")
+        matcher = re.search(r"cache:(.*)", cache_info)
+        if matcher:
+            cache_key = matcher.group(1)
+        url_show_info = remove_cache_info(cache_info)
+    url_info[0] = url
+    if cache_key in speed_cache:
+        speed = speed_cache[cache_key][0]
+        url_info[2] = speed_cache[cache_key][1]
+        if speed != float("inf"):
             if url_show_info:
-                speed[0][0] = add_url_info(speed[0][0], url_show_info)
-            speed = (tuple(speed[0]), speed[1])
-            return speed
-        except:
+                url_info[0] = add_url_info(url, url_show_info)
+            return (tuple(url_info), speed)
+        else:
             return float("inf")
-        finally:
-            if callback:
-                callback()
+    try:
+        if ipv6_proxy and url_is_ipv6:
+            url_speed = 0
+            speed = (url_info, url_speed)
+        else:
+            url_speed = get_speed_yt_dlp(url)
+            speed = (url_info, url_speed) if url_speed != float("inf") else float("inf")
+        if cache_key and cache_key not in speed_cache:
+            speed_cache[cache_key] = (url_speed, resolution)
+        if url_show_info:
+            speed[0][0] = add_url_info(speed[0][0], url_show_info)
+        speed = (tuple(speed[0]), speed[1])
+        return speed
+    except:
+        return float("inf")
+    finally:
+        if callback:
+            callback()
 
 
-async def sort_urls_by_speed_and_resolution(
-    data, ffmpeg=False, ipv6_proxy=None, callback=None
+def sort_urls_by_speed_and_resolution(
+    data, ipv6_proxy=None, callback=None
 ):
     """
     Sort by speed and resolution
     """
-    semaphore = asyncio.Semaphore(20)
-    response = await asyncio.gather(
+    response = asyncio.gather(
         *(
             get_speed_by_info(
-                url_info, ffmpeg, semaphore, ipv6_proxy=ipv6_proxy, callback=callback
+                url_info, ipv6_proxy=ipv6_proxy, callback=callback
             )
             for url_info in data
         )

@@ -11,7 +11,6 @@ from utils.tools import (
 )
 from utils.speed import (
     sort_urls_by_speed_and_resolution,
-    is_ffmpeg_installed,
     speed_cache,
 )
 import os
@@ -21,7 +20,6 @@ from bs4 import NavigableString
 import logging
 from logging.handlers import RotatingFileHandler
 from opencc import OpenCC
-import asyncio
 import base64
 import pickle
 import copy
@@ -585,65 +583,52 @@ def append_total_data(
                     )
 
 
-async def sort_channel_list(
+def sort_channel_list(
     cate,
     name,
     info_list,
-    semaphore,
-    ffmpeg=False,
     ipv6_proxy=None,
     callback=None,
 ):
     """
     Sort the channel list
     """
-    async with semaphore:
-        data = []
-        try:
-            if info_list:
-                sorted_data = await sort_urls_by_speed_and_resolution(
-                    info_list, ffmpeg=ffmpeg, ipv6_proxy=ipv6_proxy, callback=callback
-                )
-                if sorted_data:
-                    for (url, date, resolution, origin), response_time in sorted_data:
-                        logging.info(
-                            f"Name: {name}, URL: {url}, Date: {date}, Resolution: {resolution}, Response Time: {response_time} ms"
-                        )
-                        data.append((url, date, resolution, origin))
-        except Exception as e:
-            logging.error(f"Error: {e}")
-        finally:
-            return {"cate": cate, "name": name, "data": data}
+    data = []
+    try:
+        if info_list:
+            sorted_data = sort_urls_by_speed_and_resolution(
+                info_list, ipv6_proxy=ipv6_proxy, callback=callback
+            )
+            if sorted_data:
+                for (url, date, resolution, origin), response_time in sorted_data:
+                    logging.info(
+                        f"Name: {name}, URL: {url}, Date: {date}, Resolution: {resolution}, Response Time: {response_time} ms"
+                    )
+                    data.append((url, date, resolution, origin))
+    except Exception as e:
+        logging.error(f"Error: {e}")
+    finally:
+        return {"cate": cate, "name": name, "data": data}
 
 
-async def process_sort_channel_list(data, ipv6=False, callback=None):
+def process_sort_channel_list(data, ipv6=False, callback=None):
     """
     Processs the sort channel list
     """
     ipv6_proxy = None if (not config.open_ipv6 or ipv6) else constants.ipv6_proxy
-    ffmpeg_installed = is_ffmpeg_installed()
-    if config.open_ffmpeg and not ffmpeg_installed:
-        print("FFmpeg is not installed, using requests for sorting.")
-    is_ffmpeg = config.open_ffmpeg and ffmpeg_installed
-    semaphore = asyncio.Semaphore(5)
     need_sort_data = copy.deepcopy(data)
     process_nested_dict(need_sort_data, seen=set(), flag=r"cache:(.*)", force_str="!")
-    tasks = [
-        asyncio.create_task(
+    sort_results = [
             sort_channel_list(
                 cate,
                 name,
                 info_list,
-                semaphore,
-                ffmpeg=is_ffmpeg,
                 ipv6_proxy=ipv6_proxy,
                 callback=callback,
             )
-        )
         for cate, channel_obj in need_sort_data.items()
         for name, info_list in channel_obj.items()
     ]
-    sort_results = await asyncio.gather(*tasks)
     sort_data = {}
     for result in sort_results:
         if result:

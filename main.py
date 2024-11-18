@@ -174,7 +174,7 @@ class UpdateSource:
                     )
                     self.start_time = time()
                     self.pbar = tqdm_asyncio(total=self.total, desc="Sorting")
-                    self.channel_data = await process_sort_channel_list(
+                    self.channel_data = process_sort_channel_list(
                         self.channel_data,
                         ipv6=ipv6_support,
                         callback=sort_callback,
