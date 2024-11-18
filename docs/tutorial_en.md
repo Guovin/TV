@@ -173,7 +173,7 @@ Please download and install Python from the official site. During installation, 
 Open a CMD terminal in the project directory and run the following commands in sequence:
 pip install pipenv
 pipenv install
-pipenv run build
+pipenv run dev
 ```
 
 ### Method 3: GUI Software

@@ -65,8 +65,8 @@ jobs:
         run: pip3 install --user pipenv
       - name: Install dependecies
         run: pipenv --python 3.8 && pipenv install
-      - name: Build
-        run: pipenv run build
+      - name: Update
+        run: pipenv run dev
       - name: Commit and push if changed
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"

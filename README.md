@@ -91,7 +91,7 @@
 - ✅ 接口测速验效，响应时间、分辨率优先级，过滤无效接口
 - ✅ 偏好设置：IPv6、接口来源排序优先级与数量配置、接口白名单
 - ✅ 定时执行，北京时间每日 6:00 与 18:00 执行更新
-- ✅ 支持多种运行方式：工作流、命令行、GUI 软件、Docker(amd64/arm64)
+- ✅ 支持多种运行方式：工作流、命令行、GUI 软件、Docker(amd64/arm64/arm v7/arm v8)
 - ✨ 更多功能请见[配置参数](./docs/config.md)
 
 ## 🔗 最新结果
@@ -133,7 +133,7 @@ pipenv install
 ```
 
 ```python
-pipenv run build
+pipenv run dev
 ```
 
 ### 方式三：GUI 软件
