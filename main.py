@@ -1,5 +1,6 @@
 import asyncio
 from utils.config import config
+import utils.constants as constants
 from utils.channel import (
     get_channel_items,
     append_total_data,
@@ -56,8 +57,11 @@ def show_log():
     user_log_file = "output/" + (
         "user_result.log" if os.path.exists("config/user_config.ini") else "result.log"
     )
-    with open(user_log_file, "r", encoding="utf-8") as file:
-        content = file.read()
+    if os.path.exists(user_log_file):
+        with open(user_log_file, "r", encoding="utf-8") as file:
+            content = file.read()
+    else:
+        content = constants.waiting_tip
     return render_template_string(
         "<head><link rel='icon' href='{{ url_for('static', filename='images/favicon.ico') }}' type='image/x-icon'></head><pre>{{ content }}</pre>",
         content=content,
