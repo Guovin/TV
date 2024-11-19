@@ -200,7 +200,10 @@ docker run -v /etc/docker/config:/tv-driver/config -v /etc/docker/output:/tv-dri
 docker run -v /etc/docker/config:/tv-requests/config -v /etc/docker/output:/tv-requests/output -d -p 8000:8000 guovern/tv-requests
 ```
 
-3. Check the update results: Visit (domain:8000)
+3. Update results:
+- API address: ip:8000
+- API details: ip:8000/result
+- Speed test log: ip:8000/log
 
 ## 🗓️ Changelog
 

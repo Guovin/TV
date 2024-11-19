@@ -1,5 +1,24 @@
 # 更新日志（Changelog）
 
+## v1.5.3
+
+### 2024/11/19
+
+⚠️ 这将是支持 Win7 的最后一个版本
+
+- 🐛 修复 GUI “显示无结果分类”设置后保存失败（#564）
+- 🐛 修复命令行启动报错 (#567）
+
+<details>
+  <summary>English</summary>
+
+⚠️ This will be the last version supporting Win7
+
+- 🐛 Fixed the issue where the GUI setting for "Display No Results Category" failed to save (#564).
+- 🐛 Fixed the error when starting from the command line (#567).
+
+</details>
+
 ## v1.5.2
 
 ### 2024/11/15
