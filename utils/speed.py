@@ -8,23 +8,24 @@ import subprocess
 import yt_dlp
 
 
-def get_speed_yt_dlp(url, timeout=5):
+def get_speed_yt_dlp(url, timeout=config.sort_timeout):
     """
     Get the speed of the url by yt_dlp
     """
-    ydl_opts = {
-        "timeout": timeout,
-        "skip_download": True,
-        "quiet": True,
-        "no_warnings": True,
-    }
-    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-        try:
+    try:
+        ydl_opts = {
+            "socket_timeout": timeout,
+            "skip_download": True,
+            "quiet": True,
+            "no_warnings": True,
+        }
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             start = time()
             info = ydl.extract_info(url, download=False)
             return int(round((time() - start) * 1000)) if info else float("inf")
-        except:
-            return float("inf")
+    except Exception as e:
+        return float("inf")
+
 
 async def get_speed(url, timeout=config.sort_timeout, proxy=None):
     """
@@ -176,20 +177,15 @@ def get_speed_by_info(url_info, ipv6_proxy=None, callback=None):
             callback()
 
 
-def sort_urls_by_speed_and_resolution(
-    data, ipv6_proxy=None, callback=None
-):
+def sort_urls_by_speed_and_resolution(data, ipv6_proxy=None, callback=None):
     """
     Sort by speed and resolution
     """
-    response = asyncio.gather(
-        *(
-            get_speed_by_info(
-                url_info, ipv6_proxy=ipv6_proxy, callback=callback
-            )
-            for url_info in data
+    response = []
+    for url_info in data:
+        response.append(
+            get_speed_by_info(url_info, ipv6_proxy=ipv6_proxy, callback=callback)
         )
-    )
     valid_response = [res for res in response if res != float("inf")]
 
     def combined_key(item):

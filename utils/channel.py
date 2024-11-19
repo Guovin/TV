@@ -24,6 +24,7 @@ import base64
 import pickle
 import copy
 import datetime
+from concurrent.futures import ThreadPoolExecutor
 
 handler = None
 
@@ -618,22 +619,27 @@ def process_sort_channel_list(data, ipv6=False, callback=None):
     ipv6_proxy = None if (not config.open_ipv6 or ipv6) else constants.ipv6_proxy
     need_sort_data = copy.deepcopy(data)
     process_nested_dict(need_sort_data, seen=set(), flag=r"cache:(.*)", force_str="!")
-    sort_results = [
-            sort_channel_list(
+    sort_data = {}
+    with ThreadPoolExecutor(max_workers=30) as executor:
+        futures = [
+            executor.submit(
+                sort_channel_list,
                 cate,
                 name,
                 info_list,
                 ipv6_proxy=ipv6_proxy,
                 callback=callback,
             )
-        for cate, channel_obj in need_sort_data.items()
-        for name, info_list in channel_obj.items()
-    ]
-    sort_data = {}
-    for result in sort_results:
-        if result:
-            cate, name, result_data = result["cate"], result["name"], result["data"]
-            append_data_to_info_data(sort_data, cate, name, result_data, check=False)
+            for cate, channel_obj in need_sort_data.items()
+            for name, info_list in channel_obj.items()
+        ]
+        for future in futures:
+            result = future.result()
+            if result:
+                cate, name, result_data = result["cate"], result["name"], result["data"]
+                append_data_to_info_data(
+                    sort_data, cate, name, result_data, check=False
+                )
     for cate, obj in data.items():
         for name, info_list in obj.items():
             sort_info_list = sort_data.get(cate, {}).get(name, [])

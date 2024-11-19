@@ -29,7 +29,6 @@ from updates.fofa import get_channels_by_fofa
 from updates.online_search import get_channels_by_online_search
 import os
 from tqdm import tqdm
-from tqdm.asyncio import tqdm_asyncio
 from time import time
 from flask import Flask, render_template_string
 import sys
@@ -173,7 +172,7 @@ class UpdateSource:
                         0,
                     )
                     self.start_time = time()
-                    self.pbar = tqdm_asyncio(total=self.total, desc="Sorting")
+                    self.pbar = tqdm(total=self.total, desc="Sorting")
                     self.channel_data = process_sort_channel_list(
                         self.channel_data,
                         ipv6=ipv6_support,
