@@ -9,6 +9,7 @@ ui = "python tkinter_ui/tkinter_ui.py"
 multicast_tmp = "python updates/multicast/update_tmp.py"
 docker_build_driver = "docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v8 --build-arg APP_WORKDIR=/tv-driver --build-arg INSTALL_CHROMIUM=true -t guovern/tv-driver . --push"
 docker_build_requests = "docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v8 --build-arg APP_WORKDIR=/tv-requests -t guovern/tv-requests . --push"
+tkinter_build = "pyinstaller tkinter_ui/tkinter_ui.spec"
 
 [dev-packages]
 
