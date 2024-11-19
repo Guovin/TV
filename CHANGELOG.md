@@ -4,6 +4,8 @@
 
 ### 2024/11/15
 
+⚠️ 这将是支持 Win7 的最后一个版本
+
 - ✨ 新增各省份地方台
 - ✨ 新增控制显示无结果频道分类配置（open_empty_category）（#551）
 - ✨ 调整接口源（#526）
@@ -18,6 +20,8 @@
 
 <details>
   <summary>English</summary>
+
+⚠️ This will be the last version supporting Win7
 
 - ✨ Added local channels for each province.
 - ✨ Added configuration to control the display of the No Results Channel Category (open_empty_category) (#551).
