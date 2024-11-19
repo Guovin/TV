@@ -94,3 +94,5 @@ ipv6_proxy = "http://www.ipv6proxy.net/go.php?u="
 foodie_url = "http://www.foodieguide.com/iptvsearch/"
 
 foodie_hotel_url = "http://www.foodieguide.com/iptvsearch/hoteliptv.php"
+
+waiting_tip = "🔍️正在更新，请耐心等待更新完成..."
