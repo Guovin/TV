@@ -1,7 +1,5 @@
-from asyncio import create_task, gather
 from utils.config import config
 import utils.constants as constants
-from utils.speed import get_speed
 from utils.channel import (
     format_channel_name,
     get_results_from_soup,

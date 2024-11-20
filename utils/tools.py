@@ -3,7 +3,6 @@ import datetime
 import os
 import urllib.parse
 import ipaddress
-from urllib.parse import urlparse
 import socket
 from utils.config import config
 import utils.constants as constants
@@ -13,6 +12,38 @@ from flask import render_template_string, send_file
 import shutil
 import requests
 import sys
+import logging
+from logging.handlers import RotatingFileHandler
+
+handler = None
+
+
+def setup_logging():
+    """
+    Setup logging
+    """
+    global handler
+    if not os.path.exists(constants.output_dir):
+        os.makedirs(constants.output_dir)
+    handler = RotatingFileHandler(constants.log_path, encoding="utf-8")
+    logging.basicConfig(
+        handlers=[handler],
+        format="%(message)s",
+        level=logging.INFO,
+    )
+
+
+def cleanup_logging():
+    """
+    Cleanup logging
+    """
+    global handler
+    if handler:
+        for handler in logging.root.handlers[:]:
+            handler.close()
+            logging.root.removeHandler(handler)
+    if os.path.exists(constants.log_path):
+        os.remove(constants.log_path)
 
 
 def format_interval(t):

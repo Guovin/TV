@@ -2,7 +2,7 @@ from asyncio import Semaphore
 from tqdm import tqdm
 from tqdm.asyncio import tqdm_asyncio
 from utils.config import config
-from utils.speed import get_speed
+from utils.speed import get_speed_requests
 from concurrent.futures import ThreadPoolExecutor
 from driver.utils import get_soup_driver
 from requests_custom.utils import get_soup_requests, close_session
@@ -71,7 +71,7 @@ async def get_proxy_list_with_test(base_url, proxy_list):
 
     async def get_speed_task(url, timeout, proxy):
         async with semaphore:
-            return await get_speed(url, timeout=timeout, proxy=proxy)
+            return await get_speed_requests(url, timeout=timeout, proxy=proxy)
 
     response_times = await tqdm_asyncio.gather(
         *(get_speed_task(base_url, timeout=30, proxy=url) for url in proxy_list),

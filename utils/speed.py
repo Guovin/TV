@@ -3,9 +3,10 @@ from time import time
 import asyncio
 import re
 from utils.config import config
-from utils.tools import is_ipv6, add_url_info, remove_cache_info, get_resolution_value
+from utils.tools import is_ipv6, remove_cache_info, get_resolution_value
 import subprocess
 import yt_dlp
+import logging
 
 
 def get_speed_yt_dlp(url, timeout=config.sort_timeout):
@@ -20,16 +21,16 @@ def get_speed_yt_dlp(url, timeout=config.sort_timeout):
             "no_warnings": True,
         }
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-            start = time()
+            start_time = time()
             info = ydl.extract_info(url, download=False)
-            return int(round((time() - start) * 1000)) if info else float("inf")
-    except Exception as e:
+            return int(round((time() - start_time) * 1000)) if info else float("inf")
+    except:
         return float("inf")
 
 
-async def get_speed(url, timeout=config.sort_timeout, proxy=None):
+async def get_speed_requests(url, timeout=config.sort_timeout, proxy=None):
     """
-    Get the speed of the url
+    Get the speed of the url by requests
     """
     async with ClientSession(
         connector=TCPConnector(verify_ssl=False), trust_env=True
@@ -133,42 +134,26 @@ async def check_stream_speed(url_info):
 speed_cache = {}
 
 
-def get_speed_by_info(url_info, ipv6_proxy=None, callback=None):
+def get_speed(url, ipv6_proxy=None, callback=None):
     """
-    Get the info with speed
+    Get the speed of the url
     """
-    url, _, resolution, _ = url_info
-    url_info = list(url_info)
-    cache_key = None
-    url_is_ipv6 = is_ipv6(url)
-    if "$" in url:
-        url, _, cache_info = url.partition("$")
-        matcher = re.search(r"cache:(.*)", cache_info)
-        if matcher:
-            cache_key = matcher.group(1)
-        url_show_info = remove_cache_info(cache_info)
-    url_info[0] = url
-    if cache_key in speed_cache:
-        speed = speed_cache[cache_key][0]
-        url_info[2] = speed_cache[cache_key][1]
-        if speed != float("inf"):
-            if url_show_info:
-                url_info[0] = add_url_info(url, url_show_info)
-            return (tuple(url_info), speed)
-        else:
-            return float("inf")
     try:
+        cache_key = None
+        url_is_ipv6 = is_ipv6(url)
+        if "$" in url:
+            url, _, cache_info = url.partition("$")
+            matcher = re.search(r"cache:(.*)", cache_info)
+            if matcher:
+                cache_key = matcher.group(1)
+        if cache_key in speed_cache:
+            return speed_cache[cache_key][0]
         if ipv6_proxy and url_is_ipv6:
-            url_speed = 0
-            speed = (url_info, url_speed)
+            speed = 0
         else:
-            url_speed = get_speed_yt_dlp(url)
-            speed = (url_info, url_speed) if url_speed != float("inf") else float("inf")
+            speed = get_speed_yt_dlp(url)
         if cache_key and cache_key not in speed_cache:
-            speed_cache[cache_key] = (url_speed, resolution)
-        if url_show_info:
-            speed[0][0] = add_url_info(speed[0][0], url_show_info)
-        speed = (tuple(speed[0]), speed[1])
+            speed_cache[cache_key] = (speed, None)
         return speed
     except:
         return float("inf")
@@ -177,24 +162,39 @@ def get_speed_by_info(url_info, ipv6_proxy=None, callback=None):
             callback()
 
 
-def sort_urls_by_speed_and_resolution(data, ipv6_proxy=None, callback=None):
+def sort_urls_by_speed_and_resolution(name, data):
     """
     Sort by speed and resolution
     """
-    response = []
-    for url_info in data:
-        response.append(
-            get_speed_by_info(url_info, ipv6_proxy=ipv6_proxy, callback=callback)
-        )
-    valid_response = [res for res in response if res != float("inf")]
+    filter_data = []
+    for url, date, resolution, origin in data:
+        if origin == "important":
+            filter_data.append((url, date, resolution, origin))
+            continue
+        cache_key_match = re.search(r"cache:(.*)", url.partition("$")[2])
+        cache_key = cache_key_match.group(1) if cache_key_match else None
+        if cache_key and cache_key in speed_cache:
+            cache = speed_cache[cache_key]
+            if cache:
+                response_time, cache_resolution = cache
+                resolution = cache_resolution or resolution
+                if response_time != float("inf"):
+                    url = remove_cache_info(url)
+                    logging.info(
+                        f"Name: {name}, URL: {url}, Date: {date}, Resolution: {resolution}, Response Time: {response_time} ms"
+                    )
+                    filter_data.append((url, date, resolution, origin))
 
     def combined_key(item):
-        (_, _, resolution, _), response_time = item
-        resolution_value = get_resolution_value(resolution) if resolution else 0
-        return (
-            -(config.response_time_weight * response_time)
-            + config.resolution_weight * resolution_value
-        )
+        _, _, resolution, origin = item
+        if origin == "important":
+            return -float("inf")
+        else:
+            resolution_value = get_resolution_value(resolution) if resolution else 0
+            return (
+                config.response_time_weight * response_time
+                - config.resolution_weight * resolution_value
+            )
 
-    sorted_res = sorted(valid_response, key=combined_key, reverse=True)
-    return sorted_res
+    filter_data.sort(key=combined_key)
+    return filter_data

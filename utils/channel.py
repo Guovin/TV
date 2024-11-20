@@ -10,51 +10,19 @@ from utils.tools import (
     write_content_into_txt,
 )
 from utils.speed import (
+    get_speed,
     sort_urls_by_speed_and_resolution,
-    speed_cache,
 )
 import os
 from collections import defaultdict
 import re
 from bs4 import NavigableString
-import logging
-from logging.handlers import RotatingFileHandler
 from opencc import OpenCC
 import base64
 import pickle
 import copy
 import datetime
 from concurrent.futures import ThreadPoolExecutor
-
-handler = None
-
-
-def setup_logging():
-    """
-    Setup logging
-    """
-    global handler
-    if not os.path.exists(constants.output_dir):
-        os.makedirs(constants.output_dir)
-    handler = RotatingFileHandler(constants.log_path, encoding="utf-8")
-    logging.basicConfig(
-        handlers=[handler],
-        format="%(message)s",
-        level=logging.INFO,
-    )
-
-
-def cleanup_logging():
-    """
-    Cleanup logging
-    """
-    global handler
-    if handler:
-        for handler in logging.root.handlers[:]:
-            handler.close()
-            logging.root.removeHandler(handler)
-    if os.path.exists(constants.log_path):
-        os.remove(constants.log_path)
 
 
 def get_name_url(content, pattern, multiline=False, check_url=True):
@@ -462,9 +430,7 @@ def init_info_data(data, cate, name):
         data[cate][name] = []
 
 
-def append_data_to_info_data(
-    info_data, cate, name, data, origin=None, check=True, insert=False
-):
+def append_data_to_info_data(info_data, cate, name, data, origin=None, check=True):
     """
     Append channel data to total info data
     """
@@ -485,14 +451,7 @@ def append_data_to_info_data(
                     or (not check)
                     or (check and check_url_by_patterns(pure_url))
                 ):
-                    if insert:
-                        info_data[cate][name].insert(
-                            0, (url, date, resolution, url_origin)
-                        )
-                    else:
-                        info_data[cate][name].append(
-                            (url, date, resolution, url_origin)
-                        )
+                    info_data[cate][name].append((url, date, resolution, url_origin))
                     urls.append(pure_url)
         except:
             continue
@@ -584,34 +543,6 @@ def append_total_data(
                     )
 
 
-def sort_channel_list(
-    cate,
-    name,
-    info_list,
-    ipv6_proxy=None,
-    callback=None,
-):
-    """
-    Sort the channel list
-    """
-    data = []
-    try:
-        if info_list:
-            sorted_data = sort_urls_by_speed_and_resolution(
-                info_list, ipv6_proxy=ipv6_proxy, callback=callback
-            )
-            if sorted_data:
-                for (url, date, resolution, origin), response_time in sorted_data:
-                    logging.info(
-                        f"Name: {name}, URL: {url}, Date: {date}, Resolution: {resolution}, Response Time: {response_time} ms"
-                    )
-                    data.append((url, date, resolution, origin))
-    except Exception as e:
-        logging.error(f"Error: {e}")
-    finally:
-        return {"cate": cate, "name": name, "data": data}
-
-
 def process_sort_channel_list(data, ipv6=False, callback=None):
     """
     Processs the sort channel list
@@ -619,72 +550,31 @@ def process_sort_channel_list(data, ipv6=False, callback=None):
     ipv6_proxy = None if (not config.open_ipv6 or ipv6) else constants.ipv6_proxy
     need_sort_data = copy.deepcopy(data)
     process_nested_dict(need_sort_data, seen=set(), flag=r"cache:(.*)", force_str="!")
-    sort_data = {}
+    result = {}
     with ThreadPoolExecutor(max_workers=30) as executor:
-        futures = [
-            executor.submit(
-                sort_channel_list,
+        try:
+            for channel_obj in need_sort_data.values():
+                for info_list in channel_obj.values():
+                    for info in info_list:
+                        executor.submit(
+                            get_speed,
+                            info[0],
+                            ipv6_proxy=ipv6_proxy,
+                            callback=callback,
+                        )
+        except Exception as e:
+            print(f"Get speed Error: {e}")
+    for cate, obj in data.items():
+        for name, info_list in obj.items():
+            info_list = sort_urls_by_speed_and_resolution(name, info_list)
+            append_data_to_info_data(
+                result,
                 cate,
                 name,
                 info_list,
-                ipv6_proxy=ipv6_proxy,
-                callback=callback,
+                check=False,
             )
-            for cate, channel_obj in need_sort_data.items()
-            for name, info_list in channel_obj.items()
-        ]
-        for future in futures:
-            result = future.result()
-            if result:
-                cate, name, result_data = result["cate"], result["name"], result["data"]
-                append_data_to_info_data(
-                    sort_data, cate, name, result_data, check=False
-                )
-    for cate, obj in data.items():
-        for name, info_list in obj.items():
-            sort_info_list = sort_data.get(cate, {}).get(name, [])
-            sort_urls = {
-                remove_cache_info(sort_url[0])
-                for sort_url in sort_info_list
-                if sort_url and sort_url[0]
-            }
-            for url, date, resolution, origin in info_list:
-                if "$" in url:
-                    info = url.partition("$")[2]
-                    if info and info.startswith("!"):
-                        append_data_to_info_data(
-                            sort_data,
-                            cate,
-                            name,
-                            [(url, date, resolution, origin)],
-                            check=False,
-                            insert=True,
-                        )
-                        continue
-                    matcher = re.search(r"cache:(.*)", info)
-                    if matcher:
-                        cache_key = matcher.group(1)
-                        if not cache_key:
-                            continue
-                        url = remove_cache_info(url)
-                        if url in sort_urls or cache_key not in speed_cache:
-                            continue
-                        cache = speed_cache[cache_key]
-                        if not cache:
-                            continue
-                        response_time, resolution = cache
-                        if response_time and response_time != float("inf"):
-                            append_data_to_info_data(
-                                sort_data,
-                                cate,
-                                name,
-                                [(url, date, resolution, origin)],
-                                check=False,
-                            )
-                            logging.info(
-                                f"Name: {name}, URL: {url}, Date: {date}, Resolution: {resolution}, Response Time: {response_time} ms"
-                            )
-    return sort_data
+    return result
 
 
 def write_channel_to_file(data, ipv6=False, callback=None):

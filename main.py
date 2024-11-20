@@ -6,8 +6,6 @@ from utils.channel import (
     append_total_data,
     process_sort_channel_list,
     write_channel_to_file,
-    setup_logging,
-    cleanup_logging,
     get_channel_data_cache_with_compare,
     format_channel_url_info,
 )
@@ -21,6 +19,8 @@ from utils.tools import (
     format_interval,
     check_ipv6_support,
     resource_path,
+    setup_logging,
+    cleanup_logging,
 )
 from updates.subscribe import get_channels_by_subscribe_urls
 from updates.multicast import get_channels_by_multicast
