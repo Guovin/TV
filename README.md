@@ -210,10 +210,6 @@ docker run -v /etc/docker/config:/tv-requests/config -v /etc/docker/output:/tv-r
 
 [更新日志](./CHANGELOG.md)
 
-## ⚖️ 许可证
-
-[MIT](./LICENSE) License &copy; 2024-PRESENT [Govin](https://github.com/guovin)
-
 ## 💰️ 赞赏
 
 <div>开发维护不易，请我喝杯咖啡☕️吧~</div>
@@ -231,3 +227,7 @@ docker run -v /etc/docker/config:/tv-requests/config -v /etc/docker/output:/tv-r
 ## 📣 免责声明
 
 本项目仅供学习交流用途，接口数据均来源于网络，如有侵权，请联系删除
+
+## ⚖️ 许可证
+
+[MIT](./LICENSE) License &copy; 2024-PRESENT [Govin](https://github.com/guovin)
