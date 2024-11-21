@@ -201,6 +201,7 @@ docker run -v /etc/docker/config:/tv-requests/config -v /etc/docker/output:/tv-r
 ```
 
 3. 更新结果：
+
 - 接口地址：ip:8000
 - 接口详情：ip:8000/result
 - 测速日志：ip:8000/log
@@ -220,6 +221,12 @@ docker run -v /etc/docker/config:/tv-requests/config -v /etc/docker/output:/tv-r
 | 支付宝                                    | 微信                                        |
 | ----------------------------------------- | ------------------------------------------- |
 | ![支付宝扫码](./static/images/alipay.jpg) | ![微信扫码](./static/images/appreciate.jpg) |
+
+## 👀 关注
+
+微信公众号搜索 Govin，或扫码：
+
+![微信公众号](./static/images/qrcode.jpg)
 
 ## 📣 免责声明
 
