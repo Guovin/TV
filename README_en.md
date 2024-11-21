@@ -210,10 +210,6 @@ docker run -v /etc/docker/config:/tv-requests/config -v /etc/docker/output:/tv-r
 
 [Changelog](./CHANGELOG.md)
 
-## ⚖️ License
-
-[MIT](./LICENSE) License &copy; 2024-PRESENT [Govin](https://github.com/guovin)
-
 ## 💰️ Appreciate
 
 <div>Development and maintenance are not easy, please buy me a coffee ~</div>
@@ -231,3 +227,7 @@ Wechat public account search Govin, or scan code:
 ## 📣 Disclaimer
 
 This project is for learning and communication purposes only. All interface data comes from the internet. If there is any infringement, please contact us for removal.
+
+## ⚖️ License
+
+[MIT](./LICENSE) License &copy; 2024-PRESENT [Govin](https://github.com/guovin)
