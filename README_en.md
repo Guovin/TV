@@ -201,6 +201,7 @@ docker run -v /etc/docker/config:/tv-requests/config -v /etc/docker/output:/tv-r
 ```
 
 3. Update results:
+
 - API address: ip:8000
 - API details: ip:8000/result
 - Speed test log: ip:8000/log
@@ -220,6 +221,12 @@ docker run -v /etc/docker/config:/tv-requests/config -v /etc/docker/output:/tv-r
 | Alipay                                | Wechat                                    |
 | ------------------------------------- | ----------------------------------------- |
 | ![Alipay](./static/images/alipay.jpg) | ![Wechat](./static/images/appreciate.jpg) |
+
+## 👀 Follow
+
+Wechat public account search Govin, or scan code:
+
+![Wechat public account](./static/images/qrcode.jpg)
 
 ## 📣 Disclaimer
 
