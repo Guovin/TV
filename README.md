@@ -99,11 +99,11 @@
 - 接口源：
 
 ```bash
-https://ghproxy.net/raw.githubusercontent.com/Guovin/TV/gd/output/result.m3u
+https://ghproxy.net/raw.githubusercontent.com/gclgg/TV/refs/heads/master/output/result.m3u
 ```
 
 ```bash
-https://ghproxy.net/raw.githubusercontent.com/Guovin/TV/gd/output/result.txt
+https://ghproxy.net/raw.githubusercontent.com/gclgg/TV/refs/heads/master/output/result.txt 
 ```
 
 - 数据源：
