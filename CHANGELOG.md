@@ -59,7 +59,7 @@
 - ✨ 新增频道接口白名单：不参与测速，永远保留在结果最前面（#470）
   使用方法：
   1. 模板频道接口地址后添加$!即可实现（如：广东珠江,http://xxx.m3u$! ）
-  2. 额外信息补充（如：广东珠江,http://xxx.m3u$!额外信息 ），更多接口白名单请至https://github.com/Guovin/TV/issues/514 讨论
+  2. 额外信息补充（如：广东珠江,http://xxx.m3u$!额外信息 ），更多接口白名单请至https://github.com/Guovin/GTV/issues/514 讨论
 - ✨ 新增 🈳 无结果频道分类：无结果频道默认归类至该底部分类下（#473）
 - ✨ 接口地址增加来源类型说明
 - ✨ 默认模板增加广东民生（#481）、广州综合（#504）
@@ -78,7 +78,7 @@
 - ✨ Added channel interface whitelist: Not participating in speed testing, always kept at the very front of the results. (#470)
   Usage:
   1. Add $! after the template channel interface address (e.g., Guangdong Pearl River, http://xxx.m3u$!).
-  2. Additional information can be appended (e.g., Guangdong Pearl River, http://xxx.m3u$! Additional Information) (#470). For more interface whitelists, please discuss at https://github.com/Guovin/TV/issues/514.
+  2. Additional information can be appended (e.g., Guangdong Pearl River, http://xxx.m3u$! Additional Information) (#470). For more interface whitelists, please discuss at https://github.com/Guovin/GTV/issues/514.
 - ✨ Added 🈳 No Results Channel Category: Channels without results are categorized under this bottom category by default (#473).
 - ✨ Interface addresses now include source type descriptions.
 - ✨ Default templates now include Guangdong People's Livelihood (#481) and Guangzhou Comprehensive (#504).

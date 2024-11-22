@@ -19,6 +19,7 @@ def get_speed_yt_dlp(url, timeout=config.sort_timeout):
             "skip_download": True,
             "quiet": True,
             "no_warnings": True,
+            "logger": logging.getLogger(),
         }
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             start_time = time()

@@ -6,20 +6,32 @@ verify_ssl = true
 [scripts]
 dev = "python main.py"
 ui = "python tkinter_ui/tkinter_ui.py"
-multicast_tmp = "python updates/multicast/update_tmp.py"
-docker_build_driver = "docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v8 --build-arg APP_WORKDIR=/tv-driver --build-arg INSTALL_CHROMIUM=true -t guovern/tv-driver . --push"
-docker_build_requests = "docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v8 --build-arg APP_WORKDIR=/tv-requests -t guovern/tv-requests . --push"
+docker_run = "docker run -v config:/gtv/config -v output:/gtv/output -d -p 8000:8000 guovern/gtv"
+docker_run_lite = "docker run -v config:/gtv-lite/config -v output:/gtv-lite/output -d -p 8000:8000 guovern/gtv:lite"
 tkinter_build = "pyinstaller tkinter_ui/tkinter_ui.spec"
+docker_build = "docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 --build-arg APP_WORKDIR=/gtv -t guovern/gtv ."
+docker_build_lite = "docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 --build-arg APP_WORKDIR=/gtv-lite --build-arg LITE=true -t guovern/gtv:lite ."
 
 [dev-packages]
-
-[packages]
 requests = "*"
 selenium = "*"
 bs4 = "*"
 tqdm = "*"
 async-timeout = "*"
 pyinstaller = "*"
+aiohttp = "*"
+flask = "*"
+opencc-python-reimplemented = "*"
+fake-useragent = "*"
+gunicorn = "*"
+pillow = "*"
+yt-dlp = "*"
+
+[packages]
+requests = "*"
+bs4 = "*"
+tqdm = "*"
+async-timeout = "*"
 aiohttp = "*"
 flask = "*"
 opencc-python-reimplemented = "*"

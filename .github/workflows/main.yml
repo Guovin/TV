@@ -9,7 +9,6 @@ on:
       - master
       - dev
       - gd
-      - gd-test
 jobs:
   push:
     runs-on: ${{ matrix.operating-system }}
@@ -40,16 +39,16 @@ jobs:
           except:
             open_driver = False
           print(open_driver)')" >> $GITHUB_ENV
-      - name: Check open_ffmpeg config
-        id: check_ffmpeg
-        run: |
-          echo "OPEN_FFMPEG=$(python -c '
-          try:
-            from utils.config import config
-            open_ffmpeg = config.open_ffmpeg
-          except:
-            open_ffmpeg = False
-          print(open_ffmpeg)')" >> $GITHUB_ENV
+      # - name: Check open_ffmpeg config
+      #   id: check_ffmpeg
+      #   run: |
+      #     echo "OPEN_FFMPEG=$(python -c '
+      #     try:
+      #       from utils.config import config
+      #       open_ffmpeg = config.open_ffmpeg
+      #     except:
+      #       open_ffmpeg = False
+      #     print(open_ffmpeg)')" >> $GITHUB_ENV
       - name: Set up Chrome
         if: env.OPEN_DRIVER == 'True' || env.OPEN_DRIVER == 'true'
         uses: browser-actions/setup-chrome@latest
@@ -58,13 +57,16 @@ jobs:
       - name: Download chrome driver
         if: env.OPEN_DRIVER == 'True' || env.OPEN_DRIVER == 'true'
         uses: nanasess/setup-chromedriver@master
-      - name: Install FFmpeg
-        if: env.OPEN_FFMPEG == 'True' || env.OPEN_FFMPEG == 'true'
-        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      # - name: Install FFmpeg
+      #   if: env.OPEN_FFMPEG == 'True' || env.OPEN_FFMPEG == 'true'
+      #   run: sudo apt-get update && sudo apt-get install -y ffmpeg
       - name: Install pipenv
         run: pip3 install --user pipenv
       - name: Install dependecies
         run: pipenv --python 3.13 && pipenv install
+      - name: Install selenium
+        if: env.OPEN_DRIVER == 'True' || env.OPEN_DRIVER == 'true'
+        run: pipenv install selenium
       - name: Update
         run: pipenv run dev
       - name: Commit and push if changed

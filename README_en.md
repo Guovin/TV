@@ -62,23 +62,23 @@
 </details>
 <br>
 <p align="center">
-  <a href="https://github.com/Guovin/TV/releases/latest">
-    <img src="https://img.shields.io/github/v/release/guovin/tv" />
+  <a href="https://github.com/Guovin/GTV/releases/latest">
+    <img src="https://img.shields.io/github/v/release/guovin/gtv" />
   </a>
   <a href="https://www.python.org/">
-    <img src="https://img.shields.io/badge/python-%20%3E%3D%203.8-47c219" />
+    <img src="https://img.shields.io/badge/python-%20%3D%203.13-47c219" />
   </a>
-  <a href="https://github.com/Guovin/TV/releases/latest">
-    <img src="https://img.shields.io/github/downloads/guovin/tv/total" />
+  <a href="https://github.com/Guovin/GTV/releases/latest">
+    <img src="https://img.shields.io/github/downloads/guovin/gtv/total" />
   </a>
-  <a href="https://hub.docker.com/repository/docker/guovern/tv-requests">
-    <img src="https://img.shields.io/docker/pulls/guovern/tv-requests?label=docker:requests" />
+  <a href="https://hub.docker.com/repository/docker/guovern/gtv">
+    <img src="https://img.shields.io/docker/pulls/guovern/gtv?label=docker:gtv" />
   </a>
-  <a href="https://hub.docker.com/repository/docker/guovern/tv-driver">
-    <img src="https://img.shields.io/docker/pulls/guovern/tv-driver?label=docker:driver" />
+  <a href="https://hub.docker.com/repository/docker/guovern/gtv-lite">
+    <img src="https://img.shields.io/docker/pulls/guovern/gtv-lite?label=docker:gtv-lite" />
   </a>
-  <a href="https://github.com/Guovin/TV/fork">
-    <img src="https://img.shields.io/github/forks/guovin/tv" />
+  <a href="https://github.com/Guovin/GTV/fork">
+    <img src="https://img.shields.io/github/forks/guovin/gtv" />
   </a>
 </p>
 
@@ -91,7 +91,7 @@
 - ✅ Interface speed testing and verification, with priority on response time and resolution, filtering out ineffective interfaces
 - ✅ Preferences: IPv6, priority and quantity of interface source sorting, and interface whitelist
 - ✅ Scheduled execution at 6:00 AM and 18:00 PM Beijing time daily
-- ✅ Supports various execution methods: workflows, command line, GUI software, Docker(amd64/arm64/arm v7/arm v8)
+- ✅ Supports various execution methods: workflows, command line, GUI software, Docker(amd64/arm64/arm v7)
 - ✨ For more features, see [Config parameter](./docs/config_en.md)
 
 ## 🔗 Latest results
@@ -129,7 +129,7 @@ pip install pipenv
 ```
 
 ```python
-pipenv install
+pipenv install --dev
 ```
 
 ```python
@@ -138,7 +138,7 @@ pipenv run dev
 
 ### Method 3: GUI Software
 
-1. Download [Update tool software](https://github.com/Guovin/TV/releases), open the software, click update to complete the update
+1. Download [GTV software](https://github.com/Guovin/GTV/releases), open the software, click update to complete the update
 
 2. Or run the following command in the project directory to open the GUI software:
 
@@ -146,41 +146,41 @@ pipenv run dev
 pipenv run ui
 ```
 
-<img src="./docs/images/ui.png" alt="Update tool software" title="Update tool software" style="height:600px" />
+<img src="./docs/images/ui.png" alt="GTV software" title="GTV software" style="height:600px" />
 
 ### Method 4: Docker
 
-- driver: Higher performance requirements, slower update speed, high stability and success rate. Set open_driver = False to switch to the request version (recommended for hotel sources, multicast sources, and online searches)
-- requests: Lightweight, low performance requirements, fast update speed, stability uncertain (recommend using this version for the subscription source)
+- gtv (Full version): Higher performance requirements, slower update speed, high stability and success rate. Set open_driver = False to switch to the gtv-lite version (recommended for hotel sources, multicast sources, and online searches)
+- gtv:lite (Condensed version): Lightweight, low performance requirements, fast update speed, stability uncertain (recommend using this version for the subscription source)
 
 It's recommended to try each one and choose the version that suits you
 
 1. Pull the image:
 
-- driver
+- gtv
 
 ```bash
-docker pull guovern/tv-driver:latest
+docker pull guovern/gtv:latest
 ```
 
-- requests
+- gtv:lite
 
 ```bash
-docker pull guovern/tv-requests:latest
+docker pull guovern/gtv:lite
 ```
 
 2. Run the container:
 
-- driver
+- gtv
 
 ```bash
-docker run -d -p 8000:8000 guovern/tv-driver
+docker run -d -p 8000:8000 guovern/gtv
 ```
 
-- requests
+- gtv:lite
 
 ```bash
-docker run -d -p 8000:8000 guovern/tv-requests
+docker run -d -p 8000:8000 guovern/gtv:lite
 ```
 
 Volume Mount Parameter (Optional):
@@ -188,16 +188,16 @@ This allows synchronization of files between the host machine and the container.
 
 Taking the host path /etc/docker as an example:
 
-- driver：
+- gtv：
 
 ```bash
-docker run -v /etc/docker/config:/tv-driver/config -v /etc/docker/output:/tv-driver/output -d -p 8000:8000 guovern/tv-driver
+docker run -v /etc/docker/config:/gtv/config -v /etc/docker/output:/gtv/output -d -p 8000:8000 guovern/gtv
 ```
 
-- requests：
+- gtv:lite：
 
 ```bash
-docker run -v /etc/docker/config:/tv-requests/config -v /etc/docker/output:/tv-requests/output -d -p 8000:8000 guovern/tv-requests
+docker run -v /etc/docker/config:/gtv-lite/config -v /etc/docker/output:/gtv-lite/output -d -p 8000:8000 guovern/gtv:lite
 ```
 
 3. Update results:
@@ -220,7 +220,7 @@ docker run -v /etc/docker/config:/tv-requests/config -v /etc/docker/output:/tv-r
 
 ## 👀 Follow
 
-Wechat public account search Govin, or scan code:
+Wechat public account search for Govin, or scan the code to receive updates and learn more tips:
 
 ![Wechat public account](./static/images/qrcode.jpg)
 
