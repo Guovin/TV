@@ -1,9 +1,9 @@
 <div align="center">
   <img src="./static/images/logo.png" alt="logo"/>
-  <h1 align="center">IPTV live TV source update tool</h1>
+  <h1 align="center">GTV</h1>
 </div>
 
-<div align="justify">Customize the channel menu, automatically obtain and update the latest live source interfaces based on the template channels, and generate available interface files after speed test verification.</div>
+<div align="center">IPTV live source update tool: customize channels, automatically obtain live source interface, and generate usable results after speed test</div>
 <div align="justify">Default results include: 📺CCTV Channel, 💰CCTV Pay Channel, 📡Satellite TV Channel, 🏠Guangdong Channel, 🌊Hong Kong · Macao · Taiwan Channel, 🎬Movie Channel, 🎥Migu Live Streaming, 🏀Sports Channel, 🪁Animation channel, 🎮Game channel, 🎵Music channel, 🏛Classic Theater.</div>
 
 <details>

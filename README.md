@@ -1,9 +1,9 @@
 <div align="center">
   <img src="./static/images/logo.png" alt="logo"/>
-  <h1 align="center">IPTV电视直播源更新工具</h1>
+  <h1 align="center">GTV</h1>
 </div>
 
-<div align="center">自定义频道菜单，根据模板频道，自动获取并更新最新的直播源接口，测速校验后生成可用的接口文件</div>
+<div align="center">IPTV直播源更新工具：自定义频道，自动获取直播源接口，测速验效后生成可用的结果</div>
 <div align="center">默认结果包含：📺央视频道、💰央视付费频道、📡卫视频道、🏠广东频道、🌊港·澳·台频道、🎬电影频道、🎥咪咕直播、🏀体育频道、🪁动画频道、🎮游戏频道、🎵音乐频道、🏛经典剧场</div>
 
 <details>
