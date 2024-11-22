@@ -109,7 +109,7 @@ https://ghproxy.net/raw.githubusercontent.com/gclgg/TV/refs/heads/master/output/
 - 数据源：
 
 ```bash
-https://ghproxy.net/raw.githubusercontent.com/Guovin/TV/gd/source.json
+https://ghproxy.net/raw.githubusercontent.com/gclgg/TV/refs/heads/master/source.json
 ```
 
 ## ⚙️ 配置
