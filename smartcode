@@ -1,0 +1,91 @@
+<h1>Articles</h1>
+<%= link_to 'New Article', new_article_path %>
+
+<% @articles.each do |article| %>
+  <div>
+    <h2><%= article.title %></h2>
+    <p><%= article.body %></p>
+    <% if article.image.present? %>
+      <%= image_tag article.image.url %>
+    <% end %>
+  </div>
+<% end %>
+
+<%= paginate @articles %>
+
+from flask_sqlalchemy import SQLAlchemy
+
+db = SQLAlchemy()
+
+class Show(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), unique=True, nullable=False)
+    description = db.Column(db.Text, nullable=True)
+    episodes = db.relationship('Episode', backref='show', lazy=True)
+
+class Episode(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), nullable=False)
+    season = db.Column(db.Integer, nullable=False)
+    episode_number = db.Column(db.Integer, nullable=False)
+    rating = db.Column(db.Float, nullable=True)
+    show_id = db.Column(db.Integer, db.ForeignKey('show.id'), nullable=False)
+
+    def __repr__(self):
+        return f'<Episode {self.title} (S{self.season}E{self.episode_number})>'
+
+from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
+from models import Show, Episode
+
+class ShowSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = Show
+        load_instance = True
+
+class EpisodeSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = Episode
+        load_instance = True
+
+from flask import Flask, request
+from flask_migrate import Migrate
+from flask_restful import Api, Resource
+from models import db, Show, Episode
+from schemas import ShowSchema, EpisodeSchema
+from config import Config
+
+app = Flask(__name__)
+app.config.from_object(Config)
+
+# Initialize extensions
+db.init_app(app)
+migrate = Migrate(app, db)
+api = Api(app)
+
+class ShowResource(Resource):
+    def get(self, show_id):
+        show = Show.query.get_or_404(show_id)
+        show_schema = ShowSchema()
+        return show_schema.jsonify(show)
+
+    def post(self):
+        show_schema = ShowSchema()
+        show_data = show_schema.load(request.json)
+        new_show = Show(**show_data)
+        db.session.add(new_show)
+        db.session.commit()
+        return show_schema.jsonify(new_show), 201
+
+class EpisodeResource(Resource):
+    def get(self, episode_id):
+        episode = Episode.query.get_or_404(episode_id)
+        episode_schema = EpisodeSchema()
+        return episode_schema.jsonify(episode)
+
+    def post(self):
+        episode_schema = EpisodeSchema()
+        episode_data = episode_schema.load(request.json)
+        new_episode = Episode(**episode_data)
+        db.session.add(new_episode)
+        db.session.commit()
+        return episode_schema.json
