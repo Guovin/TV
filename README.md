@@ -1,9 +1,9 @@
 <div align="center">
   <img src="./static/images/logo.png" alt="logo"/>
-  <h1 align="center">GTV</h1>
+  <h1 align="center">IPTV更新工具</h1>
 </div>
 
-<div align="center">IPTV直播源更新工具：自定义频道，自动获取直播源接口，测速验效后生成可用的结果</div>
+<div align="center">自定义频道，自动获取直播源接口，测速验效后生成可用的结果</div>
 <div align="center">默认结果包含：📺央视频道、💰央视付费频道、📡卫视频道、🏠广东频道、🌊港·澳·台频道、🎬电影频道、🎥咪咕直播、🏀体育频道、🪁动画频道、🎮游戏频道、🎵音乐频道、🏛经典剧场</div>
 
 <details>
@@ -62,23 +62,26 @@
 </details>
 <br>
 <p align="center">
-  <a href="https://github.com/Guovin/GTV/releases/latest">
-    <img src="https://img.shields.io/github/v/release/guovin/gtv" />
+  <a href="https://github.com/Guovin/IPTV/releases/latest">
+    <img src="https://img.shields.io/github/v/release/guovin/iptv" />
   </a>
   <a href="https://www.python.org/">
     <img src="https://img.shields.io/badge/python-%20%3D%203.13-47c219" />
   </a>
-  <a href="https://github.com/Guovin/GTV/releases/latest">
-    <img src="https://img.shields.io/github/downloads/guovin/gtv/total" />
+  <a href="https://github.com/Guovin/IPTV/releases/latest">
+    <img src="https://img.shields.io/github/downloads/guovin/iptv/total" />
   </a>
-  <a href="https://hub.docker.com/repository/docker/guovern/gtv">
-    <img src="https://img.shields.io/docker/pulls/guovern/gtv?label=docker:gtv" />
+  <a href="https://hub.docker.com/repository/docker/guovern/iptv">
+    <img src="https://img.shields.io/docker/pulls/guovern/iptv" />
   </a>
-  <a href="https://hub.docker.com/repository/docker/guovern/gtv-lite">
-    <img src="https://img.shields.io/docker/pulls/guovern/gtv-lite?label=docker:gtv-lite" />
+  <a href="https://hub.docker.com/repository/docker/guovern/tv-requests">
+    <img src="https://img.shields.io/docker/pulls/guovern/tv-requests?label=docker:requests" />
   </a>
-  <a href="https://github.com/Guovin/GTV/fork">
-    <img src="https://img.shields.io/github/forks/guovin/gtv" />
+  <a href="https://hub.docker.com/repository/docker/guovern/tv-driver">
+    <img src="https://img.shields.io/docker/pulls/guovern/tv-driver?label=docker:driver" />
+  </a>
+  <a href="https://github.com/Guovin/IPTV/fork">
+    <img src="https://img.shields.io/github/forks/guovin/iptv" />
   </a>
 </p>
 
@@ -99,17 +102,17 @@
 - 接口源：
 
 ```bash
-https://ghproxy.net/raw.githubusercontent.com/Guovin/GTV/gd/output/result.m3u
+https://ghproxy.net/raw.githubusercontent.com/Guovin/IPTV/gd/output/result.m3u
 ```
 
 ```bash
-https://ghproxy.net/raw.githubusercontent.com/Guovin/GTV/gd/output/result.txt
+https://ghproxy.net/raw.githubusercontent.com/Guovin/IPTV/gd/output/result.txt
 ```
 
 - 数据源：
 
 ```bash
-https://ghproxy.net/raw.githubusercontent.com/Guovin/GTV/gd/source.json
+https://ghproxy.net/raw.githubusercontent.com/Guovin/IPTV/gd/source.json
 ```
 
 ## ⚙️ 配置
@@ -138,7 +141,7 @@ pipenv run dev
 
 ### 方式三：GUI 软件
 
-1. 下载[GTV 软件](https://github.com/Guovin/GTV/releases)，打开软件，点击更新，即可完成更新
+1. 下载[IPTV 更新软件](https://github.com/Guovin/IPTV/releases)，打开软件，点击更新，即可完成更新
 
 2. 或者在项目目录下运行以下命令，即可打开 GUI 软件：
 
@@ -146,39 +149,39 @@ pipenv run dev
 pipenv run ui
 ```
 
-<img src="./docs/images/ui.png" alt="GTV软件" title="GTV软件" style="height:600px" />
+<img src="./docs/images/ui.png" alt="IPTV更新软件" title="IPTV更新软件" style="height:600px" />
 
 ### 方式四：Docker
 
-- gtv（完整版本）：性能要求较高，更新速度较慢，稳定性、成功率高；修改配置 open_driver = False 可切换到 Lite 版本运行方式（推荐酒店源、组播源、关键字搜索使用此版本）
-- gtv:lite（精简版本）：轻量级，性能要求低，更新速度快，稳定性不确定（推荐订阅源使用此版本）
+- iptv（完整版本）：性能要求较高，更新速度较慢，稳定性、成功率高；修改配置 open_driver = False 可切换到 Lite 版本运行模式（推荐酒店源、组播源、关键字搜索使用此版本）
+- iptv:lite（精简版本）：轻量级，性能要求低，更新速度快，稳定性不确定（推荐订阅源使用此版本）
 
 1. 拉取镜像：
 
-- gtv：
+- iptv：
 
 ```bash
-docker pull guovern/gtv:latest
+docker pull guovern/iptv:latest
 ```
 
-- gtv:lite：
+- iptv:lite：
 
 ```bash
-docker pull guovern/gtv:lite
+docker pull guovern/iptv:lite
 ```
 
 2. 运行容器：
 
-- gtv：
+- iptv：
 
 ```bash
-docker run -d -p 8000:8000 guovern/gtv
+docker run -d -p 8000:8000 guovern/iptv
 ```
 
-- gtv:lite：
+- iptv:lite：
 
 ```bash
-docker run -d -p 8000:8000 guovern/gtv:lite
+docker run -d -p 8000:8000 guovern/iptv:lite
 ```
 
 卷挂载参数（可选）：
@@ -186,16 +189,16 @@ docker run -d -p 8000:8000 guovern/gtv:lite
 
 以宿主机路径/etc/docker 为例：
 
-- gtv：
+- iptv：
 
 ```bash
-docker run -v /etc/docker/config:/gtv/config -v /etc/docker/output:/gtv/output -d -p 8000:8000 guovern/gtv
+docker run -v /etc/docker/config:/iptv/config -v /etc/docker/output:/iptv/output -d -p 8000:8000 guovern/iptv
 ```
 
-- gtv:lite：
+- iptv:lite：
 
 ```bash
-docker run -v /etc/docker/config:/gtv-lite/config -v /etc/docker/output:/gtv-lite/output -d -p 8000:8000 guovern/gtv:lite
+docker run -v /etc/docker/config:/iptv-lite/config -v /etc/docker/output:/iptv-lite/output -d -p 8000:8000 guovern/iptv:lite
 ```
 
 3. 更新结果：

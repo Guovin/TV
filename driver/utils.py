@@ -1,4 +1,3 @@
-from driver.setup import setup_driver
 from utils.retry import (
     retry_func,
     locate_element_with_retry,
@@ -7,13 +6,14 @@ from utils.retry import (
 from time import sleep
 import re
 from bs4 import BeautifulSoup
-from selenium.webdriver.common.by import By
 
 
 def get_soup_driver(url):
     """
     Get the soup by driver
     """
+    from driver.setup import setup_driver
+
     driver = setup_driver()
     retry_func(lambda: driver.get(url), name=url)
     sleep(1)
@@ -33,6 +33,8 @@ def search_submit(driver, name):
     """
     Input key word and submit with driver
     """
+    from selenium.webdriver.common.by import By
+
     search_box = locate_element_with_retry(driver, (By.XPATH, '//input[@type="text"]'))
     if not search_box:
         return

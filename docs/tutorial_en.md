@@ -23,7 +23,7 @@ Since this project will continue to iterate and improve, if you want to get the 
 
 ### 1. Star
 
-Go to https://github.com/Guovin/GTV, click on Star to bookmark this project (Your Star is my motivation to keep updating).
+Go to https://github.com/Guovin/IPTV, click on Star to bookmark this project (Your Star is my motivation to keep updating).
 ![Star](./images/star.png 'Star')
 
 ### 2. Watch
@@ -185,7 +185,7 @@ pipenv run dev
 
 ### Method 3: GUI Software
 
-1. Download [GTV software](https://github.com/Guovin/GTV/releases), open the software, click update to complete the update.
+1. Download [IPTV update software](https://github.com/Guovin/IPTV/releases), open the software, click update to complete the update.
 
 2. Alternatively, run the following command in the project directory to open the GUI software:
 
@@ -193,41 +193,41 @@ pipenv run dev
 pipenv run ui
 ```
 
-![Update tool software](./images/ui.png 'Update tool software')
+![IPTV update software](./images/ui.png 'IPTV update software')
 
 ### Method 4: Docker
 
-- gtv (Full version): Higher performance requirements, slower update speed, high stability and success rate. Set open_driver = False to switch to the gtv-lite version (recommended for hotel sources, multicast sources, and online searches)
-- gtv:lite (Condensed version): Lightweight, low performance requirements, fast update speed, stability uncertain (recommend using this version for the subscription source)
+- iptv (Full version): Higher performance requirements, slower update speed, high stability and success rate. Set open_driver = False to switch to the iptv-lite running mode (recommended for hotel sources, multicast sources, and online searches)
+- iptv:lite (Condensed version): Lightweight, low performance requirements, fast update speed, stability uncertain (recommend using this version for the subscription source)
 
 It's recommended to try each one and choose the version that suits you
 
 1. Pull the image:
 
-- gtv
+- iptv
 
 ```bash
-docker pull guovern/gtv:latest
+docker pull guovern/iptv:latest
 ```
 
-- gtv:lite
+- iptv:lite
 
 ```bash
-docker pull guovern/gtv:lite
+docker pull guovern/iptv:lite
 ```
 
 2. Run the container:
 
-- gtv
+- iptv
 
 ```bash
-docker run -d -p 8000:8000 guovern/gtv
+docker run -d -p 8000:8000 guovern/iptv
 ```
 
-- gtv:lite
+- iptv:lite
 
 ```bash
-docker run -d -p 8000:8000 guovern/gtv:lite
+docker run -d -p 8000:8000 guovern/iptv:lite
 ```
 
 Volume Mount Parameter (Optional):
@@ -235,16 +235,16 @@ This allows synchronization of files between the host machine and the container.
 
 Taking the host path /etc/docker as an example:
 
-- gtv：
+- iptv：
 
 ```bash
-docker run -v /etc/docker/config:/gtv/config -v /etc/docker/output:/gtv/output -d -p 8000:8000 guovern/gtv
+docker run -v /etc/docker/config:/iptv/config -v /etc/docker/output:/iptv/output -d -p 8000:8000 guovern/iptv
 ```
 
-- gtv:lite：
+- iptv:lite：
 
 ```bash
-docker run -v /etc/docker/config:/gtv-lite/config -v /etc/docker/output:/gtv-lite/output -d -p 8000:8000 guovern/gtv:lite
+docker run -v /etc/docker/config:/iptv-lite/config -v /etc/docker/output:/iptv-lite/output -d -p 8000:8000 guovern/iptv:lite
 ```
 
 3. Update results:

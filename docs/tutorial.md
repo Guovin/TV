@@ -23,7 +23,7 @@
 
 ### 1. Star
 
-打开 https://github.com/Guovin/GTV ，点击 Star 收藏该项目（您的 Star 是我持续更新的动力）
+打开 https://github.com/Guovin/IPTV ，点击 Star 收藏该项目（您的 Star 是我持续更新的动力）
 ![Star](./images/star.png 'Star')
 
 ### 2. Watch
@@ -188,7 +188,7 @@ pipenv run dev
 
 ### 方式三：GUI 软件
 
-1. 下载[GTV 软件](https://github.com/Guovin/GTV/releases)，打开软件，点击更新，即可完成更新
+1. 下载[IPTV 更新软件](https://github.com/Guovin/IPTV/releases)，打开软件，点击更新，即可完成更新
 
 2. 或者在项目目录下运行以下命令，即可打开 GUI 软件：
 
@@ -196,39 +196,39 @@ pipenv run dev
 pipenv run ui
 ```
 
-![GTV](./images/ui.png 'GTV')
+![IPTV 更新软件](./images/ui.png 'IPTV 更新软件')
 
 ### 方式四：Docker
 
-- gtv（完整版本）：性能要求较高，更新速度较慢，稳定性、成功率高；修改配置 open_driver = False 可切换到 Lite 版本运行方式（推荐酒店源、组播源、关键字搜索使用此版本）
-- gtv:lite（精简版本）：轻量级，性能要求低，更新速度快，稳定性不确定（推荐订阅源使用此版本）
+- iptv（完整版本）：性能要求较高，更新速度较慢，稳定性、成功率高；修改配置 open_driver = False 可切换到 Lite 版本运行模式（推荐酒店源、组播源、关键字搜索使用此版本）
+- iptv:lite（精简版本）：轻量级，性能要求低，更新速度快，稳定性不确定（推荐订阅源使用此版本）
 
 1. 拉取镜像：
 
-- gtv：
+- iptv：
 
 ```bash
-docker pull guovern/gtv:latest
+docker pull guovern/iptv:latest
 ```
 
-- gtv:lite：
+- iptv:lite：
 
 ```bash
-docker pull guovern/gtv:lite
+docker pull guovern/iptv:lite
 ```
 
 2. 运行容器：
 
-- gtv：
+- iptv：
 
 ```bash
-docker run -d -p 8000:8000 guovern/gtv
+docker run -d -p 8000:8000 guovern/iptv
 ```
 
-- gtv:lite：
+- iptv:lite：
 
 ```bash
-docker run -d -p 8000:8000 guovern/gtv:lite
+docker run -d -p 8000:8000 guovern/iptv:lite
 ```
 
 卷挂载参数（可选）：
@@ -236,16 +236,16 @@ docker run -d -p 8000:8000 guovern/gtv:lite
 
 以宿主机路径/etc/docker 为例：
 
-- gtv：
+- iptv：
 
 ```bash
-docker run -v /etc/docker/config:/gtv/config -v /etc/docker/output:/gtv/output -d -p 8000:8000 guovern/gtv
+docker run -v /etc/docker/config:/iptv/config -v /etc/docker/output:/iptv/output -d -p 8000:8000 guovern/iptv
 ```
 
-- gtv:lite：
+- iptv:lite：
 
 ```bash
-docker run -v /etc/docker/config:/gtv-lite/config -v /etc/docker/output:/gtv-lite/output -d -p 8000:8000 guovern/gtv:lite
+docker run -v /etc/docker/config:/iptv-lite/config -v /etc/docker/output:/iptv-lite/output -d -p 8000:8000 guovern/iptv:lite
 ```
 
 3. 更新结果：

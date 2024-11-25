@@ -33,7 +33,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: GTV
+          name: IPTV
           path: dist
 
       - name: Get version from version.json
@@ -76,6 +76,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: dist/GTV.exe
-          asset_name: GTV.exe
+          asset_path: dist/IPTV.exe
+          asset_name: IPTV.exe
           asset_content_type: application/octet-stream

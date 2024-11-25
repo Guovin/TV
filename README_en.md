@@ -1,9 +1,9 @@
 <div align="center">
   <img src="./static/images/logo.png" alt="logo"/>
-  <h1 align="center">GTV</h1>
+  <h1 align="center">IPTV update tool</h1>
 </div>
 
-<div align="center">IPTV live source update tool: customize channels, automatically obtain live source interface, and generate usable results after speed test</div>
+<div align="center">Customize channels, automatically obtain live source interface, and generate usable results after speed test</div>
 <div align="justify">Default results include: 📺CCTV Channel, 💰CCTV Pay Channel, 📡Satellite TV Channel, 🏠Guangdong Channel, 🌊Hong Kong · Macao · Taiwan Channel, 🎬Movie Channel, 🎥Migu Live Streaming, 🏀Sports Channel, 🪁Animation channel, 🎮Game channel, 🎵Music channel, 🏛Classic Theater.</div>
 
 <details>
@@ -62,23 +62,26 @@
 </details>
 <br>
 <p align="center">
-  <a href="https://github.com/Guovin/GTV/releases/latest">
-    <img src="https://img.shields.io/github/v/release/guovin/gtv" />
+  <a href="https://github.com/Guovin/IPTV/releases/latest">
+    <img src="https://img.shields.io/github/v/release/guovin/iptv" />
   </a>
   <a href="https://www.python.org/">
     <img src="https://img.shields.io/badge/python-%20%3D%203.13-47c219" />
   </a>
-  <a href="https://github.com/Guovin/GTV/releases/latest">
-    <img src="https://img.shields.io/github/downloads/guovin/gtv/total" />
+  <a href="https://github.com/Guovin/IPTV/releases/latest">
+    <img src="https://img.shields.io/github/downloads/guovin/iptv/total" />
   </a>
-  <a href="https://hub.docker.com/repository/docker/guovern/gtv">
-    <img src="https://img.shields.io/docker/pulls/guovern/gtv?label=docker:gtv" />
+  <a href="https://hub.docker.com/repository/docker/guovern/iptv">
+    <img src="https://img.shields.io/docker/pulls/guovern/iptv" />
   </a>
-  <a href="https://hub.docker.com/repository/docker/guovern/gtv-lite">
-    <img src="https://img.shields.io/docker/pulls/guovern/gtv-lite?label=docker:gtv-lite" />
+  <a href="https://hub.docker.com/repository/docker/guovern/tv-requests">
+    <img src="https://img.shields.io/docker/pulls/guovern/tv-requests?label=docker:requests" />
   </a>
-  <a href="https://github.com/Guovin/GTV/fork">
-    <img src="https://img.shields.io/github/forks/guovin/gtv" />
+  <a href="https://hub.docker.com/repository/docker/guovern/tv-driver">
+    <img src="https://img.shields.io/docker/pulls/guovern/tv-driver?label=docker:driver" />
+  </a>
+  <a href="https://github.com/Guovin/IPTV/fork">
+    <img src="https://img.shields.io/github/forks/guovin/iptv" />
   </a>
 </p>
 
@@ -138,7 +141,7 @@ pipenv run dev
 
 ### Method 3: GUI Software
 
-1. Download [GTV software](https://github.com/Guovin/GTV/releases), open the software, click update to complete the update
+1. Download [IPTV update software](https://github.com/Guovin/IPTV/releases), open the software, click update to complete the update
 
 2. Or run the following command in the project directory to open the GUI software:
 
@@ -146,41 +149,41 @@ pipenv run dev
 pipenv run ui
 ```
 
-<img src="./docs/images/ui.png" alt="GTV software" title="GTV software" style="height:600px" />
+<img src="./docs/images/ui.png" alt="IPTV update software" title="IPTV update software" style="height:600px" />
 
 ### Method 4: Docker
 
-- gtv (Full version): Higher performance requirements, slower update speed, high stability and success rate. Set open_driver = False to switch to the gtv-lite version (recommended for hotel sources, multicast sources, and online searches)
-- gtv:lite (Condensed version): Lightweight, low performance requirements, fast update speed, stability uncertain (recommend using this version for the subscription source)
+- iptv (Full version): Higher performance requirements, slower update speed, high stability and success rate. Set open_driver = False to switch to the iptv-lite running mode (recommended for hotel sources, multicast sources, and online searches)
+- iptv:lite (Condensed version): Lightweight, low performance requirements, fast update speed, stability uncertain (recommend using this version for the subscription source)
 
 It's recommended to try each one and choose the version that suits you
 
 1. Pull the image:
 
-- gtv
+- iptv
 
 ```bash
-docker pull guovern/gtv:latest
+docker pull guovern/iptv:latest
 ```
 
-- gtv:lite
+- iptv:lite
 
 ```bash
-docker pull guovern/gtv:lite
+docker pull guovern/iptv:lite
 ```
 
 2. Run the container:
 
-- gtv
+- iptv
 
 ```bash
-docker run -d -p 8000:8000 guovern/gtv
+docker run -d -p 8000:8000 guovern/iptv
 ```
 
-- gtv:lite
+- iptv:lite
 
 ```bash
-docker run -d -p 8000:8000 guovern/gtv:lite
+docker run -d -p 8000:8000 guovern/iptv:lite
 ```
 
 Volume Mount Parameter (Optional):
@@ -188,16 +191,16 @@ This allows synchronization of files between the host machine and the container.
 
 Taking the host path /etc/docker as an example:
 
-- gtv：
+- iptv：
 
 ```bash
-docker run -v /etc/docker/config:/gtv/config -v /etc/docker/output:/gtv/output -d -p 8000:8000 guovern/gtv
+docker run -v /etc/docker/config:/iptv/config -v /etc/docker/output:/iptv/output -d -p 8000:8000 guovern/iptv
 ```
 
-- gtv:lite：
+- iptv:lite：
 
 ```bash
-docker run -v /etc/docker/config:/gtv-lite/config -v /etc/docker/output:/gtv-lite/output -d -p 8000:8000 guovern/gtv:lite
+docker run -v /etc/docker/config:/iptv-lite/config -v /etc/docker/output:/iptv-lite/output -d -p 8000:8000 guovern/iptv:lite
 ```
 
 3. Update results:

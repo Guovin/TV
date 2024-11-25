@@ -13,7 +13,6 @@ from utils.retry import (
     retry_func,
     find_clickable_element_with_retry,
 )
-from selenium.webdriver.common.by import By
 from tqdm.asyncio import tqdm_asyncio
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from requests_custom.utils import get_soup_requests, close_session
@@ -33,6 +32,8 @@ async def get_channels_by_hotel(callback=None):
     proxy = None
     open_proxy = config.open_proxy
     open_driver = config.open_driver
+    if open_driver:
+        from selenium.webdriver.common.by import By
     page_num = config.hotel_page_num
     region_list = config.hotel_region_list
     if "all" in region_list or "ALL" in region_list or "全部" in region_list:

@@ -3,7 +3,6 @@ from time import time
 from requests import get
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import updates.fofa.fofa_map as fofa_map
-from driver.setup import setup_driver
 import re
 from utils.config import config
 import utils.constants as constants
@@ -87,6 +86,8 @@ async def get_channels_by_fofa(urls=None, multicast=False, callback=None):
     proxy = None
     open_proxy = config.open_proxy
     open_driver = config.open_driver
+    if open_driver:
+        from driver.setup import setup_driver
     open_sort = config.open_sort
     if open_proxy:
         test_url = fofa_urls[0][0]

@@ -18,7 +18,6 @@ from utils.retry import (
     retry_func,
     find_clickable_element_with_retry,
 )
-from selenium.webdriver.common.by import By
 from tqdm.asyncio import tqdm_asyncio
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from requests_custom.utils import get_soup_requests, close_session
@@ -37,6 +36,8 @@ async def get_channels_by_multicast(names, callback=None):
     proxy = None
     open_proxy = config.open_proxy
     open_driver = config.open_driver
+    if open_driver:
+        from selenium.webdriver.common.by import By
     page_num = config.multicast_page_num
     if open_proxy:
         proxy = await get_proxy(pageUrl, best=True, with_test=True)
