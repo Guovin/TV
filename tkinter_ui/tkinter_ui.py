@@ -19,7 +19,19 @@ from hotel import HotelUI
 from subscribe import SubscribeUI
 from online_search import OnlineSearchUI
 import json
+from pathlib import Path
+from sys import base_prefix
+from os import environ
+import platform
 
+if not ("TCL_LIBRARY" in environ and "TK_LIBRARY" in environ):
+    try:
+        tk.Tk()
+    except tk.TclError:
+        tk_dir = "tcl" if platform.system() == "Windows" else "lib"
+        tk_path = Path(base_prefix) / tk_dir
+        environ["TCL_LIBRARY"] = str(next(tk_path.glob("tcl8.*")))
+        environ["TK_LIBRARY"] = str(next(tk_path.glob("tk8.*")))
 
 class TkinterUI:
     def __init__(self, root):
