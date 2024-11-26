@@ -22,6 +22,12 @@ from updates.subscribe import get_channels_by_subscribe_urls
 from collections import defaultdict
 import updates.fofa.fofa_map as fofa_map
 
+if config.open_driver:
+    try:
+        from selenium.webdriver.common.by import By
+    except:
+        pass
+
 
 async def get_channels_by_hotel(callback=None):
     """
@@ -32,8 +38,6 @@ async def get_channels_by_hotel(callback=None):
     proxy = None
     open_proxy = config.open_proxy
     open_driver = config.open_driver
-    if open_driver:
-        from selenium.webdriver.common.by import By
     page_num = config.hotel_page_num
     region_list = config.hotel_region_list
     if "all" in region_list or "ALL" in region_list or "全部" in region_list:

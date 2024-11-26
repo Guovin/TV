@@ -197,7 +197,7 @@ pipenv run ui
 
 ### Method 4: Docker
 
-- iptv (Full version): Higher performance requirements, slower update speed, high stability and success rate. Set open_driver = False to switch to the iptv-lite running mode (recommended for hotel sources, multicast sources, and online searches)
+- iptv (Full version): Higher performance requirements, slower update speed, high stability and success rate. Set open_driver = False to switch to the lite running mode (recommended for hotel sources, multicast sources, and online searches)
 - iptv:lite (Condensed version): Lightweight, low performance requirements, fast update speed, stability uncertain (recommend using this version for the subscription source)
 
 It's recommended to try each one and choose the version that suits you
@@ -244,7 +244,7 @@ docker run -v /etc/docker/config:/iptv/config -v /etc/docker/output:/iptv/output
 - iptv:lite：
 
 ```bash
-docker run -v /etc/docker/config:/iptv-lite/config -v /etc/docker/output:/iptv-lite/output -d -p 8000:8000 guovern/iptv:lite
+docker run -v /etc/docker/config:/iptv_lite/config -v /etc/docker/output:/iptv_lite/output -d -p 8000:8000 guovern/iptv:lite
 ```
 
 3. Update results:

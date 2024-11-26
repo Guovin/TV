@@ -1,6 +1,6 @@
 FROM python:3.13 AS builder
 
-ARG LITE=false
+ARG LITE=False
 
 WORKDIR /app
 
@@ -9,16 +9,16 @@ COPY Pipfile* ./
 RUN pip install -i https://mirrors.aliyun.com/pypi/simple pipenv
 
 RUN PIPENV_VENV_IN_PROJECT=1 pipenv install --deploy\
-  && if [ "$LITE" = false ]; then pipenv install selenium; fi
+  && if [ "$LITE" = False ]; then pipenv install selenium; fi
 
 
 FROM python:3.13-slim
 
 ARG APP_WORKDIR=/iptv
-ARG LITE=false
+ARG LITE=False
 
 ENV APP_WORKDIR=$APP_WORKDIR
-ENV PIPENV_VENV_IN_PROJECT=1
+ENV LITE=$LITE
 ENV PATH="/.venv/bin:$PATH"
 
 WORKDIR $APP_WORKDIR
@@ -40,7 +40,7 @@ RUN echo "deb https://mirrors.aliyun.com/debian/ bookworm main contrib non-free 
 
 RUN apt-get update && apt-get install -y --no-install-recommends cron
 
-RUN if [ "$LITE" = false ]; then apt-get install -y --no-install-recommends chromium chromium-driver; fi \
+RUN if [ "$LITE" = False ]; then apt-get install -y --no-install-recommends chromium chromium-driver; fi \
   && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN (crontab -l ; \
@@ -49,5 +49,10 @@ RUN (crontab -l ; \
 
 EXPOSE 8000
 
-CMD . /.venv/bin/activate && service cron start && python $APP_WORKDIR/main.py \
-  && gunicorn -w 4 -b 0.0.0.0:8000 main:app
+COPY entrypoint.sh /iptv_entrypoint.sh
+
+COPY config /iptv_config
+
+RUN chmod +x /iptv_entrypoint.sh
+
+ENTRYPOINT /iptv_entrypoint.sh

@@ -6,6 +6,13 @@ from utils.retry import (
 from time import sleep
 import re
 from bs4 import BeautifulSoup
+from utils.config import config
+
+if config.open_driver:
+    try:
+        from selenium.webdriver.common.by import By
+    except:
+        pass
 
 
 def get_soup_driver(url):
@@ -33,8 +40,6 @@ def search_submit(driver, name):
     """
     Input key word and submit with driver
     """
-    from selenium.webdriver.common.by import By
-
     search_box = locate_element_with_retry(driver, (By.XPATH, '//input[@type="text"]'))
     if not search_box:
         return

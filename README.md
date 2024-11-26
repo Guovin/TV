@@ -198,7 +198,7 @@ docker run -v /etc/docker/config:/iptv/config -v /etc/docker/output:/iptv/output
 - iptv:lite：
 
 ```bash
-docker run -v /etc/docker/config:/iptv-lite/config -v /etc/docker/output:/iptv-lite/output -d -p 8000:8000 guovern/iptv:lite
+docker run -v /etc/docker/config:/iptv_lite/config -v /etc/docker/output:/iptv_lite/output -d -p 8000:8000 guovern/iptv:lite
 ```
 
 3. 更新结果：

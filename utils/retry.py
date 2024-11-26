@@ -2,9 +2,12 @@ from time import sleep
 from utils.config import config
 
 if config.open_driver:
-    from selenium.webdriver.support.ui import WebDriverWait
-    from selenium.webdriver.support import expected_conditions as EC
-    from selenium.common.exceptions import TimeoutException
+    try:
+        from selenium.webdriver.support.ui import WebDriverWait
+        from selenium.webdriver.support import expected_conditions as EC
+        from selenium.common.exceptions import TimeoutException
+    except:
+        pass
 
 max_retries = 2
 

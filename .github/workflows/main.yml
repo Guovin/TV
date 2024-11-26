@@ -50,22 +50,22 @@ jobs:
       #       open_ffmpeg = False
       #     print(open_ffmpeg)')" >> $GITHUB_ENV
       - name: Set up Chrome
-        if: env.OPEN_DRIVER == 'True' || env.OPEN_DRIVER == 'true'
+        if: env.OPEN_DRIVER == 'True'
         uses: browser-actions/setup-chrome@latest
         with:
           chrome-version: stable
       - name: Download chrome driver
-        if: env.OPEN_DRIVER == 'True' || env.OPEN_DRIVER == 'true'
+        if: env.OPEN_DRIVER == 'True'
         uses: nanasess/setup-chromedriver@master
       # - name: Install FFmpeg
-      #   if: env.OPEN_FFMPEG == 'True' || env.OPEN_FFMPEG == 'true'
+      #   if: env.OPEN_FFMPEG == 'True'
       #   run: sudo apt-get update && sudo apt-get install -y ffmpeg
       - name: Install pipenv
         run: pip3 install --user pipenv
       - name: Install dependecies
         run: pipenv --python 3.13 && pipenv install
       - name: Install selenium
-        if: env.OPEN_DRIVER == 'True' || env.OPEN_DRIVER == 'true'
+        if: env.OPEN_DRIVER == 'True'
         run: pipenv install selenium
       - name: Update
         run: pipenv run dev

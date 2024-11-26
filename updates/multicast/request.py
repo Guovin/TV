@@ -26,6 +26,12 @@ from urllib.parse import parse_qs
 from collections import defaultdict
 from .update_tmp import get_multicast_region_result_by_rtp_txt
 
+if config.open_driver:
+    try:
+        from selenium.webdriver.common.by import By
+    except:
+        pass
+
 
 async def get_channels_by_multicast(names, callback=None):
     """
@@ -36,8 +42,6 @@ async def get_channels_by_multicast(names, callback=None):
     proxy = None
     open_proxy = config.open_proxy
     open_driver = config.open_driver
-    if open_driver:
-        from selenium.webdriver.common.by import By
     page_num = config.multicast_page_num
     if open_proxy:
         proxy = await get_proxy(pageUrl, best=True, with_test=True)
