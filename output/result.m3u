@@ -1,5 +1,5 @@
 #EXTM3U x-tvg-url="https://live.fanmingming.com/e.xml"
-#EXTINF:-1 tvg-name="2024-11-26 18:49:58" tvg-logo="https://live.fanmingming.com/tv/2024-11-26 18:49:58.png" group-title="更新时间",2024-11-26 18:49:58
+#EXTINF:-1 tvg-name="2024-11-27 06:43:38" tvg-logo="https://live.fanmingming.com/tv/2024-11-27 06:43:38.png" group-title="更新时间",2024-11-27 06:43:38
 url
 #EXTINF:-1 tvg-name="CCTV1" tvg-logo="https://live.fanmingming.com/tv/CCTV1.png" group-title="📺央视频道",CCTV-1
 http://[2409:8087:5e00:24::1e]:6060/200000001898/460000089800010144/$订阅源|IPv6
