@@ -1,1 +1,24 @@
+央视,#genre#
+CHC 动作电影
+CHC 家庭影院
+CHC 影迷电影
+CCTV-世界地理
+CCTV-风云音乐
+CCTV-风云剧场
+CCTV-第一剧场
+CCTV-怀旧剧场
+CCTV-兵器科技
+CCTV-女性时尚
+CCTV-风云足球
+CCTV-央视台球
+CCTV-电视指南
+CCTV-高尔夫网球
+CCTV-央视文化精品
+CETV-1 综合教育
+CETV-2 教育教学
+CETV-3 北京地面
+CETV-4 职业教育
+CETV 早期教育
+CCTV-4K
+CCTV-8K
 
