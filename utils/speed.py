@@ -19,14 +19,25 @@ def get_speed_yt_dlp(url, timeout=config.sort_timeout):
             "skip_download": True,
             "quiet": True,
             "no_warnings": True,
+            "format": "best",
             "logger": logging.getLogger(),
         }
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             start_time = time()
             info = ydl.extract_info(url, download=False)
-            return int(round((time() - start_time) * 1000)) if info else float("inf")
+            fps = info.get("fps", None) or (
+                int(round((time() - start_time) * 1000))
+                if "id" in info
+                else float("inf")
+            )
+            resolution = (
+                f"{info['width']}x{info['height']}"
+                if "width" in info and "height" in info
+                else None
+            )
+            return (fps, resolution)
     except:
-        return float("inf")
+        return (float("inf"), None)
 
 
 async def get_speed_requests(url, timeout=config.sort_timeout, proxy=None):
@@ -154,7 +165,7 @@ def get_speed(url, ipv6_proxy=None, callback=None):
         else:
             speed = get_speed_yt_dlp(url)
         if cache_key and cache_key not in speed_cache:
-            speed_cache[cache_key] = (speed, None)
+            speed_cache[cache_key] = speed
         return speed
     except:
         return float("inf")
