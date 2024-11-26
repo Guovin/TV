@@ -410,18 +410,25 @@ def convert_to_m3u():
             print(f"✅ Result m3u file generated at: {m3u_file_path}")
 
 
-def get_result_file_content(show_result=False):
+def get_result_file_content(show_content=False, file_type=None):
     """
     Get the content of the result file
     """
     user_final_file = resource_path(config.final_file)
-    if os.path.exists(user_final_file):
-        if config.open_m3u_result:
-            user_final_file = os.path.splitext(user_final_file)[0] + ".m3u"
-            if show_result == False:
-                return send_file(user_final_file, as_attachment=True)
-        with open(user_final_file, "r", encoding="utf-8") as file:
-            content = file.read()
+    result_file = (
+        os.path.splitext(user_final_file)[0] + f".{file_type}"
+        if file_type
+        else user_final_file
+    )
+    if os.path.exists(result_file):
+        if file_type == "txt" or not config.open_m3u_result:
+            with open(result_file, "r", encoding="utf-8") as file:
+                content = file.read()
+        elif config.open_m3u_result:
+            if not file_type:
+                result_file = os.path.splitext(user_final_file)[0] + ".m3u"
+            if show_content == False:
+                return send_file(result_file, as_attachment=True)
     else:
         content = constants.waiting_tip
     return render_template_string(
