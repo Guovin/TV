@@ -1,5 +1,5 @@
 更新时间,#genre#
-2024-11-27 14:30:56,url
+2024-11-27 14:55:48,url
 📺央视频道,#genre#
 CCTV-1,http://[2409:8087:5e00:24::1e]:6060/200000001898/460000089800010144/$订阅源|IPv6
 CCTV-1,http://[2409:8087:1a0a:df::4031]:80/wh7f454c46tw705163907_345094122/ottrrs.hl.chinamobile.com/PLTV/88888888/224/3221226016/index.m3u8$订阅源|IPv6
@@ -125,6 +125,7 @@ CCTV-12,http://58.48.37.158:1111/tsfile/live/0012_1.m3u8$订阅源
 CCTV-12,http://220.249.114.102:9901/tsfile/live/0012_1.m3u8$订阅源
 CCTV-12,http://218.76.32.193:9901/tsfile/live/0012_1.m3u8$订阅源
 CCTV-12,http://gdctcc-livod.tx-cdn.gitv.tv/gitv_live/G_CCTV-12-HQ/G_CCTV-12-HQ.m3u8$订阅源|1920x1080
+CCTV-12,http://219.147.200.9:18080/newlive/live/hls/12/live.m3u8$订阅源
 CCTV-13,http://[2409:8087:1a0a:df::402d]:80/wh7f454c46tw1865416231_2120705273/ottrrs.hl.chinamobile.com/PLTV/88888888/224/3221226537/index.m3u8$订阅源|IPv6
 CCTV-13,http://[2409:8087:74f0:22::7]:6410/270000001128/9900000510/index.m3u8?channel-id=newtv&livemode=4&Contentid=9900000010$订阅源|IPv6
 CCTV-13,http://[2409:8087:1a0a:df::4033]:80/wh7f454c46tw1917467835_-2108786972/ottrrs.hl.chinamobile.com/PLTV/88888888/224/3221226537/index.m3u8?icpid=88888888&RTS=1713968746&from=4&hms_devid=1145&online=1713968746&vqe=3$订阅源|IPv6
@@ -147,14 +148,14 @@ CCTV-13,http://gdctcc-livod.tx-cdn.gitv.tv/gitv_live/G_CCTV-13-HQ/G_CCTV-13-HQ.m
 广东卫视,http://[2409:8087:74f0:22::6]:6410/270000001128/9900000520/index.m3u8?channel-id=newtv&livemode=4&Contentid=9900000520$订阅源|IPv6
 广东卫视,http://[2409:8087:2001:20:2800:0:df6e:eb22]:80/wh7f454c46tw201699374_-1286689762/ott.mobaibox.com/PLTV/3/224/3221228312/index.m3u8?$订阅源|IPv6
 广东卫视,http://[2409:8087:5e08:24::17]:6610/000000001000/1000000001000014176/index.m3u8?channel-id=bestzb&Contentid=1000000001000014176&livemode=1&stbId=3$订阅源|IPv6
-广东卫视,http://58.221.214.82:9901/tsfile/live/0125_1.m3u8$订阅源
+广东卫视,http://58.221.214.82:9901/tsfile/live/0125_1.m3u8$订阅源|1920x1080
+广东卫视,http://219.159.194.85:8181/tsfile/live/0125_1.m3u8$订阅源|1920x1080
 广东卫视,http://60.255.240.247:8090/live/gdwsH265_4000.m3u8$订阅源
 广东卫视,http://116.128.242.83:9901/tsfile/live/0124_1.m3u8?key=txiptv&playlive=1&authid=0$订阅源
 广东卫视,http://202.100.46.58:9901/tsfile/live/1023_1.m3u8$订阅源
 广东卫视,http://59.173.183.242:9901/tsfile/live/0125_1.m3u8?key=txiptv&playlive=1&authid=0$订阅源
 广东卫视,http://123.138.22.30:9901/tsfile/live/0125_1.m3u8$订阅源
 广东卫视,http://58.48.37.158:1111/tsfile/live/0125_1.m3u8?key=txiptv&playlive=1&authid=0$订阅源
-广东卫视,http://219.159.194.85:8181/tsfile/live/0125_1.m3u8$订阅源
 广东卫视,http://61.136.172.236:9901/tsfile/live/0125_1.m3u8?key=txiptv&playlive=1&authid=0$订阅源
 广东卫视,http://119.36.148.115:59901/tsfile/live/0125_1.m3u8$订阅源
 广东卫视,http://gdctcc-livod.tx-cdn.gitv.tv/gitv_live/G_GUANGDONG-HQ/G_GUANGDONG-HQ.m3u8$订阅源|1920x1080
@@ -182,7 +183,6 @@ CCTV-13,http://gdctcc-livod.tx-cdn.gitv.tv/gitv_live/G_CCTV-13-HQ/G_CCTV-13-HQ.m
 北京卫视,http://[2409:8087:1a0a:df::4010]:80/wh7f454c46tw3521118935_826740184/ottrrs.hl.chinamobile.com/PLTV/88888888/224/3221225728/index.m3u8?icpid=88888888&RTS=1713970350&from=4&hms_devid=771&online=1713970350&vqe=3$订阅源|IPv6
 北京卫视,http://59.173.183.242:9901/tsfile/live/0122_1.m3u8?key=txiptv&playlive=1&authid=0$订阅源
 北京卫视,http://202.100.46.58:9901/tsfile/live/1022_1.m3u8$订阅源
-北京卫视,http://222.218.158.12:8181/tsfile/live/0122_1.m3u8$订阅源
 北京卫视,http://117.27.190.42:9998/tsfile/live/23257_1.m3u8$订阅源
 北京卫视,http://58.48.37.158:1111/tsfile/live/0122_1.m3u8?key=txiptv&playlive=1&authid=0$订阅源
 北京卫视,http://111.61.236.247:9081/hls/28/index.m3u8$订阅源
@@ -210,6 +210,7 @@ CCTV-13,http://gdctcc-livod.tx-cdn.gitv.tv/gitv_live/G_CCTV-13-HQ/G_CCTV-13-HQ.m
 安徽卫视,http://59.173.183.242:9901/tsfile/live/0130_1.m3u8?key=txiptv&playlive=1&authid=0$订阅源
 安徽卫视,http://117.27.190.42:9998/tsfile/live/23261_1.m3u8$订阅源
 安徽卫视,http://gdctcc-livod.tx-cdn.gitv.tv/gitv_live/G_ANHUI-HQ/G_ANHUI-HQ.m3u8$订阅源|1920x1080
+安徽卫视,http://219.147.200.9:18080/newlive/live/hls/43/live.m3u8$订阅源
 重庆卫视,http://[2409:8087:1a0a:df::4039]:80/wh7f454c46tw3484210288_1514322028/ottrrs.hl.chinamobile.com/PLTV/88888888/224/3221226409/index.m3u8$订阅源|IPv6
 重庆卫视,http://61.136.172.236:9901/tsfile/live/0142_1.m3u8$订阅源
 重庆卫视,http://119.163.199.98:9901/tsfile/live/0142_1.m3u8$订阅源
@@ -223,7 +224,6 @@ CCTV-13,http://gdctcc-livod.tx-cdn.gitv.tv/gitv_live/G_CCTV-13-HQ/G_CCTV-13-HQ.m
 东方卫视,http://113.140.86.162:8009/hls/31/index.m3u8$订阅源|1920x1080
 东方卫视,http://59.173.183.242:9901/tsfile/live/0107_1.m3u8?key=txiptv&playlive=1&authid=0$订阅源
 东方卫视,http://vod.hnqczh.cn:808/hls/23/index.m3u8$订阅源
-东方卫视,http://222.218.158.12:8181/tsfile/live/0107_1.m3u8$订阅源
 东方卫视,http://58.216.229.130:9901/tsfile/live/0107_1.m3u8$订阅源
 东方卫视,http://61.136.172.236:9901/tsfile/live/0107_1.m3u8$订阅源
 东方卫视,http://gdctcc-livod.tx-cdn.gitv.tv/gitv_live/G_DONGFANG-HQ/G_DONGFANG-HQ.m3u8$订阅源|1920x1080
@@ -282,6 +282,7 @@ CCTV-13,http://gdctcc-livod.tx-cdn.gitv.tv/gitv_live/G_CCTV-13-HQ/G_CCTV-13-HQ.m
 河北卫视,http://112.102.217.173:9003//hls/56/index.m3u8$订阅源
 河北卫视,http://59.173.183.242:9901/tsfile/live/0117_1.m3u8?key=txiptv&playlive=1&authid=0$订阅源
 河北卫视,http://gdctcc-livod.tx-cdn.gitv.tv/gitv_live/G_HEBEI-HQ/G_HEBEI-HQ.m3u8$订阅源|1920x1080
+河北卫视,http://219.147.200.9:18080/newlive/live/hls/38/live.m3u8$订阅源
 河南卫视,http://[2409:8087:1a0a:df::402b]:80/wh7f454c46tw3580436585_-1356766422/ottrrs.hl.chinamobile.com/PLTV/88888888/224/3221226480/index.m3u8?icpid=88888888&RTS=1713970409&from=4&hms_devid=989&online=1713970409&vqe=3$订阅源|IPv6
 河南卫视,http://60.255.240.247:8090/live/hnws35_4000.m3u8$订阅源
 河南卫视,http://221.0.78.198:1681/hls/10259/index.m3u8$订阅源
@@ -315,19 +316,18 @@ CCTV-13,http://gdctcc-livod.tx-cdn.gitv.tv/gitv_live/G_CCTV-13-HQ/G_CCTV-13-HQ.m
 江西卫视,http://119.36.148.115:59901/tsfile/live/0138_1.m3u8$订阅源
 江西卫视,http://58.48.37.158:1111/tsfile/live/0138_1.m3u8?key=txiptv&playlive=1&authid=0$订阅源
 江西卫视,http://121.33.239.242:9901/tsfile/live/0138_1.m3u8$订阅源
-江西卫视,http://219.159.194.85:8181/tsfile/live/0138_1.m3u8$订阅源
+江西卫视,http://219.159.194.85:8181/tsfile/live/0138_1.m3u8$订阅源|1920x1080
 江西卫视,http://gdctcc-livod.tx-cdn.gitv.tv/gitv_live/G_JIANGXI-HQ/G_JIANGXI-HQ.m3u8$订阅源|1920x1080
 辽宁卫视,https://live.goodiptv.club/api/cqyx.php?id=liaoningHD$订阅源|3840x2160
 辽宁卫视,http://vod.hnqczh.cn:808/hls/29/index.m3u8$订阅源
 辽宁卫视,http://59.173.183.242:9901/tsfile/live/0121_1.m3u8?key=txiptv&playlive=1&authid=0$订阅源
 辽宁卫视,http://58.48.37.158:1111/tsfile/live/0121_1.m3u8?key=txiptv&playlive=1&authid=0$订阅源
-辽宁卫视,http://58.221.214.82:9901/tsfile/live/0121_1.m3u8$订阅源
+辽宁卫视,http://58.221.214.82:9901/tsfile/live/0121_1.m3u8$订阅源|1920x1080
 辽宁卫视,http://59.173.243.210:9901/tsfile/live/1029_1.m3u8$订阅源
 辽宁卫视,http://218.76.32.193:9901/tsfile/live/0124_1.m3u8$订阅源
 辽宁卫视,http://202.100.46.58:9901/tsfile/live/1037_1.m3u8$订阅源
 辽宁卫视,http://gdctcc-livod.tx-cdn.gitv.tv/gitv_live/G_LIAONING-HQ/G_LIAONING-HQ.m3u8$订阅源|1920x1080
 内蒙古卫视,http://[2409:8087:1a01:df::401a]:80/wh7f454c46tw3029083262_-802204014/ottrrs.hl.chinamobile.com/PLTV/88888888/224/3221225634/index.m3u8?icpid=88888888&RTS=1713969858&from=4&hms_devid=128&prioritypopid=4&online=1713969858&vqe=3$订阅源|IPv6
-内蒙古卫视,http://222.218.158.12:8181/tsfile/live/0109_1.m3u8$订阅源
 内蒙古卫视,http://121.33.239.242:9901/tsfile/live/0109_1.m3u8$订阅源
 内蒙古卫视,http://60.210.100.54:352/tsfile/live/0109_1.m3u8$订阅源
 内蒙古卫视,http://111.61.236.247:9081/hls/48/index.m3u8$订阅源
@@ -339,12 +339,12 @@ CCTV-13,http://gdctcc-livod.tx-cdn.gitv.tv/gitv_live/G_CCTV-13-HQ/G_CCTV-13-HQ.m
 宁夏卫视,https://hls.ningxiahuangheyun.com/live/nxws1M.m3u8$订阅源
 宁夏卫视,http://119.36.148.115:59901/tsfile/live/0112_1.m3u8$订阅源
 宁夏卫视,http://gdctcc-livod.tx-cdn.gitv.tv/gitv_live/G_NINGXIA/G_NINGXIA.m3u8$订阅源|1920x1080
+宁夏卫视,http://219.147.200.9:18080/newlive/live/hls/53/live.m3u8$订阅源
 青海卫视,http://[2409:8087:1a0a:df::4037]:80/wh7f454c46tw2412256287_-144096703/ottrrs.hl.chinamobile.com/PLTV/88888888/224/3221226323/index.m3u8?icpid=88888888&RTS=1713969241&from=4&hms_devid=1211&online=1713969241&vqe=3$订阅源|IPv6
 青海卫视,http://[2409:8087:1a0b:df::4002]:80/ottrrs.hl.chinamobile.com/TVOD/88888888/224/3221225628/index.m3u8$订阅源|IPv6
-青海卫视,http://219.159.194.85:8181/tsfile/live/0140_1.m3u8$订阅源
+青海卫视,http://219.159.194.85:8181/tsfile/live/0140_1.m3u8$订阅源|1920x1080
 青海卫视,http://117.27.190.42:9998/tsfile/live/23255_1.m3u8$订阅源
 青海卫视,http://59.173.183.242:9901/tsfile/live/0140_1.m3u8?key=txiptv&playlive=1&authid=0$订阅源
-青海卫视,http://222.218.158.12:8181/tsfile/live/0140_1.m3u8$订阅源
 青海卫视,http://119.163.199.98:9901/tsfile/live/0140_1.m3u8$订阅源
 青海卫视,http://110.53.218.182:9902/tsfile/live/0140_1.m3u8$订阅源
 青海卫视,http://gdctcc-livod.tx-cdn.gitv.tv/gitv_live/G_QINGHAI/G_QINGHAI.m3u8$订阅源|1920x1080
@@ -361,6 +361,7 @@ CCTV-13,http://gdctcc-livod.tx-cdn.gitv.tv/gitv_live/G_CCTV-13-HQ/G_CCTV-13-HQ.m
 山西卫视,http://218.13.170.98:9901/tsfile/live/0118_1.m3u8$订阅源
 山西卫视,http://124.231.215.134:9999/tsfile/live/0118_1.m3u8$订阅源|1920x1080
 山西卫视,http://59.173.183.242:9901/tsfile/live/0118_1.m3u8?key=txiptv&playlive=1&authid=0$订阅源
+山西卫视,http://219.147.200.9:18080/newlive/live/hls/40/live.m3u8$订阅源
 陕西卫视,http://110.53.52.63:8888/newlive/live/hls/40/live.m3u8$订阅源
 陕西卫视,http://218.13.170.98:9901/tsfile/live/0136_1.m3u8$订阅源
 陕西卫视,http://112.102.217.173:9003//hls/68/index.m3u8$订阅源
@@ -375,10 +376,10 @@ CCTV-13,http://gdctcc-livod.tx-cdn.gitv.tv/gitv_live/G_CCTV-13-HQ/G_CCTV-13-HQ.m
 四川卫视,http://60.255.240.247:8090/live/scwsH265_4000.m3u8$订阅源
 四川卫视,http://58.48.37.158:1111/tsfile/live/0123_1.m3u8?key=txiptv&playlive=1&authid=0$订阅源
 四川卫视,http://gdctcc-livod.tx-cdn.gitv.tv/gitv_live/G_SICHUAN-HQ/G_SICHUAN-HQ.m3u8$订阅源|1920x1080
+四川卫视,http://219.147.200.9:18080/newlive/live/hls/48/live.m3u8$订阅源
 深圳卫视,http://[2409:8087:1a0a:df::4013]:80/wh7f454c46tw2667830568_725069943/ottrrs.hl.chinamobile.com/PLTV/88888888/224/3221225739/index.m3u8?icpid=88888888&RTS=1713969496&from=4&hms_devid=773&online=1713969496&vqe=3$订阅源|IPv6
-深圳卫视,http://222.218.158.12:8181/tsfile/live/0126_1.m3u8$订阅源
 深圳卫视,http://218.76.32.193:9901/tsfile/live/0127_2.m3u8$订阅源
-深圳卫视,http://58.221.214.82:9901/tsfile/live/0126_1.m3u8$订阅源
+深圳卫视,http://58.221.214.82:9901/tsfile/live/0126_1.m3u8$订阅源|1920x1080
 深圳卫视,http://202.100.46.58:9901/tsfile/live/1024_1.m3u8$订阅源
 深圳卫视,http://61.136.172.236:9901/tsfile/live/0126_1.m3u8?key=txiptv&playlive=1&authid=0$订阅源
 深圳卫视,http://218.13.170.98:9901/tsfile/live/1005_1.m3u8$订阅源
@@ -416,7 +417,6 @@ CCTV-13,http://gdctcc-livod.tx-cdn.gitv.tv/gitv_live/G_CCTV-13-HQ/G_CCTV-13-HQ.m
 新疆卫视,http://gdctcc-livod.tx-cdn.gitv.tv/gitv_live/G_XINJIANG/G_XINJIANG.m3u8$订阅源|1920x1080
 云南卫视,http://[2409:8087:4402:20:1:1216:401:14]/iptv.cdn.ha.chinamobile.com/PLTV/88888888/224/3221226660/index.m3u8$订阅源|IPv6
 云南卫视,http://119.36.148.115:59901/tsfile/live/0119_1.m3u8$订阅源
-云南卫视,http://222.218.158.12:8181/tsfile/live/0119_1.m3u8$订阅源
 云南卫视,http://vod.hnqczh.cn:808/hls/38/index.m3u8$订阅源
 云南卫视,http://59.173.183.242:9901/tsfile/live/0119_1.m3u8?key=txiptv&playlive=1&authid=0$订阅源
 云南卫视,http://202.100.46.58:9901/tsfile/live/1039_1.m3u8$订阅源
@@ -468,16 +468,14 @@ CHC动作电影,http://60.255.240.247:8090/live/wqCHCdzdyH265_4000.m3u8$订阅�
 CHC动作电影,http://124.231.215.134:9999/tsfile/live/1109_1.m3u8$订阅源|1920x1080
 CHC动作电影,http://219.159.194.131:8181/tsfile/live/1019_1.m3u8$订阅源
 CHC动作电影,http://218.76.32.193:9901/tsfile/live/1020_1.m3u8$订阅源
-CHC动作电影,http://222.218.158.12:8181/tsfile/live/1019_1.m3u8$订阅源
 CHC高清电影,http://183.94.146.109:2222/tsfile/live/1020_1.m3u8?key=txiptv&playlive=1&authid=0$订阅源
 CHC高清电影,http://220.249.114.102:9901/tsfile/live/1015_1.m3u8?key=txiptv&playlive=1&authid=0$订阅源
 CHC高清电影,http://60.255.240.247:8090/live/lnwsCHC-HDH265_4000.m3u8$订阅源
 黑莓电影,http://[2409:8087:1a0b:df::4014]:80/ottrrs.hl.chinamobile.com/TVOD/88888888/224/3221225743/index.m3u8$订阅源|IPv6
-靖天映画,http://litv.zapi.us.kg/?id=4gtv-4gtv055$订阅源
-靖天戏剧,http://litv.zapi.us.kg/?id=4gtv-4gtv058$订阅源
+靖天映画,http://litv.zapi.us.kg/?id=4gtv-4gtv055$订阅源|1920x1080
+靖天戏剧,http://litv.zapi.us.kg/?id=4gtv-4gtv058$订阅源|1920x1080
 经典电影,http://115.48.61.36:9901/tsfile/live/1032_1.m3u8$订阅源
 经典电影,http://219.159.194.131:8181/tsfile/live/1008_1.m3u8$订阅源
-经典电影,http://222.218.158.12:8181/tsfile/live/1008_1.m3u8$订阅源
 东森电影,http://198.16.100.90:8278/ettvmovie/playlist.m3u8?$订阅源
 
 🎥咪咕直播,#genre#
