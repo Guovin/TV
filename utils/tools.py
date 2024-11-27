@@ -490,7 +490,7 @@ def add_url_info(url, info):
     Add url info to the URL
     """
     if info:
-        separator = "|" if "$" in url else "$"
+        separator = "-" if "$" in url else "$"
         url += f"{separator}{info}"
     return url
 
