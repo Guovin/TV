@@ -95,4 +95,4 @@ foodie_url = "http://www.foodieguide.com/iptvsearch/"
 
 foodie_hotel_url = "http://www.foodieguide.com/iptvsearch/hoteliptv.php"
 
-waiting_tip = "🔍️正在更新，请耐心等待更新完成..."
+waiting_tip = "🔍️未找到结果文件，若已启动更新，请耐心等待更新完成..."

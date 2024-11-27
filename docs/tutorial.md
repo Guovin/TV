@@ -182,8 +182,16 @@ pip install pipenv
 pipenv install --dev
 ```
 
+启动更新：
+
 ```python
 pipenv run dev
+```
+
+启动服务：
+
+```python
+pipenv run service
 ```
 
 ### 方式三：GUI 软件

@@ -5,6 +5,7 @@ verify_ssl = true
 
 [scripts]
 dev = "python main.py"
+service = "python service/app.py"
 ui = "python tkinter_ui/tkinter_ui.py"
 docker_run = "docker run -v ./config:/iptv/config -v ./output:/iptv/output -d -p 8000:8000 guovern/iptv"
 docker_run_lite = "docker run -v ./config:/iptv_lite/config -v ./output:/iptv_lite/output -d -p 8000:8000 guovern/iptv:lite"

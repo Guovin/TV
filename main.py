@@ -1,6 +1,6 @@
 import asyncio
 from utils.config import config
-import utils.constants as constants
+from service.app import run_service
 from utils.channel import (
     get_channel_items,
     append_total_data,
@@ -14,7 +14,6 @@ from utils.tools import (
     get_pbar_remaining,
     get_ip_address,
     convert_to_m3u,
-    get_result_file_content,
     process_nested_dict,
     format_interval,
     check_ipv6_support,
@@ -30,51 +29,12 @@ from updates.online_search import get_channels_by_online_search
 import os
 from tqdm import tqdm
 from time import time
-from flask import Flask, render_template_string
-import sys
 import atexit
 import pickle
 import copy
 
-app = Flask(__name__)
 
 atexit.register(cleanup_logging)
-
-
-@app.route("/")
-def show_index():
-    return get_result_file_content()
-
-
-@app.route("/txt")
-def show_result():
-    return get_result_file_content(file_type="txt")
-
-
-@app.route("/m3u")
-def show_result():
-    return get_result_file_content(file_type="m3u")
-
-
-@app.route("/content")
-def show_result():
-    return get_result_file_content(show_content=True)
-
-
-@app.route("/log")
-def show_log():
-    user_log_file = "output/" + (
-        "user_result.log" if os.path.exists("config/user_config.ini") else "result.log"
-    )
-    if os.path.exists(user_log_file):
-        with open(user_log_file, "r", encoding="utf-8") as file:
-            content = file.read()
-    else:
-        content = constants.waiting_tip
-    return render_template_string(
-        "<head><link rel='icon' href='{{ url_for('static', filename='images/favicon.ico') }}' type='image/x-icon'></head><pre>{{ content }}</pre>",
-        content=content,
-    )
 
 
 class UpdateSource:
@@ -237,6 +197,8 @@ class UpdateSource:
                     True,
                     url=f"{get_ip_address()}" if open_service else None,
                 )
+                if open_service:
+                    run_service()
         except asyncio.exceptions.CancelledError:
             print("Update cancelled!")
 
@@ -256,33 +218,8 @@ class UpdateSource:
             self.pbar.close()
 
 
-def scheduled_task():
+if __name__ == "__main__":
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
     update_source = UpdateSource()
     loop.run_until_complete(update_source.start())
-
-
-def run_service():
-    try:
-        if not os.environ.get("GITHUB_ACTIONS"):
-            ip_address = get_ip_address()
-            print(f"📄 Result content: {ip_address}/content")
-            print(f"📄 Log content: {ip_address}/log")
-            print(f"🔗 M3u api: {ip_address}/m3u")
-            print(f"🔗 Txt api: {ip_address}/txt")
-            print(f"✅ You can use this url to watch IPTV 📺: {ip_address}")
-            app.run(host="0.0.0.0", port=8000)
-    except Exception as e:
-        print(f"❌ Service start failed: {e}")
-
-
-if __name__ == "__main__":
-    if len(sys.argv) == 1 and config.open_service:
-        loop = asyncio.new_event_loop()
-
-        async def run_service_async():
-            loop.run_in_executor(None, run_service)
-
-        asyncio.run(run_service_async())
-    scheduled_task()

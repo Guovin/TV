@@ -135,8 +135,16 @@ pip install pipenv
 pipenv install --dev
 ```
 
+Start update:
+
 ```python
 pipenv run dev
+```
+
+Start service:
+
+```python
+pipenv run service
 ```
 
 ### Method 3: GUI Software

@@ -12,6 +12,6 @@ done
 
 service cron start
 
-python $APP_WORKDIR/main.py
+python $APP_WORKDIR/main.py &
 
-gunicorn -w 4 -b 0.0.0.0:8000 main:app
+python -m gunicorn service.app:app -b 0.0.0.0:8000 --timeout=1000
