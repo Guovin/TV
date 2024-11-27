@@ -1,16 +1,15 @@
 央视,#genre#
 卫视,#genre#
 NewTV,#genre#
-iHOT,#genre#
 地理,#genre#
 体育,#genre#
 北京,#genre#
-上海,#genre#
 香港,#genre#
 AKTV,#genre#
 少儿,#genre#
 虎牙,#genre#
 斗鱼,#genre#
+上海,#genre#
 天津,#genre#
 安徽,#genre#
 福建,#genre#
