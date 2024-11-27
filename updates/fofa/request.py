@@ -215,7 +215,7 @@ def process_fofa_json_url(url, region, open_sort, hotel_name="酒店源"):
                                 total_url = (
                                     add_url_info(
                                         f"{url}{item_url}",
-                                        f"{region}{hotel_name}|cache:{url}",
+                                        f"{region}{hotel_name}-cache:{url}",
                                     )
                                     if open_sort
                                     else add_url_info(

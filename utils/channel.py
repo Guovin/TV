@@ -225,7 +225,7 @@ def get_channel_multicast_result(result, search_result):
                 (
                     add_url_info(
                         f"http://{url}/rtp/{ip}",
-                        f"{result_region}{result_type}{multicast_name}|cache:{url}",
+                        f"{result_region}{result_type}{multicast_name}-cache:{url}",
                     )
                     if config.open_sort
                     else add_url_info(
