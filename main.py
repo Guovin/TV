@@ -25,10 +25,8 @@ from updates.multicast import get_channels_by_multicast
 from updates.hotel import get_channels_by_hotel
 from updates.fofa import get_channels_by_fofa
 from updates.online_search import get_channels_by_online_search
-import os
 from tqdm import tqdm
 from time import time
-import atexit
 import pickle
 import copy
 
