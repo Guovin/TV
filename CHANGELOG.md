@@ -13,7 +13,6 @@
 - ✨ 新增双结果 API 访问（ip/m3u, ip/txt）（#581）
 - ✨ 新增启动 API 服务命令（pipenv run service）
 - 🪄 优化 Docker 镜像大小
-- 🛠 调整默认更新频率为 12 小时一次
 - 🐛 修复部分播放器不支持的信息间隔符（#581）
 
 <details>
@@ -28,7 +27,6 @@
 - ✨ Dual result API access (ip/m3u, ip/txt) has been added (#581).
 - ✨ A command to start the API service (pipenv run service) has been added.
 - 🪄 The size of the Docker image has been optimized.
-- 🛠 The default update frequency has been adjusted to once every 12 hours.
 - 🐛 Fixed the information delimiter issue for some players that do not support it (#581).
 
 </details>
