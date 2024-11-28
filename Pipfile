@@ -7,11 +7,11 @@ verify_ssl = true
 dev = "python main.py"
 service = "python service/app.py"
 ui = "python tkinter_ui/tkinter_ui.py"
-docker_run = "docker run -v ./config:/iptv/config -v ./output:/iptv/output -d -p 8000:8000 guovern/iptv"
-docker_run_lite = "docker run -v ./config:/iptv_lite/config -v ./output:/iptv_lite/output -d -p 8000:8000 guovern/iptv:lite"
+docker_run = "docker run -v ./config:/iptv-api/config -v ./output:/iptv-api/output -d -p 8000:8000 guovern/iptv-api"
+docker_run_lite = "docker run -v ./config:/iptv-api-lite/config -v ./output:/iptv-api-lite/output -d -p 8000:8000 guovern/iptv-api:lite"
 tkinter_build = "pyinstaller tkinter_ui/tkinter_ui.spec"
-docker_build = "docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 --build-arg APP_WORKDIR=/iptv -t guovern/iptv ."
-docker_build_lite = "docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 --build-arg APP_WORKDIR=/iptv_lite --build-arg LITE=True -t guovern/iptv:lite ."
+docker_build = "docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 --build-arg APP_WORKDIR=/iptv-api -t guovern/iptv-api ."
+docker_build_lite = "docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 --build-arg APP_WORKDIR=/iptv-api-lite --build-arg LITE=True -t guovern/iptv-api:lite ."
 
 [dev-packages]
 requests = "*"

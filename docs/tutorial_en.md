@@ -23,7 +23,7 @@ Since this project will continue to iterate and improve, if you want to get the 
 
 ### 1. Star
 
-Go to https://github.com/Guovin/IPTV, click on Star to bookmark this project (Your Star is my motivation to keep updating).
+Go to https://github.com/Guovin/iptv-api, click on Star to bookmark this project (Your Star is my motivation to keep updating).
 ![Star](./images/star.png 'Star')
 
 ### 2. Watch
@@ -192,7 +192,7 @@ pipenv run service
 
 ### Method 3: GUI Software
 
-1. Download [IPTV update software](https://github.com/Guovin/IPTV/releases), open the software, click update to complete the update.
+1. Download [IPTV-API software](https://github.com/Guovin/iptv-api/releases), open the software, click update to complete the update.
 
 2. Alternatively, run the following command in the project directory to open the GUI software:
 
@@ -200,41 +200,41 @@ pipenv run service
 pipenv run ui
 ```
 
-![IPTV update software](./images/ui.png 'IPTV update software')
+![IPTV-API software](./images/ui.png 'IPTV-API software')
 
 ### Method 4: Docker
 
-- iptv (Full version): Higher performance requirements, slower update speed, high stability and success rate. Set open_driver = False to switch to the lite running mode (recommended for hotel sources, multicast sources, and online searches)
-- iptv:lite (Condensed version): Lightweight, low performance requirements, fast update speed, stability uncertain (recommend using this version for the subscription source)
+- iptv-api (Full version): Higher performance requirements, slower update speed, high stability and success rate. Set open_driver = False to switch to the lite running mode (recommended for hotel sources, multicast sources, and online searches)
+- iptv-api:lite (Condensed version): Lightweight, low performance requirements, fast update speed, stability uncertain (recommend using this version for the subscription source)
 
 It's recommended to try each one and choose the version that suits you
 
 1. Pull the image:
 
-- iptv
+- iptv-api
 
 ```bash
-docker pull guovern/iptv:latest
+docker pull guovern/iptv-api:latest
 ```
 
-- iptv:lite
+- iptv-api:lite
 
 ```bash
-docker pull guovern/iptv:lite
+docker pull guovern/iptv-api:lite
 ```
 
 2. Run the container:
 
-- iptv
+- iptv-api
 
 ```bash
-docker run -d -p 8000:8000 guovern/iptv
+docker run -d -p 8000:8000 guovern/iptv-api
 ```
 
-- iptv:lite
+- iptv-api:lite
 
 ```bash
-docker run -d -p 8000:8000 guovern/iptv:lite
+docker run -d -p 8000:8000 guovern/iptv-api:lite
 ```
 
 Volume Mount Parameter (Optional):
@@ -242,22 +242,24 @@ This allows synchronization of files between the host machine and the container.
 
 Taking the host path /etc/docker as an example:
 
-- iptv：
+- iptv-api：
 
 ```bash
-docker run -v /etc/docker/config:/iptv/config -v /etc/docker/output:/iptv/output -d -p 8000:8000 guovern/iptv
+docker run -v /etc/docker/config:/iptv-api/config -v /etc/docker/output:/iptv-api/output -d -p 8000:8000 guovern/iptv-api
 ```
 
-- iptv:lite：
+- iptv-api:lite：
 
 ```bash
-docker run -v /etc/docker/config:/iptv_lite/config -v /etc/docker/output:/iptv_lite/output -d -p 8000:8000 guovern/iptv:lite
+docker run -v /etc/docker/config:/iptv-api-lite/config -v /etc/docker/output:/iptv-api-lite/output -d -p 8000:8000 guovern/iptv-api:lite
 ```
 
 3. Update results:
 
 - API address: ip:8000
-- API details: ip:8000/result
+- M3u api：ip:8000/m3u
+- Txt api：ip:8000/txt
+- API content: ip:8000/content
 - Speed test log: ip:8000/log
 
 ### Update the File to the Repository(optional)

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for file in /iptv_config/*; do
+for file in /iptv-api-config/*; do
   filename=$(basename "$file")
   target_file="$APP_WORKDIR/config/$filename"
   if [ ! -e "$target_file" ]; then

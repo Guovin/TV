@@ -14,7 +14,7 @@ RUN PIPENV_VENV_IN_PROJECT=1 pipenv install --deploy\
 
 FROM python:3.13-slim
 
-ARG APP_WORKDIR=/iptv
+ARG APP_WORKDIR=/iptv-api
 ARG LITE=False
 
 ENV APP_WORKDIR=$APP_WORKDIR
@@ -47,10 +47,10 @@ RUN (crontab -l ; echo "0 0,12 * * * python $APP_WORKDIR/main.py &";) | crontab 
 
 EXPOSE 8000
 
-COPY entrypoint.sh /iptv_entrypoint.sh
+COPY entrypoint.sh /iptv-api-entrypoint.sh
 
-COPY config /iptv_config
+COPY config /iptv-api-config
 
-RUN chmod +x /iptv_entrypoint.sh
+RUN chmod +x /iptv-api-entrypoint.sh
 
-ENTRYPOINT /iptv_entrypoint.sh
+ENTRYPOINT /iptv-api-entrypoint.sh
