@@ -24,7 +24,6 @@ aiohttp = "*"
 flask = "*"
 opencc-python-reimplemented = "*"
 fake-useragent = "*"
-gunicorn = "*"
 pillow = "*"
 yt-dlp = "*"
 

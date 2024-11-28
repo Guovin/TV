@@ -146,20 +146,19 @@ https://mirror.ghproxy.com/raw.githubusercontent.com/your github username/reposi
 
 If you can access this link and it returns the updated interface content, then your live source interface link has been successfully created! Simply copy and paste this link into software like TVBox in the configuration field to use~
 
-- Note: Except for the first execution of the workflow, which requires you to manually trigger it, subsequent executions (default: daily at 6:00 am and 18:00 pm Beijing time) will be automatically triggered. If you have modified the template or configuration files and want to execute the update immediately, you can manually trigger (2) Run workflow.
+- Note: Except for the first execution of the workflow, which requires you to manually trigger it, subsequent executions (The default interval is 12 hours) will be automatically triggered. If you have modified the template or configuration files and want to execute the update immediately, you can manually trigger (2) Run workflow.
 
 ### 4.Modify Workflow Update Frequency(optional)
 
-If you want to modify the update frequency (default: daily at 6:00 am and 18:00 pm Beijing time), you can modify the on:schedule:- cron field.
+If you want to modify the update frequency (The default interval is 12 hours), you can modify the on:schedule:- cron field.
 ![.github/workflows/main.yml](./images/schedule-cron.png '.github/workflows/main.yml')
 If you want to perform updates every 2 days, you can modify it like this:
 
 ```bash
-- cron: '0 22 */2 * *'
-- cron: '0 10 */2 * *'
+- cron: '0 0 */2 * *'
 ```
 
-#### 1. It is strongly discouraged to make modifications, as there is no difference in the content of the interface in a short period of time. Both too frequent updates and high-consumption running workflows may be judged as resource abuse, leading to the risk of the repository and account being banned.
+#### 1. It is strongly not recommended to modify and update too frequently, because the interface content does not differ within a short period of time, and too high update frequency and time-consuming workflow may be judged as resource abuse, resulting in the risk of warehouse and account being blocked.
 
 #### 2. Please pay attention to the runtime of your workflow. If you find that the execution time is too long, you need to appropriately reduce the number of channels in the template, modify the number of pages and interfaces in the configuration, in order to meet the compliant operation requirements.
 
