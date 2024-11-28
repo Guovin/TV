@@ -3,9 +3,8 @@ import sys
 
 sys.path.append(os.path.dirname(sys.path[0]))
 from flask import Flask, render_template_string
-from utils.tools import get_result_file_content, get_ip_address
+from utils.tools import get_result_file_content, get_ip_address, resource_path
 import utils.constants as constants
-from utils.config import config
 
 app = Flask(__name__)
 
@@ -32,11 +31,9 @@ def show_content():
 
 @app.route("/log")
 def show_log():
-    user_log_file = "output/" + (
-        "user_result.log" if os.path.exists("config/user_config.ini") else "result.log"
-    )
-    if os.path.exists(user_log_file):
-        with open(user_log_file, "r", encoding="utf-8") as file:
+    log_path = resource_path(constants.sort_log_path)
+    if os.path.exists(log_path):
+        with open(log_path, "r", encoding="utf-8") as file:
             content = file.read()
     else:
         content = constants.waiting_tip

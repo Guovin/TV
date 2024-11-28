@@ -2,9 +2,13 @@ import os
 
 output_dir = "output"
 
-log_file = "result_new.log"
+result_path = os.path.join(output_dir, "result_new.txt")
 
-log_path = os.path.join(output_dir, log_file)
+cache_path = os.path.join(output_dir, "cache.pkl")
+
+sort_log_path = os.path.join(output_dir, "sort.log")
+
+log_path = os.path.join(output_dir, "log.log")
 
 url_pattern = r"((https?):\/\/)?(\[[0-9a-fA-F:]+\]|([\w-]+\.)+[\w-]+)(:[0-9]{1,5})?(\/[^\s]*)?(\$[^\s]+)?"
 

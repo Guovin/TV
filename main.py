@@ -1,5 +1,6 @@
 import asyncio
 from utils.config import config
+import utils.constants as constants
 from service.app import run_service
 from utils.channel import (
     get_channel_items,
@@ -18,8 +19,6 @@ from utils.tools import (
     format_interval,
     check_ipv6_support,
     resource_path,
-    setup_logging,
-    cleanup_logging,
 )
 from updates.subscribe import get_channels_by_subscribe_urls
 from updates.multicast import get_channels_by_multicast
@@ -32,9 +31,6 @@ from time import time
 import atexit
 import pickle
 import copy
-
-
-atexit.register(cleanup_logging)
 
 
 class UpdateSource:
@@ -109,7 +105,6 @@ class UpdateSource:
     async def main(self):
         try:
             if config.open_update:
-                setup_logging()
                 main_start_time = time()
                 self.channel_items = get_channel_items()
                 channel_names = [
@@ -143,7 +138,7 @@ class UpdateSource:
                     )
                     self.start_time = time()
                     self.pbar = tqdm(total=self.total, desc="Sorting")
-                    self.channel_data = process_sort_channel_list(
+                    self.channel_data = await process_sort_channel_list(
                         self.channel_data,
                         ipv6=ipv6_support,
                         callback=sort_callback,
@@ -160,24 +155,17 @@ class UpdateSource:
                 )
                 self.pbar.close()
                 user_final_file = config.final_file
-                update_file(user_final_file, "output/result_new.txt")
+                update_file(user_final_file, constants.result_path)
                 if config.open_use_old_result:
                     if open_sort:
                         get_channel_data_cache_with_compare(
                             channel_data_cache, self.channel_data
                         )
                     with open(
-                        resource_path("output/result_cache.pkl", persistent=True), "wb"
+                        resource_path(constants.cache_path, persistent=True),
+                        "wb",
                     ) as file:
                         pickle.dump(channel_data_cache, file)
-                if open_sort:
-                    user_log_file = "output/" + (
-                        "user_result.log"
-                        if os.path.exists("config/user_config.ini")
-                        else "result.log"
-                    )
-                    update_file(user_log_file, "output/result_new.log", copy=True)
-                    cleanup_logging()
                 convert_to_m3u()
                 total_time = format_interval(time() - main_start_time)
                 print(

@@ -96,14 +96,11 @@ jobs:
           if [[ -f "$final_m3u_file" ]]; then
             git add -f "$final_m3u_file"
           fi
-          if [[ -f "output/result_cache.pkl" ]]; then
-            git add -f "output/result_cache.pkl"
+          if [[ -f "output/cache.pkl" ]]; then
+            git add -f "output/cache.pkl"
           fi
-          if [[ -f "output/user_result.log" ]]; then
-            git add -f "output/user_result.log"
-          elif [[ -f "output/result.log" ]]; then
-            git add -f "output/result.log"
-          fi
+          if [[ -f "output/sort.log" ]]; then
+            git add -f "output/sort.log"
           if [[ -f "updates/fofa/fofa_hotel_region_result.pkl" ]]; then
             git add -f "updates/fofa/fofa_hotel_region_result.pkl"
           fi

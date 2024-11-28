@@ -3,39 +3,55 @@ from time import time
 import asyncio
 import re
 from utils.config import config
-from utils.tools import is_ipv6, remove_cache_info, get_resolution_value
+import utils.constants as constants
+from utils.tools import is_ipv6, remove_cache_info, get_resolution_value, get_logger
 import subprocess
 import yt_dlp
-import logging
+from concurrent.futures import ProcessPoolExecutor
+import functools
+
+logger = get_logger(constants.log_path)
 
 
-def get_speed_yt_dlp(url, timeout=config.sort_timeout):
+def get_info_yt_dlp(url, timeout=config.sort_timeout):
+    """
+    Get the url info by yt_dlp
+    """
+    ydl_opts = {
+        "socket_timeout": timeout,
+        "skip_download": True,
+        "quiet": True,
+        "no_warnings": True,
+        "format": "best",
+        "logger": logger,
+    }
+    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+        return ydl.sanitize_info(ydl.extract_info(url, download=False))
+
+
+async def get_speed_yt_dlp(url, timeout=config.sort_timeout):
     """
     Get the speed of the url by yt_dlp
     """
     try:
-        ydl_opts = {
-            "socket_timeout": timeout,
-            "skip_download": True,
-            "quiet": True,
-            "no_warnings": True,
-            "format": "best",
-            "logger": logging.getLogger(),
-        }
-        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+        async with asyncio.timeout(timeout + 2):
             start_time = time()
-            info = ydl.extract_info(url, download=False)
-            fps = info.get("fps", None) or (
-                int(round((time() - start_time) * 1000))
-                if "id" in info
-                else float("inf")
-            )
-            resolution = (
-                f"{info['width']}x{info['height']}"
-                if "width" in info and "height" in info
-                else None
-            )
-            return (fps, resolution)
+            loop = asyncio.get_running_loop()
+            with ProcessPoolExecutor() as exc:
+                info = await loop.run_in_executor(
+                    exc, functools.partial(get_info_yt_dlp, url, timeout)
+                )
+                fps = (
+                    int(round((time() - start_time) * 1000))
+                    if len(info)
+                    else float("inf")
+                )
+                resolution = (
+                    f"{info['width']}x{info['height']}"
+                    if "width" in info and "height" in info
+                    else None
+                )
+                return (fps, resolution)
     except:
         return (float("inf"), None)
 
@@ -146,7 +162,7 @@ async def check_stream_speed(url_info):
 speed_cache = {}
 
 
-def get_speed(url, ipv6_proxy=None, callback=None):
+async def get_speed(url, ipv6_proxy=None, callback=None):
     """
     Get the speed of the url
     """
@@ -163,7 +179,7 @@ def get_speed(url, ipv6_proxy=None, callback=None):
         if ipv6_proxy and url_is_ipv6:
             speed = 0
         else:
-            speed = get_speed_yt_dlp(url)
+            speed = await get_speed_yt_dlp(url)
         if cache_key and cache_key not in speed_cache:
             speed_cache[cache_key] = speed
         return speed
@@ -174,7 +190,7 @@ def get_speed(url, ipv6_proxy=None, callback=None):
             callback()
 
 
-def sort_urls_by_speed_and_resolution(name, data):
+def sort_urls_by_speed_and_resolution(name, data, logger=None):
     """
     Sort by speed and resolution
     """
@@ -192,9 +208,13 @@ def sort_urls_by_speed_and_resolution(name, data):
                 resolution = cache_resolution or resolution
                 if response_time != float("inf"):
                     url = remove_cache_info(url)
-                    logging.info(
-                        f"Name: {name}, URL: {url}, Date: {date}, Resolution: {resolution}, Response Time: {response_time} ms"
-                    )
+                    try:
+                        if logger:
+                            logger.info(
+                                f"Name: {name}, URL: {url}, Date: {date}, Resolution: {resolution}, Response Time: {response_time} ms"
+                            )
+                    except Exception as e:
+                        print(e)
                     filter_data.append((url, date, resolution, origin))
 
     def combined_key(item):

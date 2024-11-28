@@ -15,35 +15,20 @@ import sys
 import logging
 from logging.handlers import RotatingFileHandler
 
-handler = None
 
-
-def setup_logging():
+def get_logger(path, level=logging.ERROR, init=False):
     """
-    Setup logging
+    get the logger
     """
-    global handler
     if not os.path.exists(constants.output_dir):
         os.makedirs(constants.output_dir)
-    handler = RotatingFileHandler(constants.log_path, encoding="utf-8")
-    logging.basicConfig(
-        handlers=[handler],
-        format="%(message)s",
-        level=logging.INFO,
-    )
-
-
-def cleanup_logging():
-    """
-    Cleanup logging
-    """
-    global handler
-    if handler:
-        for handler in logging.root.handlers[:]:
-            handler.close()
-            logging.root.removeHandler(handler)
-    if os.path.exists(constants.log_path):
-        os.remove(constants.log_path)
+    if init and os.path.exists(path):
+        os.remove(path)
+    handler = RotatingFileHandler(path, encoding="utf-8")
+    logger = logging.getLogger(path)
+    logger.addHandler(handler)
+    logger.setLevel(level)
+    return logger
 
 
 def format_interval(t):

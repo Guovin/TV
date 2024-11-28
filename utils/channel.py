@@ -8,6 +8,7 @@ from utils.tools import (
     remove_cache_info,
     resource_path,
     write_content_into_txt,
+    get_logger,
 )
 from utils.speed import (
     get_speed,
@@ -22,7 +23,8 @@ import base64
 import pickle
 import copy
 import datetime
-from concurrent.futures import ThreadPoolExecutor
+import asyncio
+from logging import INFO
 
 
 def get_name_url(content, pattern, multiline=False, check_url=True):
@@ -84,7 +86,7 @@ def get_channel_items():
             )
 
     if config.open_use_old_result:
-        result_cache_path = resource_path("output/result_cache.pkl")
+        result_cache_path = resource_path(constants.cache_path)
         if os.path.exists(result_cache_path):
             with open(result_cache_path, "rb") as file:
                 old_result = pickle.load(file)
@@ -543,7 +545,7 @@ def append_total_data(
                     )
 
 
-def process_sort_channel_list(data, ipv6=False, callback=None):
+async def process_sort_channel_list(data, ipv6=False, callback=None):
     """
     Processs the sort channel list
     """
@@ -551,22 +553,29 @@ def process_sort_channel_list(data, ipv6=False, callback=None):
     need_sort_data = copy.deepcopy(data)
     process_nested_dict(need_sort_data, seen=set(), flag=r"cache:(.*)", force_str="!")
     result = {}
-    with ThreadPoolExecutor(max_workers=30) as executor:
-        try:
-            for channel_obj in need_sort_data.values():
-                for info_list in channel_obj.values():
-                    for info in info_list:
-                        executor.submit(
-                            get_speed,
-                            info[0],
-                            ipv6_proxy=ipv6_proxy,
-                            callback=callback,
-                        )
-        except Exception as e:
-            print(f"Get speed Error: {e}")
+    semaphore = asyncio.Semaphore(10)
+
+    async def limited_get_speed(info, ipv6_proxy, callback):
+        async with semaphore:
+            return await get_speed(info[0], ipv6_proxy=ipv6_proxy, callback=callback)
+
+    tasks = [
+        asyncio.create_task(
+            limited_get_speed(
+                info,
+                ipv6_proxy=ipv6_proxy,
+                callback=callback,
+            )
+        )
+        for channel_obj in need_sort_data.values()
+        for info_list in channel_obj.values()
+        for info in info_list
+    ]
+    await asyncio.gather(*tasks)
+    logger = get_logger(constants.sort_log_path, level=INFO, init=True)
     for cate, obj in data.items():
         for name, info_list in obj.items():
-            info_list = sort_urls_by_speed_and_resolution(name, info_list)
+            info_list = sort_urls_by_speed_and_resolution(name, info_list, logger)
             append_data_to_info_data(
                 result,
                 cate,
