@@ -10,7 +10,7 @@ done
 
 . /.venv/bin/activate
 
-service cron start
+service cron start &
 
 python $APP_WORKDIR/main.py &
 

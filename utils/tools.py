@@ -392,7 +392,7 @@ def convert_to_m3u():
             m3u_file_path = os.path.splitext(user_final_file)[0] + ".m3u"
             with open(m3u_file_path, "w", encoding="utf-8") as m3u_file:
                 m3u_file.write(m3u_output)
-            print(f"✅ Result m3u file generated at: {m3u_file_path}")
+            print(f"✅ M3U result file generated at: {m3u_file_path}")
 
 
 def get_result_file_content(show_content=False, file_type=None):

@@ -62,7 +62,7 @@ jobs:
       - name: Install pipenv
         run: pip3 install --user pipenv
       - name: Install dependecies
-        run: pipenv --python 3.13 && pipenv install
+        run: pipenv --python 3.13 && pipenv install --deploy
       - name: Install selenium
         if: env.OPEN_DRIVER == 'True'
         run: pipenv install selenium
@@ -100,6 +100,7 @@ jobs:
           fi
           if [[ -f "output/sort.log" ]]; then
             git add -f "output/sort.log"
+          fi
           if [[ -f "updates/fofa/fofa_hotel_region_result.pkl" ]]; then
             git add -f "updates/fofa/fofa_hotel_region_result.pkl"
           fi
