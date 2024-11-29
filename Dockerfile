@@ -43,7 +43,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends cron
 RUN if [ "$LITE" = False ]; then apt-get install -y --no-install-recommends chromium chromium-driver; fi \
   && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-RUN (crontab -l ; echo "0 */12 * * * cd $APP_WORKDIR && /.venv/bin/python main.py";) | crontab -
+RUN (crontab -l ; \
+  echo "0 22 * * * cd $APP_WORKDIR && /.venv/bin/python main.py"; \
+  echo "0 10 * * * cd $APP_WORKDIR && /.venv/bin/python main.py") | crontab -
 
 EXPOSE 8000
 

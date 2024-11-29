@@ -146,16 +146,17 @@ https://mirror.ghproxy.com/raw.githubusercontent.com/your github username/reposi
 
 If you can access this link and it returns the updated interface content, then your live source interface link has been successfully created! Simply copy and paste this link into software like TVBox in the configuration field to use~
 
-- Note: Except for the first execution of the workflow, which requires you to manually trigger it, subsequent executions (default every 12 hours) will be automatically triggered. If you have modified the template or configuration files and want to execute the update immediately, you can manually trigger (2) Run workflow.
+- Note: Except for the first execution of the workflow, which requires you to manually trigger it, subsequent executions (default: 6:00 AM and 18:00 PM Beijing time daily) will be automatically triggered. If you have modified the template or configuration files and want to execute the update immediately, you can manually trigger (2) Run workflow.
 
 ### 4.Modify Workflow Update Frequency(optional)
 
-If you want to modify the update frequency (default every 12 hours), you can modify the on:schedule:- cron field.
+If you want to modify the update frequency (default: 6:00 AM and 18:00 PM Beijing time daily), you can modify the on:schedule:- cron field.
 ![.github/workflows/main.yml](./images/schedule-cron.png '.github/workflows/main.yml')
 If you want to perform updates every 2 days, you can modify it like this:
 
 ```bash
 - cron: '0 22 */2 * *'
+- cron: '0 10 */2 * *'
 ```
 
 #### 1. It is strongly not recommended to modify and update too frequently, because the interface content does not differ within a short period of time, and too high update frequency and time-consuming workflow may be judged as resource abuse, resulting in the risk of warehouse and account being blocked.
