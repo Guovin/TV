@@ -7,7 +7,7 @@ from tkinter import messagebox
 from PIL import Image, ImageTk
 from utils.config import config
 from utils.tools import resource_path
-from main import UpdateSource, run_service
+from main import UpdateSource
 import asyncio
 import threading
 import webbrowser
@@ -19,6 +19,19 @@ from hotel import HotelUI
 from subscribe import SubscribeUI
 from online_search import OnlineSearchUI
 import json
+from pathlib import Path
+from sys import base_prefix
+from os import environ
+import platform
+
+if not ("TCL_LIBRARY" in environ and "TK_LIBRARY" in environ):
+    try:
+        tk.Tk()
+    except tk.TclError:
+        tk_dir = "tcl" if platform.system() == "Windows" else "lib"
+        tk_path = Path(base_prefix) / tk_dir
+        environ["TCL_LIBRARY"] = str(next(tk_path.glob("tcl8.*")))
+        environ["TK_LIBRARY"] = str(next(tk_path.glob("tk8.*")))
 
 
 class TkinterUI:
@@ -114,15 +127,10 @@ class TkinterUI:
     def on_run_update(self):
         loop = asyncio.new_event_loop()
 
-        async def run_service_async():
-            loop.run_in_executor(None, run_service)
-
         def run_loop():
             asyncio.set_event_loop(loop)
             loop.run_until_complete(self.run_update())
 
-        if config.open_service:
-            asyncio.run(run_service_async())
         self.thread = threading.Thread(target=run_loop, daemon=True)
         self.thread.start()
 

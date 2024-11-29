@@ -14,7 +14,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.8'
+          python-version: '3.13'
           update-environment: true
           cache: 'pipenv'
 
@@ -22,10 +22,7 @@ jobs:
         run: pip3 install --user pipenv
 
       - name: Install dependencies with pipenv
-        run: pipenv --python 3.8 && pipenv install
-
-      - name: Install PyInstaller
-        run: pipenv install pyinstaller
+        run: pipenv --python 3.13 && pipenv install --dev
 
       - name: Build the application
         run: pipenv run pyinstaller tkinter_ui/tkinter_ui.spec
@@ -36,7 +33,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: iptv-update-tool
+          name: IPTV
           path: dist
 
       - name: Get version from version.json
@@ -79,6 +76,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: dist/iptv-update-tool.exe
-          asset_name: iptv-update-tool.exe
+          asset_path: dist/IPTV.exe
+          asset_name: IPTV.exe
           asset_content_type: application/octet-stream

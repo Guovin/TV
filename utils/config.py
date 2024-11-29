@@ -270,7 +270,9 @@ class ConfigManager:
 
     @property
     def open_driver(self):
-        return self.config.getboolean("Settings", "open_driver", fallback=True)
+        return not os.environ.get("LITE") and self.config.getboolean(
+            "Settings", "open_driver", fallback=True
+        )
 
     @property
     def hotel_page_num(self):

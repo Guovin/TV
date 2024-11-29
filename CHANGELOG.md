@@ -1,5 +1,36 @@
 # 更新日志（Changelog）
 
+## v1.5.4
+
+### 2024/11/29
+
+- ⚠️ Python 升级至 3.13，该版本已不支持 Win7，若有需要请使用 v1.5.3
+- ⚠️ Github 仓库改名：iptv-api，使用旧接口地址请及时更换新地址
+- ⚠️ Docker 新镜像仓库启用：guovern/iptv-api（旧版的 tv-driver 改为：guovern/iptv-api:latest，tv-requests 改为 guovern/iptv-api:lite），iptv-api:latest 为完整版、iptv-api:lite 为精简版，请使用新的名称命令进行拉取，旧仓库将不再维护
+- ❤️ 新增微信公众号关注途径（公众号搜索：Govin），推荐关注公众号，可订阅更新通知与使用技巧等文章推送，还可进行交流讨论
+- ✨ 更换测速方法（yt-dlp），重构测速逻辑，提升准确性、稳定性与效率，减小接口切换延迟（#563）
+- ✨ 新增支持 ARM v7（#562）
+- ✨ 新增双结果 API 访问（ip/m3u, ip/txt）（#581）
+- ✨ 新增启动 API 服务命令（pipenv run service）
+- 🪄 优化 Docker 镜像大小（完整版：-25%，精简版：-66%）
+- 🐛 修复部分播放器不支持的信息间隔符（#581）
+
+<details>
+  <summary>English</summary>
+
+- ⚠️ Python has been upgraded to version 3.13, which no longer supports Win7. If needed, please use version v1.5.3.
+- ⚠️ The GitHub repository has been renamed to iptv-api. If you are using the old API address, please update it to the new one promptly.
+- ⚠️ New Docker image repository is now active: guovern/iptv-api (the old tv-driver is now guovern/iptv-api:latest, and tv-requests is now guovern/iptv-api:lite). iptv-api:latest is the full version, and iptv-api:lite is the lightweight version. Please use the new names to pull the images, as the old repository will no longer be maintained.
+- ❤️ A new way to follow the WeChat official account (search for: Govin) has been added. It is recommended to follow the official account to subscribe to update notifications, usage tips, and engage in discussions.
+- ✨ The speed measurement method has been changed to yt-dlp, and the speed measurement logic has been refactored to improve accuracy, stability, and efficiency, reducing interface switching delay (#563).
+- ✨ Support for ARM v7 has been added (#562).
+- ✨ Dual result API access (ip/m3u, ip/txt) has been added (#581).
+- ✨ A command to start the API service (pipenv run service) has been added.
+- 🪄 The size of the Docker image has been optimized (Full version: -25%, Lite version: -66%).
+- 🐛 Fixed the information delimiter issue for some players that do not support it (#581).
+
+</details>
+
 ## v1.5.3
 
 ### 2024/11/19
@@ -59,7 +90,7 @@
 - ✨ 新增频道接口白名单：不参与测速，永远保留在结果最前面（#470）
   使用方法：
   1. 模板频道接口地址后添加$!即可实现（如：广东珠江,http://xxx.m3u$! ）
-  2. 额外信息补充（如：广东珠江,http://xxx.m3u$!额外信息 ），更多接口白名单请至https://github.com/Guovin/TV/issues/514 讨论
+  2. 额外信息补充（如：广东珠江,http://xxx.m3u$!额外信息 ），更多接口白名单请至https://github.com/Guovin/iptv-api/issues/514 讨论
 - ✨ 新增 🈳 无结果频道分类：无结果频道默认归类至该底部分类下（#473）
 - ✨ 接口地址增加来源类型说明
 - ✨ 默认模板增加广东民生（#481）、广州综合（#504）
@@ -78,7 +109,7 @@
 - ✨ Added channel interface whitelist: Not participating in speed testing, always kept at the very front of the results. (#470)
   Usage:
   1. Add $! after the template channel interface address (e.g., Guangdong Pearl River, http://xxx.m3u$!).
-  2. Additional information can be appended (e.g., Guangdong Pearl River, http://xxx.m3u$! Additional Information) (#470). For more interface whitelists, please discuss at https://github.com/Guovin/TV/issues/514.
+  2. Additional information can be appended (e.g., Guangdong Pearl River, http://xxx.m3u$! Additional Information) (#470). For more interface whitelists, please discuss at https://github.com/Guovin/iptv-api/issues/514.
 - ✨ Added 🈳 No Results Channel Category: Channels without results are categorized under this bottom category by default (#473).
 - ✨ Interface addresses now include source type descriptions.
 - ✨ Default templates now include Guangdong People's Livelihood (#481) and Guangzhou Comprehensive (#504).

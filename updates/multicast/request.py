@@ -18,7 +18,6 @@ from utils.retry import (
     retry_func,
     find_clickable_element_with_retry,
 )
-from selenium.webdriver.common.by import By
 from tqdm.asyncio import tqdm_asyncio
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from requests_custom.utils import get_soup_requests, close_session
@@ -26,6 +25,12 @@ import urllib.parse as urlparse
 from urllib.parse import parse_qs
 from collections import defaultdict
 from .update_tmp import get_multicast_region_result_by_rtp_txt
+
+if config.open_driver:
+    try:
+        from selenium.webdriver.common.by import By
+    except:
+        pass
 
 
 async def get_channels_by_multicast(names, callback=None):

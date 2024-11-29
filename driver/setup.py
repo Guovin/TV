@@ -1,4 +1,10 @@
-from selenium import webdriver
+from utils.config import config
+
+if config.open_driver:
+    try:
+        from selenium import webdriver
+    except:
+        pass
 
 
 def setup_driver(proxy=None):

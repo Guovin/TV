@@ -1,4 +1,3 @@
-from driver.setup import setup_driver
 from utils.retry import (
     retry_func,
     locate_element_with_retry,
@@ -7,13 +6,21 @@ from utils.retry import (
 from time import sleep
 import re
 from bs4 import BeautifulSoup
-from selenium.webdriver.common.by import By
+from utils.config import config
+
+if config.open_driver:
+    try:
+        from selenium.webdriver.common.by import By
+    except:
+        pass
 
 
 def get_soup_driver(url):
     """
     Get the soup by driver
     """
+    from driver.setup import setup_driver
+
     driver = setup_driver()
     retry_func(lambda: driver.get(url), name=url)
     sleep(1)
