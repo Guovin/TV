@@ -72,7 +72,7 @@
     <img src="https://img.shields.io/github/downloads/guovin/iptv-api/total" />
   </a>
   <a href="https://hub.docker.com/repository/docker/guovern/iptv-api">
-    <img src="https://img.shields.io/docker/pulls/guovern/iptv-api" />
+    <img src="https://img.shields.io/docker/pulls/guovern/iptv-api?label=docker:iptv-api" />
   </a>
   <a href="https://hub.docker.com/repository/docker/guovern/tv-requests">
     <img src="https://img.shields.io/docker/pulls/guovern/tv-requests?label=docker:requests" />
@@ -86,6 +86,17 @@
 </p>
 
 [English](./README_en.md) | 中文
+
+- [✅ 特点](#✅-特点)
+- [🔗 最新结果](#🔗-最新结果)
+- [⚙️ 配置参数](./docs/config.md)
+- [🚀 快速上手](#🚀-快速上手)
+- [📖 详细教程](./docs/tutorial.md)
+- [🗓️ 更新日志](./CHANGELOG.md)
+- [💰️ 赞赏](#💰️-赞赏)
+- [👀 关注](#👀-关注)
+- [📣 免责声明](#📣-免责声明)
+- [⚖️ 许可证](#⚖️-许可证)
 
 ## ✅ 特点
 
