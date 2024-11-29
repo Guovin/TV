@@ -87,18 +87,18 @@
 
 [中文](./README.md) | English
 
-- [✅ Features](#✅-features)
-- [🔗 Latest results](#🔗-latest-results)
+- [✅ Features](#features)
+- [🔗 Latest results](#latest-results)
 - [⚙️ Config parameter](./docs/config_en.md)
-- [🚀 Quick Start](#🚀-quick-start)
+- [🚀 Quick Start](#quick-start)
 - [📖 Detailed Tutorial](./docs/tutorial_en.md)
 - [🗓️ Changelog](./CHANGELOG.md)
-- [💰️ Appreciate](#💰️-appreciate)
-- [👀 Follow](#👀-follow)
-- [📣 Disclaimer](#📣-disclaimer)
-- [⚖️ License](#⚖️-license)
+- [💰️ Appreciate](#appreciate)
+- [👀 Follow](#follow)
+- [📣 Disclaimer](#disclaimer)
+- [⚖️ License](#license)
 
-## ✅ Features
+## Features
 
 - ✅ Customize the template to generate the channel you want
 - ✅ Supports multiple source acquisition methods: multicast source, hotel source, subscription source, keyword search
@@ -108,7 +108,7 @@
 - ✅ Supports various execution methods: workflows, command line, GUI software, Docker(amd64/arm64/arm v7)
 - ✨ For more features, see [Config parameter](./docs/config_en.md)
 
-## 🔗 Latest results
+## Latest results
 
 - Interface source:
 
@@ -126,11 +126,11 @@ https://ghproxy.net/raw.githubusercontent.com/Guovin/iptv-api/gd/output/result.t
 https://ghproxy.net/raw.githubusercontent.com/Guovin/iptv-api/gd/source.json
 ```
 
-## ⚙️ Config
+## Config
 
 [Config parameter](./docs/config_en.md)
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Method 1: Workflow
 
@@ -230,11 +230,11 @@ docker run -v /etc/docker/config:/iptv-api-lite/config -v /etc/docker/output:/ip
 - API content: ip:8000/content
 - Speed test log: ip:8000/log
 
-## 🗓️ Changelog
+## Changelog
 
 [Changelog](./CHANGELOG.md)
 
-## 💰️ Appreciate
+## Appreciate
 
 <div>Development and maintenance are not easy, please buy me a coffee ~</div>
 
@@ -242,16 +242,16 @@ docker run -v /etc/docker/config:/iptv-api-lite/config -v /etc/docker/output:/ip
 | ------------------------------------- | ----------------------------------------- |
 | ![Alipay](./static/images/alipay.jpg) | ![Wechat](./static/images/appreciate.jpg) |
 
-## 👀 Follow
+## Follow
 
 Wechat public account search for Govin, or scan the code to receive updates and learn more tips:
 
 ![Wechat public account](./static/images/qrcode.jpg)
 
-## 📣 Disclaimer
+## Disclaimer
 
 This project is for learning and communication purposes only. All interface data comes from the internet. If there is any infringement, please contact us for removal.
 
-## ⚖️ License
+## License
 
 [MIT](./LICENSE) License &copy; 2024-PRESENT [Govin](https://github.com/guovin)
