@@ -44,14 +44,14 @@ class AboutUI:
         project_label.pack()
         project_link = tk.Label(
             project_row_column2,
-            text="https://github.com/Guovin/TV",
+            text="https://github.com/Guovin/iptv-api",
             fg="blue",
             cursor="hand2",
         )
         project_link.pack()
         project_link.bind(
             "<Button-1>",
-            lambda e: webbrowser.open_new_tab("https://github.com/Guovin/TV"),
+            lambda e: webbrowser.open_new_tab("https://github.com/Guovin/iptv-api"),
         )
 
         disclaimer_label = tk.Label(

@@ -480,7 +480,7 @@ class DefaultUI:
 
     def update_open_empty_category(self):
         config.set(
-            "Settings", "update_open_empty_category", str(self.open_url_info_var.get())
+            "Settings", "open_empty_category", str(self.open_empty_category_var.get())
         )
 
     def update_ipv_type(self, event):

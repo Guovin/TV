@@ -1,7 +1,5 @@
-from asyncio import create_task, gather
 from utils.config import config
 import utils.constants as constants
-from utils.speed import get_speed
 from utils.channel import (
     format_channel_name,
     get_results_from_soup,
@@ -22,10 +20,15 @@ from utils.retry import (
     retry_func,
     find_clickable_element_with_retry,
 )
-from selenium.webdriver.common.by import By
 from tqdm.asyncio import tqdm_asyncio
 from concurrent.futures import ThreadPoolExecutor
 from requests_custom.utils import get_soup_requests, close_session
+
+if config.open_driver:
+    try:
+        from selenium.webdriver.common.by import By
+    except:
+        pass
 
 
 async def get_channels_by_online_search(names, callback=None):
