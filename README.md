@@ -87,18 +87,18 @@
 
 [English](./README_en.md) | 中文
 
-- [✅ 特点](#✅-特点)
-- [🔗 最新结果](#🔗-最新结果)
+- [✅ 特点](#特点)
+- [🔗 最新结果](#最新结果)
 - [⚙️ 配置参数](./docs/config.md)
-- [🚀 快速上手](#🚀-快速上手)
+- [🚀 快速上手](#快速上手)
 - [📖 详细教程](./docs/tutorial.md)
 - [🗓️ 更新日志](./CHANGELOG.md)
-- [💰️ 赞赏](#💰️-赞赏)
-- [👀 关注](#👀-关注)
-- [📣 免责声明](#📣-免责声明)
-- [⚖️ 许可证](#⚖️-许可证)
+- [💰️ 赞赏](#赞赏)
+- [👀 关注](#关注)
+- [📣 免责声明](#免责声明)
+- [⚖️ 许可证](#许可证)
 
-## ✅ 特点
+## 特点
 
 - ✅ 自定义模板，生成您想要的频道
 - ✅ 支持多种获取源方式：组播源、酒店源、订阅源、关键字搜索
@@ -108,7 +108,7 @@
 - ✅ 支持多种运行方式：工作流、命令行、GUI 软件、Docker(amd64/arm64/arm v7)
 - ✨ 更多功能请见[配置参数](./docs/config.md)
 
-## 🔗 最新结果
+## 最新结果
 
 - 接口源：
 
@@ -126,11 +126,11 @@ https://ghproxy.net/raw.githubusercontent.com/Guovin/iptv-api/gd/output/result.t
 https://ghproxy.net/raw.githubusercontent.com/Guovin/iptv-api/gd/source.json
 ```
 
-## ⚙️ 配置
+## 配置
 
 [配置参数](./docs/config.md)
 
-## 🚀 快速上手
+## 快速上手
 
 ### 方式一：工作流
 
@@ -228,11 +228,11 @@ docker run -v /etc/docker/config:/iptv-api-lite/config -v /etc/docker/output:/ip
 - 接口内容：ip:8000/content
 - 测速日志：ip:8000/log
 
-## 🗓️ 更新日志
+## 更新日志
 
 [更新日志](./CHANGELOG.md)
 
-## 💰️ 赞赏
+## 赞赏
 
 <div>开发维护不易，请我喝杯咖啡☕️吧~</div>
 
@@ -240,16 +240,16 @@ docker run -v /etc/docker/config:/iptv-api-lite/config -v /etc/docker/output:/ip
 | ----------------------------------------- | ------------------------------------------- |
 | ![支付宝扫码](./static/images/alipay.jpg) | ![微信扫码](./static/images/appreciate.jpg) |
 
-## 👀 关注
+## 关注
 
 微信公众号搜索 Govin，或扫码，接收更新推送、学习更多使用技巧：
 
 ![微信公众号](./static/images/qrcode.jpg)
 
-## 📣 免责声明
+## 免责声明
 
 本项目仅供学习交流用途，接口数据均来源于网络，如有侵权，请联系删除
 
-## ⚖️ 许可证
+## 许可证
 
 [MIT](./LICENSE) License &copy; 2024-PRESENT [Govin](https://github.com/guovin)
