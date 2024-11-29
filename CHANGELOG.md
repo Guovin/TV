@@ -12,8 +12,7 @@
 - ✨ 新增支持 ARM v7（#562）
 - ✨ 新增双结果 API 访问（ip/m3u, ip/txt）（#581）
 - ✨ 新增启动 API 服务命令（pipenv run service）
-- 🪄 优化 Docker 镜像大小
-- 🛠 调整更新频率，每 12 小时执行一次
+- 🪄 优化 Docker 镜像大小（完整版：-25%，精简版：-66%）
 - 🐛 修复部分播放器不支持的信息间隔符（#581）
 
 <details>
@@ -27,8 +26,7 @@
 - ✨ Support for ARM v7 has been added (#562).
 - ✨ Dual result API access (ip/m3u, ip/txt) has been added (#581).
 - ✨ A command to start the API service (pipenv run service) has been added.
-- 🪄 The size of the Docker image has been optimized.
-- 🛠 Adjust the update frequency to be performed every 12 hours.
+- 🪄 The size of the Docker image has been optimized (Full version: -25%, Lite version: -66%).
 - 🐛 Fixed the information delimiter issue for some players that do not support it (#581).
 
 </details>
