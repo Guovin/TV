@@ -23,7 +23,7 @@
 
 ### 1. Star
 
-打开 https://github.com/Guovin/TV ，点击 Star 收藏该项目（您的 Star 是我持续更新的动力）
+打开 https://github.com/Guovin/iptv-api ，点击 Star 收藏该项目（您的 Star 是我持续更新的动力）
 ![Star](./images/star.png 'Star')
 
 ### 2. Watch
@@ -149,11 +149,11 @@ https://mirror.ghproxy.com/raw.githubusercontent.com/您的github用户名/仓�
 
 如果访问该链接能正常返回更新后的接口内容，说明您的直播源接口链接已经大功告成了！将该链接复制粘贴到 TVBox 等软件配置栏中即可使用~
 
-- 注意：除了首次执行工作流需要您手动触发，后续执行（默认北京时间每日 6:00 和 18:00）将自动触发。如果您修改了模板或配置文件想立刻执行更新，可手动触发（2）中的 Run workflow 即可。
+- 注意：除了首次执行工作流需要您手动触发，后续执行（默认北京时间每日 6:00 与 18:00）将自动触发。如果您修改了模板或配置文件想立刻执行更新，可手动触发（2）中的 Run workflow 即可。
 
 ### 4.修改工作流更新频率（可选）
 
-如果您想修改更新频率（默认北京时间每日 6:00 和 18:00），可修改 on:schedule:- cron 字段：
+如果您想修改更新频率（默认北京时间每日 6:00 与 18:00），可修改 on:schedule:- cron 字段：
 ![.github/workflows/main.yml](./images/schedule-cron.png '.github/workflows/main.yml')
 如果您想 每 2 天执行更新可以这样修改：
 
@@ -162,26 +162,41 @@ https://mirror.ghproxy.com/raw.githubusercontent.com/您的github用户名/仓�
 - cron: '0 10 */2 * *'
 ```
 
-#### 1. 强烈不建议修改，因为短时间内的接口内容并无差异，过高的更新频率与高耗时运行的工作流都有可能被判定为资源滥用，导致仓库与账户被封禁的风险。
+#### 1. 强烈不建议修改更新频率过高，因为短时间内的接口内容并无差异，过高的更新频率与高耗时运行的工作流都有可能被判定为资源滥用，导致仓库与账户被封禁的风险。
 
 #### 2. 请留意您的工作流运行时长，若发现执行时间过长，需要适当删减模板中频道数量、修改配置中的分页数量和接口数量，以达到合规的运行要求。
 
 ### 方式二：命令行
 
-```python
 1. 安装 Python
-请至官方下载并安装 Python，安装时请选择将 Python 添加到系统环境变量 Path 中
+   请至官方下载并安装 Python，安装时请选择将 Python 添加到系统环境变量 Path 中
 
 2. 运行更新
-项目目录下打开终端 CMD 依次运行以下命令：
+   项目目录下打开终端 CMD 依次运行以下命令：
+
+```python
 pip install pipenv
-pipenv install
-pipenv run build
+```
+
+```python
+pipenv install --dev
+```
+
+启动更新：
+
+```python
+pipenv run dev
+```
+
+启动服务：
+
+```python
+pipenv run service
 ```
 
 ### 方式三：GUI 软件
 
-1. 下载[更新工具软件](https://github.com/Guovin/TV/releases)，打开软件，点击更新，即可完成更新
+1. 下载[IPTV-API 更新软件](https://github.com/Guovin/iptv-api/releases)，打开软件，点击更新，即可完成更新
 
 2. 或者在项目目录下运行以下命令，即可打开 GUI 软件：
 
@@ -189,37 +204,65 @@ pipenv run build
 pipenv run ui
 ```
 
-![更新工具软件](./images/ui.png '更新工具软件')
+![IPTV-API 更新软件](./images/ui.png 'IPTV-API 更新软件')
 
 ### 方式四：Docker
 
-- requests：轻量级，性能要求低，更新速度快，稳定性不确定（推荐订阅源使用此版本）
-- driver：性能要求较高，更新速度较慢，稳定性、成功率高；修改配置 open_driver = False 可切换到 request 版本（推荐酒店源、组播源、关键字搜索使用此版本）
+- iptv-api（完整版本）：性能要求较高，更新速度较慢，稳定性、成功率高；修改配置 open_driver = False 可切换到 Lite 版本运行模式（推荐酒店源、组播源、关键字搜索使用此版本）
+- iptv-api:lite（精简版本）：轻量级，性能要求低，更新速度快，稳定性不确定（推荐订阅源使用此版本）
+
+1. 拉取镜像：
+
+- iptv-api：
 
 ```bash
-1. 拉取镜像：
-requests：
-docker pull guovern/tv-requests:latest
+docker pull guovern/iptv-api:latest
+```
 
-driver：
-docker pull guovern/tv-driver:latest
+- iptv-api:lite：
+
+```bash
+docker pull guovern/iptv-api:lite
+```
 
 2. 运行容器：
-docker run -d -p 8000:8000 guovern/tv-requests 或 tv-driver
+
+- iptv-api：
+
+```bash
+docker run -d -p 8000:8000 guovern/iptv-api
+```
+
+- iptv-api:lite：
+
+```bash
+docker run -d -p 8000:8000 guovern/iptv-api:lite
+```
 
 卷挂载参数（可选）：
 实现宿主机文件与容器文件同步，修改模板、配置、获取更新结果文件可直接在宿主机文件夹下操作
 
-配置文件：
--v 宿主机路径/config:/tv-requests/config 或 tv-driver/config
+以宿主机路径/etc/docker 为例：
 
-结果文件：
--v 宿主机路径/output:/tv-requests/output 或 tv-driver/output
+- iptv-api：
 
-3. 查看更新结果：访问（域名:8000）
+```bash
+docker run -v /etc/docker/config:/iptv-api/config -v /etc/docker/output:/iptv-api/output -d -p 8000:8000 guovern/iptv-api
 ```
 
-#### 注：方式一至三更新完成后的结果文件链接：http://本地 ip:8000 或 http://localhost:8000
+- iptv-api:lite：
+
+```bash
+docker run -v /etc/docker/config:/iptv-api-lite/config -v /etc/docker/output:/iptv-api-lite/output -d -p 8000:8000 guovern/iptv-api:lite
+```
+
+3. 更新结果：
+
+- 接口地址：ip:8000
+- M3u 接口：ip:8000/m3u
+- Txt 接口：ip:8000/txt
+- 接口内容：ip:8000/content
+- 测速日志：ip:8000/log
 
 ### 上传更新文件至仓库（可选）
 

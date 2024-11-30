@@ -2,9 +2,13 @@ import os
 
 output_dir = "output"
 
-log_file = "result_new.log"
+result_path = os.path.join(output_dir, "result_new.txt")
 
-log_path = os.path.join(output_dir, log_file)
+cache_path = os.path.join(output_dir, "cache.pkl")
+
+sort_log_path = os.path.join(output_dir, "sort.log")
+
+log_path = os.path.join(output_dir, "log.log")
 
 url_pattern = r"((https?):\/\/)?(\[[0-9a-fA-F:]+\]|([\w-]+\.)+[\w-]+)(:[0-9]{1,5})?(\/[^\s]*)?(\$[^\s]+)?"
 
@@ -95,4 +99,4 @@ foodie_url = "http://www.foodieguide.com/iptvsearch/"
 
 foodie_hotel_url = "http://www.foodieguide.com/iptvsearch/hoteliptv.php"
 
-waiting_tip = "🔍️正在更新，请耐心等待更新完成..."
+waiting_tip = "🔍️未找到结果文件，若已启动更新，请耐心等待更新完成..."

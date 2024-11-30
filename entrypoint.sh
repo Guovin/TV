@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for file in /tv_config/*; do
+for file in /iptv-api-config/*; do
   filename=$(basename "$file")
   target_file="$APP_WORKDIR/config/$filename"
   if [ ! -e "$target_file" ]; then
@@ -8,8 +8,10 @@ for file in /tv_config/*; do
   fi
 done
 
-service cron start
+. /.venv/bin/activate
 
-pipenv run python $APP_WORKDIR/main.py
+service cron start &
 
-gunicorn -w 4 -b 0.0.0.0:8000 main:app
+python $APP_WORKDIR/main.py &
+
+python -m gunicorn service.app:app -b 0.0.0.0:8000 --timeout=1000

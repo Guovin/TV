@@ -23,7 +23,7 @@ Since this project will continue to iterate and improve, if you want to get the 
 
 ### 1. Star
 
-Go to https://github.com/Guovin/TV, click on Star to bookmark this project (Your Star is my motivation to keep updating).
+Go to https://github.com/Guovin/iptv-api, click on Star to bookmark this project (Your Star is my motivation to keep updating).
 ![Star](./images/star.png 'Star')
 
 ### 2. Watch
@@ -146,11 +146,11 @@ https://mirror.ghproxy.com/raw.githubusercontent.com/your github username/reposi
 
 If you can access this link and it returns the updated interface content, then your live source interface link has been successfully created! Simply copy and paste this link into software like TVBox in the configuration field to use~
 
-- Note: Except for the first execution of the workflow, which requires you to manually trigger it, subsequent executions (default: daily at 6:00 am and 18:00 pm Beijing time) will be automatically triggered. If you have modified the template or configuration files and want to execute the update immediately, you can manually trigger (2) Run workflow.
+- Note: Except for the first execution of the workflow, which requires you to manually trigger it, subsequent executions (default: 6:00 AM and 18:00 PM Beijing time daily) will be automatically triggered. If you have modified the template or configuration files and want to execute the update immediately, you can manually trigger (2) Run workflow.
 
 ### 4.Modify Workflow Update Frequency(optional)
 
-If you want to modify the update frequency (default: daily at 6:00 am and 18:00 pm Beijing time), you can modify the on:schedule:- cron field.
+If you want to modify the update frequency (default: 6:00 AM and 18:00 PM Beijing time daily), you can modify the on:schedule:- cron field.
 ![.github/workflows/main.yml](./images/schedule-cron.png '.github/workflows/main.yml')
 If you want to perform updates every 2 days, you can modify it like this:
 
@@ -159,26 +159,41 @@ If you want to perform updates every 2 days, you can modify it like this:
 - cron: '0 10 */2 * *'
 ```
 
-#### 1. It is strongly discouraged to make modifications, as there is no difference in the content of the interface in a short period of time. Both too frequent updates and high-consumption running workflows may be judged as resource abuse, leading to the risk of the repository and account being banned.
+#### 1. It is strongly not recommended to modify and update too frequently, because the interface content does not differ within a short period of time, and too high update frequency and time-consuming workflow may be judged as resource abuse, resulting in the risk of warehouse and account being blocked.
 
 #### 2. Please pay attention to the runtime of your workflow. If you find that the execution time is too long, you need to appropriately reduce the number of channels in the template, modify the number of pages and interfaces in the configuration, in order to meet the compliant operation requirements.
 
 ### Method 2: Command Line
 
-```python
 1. Install Python
-Please download and install Python from the official site. During installation, choose to add Python to the system's environment variables Path.
+   Please download and install Python from the official site. During installation, choose to add Python to the system's environment variables Path.
 
 2. Run Update
-Open a CMD terminal in the project directory and run the following commands in sequence:
+   Open a CMD terminal in the project directory and run the following commands in sequence:
+
+```python
 pip install pipenv
-pipenv install
-pipenv run build
+```
+
+```python
+pipenv install --dev
+```
+
+Start update:
+
+```python
+pipenv run dev
+```
+
+Start service:
+
+```python
+pipenv run service
 ```
 
 ### Method 3: GUI Software
 
-1. Download the update tool software, open the software, click update to complete the update.
+1. Download [IPTV-API software](https://github.com/Guovin/iptv-api/releases), open the software, click update to complete the update.
 
 2. Alternatively, run the following command in the project directory to open the GUI software:
 
@@ -186,37 +201,67 @@ pipenv run build
 pipenv run ui
 ```
 
-![Update tool software](./images/ui.png 'Update tool software')
+![IPTV-API software](./images/ui.png 'IPTV-API software')
 
 ### Method 4: Docker
 
-- requests: Lightweight, low performance requirements, fast update speed, stability uncertain (recommend this version for subscription sources)
-- driver: Higher performance requirements, slower update speed, high stability and success rate. Set open_driver = False to switch to the request version (recommended for hotel sources, multicast sources, and keyword search)
+- iptv-api (Full version): Higher performance requirements, slower update speed, high stability and success rate. Set open_driver = False to switch to the lite running mode (recommended for hotel sources, multicast sources, and online searches)
+- iptv-api:lite (Condensed version): Lightweight, low performance requirements, fast update speed, stability uncertain (recommend using this version for the subscription source)
+
+It's recommended to try each one and choose the version that suits you
+
+1. Pull the image:
+
+- iptv-api
 
 ```bash
-1. Pull the image:
-For requests version:
-docker pull guovern/tv-requests:latest
+docker pull guovern/iptv-api:latest
+```
 
-For driver version:
-docker pull guovern/tv-driver:latest
+- iptv-api:lite
+
+```bash
+docker pull guovern/iptv-api:lite
+```
 
 2. Run the container:
-docker run -d -p 8000:8000 guovern/tv-requests or driver
+
+- iptv-api
+
+```bash
+docker run -d -p 8000:8000 guovern/iptv-api
+```
+
+- iptv-api:lite
+
+```bash
+docker run -d -p 8000:8000 guovern/iptv-api:lite
+```
 
 Volume Mount Parameter (Optional):
 This allows synchronization of files between the host machine and the container. Modifying templates, configurations, and retrieving updated result files can be directly operated in the host machine's folder.
 
-config:
--v <path>/config:/tv-requests/config or tv-driver/config
+Taking the host path /etc/docker as an example:
 
-result:
--v <path>/output:/tv-requests/output or tv-driver/output
+- iptv-api：
 
-3. Check the update results: Visit (domain:8000)
+```bash
+docker run -v /etc/docker/config:/iptv-api/config -v /etc/docker/output:/iptv-api/output -d -p 8000:8000 guovern/iptv-api
 ```
 
-#### Note: Link to the result file after updates of methods one to three: http://local ip:8000 or http://localhost:8000
+- iptv-api:lite：
+
+```bash
+docker run -v /etc/docker/config:/iptv-api-lite/config -v /etc/docker/output:/iptv-api-lite/output -d -p 8000:8000 guovern/iptv-api:lite
+```
+
+3. Update results:
+
+- API address: ip:8000
+- M3u api：ip:8000/m3u
+- Txt api：ip:8000/txt
+- API content: ip:8000/content
+- Speed test log: ip:8000/log
 
 ### Update the File to the Repository(optional)
 

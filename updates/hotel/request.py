@@ -13,7 +13,6 @@ from utils.retry import (
     retry_func,
     find_clickable_element_with_retry,
 )
-from selenium.webdriver.common.by import By
 from tqdm.asyncio import tqdm_asyncio
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from requests_custom.utils import get_soup_requests, close_session
@@ -22,6 +21,12 @@ from urllib.parse import parse_qs
 from updates.subscribe import get_channels_by_subscribe_urls
 from collections import defaultdict
 import updates.fofa.fofa_map as fofa_map
+
+if config.open_driver:
+    try:
+        from selenium.webdriver.common.by import By
+    except:
+        pass
 
 
 async def get_channels_by_hotel(callback=None):

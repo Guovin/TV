@@ -4,13 +4,16 @@ url = "https://mirrors.aliyun.com/pypi/simple"
 verify_ssl = true
 
 [scripts]
-build = "python main.py"
+dev = "python main.py"
+service = "python service/app.py"
 ui = "python tkinter_ui/tkinter_ui.py"
-multicast_tmp = "python updates/multicast/update_tmp.py"
+docker_run = "docker run -v ./config:/iptv-api/config -v ./output:/iptv-api/output -d -p 8000:8000 guovern/iptv-api"
+docker_run_lite = "docker run -v ./config:/iptv-api-lite/config -v ./output:/iptv-api-lite/output -d -p 8000:8000 guovern/iptv-api:lite"
+tkinter_build = "pyinstaller tkinter_ui/tkinter_ui.spec"
+docker_build = "docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 --build-arg APP_WORKDIR=/iptv-api -t guovern/iptv-api ."
+docker_build_lite = "docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 --build-arg APP_WORKDIR=/iptv-api-lite --build-arg LITE=True -t guovern/iptv-api:lite ."
 
 [dev-packages]
-
-[packages]
 requests = "*"
 selenium = "*"
 bs4 = "*"
@@ -21,8 +24,21 @@ aiohttp = "*"
 flask = "*"
 opencc-python-reimplemented = "*"
 fake-useragent = "*"
+pillow = "*"
+yt-dlp = "*"
+
+[packages]
+requests = "*"
+bs4 = "*"
+tqdm = "*"
+async-timeout = "*"
+aiohttp = "*"
+flask = "*"
+opencc-python-reimplemented = "*"
+fake-useragent = "*"
 gunicorn = "*"
 pillow = "*"
+yt-dlp = "*"
 
 [requires]
-python_version = "3.8"
+python_version = "3.13"
