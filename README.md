@@ -113,17 +113,17 @@
 - 接口源：
 
 ```bash
-https://ghproxy.net/raw.githubusercontent.com/Guovin/iptv-api/gd/output/result.m3u
+https://ghp.ci/raw.githubusercontent.com/Guovin/iptv-api/gd/output/result.m3u
 ```
 
 ```bash
-https://ghproxy.net/raw.githubusercontent.com/Guovin/iptv-api/gd/output/result.txt
+https://ghp.ci/raw.githubusercontent.com/Guovin/iptv-api/gd/output/result.txt
 ```
 
 - 数据源：
 
 ```bash
-https://ghproxy.net/raw.githubusercontent.com/Guovin/iptv-api/gd/source.json
+https://ghp.ci/raw.githubusercontent.com/Guovin/iptv-api/gd/source.json
 ```
 
 ## 配置

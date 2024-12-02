@@ -113,17 +113,17 @@
 - Interface source:
 
 ```bash
-https://ghproxy.net/raw.githubusercontent.com/Guovin/iptv-api/gd/output/result.m3u
+https://ghp.ci/raw.githubusercontent.com/Guovin/iptv-api/gd/output/result.m3u
 ```
 
 ```bash
-https://ghproxy.net/raw.githubusercontent.com/Guovin/iptv-api/gd/output/result.txt
+https://ghp.ci/raw.githubusercontent.com/Guovin/iptv-api/gd/output/result.txt
 ```
 
 - Data source:
 
 ```bash
-https://ghproxy.net/raw.githubusercontent.com/Guovin/iptv-api/gd/source.json
+https://ghp.ci/raw.githubusercontent.com/Guovin/iptv-api/gd/source.json
 ```
 
 ## Config

@@ -1,14 +1,14 @@
-from aiohttp import ClientSession, TCPConnector
-from time import time
 import asyncio
 import re
-from utils.config import config
-import utils.constants as constants
-from utils.tools import is_ipv6, remove_cache_info, get_resolution_value, get_logger
 import subprocess
+from time import time
+
 import yt_dlp
-from concurrent.futures import ProcessPoolExecutor
-import functools
+from aiohttp import ClientSession, TCPConnector
+
+import utils.constants as constants
+from utils.config import config
+from utils.tools import is_ipv6, remove_cache_info, get_resolution_value, get_logger
 
 logger = get_logger(constants.log_path)
 
@@ -34,26 +34,19 @@ async def get_speed_yt_dlp(url, timeout=config.sort_timeout):
     Get the speed of the url by yt_dlp
     """
     try:
-        async with asyncio.timeout(timeout + 2):
-            start_time = time()
-            loop = asyncio.get_running_loop()
-            with ProcessPoolExecutor() as exc:
-                info = await loop.run_in_executor(
-                    exc, functools.partial(get_info_yt_dlp, url, timeout)
-                )
-                fps = (
-                    int(round((time() - start_time) * 1000))
-                    if len(info)
-                    else float("inf")
-                )
-                resolution = (
-                    f"{info['width']}x{info['height']}"
-                    if "width" in info and "height" in info
-                    else None
-                )
-                return (fps, resolution)
+        start_time = time()
+        info = await asyncio.wait_for(
+            asyncio.to_thread(get_info_yt_dlp, url, timeout), timeout=timeout
+        )
+        fps = int(round((time() - start_time) * 1000)) if len(info) else float("inf")
+        resolution = (
+            f"{info['width']}x{info['height']}"
+            if "width" in info and "height" in info
+            else None
+        )
+        return fps, resolution
     except:
-        return (float("inf"), None)
+        return float("inf"), None
 
 
 async def get_speed_requests(url, timeout=config.sort_timeout, proxy=None):
@@ -61,7 +54,7 @@ async def get_speed_requests(url, timeout=config.sort_timeout, proxy=None):
     Get the speed of the url by requests
     """
     async with ClientSession(
-        connector=TCPConnector(verify_ssl=False), trust_env=True
+            connector=TCPConnector(verify_ssl=False), trust_env=True
     ) as session:
         start = time()
         end = None
@@ -153,7 +146,7 @@ async def check_stream_speed(url_info):
         if frame is None or frame == float("inf"):
             return float("inf")
         url_info[2] = resolution
-        return (url_info, frame)
+        return url_info, frame
     except Exception as e:
         print(e)
         return float("inf")
@@ -164,7 +157,7 @@ speed_cache = {}
 
 async def get_speed(url, ipv6_proxy=None, callback=None):
     """
-    Get the speed of the url
+    Get the speed (response time and resolution) of the url
     """
     try:
         cache_key = None
@@ -177,14 +170,14 @@ async def get_speed(url, ipv6_proxy=None, callback=None):
         if cache_key in speed_cache:
             return speed_cache[cache_key][0]
         if ipv6_proxy and url_is_ipv6:
-            speed = 0
+            speed = (0, None)
         else:
             speed = await get_speed_yt_dlp(url)
         if cache_key and cache_key not in speed_cache:
             speed_cache[cache_key] = speed
         return speed
     except:
-        return float("inf")
+        return float("inf"), None
     finally:
         if callback:
             callback()
@@ -224,8 +217,8 @@ def sort_urls_by_speed_and_resolution(name, data, logger=None):
         else:
             resolution_value = get_resolution_value(resolution) if resolution else 0
             return (
-                config.response_time_weight * response_time
-                - config.resolution_weight * resolution_value
+                    config.response_time_weight * response_time
+                    - config.resolution_weight * resolution_value
             )
 
     filter_data.sort(key=combined_key)
