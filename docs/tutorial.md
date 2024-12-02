@@ -144,7 +144,7 @@
 如果一切正常，稍等片刻后就可以看到该条工作流已经执行成功（绿色勾图标）
 ![Workflow执行成功](./images/workflow-success.png 'Workflow执行成功')
 此时您可以访问代理文件链接，查看最新结果有没有同步即可：
-https://mirror.ghproxy.com/raw.githubusercontent.com/您的github用户名/仓库名称（对应上述Fork创建时的TV）/master/output/user_result.txt
+https://ghp.ci/raw.githubusercontent.com/您的github用户名/仓库名称（对应上述Fork创建时的TV）/master/output/user_result.txt
 ![用户名与仓库名称](./images/rep-info.png '用户名与仓库名称')
 
 如果访问该链接能正常返回更新后的接口内容，说明您的直播源接口链接已经大功告成了！将该链接复制粘贴到 TVBox 等软件配置栏中即可使用~
@@ -267,5 +267,5 @@ docker run -v /etc/docker/config:/iptv-api-lite/config -v /etc/docker/output:/ip
 ### 上传更新文件至仓库（可选）
 
 如果您没有自己的域名地址，接口更新完成后，将 user_result.txt 上传至个人仓库，即可使用
-https://mirror.ghproxy.com/raw.githubusercontent.com/您的github用户名/仓库名称（对应上述Fork创建时的TV）/master/output/user_result.txt
+https://ghp.ci/raw.githubusercontent.com/您的github用户名/仓库名称（对应上述Fork创建时的TV）/master/output/user_result.txt
 ![用户名与仓库名称](./images/rep-info.png '用户名与仓库名称')
