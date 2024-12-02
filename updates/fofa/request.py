@@ -1,19 +1,21 @@
-from tqdm.asyncio import tqdm_asyncio
-from time import time
-from requests import get
-from concurrent.futures import ThreadPoolExecutor, as_completed
-import updates.fofa.fofa_map as fofa_map
-import re
-from utils.config import config
-import utils.constants as constants
-from utils.retry import retry_func
-from utils.channel import format_channel_name
-from utils.tools import merge_objects, get_pbar_remaining, add_url_info, resource_path
-from updates.proxy import get_proxy, get_proxy_next
-from requests_custom.utils import get_source_requests, close_session
-from collections import defaultdict
 import pickle
+import re
 import threading
+from collections import defaultdict
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from time import time
+
+from requests import get
+from tqdm.asyncio import tqdm_asyncio
+
+import updates.fofa.fofa_map as fofa_map
+import utils.constants as constants
+from requests_custom.utils import get_source_requests, close_session
+from updates.proxy import get_proxy, get_proxy_next
+from utils.channel import format_channel_name
+from utils.config import config
+from utils.retry import retry_func
+from utils.tools import merge_objects, get_pbar_remaining, add_url_info, resource_path
 
 
 def get_fofa_urls_from_region_list():
@@ -44,10 +46,10 @@ def update_fofa_region_result_tmp(result, multicast=False):
     tmp_result = get_fofa_region_result_tmp(multicast=multicast)
     total_result = merge_objects(tmp_result, result)
     with open(
-        resource_path(
-            f"updates/fofa/fofa_{'multicast' if multicast else 'hotel'}_region_result.pkl"
-        ),
-        "wb",
+            resource_path(
+                f"updates/fofa/fofa_{'multicast' if multicast else 'hotel'}_region_result.pkl"
+            ),
+            "wb",
     ) as file:
         pickle.dump(total_result, file)
 
@@ -55,10 +57,10 @@ def update_fofa_region_result_tmp(result, multicast=False):
 def get_fofa_region_result_tmp(multicast: False):
     try:
         with open(
-            resource_path(
-                f"updates/fofa/fofa_{'multicast' if multicast else 'hotel'}_region_result.pkl"
-            ),
-            "rb",
+                resource_path(
+                    f"updates/fofa/fofa_{'multicast' if multicast else 'hotel'}_region_result.pkl"
+                ),
+                "rb",
         ) as file:
             return pickle.load(file)
     except:
@@ -119,7 +121,7 @@ async def get_channels_by_fofa(urls=None, multicast=False, callback=None):
                 page_source = retry_func(
                     lambda: get_source_requests(fofa_url), name=fofa_url
                 )
-            if "禁止访问" in page_source or "资源访问每天限制" in page_source:
+            if any(keyword in page_source for keyword in ["访问异常", "禁止访问", "资源访问每天限制"]):
                 cancel_event.set()
                 raise ValueError("Limited access to fofa page")
             fofa_source = re.sub(r"<!--.*?-->", "", page_source, flags=re.DOTALL)
