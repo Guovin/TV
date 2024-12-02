@@ -7,8 +7,6 @@ import utils.constants as constants
 from utils.tools import is_ipv6, remove_cache_info, get_resolution_value, get_logger
 import subprocess
 import yt_dlp
-from concurrent.futures import ProcessPoolExecutor
-import functools
 
 logger = get_logger(constants.log_path)
 
@@ -34,24 +32,17 @@ async def get_speed_yt_dlp(url, timeout=config.sort_timeout):
     Get the speed of the url by yt_dlp
     """
     try:
-        async with asyncio.timeout(timeout + 2):
-            start_time = time()
-            loop = asyncio.get_running_loop()
-            with ProcessPoolExecutor() as exc:
-                info = await loop.run_in_executor(
-                    exc, functools.partial(get_info_yt_dlp, url, timeout)
-                )
-                fps = (
-                    int(round((time() - start_time) * 1000))
-                    if len(info)
-                    else float("inf")
-                )
-                resolution = (
-                    f"{info['width']}x{info['height']}"
-                    if "width" in info and "height" in info
-                    else None
-                )
-                return (fps, resolution)
+        start_time = time()
+        info = await asyncio.wait_for(
+            asyncio.to_thread(get_info_yt_dlp, url, timeout), timeout=timeout
+        )
+        fps = int(round((time() - start_time) * 1000)) if len(info) else float("inf")
+        resolution = (
+            f"{info['width']}x{info['height']}"
+            if "width" in info and "height" in info
+            else None
+        )
+        return (fps, resolution)
     except:
         return (float("inf"), None)
 
