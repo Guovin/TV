@@ -141,7 +141,7 @@ If everything is normal, after a short wait, you will see that the workflow has 
 ![Workflow executed successfully](./images/workflow-success.png 'Workflow executed successfully')
 
 At this point, you can visit the proxy file link to see if the latest results have been synchronized:
-https://mirror.ghproxy.com/raw.githubusercontent.com/your github username/repository name (corresponding to the TV created when forking)/master/user_result.txt
+https://ghp.ci/raw.githubusercontent.com/your github username/repository name (corresponding to the TV created when forking)/master/user_result.txt
 ![Username and Repository Name](./images/rep-info.png 'Username and Repository Name')
 
 If you can access this link and it returns the updated interface content, then your live source interface link has been successfully created! Simply copy and paste this link into software like TVBox in the configuration field to use~
@@ -266,5 +266,5 @@ docker run -v /etc/docker/config:/iptv-api-lite/config -v /etc/docker/output:/ip
 ### Update the File to the Repository(optional)
 
 If you do not have your own domain address, after the interface update is completed, upload user_result.txt to your personal repository to use it.
-https://mirror.ghproxy.com/raw.githubusercontent.com/your github username/repository name (corresponding to the TV created when forking)/master/output/user_result.txt
+https://ghp.ci/raw.githubusercontent.com/your github username/repository name (corresponding to the TV created when forking)/master/output/user_result.txt
 ![Username and Repository Name](./images/rep-info.png 'Username and Repository Name')
