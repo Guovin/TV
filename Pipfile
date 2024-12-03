@@ -39,6 +39,7 @@ fake-useragent = "*"
 gunicorn = "*"
 pillow = "*"
 yt-dlp = "*"
+m3u8 = "*"
 
 [requires]
 python_version = "3.13"

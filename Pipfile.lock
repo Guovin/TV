@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "607118c241d8006851d09df1f7eaa5299ede1023bfdf43911c258ce406732c3d"
+            "sha256": "c1675cff542fd8928f33bdc97dcb2a78bf11fda60b23d4d38317a5b56eb52e20"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -440,6 +440,15 @@
             ],
             "markers": "python_version >= '3.7'",
             "version": "==3.1.4"
+        },
+        "m3u8": {
+            "hashes": [
+                "sha256:566d0748739c552dad10f8c87150078de6a0ec25071fa48e6968e96fc6dcba5d",
+                "sha256:7ade990a1667d7a653bcaf9413b16c3eb5cd618982ff46aaff57fe6d9fa9c0fd"
+            ],
+            "index": "aliyun",
+            "markers": "python_version >= '3.7'",
+            "version": "==6.0.0"
         },
         "markupsafe": {
             "hashes": [
