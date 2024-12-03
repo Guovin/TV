@@ -1,5 +1,22 @@
-from utils.config import config
+import asyncio
+import base64
+import copy
+import datetime
+import os
+import pickle
+import re
+from collections import defaultdict
+from logging import INFO
+
+from bs4 import NavigableString
+from opencc import OpenCC
+
 import utils.constants as constants
+from utils.config import config
+from utils.speed import (
+    get_speed,
+    sort_urls_by_speed_and_resolution,
+)
 from utils.tools import (
     check_url_by_patterns,
     get_total_urls_from_info_list,
@@ -10,21 +27,6 @@ from utils.tools import (
     write_content_into_txt,
     get_logger,
 )
-from utils.speed import (
-    get_speed,
-    sort_urls_by_speed_and_resolution,
-)
-import os
-from collections import defaultdict
-import re
-from bs4 import NavigableString
-from opencc import OpenCC
-import base64
-import pickle
-import copy
-import datetime
-import asyncio
-from logging import INFO
 
 
 def get_name_url(content, pattern, multiline=False, check_url=True):
@@ -207,9 +209,9 @@ def get_channel_multicast_region_type_list(result):
         for region_type in result.values()
         for region, types in region_type.items()
         if "all" in region_list
-        or "ALL" in region_list
-        or "全部" in region_list
-        or region in region_list
+           or "ALL" in region_list
+           or "全部" in region_list
+           or region in region_list
         for type in types
     }
     return list(region_type_list)
@@ -449,9 +451,9 @@ def append_data_to_info_data(info_data, cate, name, data, origin=None, check=Tru
                 if pure_url in urls:
                     continue
                 if (
-                    url_origin == "important"
-                    or (not check)
-                    or (check and check_url_by_patterns(pure_url))
+                        url_origin == "important"
+                        or (not check)
+                        or (check and check_url_by_patterns(pure_url))
                 ):
                     info_data[cate][name].append((url, date, resolution, url_origin))
                     urls.append(pure_url)
@@ -480,14 +482,14 @@ def append_old_data_to_info_data(info_data, cate, name, data):
 
 
 def append_total_data(
-    items,
-    names,
-    data,
-    hotel_fofa_result=None,
-    multicast_result=None,
-    hotel_foodie_result=None,
-    subscribe_result=None,
-    online_search_result=None,
+        items,
+        names,
+        data,
+        hotel_fofa_result=None,
+        multicast_result=None,
+        hotel_foodie_result=None,
+        subscribe_result=None,
+        online_search_result=None,
 ):
     """
     Append all method data to total info data
@@ -547,7 +549,7 @@ def append_total_data(
 
 async def process_sort_channel_list(data, ipv6=False, callback=None):
     """
-    Processs the sort channel list
+    Process the sort channel list
     """
     ipv6_proxy = None if (not config.open_ipv6 or ipv6) else constants.ipv6_proxy
     need_sort_data = copy.deepcopy(data)
@@ -640,7 +642,7 @@ def get_multicast_fofa_search_org(region, type):
     elif type == "电信":
         org = "Chinanet"
     elif type == "移动":
-        org == "China Mobile communications corporation"
+        org = "China Mobile communications corporation"
     return org
 
 
@@ -658,14 +660,14 @@ def get_multicast_fofa_search_urls():
         (parts[0], parts[1])
         for name in rtp_file_names
         if (parts := name.partition("_"))[0] in region_list
-        or "all" in region_list
-        or "ALL" in region_list
-        or "全部" in region_list
+           or "all" in region_list
+           or "ALL" in region_list
+           or "全部" in region_list
     ]
     search_urls = []
     for region, type in region_type_list:
         search_url = "https://fofa.info/result?qbase64="
-        search_txt = f'"udpxy" && country="CN" && region="{region}" && org="{get_multicast_fofa_search_org(region,type)}"'
+        search_txt = f'"udpxy" && country="CN" && region="{region}" && org="{get_multicast_fofa_search_org(region, type)}"'
         bytes_string = search_txt.encode("utf-8")
         search_txt = base64.b64encode(bytes_string).decode("utf-8")
         search_url += search_txt
