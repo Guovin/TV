@@ -93,7 +93,7 @@
 - [🚀 Quick Start](#quick-start)
 - [📖 Detailed Tutorial](./docs/tutorial_en.md)
 - [🗓️ Changelog](./CHANGELOG.md)
-- [💰️ Appreciate](#appreciate)
+- [❤️ Appreciate](#appreciate)
 - [👀 Follow](#follow)
 - [📣 Disclaimer](#disclaimer)
 - [⚖️ License](#license)
