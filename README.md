@@ -93,7 +93,7 @@
 - [🚀 快速上手](#快速上手)
 - [📖 详细教程](./docs/tutorial.md)
 - [🗓️ 更新日志](./CHANGELOG.md)
-- [💰️ 赞赏](#赞赏)
+- [❤️ 赞赏](#赞赏)
 - [👀 关注](#关注)
 - [📣 免责声明](#免责声明)
 - [⚖️ 许可证](#许可证)
@@ -113,17 +113,17 @@
 - 接口源：
 
 ```bash
-https://ghproxy.net/raw.githubusercontent.com/Guovin/iptv-api/gd/output/result.m3u
+https://ghp.ci/raw.githubusercontent.com/Guovin/iptv-api/gd/output/result.m3u
 ```
 
 ```bash
-https://ghproxy.net/raw.githubusercontent.com/Guovin/iptv-api/gd/output/result.txt
+https://ghp.ci/raw.githubusercontent.com/Guovin/iptv-api/gd/output/result.txt
 ```
 
 - 数据源：
 
 ```bash
-https://ghproxy.net/raw.githubusercontent.com/Guovin/iptv-api/gd/source.json
+https://ghp.ci/raw.githubusercontent.com/Guovin/iptv-api/gd/source.json
 ```
 
 ## 配置
