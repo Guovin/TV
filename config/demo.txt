@@ -40,10 +40,10 @@ CCTV-央视台球
 CCTV-电视指南
 CCTV-高尔夫网球
 CCTV-央视文化精品
-CETV-1综合教育
-CETV-2教育教学
-CETV-3北京地面
-CETV-4职业教育
+CETV1
+CETV2
+CETV3
+CETV4
 CETV早期教育
 CCTV-4K
 CCTV-8K
