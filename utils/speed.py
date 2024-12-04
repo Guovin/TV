@@ -229,8 +229,8 @@ async def get_speed(url, ipv6_proxy=None, callback=None):
             return speed_cache[cache_key][0]
         if ipv6_proxy and url_is_ipv6:
             speed = (0, None)
-        elif '.m3u8' in url:
-            speed = await get_speed_m3u8(url)
+        # elif '.m3u8' in url:
+        #     speed = await get_speed_m3u8(url)
         else:
             speed = await get_speed_yt_dlp(url)
         if cache_key and cache_key not in speed_cache:
