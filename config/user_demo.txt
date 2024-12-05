@@ -1,5 +1,5 @@
 📺央视频道,#genre#
-CETV1
+CETV1,http://baidu.com$!测试一下白名单
 CETV2
 CETV4
 CETV5
