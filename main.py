@@ -173,7 +173,6 @@ class UpdateSource:
                     f"🥳 Update completed! Total time spent: {total_time}. Please check the {user_final_file} file!"
                 )
             if self.run_ui:
-                print("Check is GUI Environment, run service...")
                 open_service = config.open_service
                 service_tip = ", 可使用以下链接观看直播:" if open_service else ""
                 tip = (
