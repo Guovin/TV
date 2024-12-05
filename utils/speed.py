@@ -2,7 +2,9 @@ import asyncio
 import re
 import subprocess
 from time import time
+from urllib.parse import quote
 
+import m3u8
 import yt_dlp
 from aiohttp import ClientSession, TCPConnector
 
@@ -11,6 +13,62 @@ from utils.config import config
 from utils.tools import is_ipv6, remove_cache_info, get_resolution_value, get_logger
 
 logger = get_logger(constants.log_path)
+
+
+async def get_speed_with_download(url, timeout=config.sort_timeout):
+    """
+    Get the speed of the url with a total timeout
+    """
+    start_time = time()
+    total_size = 0
+    total_time = 0
+    try:
+        async with ClientSession(
+                connector=TCPConnector(ssl=False), trust_env=True
+        ) as session:
+            async with session.get(url, timeout=timeout) as response:
+                async for chunk in response.content.iter_any():
+                    if chunk:
+                        total_size += len(chunk)
+    except Exception as e:
+        pass
+    finally:
+        end_time = time()
+        total_time += end_time - start_time
+    average_speed = (total_size / total_time if total_time > 0 else 0) / 1024
+    return average_speed
+
+
+async def get_speed_m3u8(url, timeout=config.sort_timeout):
+    """
+    Get the speed of the m3u8 url with a total timeout
+    """
+    start_time = time()
+    total_size = 0
+    total_time = 0
+    try:
+        url = quote(url, safe=':/?$&=@')
+        m3u8_obj = m3u8.load(url)
+        async with ClientSession(
+                connector=TCPConnector(ssl=False), trust_env=True
+        ) as session:
+            for segment in m3u8_obj.segments:
+                if time() - start_time > timeout:
+                    break
+                ts_url = segment.absolute_uri
+                async with session.get(ts_url, timeout=timeout) as response:
+                    file_size = 0
+                    async for chunk in response.content.iter_any():
+                        if chunk:
+                            file_size += len(chunk)
+                    end_time = time()
+                    download_time = end_time - start_time
+                    total_size += file_size
+                    total_time += download_time
+    except Exception as e:
+        pass
+    average_speed = (total_size / total_time if total_time > 0 else 0) / 1024
+    return average_speed
 
 
 def get_info_yt_dlp(url, timeout=config.sort_timeout):
@@ -54,7 +112,7 @@ async def get_speed_requests(url, timeout=config.sort_timeout, proxy=None):
     Get the speed of the url by requests
     """
     async with ClientSession(
-            connector=TCPConnector(verify_ssl=False), trust_env=True
+            connector=TCPConnector(ssl=False), trust_env=True
     ) as session:
         start = time()
         end = None
@@ -171,6 +229,8 @@ async def get_speed(url, ipv6_proxy=None, callback=None):
             return speed_cache[cache_key][0]
         if ipv6_proxy and url_is_ipv6:
             speed = (0, None)
+        # elif '.m3u8' in url:
+        #     speed = await get_speed_m3u8(url)
         else:
             speed = await get_speed_yt_dlp(url)
         if cache_key and cache_key not in speed_cache:
