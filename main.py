@@ -1,7 +1,17 @@
 import asyncio
-from utils.config import config
+import copy
+import pickle
+from time import time
+
+from tqdm import tqdm
+
 import utils.constants as constants
 from service.app import run_service
+from updates.fofa import get_channels_by_fofa
+from updates.hotel import get_channels_by_hotel
+from updates.multicast import get_channels_by_multicast
+from updates.online_search import get_channels_by_online_search
+from updates.subscribe import get_channels_by_subscribe_urls
 from utils.channel import (
     get_channel_items,
     append_total_data,
@@ -10,6 +20,7 @@ from utils.channel import (
     get_channel_data_cache_with_compare,
     format_channel_url_info,
 )
+from utils.config import config
 from utils.tools import (
     update_file,
     get_pbar_remaining,
@@ -20,20 +31,12 @@ from utils.tools import (
     check_ipv6_support,
     resource_path,
 )
-from updates.subscribe import get_channels_by_subscribe_urls
-from updates.multicast import get_channels_by_multicast
-from updates.hotel import get_channels_by_hotel
-from updates.fofa import get_channels_by_fofa
-from updates.online_search import get_channels_by_online_search
-from tqdm import tqdm
-from time import time
-import pickle
-import copy
 
 
 class UpdateSource:
 
     def __init__(self):
+        self.update_progress = None
         self.run_ui = False
         self.tasks = []
         self.channel_items = {}
@@ -62,7 +65,7 @@ class UpdateSource:
 
         for setting, task_func, result_attr in tasks_config:
             if (
-                setting == "hotel_foodie" or setting == "hotel_fofa"
+                    setting == "hotel_foodie" or setting == "hotel_fofa"
             ) and config.open_hotel == False:
                 continue
             if config.open_method[setting]:
@@ -160,8 +163,8 @@ class UpdateSource:
                             channel_data_cache, self.channel_data
                         )
                     with open(
-                        resource_path(constants.cache_path, persistent=True),
-                        "wb",
+                            resource_path(constants.cache_path, persistent=True),
+                            "wb",
                     ) as file:
                         pickle.dump(channel_data_cache, file)
                 convert_to_m3u()
@@ -169,8 +172,8 @@ class UpdateSource:
                 print(
                     f"🥳 Update completed! Total time spent: {total_time}. Please check the {user_final_file} file!"
                 )
-            open_service = config.open_service
             if self.run_ui:
+                open_service = config.open_service
                 service_tip = ", 可使用以下链接观看直播:" if open_service else ""
                 tip = (
                     f"✅ 服务启动成功{service_tip}"
