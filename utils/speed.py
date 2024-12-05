@@ -43,32 +43,17 @@ async def get_speed_m3u8(url, timeout=config.sort_timeout):
     """
     Get the speed of the m3u8 url with a total timeout
     """
+    url = quote(url, safe=':/?$&=@')
+    m3u8_obj = m3u8.load(url)
+    speed_list = []
     start_time = time()
-    total_size = 0
-    total_time = 0
-    try:
-        url = quote(url, safe=':/?$&=@')
-        m3u8_obj = m3u8.load(url)
-        async with ClientSession(
-                connector=TCPConnector(ssl=False), trust_env=True
-        ) as session:
-            for segment in m3u8_obj.segments:
-                if time() - start_time > timeout:
-                    break
-                ts_url = segment.absolute_uri
-                async with session.get(ts_url, timeout=timeout) as response:
-                    file_size = 0
-                    async for chunk in response.content.iter_any():
-                        if chunk:
-                            file_size += len(chunk)
-                    end_time = time()
-                    download_time = end_time - start_time
-                    total_size += file_size
-                    total_time += download_time
-    except Exception as e:
-        pass
-    average_speed = (total_size / total_time if total_time > 0 else 0) / 1024
-    return average_speed
+    for segment in m3u8_obj.segments:
+        if time() - start_time > timeout:
+            break
+        ts_url = segment.absolute_uri
+        speed = await get_speed_with_download(ts_url, timeout)
+        speed_list.append(speed)
+    return sum(speed_list) / len(speed_list) if speed_list else 0
 
 
 def get_info_yt_dlp(url, timeout=config.sort_timeout):
