@@ -39,7 +39,7 @@ ua=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gec
 国际频道,video://https://www.sztv.com.cn/dianshi.shtml?id=7944
 浙江,#genre#
 parse=1
-ua=Mozilla/5.0 
+ua=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36
 浙江钱江都市,https://www.cztv.com/liveTV/102
 浙江经济生活,https://www.cztv.com/liveTV/103
 浙江教育科技,https://www.cztv.com/liveTV/104
