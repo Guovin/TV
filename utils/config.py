@@ -1,8 +1,8 @@
-import os
 import configparser
+import os
+import re
 import shutil
 import sys
-import re
 
 
 def resource_path(relative_path, persistent=False):
@@ -63,7 +63,7 @@ class ConfigManager:
     @property
     def open_ipv6(self):
         return (
-            "ipv6" in self.ipv_type or "all" in self.ipv_type or "全部" in self.ipv_type
+                "ipv6" in self.ipv_type or "all" in self.ipv_type or "全部" in self.ipv_type
         )
 
     @property
@@ -297,8 +297,12 @@ class ConfigManager:
         ]
 
     @property
-    def response_time_weight(self):
-        return self.config.getfloat("Settings", "response_time_weight", fallback=0.5)
+    def delay_weight(self):
+        return self.config.getfloat("Settings", "delay_weight", fallback=0.5)
+
+    @property
+    def speed_weight(self):
+        return self.config.getfloat("Settings", "speed_weight", fallback=0.5)
 
     @property
     def resolution_weight(self):
@@ -370,7 +374,7 @@ class ConfigManager:
             for src_file in files_to_copy:
                 dest_path = os.path.join(dest_folder, os.path.basename(src_file))
                 if os.path.abspath(src_file) == os.path.abspath(
-                    dest_path
+                        dest_path
                 ) or os.path.exists(dest_path):
                     continue
                 shutil.copy(src_file, dest_folder)

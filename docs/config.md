@@ -17,8 +17,9 @@
 | open_m3u_result        | True                                    | 开启转换生成 m3u 文件类型结果链接，支持显示频道图标                                                              |
 | open_filter_resolution | True                                    | 开启分辨率过滤，低于最小分辨率（min_resolution）的接口将会被过滤                                                   |
 | min_resolution         | 1920x1080                               | 接口最小分辨率，需要开启 open_filter_resolution 才能生效                                                  |
-| response_time_weight   | 0.5                                     | 响应时间权重值（所有权重值总和应为 1）                                                                      |
-| resolution_weight      | 0.5                                     | 分辨率权重值 （所有权重值总和应为 1）                                                                      |
+| speed_weight           | 0.5                                     | 速率权重值（所有权重值总和应为 1）                                                                        |
+| delay_weight           | 0.25                                    | 响应时间权重值（所有权重值总和应为 1）                                                                      |
+| resolution_weight      | 0.25                                    | 分辨率权重值 （所有权重值总和应为 1）                                                                      |
 | recent_days            | 30                                      | 获取最近时间范围内更新的接口（单位天），适当减小可避免出现匹配问题                                                         |
 | ipv_type               | 全部                                      | 生成结果中接口的协议类型，可选值：ipv4、ipv6、全部、all                                                         |
 | ipv_type_prefer        | 自动                                      | 接口协议类型偏好，优先将该类型的接口排在结果前面，可选值：IPv4、IPv6、自动、auto                                            |
