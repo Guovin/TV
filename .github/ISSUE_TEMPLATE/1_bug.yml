@@ -1,0 +1,36 @@
+name: Bug report
+description: Report a bug
+labels: [ bug ]
+body:
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: 发生环境 (Occurrence environment)
+      description: |
+        选择该Bug触发于什么环境 (Please select what environment is the Bug triggered in):
+      options:
+        - label: 工作流 (Workflow)
+          required: false
+        - label: GUI
+          required: false
+        - label: Docker
+          required: false
+        - label: 命令行 (Command line)
+          required: false
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug描述 (Bug description)
+      description: 对于该Bug的具体描述，好的描述将有助于理解与解决 (As for the specific description of the Bug, a good description will help to understand and solve it)
+      placeholder: 提供任何附加信息，任何建议的解决方案，以及尽可能多的上下文和示例 (Provide any additional information, any suggested solutions, and as much context and examples as possible)
+    validations:
+      required: true
+  - type: textarea
+    id: log
+    attributes:
+      label: 报错日志 (Error log)
+      description: 提供对于该Bug的详细报错日志 (Provides a detailed error log for the Bug)
+      placeholder: 请输入详细的报错日志 (Please enter a detailed error log)
+      render: shell
+    validations:
+      required: false
