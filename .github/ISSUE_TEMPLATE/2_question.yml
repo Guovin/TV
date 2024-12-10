@@ -5,32 +5,32 @@ body:
   - type: checkboxes
     id: checklist
     attributes:
-      label: 发生环境 (Occurrence environment)
+      label: Occurrence environment
       description: |
-        选择该问题处于什么环境 (Select the context in which the question is located):
+        Select the context in which the question is located:
       options:
-        - label: 工作流 (Workflow)
+        - label: Workflow
           required: false
         - label: GUI
           required: false
         - label: Docker
           required: false
-        - label: 命令行 (Command line)
+        - label: Command line
           required: false
   - type: textarea
     id: description
     attributes:
-      label: 问题描述 (Question description)
-      description: 对于该问题的具体描述，好的描述将有助于理解与解决 (As for the specific description of the Question, a good description will help to understand and solve it)
-      placeholder: 提供任何附加信息，任何建议的解决方案，以及尽可能多的上下文和示例 (Provide any additional information, any suggested solutions, and as much context and examples as possible)
+      label: Question description
+      description: As for the specific description of the Question, a good description will help to understand and solve it
+      placeholder: Provide any additional information, any suggested solutions, and as much context and examples as possible
     validations:
       required: true
   - type: textarea
     id: log
     attributes:
-      label: 相关日志 (Related log)
-      description: 提供对于该问题的详细日志 (Provides detailed log for the question)
-      placeholder: 请输入详细的日志 (Please enter a detailed log)
+      label: Related log
+      description: Provides detailed log for the question
+      placeholder: Please enter a detailed log
       render: shell
     validations:
       required: false
