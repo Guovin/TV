@@ -1,0 +1,36 @@
+name: Enhancement request
+description: Request a feature enhancement
+labels: [ enhancement ]
+body:
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Application environment
+      description: |
+        Select the context in which the enhancement is located:
+      options:
+        - label: Workflow
+          required: false
+        - label: GUI
+          required: false
+        - label: Docker
+          required: false
+        - label: Command line
+          required: false
+  - type: textarea
+    id: description
+    attributes:
+      label: Enhancement description
+      description: As for the specific description of the Enhancement, a good description will help to understand and solve it
+      placeholder: Provide any additional information, any suggested solutions, and as much context and examples as possible
+    validations:
+      required: true
+  - type: textarea
+    id: log
+    attributes:
+      label: Related log
+      description: Provides detailed log for the enhancement
+      placeholder: Please enter a detailed log
+      render: shell
+    validations:
+      required: false
