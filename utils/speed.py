@@ -249,7 +249,7 @@ def sort_urls_by_speed_and_resolution(name, data, logger=None):
     filter_data = []
     for url, date, resolution, origin in data:
         result = {
-            "url": url,
+            "url": remove_cache_info(url),
             "date": date,
             "delay": None,
             "speed": None,
@@ -267,11 +267,10 @@ def sort_urls_by_speed_and_resolution(name, data, logger=None):
                 speed, delay, cache_resolution = cache_item['speed'], cache_item['delay'], cache_item['resolution']
                 resolution = cache_resolution or resolution
                 if speed is not None:
-                    url = remove_cache_info(url)
                     try:
                         if logger:
                             logger.info(
-                                f"Name: {name}, URL: {url}, Date: {date}, Delay: {delay} ms, Speed: {speed:.2f} M/s, Resolution: {resolution}"
+                                f"Name: {name}, URL: {result["url"]}, Date: {date}, Delay: {delay} ms, Speed: {speed:.2f} M/s, Resolution: {resolution}"
                             )
                     except Exception as e:
                         print(e)
