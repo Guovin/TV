@@ -48,8 +48,7 @@ async def get_channels_by_multicast(names, callback=None):
                     "rb",
             ) as file:
                 cache = pickle.load(file) or {}
-                multicast_data = cache.get("multicast", {})
-                channels = {key: value for key, value in multicast_data.items() if key in names}
+                channels = {key: value for key, value in cache.get("multicast", {}).items() if key in names}
         except:
             pass
     if config.open_request:
