@@ -3,6 +3,8 @@
 | open_service           | True                                    | 开启页面服务，用于控制是否启动结果页面服务；如果使用青龙等平台部署，有专门设定的定时任务，需要更新完成后停止运行，可以关闭该功能                          |
 | open_update            | True                                    | 开启更新，用于控制是否更新接口，若关闭则所有工作模式（获取接口和测速）均停止                                                    |
 | open_use_old_result    | True                                    | 开启使用历史更新结果（包含模板与结果文件的接口），合并至本次更新中                                                         |
+| open_use_cache         | True                                    | 开启使用本地缓存数据，适用于查询请求失败场景                                                                    |
+| open_request           | False                                   | 开启查询请求，数据来源于网络                                                                            |
 | open_driver            | True                                    | 开启浏览器运行，若更新无数据可开启此模式，较消耗性能                                                                |
 | open_proxy             | False                                   | 开启代理，自动获取免费可用代理，若更新无数据可开启此模式                                                              |
 | source_file            | config/demo.txt                         | 模板文件路径                                                                                    |
