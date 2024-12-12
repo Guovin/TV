@@ -215,6 +215,12 @@ docker run -v /etc/docker/config:/iptv-api/config -v /etc/docker/output:/iptv-ap
 docker run -v /etc/docker/config:/iptv-api-lite/config -v /etc/docker/output:/iptv-api-lite/output -d -p 8000:8000 guovern/iptv-api:lite
 ```
 
+端口环境变量：
+
+```bash
+-e APP_PORT=8000
+```
+
 3. 更新结果：
 
 - 接口地址：ip:8000

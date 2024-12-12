@@ -356,7 +356,7 @@ def get_ip_address():
         IP = "127.0.0.1"
     finally:
         s.close()
-    return f"http://{IP}:8000"
+    return f"http://{IP}:{os.environ.get("APP_PORT") or 8000}"
 
 
 def convert_to_m3u():
