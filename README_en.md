@@ -222,6 +222,12 @@ docker run -v /etc/docker/config:/iptv-api/config -v /etc/docker/output:/iptv-ap
 docker run -v /etc/docker/config:/iptv-api-lite/config -v /etc/docker/output:/iptv-api-lite/output -d -p 8000:8000 guovern/iptv-api:lite
 ```
 
+Port environment variables:
+
+```bash
+-e APP_PORT=8000
+```
+
 3. Update results:
 
 - API address: ip:8000

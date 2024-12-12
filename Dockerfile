@@ -16,9 +16,11 @@ FROM python:3.13-slim
 
 ARG APP_WORKDIR=/iptv-api
 ARG LITE=False
+ARG APP_PORT=8000
 
 ENV APP_WORKDIR=$APP_WORKDIR
 ENV LITE=$LITE
+ENV APP_PORT=$APP_PORT
 ENV PATH="/.venv/bin:$PATH"
 
 WORKDIR $APP_WORKDIR
@@ -47,7 +49,7 @@ RUN (crontab -l ; \
   echo "0 22 * * * cd $APP_WORKDIR && /.venv/bin/python main.py"; \
   echo "0 10 * * * cd $APP_WORKDIR && /.venv/bin/python main.py") | crontab -
 
-EXPOSE 8000
+EXPOSE $APP_PORT
 
 COPY entrypoint.sh /iptv-api-entrypoint.sh
 

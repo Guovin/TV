@@ -59,8 +59,10 @@
 1. 创建文件
 2. 模板文件命名为 user_demo.txt
 3.
+
 模板文件需要按照（频道分类,#genre#），（频道名称,频道接口）进行编写，注意是英文逗号。如果需要将该接口设为白名单（不测速、保留在结果最前），可在地址后添加$!即可，例如http://xxx$!
 。后面也可以添加额外说明信息，如：http://xxx$!白名单接口
+
 4. 点击 Commit changes...进行保存
 
 ![创建user_demo.txt](./images/edit-user-demo.png '创建user_demo.txt')
@@ -261,6 +263,12 @@ docker run -v /etc/docker/config:/iptv-api/config -v /etc/docker/output:/iptv-ap
 
 ```bash
 docker run -v /etc/docker/config:/iptv-api-lite/config -v /etc/docker/output:/iptv-api-lite/output -d -p 8000:8000 guovern/iptv-api:lite
+```
+
+端口环境变量：
+
+```bash
+-e APP_PORT=8000
 ```
 
 3. 更新结果：
