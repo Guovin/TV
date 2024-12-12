@@ -5,7 +5,6 @@ from time import time
 from urllib.parse import quote
 
 import m3u8
-import yt_dlp
 from aiohttp import ClientSession, TCPConnector
 
 import utils.constants as constants
@@ -66,42 +65,6 @@ async def get_speed_m3u8(url: str, timeout: int = config.sort_timeout) -> dict[s
         pass
     finally:
         return info
-
-
-def get_info_yt_dlp(url, timeout=config.sort_timeout):
-    """
-    Get the url info by yt_dlp
-    """
-    ydl_opts = {
-        "socket_timeout": timeout,
-        "skip_download": True,
-        "quiet": True,
-        "no_warnings": True,
-        "format": "best",
-        "logger": logger,
-    }
-    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-        return ydl.sanitize_info(ydl.extract_info(url, download=False))
-
-
-async def get_delay_yt_dlp(url, timeout=config.sort_timeout):
-    """
-    Get the delay of the url by yt_dlp
-    """
-    try:
-        start_time = time()
-        info = await asyncio.wait_for(
-            asyncio.to_thread(get_info_yt_dlp, url, timeout), timeout=timeout
-        )
-        fps = int(round((time() - start_time) * 1000)) if len(info) else float("inf")
-        resolution = (
-            f"{info['width']}x{info['height']}"
-            if "width" in info and "height" in info
-            else None
-        )
-        return fps, resolution
-    except:
-        return float("inf"), None
 
 
 async def get_delay_requests(url, timeout=config.sort_timeout, proxy=None):
