@@ -6,7 +6,6 @@ import os
 import pickle
 import re
 from collections import defaultdict
-from logging import INFO
 
 from bs4 import NavigableString
 from opencc import OpenCC
@@ -15,7 +14,7 @@ import utils.constants as constants
 from utils.config import config
 from utils.speed import (
     get_speed,
-    sort_urls_by_speed_and_resolution,
+    sort_urls,
 )
 from utils.tools import (
     check_url_by_patterns,
@@ -25,7 +24,6 @@ from utils.tools import (
     remove_cache_info,
     resource_path,
     write_content_into_txt,
-    get_logger,
 )
 
 
@@ -574,10 +572,9 @@ async def process_sort_channel_list(data, ipv6=False, callback=None):
         for info in info_list
     ]
     await asyncio.gather(*tasks)
-    logger = get_logger(constants.sort_log_path, level=INFO, init=True)
     for cate, obj in data.items():
         for name, info_list in obj.items():
-            info_list = sort_urls_by_speed_and_resolution(name, info_list, logger)
+            info_list = sort_urls(name, info_list)
             append_data_to_info_data(
                 result,
                 cate,
@@ -585,7 +582,6 @@ async def process_sort_channel_list(data, ipv6=False, callback=None):
                 info_list,
                 check=False,
             )
-    logger.handlers.clear()
     return result
 
 

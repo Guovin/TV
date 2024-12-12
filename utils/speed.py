@@ -1,6 +1,7 @@
 import asyncio
 import re
 import subprocess
+from logging import INFO
 from time import time
 from urllib.parse import quote
 
@@ -10,8 +11,6 @@ from aiohttp import ClientSession, TCPConnector
 import utils.constants as constants
 from utils.config import config
 from utils.tools import is_ipv6, remove_cache_info, get_resolution_value, get_logger
-
-logger = get_logger(constants.log_path)
 
 
 async def get_speed_with_download(url: str, timeout: int = config.sort_timeout) -> dict[str, float | None]:
@@ -205,11 +204,13 @@ async def get_speed(url, ipv6_proxy=None, callback=None):
             callback()
 
 
-def sort_urls_by_speed_and_resolution(name, data, logger=None):
+def sort_urls(name, data, logger=None):
     """
-    Sort by speed and resolution
+    Sort the urls with info
     """
     filter_data = []
+    if logger is None:
+        logger = get_logger(constants.sort_log_path, level=INFO, init=True)
     for url, date, resolution, origin in data:
         result = {
             "url": remove_cache_info(url),
@@ -241,6 +242,8 @@ def sort_urls_by_speed_and_resolution(name, data, logger=None):
                     result["speed"] = speed
                     result["resolution"] = resolution
                     filter_data.append(result)
+    if logger:
+        logger.handlers.clear()
 
     def combined_key(item):
         speed, delay, resolution, origin = item["speed"], item["delay"], item["resolution"], item["origin"]
