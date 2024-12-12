@@ -238,6 +238,8 @@ def sort_urls(name, data, logger=None):
                             )
                     except Exception as e:
                         print(e)
+                    if config.open_filter_speed and speed < config.min_speed:
+                        continue
                     result["delay"] = delay
                     result["speed"] = speed
                     result["resolution"] = resolution
