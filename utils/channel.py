@@ -585,6 +585,7 @@ async def process_sort_channel_list(data, ipv6=False, callback=None):
                 info_list,
                 check=False,
             )
+    logger.handlers.clear()
     return result
 
 
