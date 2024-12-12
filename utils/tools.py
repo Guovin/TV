@@ -141,20 +141,15 @@ def get_resolution_value(resolution_str):
         return 0
 
 
-def get_total_urls_from_info_list(infoList, ipv6=False):
+def get_total_urls(info_list, ipv_type_prefer, origin_type_prefer):
     """
     Get the total urls from info list
     """
-    ipv_type_prefer = list(config.ipv_type_prefer)
-    if any(pref in ipv_type_prefer for pref in ["自动", "auto"]) or not ipv_type_prefer:
-        ipv_type_prefer = ["ipv6", "ipv4"] if (ipv6 or os.environ.get("GITHUB_ACTIONS")) else ["ipv4", "ipv6"]
-    origin_type_prefer = config.origin_type_prefer
     categorized_urls = {
         origin: {"ipv4": [], "ipv6": []} for origin in origin_type_prefer
     }
-
     total_urls = []
-    for url, _, resolution, origin in infoList:
+    for url, _, resolution, origin in info_list:
         if not origin:
             continue
 
@@ -205,13 +200,16 @@ def get_total_urls_from_info_list(infoList, ipv6=False):
             if len(total_urls) >= urls_limit:
                 break
             if ipv_num[ipv_type] < config.ipv_limit[ipv_type]:
+                urls = categorized_urls[origin][ipv_type]
+                if not urls:
+                    break
                 limit = min(
                     max(config.source_limits[origin] - ipv_num[ipv_type], 0),
                     max(config.ipv_limit[ipv_type] - ipv_num[ipv_type], 0),
                 )
-                urls = categorized_urls[origin][ipv_type][:limit]
-                total_urls.extend(urls)
-                ipv_num[ipv_type] += len(urls)
+                limit_urls = urls[:limit]
+                total_urls.extend(limit_urls)
+                ipv_num[ipv_type] += len(limit_urls)
             else:
                 continue
 
@@ -274,7 +272,7 @@ def check_ipv6_support():
             return True
     except Exception:
         pass
-    print("Your network does not support IPv6")
+    print("Your network does not support IPv6, don't worry, these results will be saved")
     return False
 
 
