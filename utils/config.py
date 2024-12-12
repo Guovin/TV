@@ -37,6 +37,7 @@ def get_resolution_value(resolution_str):
 class ConfigManager:
 
     def __init__(self):
+        self.config = None
         self.load()
 
     def __getattr__(self, name, *args, **kwargs):

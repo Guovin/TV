@@ -30,6 +30,7 @@ from utils.tools import (
     format_interval,
     check_ipv6_support,
     resource_path,
+    get_whitelist_urls
 )
 
 
@@ -71,8 +72,9 @@ class UpdateSource:
             if config.open_method[setting]:
                 if setting == "subscribe":
                     subscribe_urls = config.subscribe_urls
+                    whitelist_urls = get_whitelist_urls()
                     task = asyncio.create_task(
-                        task_func(subscribe_urls, callback=self.update_progress)
+                        task_func(subscribe_urls, whitelist=whitelist_urls, callback=self.update_progress)
                     )
                 elif setting == "hotel_foodie" or setting == "hotel_fofa":
                     task = asyncio.create_task(task_func(callback=self.update_progress))
