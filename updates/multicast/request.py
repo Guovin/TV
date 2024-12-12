@@ -26,7 +26,7 @@ from utils.retry import (
     retry_func,
     find_clickable_element_with_retry,
 )
-from utils.tools import get_pbar_remaining, get_soup, merge_objects
+from utils.tools import get_pbar_remaining, get_soup, merge_objects, resource_path
 from .update_tmp import get_multicast_region_result_by_rtp_txt
 
 if config.open_driver:
@@ -44,11 +44,11 @@ async def get_channels_by_multicast(names, callback=None):
     if config.open_use_cache:
         try:
             with open(
-                    constants.config_cache_path,
+                    resource_path("updates/multicast/cache.pkl"),
                     "rb",
             ) as file:
                 cache = pickle.load(file) or {}
-                channels = {key: value for key, value in cache.get("multicast", {}).items() if key in names}
+                channels = {key: value for key, value in cache.items() if key in names}
         except:
             pass
     if config.open_request:

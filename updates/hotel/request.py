@@ -23,7 +23,7 @@ from utils.retry import (
     retry_func,
     find_clickable_element_with_retry,
 )
-from utils.tools import get_pbar_remaining, get_soup, merge_objects
+from utils.tools import get_pbar_remaining, get_soup, merge_objects, resource_path
 
 if config.open_driver:
     try:
@@ -34,17 +34,16 @@ if config.open_driver:
 
 async def get_channels_by_hotel(callback=None):
     """
-    Get the channels by multicase
+    Get the channels by hotel
     """
     channels = {}
     if config.open_use_cache:
         try:
             with open(
-                    constants.config_cache_path,
+                    resource_path("updates/hotel/cache.pkl"),
                     "rb",
             ) as file:
-                cache = pickle.load(file) or {}
-                channels = cache.get("hotel", {})
+                channels = pickle.load(file) or {}
         except:
             pass
     if config.open_request:
