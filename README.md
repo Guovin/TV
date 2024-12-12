@@ -72,13 +72,7 @@
     <img src="https://img.shields.io/github/downloads/guovin/iptv-api/total" />
   </a>
   <a href="https://hub.docker.com/repository/docker/guovern/iptv-api">
-    <img src="https://img.shields.io/docker/pulls/guovern/iptv-api?label=docker:iptv-api" />
-  </a>
-  <a href="https://hub.docker.com/repository/docker/guovern/tv-requests">
-    <img src="https://img.shields.io/docker/pulls/guovern/tv-requests?label=docker:requests" />
-  </a>
-  <a href="https://hub.docker.com/repository/docker/guovern/tv-driver">
-    <img src="https://img.shields.io/docker/pulls/guovern/tv-driver?label=docker:driver" />
+    <img src="https://img.shields.io/docker/pulls/guovern/iptv-api" />
   </a>
   <a href="https://github.com/Guovin/iptv-api/fork">
     <img src="https://img.shields.io/github/forks/guovin/iptv-api" />
@@ -138,31 +132,24 @@ Fork 本项目并开启工作流更新，具体步骤请见[详细教程](./docs
 
 ### 方式二：命令行
 
-```python
-pip
-install
-pipenv
+```shell
+pip install pipenv
 ```
 
-```python
-pipenv
-install - -dev
+```shell
+pipenv install --dev
 ```
 
 启动更新：
 
-```python
-pipenv
-run
-dev
+```shell
+pipenv run dev
 ```
 
 启动服务：
 
-```python
-pipenv
-run
-service
+```shell
+pipenv run service
 ```
 
 ### 方式三：GUI 软件
@@ -171,10 +158,8 @@ service
 
 2. 或者在项目目录下运行以下命令，即可打开 GUI 软件：
 
-```python
-pipenv
-run
-ui
+```shell
+pipenv run ui
 ```
 
 <img src="./docs/images/ui.png" alt="IPTV-API更新软件" title="IPTV-API更新软件" style="height:600px" />

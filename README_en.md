@@ -72,13 +72,7 @@
     <img src="https://img.shields.io/github/downloads/guovin/iptv-api/total" />
   </a>
   <a href="https://hub.docker.com/repository/docker/guovern/iptv-api">
-    <img src="https://img.shields.io/docker/pulls/guovern/iptv-api?label=docker:iptv-api" />
-  </a>
-  <a href="https://hub.docker.com/repository/docker/guovern/tv-requests">
-    <img src="https://img.shields.io/docker/pulls/guovern/tv-requests?label=docker:requests" />
-  </a>
-  <a href="https://hub.docker.com/repository/docker/guovern/tv-driver">
-    <img src="https://img.shields.io/docker/pulls/guovern/tv-driver?label=docker:driver" />
+    <img src="https://img.shields.io/docker/pulls/guovern/iptv-api" />
   </a>
   <a href="https://github.com/Guovin/iptv-api/fork">
     <img src="https://img.shields.io/github/forks/guovin/iptv-api" />
@@ -139,31 +133,24 @@ at [Detailed Tutorial](./docs/tutorial_en.md)
 
 ### Method 2: Command Line
 
-```python
-pip
-install
-pipenv
+```shell
+pip install pipenv
 ```
 
-```python
-pipenv
-install - -dev
+```shell
+pipenv install --dev
 ```
 
 Start update:
 
-```python
-pipenv
-run
-dev
+```shell
+pipenv run dev
 ```
 
 Start service:
 
-```python
-pipenv
-run
-service
+```shell
+pipenv run service
 ```
 
 ### Method 3: GUI Software
@@ -173,10 +160,8 @@ service
 
 2. Or run the following command in the project directory to open the GUI software:
 
-```python
-pipenv
-run
-ui
+```shell
+pipenv run ui
 ```
 
 <img src="./docs/images/ui.png" alt="IPTV-API update software" title="IPTV-API update software" style="height:600px" />
