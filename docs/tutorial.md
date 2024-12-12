@@ -58,7 +58,11 @@
 
 1. 创建文件
 2. 模板文件命名为 user_demo.txt
-3. 模板文件需要按照（频道分类,#genre#），（频道名称,频道接口）进行编写，注意是英文逗号。如果需要将该接口设为白名单（不测速、保留在结果最前），可在地址后添加$!即可，例如http://xxx$!。后面也可以添加额外说明信息，如：http://xxx$!白名单接口
+3.
+
+模板文件需要按照（频道分类,#genre#），（频道名称,频道接口）进行编写，注意是英文逗号。如果需要将该接口设为白名单（不测速、保留在结果最前），可在地址后添加$!即可，例如http://xxx$!
+。后面也可以添加额外说明信息，如：http://xxx$!白名单接口
+
 4. 点击 Commit changes...进行保存
 
 ![创建user_demo.txt](./images/edit-user-demo.png '创建user_demo.txt')
@@ -81,8 +85,8 @@
 2. 配置文件命名为 user_config.ini
 3. 粘贴默认配置
 4. 修改模板和结果文件配置：
-   - source_file = config/user_demo.txt
-   - final_file = output/user_result.txt
+    - source_file = config/user_demo.txt
+    - final_file = output/user_result.txt
 5. 点击 Commit changes...进行保存
 
 ![创建user_config.ini](./images/edit-user-config.png '创建user_config.ini')
@@ -124,7 +128,8 @@
 这个时候就可以运行更新工作流了
 
 1. 点击 Run workflow
-2. 这里可以切换您要运行的仓库分支，由于 Fork 默认拉取的是 master 分支，如果您修改的模板和配置也在 master 分支，这里选择 master 就好了，点击 Run workflow 确认运行
+2. 这里可以切换您要运行的仓库分支，由于 Fork 默认拉取的是 master 分支，如果您修改的模板和配置也在 master 分支，这里选择
+   master 就好了，点击 Run workflow 确认运行
 
 ![运行Workflow](./images/workflows-run.png '运行Workflow')
 
@@ -132,7 +137,8 @@
 
 稍等片刻，就可以看到您的第一条更新工作流已经在运行了！
 ![Workflow运行中](./images/workflow-running.png 'Workflow运行中')
-（注意：由于运行时间取决于您的模板频道数量以及页数等配置，也很大程度取决于当前网络状况，请耐心等待，默认模板与配置一般需要 25 分钟左右。）
+（注意：由于运行时间取决于您的模板频道数量以及页数等配置，也很大程度取决于当前网络状况，请耐心等待，默认模板与配置一般需要 25
+分钟左右。）
 
 #### （4）Workflow 取消运行：
 
@@ -147,9 +153,11 @@
 https://ghp.ci/raw.githubusercontent.com/您的github用户名/仓库名称（对应上述Fork创建时的TV）/master/output/user_result.txt
 ![用户名与仓库名称](./images/rep-info.png '用户名与仓库名称')
 
-如果访问该链接能正常返回更新后的接口内容，说明您的直播源接口链接已经大功告成了！将该链接复制粘贴到 TVBox 等软件配置栏中即可使用~
+如果访问该链接能正常返回更新后的接口内容，说明您的直播源接口链接已经大功告成了！将该链接复制粘贴到 TVBox
+等软件配置栏中即可使用~
 
-- 注意：除了首次执行工作流需要您手动触发，后续执行（默认北京时间每日 6:00 与 18:00）将自动触发。如果您修改了模板或配置文件想立刻执行更新，可手动触发（2）中的 Run workflow 即可。
+- 注意：除了首次执行工作流需要您手动触发，后续执行（默认北京时间每日 6:00 与 18:00）将自动触发。如果您修改了模板或配置文件想立刻执行更新，可手动触发（2）中的
+  Run workflow 即可。
 
 ### 4.修改工作流更新频率（可选）
 
@@ -174,23 +182,23 @@ https://ghp.ci/raw.githubusercontent.com/您的github用户名/仓库名称（�
 2. 运行更新
    项目目录下打开终端 CMD 依次运行以下命令：
 
-```python
+```shell
 pip install pipenv
 ```
 
-```python
+```shell
 pipenv install --dev
 ```
 
 启动更新：
 
-```python
+```shell
 pipenv run dev
 ```
 
 启动服务：
 
-```python
+```shell
 pipenv run service
 ```
 
@@ -200,7 +208,7 @@ pipenv run service
 
 2. 或者在项目目录下运行以下命令，即可打开 GUI 软件：
 
-```python
+```shell
 pipenv run ui
 ```
 
@@ -208,7 +216,8 @@ pipenv run ui
 
 ### 方式四：Docker
 
-- iptv-api（完整版本）：性能要求较高，更新速度较慢，稳定性、成功率高；修改配置 open_driver = False 可切换到 Lite 版本运行模式（推荐酒店源、组播源、关键字搜索使用此版本）
+- iptv-api（完整版本）：性能要求较高，更新速度较慢，稳定性、成功率高；修改配置 open_driver = False 可切换到 Lite
+  版本运行模式（推荐酒店源、组播源、关键字搜索使用此版本）
 - iptv-api:lite（精简版本）：轻量级，性能要求低，更新速度快，稳定性不确定（推荐订阅源使用此版本）
 
 1. 拉取镜像：
@@ -254,6 +263,12 @@ docker run -v /etc/docker/config:/iptv-api/config -v /etc/docker/output:/iptv-ap
 
 ```bash
 docker run -v /etc/docker/config:/iptv-api-lite/config -v /etc/docker/output:/iptv-api-lite/output -d -p 8000:8000 guovern/iptv-api:lite
+```
+
+端口环境变量：
+
+```bash
+-e APP_PORT=8000
 ```
 
 3. 更新结果：

@@ -52,7 +52,7 @@ def run_service():
             print(f"🚀 M3u api: {ip_address}/m3u")
             print(f"🚀 Txt api: {ip_address}/txt")
             print(f"✅ You can use this url to watch IPTV 📺: {ip_address}")
-            app.run(host="0.0.0.0", port=8000)
+            app.run(host="0.0.0.0", port=os.environ.get("APP_PORT") or 8000)
     except Exception as e:
         print(f"❌ Service start failed: {e}")
 

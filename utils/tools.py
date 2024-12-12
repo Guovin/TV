@@ -7,6 +7,7 @@ import shutil
 import socket
 import sys
 import urllib.parse
+from collections import defaultdict
 from logging.handlers import RotatingFileHandler
 from time import time
 
@@ -355,7 +356,7 @@ def get_ip_address():
         IP = "127.0.0.1"
     finally:
         s.close()
-    return f"http://{IP}:8000"
+    return f"http://{IP}:{os.environ.get("APP_PORT") or 8000}"
 
 
 def convert_to_m3u():
@@ -525,3 +526,52 @@ def write_content_into_txt(content, path=None, newline=True, callback=None):
 
     if callback:
         callback()
+
+
+def get_name_url(content, pattern, multiline=False, check_url=True):
+    """
+    Get name and url from content
+    """
+    flag = re.MULTILINE if multiline else 0
+    matches = re.findall(pattern, content, flag)
+    channels = [
+        {"name": match[0].strip(), "url": match[1].strip()}
+        for match in matches
+        if (check_url and match[1].strip()) or not check_url
+    ]
+    return channels
+
+
+def get_whitelist_urls():
+    """
+    Get the whitelist urls
+    """
+    whitelist_file = resource_path(constants.whitelist_path)
+    urls = []
+    url_pattern = constants.url_pattern
+    if os.path.exists(whitelist_file):
+        with open(whitelist_file, "r", encoding="utf-8") as f:
+            for line in f:
+                match = re.search(url_pattern, line)
+                if match:
+                    urls.append(match.group().strip())
+    return urls
+
+
+def get_whitelist_name_urls():
+    """
+    Get the whitelist name urls
+    """
+    whitelist_file = resource_path(constants.whitelist_path)
+    name_urls = defaultdict(list)
+    txt_pattern = constants.txt_pattern
+    if os.path.exists(whitelist_file):
+        with open(whitelist_file, "r", encoding="utf-8") as f:
+            for line in f:
+                name_url = get_name_url(line, pattern=txt_pattern)
+                if name_url and name_url[0]:
+                    name = name_url[0]["name"]
+                    url = name_url[0]["url"]
+                    if url not in name_urls[name]:
+                        name_urls[name].append(url)
+    return name_urls

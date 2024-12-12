@@ -72,13 +72,7 @@
     <img src="https://img.shields.io/github/downloads/guovin/iptv-api/total" />
   </a>
   <a href="https://hub.docker.com/repository/docker/guovern/iptv-api">
-    <img src="https://img.shields.io/docker/pulls/guovern/iptv-api?label=docker:iptv-api" />
-  </a>
-  <a href="https://hub.docker.com/repository/docker/guovern/tv-requests">
-    <img src="https://img.shields.io/docker/pulls/guovern/tv-requests?label=docker:requests" />
-  </a>
-  <a href="https://hub.docker.com/repository/docker/guovern/tv-driver">
-    <img src="https://img.shields.io/docker/pulls/guovern/tv-driver?label=docker:driver" />
+    <img src="https://img.shields.io/docker/pulls/guovern/iptv-api" />
   </a>
   <a href="https://github.com/Guovin/iptv-api/fork">
     <img src="https://img.shields.io/github/forks/guovin/iptv-api" />
@@ -102,7 +96,7 @@
 
 - ✅ 自定义模板，生成您想要的频道
 - ✅ 支持多种获取源方式：组播源、酒店源、订阅源、关键字搜索
-- ✅ 接口测速验效，响应时间、分辨率优先级，过滤无效接口
+- ✅ 接口测速验效，获取延迟、速率、分辨率，过滤无效接口
 - ✅ 偏好设置：IPv6、接口来源排序优先级与数量配置、接口白名单
 - ✅ 定时执行，北京时间每日 6:00 与 18:00 执行更新
 - ✅ 支持多种运行方式：工作流、命令行、GUI 软件、Docker(amd64/arm64/arm v7)
@@ -138,23 +132,23 @@ Fork 本项目并开启工作流更新，具体步骤请见[详细教程](./docs
 
 ### 方式二：命令行
 
-```python
+```shell
 pip install pipenv
 ```
 
-```python
+```shell
 pipenv install --dev
 ```
 
 启动更新：
 
-```python
+```shell
 pipenv run dev
 ```
 
 启动服务：
 
-```python
+```shell
 pipenv run service
 ```
 
@@ -164,7 +158,7 @@ pipenv run service
 
 2. 或者在项目目录下运行以下命令，即可打开 GUI 软件：
 
-```python
+```shell
 pipenv run ui
 ```
 
@@ -172,7 +166,8 @@ pipenv run ui
 
 ### 方式四：Docker
 
-- iptv-api（完整版本）：性能要求较高，更新速度较慢，稳定性、成功率高；修改配置 open_driver = False 可切换到 Lite 版本运行模式（推荐酒店源、组播源、关键字搜索使用此版本）
+- iptv-api（完整版本）：性能要求较高，更新速度较慢，稳定性、成功率高；修改配置 open_driver = False 可切换到 Lite
+  版本运行模式（推荐酒店源、组播源、关键字搜索使用此版本）
 - iptv-api:lite（精简版本）：轻量级，性能要求低，更新速度快，稳定性不确定（推荐订阅源使用此版本）
 
 1. 拉取镜像：
@@ -220,6 +215,12 @@ docker run -v /etc/docker/config:/iptv-api/config -v /etc/docker/output:/iptv-ap
 docker run -v /etc/docker/config:/iptv-api-lite/config -v /etc/docker/output:/iptv-api-lite/output -d -p 8000:8000 guovern/iptv-api:lite
 ```
 
+端口环境变量：
+
+```bash
+-e APP_PORT=8000
+```
+
 3. 更新结果：
 
 - 接口地址：ip:8000
@@ -236,8 +237,8 @@ docker run -v /etc/docker/config:/iptv-api-lite/config -v /etc/docker/output:/ip
 
 <div>开发维护不易，请我喝杯咖啡☕️吧~</div>
 
-| 支付宝                                    | 微信                                        |
-| ----------------------------------------- | ------------------------------------------- |
+| 支付宝                                  | 微信                                      |
+|--------------------------------------|-----------------------------------------|
 | ![支付宝扫码](./static/images/alipay.jpg) | ![微信扫码](./static/images/appreciate.jpg) |
 
 ## 关注

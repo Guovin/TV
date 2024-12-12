@@ -1,28 +1,31 @@
-import utils.constants as constants
-from tqdm.asyncio import tqdm_asyncio
+from collections import defaultdict
+from concurrent.futures import ThreadPoolExecutor
 from time import time
+
 from requests import Session, exceptions
-from utils.config import config
+from tqdm.asyncio import tqdm_asyncio
+
 import utils.constants as constants
+from utils.channel import format_channel_name
+from utils.config import config
 from utils.retry import retry_func
-from utils.channel import get_name_url, format_channel_name
 from utils.tools import (
     merge_objects,
     get_pbar_remaining,
     format_url_with_cache,
     add_url_info,
+    get_name_url
 )
-from concurrent.futures import ThreadPoolExecutor
-from collections import defaultdict
 
 
 async def get_channels_by_subscribe_urls(
-    urls,
-    multicast=False,
-    hotel=False,
-    retry=True,
-    error_print=True,
-    callback=None,
+        urls,
+        multicast=False,
+        hotel=False,
+        retry=True,
+        error_print=True,
+        whitelist=None,
+        callback=None,
 ):
     """
     Get the channels by subscribe urls
@@ -53,6 +56,7 @@ async def get_channels_by_subscribe_urls(
         else:
             subscribe_url = subscribe_info
         channels = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))
+        in_whitelist = whitelist and (subscribe_url in whitelist)
         try:
             response = None
             try:
@@ -95,6 +99,8 @@ async def get_channels_by_subscribe_urls(
                                     else f"{subscribe_name}"
                                 )
                             )
+                            if in_whitelist:
+                                info = "!" + info
                             url = add_url_info(url, info)
                         url = format_url_with_cache(
                             url, cache=subscribe_url if (multicast or hotel) else None

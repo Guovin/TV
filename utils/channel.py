@@ -17,6 +17,7 @@ from utils.speed import (
     sort_urls,
 )
 from utils.tools import (
+    get_name_url,
     check_url_by_patterns,
     get_total_urls,
     process_nested_dict,
@@ -24,24 +25,12 @@ from utils.tools import (
     remove_cache_info,
     resource_path,
     write_content_into_txt,
+    get_whitelist_urls,
+    get_whitelist_name_urls
 )
 
 
-def get_name_url(content, pattern, multiline=False, check_url=True):
-    """
-    Get channel name and url from content
-    """
-    flag = re.MULTILINE if multiline else 0
-    matches = re.findall(pattern, content, flag)
-    channels = [
-        {"name": match[0].strip(), "url": match[1].strip()}
-        for match in matches
-        if (check_url and match[1].strip()) or not check_url
-    ]
-    return channels
-
-
-def get_channel_data_from_file(channels, file, use_old):
+def get_channel_data_from_file(channels, file, use_old, whitelist):
     """
     Get the channel data from the file
     """
@@ -61,6 +50,9 @@ def get_channel_data_from_file(channels, file, use_old):
                 category_dict = channels[current_category]
                 if name not in category_dict:
                     category_dict[name] = []
+                if name in whitelist:
+                    for whitelist_url in whitelist[name]:
+                        category_dict[name].append((whitelist_url, None, None, "important"))
                 if use_old and url:
                     info = url.partition("$")[2]
                     origin = None
@@ -78,11 +70,15 @@ def get_channel_items():
     """
     user_source_file = resource_path(config.source_file)
     channels = defaultdict(lambda: defaultdict(list))
+    whitelist = get_whitelist_name_urls()
+    whitelist_len = len(list(whitelist.keys()))
+    if whitelist_len:
+        print(f"Found {whitelist_len} channel in whitelist")
 
     if os.path.exists(user_source_file):
         with open(user_source_file, "r", encoding="utf-8") as file:
             channels = get_channel_data_from_file(
-                channels, file, config.open_use_old_result
+                channels, file, config.open_use_old_result, whitelist
             )
 
     if config.open_use_old_result:
@@ -551,7 +547,10 @@ async def process_sort_channel_list(data, ipv6=False, callback=None):
     """
     ipv6_proxy = None if (not config.open_ipv6 or ipv6) else constants.ipv6_proxy
     need_sort_data = copy.deepcopy(data)
-    process_nested_dict(need_sort_data, seen=set(), flag=r"cache:(.*)", force_str="!")
+    whitelist_urls = get_whitelist_urls()
+    if whitelist_urls:
+        print(f"Found {len(whitelist_urls)} whitelist urls")
+    process_nested_dict(need_sort_data, seen=set(whitelist_urls), flag=r"cache:(.*)", force_str="!")
     result = {}
     semaphore = asyncio.Semaphore(10)
 
@@ -574,7 +573,7 @@ async def process_sort_channel_list(data, ipv6=False, callback=None):
     await asyncio.gather(*tasks)
     for cate, obj in data.items():
         for name, info_list in obj.items():
-            info_list = sort_urls(name, info_list)
+            info_list = sort_urls(name, info_list, whitelist=whitelist_urls)
             append_data_to_info_data(
                 result,
                 cate,
@@ -601,7 +600,7 @@ def write_channel_to_file(data, ipv6=False, callback=None):
     open_empty_category = config.open_empty_category
     ipv_type_prefer = list(config.ipv_type_prefer)
     if any(pref in ipv_type_prefer for pref in ["自动", "auto"]) or not ipv_type_prefer:
-        ipv_type_prefer = ["ipv6", "ipv4"] if (ipv6 or (not os.environ.get("GITHUB_ACTIONS"))) else ["ipv4", "ipv6"]
+        ipv_type_prefer = ["ipv6", "ipv4"] if (ipv6 or os.environ.get("GITHUB_ACTIONS")) else ["ipv4", "ipv6"]
     origin_type_prefer = config.origin_type_prefer
     for cate, channel_obj in data.items():
         print(f"\n{cate}:", end=" ")

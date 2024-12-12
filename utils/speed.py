@@ -204,7 +204,7 @@ async def get_speed(url, ipv6_proxy=None, callback=None):
             callback()
 
 
-def sort_urls(name, data, logger=None):
+def sort_urls(name, data, logger=None, whitelist=None):
     """
     Sort the urls with info
     """
@@ -212,6 +212,8 @@ def sort_urls(name, data, logger=None):
     if logger is None:
         logger = get_logger(constants.sort_log_path, level=INFO, init=True)
     for url, date, resolution, origin in data:
+        if whitelist and url in whitelist:
+            origin = "important"
         result = {
             "url": remove_cache_info(url),
             "date": date,

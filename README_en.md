@@ -72,13 +72,7 @@
     <img src="https://img.shields.io/github/downloads/guovin/iptv-api/total" />
   </a>
   <a href="https://hub.docker.com/repository/docker/guovern/iptv-api">
-    <img src="https://img.shields.io/docker/pulls/guovern/iptv-api?label=docker:iptv-api" />
-  </a>
-  <a href="https://hub.docker.com/repository/docker/guovern/tv-requests">
-    <img src="https://img.shields.io/docker/pulls/guovern/tv-requests?label=docker:requests" />
-  </a>
-  <a href="https://hub.docker.com/repository/docker/guovern/tv-driver">
-    <img src="https://img.shields.io/docker/pulls/guovern/tv-driver?label=docker:driver" />
+    <img src="https://img.shields.io/docker/pulls/guovern/iptv-api" />
   </a>
   <a href="https://github.com/Guovin/iptv-api/fork">
     <img src="https://img.shields.io/github/forks/guovin/iptv-api" />
@@ -102,7 +96,7 @@
 
 - ✅ Customize the template to generate the channel you want
 - ✅ Supports multiple source acquisition methods: multicast source, hotel source, subscription source, keyword search
-- ✅ Interface speed testing and verification, with priority on response time and resolution, filtering out ineffective interfaces
+- ✅ Interface speed verification, obtain delay, speed, resolution, filter invalid interface
 - ✅ Preferences: IPv6, priority and quantity of interface source sorting, and interface whitelist
 - ✅ Scheduled execution at 6:00 AM and 18:00 PM Beijing time daily
 - ✅ Supports various execution methods: workflows, command line, GUI software, Docker(amd64/arm64/arm v7)
@@ -134,37 +128,39 @@ https://ghp.ci/raw.githubusercontent.com/Guovin/iptv-api/gd/source.json
 
 ### Method 1: Workflow
 
-Fork this project and initiate workflow updates, detailed steps are available at [Detailed Tutorial](./docs/tutorial_en.md)
+Fork this project and initiate workflow updates, detailed steps are available
+at [Detailed Tutorial](./docs/tutorial_en.md)
 
 ### Method 2: Command Line
 
-```python
+```shell
 pip install pipenv
 ```
 
-```python
+```shell
 pipenv install --dev
 ```
 
 Start update:
 
-```python
+```shell
 pipenv run dev
 ```
 
 Start service:
 
-```python
+```shell
 pipenv run service
 ```
 
 ### Method 3: GUI Software
 
-1. Download [IPTV-API update software](https://github.com/Guovin/iptv-api/releases), open the software, click update to complete the update
+1. Download [IPTV-API update software](https://github.com/Guovin/iptv-api/releases), open the software, click update to
+   complete the update
 
 2. Or run the following command in the project directory to open the GUI software:
 
-```python
+```shell
 pipenv run ui
 ```
 
@@ -172,8 +168,11 @@ pipenv run ui
 
 ### Method 4: Docker
 
-- iptv-api (Full version): Higher performance requirements, slower update speed, high stability and success rate. Set open_driver = False to switch to the lite running mode (recommended for hotel sources, multicast sources, and online searches)
-- iptv-api:lite (Condensed version): Lightweight, low performance requirements, fast update speed, stability uncertain (recommend using this version for the subscription source)
+- iptv-api (Full version): Higher performance requirements, slower update speed, high stability and success rate. Set
+  open_driver = False to switch to the lite running mode (recommended for hotel sources, multicast sources, and online
+  searches)
+- iptv-api:lite (Condensed version): Lightweight, low performance requirements, fast update speed, stability uncertain (
+  recommend using this version for the subscription source)
 
 It's recommended to try each one and choose the version that suits you
 
@@ -206,7 +205,8 @@ docker run -d -p 8000:8000 guovern/iptv-api:lite
 ```
 
 Volume Mount Parameter (Optional):
-This allows synchronization of files between the host machine and the container. Modifying templates, configurations, and retrieving updated result files can be directly operated in the host machine's folder.
+This allows synchronization of files between the host machine and the container. Modifying templates, configurations,
+and retrieving updated result files can be directly operated in the host machine's folder.
 
 Taking the host path /etc/docker as an example:
 
@@ -220,6 +220,12 @@ docker run -v /etc/docker/config:/iptv-api/config -v /etc/docker/output:/iptv-ap
 
 ```bash
 docker run -v /etc/docker/config:/iptv-api-lite/config -v /etc/docker/output:/iptv-api-lite/output -d -p 8000:8000 guovern/iptv-api:lite
+```
+
+Port environment variables:
+
+```bash
+-e APP_PORT=8000
 ```
 
 3. Update results:
@@ -239,7 +245,7 @@ docker run -v /etc/docker/config:/iptv-api-lite/config -v /etc/docker/output:/ip
 <div>Development and maintenance are not easy, please buy me a coffee ~</div>
 
 | Alipay                                | Wechat                                    |
-| ------------------------------------- | ----------------------------------------- |
+|---------------------------------------|-------------------------------------------|
 | ![Alipay](./static/images/alipay.jpg) | ![Wechat](./static/images/appreciate.jpg) |
 
 ## Follow
@@ -250,7 +256,8 @@ Wechat public account search for Govin, or scan the code to receive updates and 
 
 ## Disclaimer
 
-This project is for learning and communication purposes only. All interface data comes from the internet. If there is any infringement, please contact us for removal.
+This project is for learning and communication purposes only. All interface data comes from the internet. If there is
+any infringement, please contact us for removal.
 
 ## License
 
