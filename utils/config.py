@@ -51,6 +51,14 @@ class ConfigManager:
         return self.config.getboolean("Settings", "open_update", fallback=True)
 
     @property
+    def open_use_cache(self):
+        return self.config.getboolean("Settings", "open_use_cache", fallback=True)
+
+    @property
+    def open_request(self):
+        return self.config.getboolean("Settings", "open_request", fallback=False)
+
+    @property
     def open_filter_resolution(self):
         return self.config.getboolean(
             "Settings", "open_filter_resolution", fallback=True
