@@ -600,7 +600,7 @@ def write_channel_to_file(data, ipv6=False, callback=None):
     open_empty_category = config.open_empty_category
     ipv_type_prefer = list(config.ipv_type_prefer)
     if any(pref in ipv_type_prefer for pref in ["自动", "auto"]) or not ipv_type_prefer:
-        ipv_type_prefer = ["ipv6", "ipv4"] if (ipv6 or (not os.environ.get("GITHUB_ACTIONS"))) else ["ipv4", "ipv6"]
+        ipv_type_prefer = ["ipv6", "ipv4"] if (ipv6 or os.environ.get("GITHUB_ACTIONS")) else ["ipv4", "ipv6"]
     origin_type_prefer = config.origin_type_prefer
     for cate, channel_obj in data.items():
         print(f"\n{cate}:", end=" ")
