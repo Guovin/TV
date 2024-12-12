@@ -1,18 +1,16 @@
 import asyncio
 import re
 import subprocess
+from logging import INFO
 from time import time
 from urllib.parse import quote
 
 import m3u8
-import yt_dlp
 from aiohttp import ClientSession, TCPConnector
 
 import utils.constants as constants
 from utils.config import config
 from utils.tools import is_ipv6, remove_cache_info, get_resolution_value, get_logger
-
-logger = get_logger(constants.log_path)
 
 
 async def get_speed_with_download(url: str, timeout: int = config.sort_timeout) -> dict[str, float | None]:
@@ -66,42 +64,6 @@ async def get_speed_m3u8(url: str, timeout: int = config.sort_timeout) -> dict[s
         pass
     finally:
         return info
-
-
-def get_info_yt_dlp(url, timeout=config.sort_timeout):
-    """
-    Get the url info by yt_dlp
-    """
-    ydl_opts = {
-        "socket_timeout": timeout,
-        "skip_download": True,
-        "quiet": True,
-        "no_warnings": True,
-        "format": "best",
-        "logger": logger,
-    }
-    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-        return ydl.sanitize_info(ydl.extract_info(url, download=False))
-
-
-async def get_delay_yt_dlp(url, timeout=config.sort_timeout):
-    """
-    Get the delay of the url by yt_dlp
-    """
-    try:
-        start_time = time()
-        info = await asyncio.wait_for(
-            asyncio.to_thread(get_info_yt_dlp, url, timeout), timeout=timeout
-        )
-        fps = int(round((time() - start_time) * 1000)) if len(info) else float("inf")
-        resolution = (
-            f"{info['width']}x{info['height']}"
-            if "width" in info and "height" in info
-            else None
-        )
-        return fps, resolution
-    except:
-        return float("inf"), None
 
 
 async def get_delay_requests(url, timeout=config.sort_timeout, proxy=None):
@@ -242,11 +204,13 @@ async def get_speed(url, ipv6_proxy=None, callback=None):
             callback()
 
 
-def sort_urls_by_speed_and_resolution(name, data, logger=None):
+def sort_urls(name, data, logger=None):
     """
-    Sort by speed and resolution
+    Sort the urls with info
     """
     filter_data = []
+    if logger is None:
+        logger = get_logger(constants.sort_log_path, level=INFO, init=True)
     for url, date, resolution, origin in data:
         result = {
             "url": remove_cache_info(url),
@@ -274,10 +238,14 @@ def sort_urls_by_speed_and_resolution(name, data, logger=None):
                             )
                     except Exception as e:
                         print(e)
+                    if config.open_filter_speed and speed < config.min_speed:
+                        continue
                     result["delay"] = delay
                     result["speed"] = speed
                     result["resolution"] = resolution
                     filter_data.append(result)
+    if logger:
+        logger.handlers.clear()
 
     def combined_key(item):
         speed, delay, resolution, origin = item["speed"], item["delay"], item["resolution"], item["origin"]

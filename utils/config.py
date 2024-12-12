@@ -59,6 +59,12 @@ class ConfigManager:
         return self.config.getboolean("Settings", "open_request", fallback=False)
 
     @property
+    def open_filter_speed(self):
+        return self.config.getboolean(
+            "Settings", "open_filter_speed", fallback=True
+        )
+
+    @property
     def open_filter_resolution(self):
         return self.config.getboolean(
             "Settings", "open_filter_resolution", fallback=True
@@ -79,7 +85,7 @@ class ConfigManager:
         return [
             type.strip().lower()
             for type in self.config.get(
-                "Settings", "ipv_type_prefer", fallback="ipv4"
+                "Settings", "ipv_type_prefer", fallback="auto"
             ).split(",")
         ]
 
@@ -134,6 +140,10 @@ class ConfigManager:
             "subscribe": self.subscribe_num,
             "online_search": self.online_search_num,
         }
+
+    @property
+    def min_speed(self):
+        return self.config.getfloat("Settings", "min_speed", fallback=0.5)
 
     @property
     def min_resolution(self):
