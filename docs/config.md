@@ -17,6 +17,8 @@
 | sort_timeout           | 5                                       | 单个接口测速超时时长，单位秒(s)；数值越大测速所属时间越长，能提高获取接口数量，但质量会有所下降；数值越小测速所需时间越短，能获取低延时的接口，质量较好；调整此值能优化更新时间 |
 | open_ffmpeg            | True                                    | 开启使用 FFmpeg 进行测速，获取更准确的速度与分辨率信息，需要提前手动安装                                                  |
 | open_m3u_result        | True                                    | 开启转换生成 m3u 文件类型结果链接，支持显示频道图标                                                              |
+| open_filter_speed      | True                                    | 开启速率过滤，低于最小速率（min_speed）的接口将会被过滤                                                          |
+| min_speed              | 0.5                                     | 接口最小速率（单位M/s），需要开启 open_filter_speed 才能生效                                                 |
 | open_filter_resolution | True                                    | 开启分辨率过滤，低于最小分辨率（min_resolution）的接口将会被过滤                                                   |
 | min_resolution         | 1920x1080                               | 接口最小分辨率，需要开启 open_filter_resolution 才能生效                                                  |
 | speed_weight           | 0.5                                     | 速率权重值（所有权重值总和应为 1）                                                                        |
