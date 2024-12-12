@@ -79,7 +79,7 @@ class ConfigManager:
         return [
             type.strip().lower()
             for type in self.config.get(
-                "Settings", "ipv_type_prefer", fallback="ipv4"
+                "Settings", "ipv_type_prefer", fallback="auto"
             ).split(",")
         ]
 

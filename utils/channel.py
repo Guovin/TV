@@ -18,7 +18,7 @@ from utils.speed import (
 )
 from utils.tools import (
     check_url_by_patterns,
-    get_total_urls_from_info_list,
+    get_total_urls,
     process_nested_dict,
     add_url_info,
     remove_cache_info,
@@ -599,6 +599,10 @@ def write_channel_to_file(data, ipv6=False, callback=None):
         write_content_into_txt(f"{update_time},url", path)
     no_result_name = []
     open_empty_category = config.open_empty_category
+    ipv_type_prefer = list(config.ipv_type_prefer)
+    if any(pref in ipv_type_prefer for pref in ["自动", "auto"]) or not ipv_type_prefer:
+        ipv_type_prefer = ["ipv6", "ipv4"] if (ipv6 or (not os.environ.get("GITHUB_ACTIONS"))) else ["ipv4", "ipv6"]
+    origin_type_prefer = config.origin_type_prefer
     for cate, channel_obj in data.items():
         print(f"\n{cate}:", end=" ")
         write_content_into_txt(f"{cate},#genre#", path)
@@ -606,7 +610,7 @@ def write_channel_to_file(data, ipv6=False, callback=None):
         names_len = len(list(channel_obj_keys))
         for i, name in enumerate(channel_obj_keys):
             info_list = data.get(cate, {}).get(name, [])
-            channel_urls = get_total_urls_from_info_list(info_list, ipv6=ipv6)
+            channel_urls = get_total_urls(info_list, ipv_type_prefer, origin_type_prefer)
             end_char = ", " if i < names_len - 1 else ""
             print(f"{name}:", len(channel_urls), end=end_char)
             if not channel_urls:
