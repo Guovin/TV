@@ -17,3 +17,5 @@ https://ghp.ci/https://raw.githubusercontent.com/xzw832/cmys/main/S_CCTV.txt
 https://ghp.ci/https://raw.githubusercontent.com/xzw832/cmys/main/S_weishi.txt
 https://ghp.ci//https://raw.githubusercontent.com/asdjkl6/tv/tv/.m3u/整套直播源/测试/整套直播源/l.txt
 https://ghp.ci//https://raw.githubusercontent.com/asdjkl6/tv/tv/.m3u/整套直播源/测试/整套直播源/kk.txt
+https://ghp.ci/https://raw.githubusercontent.com/yuanzl77/IPTV/main/live.m3u
+http://mdxgh.tpddns.cn:9999/new/live.txt
