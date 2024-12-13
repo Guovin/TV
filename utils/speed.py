@@ -1,16 +1,14 @@
 import asyncio
 import re
 import subprocess
-from logging import INFO
 from time import time
 from urllib.parse import quote
 
 import m3u8
 from aiohttp import ClientSession, TCPConnector
 
-import utils.constants as constants
 from utils.config import config
-from utils.tools import is_ipv6, remove_cache_info, get_resolution_value, get_logger
+from utils.tools import is_ipv6, remove_cache_info, get_resolution_value
 
 
 async def get_speed_with_download(url: str, timeout: int = config.sort_timeout) -> dict[str, float | None]:
@@ -47,19 +45,24 @@ async def get_speed_m3u8(url: str, timeout: int = config.sort_timeout) -> dict[s
     """
     info = {'speed': None, 'delay': None}
     try:
-        url = quote(url, safe=':/?$&=@')
-        m3u8_obj = m3u8.load(url, timeout=2)
-        speed_list = []
-        start_time = time()
-        for segment in m3u8_obj.segments:
-            if time() - start_time > timeout:
-                break
-            ts_url = segment.absolute_uri
-            download_info = await get_speed_with_download(ts_url, timeout)
-            speed_list.append(download_info['speed'])
-            if info['delay'] is None and download_info['delay'] is not None:
-                info['delay'] = download_info['delay']
-        info['speed'] = sum(speed_list) / len(speed_list) if speed_list else 0
+        url = quote(url, safe=':/?$&=@').partition('$')[0]
+        async with ClientSession(connector=TCPConnector(ssl=False), trust_env=True) as session:
+            async with session.head(url, timeout=2) as response:
+                if response.headers.get('Content-Length'):
+                    m3u8_obj = m3u8.load(url, timeout=2)
+                    speed_list = []
+                    start_time = time()
+                    for segment in m3u8_obj.segments:
+                        if time() - start_time > timeout:
+                            break
+                        ts_url = segment.absolute_uri
+                        download_info = await get_speed_with_download(ts_url, timeout)
+                        speed_list.append(download_info['speed'])
+                        if info['delay'] is None and download_info['delay'] is not None:
+                            info['delay'] = download_info['delay']
+                    info['speed'] = sum(speed_list) / len(speed_list) if speed_list else 0
+                else:
+                    return info
     except:
         pass
     finally:
@@ -209,8 +212,6 @@ def sort_urls(name, data, logger=None, whitelist=None):
     Sort the urls with info
     """
     filter_data = []
-    if logger is None:
-        logger = get_logger(constants.sort_log_path, level=INFO, init=True)
     for url, date, resolution, origin in data:
         if whitelist and url in whitelist:
             origin = "important"
@@ -246,8 +247,6 @@ def sort_urls(name, data, logger=None, whitelist=None):
                     result["speed"] = speed
                     result["resolution"] = resolution
                     filter_data.append(result)
-    if logger:
-        logger.handlers.clear()
 
     def combined_key(item):
         speed, delay, resolution, origin = item["speed"], item["delay"], item["resolution"], item["origin"]

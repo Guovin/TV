@@ -92,7 +92,7 @@
 ![创建user_config.ini](./images/edit-user-config.png '创建user_config.ini')
 
 按照您的需要适当调整配置，以下是默认配置说明：
-[配置参数](./docs/config.md)
+[配置参数](./config.md)
 
 ## 步骤五：运行更新
 
