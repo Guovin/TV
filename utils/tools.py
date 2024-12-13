@@ -542,15 +542,15 @@ def get_name_url(content, pattern, multiline=False, check_url=True):
     return channels
 
 
-def get_whitelist_urls():
+def get_urls_from_file(path: str) -> list:
     """
-    Get the whitelist urls
+    Get the urls from file
     """
-    whitelist_file = resource_path(constants.whitelist_path)
+    real_path = resource_path(path)
     urls = []
     url_pattern = constants.url_pattern
-    if os.path.exists(whitelist_file):
-        with open(whitelist_file, "r", encoding="utf-8") as f:
+    if os.path.exists(real_path):
+        with open(real_path, "r", encoding="utf-8") as f:
             for line in f:
                 match = re.search(url_pattern, line)
                 if match:
@@ -558,15 +558,15 @@ def get_whitelist_urls():
     return urls
 
 
-def get_whitelist_name_urls():
+def get_name_urls_from_file(path: str) -> dict[str, list]:
     """
-    Get the whitelist name urls
+    Get the name and urls from file
     """
-    whitelist_file = resource_path(constants.whitelist_path)
+    real_path = resource_path(path)
     name_urls = defaultdict(list)
     txt_pattern = constants.txt_pattern
-    if os.path.exists(whitelist_file):
-        with open(whitelist_file, "r", encoding="utf-8") as f:
+    if os.path.exists(real_path):
+        with open(real_path, "r", encoding="utf-8") as f:
             for line in f:
                 name_url = get_name_url(line, pattern=txt_pattern)
                 if name_url and name_url[0]:

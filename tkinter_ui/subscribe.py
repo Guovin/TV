@@ -1,7 +1,10 @@
 import tkinter as tk
-from tkinter import ttk
-from utils.config import config
 from tkinter import scrolledtext
+from tkinter import ttk
+
+import utils.constants as constants
+from utils.config import config
+from utils.tools import get_urls_from_file
 
 
 class SubscribeUI:
@@ -39,7 +42,7 @@ class SubscribeUI:
         self.subscribe_urls_text.pack(
             side=tk.LEFT, padx=4, pady=8, expand=True, fill=tk.BOTH
         )
-        self.subscribe_urls_text.insert(tk.END, ",".join(config.subscribe_urls))
+        self.subscribe_urls_text.insert(tk.END, ",".join(get_urls_from_file(constants.subscribe_path)))
         self.subscribe_urls_text.bind("<KeyRelease>", self.update_subscribe_urls)
 
     def update_open_subscribe(self):

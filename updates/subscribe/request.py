@@ -31,7 +31,7 @@ async def get_channels_by_subscribe_urls(
     Get the channels by subscribe urls
     """
     subscribe_results = {}
-    subscribe_urls_len = len(urls if urls else config.subscribe_urls)
+    subscribe_urls_len = len(urls)
     pbar = tqdm_asyncio(
         total=subscribe_urls_len,
         desc=f"Processing subscribe {'for multicast' if multicast else ''}",
@@ -134,7 +134,7 @@ async def get_channels_by_subscribe_urls(
     with ThreadPoolExecutor(max_workers=100) as executor:
         futures = [
             executor.submit(process_subscribe_channels, subscribe_url)
-            for subscribe_url in (urls if urls else config.subscribe_urls)
+            for subscribe_url in urls
         ]
         for future in futures:
             subscribe_results = merge_objects(subscribe_results, future.result())
