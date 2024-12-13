@@ -46,9 +46,22 @@ class DefaultUI:
             onvalue=True,
             offvalue=False,
             command=self.update_open_use_old_result,
-            text="(保留上次更新可用结果)",
         )
         self.open_use_old_result_checkbutton.pack(side=tk.LEFT, padx=4, pady=8)
+
+        self.open_use_cache_label = tk.Label(
+            frame_default_open_update_column2, text="使用离线数据:", width=12
+        )
+        self.open_use_cache_label.pack(side=tk.LEFT, padx=4, pady=8)
+        self.open_use_cache_var = tk.BooleanVar(value=config.open_use_cache)
+        self.open_use_cache_checkbutton = ttk.Checkbutton(
+            frame_default_open_update_column2,
+            variable=self.open_use_cache_var,
+            onvalue=True,
+            offvalue=False,
+            command=self.update_open_use_cache,
+        )
+        self.open_use_cache_checkbutton.pack(side=tk.LEFT, padx=4, pady=8)
 
         frame_default_source_file = tk.Frame(root)
         frame_default_source_file.pack(fill=tk.X)
@@ -101,13 +114,27 @@ class DefaultUI:
         frame_default_mode_params_column2 = tk.Frame(frame_default_mode)
         frame_default_mode_params_column2.pack(side=tk.RIGHT, fill=tk.Y)
 
+        self.open_request_label = tk.Label(
+            frame_default_mode_params_column1, text="开启网络请求:", width=12
+        )
+        self.open_request_label.pack(side=tk.LEFT, padx=4, pady=8)
+        self.open_request_var = tk.BooleanVar(value=config.open_request)
+        self.open_request_checkbutton = ttk.Checkbutton(
+            frame_default_mode_params_column1,
+            variable=self.open_request_var,
+            onvalue=True,
+            offvalue=False,
+            command=self.update_open_request
+        )
+        self.open_request_checkbutton.pack(side=tk.LEFT, padx=4, pady=8)
+
         self.open_driver_label = tk.Label(
-            frame_default_mode_params_column1, text="浏览器模式:", width=12
+            frame_default_mode_params_column2, text="浏览器模式:", width=12
         )
         self.open_driver_label.pack(side=tk.LEFT, padx=4, pady=8)
         self.open_driver_var = tk.BooleanVar(value=config.open_driver)
         self.open_driver_checkbutton = ttk.Checkbutton(
-            frame_default_mode_params_column1,
+            frame_default_mode_params_column2,
             variable=self.open_driver_var,
             onvalue=True,
             offvalue=False,
@@ -115,21 +142,6 @@ class DefaultUI:
             text="(若获取更新异常请开启)",
         )
         self.open_driver_checkbutton.pack(side=tk.LEFT, padx=4, pady=8)
-
-        self.open_proxy_label = tk.Label(
-            frame_default_mode_params_column2, text="开启代理:", width=12
-        )
-        self.open_proxy_label.pack(side=tk.LEFT, padx=4, pady=8)
-        self.open_proxy_var = tk.BooleanVar(value=config.open_proxy)
-        self.open_proxy_checkbutton = ttk.Checkbutton(
-            frame_default_mode_params_column2,
-            variable=self.open_proxy_var,
-            onvalue=True,
-            offvalue=False,
-            command=self.update_open_proxy,
-            text="(通过代理进行更新)",
-        )
-        self.open_proxy_checkbutton.pack(side=tk.LEFT, padx=4, pady=8)
 
         frame_default_channel = tk.Frame(root)
         frame_default_channel.pack(fill=tk.X)
@@ -162,16 +174,35 @@ class DefaultUI:
             self.ipv_type_combo.current(2)
         self.ipv_type_combo.bind("<<ComboboxSelected>>", self.update_ipv_type)
 
-        frame_default_open_keep_all = tk.Frame(root)
-        frame_default_open_keep_all.pack(fill=tk.X)
+        frame_proxy_mode = tk.Frame(root)
+        frame_proxy_mode.pack(fill=tk.X)
+        frame_proxy_mode_params_column1 = tk.Frame(frame_proxy_mode)
+        frame_proxy_mode_params_column1.pack(side=tk.LEFT, fill=tk.Y)
+        frame_proxy_mode_params_column2 = tk.Frame(frame_proxy_mode)
+        frame_proxy_mode_params_column2.pack(side=tk.RIGHT, fill=tk.Y)
+
+        self.open_proxy_label = tk.Label(
+            frame_proxy_mode_params_column1, text="开启代理:", width=12
+        )
+        self.open_proxy_label.pack(side=tk.LEFT, padx=4, pady=8)
+        self.open_proxy_var = tk.BooleanVar(value=config.open_proxy)
+        self.open_proxy_checkbutton = ttk.Checkbutton(
+            frame_proxy_mode_params_column1,
+            variable=self.open_proxy_var,
+            onvalue=True,
+            offvalue=False,
+            command=self.update_open_proxy,
+            text="(通过代理进行更新)",
+        )
+        self.open_proxy_checkbutton.pack(side=tk.LEFT, padx=4, pady=8)
 
         self.open_keep_all_label = tk.Label(
-            frame_default_open_keep_all, text="保留模式:", width=12
+            frame_proxy_mode_params_column2, text="保留模式:", width=12
         )
         self.open_keep_all_label.pack(side=tk.LEFT, padx=4, pady=8)
         self.open_keep_all_var = tk.BooleanVar(value=config.open_keep_all)
         self.open_keep_all_checkbutton = ttk.Checkbutton(
-            frame_default_open_keep_all,
+            frame_proxy_mode_params_column2,
             variable=self.open_keep_all_var,
             onvalue=True,
             offvalue=False,
@@ -247,6 +278,45 @@ class DefaultUI:
         )
         self.open_m3u_result_checkbutton.pack(side=tk.LEFT, padx=4, pady=8)
 
+        frame_default_speed_params = tk.Frame(root)
+        frame_default_speed_params.pack(fill=tk.X)
+        frame_default_speed_params_column1 = tk.Frame(
+            frame_default_speed_params
+        )
+        frame_default_speed_params_column1.pack(side=tk.LEFT, fill=tk.Y)
+        frame_default_speed_params_column2 = tk.Frame(
+            frame_default_speed_params
+        )
+        frame_default_speed_params_column2.pack(side=tk.RIGHT, fill=tk.Y)
+
+        self.open_filter_speed_label = tk.Label(
+            frame_default_speed_params_column1, text="速率过滤:", width=12
+        )
+        self.open_filter_speed_label.pack(side=tk.LEFT, padx=4, pady=8)
+        self.open_filter_speed_var = tk.BooleanVar(
+            value=config.open_filter_speed
+        )
+        self.open_filter_speed_checkbutton = ttk.Checkbutton(
+            frame_default_speed_params_column1,
+            variable=self.open_filter_speed_var,
+            onvalue=True,
+            offvalue=False,
+            command=self.update_open_filter_speed,
+            text="(低于最小速率将被过滤)",
+        )
+        self.open_filter_speed_checkbutton.pack(side=tk.LEFT, padx=4, pady=8)
+
+        self.min_speed_label = tk.Label(
+            frame_default_speed_params_column2, text="最小速率:", width=12
+        )
+        self.min_speed_label.pack(side=tk.LEFT, padx=4, pady=8)
+        self.min_speed_entry = tk.Entry(
+            frame_default_speed_params_column2, width=10
+        )
+        self.min_speed_entry.pack(side=tk.LEFT, padx=4, pady=8)
+        self.min_speed_entry.insert(0, config.min_speed)
+        self.min_speed_entry.bind("<KeyRelease>", self.update_min_speed)
+
         frame_default_resolution_params = tk.Frame(root)
         frame_default_resolution_params.pack(fill=tk.X)
         frame_default_resolution_params_column1 = tk.Frame(
@@ -292,6 +362,21 @@ class DefaultUI:
         frame_default_sort_params_column1.pack(side=tk.LEFT, fill=tk.Y)
         frame_default_sort_params_column2 = tk.Frame(frame_default_sort_params)
         frame_default_sort_params_column2.pack(side=tk.RIGHT, fill=tk.Y)
+
+        self.speed_weight_label = tk.Label(
+            frame_default_sort_params_column1, text="速率权重:", width=12
+        )
+        self.speed_weight_label.pack(side=tk.LEFT, padx=4, pady=8)
+        self.speed_weight_scale = tk.Scale(
+            frame_default_sort_params_column1,
+            from_=0,
+            to=1,
+            orient=tk.HORIZONTAL,
+            resolution=0.1,
+            command=self.update_speed_weight,
+        )
+        self.speed_weight_scale.pack(side=tk.LEFT, padx=4, pady=8)
+        self.speed_weight_scale.set(config.speed_weight)
 
         self.delay_weight_label = tk.Label(
             frame_default_sort_params_column1, text="响应时间权重:", width=12
@@ -407,6 +492,11 @@ class DefaultUI:
             "Settings", "open_use_old_result", str(self.open_use_old_result_var.get())
         )
 
+    def update_open_use_cache(self):
+        config.set(
+            "Settings", "open_use_cache", str(self.open_use_cache_var.get())
+        )
+
     def select_source_file(self):
         filepath = filedialog.askopenfilename(
             initialdir=os.getcwd(), title="选择模板文件", filetypes=[("txt", "*.txt")]
@@ -424,6 +514,9 @@ class DefaultUI:
             self.final_file_entry.delete(0, tk.END)
             self.final_file_entry.insert(0, filepath)
             config.set("Settings", "final_file", filepath)
+
+    def update_open_request(self):
+        config.set("Settings", "open_requests", str(self.open_request_var.get()))
 
     def update_open_driver(self):
         config.set("Settings", "open_driver", str(self.open_driver_var.get()))
@@ -446,6 +539,16 @@ class DefaultUI:
     def update_open_m3u_result(self):
         config.set("Settings", "open_m3u_result", str(self.open_m3u_result_var.get()))
 
+    def update_open_filter_speed(self):
+        config.set(
+            "Settings",
+            "open_filter_speed",
+            str(self.open_filter_speed_var.get()),
+        )
+
+    def update_min_speed(self, event):
+        config.set("Settings", "min_speed", self.min_speed_entry.get())
+
     def update_open_filter_resolution(self):
         config.set(
             "Settings",
@@ -459,19 +562,32 @@ class DefaultUI:
     def update_urls_limit(self, event):
         config.set("Settings", "urls_limit", self.urls_limit_entry.get())
 
+    def update_speed_weight(self, event):
+        weight1 = self.speed_weight_scale.get()
+        weight2 = 1 - weight1
+        self.delay_weight_scale.set(weight2 / 2)
+        self.resolution_weight_scale.set(weight2 / 2)
+        config.set("Settings", "speed_weight", str(weight1))
+        config.set("Settings", "delay_weight", str(weight2 / 2))
+        config.set("Settings", "resolution_weight", str(weight2 / 2))
+
     def update_delay_weight(self, event):
         weight1 = self.delay_weight_scale.get()
         weight2 = 1 - weight1
-        self.resolution_weight_scale.set(weight2)
+        self.speed_weight_scale.set(weight2 / 2)
+        self.resolution_weight_scale.set(weight2 / 2)
         config.set("Settings", "delay_weight", str(weight1))
-        config.set("Settings", "resolution_weight", str(weight2))
+        config.set("Settings", "speed_weight", str(weight2 / 2))
+        config.set("Settings", "resolution_weight", str(weight2 / 2))
 
     def update_resolution_weight(self, event):
         weight1 = self.resolution_weight_scale.get()
         weight2 = 1 - weight1
+        self.speed_weight_scale.set(weight2 / 2)
         self.delay_weight_scale.set(weight2)
         config.set("Settings", "resolution_weight", str(weight1))
-        config.set("Settings", "delay_weight", str(weight2))
+        config.set("Settings", "speed_weight", str(weight2 / 2))
+        config.set("Settings", "delay_weight", str(weight2 / 2))
 
     def update_open_update_time(self):
         config.set("Settings", "open_update_time", str(self.open_update_time_var.get()))
@@ -505,6 +621,8 @@ class DefaultUI:
         for entry in [
             "open_update_checkbutton",
             "open_use_old_result_checkbutton",
+            "open_use_cache_checkbutton",
+            "open_request_checkbutton",
             "open_driver_checkbutton",
             "open_proxy_checkbutton",
             "source_file_entry",
@@ -516,9 +634,12 @@ class DefaultUI:
             "sort_timeout_entry",
             "open_ffmpeg_checkbutton",
             "open_m3u_result_checkbutton",
+            "open_filter_speed_checkbutton",
+            "min_speed_entry",
             "open_filter_resolution_checkbutton",
             "min_resolution_entry",
             "urls_limit_entry",
+            "speed_weight_scale",
             "delay_weight_scale",
             "resolution_weight_scale",
             "open_update_time_checkbutton",

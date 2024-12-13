@@ -254,7 +254,7 @@ class TkinterUI:
 def get_root_location(root):
     screen_width = root.winfo_screenwidth()
     screen_height = root.winfo_screenheight()
-    width = 550
+    width = 650
     height = 750
     x = (screen_width / 2) - (width / 2)
     y = (screen_height / 2) - (height / 2)
