@@ -554,7 +554,7 @@ async def process_sort_channel_list(data, ipv6=False, callback=None):
         print(f"Found {len(whitelist_urls)} whitelist urls")
     process_nested_dict(need_sort_data, seen=set(whitelist_urls), flag=r"cache:(.*)", force_str="!")
     result = {}
-    semaphore = asyncio.Semaphore(10)
+    semaphore = asyncio.Semaphore(5)
 
     async def limited_get_speed(info, ipv6_proxy, callback):
         async with semaphore:
