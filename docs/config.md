@@ -48,6 +48,5 @@
 | source_file            | 模板文件路径                                                                                    | config/demo.txt                         |
 | speed_weight           | 速率权重值（所有权重值总和应为 1）                                                                        | 0.5                                     |
 | subscribe_num          | 结果中偏好的订阅源接口数量                                                                             | 3                                       |
-| subscribe_urls         | 订阅源，请输入订阅链接（支持 txt 与 m3u 链接），多个链接以逗号分隔                                                    |                                         |
 | url_keywords_blacklist | 接口关键字黑名单，用于过滤含特定字符的接口                                                                     |                                         |
 | urls_limit             | 单个频道接口数量                                                                                  | 10                                      |
