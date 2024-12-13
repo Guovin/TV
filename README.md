@@ -85,6 +85,10 @@
 - [🔗 最新结果](#最新结果)
 - [⚙️ 配置参数](#配置)
 - [🚀 快速上手](#快速上手)
+    - [工作流](#工作流)
+    - [命令行](#命令行)
+    - [GUI软件](#GUI-软件)
+    - [Docker](#Docker)
 - [📖 详细教程](./docs/tutorial.md)
 - [🗓️ 更新日志](./CHANGELOG.md)
 - [❤️ 赞赏](#赞赏)
@@ -193,11 +197,11 @@ https://cdn.jsdelivr.net/gh/Guovin/iptv-api@gd/source.json
 
 ## 快速上手
 
-### 方式一：工作流
+### 工作流
 
 Fork 本项目并开启工作流更新，具体步骤请见[详细教程](./docs/tutorial.md)
 
-### 方式二：命令行
+### 命令行
 
 ```shell
 pip install pipenv
@@ -219,7 +223,7 @@ pipenv run dev
 pipenv run service
 ```
 
-### 方式三：GUI 软件
+### GUI 软件
 
 1. 下载[IPTV-API 更新软件](https://github.com/Guovin/iptv-api/releases)，打开软件，点击更新，即可完成更新
 
@@ -231,7 +235,7 @@ pipenv run ui
 
 <img src="./docs/images/ui.png" alt="IPTV-API更新软件" title="IPTV-API更新软件" style="height:600px" />
 
-### 方式四：Docker
+### Docker
 
 - iptv-api（完整版本）：性能要求较高，更新速度较慢，稳定性、成功率高；修改配置 open_driver = False 可切换到 Lite
   版本运行模式（推荐酒店源、组播源、关键字搜索使用此版本）

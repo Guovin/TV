@@ -85,6 +85,10 @@
 - [🔗 Latest results](#latest-results)
 - [⚙️ Config parameter](#Config)
 - [🚀 Quick Start](#quick-start)
+    - [Workflow](#workflow)
+    - [Command Line](#command-line)
+    - [GUI Software](#gui-software)
+    - [Docker](#docker)
 - [📖 Detailed Tutorial](./docs/tutorial_en.md)
 - [🗓️ Changelog](./CHANGELOG.md)
 - [❤️ Appreciate](#appreciate)
@@ -193,12 +197,12 @@ https://cdn.jsdelivr.net/gh/Guovin/iptv-api@gd/source.json
 
 ## Quick Start
 
-### Method 1: Workflow
+### Workflow
 
 Fork this project and initiate workflow updates, detailed steps are available
 at [Detailed Tutorial](./docs/tutorial_en.md)
 
-### Method 2: Command Line
+### Command Line
 
 ```shell
 pip install pipenv
@@ -220,7 +224,7 @@ Start service:
 pipenv run service
 ```
 
-### Method 3: GUI Software
+### GUI Software
 
 1. Download [IPTV-API update software](https://github.com/Guovin/iptv-api/releases), open the software, click update to
    complete the update
@@ -233,7 +237,7 @@ pipenv run ui
 
 <img src="./docs/images/ui.png" alt="IPTV-API update software" title="IPTV-API update software" style="height:600px" />
 
-### Method 4: Docker
+### Docker
 
 - iptv-api (Full version): Higher performance requirements, slower update speed, high stability and success rate. Set
   open_driver = False to switch to the lite running mode (recommended for hotel sources, multicast sources, and online
