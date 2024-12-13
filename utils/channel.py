@@ -6,6 +6,7 @@ import os
 import pickle
 import re
 from collections import defaultdict
+from logging import INFO
 
 from bs4 import NavigableString
 from opencc import OpenCC
@@ -26,7 +27,8 @@ from utils.tools import (
     resource_path,
     write_content_into_txt,
     get_whitelist_urls,
-    get_whitelist_name_urls
+    get_whitelist_name_urls,
+    get_logger,
 )
 
 
@@ -552,7 +554,7 @@ async def process_sort_channel_list(data, ipv6=False, callback=None):
         print(f"Found {len(whitelist_urls)} whitelist urls")
     process_nested_dict(need_sort_data, seen=set(whitelist_urls), flag=r"cache:(.*)", force_str="!")
     result = {}
-    semaphore = asyncio.Semaphore(10)
+    semaphore = asyncio.Semaphore(5)
 
     async def limited_get_speed(info, ipv6_proxy, callback):
         async with semaphore:
@@ -571,9 +573,10 @@ async def process_sort_channel_list(data, ipv6=False, callback=None):
         for info in info_list
     ]
     await asyncio.gather(*tasks)
+    logger = get_logger(constants.sort_log_path, level=INFO, init=True)
     for cate, obj in data.items():
         for name, info_list in obj.items():
-            info_list = sort_urls(name, info_list, whitelist=whitelist_urls)
+            info_list = sort_urls(name, info_list, logger=logger, whitelist=whitelist_urls)
             append_data_to_info_data(
                 result,
                 cate,
@@ -581,6 +584,7 @@ async def process_sort_channel_list(data, ipv6=False, callback=None):
                 info_list,
                 check=False,
             )
+    logger.handlers.clear()
     return result
 
 
