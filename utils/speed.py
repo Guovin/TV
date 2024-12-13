@@ -45,19 +45,24 @@ async def get_speed_m3u8(url: str, timeout: int = config.sort_timeout) -> dict[s
     """
     info = {'speed': None, 'delay': None}
     try:
-        url = quote(url, safe=':/?$&=@')
-        m3u8_obj = m3u8.load(url, timeout=2)
-        speed_list = []
-        start_time = time()
-        for segment in m3u8_obj.segments:
-            if time() - start_time > timeout:
-                break
-            ts_url = segment.absolute_uri
-            download_info = await get_speed_with_download(ts_url, timeout)
-            speed_list.append(download_info['speed'])
-            if info['delay'] is None and download_info['delay'] is not None:
-                info['delay'] = download_info['delay']
-        info['speed'] = sum(speed_list) / len(speed_list) if speed_list else 0
+        url = quote(url, safe=':/?$&=@').partition('$')[0]
+        async with ClientSession(connector=TCPConnector(ssl=False), trust_env=True) as session:
+            async with session.head(url, timeout=2) as response:
+                if response.headers.get('Content-Length'):
+                    m3u8_obj = m3u8.load(url, timeout=2)
+                    speed_list = []
+                    start_time = time()
+                    for segment in m3u8_obj.segments:
+                        if time() - start_time > timeout:
+                            break
+                        ts_url = segment.absolute_uri
+                        download_info = await get_speed_with_download(ts_url, timeout)
+                        speed_list.append(download_info['speed'])
+                        if info['delay'] is None and download_info['delay'] is not None:
+                            info['delay'] = download_info['delay']
+                    info['speed'] = sum(speed_list) / len(speed_list) if speed_list else 0
+                else:
+                    return info
     except:
         pass
     finally:
