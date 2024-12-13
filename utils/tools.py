@@ -542,11 +542,21 @@ def get_name_url(content, pattern, multiline=False, check_url=True):
     return channels
 
 
+def get_real_path(path) -> str:
+    """
+    Get the real path
+    """
+    dir_path, file = os.path.split(path)
+    user_real_path = os.path.join(dir_path, 'user_' + file)
+    real_path = user_real_path if os.path.exists(user_real_path) else path
+    return real_path
+
+
 def get_urls_from_file(path: str) -> list:
     """
     Get the urls from file
     """
-    real_path = resource_path(path)
+    real_path = get_real_path(resource_path(path))
     urls = []
     url_pattern = constants.url_pattern
     if os.path.exists(real_path):
@@ -562,7 +572,7 @@ def get_name_urls_from_file(path: str) -> dict[str, list]:
     """
     Get the name and urls from file
     """
-    real_path = resource_path(path)
+    real_path = get_real_path(resource_path(path))
     name_urls = defaultdict(list)
     txt_pattern = constants.txt_pattern
     if os.path.exists(real_path):
