@@ -7,8 +7,11 @@ a = Analysis(
     datas=[
         ('../config/config.ini', 'config'),
         ('../config/demo.txt', 'config'),
+        ('../config/whitelist.txt', 'config'),
         ('../config/rtp', 'config/rtp'),
+        ('../updates/hotel/cache.pkl', 'updates/hotel'),
         ('../updates/multicast/multicast_map.json', 'updates/multicast'),
+        ('../updates/multicast/cache.pkl', 'updates/multicast'),
         ('../updates/fofa/fofa_hotel_region_result.pkl', 'updates/fofa'),
         ('../updates/fofa/fofa_multicast_region_result.pkl', 'updates/fofa'),
         ('../static/images/favicon.ico', 'static/images'),

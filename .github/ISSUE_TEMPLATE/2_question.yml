@@ -1,0 +1,47 @@
+name: Ask Question
+description: Ask iptv-api related question
+labels: [ question ]
+body:
+  - type: checkboxes
+    attributes:
+      label: Don't skip these steps
+      description: Carefully complete the following steps before submitting an issue
+      options:
+        - label: I understand that I will be **blocked** if I *intentionally* remove or skip any mandatory\* field
+          required: true
+        - label: I have checked through the search that there are no similar issues that already exist
+          required: true
+        - label: I will not submit any issues that are not related to this project
+          required: true
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Occurrence environment
+      description: |
+        Select the context in which the question is located:
+      options:
+        - label: Workflow
+          required: false
+        - label: GUI
+          required: false
+        - label: Docker
+          required: false
+        - label: Command line
+          required: false
+  - type: textarea
+    id: description
+    attributes:
+      label: Question description
+      description: As for the specific description of the Question, a good description will help to understand and solve it
+      placeholder: Provide any additional information, any suggested solutions, and as much context and examples as possible
+    validations:
+      required: true
+  - type: textarea
+    id: log
+    attributes:
+      label: Related log
+      description: Provides detailed log for the question
+      placeholder: Please enter a detailed log
+      render: shell
+    validations:
+      required: false

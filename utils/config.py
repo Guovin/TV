@@ -1,8 +1,8 @@
-import os
 import configparser
+import os
+import re
 import shutil
 import sys
-import re
 
 
 def resource_path(relative_path, persistent=False):
@@ -37,6 +37,7 @@ def get_resolution_value(resolution_str):
 class ConfigManager:
 
     def __init__(self):
+        self.config = None
         self.load()
 
     def __getattr__(self, name, *args, **kwargs):
@@ -51,6 +52,20 @@ class ConfigManager:
         return self.config.getboolean("Settings", "open_update", fallback=True)
 
     @property
+    def open_use_cache(self):
+        return self.config.getboolean("Settings", "open_use_cache", fallback=True)
+
+    @property
+    def open_request(self):
+        return self.config.getboolean("Settings", "open_request", fallback=False)
+
+    @property
+    def open_filter_speed(self):
+        return self.config.getboolean(
+            "Settings", "open_filter_speed", fallback=True
+        )
+
+    @property
     def open_filter_resolution(self):
         return self.config.getboolean(
             "Settings", "open_filter_resolution", fallback=True
@@ -63,7 +78,7 @@ class ConfigManager:
     @property
     def open_ipv6(self):
         return (
-            "ipv6" in self.ipv_type or "all" in self.ipv_type or "全部" in self.ipv_type
+                "ipv6" in self.ipv_type or "all" in self.ipv_type or "全部" in self.ipv_type
         )
 
     @property
@@ -71,7 +86,7 @@ class ConfigManager:
         return [
             type.strip().lower()
             for type in self.config.get(
-                "Settings", "ipv_type_prefer", fallback="ipv4"
+                "Settings", "ipv_type_prefer", fallback="auto"
             ).split(",")
         ]
 
@@ -126,6 +141,10 @@ class ConfigManager:
             "subscribe": self.subscribe_num,
             "online_search": self.online_search_num,
         }
+
+    @property
+    def min_speed(self):
+        return self.config.getfloat("Settings", "min_speed", fallback=0.5)
 
     @property
     def min_resolution(self):
@@ -287,18 +306,12 @@ class ConfigManager:
         return config.getint("Settings", "online_search_page_num", fallback=1)
 
     @property
-    def subscribe_urls(self):
-        return [
-            url.strip()
-            for url in self.config.get("Settings", "subscribe_urls", fallback="").split(
-                ","
-            )
-            if url.strip()
-        ]
+    def delay_weight(self):
+        return self.config.getfloat("Settings", "delay_weight", fallback=0.5)
 
     @property
-    def response_time_weight(self):
-        return self.config.getfloat("Settings", "response_time_weight", fallback=0.5)
+    def speed_weight(self):
+        return self.config.getfloat("Settings", "speed_weight", fallback=0.5)
 
     @property
     def resolution_weight(self):
@@ -370,7 +383,7 @@ class ConfigManager:
             for src_file in files_to_copy:
                 dest_path = os.path.join(dest_folder, os.path.basename(src_file))
                 if os.path.abspath(src_file) == os.path.abspath(
-                    dest_path
+                        dest_path
                 ) or os.path.exists(dest_path):
                     continue
                 shutil.copy(src_file, dest_folder)

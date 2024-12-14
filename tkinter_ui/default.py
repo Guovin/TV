@@ -1,9 +1,10 @@
-import tkinter as tk
-from utils.config import config
-from tkinter import ttk
-from tkinter import scrolledtext
-from tkinter import filedialog
 import os
+import tkinter as tk
+from tkinter import filedialog
+from tkinter import scrolledtext
+from tkinter import ttk
+
+from utils.config import config
 
 
 class DefaultUI:
@@ -292,20 +293,20 @@ class DefaultUI:
         frame_default_sort_params_column2 = tk.Frame(frame_default_sort_params)
         frame_default_sort_params_column2.pack(side=tk.RIGHT, fill=tk.Y)
 
-        self.response_time_weight_label = tk.Label(
+        self.delay_weight_label = tk.Label(
             frame_default_sort_params_column1, text="响应时间权重:", width=12
         )
-        self.response_time_weight_label.pack(side=tk.LEFT, padx=4, pady=8)
-        self.response_time_weight_scale = tk.Scale(
+        self.delay_weight_label.pack(side=tk.LEFT, padx=4, pady=8)
+        self.delay_weight_scale = tk.Scale(
             frame_default_sort_params_column1,
             from_=0,
             to=1,
             orient=tk.HORIZONTAL,
             resolution=0.1,
-            command=self.update_response_time_weight,
+            command=self.update_delay_weight,
         )
-        self.response_time_weight_scale.pack(side=tk.LEFT, padx=4, pady=8)
-        self.response_time_weight_scale.set(config.response_time_weight)
+        self.delay_weight_scale.pack(side=tk.LEFT, padx=4, pady=8)
+        self.delay_weight_scale.set(config.delay_weight)
 
         self.resolution_weight_label = tk.Label(
             frame_default_sort_params_column2, text="分辨率权重:", width=12
@@ -458,19 +459,19 @@ class DefaultUI:
     def update_urls_limit(self, event):
         config.set("Settings", "urls_limit", self.urls_limit_entry.get())
 
-    def update_response_time_weight(self, event):
-        weight1 = self.response_time_weight_scale.get()
+    def update_delay_weight(self, event):
+        weight1 = self.delay_weight_scale.get()
         weight2 = 1 - weight1
         self.resolution_weight_scale.set(weight2)
-        config.set("Settings", "response_time_weight", str(weight1))
+        config.set("Settings", "delay_weight", str(weight1))
         config.set("Settings", "resolution_weight", str(weight2))
 
     def update_resolution_weight(self, event):
         weight1 = self.resolution_weight_scale.get()
         weight2 = 1 - weight1
-        self.response_time_weight_scale.set(weight2)
+        self.delay_weight_scale.set(weight2)
         config.set("Settings", "resolution_weight", str(weight1))
-        config.set("Settings", "response_time_weight", str(weight2))
+        config.set("Settings", "delay_weight", str(weight2))
 
     def update_open_update_time(self):
         config.set("Settings", "open_update_time", str(self.open_update_time_var.get()))
@@ -518,7 +519,7 @@ class DefaultUI:
             "open_filter_resolution_checkbutton",
             "min_resolution_entry",
             "urls_limit_entry",
-            "response_time_weight_scale",
+            "delay_weight_scale",
             "resolution_weight_scale",
             "open_update_time_checkbutton",
             "open_url_info_checkbutton",

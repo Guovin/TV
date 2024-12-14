@@ -30,6 +30,7 @@ from utils.tools import (
     format_interval,
     check_ipv6_support,
     resource_path,
+    get_urls_from_file
 )
 
 
@@ -70,9 +71,10 @@ class UpdateSource:
                 continue
             if config.open_method[setting]:
                 if setting == "subscribe":
-                    subscribe_urls = config.subscribe_urls
+                    subscribe_urls = get_urls_from_file(constants.subscribe_path)
+                    whitelist_urls = get_urls_from_file(constants.whitelist_path)
                     task = asyncio.create_task(
-                        task_func(subscribe_urls, callback=self.update_progress)
+                        task_func(subscribe_urls, whitelist=whitelist_urls, callback=self.update_progress)
                     )
                 elif setting == "hotel_foodie" or setting == "hotel_fofa":
                     task = asyncio.create_task(task_func(callback=self.update_progress))
@@ -105,8 +107,9 @@ class UpdateSource:
 
     async def main(self):
         try:
+            user_final_file = config.final_file
+            main_start_time = time()
             if config.open_update:
-                main_start_time = time()
                 self.channel_items = get_channel_items()
                 channel_names = [
                     name
@@ -155,7 +158,6 @@ class UpdateSource:
                     callback=lambda: self.pbar_update(name="写入结果"),
                 )
                 self.pbar.close()
-                user_final_file = config.final_file
                 update_file(user_final_file, constants.result_path)
                 if config.open_use_old_result:
                     if open_sort:
@@ -168,9 +170,8 @@ class UpdateSource:
                     ) as file:
                         pickle.dump(channel_data_cache, file)
                 convert_to_m3u()
-                total_time = format_interval(time() - main_start_time)
                 print(
-                    f"🥳 Update completed! Total time spent: {total_time}. Please check the {user_final_file} file!"
+                    f"🥳 Update completed! Total time spent: {format_interval(time() - main_start_time)}. Please check the {user_final_file} file!"
                 )
             if self.run_ui:
                 open_service = config.open_service
@@ -178,7 +179,7 @@ class UpdateSource:
                 tip = (
                     f"✅ 服务启动成功{service_tip}"
                     if open_service and config.open_update == False
-                    else f"🥳 更新完成, 耗时: {total_time}, 请检查{user_final_file}文件{service_tip}"
+                    else f"🥳 更新完成, 耗时: {format_interval(time() - main_start_time)}, 请检查{user_final_file}文件{service_tip}"
                 )
                 self.update_progress(
                     tip,

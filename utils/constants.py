@@ -1,14 +1,20 @@
 import os
 
-output_dir = "output"
+config_path = "config"
 
-result_path = os.path.join(output_dir, "result_new.txt")
+output_path = "output"
 
-cache_path = os.path.join(output_dir, "cache.pkl")
+whitelist_path = os.path.join(config_path, "whitelist.txt")
 
-sort_log_path = os.path.join(output_dir, "sort.log")
+subscribe_path = os.path.join(config_path, "subscribe.txt")
 
-log_path = os.path.join(output_dir, "log.log")
+result_path = os.path.join(output_path, "result_new.txt")
+
+cache_path = os.path.join(output_path, "cache.pkl")
+
+sort_log_path = os.path.join(output_path, "sort.log")
+
+log_path = os.path.join(output_path, "log.log")
 
 url_pattern = r"((https?):\/\/)?(\[[0-9a-fA-F:]+\]|([\w-]+\.)+[\w-]+)(:[0-9]{1,5})?(\/[^\s]*)?(\$[^\s]+)?"
 
