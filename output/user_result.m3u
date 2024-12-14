@@ -1,6 +1,6 @@
 #EXTM3U x-tvg-url="https://live.fanmingming.com/e.xml"
 #EXTINF:-1 tvg-name="茂名综合" tvg-logo="https://live.fanmingming.com/tv/茂名综合.png" group-title="📺电信IPTV",茂名综合
-http://192.168.3.1:8888/rtp/239.77.0.206:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.206:5146$内网组播
 #EXTINF:-1 tvg-name="茂名综合" tvg-logo="https://live.fanmingming.com/tv/茂名综合.png" group-title="📺电信IPTV",茂名综合
 http://113.111.16.104:8888/udp/239.77.0.206:5146$订阅源
 #EXTINF:-1 tvg-name="茂名综合" tvg-logo="https://live.fanmingming.com/tv/茂名综合.png" group-title="📺电信IPTV",茂名综合
@@ -8,7 +8,7 @@ http://113.90.246.252:4000/udp/239.77.0.206:5146$订阅源
 #EXTINF:-1 tvg-name="茂名综合" tvg-logo="https://live.fanmingming.com/tv/茂名综合.png" group-title="📺电信IPTV",茂名综合
 http://14.112.86.101:4022/udp/239.77.0.206:5146$订阅源
 #EXTINF:-1 tvg-name="茂名公共" tvg-logo="https://live.fanmingming.com/tv/茂名公共.png" group-title="📺电信IPTV",茂名公共
-http://192.168.3.1:8888/rtp/239.77.0.207:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.207:5146$内网组播
 #EXTINF:-1 tvg-name="茂名公共" tvg-logo="https://live.fanmingming.com/tv/茂名公共.png" group-title="📺电信IPTV",茂名公共
 http://113.111.16.104:8888/udp/239.77.0.207:5146$订阅源
 #EXTINF:-1 tvg-name="茂名公共" tvg-logo="https://live.fanmingming.com/tv/茂名公共.png" group-title="📺电信IPTV",茂名公共
@@ -30,7 +30,7 @@ http://163.177.122.29:9901/tsfile/live/1006_1.m3u8$订阅源
 #EXTINF:-1 tvg-name="翡翠台" tvg-logo="https://live.fanmingming.com/tv/翡翠台.png" group-title="📺电信IPTV",翡翠台
 http://171.38.42.252:8181/tsfile/live/1049_1.m3u8$订阅源
 #EXTINF:-1 tvg-name="广东民生" tvg-logo="https://live.fanmingming.com/tv/广东民生.png" group-title="📺电信IPTV",广东民生
-http://192.168.3.1:8888/rtp/239.77.0.225:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.225:5146$内网组播
 #EXTINF:-1 tvg-name="广东民生" tvg-logo="https://live.fanmingming.com/tv/广东民生.png" group-title="📺电信IPTV",广东民生
 http://113.111.16.104:8888/udp/239.77.0.225:5146$订阅源
 #EXTINF:-1 tvg-name="广东民生" tvg-logo="https://live.fanmingming.com/tv/广东民生.png" group-title="📺电信IPTV",广东民生
@@ -38,7 +38,7 @@ http://113.90.246.252:4000/udp/239.77.0.225:5146$订阅源
 #EXTINF:-1 tvg-name="广东民生" tvg-logo="https://live.fanmingming.com/tv/广东民生.png" group-title="📺电信IPTV",广东民生
 http://58.252.12.164:8000/udp/239.77.0.225:5146$订阅源
 #EXTINF:-1 tvg-name="广东珠江" tvg-logo="https://live.fanmingming.com/tv/广东珠江.png" group-title="📺电信IPTV",广东珠江
-http://192.168.3.1:8888/rtp/239.77.0.1:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.1:5146$内网组播
 #EXTINF:-1 tvg-name="广东珠江" tvg-logo="https://live.fanmingming.com/tv/广东珠江.png" group-title="📺电信IPTV",广东珠江
 http://[2409:8087:5e00:24::1e]:6060/200000001898/460000089800010091/index.m3u8$订阅源-IPv6
 #EXTINF:-1 tvg-name="广东珠江" tvg-logo="https://live.fanmingming.com/tv/广东珠江.png" group-title="📺电信IPTV",广东珠江
@@ -56,7 +56,7 @@ http://14.112.86.101:4022/rtp/239.77.0.3:5146$组播源
 #EXTINF:-1 tvg-name="广东珠江" tvg-logo="https://live.fanmingming.com/tv/广东珠江.png" group-title="📺电信IPTV",广东珠江
 http://14.112.86.101:4022/rtp/239.77.1.94:5146$组播源
 #EXTINF:-1 tvg-name="广东新闻" tvg-logo="https://live.fanmingming.com/tv/广东新闻.png" group-title="📺电信IPTV",广东新闻
-http://192.168.3.1:8888/rtp/239.77.0.173:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.173:5146$内网组播
 #EXTINF:-1 tvg-name="广东新闻" tvg-logo="https://live.fanmingming.com/tv/广东新闻.png" group-title="📺电信IPTV",广东新闻
 http://163.177.122.28:9901/tsfile/live/1009_1.m3u8$订阅源
 #EXTINF:-1 tvg-name="广东新闻" tvg-logo="https://live.fanmingming.com/tv/广东新闻.png" group-title="📺电信IPTV",广东新闻
@@ -64,7 +64,7 @@ http://113.111.16.104:8888/udp/239.77.0.173:5146$订阅源
 #EXTINF:-1 tvg-name="广东新闻" tvg-logo="https://live.fanmingming.com/tv/广东新闻.png" group-title="📺电信IPTV",广东新闻
 http://113.90.246.252:4000/udp/239.77.0.173:5146$订阅源
 #EXTINF:-1 tvg-name="大湾区卫视" tvg-logo="https://live.fanmingming.com/tv/大湾区卫视.png" group-title="📺电信IPTV",大湾区卫视
-http://192.168.3.1:8888/rtp/239.77.0.215:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.215:5146$内网组播
 #EXTINF:-1 tvg-name="大湾区卫视" tvg-logo="https://live.fanmingming.com/tv/大湾区卫视.png" group-title="📺电信IPTV",大湾区卫视
 http://[2409:8087:5e00:24::1e]:6060/200000001898/460000089800010108/1.m3u8$订阅源-IPv6
 #EXTINF:-1 tvg-name="大湾区卫视" tvg-logo="https://live.fanmingming.com/tv/大湾区卫视.png" group-title="📺电信IPTV",大湾区卫视
@@ -74,13 +74,13 @@ http://[2409:8087:5e00:24::1e]:6060/000000001000/1000000002000011619/1.m3u8$订�
 #EXTINF:-1 tvg-name="大湾区卫视" tvg-logo="https://live.fanmingming.com/tv/大湾区卫视.png" group-title="📺电信IPTV",大湾区卫视
 http://114.105.185.143:9901/tsfile/live/1011_1.m3u8$订阅源
 #EXTINF:-1 tvg-name="广东影视" tvg-logo="https://live.fanmingming.com/tv/广东影视.png" group-title="📺电信IPTV",广东影视
-http://192.168.3.1:8888/rtp/239.77.0.217:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.217:5146$内网组播
 #EXTINF:-1 tvg-name="广东影视" tvg-logo="https://live.fanmingming.com/tv/广东影视.png" group-title="📺电信IPTV",广东影视
 http://222.218.158.217:8181/tsfile/live/1004_1.m3u8$订阅源
 #EXTINF:-1 tvg-name="广东影视" tvg-logo="https://live.fanmingming.com/tv/广东影视.png" group-title="📺电信IPTV",广东影视
 http://58.252.12.164:8000/udp/239.77.0.217:5146$订阅源
 #EXTINF:-1 tvg-name="广东体育" tvg-logo="https://live.fanmingming.com/tv/广东体育.png" group-title="📺电信IPTV",广东体育
-http://192.168.3.1:8888/rtp/239.77.0.168:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.168:5146$内网组播
 #EXTINF:-1 tvg-name="广东体育" tvg-logo="https://live.fanmingming.com/tv/广东体育.png" group-title="📺电信IPTV",广东体育
 http://163.177.122.28:9901/tsfile/live/1011_1.m3u8$订阅源
 #EXTINF:-1 tvg-name="广东体育" tvg-logo="https://live.fanmingming.com/tv/广东体育.png" group-title="📺电信IPTV",广东体育
@@ -88,23 +88,23 @@ http://113.15.186.54:8181/tsfile/live/1001_1.m3u8$订阅源
 #EXTINF:-1 tvg-name="广东体育" tvg-logo="https://live.fanmingming.com/tv/广东体育.png" group-title="📺电信IPTV",广东体育
 http://113.111.16.104:8888/udp/239.77.0.112:5146$订阅源
 #EXTINF:-1 tvg-name="广东少儿" tvg-logo="https://live.fanmingming.com/tv/广东少儿.png" group-title="📺电信IPTV",广东少儿
-http://192.168.3.1:8888/rtp/239.77.0.250:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.250:5146$内网组播
 #EXTINF:-1 tvg-name="广东少儿" tvg-logo="https://live.fanmingming.com/tv/广东少儿.png" group-title="📺电信IPTV",广东少儿
 http://222.218.158.217:8181/tsfile/live/1005_1.m3u8$订阅源
 #EXTINF:-1 tvg-name="南方购物" tvg-logo="https://live.fanmingming.com/tv/南方购物.png" group-title="📺电信IPTV",南方购物
-http://192.168.3.1:8888/rtp/239.77.0.22:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.22:5146$内网组播
 #EXTINF:-1 tvg-name="现代教育" tvg-logo="https://live.fanmingming.com/tv/现代教育.png" group-title="📺电信IPTV",现代教育
-http://192.168.3.1:8888/rtp/239.77.0.213:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.213:5146$内网组播
 #EXTINF:-1 tvg-name="广东移动" tvg-logo="https://live.fanmingming.com/tv/广东移动.png" group-title="📺电信IPTV",广东移动
-http://192.168.3.1:8888/rtp/239.77.0.20:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.20:5146$内网组播
 #EXTINF:-1 tvg-name="广东超高清" tvg-logo="https://live.fanmingming.com/tv/广东超高清.png" group-title="📺电信IPTV",广东超高清
-http://192.168.3.1:8888/rtp/239.77.0.244:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.244:5146$内网组播
 #EXTINF:-1 tvg-name="广东经济" tvg-logo="https://live.fanmingming.com/tv/广东经济.png" group-title="📺电信IPTV",广东经济
-http://192.168.3.1:8888/rtp/239.77.0.167:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.167:5146$内网组播
 #EXTINF:-1 tvg-name="岭南戏曲" tvg-logo="https://live.fanmingming.com/tv/岭南戏曲.png" group-title="📺电信IPTV",岭南戏曲
-http://192.168.3.1:8888/rtp/239.77.0.122:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.122:5146$内网组播
 #EXTINF:-1 tvg-name="嘉佳卡通" tvg-logo="https://live.fanmingming.com/tv/嘉佳卡通.png" group-title="📺电信IPTV",嘉佳卡通
-http://192.168.3.1:8888/rtp/239.77.0.179:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.179:5146$内网组播
 #EXTINF:-1 tvg-name="嘉佳卡通" tvg-logo="https://live.fanmingming.com/tv/嘉佳卡通.png" group-title="📺电信IPTV",嘉佳卡通
 http://[2409:8087:74d9:21::4]:80/270000001128/index.m3u8?cmcc_cid=9900000061$订阅源-IPv6
 #EXTINF:-1 tvg-name="嘉佳卡通" tvg-logo="https://live.fanmingming.com/tv/嘉佳卡通.png" group-title="📺电信IPTV",嘉佳卡通
@@ -118,11 +118,11 @@ http://222.142.65.165:9901/tsfile/live/1005_1.m3u8$订阅源
 #EXTINF:-1 tvg-name="嘉佳卡通" tvg-logo="https://live.fanmingming.com/tv/嘉佳卡通.png" group-title="📺电信IPTV",嘉佳卡通
 http://113.90.246.252:4000/udp/239.77.0.179:5146$订阅源
 #EXTINF:-1 tvg-name="湛江公共" tvg-logo="https://live.fanmingming.com/tv/湛江公共.png" group-title="📺电信IPTV",湛江公共
-http://192.168.3.1:8888/rtp/239.77.0.140:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.140:5146$内网组播
 #EXTINF:-1 tvg-name="湛江新闻综合" tvg-logo="https://live.fanmingming.com/tv/湛江新闻综合.png" group-title="📺电信IPTV",湛江新闻综合
-http://192.168.3.1:8888/rtp/239.77.0.141:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.141:5146$内网组播
 #EXTINF:-1 tvg-name="汕头综合" tvg-logo="https://live.fanmingming.com/tv/汕头综合.png" group-title="📺电信IPTV",汕头综合
-http://192.168.3.1:8888/rtp/239.77.1.130:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.1.130:5146$内网组播
 #EXTINF:-1 tvg-name="汕头综合" tvg-logo="https://live.fanmingming.com/tv/汕头综合.png" group-title="📺电信IPTV",汕头综合
 http://113.111.16.104:8888/udp/239.77.1.130:5146$订阅源
 #EXTINF:-1 tvg-name="汕头综合" tvg-logo="https://live.fanmingming.com/tv/汕头综合.png" group-title="📺电信IPTV",汕头综合
@@ -130,7 +130,7 @@ http://113.90.246.252:4000/udp/239.77.1.130:5146$订阅源
 #EXTINF:-1 tvg-name="汕头综合" tvg-logo="https://live.fanmingming.com/tv/汕头综合.png" group-title="📺电信IPTV",汕头综合
 http://14.112.86.101:4022/udp/239.77.1.130:5146$订阅源
 #EXTINF:-1 tvg-name="汕头经济" tvg-logo="https://live.fanmingming.com/tv/汕头经济.png" group-title="📺电信IPTV",汕头经济
-http://192.168.3.1:8888/rtp/239.77.1.131:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.1.131:5146$内网组播
 #EXTINF:-1 tvg-name="汕头经济" tvg-logo="https://live.fanmingming.com/tv/汕头经济.png" group-title="📺电信IPTV",汕头经济
 http://113.111.16.104:8888/udp/239.77.1.131:5146$订阅源
 #EXTINF:-1 tvg-name="汕头经济" tvg-logo="https://live.fanmingming.com/tv/汕头经济.png" group-title="📺电信IPTV",汕头经济
@@ -138,7 +138,7 @@ http://113.90.246.252:4000/udp/239.77.1.131:5146$订阅源
 #EXTINF:-1 tvg-name="汕头经济" tvg-logo="https://live.fanmingming.com/tv/汕头经济.png" group-title="📺电信IPTV",汕头经济
 http://14.112.86.101:4022/udp/239.77.1.131:5146$订阅源
 #EXTINF:-1 tvg-name="汕头文旅" tvg-logo="https://live.fanmingming.com/tv/汕头文旅.png" group-title="📺电信IPTV",汕头文旅
-http://192.168.3.1:8888/rtp/239.77.1.132:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.1.132:5146$内网组播
 #EXTINF:-1 tvg-name="汕头文旅" tvg-logo="https://live.fanmingming.com/tv/汕头文旅.png" group-title="📺电信IPTV",汕头文旅
 http://113.111.16.104:8888/udp/239.77.1.132:5146$订阅源
 #EXTINF:-1 tvg-name="汕头文旅" tvg-logo="https://live.fanmingming.com/tv/汕头文旅.png" group-title="📺电信IPTV",汕头文旅
@@ -146,13 +146,13 @@ http://113.90.246.252:4000/udp/239.77.1.132:5146$订阅源
 #EXTINF:-1 tvg-name="汕头文旅" tvg-logo="https://live.fanmingming.com/tv/汕头文旅.png" group-title="📺电信IPTV",汕头文旅
 http://14.112.86.101:4022/udp/239.77.1.132:5146$订阅源
 #EXTINF:-1 tvg-name="汕尾新闻综合" tvg-logo="https://live.fanmingming.com/tv/汕尾新闻综合.png" group-title="📺电信IPTV",汕尾新闻综合
-http://192.168.3.1:8888/rtp/239.77.0.25:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.25:5146$内网组播
 #EXTINF:-1 tvg-name="揭阳综合" tvg-logo="https://live.fanmingming.com/tv/揭阳综合.png" group-title="📺电信IPTV",揭阳综合
-http://192.168.3.1:8888/rtp/239.77.0.229:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.229:5146$内网组播
 #EXTINF:-1 tvg-name="揭阳生活" tvg-logo="https://live.fanmingming.com/tv/揭阳生活.png" group-title="📺电信IPTV",揭阳生活
-http://192.168.3.1:8888/rtp/239.77.0.251:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.251:5146$内网组播
 #EXTINF:-1 tvg-name="云浮综合" tvg-logo="https://live.fanmingming.com/tv/云浮综合.png" group-title="📺电信IPTV",云浮综合
-http://192.168.3.1:8888/rtp/239.77.0.253:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.253:5146$内网组播
 #EXTINF:-1 tvg-name="云浮综合" tvg-logo="https://live.fanmingming.com/tv/云浮综合.png" group-title="📺电信IPTV",云浮综合
 http://113.90.246.252:4000/udp/239.77.0.253:5146$订阅源
 #EXTINF:-1 tvg-name="云浮综合" tvg-logo="https://live.fanmingming.com/tv/云浮综合.png" group-title="📺电信IPTV",云浮综合
@@ -160,9 +160,9 @@ http://14.112.86.101:4022/udp/239.77.0.253:5146$订阅源
 #EXTINF:-1 tvg-name="云浮综合" tvg-logo="https://live.fanmingming.com/tv/云浮综合.png" group-title="📺电信IPTV",云浮综合
 https://livestream.oeeee.com/slive/17806.m3u8$订阅源
 #EXTINF:-1 tvg-name="云浮文旅" tvg-logo="https://live.fanmingming.com/tv/云浮文旅.png" group-title="📺电信IPTV",云浮文旅
-http://192.168.3.1:8888/rtp/239.77.0.254:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.254:5146$内网组播
 #EXTINF:-1 tvg-name="江门综合" tvg-logo="https://live.fanmingming.com/tv/江门综合.png" group-title="📺电信IPTV",江门综合
-http://192.168.3.1:8888/rtp/239.77.0.201:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.201:5146$内网组播
 #EXTINF:-1 tvg-name="江门综合" tvg-logo="https://live.fanmingming.com/tv/江门综合.png" group-title="📺电信IPTV",江门综合
 http://113.111.16.104:8888/udp/239.77.0.201:5146$订阅源
 #EXTINF:-1 tvg-name="江门综合" tvg-logo="https://live.fanmingming.com/tv/江门综合.png" group-title="📺电信IPTV",江门综合
@@ -170,27 +170,27 @@ http://113.90.246.252:4000/udp/239.77.0.201:5146$订阅源
 #EXTINF:-1 tvg-name="江门综合" tvg-logo="https://live.fanmingming.com/tv/江门综合.png" group-title="📺电信IPTV",江门综合
 http://14.112.86.101:4022/udp/239.77.0.201:5146$订阅源
 #EXTINF:-1 tvg-name="江门侨乡生活" tvg-logo="https://live.fanmingming.com/tv/江门侨乡生活.png" group-title="📺电信IPTV",江门侨乡生活
-http://192.168.3.1:8888/rtp/239.77.0.202:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.202:5146$内网组播
 #EXTINF:-1 tvg-name="珠海" tvg-logo="https://live.fanmingming.com/tv/珠海.png" group-title="📺电信IPTV",珠海
-http://192.168.3.1:8888/rtp/239.77.0.155:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.155:5146$内网组播
 #EXTINF:-1 tvg-name="南海" tvg-logo="https://live.fanmingming.com/tv/南海.png" group-title="📺电信IPTV",南海
-http://192.168.3.1:8888/rtp/239.253.43.54:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.253.43.54:5146$内网组播
 #EXTINF:-1 tvg-name="东莞新闻综合" tvg-logo="https://live.fanmingming.com/tv/东莞新闻综合.png" group-title="📺电信IPTV",东莞新闻综合
-http://192.168.3.1:8888/rtp/239.253.43.104:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.253.43.104:5146$内网组播
 #EXTINF:-1 tvg-name="东莞生活资讯" tvg-logo="https://live.fanmingming.com/tv/东莞生活资讯.png" group-title="📺电信IPTV",东莞生活资讯
-http://192.168.3.1:8888/rtp/239.253.43.105:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.253.43.105:5146$内网组播
 #EXTINF:-1 tvg-name="深圳都市" tvg-logo="https://live.fanmingming.com/tv/深圳都市.png" group-title="📺电信IPTV",深圳都市
-http://192.168.3.1:8888/rtp/239.77.1.124:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.1.124:5146$内网组播
 #EXTINF:-1 tvg-name="深圳电视剧" tvg-logo="https://live.fanmingming.com/tv/深圳电视剧.png" group-title="📺电信IPTV",深圳电视剧
-http://192.168.3.1:8888/rtp/239.77.1.125:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.1.125:5146$内网组播
 #EXTINF:-1 tvg-name="深圳体育健康" tvg-logo="https://live.fanmingming.com/tv/深圳体育健康.png" group-title="📺电信IPTV",深圳体育健康
-http://192.168.3.1:8888/rtp/239.77.1.128:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.1.128:5146$内网组播
 #EXTINF:-1 tvg-name="深圳龙岗" tvg-logo="https://live.fanmingming.com/tv/深圳龙岗.png" group-title="📺电信IPTV",深圳龙岗
-http://192.168.3.1:8888/rtp/239.77.1.223:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.1.223:5146$内网组播
 #EXTINF:-1 tvg-name="深圳财经生活" tvg-logo="https://live.fanmingming.com/tv/深圳财经生活.png" group-title="📺电信IPTV",深圳财经生活
-http://192.168.3.1:8888/rtp/239.77.1.242:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.1.242:5146$内网组播
 #EXTINF:-1 tvg-name="深圳少儿" tvg-logo="https://live.fanmingming.com/tv/深圳少儿.png" group-title="📺电信IPTV",深圳少儿
-http://192.168.3.1:8888/rtp/239.77.1.244:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.1.244:5146$内网组播
 #EXTINF:-1 tvg-name="深圳少儿" tvg-logo="https://live.fanmingming.com/tv/深圳少儿.png" group-title="📺电信IPTV",深圳少儿
 http://113.111.16.104:8888/udp/239.77.1.244:5146$订阅源
 #EXTINF:-1 tvg-name="深圳少儿" tvg-logo="https://live.fanmingming.com/tv/深圳少儿.png" group-title="📺电信IPTV",深圳少儿
@@ -198,23 +198,23 @@ http://113.90.246.252:4000/udp/239.77.1.244:5146$订阅源
 #EXTINF:-1 tvg-name="深圳少儿" tvg-logo="https://live.fanmingming.com/tv/深圳少儿.png" group-title="📺电信IPTV",深圳少儿
 http://14.112.86.101:4022/udp/239.77.1.244:5146$订阅源
 #EXTINF:-1 tvg-name="深圳众创" tvg-logo="https://live.fanmingming.com/tv/深圳众创.png" group-title="📺电信IPTV",深圳众创
-http://192.168.3.1:8888/rtp/239.77.1.247:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.1.247:5146$内网组播
 #EXTINF:-1 tvg-name="宝安频道" tvg-logo="https://live.fanmingming.com/tv/宝安频道.png" group-title="📺电信IPTV",宝安频道
-http://192.168.3.1:8888/rtp/239.77.1.67:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.1.67:5146$内网组播
 #EXTINF:-1 tvg-name="肇庆综合" tvg-logo="https://live.fanmingming.com/tv/肇庆综合.png" group-title="📺电信IPTV",肇庆综合
-http://192.168.3.1:8888/rtp/239.253.43.1:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.253.43.1:5146$内网组播
 #EXTINF:-1 tvg-name="肇庆生活服务" tvg-logo="https://live.fanmingming.com/tv/肇庆生活服务.png" group-title="📺电信IPTV",肇庆生活服务
-http://192.168.3.1:8888/rtp/239.253.43.2:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.253.43.2:5146$内网组播
 #EXTINF:-1 tvg-name="佛山公共" tvg-logo="https://live.fanmingming.com/tv/佛山公共.png" group-title="📺电信IPTV",佛山公共
-http://192.168.3.1:8888/rtp/239.253.43.53:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.253.43.53:5146$内网组播
 #EXTINF:-1 tvg-name="佛山公共" tvg-logo="https://live.fanmingming.com/tv/佛山公共.png" group-title="📺电信IPTV",佛山公共
 http://113.90.246.252:4000/udp/239.253.43.53:5146$订阅源
 #EXTINF:-1 tvg-name="佛山公共" tvg-logo="https://live.fanmingming.com/tv/佛山公共.png" group-title="📺电信IPTV",佛山公共
 http://14.112.86.101:4022/udp/239.253.43.53:5146$订阅源
 #EXTINF:-1 tvg-name="顺德" tvg-logo="https://live.fanmingming.com/tv/顺德.png" group-title="📺电信IPTV",顺德
-http://192.168.3.1:8888/rtp/239.253.43.55:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.253.43.55:5146$内网组播
 #EXTINF:-1 tvg-name="佛山影视" tvg-logo="https://live.fanmingming.com/tv/佛山影视.png" group-title="📺电信IPTV",佛山影视
-http://192.168.3.1:8888/rtp/239.253.43.56:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.253.43.56:5146$内网组播
 #EXTINF:-1 tvg-name="佛山影视" tvg-logo="https://live.fanmingming.com/tv/佛山影视.png" group-title="📺电信IPTV",佛山影视
 http://113.90.246.252:4000/udp/239.253.43.56:5146$订阅源
 #EXTINF:-1 tvg-name="佛山影视" tvg-logo="https://live.fanmingming.com/tv/佛山影视.png" group-title="📺电信IPTV",佛山影视
@@ -222,7 +222,7 @@ http://14.112.86.101:4022/udp/239.253.43.56:5146$订阅源
 #EXTINF:-1 tvg-name="佛山影视" tvg-logo="https://live.fanmingming.com/tv/佛山影视.png" group-title="📺电信IPTV",佛山影视
 http://171.38.42.252:8181/tsfile/live/0139_1.m3u8$订阅源
 #EXTINF:-1 tvg-name="佛山综合" tvg-logo="https://live.fanmingming.com/tv/佛山综合.png" group-title="📺电信IPTV",佛山综合
-http://192.168.3.1:8888/rtp/239.253.43.57:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.253.43.57:5146$内网组播
 #EXTINF:-1 tvg-name="佛山综合" tvg-logo="https://live.fanmingming.com/tv/佛山综合.png" group-title="📺电信IPTV",佛山综合
 http://113.111.16.104:8888/udp/239.253.43.57:5146$订阅源
 #EXTINF:-1 tvg-name="佛山综合" tvg-logo="https://live.fanmingming.com/tv/佛山综合.png" group-title="📺电信IPTV",佛山综合
@@ -230,15 +230,15 @@ http://113.90.246.252:4000/udp/239.253.43.57:5146$订阅源
 #EXTINF:-1 tvg-name="佛山综合" tvg-logo="https://live.fanmingming.com/tv/佛山综合.png" group-title="📺电信IPTV",佛山综合
 http://14.112.86.101:4022/udp/239.253.43.57:5146$订阅源
 #EXTINF:-1 tvg-name="中山综合" tvg-logo="https://live.fanmingming.com/tv/中山综合.png" group-title="📺电信IPTV",中山综合
-http://192.168.3.1:8888/rtp/239.253.43.62:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.253.43.62:5146$内网组播
 #EXTINF:-1 tvg-name="香山文化" tvg-logo="https://live.fanmingming.com/tv/香山文化.png" group-title="📺电信IPTV",香山文化
-http://192.168.3.1:8888/rtp/239.253.43.63:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.253.43.63:5146$内网组播
 #EXTINF:-1 tvg-name="潮州综合" tvg-logo="https://live.fanmingming.com/tv/潮州综合.png" group-title="📺电信IPTV",潮州综合
-http://192.168.3.1:8888/rtp/239.253.43.70:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.253.43.70:5146$内网组播
 #EXTINF:-1 tvg-name="广州" tvg-logo="https://live.fanmingming.com/tv/广州.png" group-title="📺电信IPTV",广州
-http://192.168.3.1:8888/rtp/239.253.43.71:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.253.43.71:5146$内网组播
 #EXTINF:-1 tvg-name="广州新闻" tvg-logo="https://live.fanmingming.com/tv/广州新闻.png" group-title="📺电信IPTV",广州新闻
-http://192.168.3.1:8888/rtp/239.253.43.72:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.253.43.72:5146$内网组播
 #EXTINF:-1 tvg-name="广州新闻" tvg-logo="https://live.fanmingming.com/tv/广州新闻.png" group-title="📺电信IPTV",广州新闻
 http://113.111.16.104:8888/udp/239.253.43.72:5146$订阅源
 #EXTINF:-1 tvg-name="广州新闻" tvg-logo="https://live.fanmingming.com/tv/广州新闻.png" group-title="📺电信IPTV",广州新闻
@@ -246,7 +246,7 @@ http://113.90.246.252:4000/udp/239.253.43.72:5146$订阅源
 #EXTINF:-1 tvg-name="广州新闻" tvg-logo="https://live.fanmingming.com/tv/广州新闻.png" group-title="📺电信IPTV",广州新闻
 http://tencentplay.gztv.com/live/xinwen.m3u8?txSecret=d2c2db0b598c02ec1b5623728434d367&txTime=18d57929bd3$订阅源
 #EXTINF:-1 tvg-name="广州影视" tvg-logo="https://live.fanmingming.com/tv/广州影视.png" group-title="📺电信IPTV",广州影视
-http://192.168.3.1:8888/rtp/239.253.43.73:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.253.43.73:5146$内网组播
 #EXTINF:-1 tvg-name="广州影视" tvg-logo="https://live.fanmingming.com/tv/广州影视.png" group-title="📺电信IPTV",广州影视
 http://113.111.16.104:8888/udp/239.253.43.73:5146$订阅源
 #EXTINF:-1 tvg-name="广州影视" tvg-logo="https://live.fanmingming.com/tv/广州影视.png" group-title="📺电信IPTV",广州影视
@@ -254,17 +254,17 @@ http://113.90.246.252:4000/udp/239.253.43.73:5146$订阅源
 #EXTINF:-1 tvg-name="广州影视" tvg-logo="https://live.fanmingming.com/tv/广州影视.png" group-title="📺电信IPTV",广州影视
 http://tencentplay.gztv.com/live/yingshi.m3u8?txSecret=1bd3a1082ab5b89f48c1bff9a3760da4&txTime=18d57929bd4$订阅源
 #EXTINF:-1 tvg-name="广州法治" tvg-logo="https://live.fanmingming.com/tv/广州法治.png" group-title="📺电信IPTV",广州法治
-http://192.168.3.1:8888/rtp/239.253.43.74:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.253.43.74:5146$内网组播
 #EXTINF:-1 tvg-name="广州法治" tvg-logo="https://live.fanmingming.com/tv/广州法治.png" group-title="📺电信IPTV",广州法治
 http://tencentplay.gztv.com/live/fazhi.m3u8?txSecret=3e84cd8eba844b5dc2150612295c7a52&txTime=18d578f4493$订阅源
 #EXTINF:-1 tvg-name="潮州民生" tvg-logo="https://live.fanmingming.com/tv/潮州民生.png" group-title="📺电信IPTV",潮州民生
-http://192.168.3.1:8888/rtp/239.253.43.75:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.253.43.75:5146$内网组播
 #EXTINF:-1 tvg-name="梅州综合" tvg-logo="https://live.fanmingming.com/tv/梅州综合.png" group-title="📺电信IPTV",梅州综合
-http://192.168.3.1:8888/rtp/239.253.43.123:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.253.43.123:5146$内网组播
 #EXTINF:-1 tvg-name="客家生活" tvg-logo="https://live.fanmingming.com/tv/客家生活.png" group-title="📺电信IPTV",客家生活
-http://192.168.3.1:8888/rtp/239.253.43.124:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.253.43.124:5146$内网组播
 #EXTINF:-1 tvg-name="河源综合" tvg-logo="https://live.fanmingming.com/tv/河源综合.png" group-title="📺电信IPTV",河源综合
-http://192.168.3.1:8888/rtp/239.253.43.213:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.253.43.213:5146$内网组播
 #EXTINF:-1 tvg-name="河源综合" tvg-logo="https://live.fanmingming.com/tv/河源综合.png" group-title="📺电信IPTV",河源综合
 http://163.177.122.28:9901/tsfile/live/1090_1.m3u8$订阅源
 #EXTINF:-1 tvg-name="河源综合" tvg-logo="https://live.fanmingming.com/tv/河源综合.png" group-title="📺电信IPTV",河源综合
@@ -272,13 +272,13 @@ http://113.90.246.252:4000/udp/239.253.43.213:5146$订阅源
 #EXTINF:-1 tvg-name="河源综合" tvg-logo="https://live.fanmingming.com/tv/河源综合.png" group-title="📺电信IPTV",河源综合
 http://163.177.122.29:9901/tsfile/live/1090_1.m3u8$订阅源
 #EXTINF:-1 tvg-name="清远新闻综合" tvg-logo="https://live.fanmingming.com/tv/清远新闻综合.png" group-title="📺电信IPTV",清远新闻综合
-http://192.168.3.1:8888/rtp/239.253.43.33:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.253.43.33:5146$内网组播
 #EXTINF:-1 tvg-name="清远文旅生活" tvg-logo="https://live.fanmingming.com/tv/清远文旅生活.png" group-title="📺电信IPTV",清远文旅生活
-http://192.168.3.1:8888/rtp/239.253.43.34:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.253.43.34:5146$内网组播
 #EXTINF:-1 tvg-name="南宁公共" tvg-logo="https://live.fanmingming.com/tv/南宁公共.png" group-title="📺电信IPTV",南宁公共
 http://222.218.158.217:8181/tsfile/live/1014_1.m3u8$订阅源
 #EXTINF:-1 tvg-name="CCTV5＋体育" tvg-logo="https://live.fanmingming.com/tv/CCTV5＋体育.png" group-title="📺电信IPTV",CCTV5＋体育
-http://192.168.3.1:8888/rtp/239.77.0.87:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.87:5146$内网组播
 #EXTINF:-1 tvg-name="CCTV5＋体育" tvg-logo="https://live.fanmingming.com/tv/CCTV5＋体育.png" group-title="📺电信IPTV",CCTV5＋体育
 http://[2409:8087:74f0:22::4]:6410/270000001111/1110000306/index.m3u8?channel-id=newtv&livemode=4&Contentid=1110000306$订阅源-IPv6
 #EXTINF:-1 tvg-name="CCTV5＋体育" tvg-logo="https://live.fanmingming.com/tv/CCTV5＋体育.png" group-title="📺电信IPTV",CCTV5＋体育
@@ -298,7 +298,7 @@ http://123.117.237.15:8680/rtp/239.3.1.130:8004$组播源
 #EXTINF:-1 tvg-name="CCTV5＋体育" tvg-logo="https://live.fanmingming.com/tv/CCTV5＋体育.png" group-title="📺电信IPTV",CCTV5＋体育
 http://119.98.133.74:4022/rtp/239.254.96.234:9484$组播源
 #EXTINF:-1 tvg-name="CCTV1" tvg-logo="https://live.fanmingming.com/tv/CCTV1.png" group-title="📺电信IPTV",CCTV-1
-http://192.168.3.1:8888/rtp/239.77.0.129:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.129:5146$内网组播
 #EXTINF:-1 tvg-name="CCTV1" tvg-logo="https://live.fanmingming.com/tv/CCTV1.png" group-title="📺电信IPTV",CCTV-1
 http://[2409:8087:1a01:df::4077]/ottrrs.hl.chinamobile.com/PLTV/88888888/224/3221226016/index.m3u8$订阅源-IPv6
 #EXTINF:-1 tvg-name="CCTV1" tvg-logo="https://live.fanmingming.com/tv/CCTV1.png" group-title="📺电信IPTV",CCTV-1
@@ -318,7 +318,7 @@ http://123.117.237.15:8680/rtp/239.3.1.129:8008$组播源
 #EXTINF:-1 tvg-name="CCTV1" tvg-logo="https://live.fanmingming.com/tv/CCTV1.png" group-title="📺电信IPTV",CCTV-1
 http://119.98.133.74:4022/rtp/239.254.96.96:8550$组播源
 #EXTINF:-1 tvg-name="CCTV2" tvg-logo="https://live.fanmingming.com/tv/CCTV2.png" group-title="📺电信IPTV",CCTV-2
-http://192.168.3.1:8888/rtp/239.77.0.137:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.137:5146$内网组播
 #EXTINF:-1 tvg-name="CCTV2" tvg-logo="https://live.fanmingming.com/tv/CCTV2.png" group-title="📺电信IPTV",CCTV-2
 http://[2409:8087:5e00:24::1f]:6060/ZTE_CMS/00000001000000060000000000000372/index.m3u8$订阅源-IPv6
 #EXTINF:-1 tvg-name="CCTV2" tvg-logo="https://live.fanmingming.com/tv/CCTV2.png" group-title="📺电信IPTV",CCTV-2
@@ -338,7 +338,7 @@ http://123.117.237.15:8680/rtp/239.3.1.60:8084$组播源
 #EXTINF:-1 tvg-name="CCTV2" tvg-logo="https://live.fanmingming.com/tv/CCTV2.png" group-title="📺电信IPTV",CCTV-2
 http://119.98.133.74:4022/rtp/239.69.1.102:10250$组播源
 #EXTINF:-1 tvg-name="CCTV3" tvg-logo="https://live.fanmingming.com/tv/CCTV3.png" group-title="📺电信IPTV",CCTV-3
-http://192.168.3.1:8888/rtp/239.77.0.169:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.169:5146$内网组播
 #EXTINF:-1 tvg-name="CCTV3" tvg-logo="https://live.fanmingming.com/tv/CCTV3.png" group-title="📺电信IPTV",CCTV-3
 http://[2409:8087:1a0a:df::4038]/ottrrs.hl.chinamobile.com/TVOD/88888888/224/3221226021/index.m3u8$订阅源-IPv6
 #EXTINF:-1 tvg-name="CCTV3" tvg-logo="https://live.fanmingming.com/tv/CCTV3.png" group-title="📺电信IPTV",CCTV-3
@@ -358,7 +358,7 @@ http://123.117.237.15:8680/rtp/239.3.1.172:8001$组播源
 #EXTINF:-1 tvg-name="CCTV3" tvg-logo="https://live.fanmingming.com/tv/CCTV3.png" group-title="📺电信IPTV",CCTV-3
 http://119.98.133.74:4022/rtp/239.69.1.122:10370$组播源
 #EXTINF:-1 tvg-name="CCTV4" tvg-logo="https://live.fanmingming.com/tv/CCTV4.png" group-title="📺电信IPTV",CCTV-4
-http://192.168.3.1:8888/rtp/239.77.0.78:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.78:5146$内网组播
 #EXTINF:-1 tvg-name="CCTV4" tvg-logo="https://live.fanmingming.com/tv/CCTV4.png" group-title="📺电信IPTV",CCTV-4
 http://[2409:8087:1a01:df::4077]/ottrrs.hl.chinamobile.com/PLTV/88888888/8/3221226007/index.m3u8?$订阅源-IPv6
 #EXTINF:-1 tvg-name="CCTV4" tvg-logo="https://live.fanmingming.com/tv/CCTV4.png" group-title="📺电信IPTV",CCTV-4
@@ -378,7 +378,7 @@ http://123.117.237.15:8680/rtp/239.3.1.105:8092$组播源
 #EXTINF:-1 tvg-name="CCTV4" tvg-logo="https://live.fanmingming.com/tv/CCTV4.png" group-title="📺电信IPTV",CCTV-4
 http://123.117.237.15:8680/rtp/239.3.1.214:4220$组播源
 #EXTINF:-1 tvg-name="CCTV5" tvg-logo="https://live.fanmingming.com/tv/CCTV5.png" group-title="📺电信IPTV",CCTV-5
-http://192.168.3.1:8888/rtp/239.77.0.170:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.170:5146$内网组播
 #EXTINF:-1 tvg-name="CCTV5" tvg-logo="https://live.fanmingming.com/tv/CCTV5.png" group-title="📺电信IPTV",CCTV-5
 http://[2409:8087:74d9:21::4]/270000001128/index.m3u8?cmcc_cid=9900000005$订阅源-IPv6
 #EXTINF:-1 tvg-name="CCTV5" tvg-logo="https://live.fanmingming.com/tv/CCTV5.png" group-title="📺电信IPTV",CCTV-5
@@ -398,7 +398,7 @@ http://123.117.237.15:8680/rtp/239.3.1.173:8001$组播源
 #EXTINF:-1 tvg-name="CCTV5" tvg-logo="https://live.fanmingming.com/tv/CCTV5.png" group-title="📺电信IPTV",CCTV-5
 http://119.98.133.74:4022/rtp/239.69.1.123:10376$组播源
 #EXTINF:-1 tvg-name="CCTV6" tvg-logo="https://live.fanmingming.com/tv/CCTV6.png" group-title="📺电信IPTV",CCTV-6
-http://192.168.3.1:8888/rtp/239.77.0.171:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.171:5146$内网组播
 #EXTINF:-1 tvg-name="CCTV6" tvg-logo="https://live.fanmingming.com/tv/CCTV6.png" group-title="📺电信IPTV",CCTV-6
 http://[2409:8087:1a01:df::4077]:80/ottrrs.hl.chinamobile.com/PLTV/88888888/224/3221226010/index.m3u8$订阅源-IPv6
 #EXTINF:-1 tvg-name="CCTV6" tvg-logo="https://live.fanmingming.com/tv/CCTV6.png" group-title="📺电信IPTV",CCTV-6
@@ -418,7 +418,7 @@ http://123.117.237.15:8680/rtp/239.3.1.174:8001$组播源
 #EXTINF:-1 tvg-name="CCTV6" tvg-logo="https://live.fanmingming.com/tv/CCTV6.png" group-title="📺电信IPTV",CCTV-6
 http://119.98.133.74:4022/rtp/239.69.1.124:10382$组播源
 #EXTINF:-1 tvg-name="CCTV7" tvg-logo="https://live.fanmingming.com/tv/CCTV7.png" group-title="📺电信IPTV",CCTV-7
-http://192.168.3.1:8888/rtp/239.77.0.138:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.138:5146$内网组播
 #EXTINF:-1 tvg-name="CCTV7" tvg-logo="https://live.fanmingming.com/tv/CCTV7.png" group-title="📺电信IPTV",CCTV-7
 http://[2409:8087:5e00:24::1e]:6060/200000001898/460000089800010215/index.m3u8$订阅源-IPv6
 #EXTINF:-1 tvg-name="CCTV7" tvg-logo="https://live.fanmingming.com/tv/CCTV7.png" group-title="📺电信IPTV",CCTV-7
@@ -438,7 +438,7 @@ http://123.117.237.15:8680/rtp/239.3.1.61:8104$组播源
 #EXTINF:-1 tvg-name="CCTV7" tvg-logo="https://live.fanmingming.com/tv/CCTV7.png" group-title="📺电信IPTV",CCTV-7
 http://119.98.133.74:4022/rtp/239.69.1.103:10256$组播源
 #EXTINF:-1 tvg-name="CCTV8" tvg-logo="https://live.fanmingming.com/tv/CCTV8.png" group-title="📺电信IPTV",CCTV-8
-http://192.168.3.1:8888/rtp/239.77.0.172:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.172:5146$内网组播
 #EXTINF:-1 tvg-name="CCTV8" tvg-logo="https://live.fanmingming.com/tv/CCTV8.png" group-title="📺电信IPTV",CCTV-8
 http://[2409:8087:74f0:22::9]:6410/270000001111/1110000309/index.m3u8?channel-id=newtv&livemode=4&Contentid=1110000309$订阅源-IPv6
 #EXTINF:-1 tvg-name="CCTV8" tvg-logo="https://live.fanmingming.com/tv/CCTV8.png" group-title="📺电信IPTV",CCTV-8
@@ -458,7 +458,7 @@ http://123.117.237.15:8680/rtp/239.3.1.175:8001$组播源
 #EXTINF:-1 tvg-name="CCTV8" tvg-logo="https://live.fanmingming.com/tv/CCTV8.png" group-title="📺电信IPTV",CCTV-8
 http://119.98.133.74:4022/rtp/239.69.1.125:10388$组播源
 #EXTINF:-1 tvg-name="CCTV9" tvg-logo="https://live.fanmingming.com/tv/CCTV9.png" group-title="📺电信IPTV",CCTV-9
-http://192.168.3.1:8888/rtp/239.77.0.135:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.135:5146$内网组播
 #EXTINF:-1 tvg-name="CCTV9" tvg-logo="https://live.fanmingming.com/tv/CCTV9.png" group-title="📺电信IPTV",CCTV-9
 http://[2409:8087:5e00:24::10]:6060/200000001898/460000089800010217/$订阅源-IPv6
 #EXTINF:-1 tvg-name="CCTV9" tvg-logo="https://live.fanmingming.com/tv/CCTV9.png" group-title="📺电信IPTV",CCTV-9
@@ -478,7 +478,7 @@ http://123.117.237.15:8680/rtp/239.3.1.62:8112$组播源
 #EXTINF:-1 tvg-name="CCTV9" tvg-logo="https://live.fanmingming.com/tv/CCTV9.png" group-title="📺电信IPTV",CCTV-9
 http://119.98.133.74:4022/rtp/239.69.1.104:10262$组播源
 #EXTINF:-1 tvg-name="CCTV10" tvg-logo="https://live.fanmingming.com/tv/CCTV10.png" group-title="📺电信IPTV",CCTV-10
-http://192.168.3.1:8888/rtp/239.77.0.134:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.134:5146$内网组播
 #EXTINF:-1 tvg-name="CCTV10" tvg-logo="https://live.fanmingming.com/tv/CCTV10.png" group-title="📺电信IPTV",CCTV-10
 http://[2409:8087:5e00:24::1e]:6060/000000001000/5000000004000012827/1.m3u8$订阅源-IPv6
 #EXTINF:-1 tvg-name="CCTV10" tvg-logo="https://live.fanmingming.com/tv/CCTV10.png" group-title="📺电信IPTV",CCTV-10
@@ -498,7 +498,7 @@ http://123.117.237.15:8680/rtp/239.3.1.63:8116$组播源
 #EXTINF:-1 tvg-name="CCTV10" tvg-logo="https://live.fanmingming.com/tv/CCTV10.png" group-title="📺电信IPTV",CCTV-10
 http://119.98.133.74:4022/rtp/239.69.1.105:10268$组播源
 #EXTINF:-1 tvg-name="CCTV12" tvg-logo="https://live.fanmingming.com/tv/CCTV12.png" group-title="📺电信IPTV",CCTV-12
-http://192.168.3.1:8888/rtp/239.77.0.136:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.136:5146$内网组播
 #EXTINF:-1 tvg-name="CCTV12" tvg-logo="https://live.fanmingming.com/tv/CCTV12.png" group-title="📺电信IPTV",CCTV-12
 http://[2409:8087:5e01:34::22]:6610/ZTE_CMS/00000001000000060000000000000377/index.m3u8?IAS$订阅源-IPv6
 #EXTINF:-1 tvg-name="CCTV12" tvg-logo="https://live.fanmingming.com/tv/CCTV12.png" group-title="📺电信IPTV",CCTV-12
@@ -518,7 +518,7 @@ http://123.117.237.15:8680/rtp/239.3.1.64:8124$组播源
 #EXTINF:-1 tvg-name="CCTV12" tvg-logo="https://live.fanmingming.com/tv/CCTV12.png" group-title="📺电信IPTV",CCTV-12
 http://119.98.133.74:4022/rtp/239.69.1.106:10274$组播源
 #EXTINF:-1 tvg-name="CCTV14" tvg-logo="https://live.fanmingming.com/tv/CCTV14.png" group-title="📺电信IPTV",CCTV-14
-http://192.168.3.1:8888/rtp/239.77.0.133:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.133:5146$内网组播
 #EXTINF:-1 tvg-name="CCTV14" tvg-logo="https://live.fanmingming.com/tv/CCTV14.png" group-title="📺电信IPTV",CCTV-14
 http://[2409:8087:1a01:df::4077]/ottrrs.hl.chinamobile.com/PLTV/88888888/8/3221225732/index.m3u8$订阅源-IPv6
 #EXTINF:-1 tvg-name="CCTV14" tvg-logo="https://live.fanmingming.com/tv/CCTV14.png" group-title="📺电信IPTV",CCTV-14
@@ -538,13 +538,13 @@ http://123.117.237.15:8680/rtp/239.3.1.65:8132$组播源
 #EXTINF:-1 tvg-name="CCTV14" tvg-logo="https://live.fanmingming.com/tv/CCTV14.png" group-title="📺电信IPTV",CCTV-14
 http://119.98.133.74:4022/rtp/239.69.1.107:10280$组播源
 #EXTINF:-1 tvg-name="CCTV4K" tvg-logo="https://live.fanmingming.com/tv/CCTV4K.png" group-title="📺电信IPTV",CCTV4K
-http://192.168.3.1:8888/rtp/239.77.0.174:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.174:5146$内网组播
 #EXTINF:-1 tvg-name="CCTV4K" tvg-logo="https://live.fanmingming.com/tv/CCTV4K.png" group-title="📺电信IPTV",CCTV4K
 http://[2409:8087:3c02:0021:0000:0001:0000:100a]:6410/shandong_cabletv.live.zte.com////CHANNEL00000382/index.m3u8?IASHttpSessionId=$订阅源-IPv6
 #EXTINF:-1 tvg-name="CCTV4K" tvg-logo="https://live.fanmingming.com/tv/CCTV4K.png" group-title="📺电信IPTV",CCTV4K
 http://[2409:8087:3c02:21:0:1:0:100a]:6410/shandong_cabletv.live.zte.com////CHANNEL00000382/index.m3u8?IASHttpSessionId=$订阅源-IPv6
 #EXTINF:-1 tvg-name="CCTV11戏曲" tvg-logo="https://live.fanmingming.com/tv/CCTV11戏曲.png" group-title="📺电信IPTV",CCTV-11戏曲
-http://192.168.3.1:8888/rtp/239.77.1.108:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.1.108:5146$内网组播
 #EXTINF:-1 tvg-name="CCTV11戏曲" tvg-logo="https://live.fanmingming.com/tv/CCTV11戏曲.png" group-title="📺电信IPTV",CCTV-11戏曲
 http://[2409:8087:5e00:24::1e]:6060/000000001000/5000000011000031106/1.m3u8$订阅源-IPv6
 #EXTINF:-1 tvg-name="CCTV11戏曲" tvg-logo="https://live.fanmingming.com/tv/CCTV11戏曲.png" group-title="📺电信IPTV",CCTV-11戏曲
@@ -564,7 +564,7 @@ http://123.117.237.15:8680/rtp/239.3.1.152:8120$组播源
 #EXTINF:-1 tvg-name="CCTV11戏曲" tvg-logo="https://live.fanmingming.com/tv/CCTV11戏曲.png" group-title="📺电信IPTV",CCTV-11戏曲
 http://119.98.133.74:4022/rtp/239.69.1.154:10560$组播源
 #EXTINF:-1 tvg-name="CCTV13新闻" tvg-logo="https://live.fanmingming.com/tv/CCTV13新闻.png" group-title="📺电信IPTV",CCTV-13新闻
-http://192.168.3.1:8888/rtp/239.77.0.188:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.188:5146$内网组播
 #EXTINF:-1 tvg-name="CCTV13新闻" tvg-logo="https://live.fanmingming.com/tv/CCTV13新闻.png" group-title="📺电信IPTV",CCTV-13新闻
 http://[2409:8087:3c02:21:0:1:0:100a]:6410/shandong_cabletv.live.zte.com////CHANNEL00000345/index.m3u8?IASHttpSessionId=$订阅源-IPv6
 #EXTINF:-1 tvg-name="CCTV13新闻" tvg-logo="https://live.fanmingming.com/tv/CCTV13新闻.png" group-title="📺电信IPTV",CCTV-13新闻
@@ -584,7 +584,7 @@ http://123.117.237.15:8680/rtp/239.3.1.124:8128$组播源
 #EXTINF:-1 tvg-name="CCTV13新闻" tvg-logo="https://live.fanmingming.com/tv/CCTV13新闻.png" group-title="📺电信IPTV",CCTV-13新闻
 http://119.98.133.74:4022/rtp/239.254.96.161:9040$组播源
 #EXTINF:-1 tvg-name="CCTV15音乐" tvg-logo="https://live.fanmingming.com/tv/CCTV15音乐.png" group-title="📺电信IPTV",CCTV-15音乐
-http://192.168.3.1:8888/rtp/239.77.1.120:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.1.120:5146$内网组播
 #EXTINF:-1 tvg-name="CCTV15音乐" tvg-logo="https://live.fanmingming.com/tv/CCTV15音乐.png" group-title="📺电信IPTV",CCTV-15音乐
 http://[2409:8087:1a0a:df::4031]/ottrrs.hl.chinamobile.com/PLTV/88888888/224/3221225601/index.m3u8$订阅源-IPv6
 #EXTINF:-1 tvg-name="CCTV15音乐" tvg-logo="https://live.fanmingming.com/tv/CCTV15音乐.png" group-title="📺电信IPTV",CCTV-15音乐
@@ -604,7 +604,7 @@ http://123.117.237.15:8680/rtp/239.3.1.153:8136$组播源
 #EXTINF:-1 tvg-name="CCTV15音乐" tvg-logo="https://live.fanmingming.com/tv/CCTV15音乐.png" group-title="📺电信IPTV",CCTV-15音乐
 http://119.98.133.74:4022/rtp/239.69.1.155:10566$组播源
 #EXTINF:-1 tvg-name="CCTV16" tvg-logo="https://live.fanmingming.com/tv/CCTV16.png" group-title="📺电信IPTV",CCTV-16
-http://192.168.3.1:8888/rtp/239.77.0.165:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.165:5146$内网组播
 #EXTINF:-1 tvg-name="CCTV16" tvg-logo="https://live.fanmingming.com/tv/CCTV16.png" group-title="📺电信IPTV",CCTV-16
 http://[2409:8087:74f0:22::4]:6410/270000001128/9900000016/index.m3u8?$订阅源-IPv6
 #EXTINF:-1 tvg-name="CCTV16" tvg-logo="https://live.fanmingming.com/tv/CCTV16.png" group-title="📺电信IPTV",CCTV-16
@@ -624,13 +624,13 @@ http://123.117.237.15:8680/rtp/239.3.1.183:8001$组播源
 #EXTINF:-1 tvg-name="CCTV16" tvg-logo="https://live.fanmingming.com/tv/CCTV16.png" group-title="📺电信IPTV",CCTV-16
 http://119.98.133.74:4022/rtp/239.69.1.247:11124$组播源
 #EXTINF:-1 tvg-name="CCTV-NEWS" tvg-logo="https://live.fanmingming.com/tv/CCTV-NEWS.png" group-title="📺电信IPTV",CCTV-NEWS
-http://192.168.3.1:8888/rtp/239.77.0.45:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.45:5146$内网组播
 #EXTINF:-1 tvg-name="CCTV-NEWS" tvg-logo="https://live.fanmingming.com/tv/CCTV-NEWS.png" group-title="📺电信IPTV",CCTV-NEWS
 http://144.52.163.245:9901/tsfile/live/1016_1.m3u8$订阅源
 #EXTINF:-1 tvg-name="CCTV-NEWS" tvg-logo="https://live.fanmingming.com/tv/CCTV-NEWS.png" group-title="📺电信IPTV",CCTV-NEWS
 http://183.3.134.56:9901/tsfile/live/0016_1.m3u8$订阅源
 #EXTINF:-1 tvg-name="CCTV17农业" tvg-logo="https://live.fanmingming.com/tv/CCTV17农业.png" group-title="📺电信IPTV",CCTV-17农业
-http://192.168.3.1:8888/rtp/239.77.0.198:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.198:5146$内网组播
 #EXTINF:-1 tvg-name="CCTV17农业" tvg-logo="https://live.fanmingming.com/tv/CCTV17农业.png" group-title="📺电信IPTV",CCTV-17农业
 http://[2409:8087:1a01:df::4025]:80/TVOD/88888888/224/3221225708/main.m3u8$订阅源-IPv6
 #EXTINF:-1 tvg-name="CCTV17农业" tvg-logo="https://live.fanmingming.com/tv/CCTV17农业.png" group-title="📺电信IPTV",CCTV-17农业
@@ -650,31 +650,31 @@ http://119.98.133.74:4022/rtp/239.69.1.152:10548$组播源
 #EXTINF:-1 tvg-name="CCTV17农业" tvg-logo="https://live.fanmingming.com/tv/CCTV17农业.png" group-title="📺电信IPTV",CCTV-17农业
 http://60.10.106.114:555/rtp/239.253.93.150:6318$组播源
 #EXTINF:-1 tvg-name="怀旧剧场" tvg-logo="https://live.fanmingming.com/tv/怀旧剧场.png" group-title="📺电信IPTV",怀旧剧场
-http://192.168.3.1:8888/rtp/239.253.43.5:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.253.43.5:5146$内网组播
 #EXTINF:-1 tvg-name="风云音乐" tvg-logo="https://live.fanmingming.com/tv/风云音乐.png" group-title="📺电信IPTV",风云音乐
-http://192.168.3.1:8888/rtp/239.253.43.6:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.253.43.6:5146$内网组播
 #EXTINF:-1 tvg-name="世界地理" tvg-logo="https://live.fanmingming.com/tv/世界地理.png" group-title="📺电信IPTV",世界地理
-http://192.168.3.1:8888/rtp/239.253.43.7:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.253.43.7:5146$内网组播
 #EXTINF:-1 tvg-name="世界地理" tvg-logo="https://live.fanmingming.com/tv/世界地理.png" group-title="📺电信IPTV",世界地理
 http://60.2.190.206:4000/udp/239.253.92.113:8066$订阅源
 #EXTINF:-1 tvg-name="世界地理" tvg-logo="https://live.fanmingming.com/tv/世界地理.png" group-title="📺电信IPTV",世界地理
 http://60.2.190.206:4000/udp/239.253.92.131:6113$订阅源
 #EXTINF:-1 tvg-name="女性时尚" tvg-logo="https://live.fanmingming.com/tv/女性时尚.png" group-title="📺电信IPTV",女性时尚
-http://192.168.3.1:8888/rtp/239.253.43.8:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.253.43.8:5146$内网组播
 #EXTINF:-1 tvg-name="兵器科技" tvg-logo="https://live.fanmingming.com/tv/兵器科技.png" group-title="📺电信IPTV",兵器科技
-http://192.168.3.1:8888/rtp/239.253.43.9:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.253.43.9:5146$内网组播
 #EXTINF:-1 tvg-name="电视指南" tvg-logo="https://live.fanmingming.com/tv/电视指南.png" group-title="📺电信IPTV",电视指南
-http://192.168.3.1:8888/rtp/239.253.43.10:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.253.43.10:5146$内网组播
 #EXTINF:-1 tvg-name="央视台球" tvg-logo="https://live.fanmingming.com/tv/央视台球.png" group-title="📺电信IPTV",央视台球
-http://192.168.3.1:8888/rtp/239.253.43.11:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.253.43.11:5146$内网组播
 #EXTINF:-1 tvg-name="高尔夫网球" tvg-logo="https://live.fanmingming.com/tv/高尔夫网球.png" group-title="📺电信IPTV",高尔夫网球
-http://192.168.3.1:8888/rtp/239.253.43.12:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.253.43.12:5146$内网组播
 #EXTINF:-1 tvg-name="高尔夫网球" tvg-logo="https://live.fanmingming.com/tv/高尔夫网球.png" group-title="📺电信IPTV",高尔夫网球
-http://192.168.3.1:8888/rtp/239.77.0.221:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.221:5146$内网组播
 #EXTINF:-1 tvg-name="文化精品" tvg-logo="https://live.fanmingming.com/tv/文化精品.png" group-title="📺电信IPTV",文化精品
-http://192.168.3.1:8888/rtp/239.253.43.13:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.253.43.13:5146$内网组播
 #EXTINF:-1 tvg-name="风云足球" tvg-logo="https://live.fanmingming.com/tv/风云足球.png" group-title="📺电信IPTV",风云足球
-http://192.168.3.1:8888/rtp/239.253.43.14:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.253.43.14:5146$内网组播
 #EXTINF:-1 tvg-name="风云足球" tvg-logo="https://live.fanmingming.com/tv/风云足球.png" group-title="📺电信IPTV",风云足球
 http://58.19.38.162:9901/tsfile/live/1034_1.m3u8?key=txiptv&playlive=1&authid=0$湖北酒店源
 #EXTINF:-1 tvg-name="风云足球" tvg-logo="https://live.fanmingming.com/tv/风云足球.png" group-title="📺电信IPTV",风云足球
@@ -684,15 +684,15 @@ http://163.177.122.28:9901/tsfile/live/1095_1.m3u8$订阅源
 #EXTINF:-1 tvg-name="风云足球" tvg-logo="https://live.fanmingming.com/tv/风云足球.png" group-title="📺电信IPTV",风云足球
 http://163.177.122.29:9901/tsfile/live/1095_1.m3u8$订阅源
 #EXTINF:-1 tvg-name="第一剧场" tvg-logo="https://live.fanmingming.com/tv/第一剧场.png" group-title="📺电信IPTV",第一剧场
-http://192.168.3.1:8888/rtp/239.253.43.15:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.253.43.15:5146$内网组播
 #EXTINF:-1 tvg-name="第一剧场" tvg-logo="https://live.fanmingming.com/tv/第一剧场.png" group-title="📺电信IPTV",第一剧场
 http://58.19.38.162:9901/tsfile/live/1035_1.m3u8?key=txiptv&playlive=1&authid=0$湖北酒店源
 #EXTINF:-1 tvg-name="风云剧场" tvg-logo="https://live.fanmingming.com/tv/风云剧场.png" group-title="📺电信IPTV",风云剧场
-http://192.168.3.1:8888/rtp/239.253.43.16:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.253.43.16:5146$内网组播
 #EXTINF:-1 tvg-name="CCTV卫生健康" tvg-logo="https://live.fanmingming.com/tv/CCTV卫生健康.png" group-title="📺电信IPTV",CCTV卫生健康
-http://192.168.3.1:8888/rtp/239.77.0.212:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.212:5146$内网组播
 #EXTINF:-1 tvg-name="CCTV4中文国际欧洲" tvg-logo="https://live.fanmingming.com/tv/CCTV4中文国际欧洲.png" group-title="📺电信IPTV",CCTV4中文国际欧洲
-http://192.168.3.1:8888/rtp/239.253.43.120:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.253.43.120:5146$内网组播
 #EXTINF:-1 tvg-name="CCTV4中文国际欧洲" tvg-logo="https://live.fanmingming.com/tv/CCTV4中文国际欧洲.png" group-title="📺电信IPTV",CCTV4中文国际欧洲
 http://[2409:8087:1a01:df::4077]/ottrrs.hl.chinamobile.com/PLTV/88888888/8/3221226007/index.m3u8?$订阅源-IPv6
 #EXTINF:-1 tvg-name="CCTV4中文国际欧洲" tvg-logo="https://live.fanmingming.com/tv/CCTV4中文国际欧洲.png" group-title="📺电信IPTV",CCTV4中文国际欧洲
@@ -712,13 +712,13 @@ http://123.117.237.15:8680/rtp/239.3.1.105:8092$组播源
 #EXTINF:-1 tvg-name="CCTV4中文国际欧洲" tvg-logo="https://live.fanmingming.com/tv/CCTV4中文国际欧洲.png" group-title="📺电信IPTV",CCTV4中文国际欧洲
 http://123.117.237.15:8680/rtp/239.3.1.214:4220$组播源
 #EXTINF:-1 tvg-name="CCTV4中文国际美洲" tvg-logo="https://live.fanmingming.com/tv/CCTV4中文国际美洲.png" group-title="📺电信IPTV",CCTV4中文国际美洲
-http://192.168.3.1:8888/rtp/239.253.43.121:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.253.43.121:5146$内网组播
 #EXTINF:-1 tvg-name="CCTV4中文国际美洲" tvg-logo="https://live.fanmingming.com/tv/CCTV4中文国际美洲.png" group-title="📺电信IPTV",CCTV4中文国际美洲
 http://[2409:8087:3c02:21:0:1:0:100a]:6410/shandong_cabletv.live.zte.com////CHANNEL00000351/index.m3u8?IASHttpSessionId=$订阅源-IPv6
 #EXTINF:-1 tvg-name="CCTV4中文国际美洲" tvg-logo="https://live.fanmingming.com/tv/CCTV4中文国际美洲.png" group-title="📺电信IPTV",CCTV4中文国际美洲
 http://[2409:8087:3c02:0021:0000:0001:0000:100a]:6410/shandong_cabletv.live.zte.com////CHANNEL00000351/index.m3u8?IASHttpSessionId=$订阅源-IPv6
 #EXTINF:-1 tvg-name="湖南卫视" tvg-logo="https://live.fanmingming.com/tv/湖南卫视.png" group-title="📺电信IPTV",湖南卫视
-http://192.168.3.1:8888/rtp/239.77.0.88:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.88:5146$内网组播
 #EXTINF:-1 tvg-name="湖南卫视" tvg-logo="https://live.fanmingming.com/tv/湖南卫视.png" group-title="📺电信IPTV",湖南卫视
 http://[2409:8087:1a01:df::7005]/ottrrs.hl.chinamobile.com/PLTV/88888888/224/3221226307/index.m3u8?$订阅源-IPv6
 #EXTINF:-1 tvg-name="湖南卫视" tvg-logo="https://live.fanmingming.com/tv/湖南卫视.png" group-title="📺电信IPTV",湖南卫视
@@ -738,13 +738,13 @@ http://123.117.237.15:8680/rtp/239.3.1.132:8012$组播源
 #EXTINF:-1 tvg-name="湖南卫视" tvg-logo="https://live.fanmingming.com/tv/湖南卫视.png" group-title="📺电信IPTV",湖南卫视
 http://119.98.133.74:4022/rtp/239.254.96.139:8908$组播源
 #EXTINF:-1 tvg-name="茶频道" tvg-logo="https://live.fanmingming.com/tv/茶频道.png" group-title="📺电信IPTV",茶频道
-http://192.168.3.1:8888/rtp/239.77.0.15:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.15:5146$内网组播
 #EXTINF:-1 tvg-name="茶频道" tvg-logo="https://live.fanmingming.com/tv/茶频道.png" group-title="📺电信IPTV",茶频道
 http://[2409:8087:5e00:24::1e]:6060/000000001000/5000000011000031209/1.m3u8$订阅源-IPv6
 #EXTINF:-1 tvg-name="茶频道" tvg-logo="https://live.fanmingming.com/tv/茶频道.png" group-title="📺电信IPTV",茶频道
 http://[2409:8087:5e08:24::11]:6610/000000001000/5000000011000031209/1.m3u8?channel-id=bestzb&Contentid=5000000011000031209&livemode=1&stbId=3$订阅源-IPv6
 #EXTINF:-1 tvg-name="快乐垂钓" tvg-logo="https://live.fanmingming.com/tv/快乐垂钓.png" group-title="📺电信IPTV",快乐垂钓
-http://192.168.3.1:8888/rtp/239.77.0.145:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.145:5146$内网组播
 #EXTINF:-1 tvg-name="快乐垂钓" tvg-logo="https://live.fanmingming.com/tv/快乐垂钓.png" group-title="📺电信IPTV",快乐垂钓
 http://[2409:8087:3c02:0021:0000:0001:0000:100a]:6410/shandong_cabletv.live.zte.com////CHANNEL00000648/index.m3u8?IASHttpSessionId=$订阅源-IPv6
 #EXTINF:-1 tvg-name="快乐垂钓" tvg-logo="https://live.fanmingming.com/tv/快乐垂钓.png" group-title="📺电信IPTV",快乐垂钓
@@ -760,7 +760,7 @@ http://223.166.234.149:7777/tsfile/live/1048_1.m3u8$订阅源
 #EXTINF:-1 tvg-name="快乐垂钓" tvg-logo="https://live.fanmingming.com/tv/快乐垂钓.png" group-title="📺电信IPTV",快乐垂钓
 http://58.19.38.162:9901/tsfile/live/1033_1.m3u8?key=txiptv&playlive=1&authid=0$湖北酒店源
 #EXTINF:-1 tvg-name="求索纪录" tvg-logo="https://live.fanmingming.com/tv/求索纪录.png" group-title="📺电信IPTV",求索纪录
-http://192.168.3.1:8888/rtp/239.77.0.21:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.21:5146$内网组播
 #EXTINF:-1 tvg-name="求索纪录" tvg-logo="https://live.fanmingming.com/tv/求索纪录.png" group-title="📺电信IPTV",求索纪录
 http://[2409:8087:5e01:24::16]:6610/000000001000/2000000004000000010/index.m3u8?stbId=3&livemode=1&HlsProfileId=&channel-id=hnbblive&Contentid=2000000004000000010&IAS$订阅源-IPv6
 #EXTINF:-1 tvg-name="求索纪录" tvg-logo="https://live.fanmingming.com/tv/求索纪录.png" group-title="📺电信IPTV",求索纪录
@@ -800,13 +800,13 @@ http://[2409:8087:5e08:24::11]:6610/000000001000/5000000010000018926/1.m3u8?chan
 #EXTINF:-1 tvg-name="上海都市频道" tvg-logo="https://live.fanmingming.com/tv/上海都市频道.png" group-title="📺电信IPTV",上海都市频道
 http://[2409:8087:5e08:24::11]:6610/000000001000/2000000002000000012/index.m3u8?stbId=3&livemode=1&HlsProfileId=&channel-id=hnbblive&Contentid=2000000002000000012&IASHttpSessionId=OTT19019320240419154124000281$订阅源-IPv6
 #EXTINF:-1 tvg-name="上海纪实人文" tvg-logo="https://live.fanmingming.com/tv/上海纪实人文.png" group-title="📺电信IPTV",上海纪实人文
-http://192.168.3.1:8888/rtp/239.77.0.147:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.147:5146$内网组播
 #EXTINF:-1 tvg-name="上海纪实人文" tvg-logo="https://live.fanmingming.com/tv/上海纪实人文.png" group-title="📺电信IPTV",上海纪实人文
 http://[2409:8087:74d9:21::6]:80/270000001128/9900000528/index.m3u8$订阅源-IPv6
 #EXTINF:-1 tvg-name="上海第一财经" tvg-logo="https://live.fanmingming.com/tv/上海第一财经.png" group-title="📺电信IPTV",上海第一财经
 http://[2409:8087:5e08:24::11]:6610/000000001000/2000000002000000004/index.m3u8?stbId=3&livemode=1&HlsProfileId=&channel-id=hnbblive&Contentid=2000000002000000004&IASHttpSessionId=OTT19019320240419154124000281$订阅源-IPv6
 #EXTINF:-1 tvg-name="河南卫视" tvg-logo="https://live.fanmingming.com/tv/河南卫视.png" group-title="📺电信IPTV",河南卫视
-http://192.168.3.1:8888/rtp/239.77.0.17:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.17:5146$内网组播
 #EXTINF:-1 tvg-name="河南卫视" tvg-logo="https://live.fanmingming.com/tv/河南卫视.png" group-title="📺电信IPTV",河南卫视
 http://[2409:8087:74d9:21::6]/000000001000PLTV/88888888/224/3221226614/index.m3u8$订阅源-IPv6
 #EXTINF:-1 tvg-name="河南卫视" tvg-logo="https://live.fanmingming.com/tv/河南卫视.png" group-title="📺电信IPTV",河南卫视
@@ -826,7 +826,7 @@ http://123.117.237.15:8680/rtp/239.3.1.27:8128$组播源
 #EXTINF:-1 tvg-name="河南卫视" tvg-logo="https://live.fanmingming.com/tv/河南卫视.png" group-title="📺电信IPTV",河南卫视
 http://119.98.133.74:4022/rtp/239.69.1.168:10644$组播源
 #EXTINF:-1 tvg-name="甘肃卫视" tvg-logo="https://live.fanmingming.com/tv/甘肃卫视.png" group-title="📺电信IPTV",甘肃卫视
-http://192.168.3.1:8888/rtp/239.77.0.189:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.189:5146$内网组播
 #EXTINF:-1 tvg-name="甘肃卫视" tvg-logo="https://live.fanmingming.com/tv/甘肃卫视.png" group-title="📺电信IPTV",甘肃卫视
 http://[2409:8087:2001:20:2800:0:df6e:eb1b]:80/wh7f454c46tw1625690606_1267463833/ott.mobaibox.com/PLTV/3/224/3221227568/index.m3u8?icpid=3&RTS=1674377446&from=40&popid=40&hms_devid=2116&prioritypopid=40&vqe=3$订阅源-IPv6
 #EXTINF:-1 tvg-name="甘肃卫视" tvg-logo="https://live.fanmingming.com/tv/甘肃卫视.png" group-title="📺电信IPTV",甘肃卫视
@@ -846,9 +846,9 @@ http://114.243.98.12:8888/rtp/239.3.1.49:8188$组播源
 #EXTINF:-1 tvg-name="甘肃卫视" tvg-logo="https://live.fanmingming.com/tv/甘肃卫视.png" group-title="📺电信IPTV",甘肃卫视
 http://111.199.234.10:18888/rtp/239.3.1.49:8188$组播源
 #EXTINF:-1 tvg-name="南国都市" tvg-logo="https://live.fanmingming.com/tv/南国都市.png" group-title="📺电信IPTV",南国都市
-http://192.168.3.1:8888/rtp/239.77.0.232:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.232:5146$内网组播
 #EXTINF:-1 tvg-name="CHC影迷电影" tvg-logo="https://live.fanmingming.com/tv/CHC影迷电影.png" group-title="📺电信IPTV",CHC影迷电影
-http://192.168.3.1:8888/rtp/239.77.0.27:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.27:5146$内网组播
 #EXTINF:-1 tvg-name="CHC影迷电影" tvg-logo="https://live.fanmingming.com/tv/CHC影迷电影.png" group-title="📺电信IPTV",CHC影迷电影
 http://[2409:8087:3c02:0021:0000:0001:0000:100a]:6410/shandong_cabletv.live.zte.com////CHANNEL00002029/index.m3u8?IASHttpSessionId=$订阅源-IPv6
 #EXTINF:-1 tvg-name="CHC影迷电影" tvg-logo="https://live.fanmingming.com/tv/CHC影迷电影.png" group-title="📺电信IPTV",CHC影迷电影
@@ -898,15 +898,15 @@ http://[2409:8087:74d9:21::6]:80/270000001128/9900000046/index.m3u8$订阅源-IP
 #EXTINF:-1 tvg-name="CETV1" tvg-logo="https://live.fanmingming.com/tv/CETV1.png" group-title="📺电信IPTV",CETV1
 http://119.98.133.74:4022/rtp/239.69.1.110:10298$组播源
 #EXTINF:-1 tvg-name="CETV2" tvg-logo="https://live.fanmingming.com/tv/CETV2.png" group-title="📺电信IPTV",CETV2
-http://192.168.3.1:8888/rtp/239.77.0.28:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.28:5146$内网组播
 #EXTINF:-1 tvg-name="CETV2" tvg-logo="https://live.fanmingming.com/tv/CETV2.png" group-title="📺电信IPTV",CETV2
 http://[2409:8087:1a0b:df::4013]:80/ottrrs.hl.chinamobile.com/PLTV/88888888/224/3221226425/index.m3u8$订阅源-IPv6
 #EXTINF:-1 tvg-name="CETV2" tvg-logo="https://live.fanmingming.com/tv/CETV2.png" group-title="📺电信IPTV",CETV2
 http://[2409:8087:74d9:21::6]:80/270000001128/9900000071/index.m3u8$订阅源-IPv6
 #EXTINF:-1 tvg-name="CETV早期教育" tvg-logo="https://live.fanmingming.com/tv/CETV早期教育.png" group-title="📺电信IPTV",CETV早期教育
-http://192.168.3.1:8888/rtp/239.77.0.180:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.180:5146$内网组播
 #EXTINF:-1 tvg-name="CETV4" tvg-logo="https://live.fanmingming.com/tv/CETV4.png" group-title="📺电信IPTV",CETV4
-http://192.168.3.1:8888/rtp/239.77.1.200:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.1.200:5146$内网组播
 #EXTINF:-1 tvg-name="CETV4" tvg-logo="https://live.fanmingming.com/tv/CETV4.png" group-title="📺电信IPTV",CETV4
 http://[2409:8087:74d9:21::6]:80/270000001128/9900000072/index.m3u8$订阅源-IPv6
 #EXTINF:-1 tvg-name="CETV4" tvg-logo="https://live.fanmingming.com/tv/CETV4.png" group-title="📺电信IPTV",CETV4
@@ -914,23 +914,23 @@ http://[2409:8087:1a0b:df::4020]:80/ottrrs.hl.chinamobile.com/PLTV/88888888/224/
 #EXTINF:-1 tvg-name="CETV4" tvg-logo="https://live.fanmingming.com/tv/CETV4.png" group-title="📺电信IPTV",CETV4
 https://gcalic.v.myalicdn.com/gc/wgw05_1/index.m3u8?contentid=2820180516001$订阅源
 #EXTINF:-1 tvg-name="CGTN英语" tvg-logo="https://live.fanmingming.com/tv/CGTN英语.png" group-title="📺电信IPTV",CGTN英语
-http://192.168.3.1:8888/rtp/239.77.0.199:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.199:5146$内网组播
 #EXTINF:-1 tvg-name="CGTN法语" tvg-logo="https://live.fanmingming.com/tv/CGTN法语.png" group-title="📺电信IPTV",CGTN法语
-http://192.168.3.1:8888/rtp/239.77.0.228:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.228:5146$内网组播
 #EXTINF:-1 tvg-name="CGTN法语" tvg-logo="https://live.fanmingming.com/tv/CGTN法语.png" group-title="📺电信IPTV",CGTN法语
 http://[2409:8087:5e08:24::11]:6610/000000001000/1000000006000280003/1.m3u8?channel-id=ystenlive&Contentid=1000000006000280003&livemode=1&stbId=3$订阅源-IPv6
 #EXTINF:-1 tvg-name="CGTN法语" tvg-logo="https://live.fanmingming.com/tv/CGTN法语.png" group-title="📺电信IPTV",CGTN法语
 http://119.98.133.74:4022/rtp/239.69.1.235:11052$组播源
 #EXTINF:-1 tvg-name="CGTN阿语" tvg-logo="https://live.fanmingming.com/tv/CGTN阿语.png" group-title="📺电信IPTV",CGTN阿语
-http://192.168.3.1:8888/rtp/239.253.43.200:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.253.43.200:5146$内网组播
 #EXTINF:-1 tvg-name="CGTN阿语" tvg-logo="https://live.fanmingming.com/tv/CGTN阿语.png" group-title="📺电信IPTV",CGTN阿语
 http://[2409:8087:5e08:24::11]:6610/000000001000/1000000006000280001/1.m3u8?channel-id=ystenlive&Contentid=1000000006000280001&livemode=1&stbId=3$订阅源-IPv6
 #EXTINF:-1 tvg-name="CGTN俄语" tvg-logo="https://live.fanmingming.com/tv/CGTN俄语.png" group-title="📺电信IPTV",CGTN俄语
-http://192.168.3.1:8888/rtp/239.253.43.201:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.253.43.201:5146$内网组播
 #EXTINF:-1 tvg-name="CGTN俄语" tvg-logo="https://live.fanmingming.com/tv/CGTN俄语.png" group-title="📺电信IPTV",CGTN俄语
 http://[2409:8087:5e08:24::11]:6610/000000001000/1000000006000280004/1.m3u8?channel-id=ystenlive&Contentid=1000000006000280004&livemode=1&stbId=3$订阅源-IPv6
 #EXTINF:-1 tvg-name="陕西卫视" tvg-logo="https://live.fanmingming.com/tv/陕西卫视.png" group-title="📺电信IPTV",陕西卫视
-http://192.168.3.1:8888/udp/239.77.0.68:5146$内网组播
+,http://192.168.3.1:2222/udp/239.77.0.68:5146$内网组播
 #EXTINF:-1 tvg-name="陕西卫视" tvg-logo="https://live.fanmingming.com/tv/陕西卫视.png" group-title="📺电信IPTV",陕西卫视
 http://[2409:8087:1a01:df::7005]/ottrrs.hl.chinamobile.com/PLTV/88888888/224/3221226457/index.m3u8$订阅源-IPv6
 #EXTINF:-1 tvg-name="陕西卫视" tvg-logo="https://live.fanmingming.com/tv/陕西卫视.png" group-title="📺电信IPTV",陕西卫视
@@ -950,7 +950,7 @@ http://114.243.98.12:8888/rtp/239.3.1.41:8140$组播源
 #EXTINF:-1 tvg-name="陕西卫视" tvg-logo="https://live.fanmingming.com/tv/陕西卫视.png" group-title="📺电信IPTV",陕西卫视
 http://111.199.234.10:18888/rtp/239.3.1.41:8140$组播源
 #EXTINF:-1 tvg-name="山西卫视" tvg-logo="https://live.fanmingming.com/tv/山西卫视.png" group-title="📺电信IPTV",山西卫视
-http://192.168.3.1:8888/udp/239.77.0.68:5146$内网组播
+,http://192.168.3.1:2222/udp/239.77.0.68:5146$内网组播
 #EXTINF:-1 tvg-name="山西卫视" tvg-logo="https://live.fanmingming.com/tv/山西卫视.png" group-title="📺电信IPTV",山西卫视
 http://[2409:8087:74d9:21::6]:80/270000001128/9900000053/index.m3u8$订阅源-IPv6
 #EXTINF:-1 tvg-name="山西卫视" tvg-logo="https://live.fanmingming.com/tv/山西卫视.png" group-title="📺电信IPTV",山西卫视
@@ -970,7 +970,7 @@ http://114.243.98.12:8888/rtp/239.3.1.42:8172$组播源
 #EXTINF:-1 tvg-name="山西卫视" tvg-logo="https://live.fanmingming.com/tv/山西卫视.png" group-title="📺电信IPTV",山西卫视
 http://111.199.234.10:18888/rtp/239.3.1.42:8172$组播源
 #EXTINF:-1 tvg-name="内蒙古卫视" tvg-logo="https://live.fanmingming.com/tv/内蒙古卫视.png" group-title="📺电信IPTV",内蒙古卫视
-http://192.168.3.1:8888/rtp/239.77.0.70:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.70:5146$内网组播
 #EXTINF:-1 tvg-name="内蒙古卫视" tvg-logo="https://live.fanmingming.com/tv/内蒙古卫视.png" group-title="📺电信IPTV",内蒙古卫视
 http://[2409:8087:1a01:df::4077]/ottrrs.hl.chinamobile.com/PLTV/88888888/8/3221226389/index.m3u8$订阅源-IPv6
 #EXTINF:-1 tvg-name="内蒙古卫视" tvg-logo="https://live.fanmingming.com/tv/内蒙古卫视.png" group-title="📺电信IPTV",内蒙古卫视
@@ -990,7 +990,7 @@ http://114.243.98.12:8888/rtp/239.3.1.43:8176$组播源
 #EXTINF:-1 tvg-name="内蒙古卫视" tvg-logo="https://live.fanmingming.com/tv/内蒙古卫视.png" group-title="📺电信IPTV",内蒙古卫视
 http://111.199.234.10:18888/rtp/239.3.1.43:8176$组播源
 #EXTINF:-1 tvg-name="青海卫视" tvg-logo="https://live.fanmingming.com/tv/青海卫视.png" group-title="📺电信IPTV",青海卫视
-http://192.168.3.1:8888/rtp/239.77.0.71:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.71:5146$内网组播
 #EXTINF:-1 tvg-name="青海卫视" tvg-logo="https://live.fanmingming.com/tv/青海卫视.png" group-title="📺电信IPTV",青海卫视
 http://[2409:8087:1a0b:df::4002]:80/ottrrs.hl.chinamobile.com/TVOD/88888888/224/3221225628/index.m3u8$订阅源-IPv6
 #EXTINF:-1 tvg-name="青海卫视" tvg-logo="https://live.fanmingming.com/tv/青海卫视.png" group-title="📺电信IPTV",青海卫视
@@ -1010,7 +1010,7 @@ http://111.196.129.152:20000/rtp/239.3.1.44:8184$组播源
 #EXTINF:-1 tvg-name="青海卫视" tvg-logo="https://live.fanmingming.com/tv/青海卫视.png" group-title="📺电信IPTV",青海卫视
 http://114.243.98.12:8888/rtp/239.3.1.44:8184$组播源
 #EXTINF:-1 tvg-name="宁夏卫视" tvg-logo="https://live.fanmingming.com/tv/宁夏卫视.png" group-title="📺电信IPTV",宁夏卫视
-http://192.168.3.1:8888/rtp/239.77.0.73:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.73:5146$内网组播
 #EXTINF:-1 tvg-name="宁夏卫视" tvg-logo="https://live.fanmingming.com/tv/宁夏卫视.png" group-title="📺电信IPTV",宁夏卫视
 http://[2409:8087:74d9:21::6]/270000001322/69900158041111100000002239/index.m3u8$订阅源-IPv6
 #EXTINF:-1 tvg-name="宁夏卫视" tvg-logo="https://live.fanmingming.com/tv/宁夏卫视.png" group-title="📺电信IPTV",宁夏卫视
@@ -1030,7 +1030,7 @@ http://114.243.98.12:8888/rtp/239.3.1.46:8124$组播源
 #EXTINF:-1 tvg-name="宁夏卫视" tvg-logo="https://live.fanmingming.com/tv/宁夏卫视.png" group-title="📺电信IPTV",宁夏卫视
 http://111.199.234.10:18888/rtp/239.3.1.46:8124$组播源
 #EXTINF:-1 tvg-name="西藏卫视" tvg-logo="https://live.fanmingming.com/tv/西藏卫视.png" group-title="📺电信IPTV",西藏卫视
-http://192.168.3.1:8888/rtp/239.77.0.74:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.74:5146$内网组播
 #EXTINF:-1 tvg-name="西藏卫视" tvg-logo="https://live.fanmingming.com/tv/西藏卫视.png" group-title="📺电信IPTV",西藏卫视
 http://[2409:8087:1a0a:df::402e]:80/wh7f454c46tw2357852280_-2104487458/ottrrs.hl.chinamobile.com/PLTV/88888888/224/3221226433/index.m3u8?icpid=88888888&RTS=1713969186&from=4&hms_devid=1103&online=1713969186&vqe=3$订阅源-IPv6
 #EXTINF:-1 tvg-name="西藏卫视" tvg-logo="https://live.fanmingming.com/tv/西藏卫视.png" group-title="📺电信IPTV",西藏卫视
@@ -1050,7 +1050,7 @@ http://114.243.98.12:8888/rtp/239.3.1.47:8164$组播源
 #EXTINF:-1 tvg-name="西藏卫视" tvg-logo="https://live.fanmingming.com/tv/西藏卫视.png" group-title="📺电信IPTV",西藏卫视
 http://111.199.234.10:18888/rtp/239.3.1.47:8164$组播源
 #EXTINF:-1 tvg-name="新疆卫视" tvg-logo="https://live.fanmingming.com/tv/新疆卫视.png" group-title="📺电信IPTV",新疆卫视
-http://192.168.3.1:8888/rtp/239.77.0.75:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.75:5146$内网组播
 #EXTINF:-1 tvg-name="新疆卫视" tvg-logo="https://live.fanmingming.com/tv/新疆卫视.png" group-title="📺电信IPTV",新疆卫视
 http://[2409:8087:5e00:24::1e]:6060/000000001000/1000000002000029441/1.m3u8$订阅源-IPv6
 #EXTINF:-1 tvg-name="新疆卫视" tvg-logo="https://live.fanmingming.com/tv/新疆卫视.png" group-title="📺电信IPTV",新疆卫视
@@ -1064,7 +1064,7 @@ http://123.52.110.108:9901/tsfile/live/0110_1.m3u8$订阅源
 #EXTINF:-1 tvg-name="新疆卫视" tvg-logo="https://live.fanmingming.com/tv/新疆卫视.png" group-title="📺电信IPTV",新疆卫视
 http://1.199.235.140:9901/tsfile/live/0110_1.m3u8$订阅源
 #EXTINF:-1 tvg-name="兵团卫视" tvg-logo="https://live.fanmingming.com/tv/兵团卫视.png" group-title="📺电信IPTV",兵团卫视
-http://192.168.3.1:8888/rtp/239.77.0.77:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.77:5146$内网组播
 #EXTINF:-1 tvg-name="兵团卫视" tvg-logo="https://live.fanmingming.com/tv/兵团卫视.png" group-title="📺电信IPTV",兵团卫视
 http://[2409:8087:74d9:21::4]/270000001128/index.m3u8?cmcc_cid=9900000059$订阅源-IPv6
 #EXTINF:-1 tvg-name="兵团卫视" tvg-logo="https://live.fanmingming.com/tv/兵团卫视.png" group-title="📺电信IPTV",兵团卫视
@@ -1084,9 +1084,9 @@ http://123.117.237.15:8680/rtp/239.3.1.144:4120$组播源
 #EXTINF:-1 tvg-name="兵团卫视" tvg-logo="https://live.fanmingming.com/tv/兵团卫视.png" group-title="📺电信IPTV",兵团卫视
 http://60.10.106.114:555/rtp/239.253.93.176:6344$组播源
 #EXTINF:-1 tvg-name="北京卡酷少儿" tvg-logo="https://live.fanmingming.com/tv/北京卡酷少儿.png" group-title="📺电信IPTV",北京卡酷少儿
-http://192.168.3.1:8888/rtp/239.77.0.79:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.79:5146$内网组播
 #EXTINF:-1 tvg-name="金鹰卡通" tvg-logo="https://live.fanmingming.com/tv/金鹰卡通.png" group-title="📺电信IPTV",金鹰卡通
-http://192.168.3.1:8888/rtp/239.77.0.164:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.164:5146$内网组播
 #EXTINF:-1 tvg-name="金鹰卡通" tvg-logo="https://live.fanmingming.com/tv/金鹰卡通.png" group-title="📺电信IPTV",金鹰卡通
 http://[2409:8087:74d9:21::6]:80/270000001128/9900000039/index.m3u8$订阅源-IPv6
 #EXTINF:-1 tvg-name="金鹰卡通" tvg-logo="https://live.fanmingming.com/tv/金鹰卡通.png" group-title="📺电信IPTV",金鹰卡通
@@ -1102,13 +1102,13 @@ http://106.118.70.191:9901/tsfile/live/1011_1.m3u8$订阅源
 #EXTINF:-1 tvg-name="金鹰卡通" tvg-logo="https://live.fanmingming.com/tv/金鹰卡通.png" group-title="📺电信IPTV",金鹰卡通
 http://58.19.38.162:9901/tsfile/live/1031_1.m3u8?key=txiptv&playlive=1&authid=0$湖北酒店源
 #EXTINF:-1 tvg-name="炫动卡通" tvg-logo="https://live.fanmingming.com/tv/炫动卡通.png" group-title="📺电信IPTV",炫动卡通
-http://192.168.3.1:8888/rtp/239.77.0.81:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.81:5146$内网组播
 #EXTINF:-1 tvg-name="炫动卡通" tvg-logo="https://live.fanmingming.com/tv/炫动卡通.png" group-title="📺电信IPTV",炫动卡通
 http://nas.hssvm.com:8888/udp/225.1.1.62:5002$订阅源
 #EXTINF:-1 tvg-name="炫动卡通" tvg-logo="https://live.fanmingming.com/tv/炫动卡通.png" group-title="📺电信IPTV",炫动卡通
 http://wouu.net:9977/udp/239.93.0.173:5140$订阅源
 #EXTINF:-1 tvg-name="山东教育" tvg-logo="https://live.fanmingming.com/tv/山东教育.png" group-title="📺电信IPTV",山东教育
-http://192.168.3.1:8888/rtp/239.77.0.83:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.83:5146$内网组播
 #EXTINF:-1 tvg-name="山东教育" tvg-logo="https://live.fanmingming.com/tv/山东教育.png" group-title="📺电信IPTV",山东教育
 http://[2409:8087:1a01:df::7005]/ottrrs.hl.chinamobile.com/PLTV/88888888/224/3221225655/index.m3u8$订阅源-IPv6
 #EXTINF:-1 tvg-name="山东教育" tvg-logo="https://live.fanmingming.com/tv/山东教育.png" group-title="📺电信IPTV",山东教育
@@ -1122,9 +1122,9 @@ http://222.142.75.203:9901/tsfile/live/1037_1.m3u8$订阅源
 #EXTINF:-1 tvg-name="山东教育" tvg-logo="https://live.fanmingming.com/tv/山东教育.png" group-title="📺电信IPTV",山东教育
 http://144.52.163.245:9901/tsfile/live/1021_1.m3u8$订阅源
 #EXTINF:-1 tvg-name="财富天下" tvg-logo="https://live.fanmingming.com/tv/财富天下.png" group-title="📺电信IPTV",财富天下
-http://192.168.3.1:8888/rtp/239.77.0.113:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.113:5146$内网组播
 #EXTINF:-1 tvg-name="厦门卫视" tvg-logo="https://live.fanmingming.com/tv/厦门卫视.png" group-title="📺电信IPTV",厦门卫视
-http://192.168.3.1:8888/rtp/239.77.0.96:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.96:5146$内网组播
 #EXTINF:-1 tvg-name="厦门卫视" tvg-logo="https://live.fanmingming.com/tv/厦门卫视.png" group-title="📺电信IPTV",厦门卫视
 http://[2409:8087:74d9:21::9]:80/270000001128/index.m3u8?cmcc_cid=9900000058$订阅源-IPv6
 #EXTINF:-1 tvg-name="厦门卫视" tvg-logo="https://live.fanmingming.com/tv/厦门卫视.png" group-title="📺电信IPTV",厦门卫视
@@ -1144,7 +1144,7 @@ http://111.196.129.152:20000/rtp/239.3.1.143:4120$组播源
 #EXTINF:-1 tvg-name="厦门卫视" tvg-logo="https://live.fanmingming.com/tv/厦门卫视.png" group-title="📺电信IPTV",厦门卫视
 http://114.243.98.12:8888/rtp/239.3.1.143:4120$组播源
 #EXTINF:-1 tvg-name="新闻综合" tvg-logo="https://live.fanmingming.com/tv/新闻综合.png" group-title="📺电信IPTV",新闻综合
-http://192.168.3.1:8888/rtp/239.77.0.117:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.117:5146$内网组播
 #EXTINF:-1 tvg-name="新闻综合" tvg-logo="https://live.fanmingming.com/tv/新闻综合.png" group-title="📺电信IPTV",新闻综合
 http://[2409:8087:5e01:24::16]:6610/000000001000/2000000002000000005/index.m3u8?stbId=3&livemode=1&HlsProfileId=&channel-id=hnbblive&Contentid=2000000002000000005&IASHttpSessionId=OTT19019320240419154124000281$订阅源-IPv6
 #EXTINF:-1 tvg-name="新闻综合" tvg-logo="https://live.fanmingming.com/tv/新闻综合.png" group-title="📺电信IPTV",新闻综合
@@ -1154,7 +1154,7 @@ http://[2409:8087:5e08:24::11]:6610/000000001000/5000000011000031110/1.m3u8?chan
 #EXTINF:-1 tvg-name="新闻综合" tvg-logo="https://live.fanmingming.com/tv/新闻综合.png" group-title="📺电信IPTV",新闻综合
 http://223.166.234.149:7777/tsfile/live/1025_1.m3u8$订阅源
 #EXTINF:-1 tvg-name="优漫卡通" tvg-logo="https://live.fanmingming.com/tv/优漫卡通.png" group-title="📺电信IPTV",优漫卡通
-http://192.168.3.1:8888/rtp/239.77.0.222:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.222:5146$内网组播
 #EXTINF:-1 tvg-name="优漫卡通" tvg-logo="https://live.fanmingming.com/tv/优漫卡通.png" group-title="📺电信IPTV",优漫卡通
 http://[2409:8087:1a01:df::7005]/ottrrs.hl.chinamobile.com/PLTV/2/224/3221225656/2.m3u8$订阅源-IPv6
 #EXTINF:-1 tvg-name="优漫卡通" tvg-logo="https://live.fanmingming.com/tv/优漫卡通.png" group-title="📺电信IPTV",优漫卡通
@@ -1168,7 +1168,7 @@ http://106.118.70.191:9901/tsfile/live/1013_1.m3u8$订阅源
 #EXTINF:-1 tvg-name="优漫卡通" tvg-logo="https://live.fanmingming.com/tv/优漫卡通.png" group-title="📺电信IPTV",优漫卡通
 http://144.52.163.245:9901/tsfile/live/1057_1.m3u8$订阅源
 #EXTINF:-1 tvg-name="延边卫视" tvg-logo="https://live.fanmingming.com/tv/延边卫视.png" group-title="📺电信IPTV",延边卫视
-http://192.168.3.1:8888/rtp/239.77.0.10:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.10:5146$内网组播
 #EXTINF:-1 tvg-name="延边卫视" tvg-logo="https://live.fanmingming.com/tv/延边卫视.png" group-title="📺电信IPTV",延边卫视
 http://[2409:8087:1e03:21::2]:6060/cms001/ch00000090990000001470/index.m3u8$订阅源-IPv6
 #EXTINF:-1 tvg-name="延边卫视" tvg-logo="https://live.fanmingming.com/tv/延边卫视.png" group-title="📺电信IPTV",延边卫视
@@ -1182,11 +1182,11 @@ http://live.ybtvyun.com/video/s10016-7e5f23de35df/index.m3u8$订阅源
 #EXTINF:-1 tvg-name="延边卫视" tvg-logo="https://live.fanmingming.com/tv/延边卫视.png" group-title="📺电信IPTV",延边卫视
 http://live.ybtvyun.com/video/s10006-44f040627ca1/index.m3u8?$订阅源
 #EXTINF:-1 tvg-name="IPTV5＋" tvg-logo="https://live.fanmingming.com/tv/IPTV5＋.png" group-title="📺电信IPTV",IPTV5＋
-http://192.168.3.1:8888/rtp/239.77.0.176:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.176:5146$内网组播
 #EXTINF:-1 tvg-name="IPTV5＋" tvg-logo="https://live.fanmingming.com/tv/IPTV5＋.png" group-title="📺电信IPTV",IPTV5＋
-http://192.168.3.1:8888/rtp/239.77.0.108:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.108:5146$内网组播
 #EXTINF:-1 tvg-name="浙江卫视" tvg-logo="https://live.fanmingming.com/tv/浙江卫视.png" group-title="📺电信IPTV",浙江卫视
-http://192.168.3.1:8888/rtp/239.77.0.89:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.89:5146$内网组播
 #EXTINF:-1 tvg-name="浙江卫视" tvg-logo="https://live.fanmingming.com/tv/浙江卫视.png" group-title="📺电信IPTV",浙江卫视
 http://[2409:8087:5e00:24::1f]:6060/ZTE_CMS/00000001000000060000000000000248/index.m3u8$订阅源-IPv6
 #EXTINF:-1 tvg-name="浙江卫视" tvg-logo="https://live.fanmingming.com/tv/浙江卫视.png" group-title="📺电信IPTV",浙江卫视
@@ -1206,7 +1206,7 @@ http://123.117.237.15:8680/rtp/239.3.1.137:8036$组播源
 #EXTINF:-1 tvg-name="浙江卫视" tvg-logo="https://live.fanmingming.com/tv/浙江卫视.png" group-title="📺电信IPTV",浙江卫视
 http://119.98.133.74:4022/rtp/239.254.96.143:8932$组播源
 #EXTINF:-1 tvg-name="江苏卫视" tvg-logo="https://live.fanmingming.com/tv/江苏卫视.png" group-title="📺电信IPTV",江苏卫视
-http://192.168.3.1:8888/rtp/239.77.0.90:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.90:5146$内网组播
 #EXTINF:-1 tvg-name="江苏卫视" tvg-logo="https://live.fanmingming.com/tv/江苏卫视.png" group-title="📺电信IPTV",江苏卫视
 http://[2409:8087:5e01:34::23]:6610/ZTE_CMS/00000001000000060000000000000177/index.m3u8?IAS$订阅源-IPv6
 #EXTINF:-1 tvg-name="江苏卫视" tvg-logo="https://live.fanmingming.com/tv/江苏卫视.png" group-title="📺电信IPTV",江苏卫视
@@ -1226,7 +1226,7 @@ http://123.117.237.15:8680/rtp/239.3.1.135:8028$组播源
 #EXTINF:-1 tvg-name="江苏卫视" tvg-logo="https://live.fanmingming.com/tv/江苏卫视.png" group-title="📺电信IPTV",江苏卫视
 http://119.98.133.74:4022/rtp/239.254.96.144:8938$组播源
 #EXTINF:-1 tvg-name="北京卫视" tvg-logo="https://live.fanmingming.com/tv/北京卫视.png" group-title="📺电信IPTV",北京卫视
-http://192.168.3.1:8888/rtp/239.77.0.91:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.91:5146$内网组播
 #EXTINF:-1 tvg-name="北京卫视" tvg-logo="https://live.fanmingming.com/tv/北京卫视.png" group-title="📺电信IPTV",北京卫视
 http://[2409:8087:4c0a:22:1::11]:6410/170000001115/UmaiCHAN181361BESTVSMGSMG/index.m3u8?m3u8_level=2$订阅源-IPv6
 #EXTINF:-1 tvg-name="北京卫视" tvg-logo="https://live.fanmingming.com/tv/北京卫视.png" group-title="📺电信IPTV",北京卫视
@@ -1246,7 +1246,7 @@ http://123.117.237.15:8680/rtp/239.3.1.241:8000$组播源
 #EXTINF:-1 tvg-name="北京卫视" tvg-logo="https://live.fanmingming.com/tv/北京卫视.png" group-title="📺电信IPTV",北京卫视
 http://119.98.133.74:4022/rtp/239.254.96.141:8920$组播源
 #EXTINF:-1 tvg-name="深圳卫视" tvg-logo="https://live.fanmingming.com/tv/深圳卫视.png" group-title="📺电信IPTV",深圳卫视
-http://192.168.3.1:8888/rtp/239.77.0.92:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.92:5146$内网组播
 #EXTINF:-1 tvg-name="深圳卫视" tvg-logo="https://live.fanmingming.com/tv/深圳卫视.png" group-title="📺电信IPTV",深圳卫视
 http://[2409:8087:1a01:df::7005]/ottrrs.hl.chinamobile.com/PLTV/2/224/3221225739/2.m3u8$订阅源-IPv6
 #EXTINF:-1 tvg-name="深圳卫视" tvg-logo="https://live.fanmingming.com/tv/深圳卫视.png" group-title="📺电信IPTV",深圳卫视
@@ -1266,7 +1266,7 @@ http://123.117.237.15:8680/rtp/239.3.1.134:8020$组播源
 #EXTINF:-1 tvg-name="深圳卫视" tvg-logo="https://live.fanmingming.com/tv/深圳卫视.png" group-title="📺电信IPTV",深圳卫视
 http://119.98.133.74:4022/rtp/239.254.96.137:8896$组播源
 #EXTINF:-1 tvg-name="黑龙江卫视" tvg-logo="https://live.fanmingming.com/tv/黑龙江卫视.png" group-title="📺电信IPTV",黑龙江卫视
-http://192.168.3.1:8888/rtp/239.77.0.93:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.93:5146$内网组播
 #EXTINF:-1 tvg-name="黑龙江卫视" tvg-logo="https://live.fanmingming.com/tv/黑龙江卫视.png" group-title="📺电信IPTV",黑龙江卫视
 http://[2409:8087:74f0:22::4]:6410/270000001128/9900000521/index.m3u8?channel-id=newtv&livemode=4&Contentid=9900000169$订阅源-IPv6
 #EXTINF:-1 tvg-name="黑龙江卫视" tvg-logo="https://live.fanmingming.com/tv/黑龙江卫视.png" group-title="📺电信IPTV",黑龙江卫视
@@ -1286,7 +1286,7 @@ http://119.98.133.74:4022/rtp/239.254.96.138:8902$组播源
 #EXTINF:-1 tvg-name="黑龙江卫视" tvg-logo="https://live.fanmingming.com/tv/黑龙江卫视.png" group-title="📺电信IPTV",黑龙江卫视
 http://111.196.129.152:20000/rtp/239.3.1.133:8016$组播源
 #EXTINF:-1 tvg-name="湖北卫视" tvg-logo="https://live.fanmingming.com/tv/湖北卫视.png" group-title="📺电信IPTV",湖北卫视
-http://192.168.3.1:8888/rtp/239.77.0.95:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.95:5146$内网组播
 #EXTINF:-1 tvg-name="湖北卫视" tvg-logo="https://live.fanmingming.com/tv/湖北卫视.png" group-title="📺电信IPTV",湖北卫视
 http://[2409:8087:1a01:df::7005]/ottrrs.hl.chinamobile.com/PLTV/88888888/224/3221226477/index.m3u8?$订阅源-IPv6
 #EXTINF:-1 tvg-name="湖北卫视" tvg-logo="https://live.fanmingming.com/tv/湖北卫视.png" group-title="📺电信IPTV",湖北卫视
@@ -1306,7 +1306,7 @@ http://123.117.237.15:8680/rtp/239.3.1.138:8044$组播源
 #EXTINF:-1 tvg-name="湖北卫视" tvg-logo="https://live.fanmingming.com/tv/湖北卫视.png" group-title="📺电信IPTV",湖北卫视
 http://119.98.133.74:4022/rtp/239.254.96.115:8664$组播源
 #EXTINF:-1 tvg-name="天津卫视" tvg-logo="https://live.fanmingming.com/tv/天津卫视.png" group-title="📺电信IPTV",天津卫视
-http://192.168.3.1:8888/rtp/239.77.0.97:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.97:5146$内网组播
 #EXTINF:-1 tvg-name="天津卫视" tvg-logo="https://live.fanmingming.com/tv/天津卫视.png" group-title="📺电信IPTV",天津卫视
 http://[2409:8087:2001:20:2800:0:df6e:eb26]:80/wh7f454c46tw2314153559_1325890662/ott.mobaibox.com/PLTV/3/224/3221228416/index.m3u8?icpid=3&RTS=1674468328&from=40&popid=40&hms_devid=2293&prioritypopid=40&vqe=3$订阅源-IPv6
 #EXTINF:-1 tvg-name="天津卫视" tvg-logo="https://live.fanmingming.com/tv/天津卫视.png" group-title="📺电信IPTV",天津卫视
@@ -1326,7 +1326,7 @@ http://123.117.237.15:8680/rtp/239.3.1.141:1234$组播源
 #EXTINF:-1 tvg-name="天津卫视" tvg-logo="https://live.fanmingming.com/tv/天津卫视.png" group-title="📺电信IPTV",天津卫视
 http://119.98.133.74:4022/rtp/239.69.1.68:10048$组播源
 #EXTINF:-1 tvg-name="山东卫视" tvg-logo="https://live.fanmingming.com/tv/山东卫视.png" group-title="📺电信IPTV",山东卫视
-http://192.168.3.1:8888/rtp/239.77.0.94:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.94:5146$内网组播
 #EXTINF:-1 tvg-name="山东卫视" tvg-logo="https://live.fanmingming.com/tv/山东卫视.png" group-title="📺电信IPTV",山东卫视
 http://[2409:8087:2001:20:2800:0:df6e:eb06]:80/wh7f454c46tw1544787232_1074004179/ott.mobaibox.com/PLTV/3/224/3221227258/index.m3u8?icpid=3&RTS=1674385955&from=40&popid=40&hms_devid=2036&prioritypopid=40&vqe=3$订阅源-IPv6
 #EXTINF:-1 tvg-name="山东卫视" tvg-logo="https://live.fanmingming.com/tv/山东卫视.png" group-title="📺电信IPTV",山东卫视
@@ -1346,7 +1346,7 @@ http://123.117.237.15:8680/rtp/239.3.1.209:8052$组播源
 #EXTINF:-1 tvg-name="山东卫视" tvg-logo="https://live.fanmingming.com/tv/山东卫视.png" group-title="📺电信IPTV",山东卫视
 http://119.98.133.74:4022/rtp/239.69.1.69:10054$组播源
 #EXTINF:-1 tvg-name="东方卫视" tvg-logo="https://live.fanmingming.com/tv/东方卫视.png" group-title="📺电信IPTV",东方卫视
-http://192.168.3.1:8888/rtp/239.77.0.98:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.98:5146$内网组播
 #EXTINF:-1 tvg-name="东方卫视" tvg-logo="https://live.fanmingming.com/tv/东方卫视.png" group-title="📺电信IPTV",东方卫视
 http://[2409:8087:5e00:24::1e]:6060/000000001000/5000000010000032246/1.m3u8$订阅源-IPv6
 #EXTINF:-1 tvg-name="东方卫视" tvg-logo="https://live.fanmingming.com/tv/东方卫视.png" group-title="📺电信IPTV",东方卫视
@@ -1366,7 +1366,7 @@ http://123.117.237.15:8680/rtp/239.3.1.136:8032$组播源
 #EXTINF:-1 tvg-name="东方卫视" tvg-logo="https://live.fanmingming.com/tv/东方卫视.png" group-title="📺电信IPTV",东方卫视
 http://119.98.133.74:4022/rtp/239.69.1.173:10674$组播源
 #EXTINF:-1 tvg-name="辽宁卫视" tvg-logo="https://live.fanmingming.com/tv/辽宁卫视.png" group-title="📺电信IPTV",辽宁卫视
-http://192.168.3.1:8888/rtp/239.77.0.123:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.123:5146$内网组播
 #EXTINF:-1 tvg-name="辽宁卫视" tvg-logo="https://live.fanmingming.com/tv/辽宁卫视.png" group-title="📺电信IPTV",辽宁卫视
 http://[2409:8087:5e01:34::38]:6610/ZTE_CMS/00000001000000060000000000000367/index.m3u8??$订阅源-IPv6
 #EXTINF:-1 tvg-name="辽宁卫视" tvg-logo="https://live.fanmingming.com/tv/辽宁卫视.png" group-title="📺电信IPTV",辽宁卫视
@@ -1386,7 +1386,7 @@ http://123.117.237.15:8680/rtp/239.3.1.210:8056$组播源
 #EXTINF:-1 tvg-name="辽宁卫视" tvg-logo="https://live.fanmingming.com/tv/辽宁卫视.png" group-title="📺电信IPTV",辽宁卫视
 http://119.98.133.74:4022/rtp/239.69.1.71:10066$组播源
 #EXTINF:-1 tvg-name="四川卫视" tvg-logo="https://live.fanmingming.com/tv/四川卫视.png" group-title="📺电信IPTV",四川卫视
-http://192.168.3.1:8888/rtp/239.77.0.159:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.159:5146$内网组播
 #EXTINF:-1 tvg-name="四川卫视" tvg-logo="https://live.fanmingming.com/tv/四川卫视.png" group-title="📺电信IPTV",四川卫视
 http://[2409:8087:3c02:21:0:1:0:100a]:6410/shandong_cabletv.live.zte.com////CHANNEL00000348/index.m3u8?IASHttpSessionId=$订阅源-IPv6
 #EXTINF:-1 tvg-name="四川卫视" tvg-logo="https://live.fanmingming.com/tv/四川卫视.png" group-title="📺电信IPTV",四川卫视
@@ -1406,7 +1406,7 @@ http://119.98.133.74:4022/rtp/239.69.1.169:10650$组播源
 #EXTINF:-1 tvg-name="四川卫视" tvg-logo="https://live.fanmingming.com/tv/四川卫视.png" group-title="📺电信IPTV",四川卫视
 http://60.10.106.114:555/rtp/239.253.92.16:6043$组播源
 #EXTINF:-1 tvg-name="金鹰纪实" tvg-logo="https://live.fanmingming.com/tv/金鹰纪实.png" group-title="📺电信IPTV",金鹰纪实
-http://192.168.3.1:8888/rtp/239.77.0.160:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.160:5146$内网组播
 #EXTINF:-1 tvg-name="金鹰纪实" tvg-logo="https://live.fanmingming.com/tv/金鹰纪实.png" group-title="📺电信IPTV",金鹰纪实
 http://[2409:8087:5e08:24::11]:6610/000000001000/5000000011000031203/1.m3u8?channel-id=bestzb&Contentid=5000000011000031203&livemode=1&stbId=3$订阅源-IPv6
 #EXTINF:-1 tvg-name="金鹰纪实" tvg-logo="https://live.fanmingming.com/tv/金鹰纪实.png" group-title="📺电信IPTV",金鹰纪实
@@ -1426,7 +1426,7 @@ http://60.10.106.114:555/rtp/239.253.92.103:6054$组播源
 #EXTINF:-1 tvg-name="金鹰纪实" tvg-logo="https://live.fanmingming.com/tv/金鹰纪实.png" group-title="📺电信IPTV",金鹰纪实
 http://60.2.190.206:4000/rtp/239.253.92.103:6054$组播源
 #EXTINF:-1 tvg-name="重庆卫视" tvg-logo="https://live.fanmingming.com/tv/重庆卫视.png" group-title="📺电信IPTV",重庆卫视
-http://192.168.3.1:8888/rtp/239.77.0.182:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.182:5146$内网组播
 #EXTINF:-1 tvg-name="重庆卫视" tvg-logo="https://live.fanmingming.com/tv/重庆卫视.png" group-title="📺电信IPTV",重庆卫视
 http://[2409:8087:2001:20:2800:0:df6e:eb16]:80/wh7f454c46tw1552893761_-1608513550/ott.mobaibox.com/PLTV/3/224/3221227632/index.m3u8?icpid=3&RTS=1674385963&from=40&popid=40&hms_devid=2114&prioritypopid=40&vqe=3$订阅源-IPv6
 #EXTINF:-1 tvg-name="重庆卫视" tvg-logo="https://live.fanmingming.com/tv/重庆卫视.png" group-title="📺电信IPTV",重庆卫视
@@ -1446,7 +1446,7 @@ http://119.98.133.74:4022/rtp/239.69.1.149:10530$组播源
 #EXTINF:-1 tvg-name="重庆卫视" tvg-logo="https://live.fanmingming.com/tv/重庆卫视.png" group-title="📺电信IPTV",重庆卫视
 http://60.10.106.114:555/rtp/239.253.92.10:6053$组播源
 #EXTINF:-1 tvg-name="安徽卫视" tvg-logo="https://live.fanmingming.com/tv/安徽卫视.png" group-title="📺电信IPTV",安徽卫视
-http://192.168.3.1:8888/rtp/239.77.0.183:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.183:5146$内网组播
 #EXTINF:-1 tvg-name="安徽卫视" tvg-logo="https://live.fanmingming.com/tv/安徽卫视.png" group-title="📺电信IPTV",安徽卫视
 http://[2409:8087:2001:20:2800:0:df6e:eb12]:80/wh7f454c46tw198496833_-887574231/ott.mobaibox.com/PLTV/3/224/3221227558/index.m3u8?icpid=3&RTS=1674380313&from=40&popid=40&hms_devid=2112&prioritypopid=40&vqe=3$订阅源-IPv6
 #EXTINF:-1 tvg-name="安徽卫视" tvg-logo="https://live.fanmingming.com/tv/安徽卫视.png" group-title="📺电信IPTV",安徽卫视
@@ -1466,7 +1466,7 @@ http://123.117.237.15:8680/rtp/239.3.1.211:8064$组播源
 #EXTINF:-1 tvg-name="安徽卫视" tvg-logo="https://live.fanmingming.com/tv/安徽卫视.png" group-title="📺电信IPTV",安徽卫视
 http://119.98.133.74:4022/rtp/239.69.1.70:10060$组播源
 #EXTINF:-1 tvg-name="贵州卫视" tvg-logo="https://live.fanmingming.com/tv/贵州卫视.png" group-title="📺电信IPTV",贵州卫视
-http://192.168.3.1:8888/rtp/239.77.0.230:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.230:5146$内网组播
 #EXTINF:-1 tvg-name="贵州卫视" tvg-logo="https://live.fanmingming.com/tv/贵州卫视.png" group-title="📺电信IPTV",贵州卫视
 http://[2409:8087:3869:8021:1001::e5]:6610/PLTV/88888888/224/3221225483/2/index.m3u8$订阅源-IPv6
 #EXTINF:-1 tvg-name="贵州卫视" tvg-logo="https://live.fanmingming.com/tv/贵州卫视.png" group-title="📺电信IPTV",贵州卫视
@@ -1486,7 +1486,7 @@ http://123.117.237.15:8680/rtp/239.3.1.149:8076$组播源
 #EXTINF:-1 tvg-name="贵州卫视" tvg-logo="https://live.fanmingming.com/tv/贵州卫视.png" group-title="📺电信IPTV",贵州卫视
 http://119.98.133.74:4022/rtp/239.69.1.150:10536$组播源
 #EXTINF:-1 tvg-name="中国教育-1" tvg-logo="https://live.fanmingming.com/tv/中国教育-1.png" group-title="📺电信IPTV",中国教育-1
-http://192.168.3.1:8888/rtp/239.77.0.200:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.200:5146$内网组播
 #EXTINF:-1 tvg-name="中国教育-1" tvg-logo="https://live.fanmingming.com/tv/中国教育-1.png" group-title="📺电信IPTV",中国教育-1
 http://[2409:8087:74d9:21::6]:80/270000001128/9900000046/index.m3u8$订阅源-IPv6
 #EXTINF:-1 tvg-name="中国教育-1" tvg-logo="https://live.fanmingming.com/tv/中国教育-1.png" group-title="📺电信IPTV",中国教育-1
@@ -1494,9 +1494,9 @@ http://[2409:8087:5e08:24::17]:6610/000000001000/5000000002000002652/index.m3u8?
 #EXTINF:-1 tvg-name="中国教育-1" tvg-logo="https://live.fanmingming.com/tv/中国教育-1.png" group-title="📺电信IPTV",中国教育-1
 http://[2409:8087:5e08:24::11]:6610/000000001000/5000000002000002652/1.m3u8?channel-id=bestzb&Contentid=5000000002000002652&livemode=1&stbId=3$订阅源-IPv6
 #EXTINF:-1 tvg-name="中国交通" tvg-logo="https://live.fanmingming.com/tv/中国交通.png" group-title="📺电信IPTV",中国交通
-http://192.168.3.1:8888/rtp/239.77.1.249:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.1.249:5146$内网组播
 #EXTINF:-1 tvg-name="东南卫视" tvg-logo="https://live.fanmingming.com/tv/东南卫视.png" group-title="📺电信IPTV",东南卫视
-http://192.168.3.1:8888/rtp/239.77.0.146:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.146:5146$内网组播
 #EXTINF:-1 tvg-name="东南卫视" tvg-logo="https://live.fanmingming.com/tv/东南卫视.png" group-title="📺电信IPTV",东南卫视
 http://[2409:8087:1a01:df::4077]/ottrrs.hl.chinamobile.com/PLTV/88888888/8/3221226341/index.m3u8$订阅源-IPv6
 #EXTINF:-1 tvg-name="东南卫视" tvg-logo="https://live.fanmingming.com/tv/东南卫视.png" group-title="📺电信IPTV",东南卫视
@@ -1516,7 +1516,7 @@ http://123.117.237.15:8680/rtp/239.3.1.156:8148$组播源
 #EXTINF:-1 tvg-name="东南卫视" tvg-logo="https://live.fanmingming.com/tv/东南卫视.png" group-title="📺电信IPTV",东南卫视
 http://119.98.133.74:4022/rtp/239.69.1.108:10286$组播源
 #EXTINF:-1 tvg-name="河北卫视" tvg-logo="https://live.fanmingming.com/tv/河北卫视.png" group-title="📺电信IPTV",河北卫视
-http://192.168.3.1:8888/rtp/239.77.0.148:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.148:5146$内网组播
 #EXTINF:-1 tvg-name="河北卫视" tvg-logo="https://live.fanmingming.com/tv/河北卫视.png" group-title="📺电信IPTV",河北卫视
 http://[2409:8087:5e01:34::21]:6610/ZTE_CMS/00000001000000060000000000000487/index.m3u8?fmmv6$订阅源-IPv6
 #EXTINF:-1 tvg-name="河北卫视" tvg-logo="https://live.fanmingming.com/tv/河北卫视.png" group-title="📺电信IPTV",河北卫视
@@ -1536,7 +1536,7 @@ http://119.98.133.74:4022/rtp/239.254.96.113:9616$组播源
 #EXTINF:-1 tvg-name="河北卫视" tvg-logo="https://live.fanmingming.com/tv/河北卫视.png" group-title="📺电信IPTV",河北卫视
 http://119.98.133.74:4022/rtp/239.69.1.157:10578$组播源
 #EXTINF:-1 tvg-name="江西卫视" tvg-logo="https://live.fanmingming.com/tv/江西卫视.png" group-title="📺电信IPTV",江西卫视
-http://192.168.3.1:8888/rtp/239.77.0.149:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.149:5146$内网组播
 #EXTINF:-1 tvg-name="江西卫视" tvg-logo="https://live.fanmingming.com/tv/江西卫视.png" group-title="📺电信IPTV",江西卫视
 http://[2409:8087:5e01:34::23]:6610/ZTE_CMS/00000001000000060000000000000522/index.m3u8?IAS$订阅源-IPv6
 #EXTINF:-1 tvg-name="江西卫视" tvg-logo="https://live.fanmingming.com/tv/江西卫视.png" group-title="📺电信IPTV",江西卫视
@@ -1556,7 +1556,7 @@ http://123.117.237.15:8680/rtp/239.3.1.123:8164$组播源
 #EXTINF:-1 tvg-name="江西卫视" tvg-logo="https://live.fanmingming.com/tv/江西卫视.png" group-title="📺电信IPTV",江西卫视
 http://119.98.133.74:4022/rtp/239.69.1.126:10394$组播源
 #EXTINF:-1 tvg-name="吉林卫视" tvg-logo="https://live.fanmingming.com/tv/吉林卫视.png" group-title="📺电信IPTV",吉林卫视
-http://192.168.3.1:8888/rtp/239.77.0.150:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.150:5146$内网组播
 #EXTINF:-1 tvg-name="吉林卫视" tvg-logo="https://live.fanmingming.com/tv/吉林卫视.png" group-title="📺电信IPTV",吉林卫视
 http://[2409:8087:1a01:df::4077]/ottrrs.hl.chinamobile.com/PLTV/88888888/8/3221226397/index.m3u8$订阅源-IPv6
 #EXTINF:-1 tvg-name="吉林卫视" tvg-logo="https://live.fanmingming.com/tv/吉林卫视.png" group-title="📺电信IPTV",吉林卫视
@@ -1576,7 +1576,7 @@ http://119.98.133.74:4022/rtp/239.69.1.212:10914$组播源
 #EXTINF:-1 tvg-name="吉林卫视" tvg-logo="https://live.fanmingming.com/tv/吉林卫视.png" group-title="📺电信IPTV",吉林卫视
 http://60.10.106.114:555/rtp/239.253.92.202:6147$组播源
 #EXTINF:-1 tvg-name="广西卫视" tvg-logo="https://live.fanmingming.com/tv/广西卫视.png" group-title="📺电信IPTV",广西卫视
-http://192.168.3.1:8888/rtp/239.77.0.139:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.139:5146$内网组播
 #EXTINF:-1 tvg-name="广西卫视" tvg-logo="https://live.fanmingming.com/tv/广西卫视.png" group-title="📺电信IPTV",广西卫视
 http://[2409:8087:1a01:df::7005]/ottrrs.hl.chinamobile.com/PLTV/2/224/3221226549/2.m3u8$订阅源-IPv6
 #EXTINF:-1 tvg-name="广西卫视" tvg-logo="https://live.fanmingming.com/tv/广西卫视.png" group-title="📺电信IPTV",广西卫视
@@ -1596,7 +1596,7 @@ http://119.98.133.74:4022/rtp/239.69.1.191:10788$组播源
 #EXTINF:-1 tvg-name="广西卫视" tvg-logo="https://live.fanmingming.com/tv/广西卫视.png" group-title="📺电信IPTV",广西卫视
 http://111.196.129.152:20000/rtp/239.3.1.39:8300$组播源
 #EXTINF:-1 tvg-name="广东卫视" tvg-logo="https://live.fanmingming.com/tv/广东卫视.png" group-title="📺电信IPTV",广东卫视
-http://192.168.3.1:8888/rtp/239.77.0.166:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.166:5146$内网组播
 #EXTINF:-1 tvg-name="广东卫视" tvg-logo="https://live.fanmingming.com/tv/广东卫视.png" group-title="📺电信IPTV",广东卫视
 http://[2409:8087:1e03:21::42]:6610/cms001/ch00000090990000001032/index.m3u8?$订阅源-IPv6
 #EXTINF:-1 tvg-name="广东卫视" tvg-logo="https://live.fanmingming.com/tv/广东卫视.png" group-title="📺电信IPTV",广东卫视
@@ -1616,19 +1616,19 @@ http://123.117.237.15:8680/rtp/239.3.1.142:8048$组播源
 #EXTINF:-1 tvg-name="广东卫视" tvg-logo="https://live.fanmingming.com/tv/广东卫视.png" group-title="📺电信IPTV",广东卫视
 http://119.98.133.74:4022/rtp/239.254.96.140:8914$组播源
 #EXTINF:-1 tvg-name="文化生活" tvg-logo="https://live.fanmingming.com/tv/文化生活.png" group-title="📺电信IPTV",文化生活
-http://192.168.3.1:8888/rtp/239.77.0.187:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.187:5146$内网组播
 #EXTINF:-1 tvg-name="IPTV谍战剧场" tvg-logo="https://live.fanmingming.com/tv/IPTV谍战剧场.png" group-title="📺电信IPTV",IPTV谍战剧场
-http://192.168.3.1:8888/rtp/239.77.0.99:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.99:5146$内网组播
 #EXTINF:-1 tvg-name="IPTV相声小品" tvg-logo="https://live.fanmingming.com/tv/IPTV相声小品.png" group-title="📺电信IPTV",IPTV相声小品
-http://192.168.3.1:8888/rtp/239.77.0.100:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.100:5146$内网组播
 #EXTINF:-1 tvg-name="IPTV野外" tvg-logo="https://live.fanmingming.com/tv/IPTV野外.png" group-title="📺电信IPTV",IPTV野外
-http://192.168.3.1:8888/rtp/239.77.0.101:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.101:5146$内网组播
 #EXTINF:-1 tvg-name="IPTV法治" tvg-logo="https://live.fanmingming.com/tv/IPTV法治.png" group-title="📺电信IPTV",IPTV法治
-http://192.168.3.1:8888/rtp/239.77.0.102:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.102:5146$内网组播
 #EXTINF:-1 tvg-name="IPTV6＋" tvg-logo="https://live.fanmingming.com/tv/IPTV6＋.png" group-title="📺电信IPTV",IPTV6＋
-http://192.168.3.1:8888/rtp/239.77.0.103:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.103:5146$内网组播
 #EXTINF:-1 tvg-name="经典电影" tvg-logo="https://live.fanmingming.com/tv/经典电影.png" group-title="📺电信IPTV",经典电影
-http://192.168.3.1:8888/rtp/239.77.0.104:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.104:5146$内网组播
 #EXTINF:-1 tvg-name="经典电影" tvg-logo="https://live.fanmingming.com/tv/经典电影.png" group-title="📺电信IPTV",经典电影
 http://123.117.237.15:8680/rtp/239.3.1.195:9024$组播源
 #EXTINF:-1 tvg-name="经典电影" tvg-logo="https://live.fanmingming.com/tv/经典电影.png" group-title="📺电信IPTV",经典电影
@@ -1642,47 +1642,47 @@ http://111.196.129.152:20000/udp/239.3.1.195:9024$订阅源
 #EXTINF:-1 tvg-name="经典电影" tvg-logo="https://live.fanmingming.com/tv/经典电影.png" group-title="📺电信IPTV",经典电影
 http://1.203.111.193:17777/udp/225.1.8.203:9024$订阅源
 #EXTINF:-1 tvg-name="IPTV8＋" tvg-logo="https://live.fanmingming.com/tv/IPTV8＋.png" group-title="📺电信IPTV",IPTV8＋
-http://192.168.3.1:8888/rtp/239.77.0.105:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.105:5146$内网组播
 #EXTINF:-1 tvg-name="热播剧场" tvg-logo="https://live.fanmingming.com/tv/热播剧场.png" group-title="📺电信IPTV",热播剧场
-http://192.168.3.1:8888/rtp/239.77.0.106:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.106:5146$内网组播
 #EXTINF:-1 tvg-name="IPTV3＋" tvg-logo="https://live.fanmingming.com/tv/IPTV3＋.png" group-title="📺电信IPTV",IPTV3＋
-http://192.168.3.1:8888/rtp/239.77.0.107:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.107:5146$内网组播
 #EXTINF:-1 tvg-name="少儿动画" tvg-logo="https://live.fanmingming.com/tv/少儿动画.png" group-title="📺电信IPTV",少儿动画
-http://192.168.3.1:8888/rtp/239.77.0.109:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.109:5146$内网组播
 #EXTINF:-1 tvg-name="魅力时尚" tvg-logo="https://live.fanmingming.com/tv/魅力时尚.png" group-title="📺电信IPTV",魅力时尚
-http://192.168.3.1:8888/rtp/239.77.0.110:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.110:5146$内网组播
 #EXTINF:-1 tvg-name="收视指南" tvg-logo="https://live.fanmingming.com/tv/收视指南.png" group-title="📺电信IPTV",收视指南
-http://192.168.3.1:8888/rtp/239.77.0.111:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.111:5146$内网组播
 #EXTINF:-1 tvg-name="精选4k频道1" tvg-logo="https://live.fanmingming.com/tv/精选4k频道1.png" group-title="📺电信IPTV",精选4k频道1
-http://192.168.3.1:8888/rtp/239.77.0.232:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.232:5146$内网组播
 #EXTINF:-1 tvg-name="精选4k频道2" tvg-logo="https://live.fanmingming.com/tv/精选4k频道2.png" group-title="📺电信IPTV",精选4k频道2
-http://192.168.3.1:8888/rtp/239.77.0.233:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.233:5146$内网组播
 #EXTINF:-1 tvg-name="精选4k频道3" tvg-logo="https://live.fanmingming.com/tv/精选4k频道3.png" group-title="📺电信IPTV",精选4k频道3
-http://192.168.3.1:8888/rtp/239.77.0.153:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.153:5146$内网组播
 #EXTINF:-1 tvg-name="汽摩" tvg-logo="https://live.fanmingming.com/tv/汽摩.png" group-title="📺电信IPTV",汽摩
-http://192.168.3.1:8888/rtp/239.77.0.209:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.209:5146$内网组播
 #EXTINF:-1 tvg-name="老故事" tvg-logo="https://live.fanmingming.com/tv/老故事.png" group-title="📺电信IPTV",老故事
-http://192.168.3.1:8888/rtp/239.77.0.220:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.220:5146$内网组播
 #EXTINF:-1 tvg-name="国学" tvg-logo="https://live.fanmingming.com/tv/国学.png" group-title="📺电信IPTV",国学
-http://192.168.3.1:8888/rtp/239.77.0.226:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.0.226:5146$内网组播
 #EXTINF:-1 tvg-name="中国天气" tvg-logo="https://live.fanmingming.com/tv/中国天气.png" group-title="📺电信IPTV",中国天气
-http://192.168.3.1:8888/rtp/239.77.1.2:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.1.2:5146$内网组播
 #EXTINF:-1 tvg-name="晴彩竞技" tvg-logo="https://live.fanmingming.com/tv/晴彩竞技.png" group-title="📺电信IPTV",晴彩竞技
-http://192.168.3.1:8888/rtp/239.77.1.20:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.1.20:5146$内网组播
 #EXTINF:-1 tvg-name="晴彩篮球" tvg-logo="https://live.fanmingming.com/tv/晴彩篮球.png" group-title="📺电信IPTV",晴彩篮球
-http://192.168.3.1:8888/rtp/239.77.1.21:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.1.21:5146$内网组播
 #EXTINF:-1 tvg-name="晴彩青少" tvg-logo="https://live.fanmingming.com/tv/晴彩青少.png" group-title="📺电信IPTV",晴彩青少
-http://192.168.3.1:8888/rtp/239.77.1.22:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.1.22:5146$内网组播
 #EXTINF:-1 tvg-name="晴彩广场舞" tvg-logo="https://live.fanmingming.com/tv/晴彩广场舞.png" group-title="📺电信IPTV",晴彩广场舞
-http://192.168.3.1:8888/rtp/239.77.1.23:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.1.23:5146$内网组播
 #EXTINF:-1 tvg-name="宜和购物" tvg-logo="https://live.fanmingming.com/tv/宜和购物.png" group-title="📺电信IPTV",宜和购物
-http://192.168.3.1:8888/rtp/239.77.1.87:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.1.87:5146$内网组播
 #EXTINF:-1 tvg-name="杭州1" tvg-logo="https://live.fanmingming.com/tv/杭州1.png" group-title="📺电信IPTV",杭州1
-http://192.168.3.1:8888/rtp/239.77.1.232:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.1.232:5146$内网组播
 #EXTINF:-1 tvg-name="杭州2" tvg-logo="https://live.fanmingming.com/tv/杭州2.png" group-title="📺电信IPTV",杭州2
-http://192.168.3.1:8888/rtp/239.77.1.233:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.77.1.233:5146$内网组播
 #EXTINF:-1 tvg-name="海南卫视" tvg-logo="https://live.fanmingming.com/tv/海南卫视.png" group-title="📺电信IPTV",海南卫视
-http://192.168.3.1:8888/rtp/239.253.43.35:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.253.43.35:5146$内网组播
 #EXTINF:-1 tvg-name="海南卫视" tvg-logo="https://live.fanmingming.com/tv/海南卫视.png" group-title="📺电信IPTV",海南卫视
 http://[2409:8087:1a0b:df::4020]:80/ottrrs.hl.chinamobile.com/PLTV/88888888/224/3221226465/index.m3u8$订阅源-IPv6
 #EXTINF:-1 tvg-name="海南卫视" tvg-logo="https://live.fanmingming.com/tv/海南卫视.png" group-title="📺电信IPTV",海南卫视
@@ -1702,7 +1702,7 @@ http://119.98.133.74:4022/rtp/239.69.1.151:10542$组播源
 #EXTINF:-1 tvg-name="海南卫视" tvg-logo="https://live.fanmingming.com/tv/海南卫视.png" group-title="📺电信IPTV",海南卫视
 http://60.10.106.114:555/rtp/239.253.93.155:6323$组播源
 #EXTINF:-1 tvg-name="云南卫视" tvg-logo="https://live.fanmingming.com/tv/云南卫视.png" group-title="📺电信IPTV",云南卫视
-http://192.168.3.1:8888/rtp/239.253.43.37:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.253.43.37:5146$内网组播
 #EXTINF:-1 tvg-name="云南卫视" tvg-logo="https://live.fanmingming.com/tv/云南卫视.png" group-title="📺电信IPTV",云南卫视
 http://[2409:8087:74f0:22::7]:6410/270000001128/9900000035/index.m3u8?channel-id=newtv&livemode=4&Contentid=9900000035$订阅源-IPv6
 #EXTINF:-1 tvg-name="云南卫视" tvg-logo="https://live.fanmingming.com/tv/云南卫视.png" group-title="📺电信IPTV",云南卫视
@@ -1722,6 +1722,6 @@ http://111.196.129.152:20000/rtp/239.3.1.26:8108$组播源
 #EXTINF:-1 tvg-name="云南卫视" tvg-logo="https://live.fanmingming.com/tv/云南卫视.png" group-title="📺电信IPTV",云南卫视
 http://114.243.98.12:8888/rtp/239.3.1.26:8108$组播源
 #EXTINF:-1 tvg-name="天元围棋" tvg-logo="https://live.fanmingming.com/tv/天元围棋.png" group-title="📺电信IPTV",天元围棋
-http://192.168.3.1:8888/rtp/239.253.43.98:5146$内网组播
+,http://192.168.3.1:2222/rtp/239.253.43.98:5146$内网组播
 #EXTINF:-1 tvg-name="天元围棋" tvg-logo="https://live.fanmingming.com/tv/天元围棋.png" group-title="📺电信IPTV",天元围棋
 http://wouu.net:9977/udp/239.93.42.55:5140$订阅源
