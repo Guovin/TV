@@ -159,8 +159,8 @@ mark).
 ![Workflow executed successfully](./images/workflow-success.png 'Workflow executed successfully')
 
 At this point, you can visit the proxy file link to see if the latest results have been synchronized:
-https://ghp.ci/raw.githubusercontent.com/your github username/repository name (corresponding to the TV created when
-forking)/master/user_result.txt
+https://cdn.jsdelivr.net/gh/your github username/repository name (corresponding to the TV created when
+forking)@master/user_result.txt
 ![Username and Repository Name](./images/rep-info.png 'Username and Repository Name')
 
 If you can access this link and it returns the updated interface content, then your live source interface link has been
@@ -303,6 +303,6 @@ Port environment variables:
 
 If you do not have your own domain address, after the interface update is completed, upload user_result.txt to your
 personal repository to use it.
-https://ghp.ci/raw.githubusercontent.com/your github username/repository name (corresponding to the TV created when
-forking)/master/output/user_result.txt
+https://cdn.jsdelivr.net/gh/github username/repository name (corresponding to the TV created when
+forking)@master/output/user_result.txt
 ![Username and Repository Name](./images/rep-info.png 'Username and Repository Name')

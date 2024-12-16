@@ -129,7 +129,7 @@ class UpdateSource:
                     self.online_search_result,
                 )
                 channel_data_cache = copy.deepcopy(self.channel_data)
-                ipv6_support = check_ipv6_support()
+                ipv6_support = config.ipv6_support or check_ipv6_support()
                 open_sort = config.open_sort
                 if open_sort:
                     urls_total = self.get_urls_len()

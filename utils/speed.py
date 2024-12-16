@@ -8,7 +8,7 @@ import m3u8
 from aiohttp import ClientSession, TCPConnector
 
 from utils.config import config
-from utils.tools import is_ipv6, remove_cache_info, get_resolution_value
+from utils.tools import is_ipv6, remove_cache_info
 
 
 async def get_speed_with_download(url: str, timeout: int = config.sort_timeout) -> dict[str, float | None]:
@@ -207,14 +207,12 @@ async def get_speed(url, ipv6_proxy=None, callback=None):
             callback()
 
 
-def sort_urls(name, data, logger=None, whitelist=None):
+def sort_urls(name, data, logger=None):
     """
     Sort the urls with info
     """
     filter_data = []
     for url, date, resolution, origin in data:
-        if whitelist and url in whitelist:
-            origin = "important"
         result = {
             "url": remove_cache_info(url),
             "date": date,
@@ -249,15 +247,11 @@ def sort_urls(name, data, logger=None, whitelist=None):
                     filter_data.append(result)
 
     def combined_key(item):
-        speed, delay, resolution, origin = item["speed"], item["delay"], item["resolution"], item["origin"]
+        speed, origin = item["speed"], item["origin"]
         if origin == "important":
             return float("inf")
         else:
-            return (
-                    config.speed_weight * (speed * 1024 if speed is not None else float("-inf"))
-                    - config.delay_weight * (delay if delay is not None else float("inf"))
-                    + config.resolution_weight * (get_resolution_value(resolution) if resolution else 0)
-            )
+            return speed if speed is not None else float("-inf")
 
     filter_data.sort(key=combined_key, reverse=True)
     return [
