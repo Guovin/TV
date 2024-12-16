@@ -1,5 +1,60 @@
 # 更新日志（Changelog）
 
+## v1.5.6
+
+### 2024/12/16
+
+- ❤️ 推荐关注微信公众号（Govin），订阅更新通知与使用技巧等文章推送，还可进行答疑和交流讨论
+- ⚠️ 本次更新涉及配置变更，以最新 `config/config.ini` 为准，工作流用户需复制最新配置至`user_config.ini`
+- ✨ 新增白名单列表功能，支持自定义接口和订阅源关键字白名单，文件位于`config/whitelist.txt`，工作流用户为了避免冲突覆盖，建议文件重命名添加
+  `user_`前缀（#584,#599）
+- ✨ 新增黑名单列表功能，支持接口关键字黑名单，文件位于`config/blacklist.txt`，工作流用户为了避免冲突覆盖，建议文件重命名添加
+  `user_`前缀
+- ✨ 新增订阅源列表功能，文件位于`config/subscribe.txt`，工作流用户为了避免冲突覆盖，建议文件重命名添加`user_`前缀
+- ✨ 新增支持获取接口速率、最低速率过滤（`open_filter_speed`、`min_speed`）
+- ✨ 新增支持修改Docker服务端口环境变量（`APP_PORT`）（#619）
+- ✨ 新增jsdelivr代理地址，支持TLSv1.1 和 TLSv1.2 协议（#639）
+- ✨ 新增离线数据和网络数据查询开关（`open_use_cache`, `open_request`）
+- ✨ 新增控制是否使用离线数据和网络数据查询（`open_use_cache`、`open_request`）
+- ✨ 新增支持跳过检查是否支持ipv6（`ipv6_support`）
+- ✨ 调整GUI界面布局，新增测速设置页面，跳转编辑白/黑名单、订阅源列表文本
+- 🐛 修复部分m3u8接口测速导致任务超时（#621）
+- 🐛 修复GUI日志线程占用问题（#655）
+- 🐛 补充显示更新时间配置文档（#622）
+- 🪄 优化接口测速方法，移除`yt-dlp`（#621）
+- 🗑️ 移除配置：`open_ffmpeg`、`subscribe_urls`、`resolution_weight`、`response_time_weight`、`url_keywords_blacklist`
+
+<details>
+  <summary>English</summary>
+
+- ❤️ Recommend following the WeChat public account (Govin) to subscribe to update notifications and articles on usage
+  tips, as well as for Q&A and discussion.
+- ⚠️ This update involves configuration changes. Refer to the latest `config/config.ini`. Workflow users need to copy
+  the latest configuration to `user_config.ini`.
+- ✨ Added whitelist feature, supporting custom interface and subscription source keyword whitelists. The file is located
+  at `config/whitelist.txt`. To avoid conflict, workflow users are advised to rename the file with a `user_` prefix (
+  #584, #599).
+- ✨ Added blacklist feature, supporting interface keyword blacklists. The file is located at `config/blacklist.txt`. To
+  avoid conflict, workflow users are advised to rename the file with a `user_` prefix.
+- ✨ Added subscription source list feature. The file is located at `config/subscribe.txt`. To avoid conflict, workflow
+  users are advised to rename the file with a `user_` prefix.
+- ✨ Added support for fetching interface speed and minimum speed filtering (`open_filter_speed`, `min_speed`).
+- ✨ Added support for modifying Docker server port environment variable (`APP_PORT`) (#619).
+- ✨ Added jsdelivr proxy address, supporting TLSv1.1 and TLSv1.2 protocols (#639).
+- ✨ Added switches for offline data and network data queries (`open_use_cache`, `open_request`).
+- ✨ Added control for whether to use offline data and network data queries (`open_use_cache`, `open_request`).
+- ✨ Added support for skipping the check for IPv6 support (`ipv6_support`).
+- ✨ Adjusted GUI layout, added speed test settings page, and links to edit whitelist/blacklist and subscription source
+  list text files.
+- 🐛 Fixed issue where some m3u8 interface speed tests caused task timeouts (#621).
+- 🐛 Fixed GUI log thread occupation issue (#655).
+- 🐛 Added display of update time in configuration documentation (#622).
+- 🪄 Optimized interface speed test method, removed `yt-dlp` (#621).
+- 🗑️ Removed configurations: `open_ffmpeg`, `subscribe_urls`, `resolution_weight`, `response_time_weight`,
+  `url_keywords_blacklist`.
+
+</details>
+
 ## v1.5.5
 
 ### 2024/12/2
