@@ -99,6 +99,10 @@ class ConfigManager:
         return self.config.getint("Settings", "ipv6_num", fallback=15)
 
     @property
+    def ipv6_support(self):
+        return self.config.getboolean("Settings", "ipv6_support", fallback=False)
+
+    @property
     def ipv_limit(self):
         return {
             "ipv4": self.ipv4_num,

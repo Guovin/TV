@@ -29,6 +29,7 @@
 | hotel_region_list      | 酒店源地区列表，"全部"表示所有地区                                                                        | 全部                                      |
 | ipv4_num               | 结果中偏好的 IPv4 接口数量                                                                          | 5                                       |
 | ipv6_num               | 结果中偏好的 IPv6 接口数量                                                                          | 5                                       |
+| ipv6_support           | 强制认为当前网络支持IPv6，跳过检测                                                                       | False                                   |
 | ipv_type               | 生成结果中接口的协议类型，可选值：ipv4、ipv6、全部、all                                                         | 全部                                      |
 | ipv_type_prefer        | 接口协议类型偏好，优先将该类型的接口排在结果前面，可选值：IPv4、IPv6、自动、auto                                            | 自动                                      |
 | min_resolution         | 接口最小分辨率，需要开启 open_filter_resolution 才能生效                                                  | 1920x1080                               |

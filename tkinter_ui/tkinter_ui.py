@@ -70,6 +70,7 @@ class TkinterUI:
             "hotel_region_list": self.hotel_ui.region_list_combo.get(),
             "hotel_page_num": self.hotel_ui.page_num_entry.get(),
             "ipv_type": self.default_ui.ipv_type_combo.get(),
+            "ipv6_support": self.default_ui.ipv6_support_var.get(),
             "min_resolution": self.speed_ui.min_resolution_entry.get(),
             "multicast_region_list": self.multicast_ui.region_list_combo.get(),
             "multicast_page_num": self.multicast_ui.page_num_entry.get(),

@@ -298,20 +298,42 @@ class DefaultUI:
 
         frame_default_open_empty_category = tk.Frame(root)
         frame_default_open_empty_category.pack(fill=tk.X)
+        frame_default_open_empty_category_column1 = tk.Frame(
+            frame_default_open_empty_category
+        )
+        frame_default_open_empty_category_column1.pack(side=tk.LEFT, fill=tk.Y)
+        frame_default_open_empty_category_column2 = tk.Frame(
+            frame_default_open_empty_category
+        )
+        frame_default_open_empty_category_column2.pack(side=tk.RIGHT, fill=tk.Y)
 
         self.open_empty_category_label = tk.Label(
-            frame_default_open_empty_category, text="显示无结果分类:", width=12
+            frame_default_open_empty_category_column1, text="显示无结果分类:", width=12
         )
         self.open_empty_category_label.pack(side=tk.LEFT, padx=4, pady=8)
         self.open_empty_category_var = tk.BooleanVar(value=config.open_empty_category)
         self.open_empty_category_checkbutton = ttk.Checkbutton(
-            frame_default_open_empty_category,
+            frame_default_open_empty_category_column1,
             variable=self.open_empty_category_var,
             onvalue=True,
             offvalue=False,
             command=self.update_open_empty_category,
         )
         self.open_empty_category_checkbutton.pack(side=tk.LEFT, padx=4, pady=8)
+
+        self.ipv6_support_label = tk.Label(
+            frame_default_open_empty_category_column2, text="跳过IPv6检测:", width=12
+        )
+        self.ipv6_support_label.pack(side=tk.LEFT, padx=4, pady=8)
+        self.ipv6_support_var = tk.BooleanVar(value=config.ipv6_support)
+        self.ipv6_support_checkbutton = ttk.Checkbutton(
+            frame_default_open_empty_category_column2,
+            variable=self.ipv6_support_var,
+            onvalue=True,
+            offvalue=False,
+            command=self.update_ipv6_support,
+        )
+        self.ipv6_support_checkbutton.pack(side=tk.LEFT, padx=4, pady=8)
 
         frame_default_url_keywords = tk.Frame(root)
         frame_default_url_keywords.pack(fill=tk.X)
@@ -407,6 +429,11 @@ class DefaultUI:
             "Settings", "open_empty_category", str(self.open_empty_category_var.get())
         )
 
+    def update_ipv6_support(self):
+        config.set(
+            "Settings", "ipv6_support", str(self.ipv6_support_var.get())
+        )
+
     def update_ipv_type(self, event):
         config.set("Settings", "ipv_type", self.ipv_type_combo.get())
 
@@ -438,6 +465,7 @@ class DefaultUI:
             "open_url_info_checkbutton",
             "open_empty_category_checkbutton",
             "ipv_type_combo",
+            "ipv6_support_checkbutton",
             "whitelist_file_button",
             "blacklist_file_button",
         ]:
