@@ -128,7 +128,7 @@ https://cdn.jsdelivr.net/gh/Guovin/iptv-api@gd/source.json
 
 | 配置项                    | 描述                                                                                        | 默认值                                     |
 |:-----------------------|:------------------------------------------------------------------------------------------|:----------------------------------------|
-| open_driver            | 开启浏览器运行，若更新无数据可开启此模式，较消耗性能                                                                | True                                    |
+| open_driver            | 开启浏览器运行，若更新无数据可开启此模式，较消耗性能                                                                | False                                   |
 | open_empty_category    | 开启无结果频道分类，自动归类至底部                                                                         | False                                   |
 | open_filter_resolution | 开启分辨率过滤，低于最小分辨率（min_resolution）的接口将会被过滤                                                   | True                                    |
 | open_filter_speed      | 开启速率过滤，低于最小速率（min_speed）的接口将会被过滤                                                          | True                                    |
@@ -142,14 +142,14 @@ https://cdn.jsdelivr.net/gh/Guovin/iptv-api@gd/source.json
 | open_multicast_fofa    | 开启 FOFA 组播源工作模式                                                                           | True                                    |
 | open_online_search     | 开启关键字搜索源功能                                                                                | False                                   |
 | open_proxy             | 开启代理，自动获取免费可用代理，若更新无数据可开启此模式                                                              | False                                   |
-| open_request           | 开启查询请求，数据来源于网络                                                                            | False                                   |
+| open_request           | 开启查询请求，数据来源于网络（仅针对酒店源与组播源）                                                                | False                                   |
 | open_service           | 开启页面服务，用于控制是否启动结果页面服务；如果使用青龙等平台部署，有专门设定的定时任务，需要更新完成后停止运行，可以关闭该功能                          | True                                    |
 | open_sort              | 开启排序功能（响应速度、日期、分辨率）                                                                       | True                                    |
 | open_subscribe         | 开启订阅源功能                                                                                   | False                                   |
 | open_update            | 开启更新，用于控制是否更新接口，若关闭则所有工作模式（获取接口和测速）均停止                                                    | True                                    |
 | open_update_time       | 开启显示更新时间                                                                                  | True                                    |
 | open_url_info          | 开启显示接口说明信息，用于控制是否显示分辨率、接口协议类型等信息，为$符号后的内容，播放软件使用该信息对接口进行描述                                | True                                    |
-| open_use_cache         | 开启使用本地缓存数据，适用于查询请求失败场景                                                                    | True                                    |
+| open_use_cache         | 开启使用本地缓存数据，适用于查询请求失败场景（仅针对酒店源与组播源）                                                        | True                                    |
 | open_use_old_result    | 开启使用历史更新结果（包含模板与结果文件的接口），合并至本次更新中                                                         | True                                    |
 | final_file             | 生成结果文件路径                                                                                  | output/result.txt                       |
 | hotel_num              | 结果中偏好的酒店源接口数量                                                                             | 4                                       |
