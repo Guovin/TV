@@ -306,16 +306,6 @@ class ConfigManager:
         return config.getint("Settings", "online_search_page_num", fallback=1)
 
     @property
-    def subscribe_urls(self):
-        return [
-            url.strip()
-            for url in self.config.get("Settings", "subscribe_urls", fallback="").split(
-                ","
-            )
-            if url.strip()
-        ]
-
-    @property
     def delay_weight(self):
         return self.config.getfloat("Settings", "delay_weight", fallback=0.5)
 

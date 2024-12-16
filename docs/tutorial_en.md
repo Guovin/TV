@@ -94,7 +94,7 @@ Similar to editing the template, modify the running configuration
 ![Create user_config.ini](./images/edit-user-config.png 'Create user_config.ini')
 
 Adjust the configuration as needed. Below is the default configuration explanation:
-[Config parameter](./docs/config_en.md)
+[Config parameter](./config_en.md)
 
 ## Step 5: Run Updates
 
