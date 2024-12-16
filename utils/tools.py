@@ -291,27 +291,14 @@ def check_url_ipv_type(url):
     )
 
 
-def check_by_url_keywords_blacklist(url):
+def check_url_by_keywords(url, keywords=None):
     """
-    Check by URL blacklist keywords
+    Check by URL keywords
     """
-    return not any(keyword in url for keyword in config.url_keywords_blacklist)
-
-
-def check_url_by_patterns(url):
-    """
-    Check the url by patterns
-    """
-    return check_url_ipv_type(url) and check_by_url_keywords_blacklist(url)
-
-
-def filter_urls_by_patterns(urls):
-    """
-    Filter urls by patterns
-    """
-    urls = [url for url in urls if check_url_ipv_type(url)]
-    urls = [url for url in urls if check_by_url_keywords_blacklist(url)]
-    return urls
+    if not keywords:
+        return True
+    else:
+        return any(keyword in url for keyword in keywords)
 
 
 def merge_objects(*objects):
@@ -562,6 +549,9 @@ def get_urls_from_file(path: str) -> list:
     if os.path.exists(real_path):
         with open(real_path, "r", encoding="utf-8") as f:
             for line in f:
+                line = line.strip()
+                if line.startswith("#"):
+                    continue
                 match = re.search(url_pattern, line)
                 if match:
                     urls.append(match.group().strip())
@@ -578,6 +568,9 @@ def get_name_urls_from_file(path: str) -> dict[str, list]:
     if os.path.exists(real_path):
         with open(real_path, "r", encoding="utf-8") as f:
             for line in f:
+                line = line.strip()
+                if line.startswith("#"):
+                    continue
                 name_url = get_name_url(line, pattern=txt_pattern)
                 if name_url and name_url[0]:
                     name = name_url[0]["name"]

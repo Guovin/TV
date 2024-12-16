@@ -167,16 +167,6 @@ class ConfigManager:
         return self.config.getint("Settings", "recent_days", fallback=30)
 
     @property
-    def url_keywords_blacklist(self):
-        return [
-            keyword.strip()
-            for keyword in self.config.get(
-                "Settings", "url_keywords_blacklist", fallback=""
-            ).split(",")
-            if keyword.strip()
-        ]
-
-    @property
     def source_file(self):
         return self.config.get("Settings", "source_file", fallback="config/demo.txt")
 
@@ -248,10 +238,6 @@ class ConfigManager:
         return self.config.getboolean("Settings", "open_sort", fallback=True)
 
     @property
-    def open_ffmpeg(self):
-        return self.config.getboolean("Settings", "open_ffmpeg", fallback=True)
-
-    @property
     def open_update_time(self):
         return self.config.getboolean("Settings", "open_update_time", fallback=True)
 
@@ -304,18 +290,6 @@ class ConfigManager:
     @property
     def online_search_page_num(self):
         return config.getint("Settings", "online_search_page_num", fallback=1)
-
-    @property
-    def delay_weight(self):
-        return self.config.getfloat("Settings", "delay_weight", fallback=0.5)
-
-    @property
-    def speed_weight(self):
-        return self.config.getfloat("Settings", "speed_weight", fallback=0.5)
-
-    @property
-    def resolution_weight(self):
-        return self.config.getfloat("Settings", "resolution_weight", fallback=0.5)
 
     @property
     def open_empty_category(self):
