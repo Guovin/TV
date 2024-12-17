@@ -457,6 +457,7 @@ class DefaultUI:
             "open_request_checkbutton",
             "open_driver_checkbutton",
             "open_proxy_checkbutton",
+            "request_timeout_entry",
             "source_file_entry",
             "source_file_button",
             "final_file_entry",
