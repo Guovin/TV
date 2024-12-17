@@ -5,6 +5,7 @@ from tkinter import ttk
 
 import utils.constants as constants
 from utils.config import config
+from utils.tools import resource_path
 
 
 class SubscribeUI:
@@ -51,8 +52,9 @@ class SubscribeUI:
         config.set("Settings", "open_subscribe", str(self.open_subscribe_var.get()))
 
     def edit_subscribe_file(self):
-        if os.path.exists(constants.subscribe_path):
-            os.system(f'notepad.exe {constants.subscribe_path}')
+        path = resource_path(constants.subscribe_path)
+        if os.path.exists(path):
+            os.system(f'notepad.exe {path}')
 
     def change_entry_state(self, state):
         for entry in [
