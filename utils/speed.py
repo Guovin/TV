@@ -35,8 +35,8 @@ async def get_speed_with_download(url: str, timeout: int = config.sort_timeout) 
     finally:
         end_time = time()
         total_time += end_time - start_time
-    info['speed'] = (total_size / total_time if total_time > 0 else 0) / 1024 / 1024
-    return info
+        info['speed'] = (total_size / total_time if total_time > 0 else 0) / 1024 / 1024
+        return info
 
 
 async def get_speed_m3u8(url: str, timeout: int = config.sort_timeout) -> dict[str, float | None]:
@@ -45,7 +45,7 @@ async def get_speed_m3u8(url: str, timeout: int = config.sort_timeout) -> dict[s
     """
     info = {'speed': None, 'delay': None}
     try:
-        url = quote(url, safe=':/?$&=@').partition('$')[0]
+        url = quote(url, safe=':/?$&=@[]').partition('$')[0]
         async with ClientSession(connector=TCPConnector(ssl=False), trust_env=True) as session:
             async with session.head(url, timeout=2) as response:
                 if response.headers.get('Content-Length'):
@@ -193,10 +193,10 @@ async def get_speed(url, ipv6_proxy=None, callback=None):
         if ipv6_proxy and url_is_ipv6:
             data['speed'] = float("inf")
             data['delay'] = float("-inf")
-        elif '.m3u8' in url:
-            data.update(await get_speed_m3u8(url))
-        else:
+        elif '/rtp/' in url:
             data.update(await get_speed_with_download(url))
+        else:
+            data.update(await get_speed_m3u8(url))
         if cache_key and cache_key not in cache:
             cache[cache_key] = data
         return data
