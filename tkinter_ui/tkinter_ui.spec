@@ -8,6 +8,7 @@ a = Analysis(
         ('../config/config.ini', 'config'),
         ('../config/demo.txt', 'config'),
         ('../config/whitelist.txt', 'config'),
+        ('../config/blacklist.txt', 'config'),
         ('../config/subscribe.txt', 'config'),
         ('../config/rtp', 'config/rtp'),
         ('../updates/hotel/cache.pkl', 'updates/hotel'),

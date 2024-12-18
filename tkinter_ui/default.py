@@ -5,6 +5,7 @@ from tkinter import ttk
 
 import utils.constants as constants
 from utils.config import config
+from utils.tools import resource_path
 
 
 class DefaultUI:
@@ -438,12 +439,14 @@ class DefaultUI:
         config.set("Settings", "ipv_type", self.ipv_type_combo.get())
 
     def edit_whitelist_file(self):
-        if os.path.exists(constants.whitelist_path):
-            os.system(f'notepad.exe {constants.whitelist_path}')
+        path = resource_path(constants.whitelist_path)
+        if os.path.exists(path):
+            os.system(f'notepad.exe {path}')
 
     def edit_blacklist_file(self):
-        if os.path.exists(constants.blacklist_path):
-            os.system(f'notepad.exe {constants.blacklist_path}')
+        path = resource_path(constants.blacklist_path)
+        if os.path.exists(path):
+            os.system(f'notepad.exe {path}')
 
     def change_entry_state(self, state):
         for entry in [
@@ -454,6 +457,7 @@ class DefaultUI:
             "open_request_checkbutton",
             "open_driver_checkbutton",
             "open_proxy_checkbutton",
+            "request_timeout_entry",
             "source_file_entry",
             "source_file_button",
             "final_file_entry",
