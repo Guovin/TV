@@ -27,20 +27,6 @@ body:
           required: false
         - label: Docker
           required: false
-          on_select:
-            - type: checkboxes
-              id: docker_options
-              attributes:
-                label: 镜像架构 / Image architecture
-                description: |
-                  选择镜像的架构 / Select the architecture of the image:
-                options:
-                  - label: AMD64
-                    required: false
-                  - label: ARM64
-                    required: false
-                  - label: ARM V7
-                    required: false
         - label: 命令行 / Command line
           required: false
   - type: textarea
