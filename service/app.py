@@ -4,6 +4,7 @@ import sys
 sys.path.append(os.path.dirname(sys.path[0]))
 from flask import Flask, render_template_string
 from utils.tools import get_result_file_content, get_ip_address, resource_path
+from utils.config import config
 import utils.constants as constants
 
 app = Flask(__name__)
@@ -52,7 +53,7 @@ def run_service():
             print(f"🚀 M3u api: {ip_address}/m3u")
             print(f"🚀 Txt api: {ip_address}/txt")
             print(f"✅ You can use this url to watch IPTV 📺: {ip_address}")
-            app.run(host="0.0.0.0", port=os.environ.get("APP_PORT") or 8000)
+            app.run(host="0.0.0.0", port=config.app_port)
     except Exception as e:
         print(f"❌ Service start failed: {e}")
 

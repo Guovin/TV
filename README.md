@@ -151,6 +151,7 @@ https://cdn.jsdelivr.net/gh/Guovin/iptv-api@gd/source.json
 | open_url_info          | 开启显示接口说明信息，用于控制是否显示分辨率、接口协议类型等信息，为$符号后的内容，播放软件使用该信息对接口进行描述                                | True                                    |
 | open_use_cache         | 开启使用本地缓存数据，适用于查询请求失败场景（仅针对酒店源与组播源）                                                        | True                                    |
 | open_use_old_result    | 开启使用历史更新结果（包含模板与结果文件的接口），合并至本次更新中                                                         | True                                    |
+| app_port               | 页面服务端口，用于控制页面服务的端口号                                                                       | 8000                                    |
 | final_file             | 生成结果文件路径                                                                                  | output/result.txt                       |
 | hotel_num              | 结果中偏好的酒店源接口数量                                                                             | 4                                       |
 | hotel_page_num         | 酒店地区获取分页数量                                                                                | 1                                       |
