@@ -111,6 +111,16 @@
 - 接口源：
 
 ```bash
+https://ghgo.xyz/raw.githubusercontent.com/Guovin/iptv-api/gd/output/result.m3u
+```
+
+```bash
+https://ghgo.xyz/raw.githubusercontent.com/Guovin/iptv-api/gd/output/result.txt
+```
+
+或
+
+```bash
 https://cdn.jsdelivr.net/gh/Guovin/iptv-api@gd/output/result.m3u
 ```
 
@@ -119,6 +129,12 @@ https://cdn.jsdelivr.net/gh/Guovin/iptv-api@gd/output/result.txt
 ```
 
 - 数据源：
+
+```bash
+https://ghgo.xyz/raw.githubusercontent.com/Guovin/iptv-api/gd/source.json
+```
+
+或
 
 ```bash
 https://cdn.jsdelivr.net/gh/Guovin/iptv-api@gd/source.json
