@@ -299,6 +299,10 @@ class ConfigManager:
     def open_empty_category(self):
         return self.config.getboolean("Settings", "open_empty_category", fallback=True)
 
+    @property
+    def app_port(self):
+        return os.environ.get("APP_PORT") or self.config.getint("Settings", "app_port", fallback=8000)
+
     def load(self):
         """
         Load the config
