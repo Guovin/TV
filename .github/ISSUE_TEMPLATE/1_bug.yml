@@ -42,6 +42,6 @@ body:
     attributes:
       label: Error log | 报错日志
       description: Provide detailed error logs of bugs, copy text or upload files as much as possible, do not take screenshots | 提供Bug的详细报错日志，尽量复制文本或上传文件，不要截图
-      placeholder: Please enter a detailed error log
+      placeholder: Enter error logs or upload files | 输入报错日志或上传文件
     validations:
       required: false
