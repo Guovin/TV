@@ -111,6 +111,16 @@
 - Interface source:
 
 ```bash
+https://ghgo.xyz/raw.githubusercontent.com/Guovin/iptv-api/gd/output/result.m3u
+```
+
+```bash
+https://ghgo.xyz/raw.githubusercontent.com/Guovin/iptv-api/gd/output/result.txt
+```
+
+or
+
+```bash
 https://cdn.jsdelivr.net/gh/Guovin/iptv-api@gd/output/result.m3u
 ```
 
@@ -119,6 +129,12 @@ https://cdn.jsdelivr.net/gh/Guovin/iptv-api@gd/output/result.txt
 ```
 
 - Data source:
+
+```bash
+https://ghgo.xyz/raw.githubusercontent.com/Guovin/iptv-api/gd/source.json
+```
+
+or
 
 ```bash
 https://cdn.jsdelivr.net/gh/Guovin/iptv-api@gd/source.json
@@ -151,6 +167,7 @@ https://cdn.jsdelivr.net/gh/Guovin/iptv-api@gd/source.json
 | open_url_info          | Enable display of API description information, used to control whether to show resolution, API protocol type, etc., the content after the $ symbol, playback software uses this information to describe the API                                                                                                                                                                | True                                       |
 | open_use_cache         | Enable the use of local cache data, applicable to the query request failure scenario (only for hotel sources and multicast sources)                                                                                                                                                                                                                                            | True                                       |
 | open_use_old_result    | Enable the use of historical update results (including the interface for template and result files) and merge them into the current update                                                                                                                                                                                                                                     | True                                       |
+| app_port               | Page service port, used to control the port number of the page service                                                                                                                                                                                                                                                                                                         | 8000                                       |
 | final_file             | Generated result file path                                                                                                                                                                                                                                                                                                                                                     | output/result.txt                          |
 | hotel_num              | The number of preferred hotel source interfaces in the results                                                                                                                                                                                                                                                                                                                 | 4                                          |
 | hotel_page_num         | Number of pages to retrieve for hotel regions                                                                                                                                                                                                                                                                                                                                  | 1                                          |
