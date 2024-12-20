@@ -2,7 +2,7 @@ import asyncio
 import re
 import subprocess
 from time import time
-from urllib.parse import quote
+from urllib.parse import quote, urlparse
 
 import m3u8
 from aiohttp import ClientSession, TCPConnector
@@ -47,23 +47,38 @@ async def get_speed_m3u8(url: str, timeout: int = config.sort_timeout) -> dict[s
     try:
         url = quote(url, safe=':/?$&=@[]').partition('$')[0]
         async with ClientSession(connector=TCPConnector(ssl=False), trust_env=True) as session:
-            async with session.head(url, timeout=2) as response:
-                if response.headers.get('Content-Type') == 'application/vnd.apple.mpegurl':
-                    m3u8_obj = m3u8.load(url, timeout=2)
-                    speed_list = []
-                    start_time = time()
-                    for segment in m3u8_obj.segments:
-                        if time() - start_time > timeout:
-                            break
-                        ts_url = segment.absolute_uri
-                        download_info = await get_speed_with_download(ts_url, timeout)
-                        speed_list.append(download_info['speed'])
-                        if info['delay'] is None and download_info['delay'] is not None:
-                            info['delay'] = download_info['delay']
-                    info['speed'] = sum(speed_list) / len(speed_list) if speed_list else 0
+            async with session.head(url, timeout=5) as response:
+                content_type = response.headers.get('Content-Type')
+                if content_type:
+                    content_type = content_type.lower()
+                    location = response.headers.get('Location')
+                    if 'application/vnd.apple.mpegurl' in content_type:
+                        url = location or url
+                        m3u8_obj = m3u8.load(url, timeout=2)
+                        playlists = m3u8_obj.data.get('playlists')
+                        segments = m3u8_obj.segments
+                        if not segments and playlists:
+                            parsed_url = urlparse(url)
+                            url = f"{parsed_url.scheme}://{parsed_url.netloc}{parsed_url.path.rsplit('/', 1)[0]}/{playlists[0].get('uri', '')}"
+                            m3u8_obj = m3u8.load(url, timeout=2)
+                            segments = m3u8_obj.segments
+                        if not segments:
+                            return info
+                        ts_urls = [segment.absolute_uri for segment in segments]
+                        speed_list = []
+                        start_time = time()
+                        for ts_url in ts_urls:
+                            if time() - start_time > timeout:
+                                break
+                            download_info = await get_speed_with_download(ts_url, timeout)
+                            speed_list.append(download_info['speed'])
+                            if info['delay'] is None and download_info['delay'] is not None:
+                                info['delay'] = download_info['delay']
+                        info['speed'] = sum(speed_list) / len(speed_list) if speed_list else 0
+                    elif location:
+                        info.update(await get_speed_m3u8(location, timeout))
                 elif response.headers.get('Content-Length'):
-                    download_info = await get_speed_with_download(url, timeout)
-                    info.update(download_info)
+                    info.update(await get_speed_with_download(url, timeout))
                 else:
                     return info
     except:

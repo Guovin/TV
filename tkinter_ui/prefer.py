@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+
 from utils.config import config
 
 
@@ -8,10 +9,9 @@ class PreferUI:
         """
         Init prefer UI
         """
-        origin_type_prefer = [item.lower() for item in config.origin_type_prefer]
         config_options = [
-            {"label_text": f"结果来源优先{i+1}:", "combo_box_value": i}
-            for i in range(len(origin_type_prefer))
+            {"label_text": f"结果来源优先{i + 1}:", "combo_box_value": value}
+            for i, value in enumerate(self.get_origin_type_prefer_index(config.origin_type_prefer))
         ]
         self.origin_type_prefer_options = []
         for config_option in config_options:
@@ -47,6 +47,18 @@ class PreferUI:
             input = IpvNumInput(root, ipv_type)
             input.entry.bind("<KeyRelease>", input.update_input)
             self.ipv_type_input.append(input)
+
+    def get_origin_type_prefer_index(self, origin_type_prefer):
+        index_list = [None, None, None, None]
+        origin_type_prefer_obj = {
+            "hotel": 0,
+            "multicast": 1,
+            "subscribe": 2,
+            "online_search": 3,
+        }
+        for i, item in enumerate(origin_type_prefer):
+            index_list[i] = origin_type_prefer_obj[item]
+        return index_list
 
     def update_ipv_type_prefer(self, event):
         config.set(
@@ -87,7 +99,7 @@ class IpvNumInput:
     def update_input(self, event):
         config.set(
             "Settings",
-            f"{ self.ipv_type}_num",
+            f"{self.ipv_type}_num",
             self.entry.get(),
         )
 
@@ -123,33 +135,42 @@ class ConfigOption:
         combo_box_values_name = list(self.origin_type_prefer_obj.keys())
         self.combo_box["values"] = combo_box_values_name
         self.combo_box.pack(side=tk.LEFT, padx=4, pady=8)
-        self.combo_box.current(combo_box_value)
+        origin_type_prefer = config.origin_type_prefer
+        if not origin_type_prefer or combo_box_value is None:
+            self.combo_box.current(None)
+        else:
+            self.combo_box.current(combo_box_value)
 
         self.entry_label = tk.Label(self.column2, text="数量:", width=12)
         self.entry_label.pack(side=tk.LEFT, padx=4, pady=8)
 
         self.entry = tk.Entry(self.column2)
-        self.entry.insert(
-            0,
-            config.source_limits[self.origin_type_prefer_obj[self.combo_box.get()]],
-        )
+        if origin_type_prefer and combo_box_value is not None:
+            self.entry.insert(
+                0,
+                config.source_limits[self.origin_type_prefer_obj[self.combo_box.get()]],
+            )
         self.entry.pack(side=tk.LEFT, padx=4, pady=8)
 
     def update_select(self, key):
         origin_type_prefer_list = [item.lower() for item in config.origin_type_prefer]
-        origin_type_prefer_list[self.combo_box_value] = self.origin_type_prefer_obj[
+        select_value = self.origin_type_prefer_obj[
             self.combo_box.get()
         ]
+        if self.combo_box_value < len(origin_type_prefer_list):
+            origin_type_prefer_list[self.combo_box_value] = select_value
+        else:
+            origin_type_prefer_list.append(select_value)
         config.set(
             "Settings",
             "origin_type_prefer",
-            (",").join(origin_type_prefer_list),
+            ",".join(origin_type_prefer_list),
         )
 
     def update_input(self, event):
         config.set(
             "Settings",
-            f"{ self.origin_type_prefer_obj[self.combo_box.get()]}_num",
+            f"{self.origin_type_prefer_obj[self.combo_box.get()]}_num",
             self.entry.get(),
         )
 
