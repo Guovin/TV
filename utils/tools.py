@@ -146,6 +146,9 @@ def get_total_urls(info_list, ipv_type_prefer, origin_type_prefer):
     """
     Get the total urls from info list
     """
+    origin_prefer_bool = bool(origin_type_prefer)
+    if not origin_prefer_bool:
+        origin_type_prefer = ["all"]
     categorized_urls = {
         origin: {"ipv4": [], "ipv6": []} for origin in origin_type_prefer
     }
@@ -163,7 +166,7 @@ def get_total_urls(info_list, ipv_type_prefer, origin_type_prefer):
         if origin == "subscribe" and "/rtp/" in url:
             origin = "multicast"
 
-        if origin not in origin_type_prefer:
+        if origin_prefer_bool and (origin not in origin_type_prefer):
             continue
 
         if config.open_filter_resolution and resolution:
@@ -183,6 +186,9 @@ def get_total_urls(info_list, ipv_type_prefer, origin_type_prefer):
 
         if resolution:
             url = add_url_info(url, resolution)
+
+        if not origin_prefer_bool:
+            origin = "all"
 
         if url_is_ipv6:
             categorized_urls[origin]["ipv6"].append(url)
@@ -205,7 +211,7 @@ def get_total_urls(info_list, ipv_type_prefer, origin_type_prefer):
                 if not urls:
                     break
                 limit = min(
-                    max(config.source_limits[origin] - ipv_num[ipv_type], 0),
+                    max(config.source_limits.get(origin, urls_limit) - ipv_num[ipv_type], 0),
                     max(config.ipv_limit[ipv_type] - ipv_num[ipv_type], 0),
                 )
                 limit_urls = urls[:limit]
@@ -222,9 +228,7 @@ def get_total_urls(info_list, ipv_type_prefer, origin_type_prefer):
             for ipv_type in ipv_type_total:
                 if len(total_urls) >= urls_limit:
                     break
-                extra_urls = categorized_urls[origin][ipv_type][
-                             : config.source_limits[origin]
-                             ]
+                extra_urls = categorized_urls[origin][ipv_type][: config.source_limits.get(origin, urls_limit)]
                 total_urls.extend(extra_urls)
                 total_urls = list(dict.fromkeys(total_urls))[:urls_limit]
 

@@ -116,7 +116,7 @@ class ConfigManager:
             for origin in self.config.get(
                 "Settings",
                 "origin_type_prefer",
-                fallback="hotel,multicast,subscribe,online_search",
+                fallback="",
             ).split(",")
             if origin.strip().lower()
         ]
